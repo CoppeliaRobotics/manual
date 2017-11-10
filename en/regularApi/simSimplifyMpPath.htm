@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simSimplifyMpPath</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<h1><a href="../apiOverview.htm">Regular API</a> function</h1>
+<h3 class=subsectionBar><a name="simSimplifyMpPath" id="simSimplifyMpPath"></a>simSimplifyMpPath (DEPRECATED)</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>DEPRECATED. See the <a href="../pathAndMotionPlanningModules.htm">OMPL library based path/motion planning functionality</a> instead.<br><br>Simplifies a path retrieved via the motion planning function <a href="simFindMpPath.htm">simFindMpPath</a>. The function uses V-REP's <a href="../oldMotionPlanningModule.htm">motion planning functionality</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simFloat* simSimplifyMpPath(simInt motionPlanningObjectHandle,const simFloat* pathBuffer,simInt configCnt,simInt options,simFloat stepSize,simInt increment,simInt* outputConfigsCnt,simInt maxTimeInMs,simFloat* reserved,const simInt* auxIntParams,const simFloat* auxFloatParams)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>motionPlanningObjectHandle</strong>: the handle of a motion planning object. Refer to <a href="simGetMotionPlanningHandle.htm">simGetMotionPlanningHandle</a>.</div>
+<div><strong>pathBuffer</strong>: the buffer returned by the <a href="simFindMpPath.htm">simFindMpPath</a> function..</div>
+<div><strong>configCnt</strong>:  the number of configuration nodes the pathBuffer contains.</div>
+<div><strong>options</strong>: bit-coded:</div>
+<div class=tab>bit0: not used. Keep unset.</div>
+<div class=tab>bit1:  not used. Keep unset.</div>
+<div class=tab>bit2: if set (4), then the found path will be visualized in yellow.</div>
+<div class=tab>bit3: if set (8), then some information will be output to the console.</div>
+<div class=tab>bit4: if set (16), then robot self-interferences will be ignored and calculations can drastically be sped-up.</div>
+<div class=tab>bit5: if set (32), then robot-environment interferences will be ignored and calculations can drastically be sped-up.</div>
+<div class=tab>bit6: not used, keep unset.</div>
+<div class=tab>bit7: not used, keep unset.</div>
+<div class=tab>bit8: if set (256), then the returned Cartesian space distances will ignore the orientational distance component.</div>
+
+
+<div><strong>stepSize</strong>: the maximum configuration space distance between individual collision-free phase2 nodes. the distance calculation will use the weight specified for each joint in the <a href="../oldMotionPlanningDialog.htm">motion planning properties</a>.</div>
+<div><strong>increment</strong>: a value indicating how fine-grainer the simplification should be. 1 for best quality.</div>
+<div><strong>outputConfigsCnt</strong>: a pointer to an integer receiving the number of returned configurations. </div>
+<div><strong>maxTimeInMs</strong>: the maximum time in milliseconds after which the simplification operation is aborted. Specify 0 for an infinite time.</div>
+<div><strong>reserved</strong>: reserved. Keep NULL.</div>
+<div><strong>auxIntParams</strong>: reserved. Keep NULL.</div>
+<div><strong>auxFloatParams</strong>: reserved. Keep NULL.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>NULL in case of an error, or when the search failed. Otherwise a buffer of float values that the user is in charge of releasing with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>. The returned buffer contains:</div>
+<div class=tab><strong>the found path</strong> (x*n values): n configurations with each x values (x is the number of DoFs of the specified motion planning task). The configurations will include the start and the goal configuration, except when start and goal are coincident, in which case a single configuration is returned.</div>
+<div class=tab><strong>the configuration space distances</strong> (n values): for each returned configuration, a distance to the start configuration (following the path). The last of the n values represents the length of the found path in the configuration space. The distance is calculated using the weight specified for each joint in the <a href="../oldMotionPlanningDialog.htm">motion planning properties</a>.</div>
+<div class=tab><strong>the end-effector positions</strong> (3*n values): for each returned configuration, the position of the corresponding end-effector (x, y, z).</div>
+<div class=tab><strong>the end-effector quaternions</strong> (4*n values): for each returned configuration, the quaternion of the corresponding end-effector (x, y, z, w).</div>
+<div class=tab><strong>the Cartesian space distances</strong> (n values): for each returned configuration, a distance to the start pose (following the path). The last of the n values represents the length of the found path in the Cartesian space. The distance is calculated using the Cartesian space metric specified in the <a href="../oldMotionPlanningDialog.htm">motion planning properties</a>.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>table path,table confSpaceDist,table tipPositions,table tipQuaternions,table cartesianSpaceDist=simSimplifyMpPath(number motionPlanningObjectHandle,table path,number configCnt,number options,number stepSize,number increment,number maxTimeInMs=0,table auxIntParams=nil,table auxFloatParams=nil)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div>Similar as C-function</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>Similar as C-function</div>
+</td> 
+</tr> 
+</table> 
+
+<br>
+<p><a href="../apiFunctions.htm">All regular API functions on one page</a></p>
+<br>
+<br>
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

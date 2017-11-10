@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Motion planning</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Motion planning</h1>
+
+
+<p class=warningBox><strong>WARNING</strong>: Since V-REP release 3.3.0, a <a href="pathAndMotionPlanningModules.htm">plugin wrapping the OMPL library is available</a>. It is highly recommended to use the path planning API functions offered by that plugin, instead of using this <em>old</em> built-in path/motion planning functionality, since the plugin/OMPL approach is much more flexible and scalable. <strong>The following documentation is deprecated</strong>.</p>
+
+
+<p>V-REP's motion planning module allows handling motion planning tasks for kinematic chains. It does not include path planning for loose objects in space, which is handled by  the <a href="oldPathPlanningModule.htm">path planning module</a>. Following figures illustrate a motion planning example in V-REP:<br>
+  <br>
+</p>
+
+<p align=center><img src="images/motionPlanning1.jpg"></p>
+<p class=imageLabel>[Motion planning task from <em>Start</em> to <em>Goal</em> while avoiding obstacles and joint limits]</p>
+<br>
+
+<p>A motion planning task allows to compute a trajectory (usually in the configuration space of the manipulator) from a start configuration to a goal configuration, by taking into account following main items:</p>
+
+<li>the manipulator kinematics</li>
+<li>the manipulator joint limits</li>
+<li>the manipulator self-collisions</li>
+<li>the collisions between manipulator and obstacles (or the environment)</li>
+
+<p>When the goal configuration is not directly known, it needs to be computed from a goal pose (i.e. the position and orientation in Cartesian space of the end-effector). The motion planning task can then be divided into two distinct operations:</p>
+
+<li><a href="#findingAGoalConfig">Finding a goal configuration that matches a goal pose</a></li>
+<li><a href="#findingAPath">Finding a collision-free path from a start configuration to a goal configuration</a></li>
+
+<p align=center><img src="images/motionPlanning1b.jpg"></p>
+<p class=imageLabel>[Two step motion planning: (a) finding a goal configuration, (b) finding a path in the configuration space]</p>
+<br>
+
+
+<p>When the goal configuration is not directly known, one can also simply try to generate a straight line path in the Cartesian space, effectively generating a trajectory via inverse kinematics. This is not considered as a motion planning task per se (a path around obstacles will not be found), but since a robot is often moved in both, configuration and Cartesian space, this case is also mentioned here:</p>
+
+<li><a href="#generatingAnIkPath">Generating a path via IK in the Cartesian space</a></li>
+
+<p align=center><img src="images/motionPlanning1c.jpg"></p>
+<p class=imageLabel>[Finding a path in the Cartesian space, via inverse kinematics calculations]</p>
+<br>
+
+
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="findingAGoalConfig"></a>Finding a goal configuration
+</td></tr></table>
+
+<p>When the goal configuration is not known, but only a goal pose is known (i.e. a position and orientation of the end-effector) then  an appropriate manipulator configuration that satisfies the goal pose constraint has to be found. There can be multiple (or even an infinitie number of) solutions: </p>
+
+<p align=center><img src="images/motionPlanning3.jpg"></p>
+<p class=imageLabel>[Searching for a manipulator configuration corresponding to a given end-effector pose]</p>
+<br>
+
+<p>Finding an appropriate manipulator configuration that satisfies a given pose is computed in V-REP based on precalculated configuration nodes and inverse kinematics calculation. Imagine following 2 DoF manipulator:</p>
+
+<p align=center><img src="images/motionPlanning4.jpg"></p>
+<p class=imageLabel>[Simple 2 DoF manipulator (2 joints, each with specific joint limits)]</p>
+<br>
+
+<p>V-REP will generate a large amount of precalculated configuration nodes, where each node consists of a manipulator configuration (i.e. joint values) associated with a corresponding end-effector pose (i.e. a position and orientation in Cartesian space). This is visualized in following figure that shows 12 precalculated configuration nodes (i.e. 3x4, where the joint 1 range is subdivided in 3 joint values, and the joint 2 range is subdivided in 4 joint values):</p>
+
+<p align=center><img src="images/motionPlanning5.jpg"></p>
+<p class=imageLabel>[Precalculated configuration nodes (pairs of manipulator configuration and end-effector pose)]</p>
+<br>
+
+
+
+<p>Depending on the number of joints of the manipulator (i.e. its DoF) and the individual joint subdivisions, computation of above nodes could take up to a few seconds. This is however a one-time computation, usually performed the first time a <a href="apiFunctionListCategory.htm#motionPlanning">motion planning API function</a> is called.</p>
+
+<p>The precalculated nodes are used, together with the inverse kinematics of the manipulator, to find manipulator configurations that match a given end-effector pose. The search algorithm will select all nodes that contain poses in proximity (i.e. close enough according to a specified Cartesian space metric) of a desired pose:</p>
+
+<p align=center><img src="images/motionPlanning6.jpg"></p>
+<p class=imageLabel>[2 precalculated configuration nodes close enough to a desired pose]</p>
+<br>
+
+<p>The inverse kinematics will then try to move the selected poses so that they overlap the desired pose:</p>
+
+<p align=center><img src="images/motionPlanning7.jpg"></p>
+<p class=imageLabel>[IK calculations in order to find valid configurations for a desired pose]</p>
+<br>
+
+<p>The API function allowing to perform above calculations (i.e. finding a manipulator configuration that matches a desired end-effector pose) is <a href="regularApi/simGetConfigForTipPose.htm">simGetConfigForTipPose</a>.</p>
+
+
+
+
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="findingAPath"></a>Finding a collision-free path
+</td></tr></table>
+
+
+
+<p>When searching for a collision-free path from a start configuration to a goal configuration, depending on the manipulator type, there can be multiple (or even an infinitie number of) solutions, mainly also because the search algorithm is based on a randomized resolution method:</p>
+
+<p align=center><img src="images/motionPlanning2.jpg"></p>
+<p class=imageLabel>[Searching for a collision-free path from one to another manipulator configuration]</p>
+<br>
+
+
+<p>Finding an appropriate path is an iterative process that involves two steps:</p>
+
+<li>Finding a path</li>
+<li>Simplifying a found path</li>
+
+<p>Finding a path involves trying to link the start configuration to the goal configuration via randomly generated configurations. The found trajectory is usually a succession of straight lines in the configuration space, and the output of the operation is a succession of path nodes (or path configurations) that are distant to each other by a maximum of <em>D</em>, which is a configuration space distance:</p>
+
+<p align=center><img src="images/motionPlanning8.jpg"></p>
+<p class=imageLabel>[Finding a raw path from start to goal via random  configurations]</p>
+<br>
+
+<p>The API function allowing to perform above calculations (i.e. finding a raw collision-free path from a start to a goal configuration) is <a href="regularApi/simFindMpPath.htm">simFindMpPath</a>.</p>
+
+
+<p>A raw path is often not optimized and can rarely be used as-is. A simplification pass is usually required and involves trying to successively link path nodes via straight lines in the configuration space:</p>
+
+<p align=center><img src="images/motionPlanning9.jpg"></p>
+<p class=imageLabel>[Simplification procedure of a raw path]</p>
+<br>
+
+<p>You should be aware that, depending on the selected parameters, the simplification procedure can be more lengthy than the path search in itself. For that reason a common practice to find an optimal path is to calculate several raw paths, then select the shortest path that will finally be simplified.</p>
+
+<p>The API function allowing to perform above simplification is <a href="regularApi/simSimplifyMpPath.htm">simSimplifyMpPath</a>.</p>
+
+
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="generatingAnIkPath"></a>Generating a linear path via IK in the Cartesian space
+</td></tr></table>
+
+
+
+<p>In some situations, it is required to move along a straight line in Cartesian space, i.e. using the manipulator's inverse kinematics. In that case, V-REP can generate a straight trajectory, given that the robot does not collide along that trajectory:</p>
+
+<p align=center><img src="images/motionPlanning10.jpg"></p>
+<p class=imageLabel>[Generating a path via IK]</p>
+<br>
+
+
+<p>The generated path does not need to be simplified, since it is already the shortest possible path in Cartesian space.
+</p>
+<p>The API function allowing to generate above path is <a href="regularApi/simGenerateIkPath.htm">simGenerateIkPath</a>. Have also a look at <a href="regularApi/simCheckIkGroup.htm">simCheckIkGroup</a>, and read also following section:</p>
+<br>
+
+
+
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="followingAPath"></a>Following a path in the Cartesian space
+</td></tr></table>
+
+
+
+<p>Following a path or trajectory in the Cartesian space can be very tricky. </p>
+<p>When using only IK, we take the risk to move into a configuration that does not allow us to further follow the path (e.g. because of some joint limitations, or because of some obstacles in the way):</p>
+
+
+<p align=center><img src="images/motionPlanning20.jpg"></p>
+<p class=imageLabel>[Following a path via IK]</p>
+<br>
+
+
+
+<p>When only searching for appropriate  configurations located at various position on the path, we will effectively be able to avoid obstacles - however only discretely: how do we link all the potentially very different neighbouring configurations?</p>
+
+<p align=center><img src="images/motionPlanning21.jpg"></p>
+<p class=imageLabel>[Finding discret solutions on a path]</p>
+<br>
+
+
+
+<p>For above two scenarios, there are several different approaches that allow to overcome the mentioned problems.</p>
+<p>In case of the first scenario, you have for instance following possibility: when reaching a difficult portion of the path, or when close to a configuration where IK alone doesn't work anymore, you can look a little bit ahead, and find a new configuration that is legal. Then, interpolate between both configurations and have the IK bring the end-effector back on track:</p>
+<p align=center><img src="images/motionPlanning22.jpg"></p>
+<p class=imageLabel>[Interpolation between configurations, followed by an IK step]</p>
+<br>
+
+<p>The API function allowing to do the interpolation in the configuration space, followed by an IK step is <a href="regularApi/simGetMpConfigTransition.htm">simGetMpConfigTransition</a>.</p>
+<br>
+
+
+
+
+
+
+
+<p>Setting up a manipulator for motion planning is a one-time task, and once set-up, you will be able to perform as many motion planning calculations as needed. For the set-up, make sure to follow instructions described in the <a href="oldMotionPlanningSetup.htm">using the motion planning functionality</a> section.</p>
+<br>
+<h3 class=recommendedTopics>Recommended topics</h3>
+
+<li><a href="apiFunctionListCategory.htm#motionPlanning">Related API functions</a></li>
+<li><a href="oldMotionPlanningSetup.htm">Using the motion planning functionality</a></li>
+<li><a href="oldMotionPlanningDialog.htm">Motion planning dialog</a></li>
+<br>
+<br>
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

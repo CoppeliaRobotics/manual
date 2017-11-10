@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Using the path planning functionality</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Using the path planning functionality</h1>
+
+<p class=warningBox><strong>WARNING</strong>: Since V-REP release 3.3.0, a <a href="pathAndMotionPlanningModules.htm">plugin wrapping the OMPL library is available</a>. It is highly recommended to use the path planning API functions offered by that plugin, instead of using this <em>old</em> built-in path/motion planning functionality, since the plugin/OMPL approach is much more flexible and scalable. <strong>The following documentation is deprecated</strong>.</p>
+
+<p>Several <a href="objects.htm">objects</a> (or <a href="entities.htm">entities</a>) have to be specified to the <a href="oldPathPlanningModule.htm">path planning module</a> in order to define a path planning object:<br>
+</p>
+
+<li>a <a href="collidableObjects.htm">collidable</a> or <a href="measurableObjects.htm">measurable</a> <em>robot</em> entity: this entity represents the device that should avoid obstacles and is referred to hereafter as <em>robot</em>.<br>
+</li>
+
+<li>
+a start <a href="dummies.htm">dummy</a>: the start dummy represents the initial configuration of the robot. The robot entity should be built on top of the start dummy. Make sure that the center of the robot approximately matches the position of the start dummy. </li>
+
+<li>
+a goal dummy: the goal dummy represents the desired configuration of the robot. The path planning algorithms will try to move the start dummy towards the goal dummy while avoiding collisions between the robot and obstacle.<br>
+</li>
+
+<li>
+a collidable or measurable <em>obstacle</em> entity: this entity represents the obstacles that the robot should avoid. It is referred to hereafter as <em>obstacle</em>.<br>
+</li>
+
+<li>
+a <a href="paths.htm">path</a>: the path acts as a container for a trajectory calculated by the path planning algorithm. The path will also enable the robot to be moved along the trajectory. The start dummy should be built on top of the path and assigned to be fixed on the path (refer to <a href="dummies.htm">dummies</a> and <a href="paths.htm">paths</a> for more information on how to assign a dummy to a path). Make sure the path is empty before proceeding, in order to keep current start dummy's configuration intact (select the path, then click [Menu bar --&gt; Edit --&gt; Empty Last Selected Path]).<br>
+</li>
+
+<p>
+Following figure illustrates a typical path planning task:
+</p>
+
+<p align=center><img src="images/pathPlanningOp1.jpg"></p>
+<p class=imageLabel>[Path planning task example]</p>
+<br>
+
+<p>In above example, the path planning task is performed in a 3-dimensional configuration space (two perpendicular translations and one rotation). The start dummy initial configuration represents the path planning task's configuration space reference frame. Following 9 holonomic path planning task configuration spaces are supported:<br>
+</p>
+
+<p align=center><img src="images/pathPlanningOp2.jpg"></p>
+<p class=imageLabel>[Holonomic path planning configuration spaces (1) X, Y, (2) Z, Delta, (3) X, Y, Z]</p>
+<br>
+
+<p align=center><img src="images/pathPlanningOp3.jpg"></p>
+<p class=imageLabel>[Holonomic path planning configuration spaces (1) X, Y, Delta (2) Alpha, Beta, Gamma, (3) X, Y, Z, Delta]</p>
+<br>
+
+<p align=center><img src="images/pathPlanningOp4.jpg"></p>
+<p class=imageLabel>[Holonomic path planning configuration spaces (1) X, Alpha, Beta, Gamma (2) X, Y, Alpha, Beta, Gamma, (3) X, Y, Z, Alpha, Beta, Gamma]</p>
+<br>
+
+<p>In addition to being able to specify the configuration space for a path planning task, the user is also able to specify the area and direction in which the search has to be performed:<br>
+</p>
+
+<p align=center><img src="images/pathPlanningOp5.jpg"></p>
+<p class=imageLabel>[Illustration of search area and direction for an (X, Y, Delta) configuration space]</p>
+<br>
+
+<p>It is important to appropriately limit the search area in order to: (1) reduce calculation times, and (2) make the path planning task realizable. Following figure illustrates the effect of the search direction:<br>
+</p>
+
+<p align=center><img src="images/pathPlanningOp6.jpg"></p>
+<p class=imageLabel>[Illustration of search direction]</p>
+<br>
+
+<p>The path planning algorithm operates by searching collision-free configurations (taking into account the search area) and then trying to link adjacent collision-free configurations by moving no more than a given linear and angular step size. Choosing large step sizes reduces calculation time, however the robot might <em>jump through obstacles</em>. The user is in charge of correctly selecting those step sizes as illustrated by following figures:<br>
+</p>
+
+<p align=center><img src="images/pathPlanningOp7.jpg"></p>
+<p class=imageLabel>[Effect of step sizes. (1) too large step size, (2) correct step size]</p>
+<br>
+
+<p>Non-holonomic path planning tasks are handled in a similar way as for holonomic path planning tasks. Following figure illustrates the direction of movement of a non-holonomic vehicle:<br>
+</p>
+
+<p align=center><img src="images/pathPlanningOp8.jpg"></p>
+<p class=imageLabel>[Non holonomic path planning task]</p>
+<br>
+
+<p>The vehicle can only move forward with a certain maximum turning circle diameter. There is no lateral movement possible (i.e. along the Y-axis), nor can the vehicle move backward.<br>
+</p>
+
+<p>Path planning tasks in V-REP make sure that each searched configuration is collision-free (i.e. the robot and the obstacle don't collide). However, since a searched configuration is a discreet position/orientation in space, it can happen that the robot still collides with the obstacle when its position along the path is interpolated between two collision-free configurations. This usually happens rarely, but the occurrence can even be reduced by using smaller linear/angular step sizes. Another, better way of handling those situations, is to use a minimum distance threshold test instead of a collision test. Indeed, using a minimum allowed distance between the robot and the obstacle can not only guarantee no collisions at all, but can also provide the robot with a safety buffer during motion along the path. The only drawback to this is that the minimum distance checking takes more computation time that the collision checking.<br>
+</p>
+
+
+
+<br>
+<h3 class=recommendedTopics>Recommended topics</h3>
+<li><a href="oldPathPlanningModule.htm">Path planning</a></li>
+<li><a href="oldPathPlanningDialog.htm">Path planning dialog</a></li>
+<br>
+<br>
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

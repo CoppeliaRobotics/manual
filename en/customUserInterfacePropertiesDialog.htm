@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>OpenGl-based custom UI dialog</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>OpenGl-based custom UI dialog</h1>
+
+<p>The OpenGl-based custom UI dialog is located at [Menu bar --&gt; Tools --&gt; OpenGl-based Custom UIs]. Alternatively, it can also be accessed through its toolbar button:<br>
+  <br>
+</p>
+
+<p align=center><img src="images/customUserInterfaceButton.jpg"></p>
+<p class=imageLabel>[OpenGl-based custom UI toolbar button]</p>
+<br>
+
+<p align=center><img src="images/customUserInterfaceDlg2.jpg"></p>
+<p class=imageLabel>[OpenGl-based custom UI dialog - part 1]</p>
+<br>
+
+<p>The  <a href="customUserInterfaceEditMode.htm">OpenGl-based custom UI edit mode </a>is automatically activated/deactivated when its related dialog is shown/hidden. The OpenGl-based custom UI dialog is context sensitive, and displays a different content according to a UI cell's selection state: when no cells of a UI are selected, then the custom UI dialog displays above's part 1, otherwise below's part 2.<br>
+</p>
+
+<p>A non-empty UI cell is called a button. Following briefly describes the various items in the custom UI dialog part 1:</p>
+
+<li>
+  <strong>Add new user interface</strong>: allows adding a default OpenGl-based custom UI to the scene. Clicking the button opens a dialog where the main properties of the new custom UI can be set: 
+  
+  <p align=center><img src="images/customUserInterfaceDlg3.jpg"></p>
+<p class=imageLabel>[OpenGl-based custom UI creation dialog]</p>
+<br>
+
+The dialog allows specifying how big in terms of cells the client size should be (<strong>Client x-size</strong> and <strong>Client y-size</strong>). Additionally, a<strong> title bar</strong> with <strong>minimize/maximize button</strong> or/and a <strong>close button</strong> can be added. In any case, the new custom UI can be further edited in next step.<br> </li>
+<br>
+
+<li>
+<strong>Horizontal / vertical cell count</strong>: number of horizontal/vertical cells (i.e. columns and rows of the custom UI) </li>
+<li>
+<strong>Horizontal / vertical cell size</strong>: horizontal/vertical size of a single cell. This has to be a multiple of 2 and is set to 14 by default. </li>
+<li>
+<strong>Horizontal / vertical UI position</strong>: horizontal/vertical position of the custom UI, indicated in pixels. The position can be specified relative to the top-, bottom-, left- or right-border of the rendering window (see hereafter). </li>
+<li>
+<strong>UI is relative to left / top border</strong>: if enabled, then the custom UI's horizontal/vertical position is specified relative to the left/top border of the rendering window. Otherwise it is specified relative to the right/bottom border of the rendering window. </li>
+<li>
+<strong>UI is visible</strong>: allows turning the display of the custom UI on and off. When the custom UI edit mode is activated however, all custom UIs are visible. </li>
+<li>
+<strong>UI is visible only during simulation</strong>: if enabled, then the custom UI will only be visible when a simulation is running. When the custom UI edit mode is activated however, all custom UIs are visible. </li>
+<li>
+<strong>UI is visible if associated object is selected</strong>: if enabled, then the custom UI will only be visible when its associated <a href="objects.htm">object</a> is selected. When the custom UI edit mode is activated however, all custom UIs are visible. </li>
+<li>
+<strong>UI is moveable</strong>: if enabled, then the custom UI can be dragged with the mouse when clicking a label-type button. This however only works when not in custom UI edit mode. </li>
+<li>
+<strong>Use fixed-width font</strong>: allows specifying whether a variable-width font or a fixed-width font should be used for this custom UI. </li>
+<li>
+<strong>Select associated object if UI is clicked</strong>: custom UIs can be associated (or attached) with an object. If this item is checked, then if the user clicks the custom UI, its associated object will be selected. </li>
+<li>
+<strong>Display UI in</strong>: allows specifying on which <a href="pagesAndViews.htm">page</a> the custom UI should be displayed. By default a custom UI appears on all pages. </li>
+<li>
+<strong>UI is associated with</strong>: allows associating (attaching) a custom UI with an <a href="objects.htm">object</a>. Copying the object will also copy all custom UIs that are associated to that object. </li>
+<li>
+<strong>Set UI background texture</strong>: opens the <a href="textureDialog.htm">texture dialog</a> for the custom UI background texture. The background texture for a custom UI stretches over the whole custom UI and is only visible where buttons have the <strong>Transparent / show background texture</strong> item selected (see further below). </li>
+<li>
+<strong>Adjust rolled-up sizes</strong>: a custom UI can be displayed in 2 different modes: the normal mode and the rolled-up mode. When the custom UI is rolled-up, the rolled-up size specifies a rectangular area of cells that stay visible. This feature can be used to obtain custom UIs that can be minimized and maximized for instance. Use this feature together with a button that has the<strong> roll-up action</strong> property activated. </li>
+
+<br>
+
+<p>When one or more UI cells are selected, then the OpenGl-based custom UI dialog will display following part 2:</p>
+
+
+<p align=center><img src="images/customUserInterfaceDlg2b.jpg"></p>
+<p class=imageLabel>[OpenGl-based custom UI dialog - part 2]</p>
+<br>
+
+
+<li>
+<strong>Insert button(s)</strong>: inserts single buttons in the selected non-empty cells. </li>
+<li>
+<strong>Insert merged button</strong>: inserts a merged button. A merged button is a button that stretches over several cells. The selection needs to be rectangular for this command to have an effect. </li>
+
+
+
+
+<li>
+<strong>Button handle</strong>: handle or ID of the last selected button. Custom UI events report actions by using this handle (e.g. button &quot;buttonHandle&quot; of custom UI &quot;uiID&quot; was clicked/changed). Also, some <a href="apisOverview.htm">API functions</a> that target buttons will need this ID to uniquely identify the button within a custom UI.</li>
+<li>
+<strong>Type</strong>: 4 basic button types are available: a button can be of type <em>button</em>, <em>label</em>, <em>edit box</em> or <em>slider</em>. </li>
+<li>
+<strong>Enabled</strong>: allows toggling the enabled state of a button. </li>
+<li>
+<strong>Checkable</strong>: a checkable button, when clicked a first time will stay pressed until it is clicked a second time. Only checkable buttons can have a <strong>roll-up action</strong>. </li>
+<li>
+<strong>Roll-up action</strong>: if selected, then the associated button will allow minimizing/maximizing the custom UI. (see the <strong>Adjust rolled-up sizes-</strong>item here above). Only checkable buttons can have a<strong> roll-up action</strong>. </li>
+<li>
+<strong>Horizontally / vertically  centered</strong>: indicates whether a button, label or edit box text should be horizontally/vertically centered. </li>
+<li>
+<strong>Up/down event</strong>: when selected, then the button will generate an event when pressed, and another event when released. This allows implementing buttons with &quot;continuous&quot; effect rather than &quot;punctual&quot; effect. Refer to the  <a href="regularApi/simGetUIEventButton.htm">simGetUIEventButton</a> function for more details.</li>
+<li>
+<strong>Close action</strong>: if selected, then the associated button will allow making the custom UI invisible. </li>
+<li>
+<strong>Borderless</strong>: indicates whether the button should have a border. </li>
+<li>
+<strong>Ignore mouse</strong>: indicates whether the button should ignore any mouse action. If selected, the button will still be visible, but all mouse actions will be applied to what lies under that button. </li>
+<li>
+<strong>Button label (up /down state)</strong>: text to display on a button of type <em>button</em> in up-state (not pressed), on a <em>label</em> or on an <em>edit box</em>. Checkable buttons can display a different label when pressed (down state). Button labels accept special codes to display shapes or change the text color (the decoding is case-sensitive): </li>
+<li class=tabTab>
+<strong>&amp;&amp;fg###</strong>: allows changing the text color for the following text. Each # represents a digit (0-9) indicating the value for the red-, green- and blue-component of the color respectively.</li>
+<li class=tabTab>
+<strong>&amp;&amp;fg@@@</strong>: resets the original text color (can be used sometime after <strong>&amp;&amp;fg###</strong> (see here above))</li>
+<li class=tabTab>
+<strong>&amp;&amp;Box</strong>: displays a filled square. </li>
+<li class=tabTab>
+<strong>&amp;&amp;Pause</strong>: displays a pause icon (two vertical rectangles) </li>
+<li class=tabTab>
+<strong>&amp;&amp;Start</strong>: displays a &quot;rewind&quot; icon (vertical rectangle followed by an arrow pointing to the left)</li>
+<li class=tabTab>
+<strong>&amp;&amp;End</strong>: displays a &quot;wind forward&quot; icon (arrow pointing to the right followed by a vertical rectangle)</li>
+<li class=tabTab>
+<strong>&amp;&amp;ArrowLeft</strong>: displays an arrow pointing to the left. </li>
+<li class=tabTab>
+<strong>&amp;&amp;ArrowRight</strong>: displays an arrow pointing to the right. </li>
+<li class=tabTab>
+<strong>&amp;&amp;ArrowUp</strong>: displays an arrow pointing up. </li>
+<li class=tabTab>
+<strong>&amp;&amp;ArrowDown</strong>: displays an arrow pointing down. </li>
+<li class=tabTab>
+<strong>&amp;&amp;Check</strong>: displays a cross (big X). </li>
+<li class=tabTab>
+<strong>&amp;&amp;Square</strong>: displays an empty square. </li>
+<li class=tabTab>
+<strong>&amp;&amp;Minimize</strong>: display a &quot;minimize&quot; icon.</li>
+<li class=tabTab>
+<strong>&amp;&amp;n</strong>: indicates a line-break for multiline text for button or label-type buttons. </li>
+<br>
+<li>
+<strong>Edit background color (up / down)</strong>: allows editing the background colors of a button. </li>
+<li>
+<strong>Edit label color</strong>: allows editing the default label color of a button. </li>
+<li>
+<strong>Transparent / show background texture</strong>: the button will appear semi-transparent if selected. If a background texture was specified for the custom UI (see the <strong>Set UI background texture</strong> item above), then having this item selected will display the background texture fragment for the button's location. </li>
+<li>
+<strong>Set button texture</strong>: opens the <a href="textureDialog.htm">texture dialog</a> for the button texture. The button texture stretches over the whole button. A button texture is different from a background texture.</li>
+<li>
+<strong>No background color</strong>: the button won't have any background color if selected. <br>
+</li>
+<br>
+<h3 class=recommendedTopics>Recommended topics</h3>
+<li><a href="customUserInterfaceEditMode.htm">OpenGl-based custom UI edit mode</a></li>
+<li><a href="textureDialog.htm">Texture dialog</a></li>
+
+<br>
+<br>
+
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

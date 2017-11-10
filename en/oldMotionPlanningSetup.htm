@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Motion planning setup</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Using the motion planning functionality</h1>
+
+<p class=warningBox><strong>WARNING</strong>: Since V-REP release 3.3.0, a <a href="pathAndMotionPlanningModules.htm">plugin wrapping the OMPL library is available</a>. It is highly recommended to use the path planning API functions offered by that plugin, instead of using this <em>old</em> built-in path/motion planning functionality, since the plugin/OMPL approach is much more flexible and scalable. <strong>The following documentation is deprecated</strong>.</p>
+
+<p>Before setting-up a motion planning task, make sure you have understood <a href="oldMotionPlanningModule.htm">how the motion planning module operates</a>. Following are the different items that should be prepared in order to create a functional motion planning task object:</p>
+
+<li><a href="#creatingEmptyTask">Creating an empty motion planning task</a></li>
+<li><a href="#preparingKinematics">Preparing and testing the manipulator kinematics</a></li>
+<li><a href="#selectingCollisionEntities">Selecting appropriate collision entities</a></li>
+<li><a href="#adjustingParameters">Adjusting various parameters</a></li>
+<li><a href="#executingCommands">Executing motion planning commands</a></li>
+<br>
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="creatingEmptyTask"></a>Creating an empty motion planning task
+</td></tr></table>
+<p>In order to create an empty motion planning task, you need to specify which joints are part of the manipulator. This typically does not include gripper joints or other auxiliary joint. The joints should be part of the same kinematic chain. Select the joints from base to tip, then in the <a href="oldMotionPlanningDialog.htm">motion planning dialog</a>, click <strong>Add new object</strong>. Rename the added object appropriately in order to quickly recognize to which manipulator it relates.</p> 
+
+<p align=center><img src="images/motionPlanning11.jpg"></p>
+<p class=imageLabel>[Serial manipulator with 3 joints (DoF)]</p>
+<br>
+
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="preparingKinematics"></a>Preparing and testing the manipulator kinematics
+</td></tr></table> 
+
+<p>Each motion planning task requires an associated <a href="basicsOnIkGroupsAndIkElements.htm">IK group</a> in order to be operational. The IK group should contain exactly one IK element, which  defines a kinematic chain involving the same joints as specified in previous step. Make sure to correctly define the base of the IK element (which should be the base of the manipulator), and its constraints (that are normally expressed relative to the specified base):</p>
+
+<p align=center><img src="images/motionPlanning12.jpg"></p>
+<p class=imageLabel>[IK group definition for the motion planning task]</p>
+<br>
+
+<p> The IK group should use an undamped resolution method (i.e. the <em>pseudo inverse</em> method), which means that the IK element should not be overconstrained. In order to test the created IK group, you should:</p>
+
+<li>temporarily turn off dynamics (in the <a href="dynamicsDialog.htm">general dynamics properties</a>)</li>
+<li>temporarily set all involved joints into the <em>inverse kinematics mode</em>, with <em>hybrid operation</em> disabled (in the <a href="jointProperties.htm">joint properties</a>)</li>
+
+<p> Test the created IK group by running the simulation and changing the position/orientation of the target: the manipulator's end-effector should follow the target in a stable and robust way (given that the target is reachable and not in a singular pose). If this is not the case, then you have not correctly defined your IK group/element. Revert the temporary changes, then set the IK group into <strong>explicit handling</strong> mode. Make sure the IK element is still active (<strong>Element is active</strong>).</p>
+
+<p>In the <a href="oldMotionPlanningDialog.htm">motion planning dialog</a>, set the IK group you just created as the <strong>Associated IK group</strong> item. Watch out for warnings in red, in that dialog section.</p>
+
+
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="selectingCollisionEntities"></a>Selecting appropriate collision entities
+</td></tr></table>
+
+<p>When motion planning needs to take into account potential collisions between the manipulator and the environment, or potential manipulator self-collisions, then you can specify collision entities:</p>
+
+<li>self-collisions: define a <a href="collections.htm">collection</a> that contains the collidable links of the manipulator. In the <strong>Self-collision check</strong> section of the <a href="oldMotionPlanningDialog.htm">motion planning dialog</a>, specify twice that same collection: every time a path node is calculated, each <a href="collidableObjects.htm">collidable object</a> of that collection will be tested against all other collidable objects of the same collection. If you do not wish consecutive links to be tested for collision, then you should give them a <strong>collection self-collision indicator</strong> that differs by exactly 1. Refer to the <a href="commonPropertiesDialog.htm">object common properties</a>.</li> 
+<li>manipulator-environment collisions: In the <strong>Robot-obstacles collision check</strong> section of the <a href="oldMotionPlanningDialog.htm">motion planning dialog</a>, you can specify the <a href="entities.htm">entities</a> that should not collide. One would usually create a <a href="collections.htm">collection</a> that contains the collidable links of the manipulator, and specify it as the <strong>robot</strong>-entity.</li> 
+
+<p>Collision detection will be performed only at the calculated path nodes, and what can happen is that the manipulator seems to <em>jump</em> over an obstacle:</p>
+
+
+<p align=center><img src="images/motionPlanning13.jpg"></p>
+<p class=imageLabel>[Manipulator <em>jumping</em> over the obstacle]</p>
+<br>
+
+<p>To avoid above problem, one can reduce the distance <em>D</em> (in configuration space) used in the <a href="regularApi/simFindMpPath.htm">simFindMpPath</a> API function, or use a minimum distance calculation (with an appropriate threshold) instead of a simple collision detection.</p>
+
+<p>It is important that your manipulator collision entities are correctly defined, otherwise your manipulator could be in a state of constant collision, and no motion planning path will be calculated. For verification, you can always temporarily specify the same collision entities (or minimum distance entities) in the <a href="collisionDetection.htm">collision detection dialog</a> or <a href="distanceCalculation.htm">minimum distance calculation dialog</a>.</p>
+
+
+<p align=center><img src="images/motionPlanning14.jpg"></p>
+<p class=imageLabel>[Ill-defined self-collision: slight intersections between consecutive links (shown in green) put the manipulator in a state of constant collision]</p>
+<br>
+
+<p>You should also be aware that if your manipulator grasps an object that was initially an obstacle (e.g. a cup), then the manipulator will be in a state of constant collision with that object, and any further motion planning calculation will fail. At that point you have two options:</p>
+
+<li>you can temporarily make that object non-<a href="collidableObjects.htm">collidable</a> (or non-<a href="measurableObjects.htm">measurable</a>). It will then not be detected as an obstacle anymore, however, it will neither be seen as part of the manipulator (i.e. a motion planning task will not take into account possible collisions between the object and the environment).</li>
+<li>you can also make that object temporarily part of the manipulator. This way, a motion planning task will take into account possible collisions between the object and the environment too. To do this, best is to define a manipulator <a href="collections.htm#treeWithBase">collection as the tree including all objects of the manipulator starting at its base</a>, then by attaching the object to the manipulator base (i.e. making the manipulator base parent of the object), the object will also be part of the manipulator collection.</li>
+<br>
+
+
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="adjustingParameters"></a>Adjusting various parameters
+</td></tr></table> 
+
+<p>Following additional parameters can also be adjusted, in order to optimize the created motion planning object:</p>
+
+<li>the individual joint subdivisions: the joint subdivisions define how many precalculated path nodes (phase 1 nodes) will be generates. The more phase 1 nodes, the slower the initial node generation will be, but the better (or more varied) the found trajectories will be.</li>
+<li>the configuration space metric: this metric defines how distances are calculated in the configuration space of the manipulator, in order to identify a configuration node that is closest to what we are looking for. The metric corresponds to assigning a weight to each joint in the manipulator. Larger values will count for larger distances in the configuration space: if the first joint of a manipulator rotates by 1 degree, the end-effector displacement will usually be larger than if the last joint of the same manipulator rotates by the same amount. To take this into account, one would normally give larger weights to the base joints.</li>
+<li>the Cartesian space metric: this metric defines how a distance is calculated in the Cartesian space, in order to identify an end-effector pose that is closest to what we are looking for. </li>
+
+<br>
+
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="executingCommands"></a>Executing motion planning commands
+</td></tr></table> 
+
+
+<p>Once your motion planning object is fully defined, you can use it via appropriate API function calls.</p>
+
+<p>Following pseudo-code represents the <em>logical</em> sequence, but can be very slow (remember that the path simplification usually takes the longest to compute):</p>
+
+<pre class=lightWhiteBox>
+1. Starting with a manipulator start configuration, we want the end-effector to
+   move without collisions to a specific goal pose.
+
+2. Search for a goal configuration that matches the goal pose (<a href="regularApi/simGetConfigForTipPose.htm">simGetConfigForTipPose</a>).
+
+3. Search for a path between the start and goal configurations (<a href="regularApi/simFindMpPath.htm">simFindMpPath</a>).
+
+4. Simplify the found path (<a href="regularApi/simSimplifyMpPath.htm">simSimplifyMpPath</a>).
+
+5. Repeat above steps 2-4 <em>n</em> times.
+
+6. Select the shortest calculated path.</pre>
+
+<p>Following pseudo-code represents the <em>practical</em> sequence, most often used:</p>
+
+<pre class=lightWhiteBox>
+1. Starting with a manipulator start configuration, we want the end-effector to
+   move without collisions to a specific goal pose.
+
+2. Search for a goal configuration that matches the goal pose (<a href="regularApi/simGetConfigForTipPose.htm">simGetConfigForTipPose</a>).
+
+3. Search for a path between the start and goal configurations (<a href="regularApi/simFindMpPath.htm">simFindMpPath</a>).
+
+4. Repeat above steps 2 &amp; 3 <em>n</em> times.
+
+5. Select the shortest calculated path, and simplify it (<a href="regularApi/simSimplifyMpPath.htm">simSimplifyMpPath</a>).</pre>
+
+
+<p>For a practical exemple, refer to the <a href="childScripts.htm">child scripts</a> attached to objects <em>Mico</em> and <em>Jaco</em>, in the demo scene <em>motionPlanningAndGraspingDemo.ttt</em>.</p>
+
+<br>
+<h3 class=recommendedTopics>Recommended topics</h3>
+
+<li><a href="apiFunctionListCategory.htm#motionPlanning">Related API functions</a></li>
+<li><a href="oldMotionPlanningModule.htm">Motion planning module</a></li>
+<li><a href="oldMotionPlanningDialog.htm">Motion planning dialog</a></li>
+<br>
+<br>
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

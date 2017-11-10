@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Motion planning dialog</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Motion planning dialog</h1>
+
+
+<p class=warningBox><strong>WARNING</strong>: Since V-REP release 3.3.0, a <a href="pathAndMotionPlanningModules.htm">plugin wrapping the OMPL library is available</a>. It is highly recommended to use the path planning API functions offered by that plugin, instead of using this <em>old</em> built-in path/motion planning functionality, since the plugin/OMPL approach is much more flexible and scalable. <strong>The following documentation is deprecated</strong>.</p>
+
+<p>The motion planning dialog is part of the <a href="calculationModuleDialog.htm">calculation module properties dialog</a>, which is located at [Menu bar --&gt; Tools --&gt; Calculation module properties]. You can also open the dialog with a click on its <a href="userInterface.htm#toolbars">toolbar</a> button:<br>
+</p>
+
+<p align=center><img src="images/calculationModuleButton.jpg"></p>
+<p class=imageLabel>[Calculation module properties toolbar button]</p>
+<br>
+
+<p>In the calculation module properties dialog, click  the <strong>Motion planning</strong> button to display the motion planning dialog:
+</p>
+
+
+<p align=center><img src="images/motionPlanningDialog1.jpg"></p>
+<p class=imageLabel>[Motion planning dialog]</p>
+<br>
+
+
+<li><strong>Add new object</strong>: adds a new motion planning object. Make sure that all active joints part of the manipulator are selected.</li>
+
+<li><strong>Associated IK group</strong>: the <a href="basicsOnIkGroupsAndIkElements.htm">IK group</a> that performs inverse kinematics for the manipulator. The IK group needs to be correctly defined and valid. It should be set to <strong>explicit handling</strong>. </li>
+
+<li><strong>Self-collision check</strong>: allows to specify two <a href="entities.htm">entities</a> that should not be colliding during the self-collision check (i.e. during a path search). Usually, a same <a href="collections.htm">collection</a> is specified as <strong>entity 1</strong> and <strong>entity 2</strong> to check that collection for self-collision. See also the item <strong>Collection self-collision indicator</strong> in the <a href="commonPropertiesDialog.htm">object common properties</a>.</li>
+
+<li><strong>Robot-obstacles collision check</strong>: allows to specify two entities that should not be colliding during the robot-obstacles collision check (i.e. during a path search).</li>
+
+<li><strong>Edit joint properties</strong>: opens a dialog that allows to adjust various properties for each joint:</li>
+
+
+<p align=center><img src="images/motionPlanningDialog2.jpg"></p>
+<p class=imageLabel>[Motion planning joint parameter dialog]</p>
+
+
+<li class=tabTab><strong>Range subdivisions</strong>: the number of subdivisions for phase 1 node generation. Generally, a higher number produces better results, but uses more memory and might also be slower. The total number of phase 1 nodes can be calculated as follows: (joint1RangeSubdivision+1)*(joint2RangeSubdivision+1)*(joint3RangeSubdivision+1)*...</li>
+
+<li class=tabTab><strong>Metric weight</strong>: value that is used to calculate a distance between two nodes in the configuration space. Joints near the robot base should usually have higher values than joints near the robot tip.</li>
+
+
+<br>
+
+<li><a name="cartesianSpace"></a><strong>Edit Cartesian space metric</strong>: opens a dialog that allows to adjust the Cartesian space metric, which represents a way to measure a distance between two transformations in space (i.e. position and orientation). This is used to help determine what configuration nodes might be good candidates for a given end-effector position/orientation.</li>
+
+
+<p align=center><img src="images/motionPlanningDialog3.jpg"></p>
+<p class=imageLabel>[Cartesian space metric dialog]</p>
+
+<li><strong>Compute phase 1 nodes</strong>: computes or re-computes the phase 1 nodes. This calculation might also be automatically triggered when a <a href="apiFunctionListCategory.htm#motionPlanning">motion planning API function</a> is called for the first time on this motion planning task.</li>
+
+<li><strong>Visualize phase 1 nodes</strong>: visualizes in green all the calculated phase 1 nodes. Each node represents a single point.</li>
+
+
+
+<br>
+<h3 class=recommendedTopics>Recommended topics</h3>
+<li><a href="oldMotionPlanningModule.htm">Motion planning</a></li>
+<br>
+<br>
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>
