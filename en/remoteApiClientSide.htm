@@ -147,26 +147,6 @@ If you had to rebuild the remoteApi library, you might have to regenerate the pr
 <br>
 
 
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="urbi"></a>Urbi client
-</td></tr></table> 
-
-
-
-<p>To use the remote API functionality in your Urbi script, you will need following 2 items:</p>
-
-<li>remoteApiConst.urbi</li>
-<li>remoteApiUrbi.dll or remoteApiUrbi.so (depending on your target platform)</li>
-
-<p>Above files are located in V-REP's installation directory, under <em>programming/remoteApiBindings/urbi</em>. You might have to build the remoteApiUrbi shared library yourself  if not already built. In that case, make sure you have defined <strong>NON_MATLAB_PARSING</strong> and <strong>MAX_EXT_API_CONNECTIONS=255</strong>  (and optionally <strong>DO_NOT_USE_SHARED_MEMORY</strong>) as a preprocessor definition. Under Windows, use <em>remoteApiSharedLibUrbi.vcproj</em>. Under Linux/Mac, do following steps:</p>
-
-<li>Create an <em>extApiUrbi.uob</em> folder in the Urbi root</li>
-<li>Copy following elements into that new folder: extApi.c, extApi.h, extApiInternal.h, extApiPlatform.c, extApiPlatform.h, v_repConst.h and extApiUrbi.cpp </li>
-<li>From within above folder, type:</li>
-<p class=tab>../bin/umake -q --shared-library -o remoteApiUrbi.so EXTRA_CPPFLAGS=-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255</p>
-
-<p>To load the remote Api functionality from a script,  call <em>loadFile(&quot;remoteApiConst.urbi&quot;)</em> and <em>loadModule(&quot;remoteApiUrbi&quot;)</em>. To enable the remote API on the client side (i.e. your application), call <a href="remoteApiFunctionsUrbi.htm#simxStart"><em>vrep.simxStart</em></a>.   See the <em>simpleTest.urbi</em> script in the <em>programming/remoteApiBindings/urbi</em> directory for an example. <a href="remoteApiFunctionsUrbi.htm">This page</a> lists and describes all supported  Urbi remote API functions. V-REP remote API functions can easily be recognized from their &quot;simx&quot;-prefix.
-</p>
 
 
 <br>
