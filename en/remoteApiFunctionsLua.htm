@@ -2538,7 +2538,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the orientation (<a href="eulerAngles.htm">Euler angles</a>) of an object. See also <a href="#simxSetObjectOrientation">simx.setObjectOrientation</a>, <a href="#simxGetObjectPosition">simx.getObjectPosition</a> and <a href="#simxGetObjectGroupData">simx.getObjectGroupData</a>.</td>
+<td class=apiTableRightDescr>Retrieves the orientation (<a href="eulerAngles.htm">Euler angles</a>) of an object. See also <a href="#simxSetObjectOrientation">simx.setObjectOrientation</a>, <a href="#simxGetObjectQuaternion">simx.getObjectQuaternion</a>, <a href="#simxGetObjectPosition">simx.getObjectPosition</a> and <a href="#simxGetObjectGroupData">simx.getObjectGroupData</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -2659,7 +2659,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the position  of an object. See also <a href="#simxSetObjectPosition">simx.setObjectPosition</a>, <a href="#simxGetObjectOrientation">simx.getObjectOrientation</a> and <a href="#simxGetObjectGroupData">simx.getObjectGroupData</a>.</td>
+<td class=apiTableRightDescr>Retrieves the position  of an object. See also <a href="#simxSetObjectPosition">simx.setObjectPosition</a>, <a href="#simxGetObjectOrientation">simx.getObjectOrientation</a>, <a href="#simxGetObjectQuaternion">simx.getObjectQuaternion</a> and <a href="#simxGetObjectGroupData">simx.getObjectGroupData</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -2695,6 +2695,67 @@ Other languages
 </td> 
 <td class=remApiTableRightLanguages>
 <a href="remoteApiFunctionsPython.htm#simxGetObjectPosition">Python</a>, <a href="remoteApiFunctionsJava.htm#simxGetObjectPosition">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetObjectPosition">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetObjectPosition">Octave</a>, <a href="remoteApiFunctions.htm#simxGetObjectPosition">C/C++</a></td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="simxGetObjectQuaternion" id="simxGetObjectQuaternion"></a><a name="simx.getObjectQuaternion" id="simx.getObjectQuaternion"></a>simx.getObjectQuaternion
+(regular API equivalent: <a href="regularApi/simGetObjectQuaternion.htm">sim.getObjectQuaternion</a>)
+</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the quaternion  of an object. See also <a href="#simxSetObjectQuaternion">simx.setObjectQuaternion</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCSyn>
+Lua synopsis
+</td> 
+<td class=remApiTableRightCSyn>
+
+<div>number returnCode,table_4 quat=simx.getObjectQuaternion(number clientID,number objectHandle,number relativeToObjectHandle,number operationMode)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCParam>Lua Parameters</td> 
+<td class=remApiTableRightCParam>
+<div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simx.start</a>.</div>
+<div><strong>objectHandle</strong>: handle of the object</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the quaternion.   Specify -1 to retrieve the absolute quaternion, sim.handle_parent to   retrieve the quaternion relative to the object's parent, or an object   handle relative to whose reference frame you want the quaternion</div>
+<div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation modes for this function are simx.opmode_streaming (the first call) and simx.opmode_buffer (the following calls)
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCRet>
+Lua return values
+</td> 
+<td class=remApiTableRightCRet>
+<div><strong>returnCode</strong>: a <a href="remoteApiConstants.htm#functionErrorCodes">remote API function return code</a></div>
+<div><strong>quat</strong>: the quaternion (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftLanguages>
+Other languages
+</td> 
+<td class=remApiTableRightLanguages>
+<a href="remoteApiFunctionsPython.htm#simxGetObjectQuaternion">Python</a>, <a href="remoteApiFunctionsJava.htm#simxGetObjectQuaternion">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetObjectQuaternion">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetObjectQuaternion">Octave</a>, <a href="remoteApiFunctions.htm#simxGetObjectQuaternion">C/C++</a></td> 
 </tr> 
 </table> 
 <br>
@@ -5212,7 +5273,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the orientation (<a href="eulerAngles.htm">Euler angles</a>) of an object. Dynamically simulated objects will implicitely be reset before the command is applied (i.e. similar to calling <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a> just before). See also <a href="#simxGetObjectOrientation">simx.getObjectOrientation</a> and <a href="#simxSetObjectPosition">simx.setObjectPosition</a>.</td>
+<td class=apiTableRightDescr>Sets the orientation (<a href="eulerAngles.htm">Euler angles</a>) of an object. Dynamically simulated objects will implicitely be reset before the command is applied (i.e. similar to calling <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a> just before). See also <a href="#simxGetObjectOrientation">simx.getObjectOrientation</a>, <a href="#simxSetObjectQuaternion">simx.setObjectQuaternion</a> and <a href="#simxSetObjectPosition">simx.setObjectPosition</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -5326,15 +5387,15 @@ Other languages
 
 
 <h3 class=subsectionBar>
-<a name="simxSetObjectPosition" id="simxSetObjectPosition"></a><a name="simx.setObjectPosition" id="simx.setObjectPosition"></a>simx.setObjectPosition
-(regular API equivalent: <a href="regularApi/simSetObjectPosition.htm">sim.setObjectPosition</a>)
+<a name="simxSetObjectQuaternion" id="simxSetObjectQuaternion"></a><a name="simx.setObjectQuaternion" id="simx.setObjectQuaternion"></a>simx.setObjectQuaternion
+(regular API equivalent: <a href="regularApi/simSetObjectQuaternion.htm">sim.setObjectQuaternion</a>)
 </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the position of an object. Dynamically simulated objects will implicitely be reset before the command is applied (i.e. similar to calling  <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a> just before). See also <a href="#simxGetObjectPosition">simx.getObjectPosition</a> and <a href="#simxSetObjectOrientation">simx.setObjectOrientation</a>.</td>
+<td class=apiTableRightDescr>Sets the orientation of an object as quaternion. Dynamically simulated objects will implicitely be reset before the command is applied (i.e. similar to calling  <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a> just before). See also <a href="#simxGetObjectQuaternion">simx.getObjectQuaternion</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -5342,7 +5403,7 @@ Lua synopsis
 </td> 
 <td class=remApiTableRightCSyn>
 
-<div>number returnCode=simx.setObjectPosition(number clientID,number objectHandle,number relativeToObjectHandle,table_3 position,number operationMode)</div>
+<div>number returnCode=simx.setObjectQuaternion(number clientID,number objectHandle,number relativeToObjectHandle,table_4 quat,number operationMode)</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -5350,8 +5411,8 @@ Lua synopsis
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simx.start</a>.</div>
 <div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify -1 to set the absolute position, sim.handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified.</div>
-<div><strong>position</strong>: the position values (x, y and z)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the quaternion is specified. Specify -1 to set the absolute quaternion, sim.handle_parent to set the quaternion relative to the object's parent, or an object handle relative to whose reference frame the quaternion is specified.</div>
+<div><strong>quat</strong>: the quaternion values (x, y, z, w)</div>
 <div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation mode for this function is simx.opmode_oneshot
 </div>
 </td> 
@@ -5369,7 +5430,7 @@ Lua return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctionsPython.htm#simxSetObjectPosition">Python</a>, <a href="remoteApiFunctionsJava.htm#simxSetObjectPosition">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetObjectPosition">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetObjectPosition">Octave</a>, <a href="remoteApiFunctions.htm#simxSetObjectPosition">C/C++</a></td> 
+<a href="remoteApiFunctionsPython.htm#simxSetObjectQuaternion">Python</a>, <a href="remoteApiFunctionsJava.htm#simxSetObjectQuaternion">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetObjectQuaternion">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetObjectQuaternion">Octave</a>, <a href="remoteApiFunctions.htm#simxSetObjectQuaternion">C/C++</a></td> 
 </tr> 
 </table> 
 <br>
