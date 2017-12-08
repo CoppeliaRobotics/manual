@@ -25,11 +25,11 @@
 
 <p>The general ROS functionality in V-REP is supported via the <a href="rosInterf.htm">RosInterface</a> (<em>libv_repExtRosInterface.so</em>). The Linux distribution should include that file already compiled in <em>V-REP/compiledRosPlugins</em>, but it first needs to be copied to <em>V-REP/</em>, otherwise it won't be loaded. You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of V-REP for details about plugin load operations. Plugins are loaded when V-REP is launched. The ROS plugin will only successfully load and initialize if <em>roscore</em> is running at that time (<em>roscore</em> is the ROS master).</p>
 
-<p>If the plugin cannot be loaded, then you should recompile it by yourself. It is open source and can be modified as much as needed in order to support a specific feature or to extend its functionality. The <em>programming/ros_packages</em> folder contains 4 packages:</p>
+<p>If the plugin cannot be loaded, then you should recompile it by yourself. It is open source and can be modified as much as needed in order to support a specific feature or to extend its functionality. There are<em> </em>4 packages:</p>
 
-<li><strong>ros_bubble_rob2</strong>: this is the package of a very simple robot controller that connects to V-REP via the <a href="rosInterf.htm">RosInterface</a>. This node will be in charge of controlling the bright red robot in the demo scene <em>controlTypeExamples.ttt</em></li>
-<li><strong>v_repExtRosInterface</strong>: this package is the <a href="rosInterf.htm">RosInterface</a> that will be compiled to a &quot;.so&quot; file, and that is used by V-REP.</li>
-<li><strong>vrep_skeleton_msg_and_srv</strong> and <strong>vrep_plugin_skeleton</strong>: those two packages can be used to create your own specific ROS plugin for V-REP (e.g. to support ROS messages for a specific robot).</li>
+<li><a href="https://github.com/CoppeliaRobotics/v_repExtRosInterface">v_repExtRosInterface</a>: this package is the <a href="rosInterf.htm">RosInterface</a> that will be compiled to a &quot;.so&quot; file, and that is used by V-REP.</li>
+<li><a href="https://github.com/CoppeliaRobotics/ros_bubble_rob2">ros_bubble_rob2</a>: this is the package of a very simple robot controller that connects to V-REP via the <a href="rosInterf.htm">RosInterface</a>. This node will be in charge of controlling the  red robot in the demo scene <em>controlTypeExamples.ttt</em></li>
+<li><a href="https://github.com/CoppeliaRobotics/vrep_skeleton_msg_and_srv">vrep_skeleton_msg_and_srv</a> and <a href="https://github.com/CoppeliaRobotics/vrep_plugin_skeleton">vrep_plugin_skeleton</a>: those two packages can be used to create your own specific ROS plugin for V-REP (e.g. to support ROS messages for a specific robot).</li>
 
 
 
@@ -158,7 +158,7 @@ $ rostopic list</pre>
 $ rostopic echo /simulationTime</pre>
 
 
-<p>Now load the demo scene &quot;rosInterfaceTopicPublisherAndSubscriber.ttt&quot;, and run the simulation. The code in the <a href="childScripts.htm">child script</a> attached to &quot;Vision_sensor&quot; will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So V-REP is streaming data, while listening to the same data! This is what is happening:</p>
+<p>Now load the demo scene <em>rosInterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="childScripts.htm">child script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So V-REP is streaming data, while listening to the same data! This is what is happening:</p>
 
 <p align=center><img src="images/rosTut1.jpg"></p>
 <p class=imageLabel>[Image publisher and image subscriber demo]</p>
@@ -193,7 +193,7 @@ $ rostopic echo /visionSensorData</pre>
 <li>add a banner</li>
 <li>Launch motor speed subscribers</li>
 <li>Launch a sensor publisher and a simulation time publisher</li>
-<li> and finally launch a client application. The application is called with some topic names as arguments, so that it will know which topics to listen to and to subscribe. The client application (&quot;rosBubbleRob2&quot;) is then taking over the control of the red robot via ROS.</li>
+<li> and finally launch a client application. The application is called with some topic names as arguments, so that it will know which topics to listen to and to subscribe. The client application (<em>rosBubbleRob2</em>) is then taking over the control of the red robot via ROS.</li>
 
 <p>While simulation is running, copy and paste a few times the  red robot (well, actually any of the robots!). Notice that every copy is directly operational and independent. This is one of the many strengths of V-REP.</p>
 
