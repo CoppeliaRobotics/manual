@@ -154,34 +154,35 @@ A non-threaded child script should be segmented into 4 main functions:
 </p>
 
 <pre class=lightRedBox>
--- Put some initialization code here:
-sensorHandleFront=sim.getObjectHandle("DoorSensorFront")
-sensorHandleBack=sim.getObjectHandle("DoorSensorBack")
-motorHandle=sim.getObjectHandle("DoorMotor")
-
--- Here we execute the regular thread code:
-while sim.getSimulationState()~=sim.simulation_advancing_abouttostop do
-    resF=sim.readProximitySensor(sensorHandleFront)
-    resB=sim.readProximitySensor(sensorHandleBack)
-    if ((resF>0)or(resB>0)) then
-        sim.setJointTargetVelocity(motorHandle,-0.2)
-    else
-        sim.setJointTargetVelocity(motorHandle,0.2)
+function <strong>sysCall_threadmain</strong>()
+    -- Put some initialization code here:
+    sensorHandleFront=sim.getObjectHandle("DoorSensorFront")
+    sensorHandleBack=sim.getObjectHandle("DoorSensorBack")
+    motorHandle=sim.getObjectHandle("DoorMotor")
+    
+    -- Here we execute the regular thread code:
+    while sim.getSimulationState()~=sim.simulation_advancing_abouttostop do
+        resF=sim.readProximitySensor(sensorHandleFront)
+        resB=sim.readProximitySensor(sensorHandleBack)
+        if ((resF>0)or(resB>0)) then
+            sim.setJointTargetVelocity(motorHandle,-0.2)
+        else
+            sim.setJointTargetVelocity(motorHandle,0.2)
+        end
+        -- this loop wastes precious computation time since we should only read new
+        -- values when the simulation time has changed (i.e. in next simulation step).
     end
-    -- this loop wastes precious computation time since we should only read new
-    -- values when the simulation time has changed (i.e. in next simulation step).
 end
 
--- Put some clean-up code here:</pre>
+function <strong>sysCall_cleanup</strong>()
+	-- Put some clean-up code here:
+end</pre>
 
-<p>Threaded child scripts should be segmented in 3 parts:<br>
+<p>Threaded child scripts should be segmented in 2 parts:<br>
 </p>
 
 
-<li><strong>the initialization part</strong>: this part will be executed when the thread starts. This can be at the beginning of a simulation, but also in the middle of a simulation: remember that objects associated with child scripts can be copy/pasted into a scene at any time, also when a simulation is running. Usually you would put some initialization code as well as handle retrieval in this part. If the child script was not flagged as <strong>execute once</strong> and exits the regular part (see below) before simulation end, then this part might be called several times (but each time with a Lua state that was reset). <br>
-</li>
-
-<li><strong>the regular part</strong>: this part can be executed in a loop. The code in the loop is in charge of handling a specific part of a simulation (e.g. handle the automatic sliding door). In above specific example, the loop is wasting precious computation time and is running asynchronously with the main simulation loop. See further down for a better example.<br>
+<li><strong>the main part</strong>: this part will be executed when the thread starts, until shortly before the thread ends. This can be at the beginning of a simulation, but also in the middle of a simulation: remember that objects associated with child scripts can be copy/pasted into a scene at any time, also when a simulation is running. Usually you would put some initialization code as well as the main loop in this part: the code in the loop is in charge of handling a specific part of a simulation (e.g. handle the automatic sliding door). In above specific example, the loop is wasting precious computation time and is running asynchronously with the main simulation loop. See further down for a better example.<br>
 </li>
 
 <li><strong>the restoration part</strong>: this part will be executed one time just before a simulation ends, or before the thread ends. <br>
@@ -191,27 +192,31 @@ end
 </p>
 
 <pre class=lightRedBox>
--- Put some initialization code here:
-<strong>sim.setThreadAutomaticSwitch</strong>(false) -- disable automatic thread switches
-sensorHandleFront=sim.getObjectHandle("DoorSensorFront")
-sensorHandleBack=sim.getObjectHandle("DoorSensorBack")
-motorHandle=sim.getObjectHandle("DoorMotor")
-
--- Here we execute the regular thread code:
-while sim.getSimulationState()~=sim.simulation_advancing_abouttostop do
-    resF=sim.readProximitySensor(sensorHandleFront)
-    resB=sim.readProximitySensor(sensorHandleBack)
-    if ((resF>0)or(resB>0)) then
-        sim.setJointTargetVelocity(motorHandle,-0.2)
-    else
-        sim.setJointTargetVelocity(motorHandle,0.2)
+function <strong>sysCall_threadmain</strong>()
+    -- Put some initialization code here:
+    <strong>sim.setThreadAutomaticSwitch</strong>(false) -- disable automatic thread switches
+    sensorHandleFront=sim.getObjectHandle("DoorSensorFront")
+    sensorHandleBack=sim.getObjectHandle("DoorSensorBack")
+    motorHandle=sim.getObjectHandle("DoorMotor")
+    
+    -- Here we execute the regular thread code:
+    while sim.getSimulationState()~=sim.simulation_advancing_abouttostop do
+        resF=sim.readProximitySensor(sensorHandleFront)
+        resB=sim.readProximitySensor(sensorHandleBack)
+        if ((resF>0)or(resB>0)) then
+            sim.setJointTargetVelocity(motorHandle,-0.2)
+        else
+            sim.setJointTargetVelocity(motorHandle,0.2)
+        end
+        <strong>sim.switchThread</strong>() -- <strong>Explicitely switch to another thread now!</strong>
+        -- <strong>from now on, above loop is executed once every time the main script is about to execute.</strong>
+        -- <strong>this way you do not waste precious computation time and run synchronously.</strong>
     end
-    <strong>sim.switchThread</strong>() -- <strong>Explicitely switch to another thread now!</strong>
-    -- <strong>from now on, above loop is executed once every time the main script is about to execute.</strong>
-    -- <strong>this way you do not waste precious computation time and run synchronously.</strong>
 end
 
--- Put some clean-up code here:</pre>
+function <strong>sysCall_cleanup</strong>()
+    -- Put some clean-up code here
+end</pre>
 
 <p>Above while loop will now execute exactly once for each main simulation loop and not waste time reading sensors states again and again for same simulation times. By default, threads always resume when the main script calls <em>sim.resumeThreads(sim.scriptthreadresume_default)</em>. If you need to make sure your thread runs only while the main script is in the sensing phase, you can resquedule the thread's resume location with the API function <a href="regularApi/simSetThreadResumeLocation.htm">sim.setThreadResumeLocation</a>.<br>
 </p>

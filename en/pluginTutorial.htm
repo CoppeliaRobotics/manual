@@ -167,29 +167,31 @@
 <p>Now open the <a href="childScripts.htm#threaded">threaded child script</a> attached to the BubbleRob model in the scene (e.g. double-click the script icon next to object <em>bubbleRob</em> in the scene hierarchy). Inspect the code:<br>
 </p>
 
-<pre class=lightRedBox>-- Check if the required plugin is there:
-moduleName=0
-moduleVersion=0
-index=0
-bubbleRobModuleNotFound=true
-while moduleName do
-    moduleName,moduleVersion=sim.getModuleName(index)
-    if (moduleName=='BubbleRob') then
-        bubbleRobModuleNotFound=false
+<pre class=lightRedBox>function sysCall_threadmain()
+    -- Check if the required plugin is there:
+    moduleName=0
+    moduleVersion=0
+    index=0
+    bubbleRobModuleNotFound=true
+    while moduleName do
+        moduleName,moduleVersion=sim.getModuleName(index)
+        if (moduleName=='BubbleRob') then
+            bubbleRobModuleNotFound=false
+        end
+        index=index+1
     end
-    index=index+1
-end
-if (bubbleRobModuleNotFound) then
-    sim.displayDialog('Error','BubbleRob plugin was not found. (v_repExtBubbleRob.dll)&&nSimulation will not run properly',
-        sim.dlgstyle_ok,true,nil,{0.8,0,0,0,0,0},{0.5,0,0,1,1,1})
-else
-    local jointHandles={sim.getObjectHandle('leftMotor'),sim.getObjectHandle('rightMotor')}
-    local sensorHandle=sim.getObjectHandle('sensingNose')
-    local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25}) -- create a BubbleRob instance
-    if robHandle>=0 then
-        simBubble.start(robHandle,20) -- control happens here
-        simBubble.stop(robHandle)
-        simBubble.destroy(robHandle) -- destroy the BubbleRob instance
+    if (bubbleRobModuleNotFound) then
+        sim.displayDialog('Error','BubbleRob plugin was not found. (v_repExtBubbleRob.dll)&&nSimulation will not run properly',
+            sim.dlgstyle_ok,true,nil,{0.8,0,0,0,0,0},{0.5,0,0,1,1,1})
+    else
+        local jointHandles={sim.getObjectHandle('leftMotor'),sim.getObjectHandle('rightMotor')}
+        local sensorHandle=sim.getObjectHandle('sensingNose')
+        local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25}) -- create a BubbleRob instance
+        if robHandle>=0 then
+            simBubble.start(robHandle,20) -- control happens here
+            simBubble.stop(robHandle)
+            simBubble.destroy(robHandle) -- destroy the BubbleRob instance
+        end
     end
 end</pre>
 
