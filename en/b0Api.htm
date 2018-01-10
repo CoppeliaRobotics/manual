@@ -1,0 +1,644 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>API Functions</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+</head>
+<body><div align="center"><table class="allEncompassingTable"><tr><td>
+<h1>BlueZero Plugin API reference</h1>
+<p class="infoBox">BlueZero plugin for V-REP.</p>
+<h3 class="subsectionBar">
+<a name="call" id="call"></a>simB0.call</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Call a service.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string payload=simB0.call(string handle, string payload)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string): service client handle</div>
+<div>
+<strong>payload</strong> (string): request payload</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>payload</strong> (string): response payload</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#createServiceClient">simB0.createServiceClient</a> <a href="#createServiceServer">simB0.createServiceServer</a> <a href="#destroyServiceClient">simB0.destroyServiceClient</a> <a href="#destroyServiceServer">simB0.destroyServiceServer</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="cleanup" id="cleanup"></a>simB0.cleanup</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Cleanup a node.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.cleanup(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): node handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#create">simB0.create</a> <a href="#destroy">simB0.destroy</a> <a href="#init">simB0.init</a> <a href="#spin">simB0.spin</a> <a href="#spinOnce">simB0.spinOnce</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="create" id="create"></a>simB0.create</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Create a new node.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle=simB0.create(string name)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>name</strong> (string): name of the node (will be changed if not unique during initialization)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string): a handle to the new node</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#cleanup">simB0.cleanup</a> <a href="#destroy">simB0.destroy</a> <a href="#init">simB0.init</a> <a href="#spin">simB0.spin</a> <a href="#spinOnce">simB0.spinOnce</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="createPublisher" id="createPublisher"></a>simB0.createPublisher</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Create a new publisher.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle=simB0.createPublisher(string nodeHandle, string topic)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>nodeHandle</strong> (string): node handle</div>
+<div>
+<strong>topic</strong> (string): topic name</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string): a handle to the new publisher</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#createSubscriber">simB0.createSubscriber</a> <a href="#destroyPublisher">simB0.destroyPublisher</a> <a href="#destroySubscriber">simB0.destroySubscriber</a> <a href="#publish">simB0.publish</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="createServiceClient" id="createServiceClient"></a>simB0.createServiceClient</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Create a new service client.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle=simB0.createServiceClient(string nodeHandle, string service)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>nodeHandle</strong> (string): node handle</div>
+<div>
+<strong>service</strong> (string): service name</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string): a handle to the new service client</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#call">simB0.call</a> <a href="#createServiceServer">simB0.createServiceServer</a> <a href="#destroyServiceClient">simB0.destroyServiceClient</a> <a href="#destroyServiceServer">simB0.destroyServiceServer</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="createServiceServer" id="createServiceServer"></a>simB0.createServiceServer</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Create a new service server.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle=simB0.createServiceServer(string nodeHandle, string service, string callback=)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>nodeHandle</strong> (string): node handle</div>
+<div>
+<strong>service</strong> (string): service name</div>
+<div>
+<strong>callback</strong> (string, default: ): lua calback to call when a request is received</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string): a handle to the new service server</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#call">simB0.call</a> <a href="#createServiceClient">simB0.createServiceClient</a> <a href="#destroyServiceClient">simB0.destroyServiceClient</a> <a href="#destroyServiceServer">simB0.destroyServiceServer</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="createSubscriber" id="createSubscriber"></a>simB0.createSubscriber</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Create a new subscriber.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle=simB0.createSubscriber(string nodeHandle, string topic, string callback=)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>nodeHandle</strong> (string): node handle</div>
+<div>
+<strong>topic</strong> (string): topic name</div>
+<div>
+<strong>callback</strong> (string, default: ): lua calback to call when a message is received</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string): a handle to the new subscriber</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#createPublisher">simB0.createPublisher</a> <a href="#destroyPublisher">simB0.destroyPublisher</a> <a href="#destroySubscriber">simB0.destroySubscriber</a> <a href="#publish">simB0.publish</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="destroy" id="destroy"></a>simB0.destroy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Destroy a node.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.destroy(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): node handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#cleanup">simB0.cleanup</a> <a href="#create">simB0.create</a> <a href="#init">simB0.init</a> <a href="#spin">simB0.spin</a> <a href="#spinOnce">simB0.spinOnce</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="destroyPublisher" id="destroyPublisher"></a>simB0.destroyPublisher</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Destroy a publisher.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.destroyPublisher(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): publisher handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#createPublisher">simB0.createPublisher</a> <a href="#createSubscriber">simB0.createSubscriber</a> <a href="#destroySubscriber">simB0.destroySubscriber</a> <a href="#publish">simB0.publish</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="destroyServiceClient" id="destroyServiceClient"></a>simB0.destroyServiceClient</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Destroy a service client.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.destroyServiceClient(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): service client handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#call">simB0.call</a> <a href="#createServiceClient">simB0.createServiceClient</a> <a href="#createServiceServer">simB0.createServiceServer</a> <a href="#destroyServiceServer">simB0.destroyServiceServer</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="destroyServiceServer" id="destroyServiceServer"></a>simB0.destroyServiceServer</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Destroy a service server.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.destroyServiceServer(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): service server handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#call">simB0.call</a> <a href="#createServiceClient">simB0.createServiceClient</a> <a href="#createServiceServer">simB0.createServiceServer</a> <a href="#destroyServiceClient">simB0.destroyServiceClient</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="destroySubscriber" id="destroySubscriber"></a>simB0.destroySubscriber</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Destroy a subscriber.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.destroySubscriber(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): subscriber handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#createPublisher">simB0.createPublisher</a> <a href="#createSubscriber">simB0.createSubscriber</a> <a href="#destroyPublisher">simB0.destroyPublisher</a> <a href="#publish">simB0.publish</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="init" id="init"></a>simB0.init</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Initialize a node.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string name=simB0.init(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): node handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>name</strong> (string): final name of the node as assigned from resolver node</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#cleanup">simB0.cleanup</a> <a href="#create">simB0.create</a> <a href="#destroy">simB0.destroy</a> <a href="#spin">simB0.spin</a> <a href="#spinOnce">simB0.spinOnce</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="publish" id="publish"></a>simB0.publish</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Publish some data.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.publish(string handle, string payload)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string): publisher handle</div>
+<div>
+<strong>payload</strong> (string): message payload</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#createPublisher">simB0.createPublisher</a> <a href="#createSubscriber">simB0.createSubscriber</a> <a href="#destroyPublisher">simB0.destroyPublisher</a> <a href="#destroySubscriber">simB0.destroySubscriber</a> <a href="#setCompression">simB0.setCompression</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setCompression" id="setCompression"></a>simB0.setCompression</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set compression for the specified publisher/service client/service server.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.setCompression(string handle, string compression_algorithm, int compression_level=-1)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string): publisher/service client/service server handle</div>
+<div>
+<strong>compression_algorithm</strong> (string): compression algorithm to use. an empty string will dsable compression.</div>
+<div>
+<strong>compression_level</strong> (int, default: -1): compression level (-1 will use default level)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#createPublisher">simB0.createPublisher</a> <a href="#createSubscriber">simB0.createSubscriber</a> <a href="#destroyPublisher">simB0.destroyPublisher</a> <a href="#destroySubscriber">simB0.destroySubscriber</a> <a href="#publish">simB0.publish</a> <a href="#call">simB0.call</a> <a href="#createServiceClient">simB0.createServiceClient</a> <a href="#createServiceServer">simB0.createServiceServer</a> <a href="#destroyServiceClient">simB0.destroyServiceClient</a> <a href="#destroyServiceServer">simB0.destroyServiceServer</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="spin" id="spin"></a>simB0.spin</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Spin a node.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.spin(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): node handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#cleanup">simB0.cleanup</a> <a href="#create">simB0.create</a> <a href="#destroy">simB0.destroy</a> <a href="#init">simB0.init</a> <a href="#spinOnce">simB0.spinOnce</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="spinOnce" id="spinOnce"></a>simB0.spinOnce</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Spin a node.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.spinOnce(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): node handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#cleanup">simB0.cleanup</a> <a href="#create">simB0.create</a> <a href="#destroy">simB0.destroy</a> <a href="#init">simB0.init</a> <a href="#spin">simB0.spin</a>
+</td>
+</tr>
+</table>
+<br><br><br><h1>Script functions</h1>
+<p>Script functions are used to call some lua code from the plugin side (tipically used for event handlers).</p>
+<h3 class="subsectionBar">
+<a name="scriptfun:topicCallback" id="scriptfun:topicCallback"></a>topicCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback for a subscriber.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simB0.topicCallback(string payload)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>payload</strong> (string): raw payload</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:serviceCallback" id="scriptfun:serviceCallback"></a>serviceCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback for a service server.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string payload=simB0.serviceCallback(string payload)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>payload</strong> (string): raw request payload</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>payload</strong> (string): raw response payload</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr></table></div></body>
+</html>

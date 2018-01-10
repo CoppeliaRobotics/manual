@@ -8329,6 +8329,65 @@ Lua return values
 <br>
 <br>
 <br>
+<h3 class=subsectionBar><a name="simGetModuleInfo" id="simGetModuleInfo"></a>simGetModuleInfo / sim.getModuleInfo</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Returns auxiliary information about a loaded plugin. See also <a href="#simSetModuleInfo">simSetModuleInfo</a> and <a href="#simGetModuleName">sim.getModuleName</a>.
+</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simGetModuleInfo(const simChar* moduleName,simInt infoType,simChar** stringInfo,simInt* intInfo)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>moduleName</strong>: the name of the plugin. See <a href="#simGetModuleName">sim.getModuleName</a>.</div>
+<div><strong>infoType</strong>: the type of information to retrieve:</div>
+<div class=tab>0: <em>extended version string</em></div>
+<div class=tab>1: <em>build date string</em></div>
+<div class=tab>2: <em>extended version integer</em></div>
+<div><strong>stringInfo</strong>: a pointer to a string information, in case the information type is for a string. The user is in charge of releasing the string buffer with <a href="#simReleaseBuffer">sim.releaseBuffer</a></div>
+<div><strong>intInfo</strong>: a pointer to an integer information, in case the information type is for an integer.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 in case of an error</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>string/number info=sim.getModuleInfo(string moduleName,number infoType)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div>Similar to the C-function</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>Similar to the C-function</div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
 <h3 class=subsectionBar><a name="simGetModuleName" id="simGetModuleName"></a>simGetModuleName / sim.getModuleName </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
@@ -16575,25 +16634,27 @@ C synopsis
 <div><strong>initText</strong>: a pointer to the initial text to be displayed.</div>
 <div><strong>xml</strong>: a pointer to an XML description of the text editor's properties. Can be NULL for default properties. Following is a valid content:</div><br>
 
-<pre>&lt;editor title=&quot;Window title&quot; editable=&quot;true&quot; searchable=&quot;true&quot;
-        tabWidth=&quot;4&quot; textColor=&quot;50 50 50&quot; backgroundColor=&quot;190 190 190&quot;
-        selectionColor=&quot;128 128 255&quot; size=&quot;800 600&quot; position=&quot;100 100&quot; &gt;
+<pre class=lightRedBoxNoMarginAndSmall>&lt;editor title=&quot;Window title&quot; editable=&quot;true&quot; searchable=&quot;true&quot;
+  tabWidth=&quot;4&quot; textColor=&quot;50 50 50&quot; backgroundColor=&quot;190 190 190&quot;
+  selectionColor=&quot;128 128 255&quot; size=&quot;800 600&quot; position=&quot;100 100&quot; &gt;
 
-    &lt;keywords1 color=&quot;152 0 0&quot; &gt;
-        &lt;item word=&quot;simGetObjectHandle&quot; autocomplete=&quot;true&quot;
-              calltip=&quot;number handle=simGetObjectHandle(number objectName)&quot; /&gt;
-        &lt;item word=&quot;simGetObjectPosition&quot; autocomplete=&quot;true&quot;
-              calltip=&quot;table_3 pos=simGetObjectPosition(number handle,number relHandle)&quot; /&gt;
-    &lt;/keywords1&gt;
-    &lt;keywords2 color=&quot;220 80 20&quot; &gt;
-        &lt;item word=&quot;simGetObjectOrientation&quot; autocomplete=&quot;true&quot;
-              calltip=&quot;table_3 euler=simGetObjectOrientation(number handle,number relHandle)&quot; /&gt;
-    &lt;/keywords2&gt;
+  &lt;keywords1 color=&quot;152 0 0&quot; &gt;
+    &lt;item word=&quot;simGetObjectHandle&quot; autocomplete=&quot;true&quot;
+      calltip=&quot;number handle=simGetObjectHandle(number objectName)&quot; /&gt;
+    &lt;item word=&quot;simGetObjectPosition&quot; autocomplete=&quot;true&quot;
+      calltip=&quot;table_3 pos=simGetObjectPosition(number handle,
+        number relHandle)&quot; /&gt;
+  &lt;/keywords1&gt;
+  &lt;keywords2 color=&quot;220 80 20&quot; &gt;
+    &lt;item word=&quot;simGetObjectOrientation&quot; autocomplete=&quot;true&quot;
+      calltip=&quot;table_3 euler=simGetObjectOrientation(number handle,
+        number relHandle)&quot; /&gt;
+  &lt;/keywords2&gt;
 &lt;/editor&gt;</pre>
 
 Other <em>editor</em> attributes with their default values are:
 
-<pre>isLua=&quot;false&quot;
+<pre class=lightRedBoxNoMarginAndSmall>isLua=&quot;false&quot;
 useVrepKeywords=&quot;false&quot;
 commentColor=&quot;0 140 0&quot;
 numberColor=&quot;220 0 220&quot;
@@ -19081,7 +19142,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>functNameAtPluginName</strong>: name of the function, combined with the plugin name: functionName@pluginName. Avoid using too simple function names, otherwise they might clash with other plugins. Also, always use the <em>simExt</em> prefix (e.g. <em>simExtMyCustomFunction</em>) for the function name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>v_repExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).<br>
+<div><strong>functNameAtPluginName</strong>: name of the function, combined with the plugin name: functionName@pluginName. Avoid using too simple function names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomFunction</em>) for the function name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>v_repExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).<br>
 </div>
 <div><strong>callTips</strong>: call tips: string (or several strings separated by '@') that indicates the input/output argument type/size. Call tips appear in the script editor when the function was typed followed by &quot;(&quot;. callTips Can be NULL, in which case no call tips will be displayed, nor syntax highlighting used.<br>
 </div>
@@ -22977,6 +23038,65 @@ Lua return values
 <td class=apiTableRightLRet>
 <div>Same as C-function<br>
 </div></td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simSetModuleInfo" id="simSetModuleInfo"></a>simSetModuleInfo</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Attaches additional information to a loaded plugin. See also <a href="#simGetModuleInfo">sim.getModuleInfo</a>.
+</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simSetModuleInfo(const simChar* moduleName,simInt infoType,const simChar* stringInfo,simInt intInfo)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>moduleName</strong>: the name of the plugin.</div>
+<div><strong>infoType</strong>: the type of information to set:</div>
+<div class=tab>0: <em>extended version string</em></div>
+<div class=tab>1: <em>build date string</em></div>
+<div class=tab>2: <em>extended version integer</em></div>
+<div><strong>stringInfo</strong>: a string information value, in case the information type is for a string.</div>
+<div><strong>intInfo</strong>: an integer information value, in case the information type is for an integer.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 in case of an error</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>-</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>-</div>
+</td> 
 </tr> 
 </table> 
 <br>

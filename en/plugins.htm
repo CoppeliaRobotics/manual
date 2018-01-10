@@ -53,7 +53,7 @@ register custom script functions (if required).
 <li>
 register custom script variables (if required) .
 </li>
-<li>return the version number of this plugin if initialization was successful, otherwise 0. If 0 is returned, the plugin is unloaded and won't be operational.<br>
+<li>return the version number of this plugin if initialization was successful, otherwise 0. If 0 is returned, the plugin is unloaded and won't be operational. Due to backward compatibility, the version number is limited to values between 1 and 255. To overcome this limitation, one can additionaly also use following API functions: <a href="regularApi/simSetModuleInfo.htm">simSetModuleInfo</a> / <a href="regularApi/simGetModuleInfo.htm">simGetModuleInfo</a>.<br>
 </li>
 <br>
 <br>
@@ -92,10 +92,10 @@ register custom script variables (if required) .
 <p>Refer to the messages of type <em><a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_</a></em> for more details. When writing plugins several additional points have to be observed or taken into account:
 </p>
 
-<li>Plugins have to be put into the same directory as the <a href="mainClientApplication.htm">main client application</a> and respect following naming: &quot;v_repExtXXXX.dll&quot; (Windows), &quot;libv_repExtXXXX.dylib&quot; (Mac OSX), &quot;libv_repExtXXXX.so&quot; (Linux), where &quot;XXXX&quot; is the name of the plugin. Use at least 4 characters and don't use underscores (except the one in second position obviously) since the plugin would be ignored (however you should use underscores when your plugin itself loads some additional libraries (e.g. language resources like &quot;v_repExtXXXX_de.dll&quot;, etc.)).<br>
+<li>Plugins have to be put into the same directory as the <a href="mainClientApplication.htm">main client application</a> and respect following naming: <em>v_repExtXXXX.dll</em> (Windows), <em>libv_repExtXXXX.dylib</em> (Mac OSX), <em>libv_repExtXXXX.so</em> (Linux), where <em>XXXX</em> is the name of the plugin. Use at least 4 characters and don't use underscores (except the one in second position obviously) since the plugin would be ignored (however you should use underscores when your plugin itself loads some additional libraries (e.g. language resources like <em>v_repExtXXXX_de.dll</em>, etc.)).<br>
 </li>
 
-<li>When registering customized script functions or script variables, try using a prefix and stick to it for all functions and variables that the module registers (e.g. &quot;simExtLab_testMemory&quot;, &quot;simExt_lab_error_value&quot;, etc.). Avoid using the same prefix as V-REP's functions (&quot;sim&quot;). It is recommended that you use the &quot;simExtXXXX_&quot; prefix.<br>
+<li>When registering customized script functions or script variables, use a prefix and stick to it for all functions and variables that the module registers (e.g. <em>simLab.testMemory()</em>, <em>simLab.errorValue</em>, etc.).<br>
 </li>
 
 <li> Threads created in the plugin should be used very carefully, and should never call any simulator command (use them for background calculations or communication with hardware).
@@ -103,8 +103,8 @@ register custom script variables (if required) .
 
 <p>You are free to compile your plugin with whatever compiler you wish. If, however, you wish to write a Qt plugin (i.e. a plugin using the Qt framework) you should remember following:</p>
 
-<li>You are required to compile the plugin with the exact same Qt version as the one used to compile V-REP. Have a look at the V-REP [Help --&gt; About] menu bar item for details about Qt version</li>
-<li>You should compile the plugin with the same compiler as  V-REP (MinGW on Windows, and GCC on Mac OSX and Linux)</li>
+<li>You are required to compile the plugin with the  same Qt version as the one used to compile V-REP. Have a look at the V-REP [Help --&gt; About] menu bar item for details about Qt version</li>
+<li>You should compile the plugin with the same compiler as  V-REP</li>
 
 <p>
 For more information on plugins, refer to following  repositories:

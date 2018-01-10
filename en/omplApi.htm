@@ -26,7 +26,7 @@
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>state</strong> (table of float): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
 </td>
@@ -52,11 +52,11 @@
                                                 </td>
 <td class="apiTableRightDescr">Use OMPL to find a solution for this motion planning task. It is equivalent to executing:
             
-            simExtOMPL_setup(task)
-            if simExtOMPL_solve(task, maxTime) then
-            simExtOMPL_simplifyPath(task, maxSimplificationTime)
-            simExtOMPL_interpolatePath(task, stateCnt)
-            path = simExtOMPL_getPath(task)
+            simOMPL.setup(task)
+            if simOMPL.solve(task, maxTime) then
+            simOMPL.simplifyPath(task, maxSimplificationTime)
+            simOMPL.interpolatePath(task, stateCnt)
+            path = simOMPL.getPath(task)
             end
         </td>
 </tr>
@@ -69,7 +69,7 @@
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>maxTime</strong> (float): maximum time used for the path searching procedure, in seconds.</div>
 <div>
@@ -115,9 +115,9 @@
 <div>
 <strong>name</strong> (string): a name for this state space</div>
 <div>
-<strong>type</strong> (int): type of this state space component (must be one of sim_ompl_statespacetype_position2d, sim_ompl_statespacetype_pose2d, sim_ompl_statespacetype_position3d, sim_ompl_statespacetype_pose3d, sim_ompl_statespacetype_joint_position, sim_ompl_statespacetype_dubins)</div>
+<strong>type</strong> (int): type of this state space component (must be one of simOMPL.statespacetype.position2d, simOMPL.statespacetype.pose2d, simOMPL.statespacetype.position3d, simOMPL.statespacetype.pose3d, simOMPL.statespacetype.joint.position, simOMPL.statespacetype.dubins)</div>
 <div>
-<strong>objectHandle</strong> (int): the object handle (a joint object if type is sim_ompl_statespacetype_joint_position, otherwise a shape)</div>
+<strong>objectHandle</strong> (int): the object handle (a joint object if type is simOMPL.statespacetype.joint.position, otherwise a shape)</div>
 <div>
 <strong>boundsLow</strong> (table of float): lower bounds (if type is pose, specify only the 3 position components)</div>
 <div>
@@ -227,7 +227,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam"><div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div></td>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -258,7 +258,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam"><div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask.</div></td>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask.</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -293,7 +293,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam"><div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div></td>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -329,7 +329,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>stateCnt</strong> (int, default: 0): (optional) minimum number of states to be returned. 0 for a default behaviour.</div>
 </td>
@@ -364,7 +364,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>state</strong> (table of float): state vector</div>
 </td>
@@ -398,7 +398,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam"><div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div></td>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -429,7 +429,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam"><div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div></td>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -465,9 +465,9 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
-<strong>algorithm</strong> (int): one of sim_ompl_algorithm_BiTRRT, sim_ompl_algorithm_BITstar, sim_ompl_algorithm_BKPIECE1, sim_ompl_algorithm_CForest, sim_ompl_algorithm_EST, sim_ompl_algorithm_FMT, sim_ompl_algorithm_KPIECE1, sim_ompl_algorithm_LazyPRM, sim_ompl_algorithm_LazyPRMstar, sim_ompl_algorithm_LazyRRT, sim_ompl_algorithm_LBKPIECE1, sim_ompl_algorithm_LBTRRT, sim_ompl_algorithm_PDST, sim_ompl_algorithm_PRM, sim_ompl_algorithm_PRMstar, sim_ompl_algorithm_pRRT, sim_ompl_algorithm_pSBL, sim_ompl_algorithm_RRT, sim_ompl_algorithm_RRTConnect, sim_ompl_algorithm_RRTstar, sim_ompl_algorithm_SBL, sim_ompl_algorithm_SPARS, sim_ompl_algorithm_SPARStwo, sim_ompl_algorithm_STRIDE, sim_ompl_algorithm_TRRT</div>
+<strong>algorithm</strong> (int): one of simOMPL.algorithm.BiTRRT, simOMPL.algorithm.BITstar, simOMPL.algorithm.BKPIECE1, simOMPL.algorithm.CForest, simOMPL.algorithm.EST, simOMPL.algorithm.FMT, simOMPL.algorithm.KPIECE1, simOMPL.algorithm.LazyPRM, simOMPL.algorithm.LazyPRMstar, simOMPL.algorithm.LazyRRT, simOMPL.algorithm.LBKPIECE1, simOMPL.algorithm.LBTRRT, simOMPL.algorithm.PDST, simOMPL.algorithm.PRM, simOMPL.algorithm.PRMstar, simOMPL.algorithm.pRRT, simOMPL.algorithm.pSBL, simOMPL.algorithm.RRT, simOMPL.algorithm.RRTConnect, simOMPL.algorithm.RRTstar, simOMPL.algorithm.SBL, simOMPL.algorithm.SPARS, simOMPL.algorithm.SPARStwo, simOMPL.algorithm.STRIDE, simOMPL.algorithm.TRRT</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -500,7 +500,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>collisionPairHandles</strong> (table of int): a table containing 2 entity handles for each collision pair. A collision pair is represented by a collider and a collidee, that will be tested against each other. The first pair could be used for robot self-collision testing, and a second pair could be used for robot-environment collision testing. The collider can be an object or a collection handle. The collidee can be an object or collection handle, or sim_handle_all, in which case the collider will be checked agains all other collidable objects in the scene.</div>
 </td>
@@ -571,7 +571,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>robotDummy</strong> (int): a dummy attached to the robot</div>
 <div>
@@ -614,7 +614,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>callback</strong> (string): name of the Lua callback</div>
 </td>
@@ -649,7 +649,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>state</strong> (table of float): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
 </td>
@@ -684,7 +684,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>callback</strong> (string): name of the Lua callback</div>
 <div>
@@ -721,7 +721,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>state</strong> (table of float): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
 </td>
@@ -756,9 +756,9 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
-<strong>stateSpaceHandles</strong> (table of int): a table of handles to state space components, created with simExtOMPL_createStateSpace</div>
+<strong>stateSpaceHandles</strong> (table of int): a table of handles to state space components, created with simOMPL.createStateSpace</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -791,7 +791,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>callback</strong> (string): name of the Lua callback</div>
 </td>
@@ -826,7 +826,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>resolution</strong> (float): resolution of state validity checking, expressed as fraction of state space's extent</div>
 </td>
@@ -861,7 +861,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>callback</strong> (string): the name of the Lua callback for sampling a state</div>
 <div>
@@ -898,7 +898,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>verboseLevel</strong> (int): level of verbosity (positive integer), 0 to suppress any message</div>
 </td>
@@ -932,7 +932,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam"><div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div></td>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -964,7 +964,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>maxSimplificationTime</strong> (float, default: -1.0): (optional) maximum time used for the path simplification procedure, in seconds. -1 for a default simplification procedure.</div>
 </td>
@@ -999,7 +999,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>maxTime</strong> (float): maximum time used for the path searching procedure, in seconds.</div>
 </td>
@@ -1034,7 +1034,7 @@ various Lua callbacks (projection evaluation, state validation, goal satisfactio
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>taskHandle</strong> (int): a handle to a task object created with simExtOMPL_createTask</div>
+<strong>taskHandle</strong> (int): a handle to a task object created with simOMPL.createTask</div>
 <div>
 <strong>state</strong> (table of float): state vector</div>
 </td>
