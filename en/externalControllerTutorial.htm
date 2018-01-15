@@ -31,19 +31,22 @@
 <li>A forth way to control a robot or a simulation is via a <a href="http://www.ros.org">ROS</a> node. In a similar way as the <a href="remoteApiOverview.htm">remote API</a>, ROS is a convenient way to have several distributed processes communicate with each other. While the remote API is very lightweight and fast, it allows only communication with V-REP. ROS on the other hand allows connecting virtually any number of processes with each other, and a large amount of compatible libraries are available. It is however heavier and more complicated than the remote API. Refer to the <a href="rosInterfaces.htm">ROS interfaces</a> for details.</li>
 <br>
 
+<li>A fifth way to control a robot or a simulation is via a <a href="https://github.com/blueworkforce/bluezero">BlueZero</a> (BØ) node. In a similar way as  ROS, BlueZero is a convenient way to have several distributed processes communicate with each other, and is a lightweight and cross-platform solution. Refer to the <a href="blueZeroPlugin.htm">BlueZero interface</a> for details.</li>
+<br>
 
-<li>A fifth way to control a robot or a simulation is by writing an external application that communicates via various means (e.g. pipes, sockets, serial port, etc.) with a V-REP plugin or V-REP script. Two major advantages are the choice of programming language, which can be just any language, and the flexibility. Here also, the control code can run on a robot, or a different computer. This way of controlling a simulation or a model is however more tedious that the method with the <a href="remoteApiOverview.htm">remote API</a>.</li>
+
+<li>A sixth way to control a robot or a simulation is by writing an external application that communicates via various means (e.g. pipes, sockets, serial port, etc.) with a V-REP plugin or V-REP script. Two major advantages are the choice of programming language, which can be just any language, and the flexibility. Here also, the control code can run on a robot, or a different computer. This way of controlling a simulation or a model is however more tedious that the method with the <a href="remoteApiOverview.htm">remote API</a>.</li>
 <br>
 
 
 
-<p>The V-REP scene file related to this tutorial is &quot;controlTypeExamples.ttt&quot; located in V-REP's &quot;scenes&quot; folder. Open the scene and run the simulation:<br>
+<p>The V-REP scene file related to this tutorial is <em>controlTypeExamples.ttt</em> located in V-REP's <em>scenes</em> folder. Open the scene and run the simulation:<br>
 </p>
 
 <p align=center><img src="images/externalControllerTut1.jpg"></p>
 <br>
 
-<p>The simulation illustrates the 5 control types previously mentioned: the orange robot is controlled by  an embedded child script, the blue robot is controlled by a plugin, the purple robot is controlled via the remote API and an external client application, the red robots are controlled via 2 external ROS applications,  and the green robot is controlled by an external server application via a custom socket communication. In all 5 cases, <a href="childScripts.htm">child scripts</a> are used, mainly to make the link with the outside world (e.g. launch the correct client application, and pass the correct object handles to it). There are two other ways one can control a robot, a simulation, or the simulator itself: by using <a href="customizationScripts.htm">customization scripts</a>, or <a href="addOns.htm">add-ons</a>. They are however not recommended for control and should be rather used to handle functionality while simulation is not running.</p>
+<p>The simulation illustrates the 6 control types previously mentioned: the orange robot is controlled by  an embedded child script, the dark-blue robot is controlled by a plugin, the purple robot is controlled via the remote API and an external client application, the red robot is controlled via an external ROS application, the light-blue robot is controlled via an external BlueZero application,  and the green robot is controlled by an external server application via a custom socket communication. In all 6 cases, <a href="childScripts.htm">child scripts</a> are used, mainly to make the link with the outside world (e.g. launch the correct client application, and pass the correct object handles to it). There are two other ways one can control a robot, a simulation, or the simulator itself: by using <a href="customizationScripts.htm">customization scripts</a>, or <a href="addOns.htm">add-ons</a>. They are however not recommended for control and should be rather used to handle functionality while simulation is not running.</p>
 
 <p>As an example, the child script linked to the purple robot has following main tasks:</p>
 <li>Search for a free socket connection port</li>
@@ -63,7 +66,7 @@
 <li>At each simulation pass, send the sensor values to the controller, and read the desired motor values from the controller</li>
 <li>At each simulation pass, apply the desired motor values to the robot's joints</li>
 
-<p>Run the simulation, and copy-and-paste all robots: you will see that the duplicated robots will directly be operational, since their attached child scripts are in charge of launching new instances of <em>bubbleRobClient</em>, <em>rosBubbleRob2</em>, <em>bubbleRobServer</em>, or calling the appropriate plugin Lua extension function.</p>
+<p>Run the simulation, and copy-and-paste all robots: you will see that the duplicated robots will directly be operational, since their attached child scripts are in charge of launching new instances of <em>bubbleRobClient</em>, <em>rosBubbleRob2</em>, <em>bubbleRobServer, b0_bubbleRob</em>, or calling the appropriate plugin Lua extension function.</p>
 
 <p>Finally, notice that the green robot is controlled via <em>bubbleRobServer</em>, but that its child script acts as client that communicates with the server. You could also imagine having the client part not inside of a child script, but inside of a plugin. Such an example is illustrated in the <a href="robotLanguageIntegrationTutorial.htm">robot language interpreter integration tutorial</a>. </p>
 
