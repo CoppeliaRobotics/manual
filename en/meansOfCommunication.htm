@@ -22,15 +22,6 @@
 <p>Make sure you understand the <a href="writingCode.htm">overall structure of the simulator</a>, and its <a href="apisOverview.htm">API framework</a> before going ahead reading this section.<br>
 </p>
 
-<p>V-REP's API supports following communication mechanisms <strong>to exchange random data</strong> between two entities:<br>
-</p>
-
-<p align=center><img src="images/meansOfComm1.jpg"></p>
-<p class=imageLabel>[V-REP's messaging methods for random data]</p>
-<br>
-
-<p>Above's communication mechanisms, together with some alternative communication mechanisms (i.e. those that are not directly part of V-REP's API) are described hereafter:<br>
-</p>
 <br>
 
 
@@ -39,18 +30,156 @@
 </td></tr></table> 
 
 
-<p><a href="apiFunctionListCategory.htm#signals">Signals</a> can be seen as global variables. Three types of signals are currently supported: integer-type signals, floating-type signals and string-type signals. Signals can be defined, redefined, read and cleared. At <a href="simulation.htm">simulation</a> end, all signals created by the <a href="mainScript.htm">main script</a> or any <a href="childScripts.htm">child script</a> will be cleared.</p>
+<p><a href="apiFunctionListCategory.htm#signals">Signals</a> can be seen as global variables. Three types of signals are currently supported: integer-type signals, floating-type signals and string-type signals. Signals can be defined, redefined, read and cleared. At <a href="simulation.htm">simulation</a> end, all signals created by the <a href="mainScript.htm">main script</a> or any <a href="childScripts.htm">child script</a> will be cleared. For example:</p>
+
+<pre class=lightRedBox>
+-- script 1 writes the data to string signal &quot;mySignalName&quot;:
+
+local myData={1,2,{&quot;Hello&quot;,&quot;world&quot;,true,{value1=63,value2=&quot;aString&quot;}}}
+sim.setStringSignal(&quot;mySignalName&quot;,sim.packTable(myData))</pre>
+
+<pre class=lightRedBox>
+-- script 2 reads the data from string signal &quot;mySignalName&quot;:
+
+local myData=sim.getStringSignal(,&quot;mySignalName&quot;)
+if myData then
+    myData=sim.unpackTable(myData)
+end</pre>
+
 <br>
 
-<table class=subsectionTable>
-  <tr class=subsectionTd><td class=subsectionTd>
-<a name="tubes"></a><a href="apiFunctionListCategory.htm#TubeCommunicationFunctionality">Tubes</a>
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="customDataBlocks"></a><a href="apiFunctionListCategory.htm#customDataBlocks">Custom data blocks</a>
 </td></tr></table> 
 
 
-<p><a href="apiFunctionListCategory.htm#TubeCommunicationFunctionality">Tubes</a> are bidirectional communication lines similar to pipes. The <em>tube</em> denomination was selected in order to avoid confusion with pipes, since tubes cannot be used to communicate with the outside world. Tubes are a very convenient and easy means to connecting two entities and exchanging information in a sequential way. They are often used between a <a href="childScripts.htm">child script</a> and a server-like threaded communication child script (e.g. where the latter could handle socket or serial port communication).<br>
+<p>Custom data blocks is data that can be stored inside of an object, or inside of a scene. It can be used to store custom data to be saved together with a model or scene, but also as a means of communication. For example:</p>
+
+<pre class=lightRedBox>
+-- script 1 writes the data to the scene:
+
+local myData={1,2,{&quot;Hello&quot;,&quot;world&quot;,true,{value1=63,value2=&quot;aString&quot;}}}
+sim.writeCustomDataBlock(sim.handle_scene,&quot;myTag&quot;,sim.packTable(myData))</pre>
+
+<pre class=lightRedBox>
+-- script 2 reads the data from the scene:
+
+local myData=sim.readCustomDataBlock(sim.handle_scene,&quot;myTag&quot;)
+if myData then
+    myData=sim.unpackTable(myData)
+end</pre>
+
+
+<br>
+
+
+
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="ROS"></a><a href="rosInterfaces.htm">ROS</a>
+</td></tr></table> 
+
+
+<p>For example:</p>
+
+<pre class=lightRedBox>-- script subscribes to a topic carrying an image:
+
+function sysCall_init()
+    sub=simROS.subscribe('/image', 'sensor_msgs/Image', 'imageMessage_callback')
+    simROS.subscriberTreatUInt8ArrayAsString(sub)
+end
+
+function imageMessage_callback(msg)
+    -- here we have:
+    -- msg.data
+    -- msg.height
+    -- msg.width
+    -- etc.
+end</pre>
+
+<br>
+
+
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="blueZero"></a><a href="blueZeroPlugin.htm">BlueZero</a>
+</td></tr></table> 
+
+
+<p>For example:</p>
+
+<pre class=lightRedBox>-- script subscribes to a topic carrying an image:
+
+function sysCall_init()
+    b0Node=simB0.create('b0Node')
+    sub=simB0.createSubscriber(b0Node,'image','imageMessage_callback')
+    simB0.init(b0Node)
+end
+
+function sysCall_sensing()
+    simB0.spinOnce(b0Node)
+end
+
+function imageMessage_callback(msg)
+    -- msg is a raw buffer. 
+    -- If the image data was encoded in base64, we could have:
+    msg=sim.transformBuffer(msg,sim.buffer_base64,1,0,sim.buffer_uint8)
+end</pre>
+
+<br>
+
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="remoteApi"></a><a href="remoteApiOverview.htm">Remote API</a></td></tr></table> 
+
+<p>For example, from a Python client:</p>
+
+<pre class=lightPurpleBox># Receiving and image from V-REP and sending it back:
+
+import vrep
+clientID=vrep.simxStart('127.0.0.1',19999,True,True,5000,5)
+if clientID!=-1:
+    res,v0=vrep.simxGetObjectHandle(clientID,'Vision_sensor',vrep.simx_opmode_oneshot_wait)
+    res,v1=vrep.simxGetObjectHandle(clientID,'PassiveVision_sensor',vrep.simx_opmode_oneshot_wait)
+
+    res,resolution,image=vrep.simxGetVisionSensorImage(clientID,v0,0,vrep.simx_opmode_streaming)
+    while (vrep.simxGetConnectionId(clientID)!=-1):
+        res,resolution,image=vrep.simxGetVisionSensorImage(clientID,v0,0,vrep.simx_opmode_buffer)
+        if res==vrep.simx_return_ok:
+            res=vrep.simxSetVisionSensorImage(clientID,v1,image,0,vrep.simx_opmode_oneshot)
+    vrep.simxFinish(clientID)</pre>
+
+<br>
+
+
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="persistentData"></a><a href="apiFunctionListCategory.htm#persistentData">Persistent Data</a>
+</td></tr></table> 
+
+
+<p><a href="apiFunctionListCategory.htm#persistentData">Persistent data blocks</a> can be seen as persistent global buffers. Persistent data blocks can be defined, redefined, read and cleared, and are shared across all opened scenes. They persist until the simulator ends, but can also persist on file and automatically be reloaded next time V-REP starts.</p>
+<br>
+
+
+
+
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="customLuaFunctions"></a><a href="apiFunctionListCategory.htm#customizingLuaFunctions">Custom Lua functions</a>
+</td></tr></table> 
+
+
+<p>The <a href="mainClientApplication.htm">main client application</a> or any <a href="plugins.htm">plugin</a> can register custom Lua functions via the <a href="apiFunctionListCategory.htm#customizingLuaFunctions">Lua customization API commands</a>. The custom Lua commands will then, when called from a <a href="scripts.htm">script</a>, call back a registered function in the main client application or a plugin. This is very convenient to achieve high level Lua commands (e.g. one could imagine having a plugin handle a robot's movement with a single Lua command <em>simRobot.moveAndAvoidObstacles</em>() !)<br>
 </p>
 <br>
+
+
+
+
+
+
+
+
 
 <table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
 <a name="wireless"></a><a href="apiFunctionListCategory.htm#wirelessFunctionality">Wireless communication simulation</a>
@@ -65,34 +194,6 @@
 <p class=imageLabel>[Wireless communication simulation between two mobile robots]</p>
 <br>
 
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="persistentData"></a><a href="apiFunctionListCategory.htm#persistentData">Persistent Data</a>
-</td></tr></table> 
-
-
-<p><a href="apiFunctionListCategory.htm#persistentData">Persistent data blocks</a> can be seen as persistent global buffers. Persistent data blocks can be defined, redefined, read and cleared, and are shared across all opened scenes. They persist until the simulator ends, but can also persist on file and automatically be reloaded next time V-REP starts.</p>
-<br>
-
-
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="scriptSimulationParameters"></a><a href="scriptSimulationParameters.htm">Script simulation parameters</a>
-</td></tr></table> 
-
-
-<p><a href="childScripts.htm">Child scripts</a> can read and write data to their own, or other's script simulation parameters. Refer to the <a href="scriptSimulationParameters.htm">script simulation parameters dialog</a> and to the <a href="apiFunctionListCategory.htm#scriptSimulationParameters">related functions</a> in the API for more information.<br>
-</p>
-<br>
-
-
-
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="customLuaFunctions"></a><a href="apiFunctionListCategory.htm#customizingLuaFunctions">Custom Lua functions</a>
-</td></tr></table> 
-
-
-<p>The <a href="mainClientApplication.htm">main client application</a> or any <a href="plugins.htm">plugin</a> can register custom Lua functions via the <a href="apiFunctionListCategory.htm#customizingLuaFunctions">Lua customization API commands</a>. The custom Lua commands will then, when called from a <a href="scripts.htm">script</a>, call back a registered function in the main client application or a plugin. This is very convenient to achieve high level Lua commands (e.g. one could imagine having a plugin handle a robot's movement with a single Lua command <em>simRobot.moveAndAvoidObstacles</em>() !)<br>
-</p>
-<br>
 
 
 <table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
@@ -186,23 +287,6 @@ end</pre>
 <br>
 
 
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="customCommunication"></a>Custom communication
-</td></tr></table> 
-
-
-<p>The user is free to implement any type of custom communication (e.g. sockets, pipes, etc.) with the outside world from the <a href="mainClientApplication.htm">main client application</a> or a <a href="plugins.htm">plugin</a>. Best is to create a communication thread that handles exclusively the communication. Make sure that the communication thread doesn't call any V-REP API commands, since that would lead to a crash. For  examples, refer to the <a href="robotLanguageIntegrationTutorial.htm">Robot language interpreter integration tutorial</a>, or the <a href="https://github.com/CoppeliaRobotics/remoteApi">remote API source code</a>.<br>
-</p>
-<br>
-
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="simBroadcastMessage"></a><a href="regularApi/simBroadcastMessage.htm">simBroadcastMessage call</a>
-</td></tr></table> 
-
-
-<p>The best way to achieve communication between two or more <a href="plugins.htm">plugins</a> is by using the <a href="regularApi/simBroadcastMessage.htm">simBroadcastMessage</a> API function.<br>
-</p>
-<br>
 
 
 <table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
@@ -253,6 +337,7 @@ end</pre>
 <li><a href="apiOverview.htm">Regular API</a></li>
 <li><a href="remoteApiOverview.htm">Remote API</a></li>
 <li><a href="rosInterfaces.htm">ROS interfaces</a></li>
+<li><a href="blueZeroPlugin.htm">BlueZero interface</a></li>
 <br>
 <br>
  </tr>
