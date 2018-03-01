@@ -22,7 +22,7 @@
 <p>Instead of extending the functions that the remote API offers, one can  use the generic remote API function <a href="remoteApiFunctions.htm#simxCallScriptFunction">simxCallScriptFunction</a>: this will call a V-REP script function, which can then execute any type of operation locally, then return data. The called script function should always have following input/output form:</p>
 
 <pre class=lightRedBox>
-myFunctionName=function(inInts,inFloats,inStrings,inBuffer)
+function myFunctionName(inInts,inFloats,inStrings,inBuffer)
 	-- inInts, inFloats and inStrings are tables
 	-- inBuffer is a string
     
@@ -52,6 +52,8 @@ if res==vrep.simx_return_ok:
     print (retBuffer)</pre>
 
 <br>
+
+<p>Make sure that the script, where you are trying to call a function, is initialized: trying to call a function in a <a href="simulationScripts.htm">simulation script</a>, while simulation is not running will not work. Similarly, trying to call a function in a <a href="childScripts.htm#threaded">threaded child script</a> that has already ended will not work.</p>
 
 <p>For other usage examples, refer to the various files named <em>complexCommandTest.*</em> in folder <em>programming/remoteApiBindings</em>.</p>
 
