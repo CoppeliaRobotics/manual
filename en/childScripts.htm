@@ -48,7 +48,7 @@
 </td></tr></table> 
 
 
-<p>Non-threaded child scripts contain a collection of blocking functions. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole <a href="simulation.htm">simulation</a> halts. Non-threaded child script functions are called by the <a href="mainScript.htm">main script</a> twice per simulation step from the main script's actuation and sensing functions. The system will also call child scripts when appropriate (e.g. during child script initialization, clean-up, or when a <a href="jointCallbackFunctions.htm">joint callback function</a> or <a href="contactCallbackFunction.htm">contact callback function</a> is defined). This type of child script should always be chosen over <a href="#threaded">threaded child scripts</a> whenever possible.</p>
+<p>Non-threaded child scripts contain a collection of blocking functions. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole <a href="simulation.htm">simulation</a> halts. Non-threaded child script functions are called by the <a href="mainScript.htm">main script</a> twice per simulation step from the main script's actuation and sensing functions. The system will also call child scripts when appropriate (e.g. during child script initialization, clean-up, or when a <a href="callbackFunctions.htm">callback function</a> is triggered). This type of child script should always be chosen over <a href="#threaded">threaded child scripts</a> whenever possible.</p>
 <p>Non-threaded child scripts are called in a cascaded way: child scripts are called starting with root objects (or parentless objects), and ending with leaf objects (or childless objects). The command <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, called from the default <a href="mainScript.htm">main script</a>, handles the calling of non-threaded child scripts.</p>
 <p>Imagine an example of a simulation model representing an automatic door: a proximity sensor in the front and the back allows detecting an approaching person. When the person is close enough, the door opens automatically. Following code shows a typical non-threaded child script  illustrating above example:<br>
 </p>
@@ -77,6 +77,10 @@ end
 
 function <strong>sysCall_cleanup</strong>()
     -- Put some restoration code here
+end
+
+function <strong>sysCall_dynCallback</strong>(inData)
+    -- See the dynamics callback function section in the user manual for details about the input argument
 end
 
 function <strong>sysCall_jointCallback</strong>(inData)

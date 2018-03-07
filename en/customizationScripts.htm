@@ -40,7 +40,7 @@
 
 
 
-<p>Customization scripts contain a collection of blocking functions. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole application halts. Customization script functions are called by the system very often, but also by the <a href="mainScript.htm">main script</a>. Special callback functions are also supported by customization scripts:  a <a href="jointCallbackFunctions.htm">joint callback function</a> or a <a href="contactCallbackFunction.htm">contact callback function</a>. </p>
+<p>Customization scripts contain a collection of blocking functions. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole application halts. Customization script functions are called by the system very often, but also by the <a href="mainScript.htm">main script</a>. <a href="callbackFunctions.htm">Callback functions</a> are also supported by customization scripts. </p>
 
 <p>A customization script should be segmented in several functions, as following skeleton script illustrates: </p>
 
@@ -88,6 +88,10 @@ function <strong>sysCall_beforeInstanceSwitch</strong>()
 end
 
 function <strong>sysCall_afterInstanceSwitch</strong>()
+end
+
+function <strong>sysCall_dynCallback</strong>(inData)
+    -- See the dynamics callback function section in the user manual for details about the input argument
 end
 
 function <strong>sysCall_jointCallback</strong>(inData)
