@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows specifying when and in which order child script threads are resumed. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, V-REP doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. Once a thread switched to another thread, it will resume execution when the <a href="../mainScript.htm">main script</a> calls <a href="simResumeThreads.htm">sim.resumeThreads</a> with the corresponding argument, which represents a <a href="../apiConstants.htm#threadResumeLocations">child script thread resume location</a>. In order to also have full synchronization control between threads, you can assign a resume location and order to each thread with this function. See also <a href="simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a>, <a href="simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>, <a href="simSwitchThread.htm">sim.switchThread</a> and <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a>.</td>
+<td class=apiTableRightDescr>Allows specifying when and in which order child script threads are resumed. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, V-REP doesn't use <em>regular</em> threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. Once a thread switched to another thread, it will resume execution when the <a href="../mainScript.htm">main script</a> calls <a href="simResumeThreads.htm">sim.resumeThreads</a> with the corresponding argument, which represents a <a href="../apiConstants.htm#threadResumeLocations">child script thread resume location</a>. In order to also have full synchronization control between threads, you can assign a resume location and order to each thread with this function. See also <a href="simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a>, <a href="simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>, <a href="simSwitchThread.htm">sim.switchThread</a> and <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -48,13 +48,13 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result=sim.setThreadResumeLocation(number location,number order)<br></td> 
+<td class=apiTableRightLSyn>number result=sim.setThreadResumeLocation(number location,number priority)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
 <div><strong>location</strong>: a <a href="../apiConstants.htm#threadResumeLocations">child script thread resume location</a>.</div>
-<div><strong>order</strong>: a <a href="../apiConstants.htm#scriptExecutionOrder">script resume or execution order</a>.</div>
+<div><strong>priority</strong>: a <a href="../apiConstants.htm#scriptExecutionOrder">script resume or execution priority</a>.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 

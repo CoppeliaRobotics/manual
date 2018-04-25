@@ -28,10 +28,10 @@
 <li><strong>the initialization function</strong>: <strong>sysCall_init</strong>. This part will be executed one time just at the beginning of a simulation. The code is in charge of preparing a simulation, etc.<br>
 </li>
 
-<li><strong>the actuation function</strong>: <strong>sysCall_actuation</strong>. This part will be executed at each simulation pass. The code is in charge of handling all the actuation functionality of the simulator <a href="inverseKinematicsModule.htm">(inverse kinematics</a>, <a href="dynamicsModule.htm">dynamics</a>, etc.) in a generic way. Two commands are of particular interest: <a href="regularApi/simLaunchThreadedChildScripts.htm">sim.launchThreadedChildScripts</a> and <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>. sim.launchThreadedChildScripts launches <a href="childScripts.htm#threaded">threaded child scripts</a>, while sim.handleChildScripts calls <a href="childScripts.htm#nonThreaded">non-threaded child scripts'</a> <em>sysCall_actuation</em> functions. Without those commands, <a href="childScripts.htm">child scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  The regular part is divided into an actuation (or action/reaction) section and a sensing (or probing) section.<br>
+<li><strong>the actuation function</strong>: <strong>sysCall_actuation</strong>. This part will be executed in each simulation pass. The code is in charge of handling all the actuation functionality of the simulator <a href="inverseKinematicsModule.htm">(inverse kinematics</a>, <a href="dynamicsModule.htm">dynamics</a>, etc.) in a generic way. Three commands are of particular interest: <a href="regularApi/simLaunchThreadedChildScripts.htm">sim.launchThreadedChildScripts</a>, <a href="regularApi/simResumeThreads.htm">sim.resumeThreads</a> and <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>. sim.launchThreadedChildScripts/sim.resumeThreads launches/resumes <a href="childScripts.htm#threaded">threaded child scripts</a>, while sim.handleChildScripts calls <a href="childScripts.htm#nonThreaded">non-threaded child scripts'</a> <em>sysCall_actuation</em> functions. Without those commands, <a href="childScripts.htm">child scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
 </li>
 
-<li><strong>the sensing function</strong>: <strong>sysCall_sensing</strong>. This part will be executed at each simulation pass. The code is in charge of handling all the sensing functionality of the simulator <a href="inverseKinematicsModule.htm">(</a><a href="proximitySensors.htm">proximity sensors</a>, <a href="collisionDetection.htm">collision detection</a>, etc.) in a generic way. One command is of particular interest: <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>,  which will call <a href="childScripts.htm#nonThreaded">non-threaded child scripts'</a> <em>sysCall_sensing</em> functions. Without that command, <a href="childScripts.htm">child scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
+<li><strong>the sensing function</strong>: <strong>sysCall_sensing</strong>. This part will be executed in each simulation pass. The code is in charge of handling all the sensing functionality of the simulator (<a href="proximitySensors.htm">proximity sensors</a>, <a href="collisionDetection.htm">collision detection</a>, etc.) in a generic way. Two commands are of particular interest: <a href="regularApi/simResumeThreads.htm">sim.resumeThreads</a> and <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>.  sim.resumeThreads resumes <a href="childScripts.htm#threaded">threaded child scripts</a>, while sim.handleChildScripts calls <a href="childScripts.htm#nonThreaded">non-threaded child scripts'</a> <em>sysCall_sensing</em> functions. Without those commands, <a href="childScripts.htm">child scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
 </li>
 
 <li><strong>the restoration function</strong>: <strong>sysCall_cleanup</strong>. This part will be executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">object's</a> initial configuration, clearing sensor states, collision states, etc.<br>
@@ -57,6 +57,7 @@ function <strong>sysCall_actuation</strong>()
     sim.handleChildScripts(sim.syscb_actuation)
     sim.resumeThreads(sim.scriptthreadresume_actuation_last)
     sim.handleCustomizationScripts(sim.syscb_actuation)
+    sim.handleAddOnScripts(sim.syscb_actuation)
     sim.handleModule(sim.handle_all,false)
     sim.resumeThreads(2)
     sim.handleMechanism(sim.handle_all_except_explicit)
@@ -76,6 +77,7 @@ function <strong>sysCall_sensing</strong>()
     sim.handleChildScripts(sim.syscb_sensing)
     sim.resumeThreads(sim.scriptthreadresume_sensing_last)
     sim.handleCustomizationScripts(sim.syscb_sensing)
+    sim.handleAddOnScripts(sim.syscb_sensing)
     sim.handleModule(sim.handle_all,true)
     sim.resumeThreads(sim.scriptthreadresume_allnotyetresumed)
     sim.handleGraph(sim.handle_all_except_explicit,sim.getSimulationTime()+sim.getSimulationTimeStep())
@@ -95,11 +97,13 @@ end
 function <strong>sysCall_suspend</strong>()
     sim.handleChildScripts(sim.syscb_suspend)
     sim.handleCustomizationScripts(sim.syscb_suspend)
+    sim.handleAddOnScripts(sim.syscb_suspend)
 end
 
 function <strong>sysCall_resume</strong>()
     sim.handleChildScripts(sim.syscb_resume)
     sim.handleCustomizationScripts(sim.syscb_resume)
+    sim.handleAddOnScripts(sim.syscb_resume)
 end</pre>
 
 <p>The main script is not supposed to be modified. The reason for this is following: one of V-REP's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command sim.handleChildScripts then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality (e.g. if a new V-REP version introduces a neat command sim.doMagic(), then old scenes will automatically be updated to have that command also automatically called in their main script).<br>

@@ -20,7 +20,7 @@
 <p>An add-on in V-REP is quite similar to a <a href="plugins.htm">plugin</a>:
 it is automatically loaded at program start-up, and allows V-REP's
 functionality to be extended by user-written functionality or
-functions. Add-on scripts are written in <a href="http://www.lua.org">Lua</a>. Two types of add-ons are supported:</p>
+functions. Add-ons  are written in <a href="http://www.lua.org">Lua</a>. Two types of add-ons are supported:</p>
 
 <li><strong>Add-on functions</strong>: add-on&nbsp;functions appear
 first in the add-on menu. They can be seen as functions that will be
@@ -30,9 +30,7 @@ conveniently be implemented with them. </li>
 constantly while the simulator is running, effectively running in the
 background. They should only execute minimalistic code everytime they
 are called, since the whole application would otherwise slow down.
-Add-on scripts are called differently depending on the simulation state:</li>
-<li class="tab">When simulation is not running (i.e. stopped or paused): add-on scripts are called just before visualization of the scene</li>
-<li class="tab">When simulation running: add-on scripts are called just after the main script was called</li>
+Add-on scripts are called frequently by the system, with a <a href="scriptExecution.htm">precise order</a>.</li>
 
 <p>Add-on functions should be written in a text file located in the
 same folder as the main application, with following naming convention:</p>
@@ -64,10 +62,28 @@ end
 function <strong>sysCall_nonSimulation</strong>()
 end
 
+function <strong>sysCall_beforeSimulation</strong>()
+end
+
 function <strong>sysCall_beforeMainScript</strong>()
     -- Can be used to step a simulation in a custom manner.
     local outData={doNotRunMainScript=false} -- when true, then the main script won't be executed
     return outData
+end
+
+function <strong>sysCall_actuation</strong>()
+end
+
+function <strong>sysCall_sensing</strong>()
+end
+
+function <strong>sysCall_afterSimulation</strong>()
+end
+
+function <strong>sysCall_suspend</strong>()
+end
+
+function <strong>sysCall_resume</strong>()
 end
 
 function <strong>sysCall_addOnScriptSuspend</strong>()
@@ -77,18 +93,6 @@ function <strong>sysCall_addOnScriptSuspended</strong>()
 end
 
 function <strong>sysCall_addOnScriptResume</strong>()
-end
-
-function <strong>sysCall_beforeSimulation</strong>()
-end
-
-function <strong>sysCall_suspend</strong>()
-end
-
-function <strong>sysCall_resume</strong>()
-end
-
-function <strong>sysCall_afterSimulation</strong>()
 end
 
 function <strong>sysCall_beforeInstanceSwitch</strong>()
@@ -129,7 +133,7 @@ end</pre>
 a thread. This is because add-ons operate in a non-threaded fashion.</li>
 <li>While simulation is not running, add-ons should not call API functions that make sense only when simulation is running.</li>
 
-<p>For more information on add-ons, make sure to inspect the content of the demo add-ons <em>vrepAddOnScript-addOnScriptDemo.lua</em> and <em>vrepAddOnFunc-addOnFunctionDemo.lua</em>, located in the installation folder.</p>
+<p>For more information on add-ons, make sure to inspect the content of the demo add-ons <em>vrepAddOnScript-addOnScriptDemo.lua</em>, <em>vrepAddOnFunc-addOnFunctionDemo.lua</em> and <em>vrepAddOnScript-b0RemoteApiServer.lua</em>, located in the installation folder.</p>
 <br>
 <br>
 <h3 class="recommendedTopics">Recommended topics</h3>
