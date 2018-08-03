@@ -33,7 +33,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>sensorHandle</strong>: handle of the vision sensor</div>
+<div><strong>sensorHandle</strong>: handle of the vision sensor. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim_handleflag_depthbuffermeters</a> (simply add sim_handleflag_depthbuffermeters to sensorHandle), if you wish to retrieve values in meters.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -41,7 +41,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>depth buffer (buffer size is resolutionX*resolutionY) or NULL in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>. Returned values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane))<br>
+<div>depth buffer (buffer size is resolutionX*resolutionY) or NULL in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>. Returned values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane)). If the sim_handleflag_depthbuffermeters was specified, then individual values are expressed as distances in terms of meters.<br>
 </div>
 </td> 
 </tr> 
@@ -54,7 +54,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>sensorHandle</strong>: handle of the vision sensor.    Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_codedstring</a> (simply add sim.handleflag_codedstring to sensorHandle), if you wish to retrieve a string buffer (sim.buffer_float) instead of a table. In that case, refer also to <a href="simTransformBuffer.htm">sim.transformBuffer</a>.</div>
+<div><strong>sensorHandle</strong>: same as for the C function. Additionally, can also be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_codedstring</a> (simply add sim.handleflag_codedstring to sensorHandle), if you wish to retrieve a string buffer (sim.buffer_float) instead of a table. In that case, refer also to <a href="simTransformBuffer.htm">sim.transformBuffer</a>.</div>
 <div><strong>posX / posY</strong>: position of the depth buffer portion to retrieve. Zero by default.</div>
 <div><strong>sizeX / sizeY</strong>: size of the depth buffer portion to retrieve. Zero by default, which means that the full depth buffer should be retrieved</div>
 </td> 
@@ -65,7 +65,7 @@ Lua return values
 </td> 
 <td class=apiTableRightLRet>
 <div></div>
-<div><strong>depthBuffer</strong>: table containing depth values (table size is sizeX*sizeY), a string containing coded depth values, or nil in case of an error. Returned values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane))<br>
+<div><strong>depthBuffer</strong>: table containing depth values (table size is sizeX*sizeY), a string containing coded depth values, or nil in case of an error. Returned values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane)). If the sim_handleflag_depthbuffermeters was specified, then individual values are expressed as distances in terms of meters.<br>
 </div></td> 
 </tr> 
 </table> 
