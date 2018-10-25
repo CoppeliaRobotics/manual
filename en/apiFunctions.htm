@@ -209,7 +209,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Adds a non-central force to a shape object that is dynamically enabled. Added forces are cumulative, and are reset to zero after <a href="#simHandleDynamics">sim.handleDynamics</a> was called. See also <a href="#simAddForceAndTorque">sim.addForceAndTorque</a>.<br></td>
+<td class=apiTableRightDescr>Adds a non-central force to a shape object that is dynamically enabled. Added forces are cumulative, and are reset to zero after <a href="#simHandleDynamics">sim.handleDynamics</a> was called (or by using the following flag: sim.handleflag_resetforcetorque). See also <a href="#simAddForceAndTorque">sim.addForceAndTorque</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -220,7 +220,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>shapeHandle</strong>: handle of a dynamically enabled shape</div>
+<div><strong>shapeHandle</strong>: handle of a dynamically enabled shape. Can be combined with sim.handleflag_resetforcetorque in order to clear the accumulated force and torque.</div>
 <div><strong>position</strong>: pointer to 3 values that represent the relative position where the force should be applied.</div>
 <div><strong>force</strong>: pointer to 3 values that represent the force (in relative coordinates) to add.</div>
 <div></div></td> 
@@ -1336,8 +1336,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>consoleHandle</strong>: the handle of the console window, previously returned by the <a href="#simAuxiliaryConsoleOpen">simAuxiliaryConsoleOpen</a> command<br>
-</div>
+<div><strong>consoleHandle</strong>: the handle of the console window, previously returned by the <a href="#simAuxiliaryConsoleOpen">simAuxiliaryConsoleOpen</a> command. When combined with <em>sim.handleflag_extended</em>, then the function will simply query the visibility state of the console.</div>
 <div><strong>showState</strong>: indicates whether the console should be hidden (0) or shown (!=0)</div>
 <div></div>
 </td> 
@@ -2926,7 +2925,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Closes current scene, and switches to another open scene. If there is no other open scene, a new scene is then created. See also <a href="#simLoadScene">sim.loadScene</a> and <a href="#simSaveScene">sim.saveScene</a>.</td>
+<td class=apiTableRightDescr>Closes current scene, and switches to another open scene. If there is no other open scene, a new scene is then created. Can only be called from an <a href="addOns.htm">add-on</a>, or from the sanbox script, when called from Lua. See also <a href="#simLoadScene">sim.loadScene</a> and <a href="#simSaveScene">sim.saveScene</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -2953,7 +2952,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>-</td> 
+<td class=apiTableRightLSyn>number result=sim.closeScene()</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -2966,7 +2965,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>-</div>
+<div>same as C-function</div>
 <div></div></td> 
 </tr> 
 </table> 
@@ -3469,7 +3468,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>collectionName</strong>: the name of the collection. Use an empty string for a default name.</div>
 <div><strong>options</strong>: bit-coded options:</div>
-<div class=tab>bit 0 set (1): collection overrides collidable, measurable, renderable, cuttable and detectable properties.</div>
+<div class=tab>bit 0 set (1): collection overrides collidable, measurable, renderable<!--, cuttable--> and detectable properties.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -4593,7 +4592,7 @@ Description
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simDisplayDialog(const simChar* titleText,const simChar* mainText,simInt dialogType,const simChar* initialText,const simFloat* titleColors,const simFloat* dialogColors,simInt* uiHandle)<br></td> 
+<td class=apiTableRightCSyn>simInt simDisplayDialog(const simChar* titleText,const simChar* mainText,simInt dialogType,const simChar* initialText,void* NULL,void* NULL,void* NULL)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
@@ -4602,9 +4601,6 @@ C synopsis
 <div><strong>mainText</strong>: Information text</div>
 <div><strong>dialogType</strong>: <a href="apiConstants.htm#genericDialogStyles">generic dialog style</a></div>
 <div><strong>initialText</strong>: Initial text in the edit box if the dialog is of type sim_dlgstyle_input. Can be NULL</div>
-<div><strong>titleColors</strong>: Title bar color (6 simFloat values for RGB for background and foreground), can be NULL for default colors</div>
-<div><strong>dialogColors</strong>: Dialog color (6 simFloat values for RGB for background and foreground), can be NULL for default colors</div>
-<div><strong>uiHandle</strong>: corresponding OpenGl-based custom UI handle. Can be NULL</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -4612,7 +4608,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>handle of generic dialog (different from OpenGl-based custom UI handle!!) if operation was successful, -1 otherwise. The handle should be used with following functions: <a href="#simGetDialogResult">simGetDialogResult</a> ,<a href="#simGetDialogInput">simGetDialogInput</a> and <a href="#simEndDialog">simEndDialog</a>.<br>
+<div>handle of generic dialog if operation was successful, -1 otherwise. The handle should be used with following functions: <a href="#simGetDialogResult">simGetDialogResult</a> ,<a href="#simGetDialogInput">simGetDialogInput</a> and <a href="#simEndDialog">simEndDialog</a>.<br>
 </div>
 </td> 
 </tr> 
@@ -4620,7 +4616,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number dialogHandle,number uiHandle=sim.displayDialog(string titleText,string mainText,number dialogType,boolean modalDialog,string initialText,table_6 titleColors,table_6 dialogColors,number uiHandle)<br></td> 
+<td class=apiTableRightLSyn>number dialogHandle=sim.displayDialog(string titleText,string mainText,number dialogType,boolean modalDialog,string initialText)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -4633,10 +4629,6 @@ Lua synopsis
 </div>
 <div><strong>initialText</strong>: Initial text in the edit box if the dialog is of type sim_dlgstyle_input. Can be nil or omitted<br>
 </div>
-<div><strong>titleColors</strong>: Title bar color (6 values for RGB for background and foreground), can be nil for default colors, or omitted<br>
-</div>
-<div><strong>dialogColors</strong>: Dialog color (6 values for RGB for background and foreground), can be nil for default colors, or omitted<br>
-</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -4645,9 +4637,7 @@ Lua return values
 </td> 
 <td class=apiTableRightLRet>
 <div></div>
-<div><strong>dialogHandle</strong>: handle of generic dialog (different from OpenGl-based custom UI handle!!), or nil if operation failed</div>
-<div><strong>uiHandle</strong>: handle of corresponding OpenGl-based custom UI, or nil if operation failed</div>
-<div></div>
+<div><strong>dialogHandle</strong>: handle of generic dialog, or nil if operation failed</div>
 </td> 
 </tr> 
 </table> 
@@ -5164,8 +5154,8 @@ C synopsis
 <div><strong>title</strong>: title of the dialog</div>
 <div><strong>startPath</strong>: the initial path. Indicate an empty string for the path to V-REP's application</div>
 <div><strong>initName</strong>: the initial name. Can be an empty string</div>
-<div><strong>extName</strong>: the extension name, e.g. &quot;text file&quot;. Should be an empty string with dlgType=<em>sim_filedlg_type_folder</em>.</div>
-<div><strong>ext</strong>: the extension, e.g. &quot;txt&quot;. Should be an empty string with dlgType=<em>sim_filedlg_type_folder</em>.</div>
+<div><strong>extName</strong>: the extension name, e.g. &quot;text file&quot;. Should be an empty string with dlgType=sim_filedlg_type_folder.</div>
+<div><strong>ext</strong>: the extension, e.g. &quot;txt&quot;. Can contain several extensions, separated by semicolons, with dlgType=sim_filedlg_type_load or dlgType=sim_filedlg_type_load_multiple. Should be an empty string with dlgType=sim_filedlg_type_folder.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -5730,7 +5720,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>collectionName</strong>: name of the collection</div>
+<div><strong>collectionName</strong>: name of the collection.  If the name is appended by a &quot;@silentError&quot; suffix, then no error will be output if the collection does not exist.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -5891,7 +5881,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>collisionObjectName</strong>: name of the collision object</div>
+<div><strong>collisionObjectName</strong>: name of the collision object.  If the name is appended by a &quot;@silentError&quot; suffix, then no error will be output if the collision object does not exist.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -6337,7 +6327,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Same as C-function (but nil instead of NULL, and <a href="#simReleaseBuffer">simReleaseBuffer</a> does not need to be called)</div>
+<div>Same as C-function</div>
 <div></div></td> 
 </tr> 
 </table> 
@@ -6420,7 +6410,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>distanceObjectName</strong>: name of distance object</div>
+<div><strong>distanceObjectName</strong>: name of distance object.  If the name is appended by a &quot;@silentError&quot; suffix, then no error will be output if the distance object does not exist.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -6924,7 +6914,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>ikGroupName</strong>: name of an IK group</div>
+<div><strong>ikGroupName</strong>: name of an IK group.  If the name is appended by a &quot;@silentError&quot; suffix, then no error will be output if the IK group does not exist.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -9378,7 +9368,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of a <a href="objects.htm">scene object</a>.</div>
+<div><strong>objectHandle</strong>: handle of a <a href="objects.htm">scene object</a>. It is recommended to add <em><a href="apiConstants.htm#specialHandleFlags">sim.handleflag_axis</a></em> to the object handle, in order to obtain the <em>regular</em> angular velocity for the object, i.e. the rotation axis and the rotation velocity that is represented by the axis' length.</div>
 <div><strong>linearVelocity</strong>: pointer to 3 values that will receive the linear velocity. Can be NULL</div>
 <div><strong>angularVelocity</strong>: pointer to 3 values that will receive the angular velocity. Can be NULL</div>
 <div></div></td> 
@@ -10226,8 +10216,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the scene object that stores the list of handles</div>
-<div><strong>referencedHandles</strong>: a pointer to a pointer that will be allocated and receive the list of handles. The user is in charge of releasing that buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>. Handles of following object types are supported: scene objects, collision objects, distance objects, IK groups, collections, and geometric constraint solver objects.</div>
+<div><strong>objectHandle</strong>: handle of the scene object that stores the list of handles. Can be optionally combined with <em>sim.handleflag_keeporiginal</em>, in which case the handles that link to originals are retrieved.</div>
+<div><strong>referencedHandles</strong>: a pointer to a pointer that will be allocated and receive the list of handles. The user is in charge of releasing that buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>. Handles of following object types are supported: scene objects, collision objects, distance objects, IK groups and collections.</div>
 <div><strong>reserved1</strong>: reserved for future extensions</div>
 <div><strong>reserved2</strong>: reserved for future extensions</div>
 </td> 
@@ -12868,7 +12858,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>sensorHandle</strong>: handle of the vision sensor</div>
+<div><strong>sensorHandle</strong>: handle of the vision sensor. Can be combined with <a href="apiConstants.htm#specialHandleFlags">sim_handleflag_depthbuffermeters</a> (simply add sim_handleflag_depthbuffermeters to sensorHandle), if you wish to retrieve values in meters.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -12876,7 +12866,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>depth buffer (buffer size is resolutionX*resolutionY) or NULL in case of an error. The user is in charge of releasing the returned buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>. Returned values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane))<br>
+<div>depth buffer (buffer size is resolutionX*resolutionY) or NULL in case of an error. The user is in charge of releasing the returned buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>. Returned values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane)). If the sim_handleflag_depthbuffermeters was specified, then individual values are expressed as distances in terms of meters.<br>
 </div>
 </td> 
 </tr> 
@@ -12889,7 +12879,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>sensorHandle</strong>: handle of the vision sensor.    Can be combined with <a href="apiConstants.htm#specialHandleFlags">sim.handleflag_codedstring</a> (simply add sim.handleflag_codedstring to sensorHandle), if you wish to retrieve a string buffer (sim.buffer_float) instead of a table. In that case, refer also to <a href="#simTransformBuffer">sim.transformBuffer</a>.</div>
+<div><strong>sensorHandle</strong>: same as for the C function. Additionally, can also be combined with <a href="apiConstants.htm#specialHandleFlags">sim.handleflag_codedstring</a> (simply add sim.handleflag_codedstring to sensorHandle), if you wish to retrieve a string buffer (sim.buffer_float) instead of a table. In that case, refer also to <a href="#simTransformBuffer">sim.transformBuffer</a>.</div>
 <div><strong>posX / posY</strong>: position of the depth buffer portion to retrieve. Zero by default.</div>
 <div><strong>sizeX / sizeY</strong>: size of the depth buffer portion to retrieve. Zero by default, which means that the full depth buffer should be retrieved</div>
 </td> 
@@ -12900,7 +12890,7 @@ Lua return values
 </td> 
 <td class=apiTableRightLRet>
 <div></div>
-<div><strong>depthBuffer</strong>: table containing depth values (table size is sizeX*sizeY), a string containing coded depth values, or nil in case of an error. Returned values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane))<br>
+<div><strong>depthBuffer</strong>: table containing depth values (table size is sizeX*sizeY), a string containing coded depth values, or nil in case of an error. Returned values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane)). If the sim_handleflag_depthbuffermeters was specified, then individual values are expressed as distances in terms of meters.<br>
 </div></td> 
 </tr> 
 </table> 
@@ -15167,7 +15157,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>filename</strong>: model filename. The filename extension is required (&quot;ttm&quot;)</div>
+<div><strong>filename</strong>: model filename. The filename extension is required (&quot;ttm&quot;). An optional &quot;@copy&quot; can be appended to the filename, in which case the model's objects will be named/renamed as if an associated script was attached to the model.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -15192,7 +15182,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>a) <strong>filename</strong>: model filename. The filename extension is required (&quot;ttm&quot;)</div>
+<div>a) <strong>filename</strong>: model filename. The filename extension is required (&quot;ttm&quot;). An optional &quot;@copy&quot; can be appended to the filename, in which case the model's objects will be named/renamed as if an associated script was attached to the model.</div>
 <div>b) <strong>buffer</strong>: a buffer containing the model</div>
 <div>c)&amp;d) <strong>onlyThumbnail</strong>: when true, then only the thumbnail image of the model will be loaded and returned</div>
 </td> 
@@ -15597,8 +15587,11 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>a <a href="apiConstants.htm#msgBoxReturn">message box return value</a><br>
-</div>
+<div>a <a href="apiConstants.htm#msgBoxReturn">message box return value</a>. When the &lt;esc&gt; key, or the dialog close button was pressed, then the return value is:</div>
+<div class=tab>yes/no dialog: sim.msgbox_return_no</div>
+<div class=tab>ok dialog: sim.msgbox_return_ok</div>
+<div class=tab>ok/cancel dialog: sim.msgbox_return_cancel</div>
+<div class=tab>yes/no/cancel dialog: sim.msgbox_return_cancel</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -15825,15 +15818,15 @@ C synopsis
   selectionColor=&quot;128 128 255&quot; size=&quot;800 600&quot; position=&quot;100 100&quot; &gt;
 
   &lt;keywords1 color=&quot;152 0 0&quot; &gt;
-    &lt;item word=&quot;simGetObjectHandle&quot; autocomplete=&quot;true&quot;
-      calltip=&quot;number handle=simGetObjectHandle(number objectName)&quot; /&gt;
-    &lt;item word=&quot;simGetObjectPosition&quot; autocomplete=&quot;true&quot;
-      calltip=&quot;table_3 pos=simGetObjectPosition(number handle,
+    &lt;item word=&quot;sim.getObjectHandle&quot; autocomplete=&quot;true&quot;
+      calltip=&quot;number handle=sim.getObjectHandle(number objectName)&quot; /&gt;
+    &lt;item word=&quot;sim.getObjectPosition&quot; autocomplete=&quot;true&quot;
+      calltip=&quot;table_3 pos=sim.getObjectPosition(number handle,
         number relHandle)&quot; /&gt;
   &lt;/keywords1&gt;
   &lt;keywords2 color=&quot;220 80 20&quot; &gt;
-    &lt;item word=&quot;simGetObjectOrientation&quot; autocomplete=&quot;true&quot;
-      calltip=&quot;table_3 euler=simGetObjectOrientation(number handle,
+    &lt;item word=&quot;sim.getObjectOrientation&quot; autocomplete=&quot;true&quot;
+      calltip=&quot;table_3 euler=sim.getObjectOrientation(number handle,
         number relHandle)&quot; /&gt;
   &lt;/keywords2&gt;
 &lt;/editor&gt;</pre>
@@ -16059,7 +16052,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Packs a table into a buffer. The table may contain other nested tables, nil, boolean, number or string values. All other types (e.g. functions) will be considered as nil values. See also <a href="#simUnpackTable">sim.unpackTable</a>, the <a href="apiFunctionListCategory.htm#stacks">other stack functions</a>  and the <a href="apiFunctionListCategory.htm#packing">other packing/unpacking functions</a>.</td>
+<td class=apiTableRightDescr>Packs a table into a buffer. The table may contain other nested tables, nil, boolean, number or string values. All other types (e.g. functions) will be considered as string or nil values. You can also use sim.packTable to quickly compare two tables or to perform a deep copy of a table. See also <a href="#simUnpackTable">sim.unpackTable</a>, the <a href="apiFunctionListCategory.htm#stacks">other stack functions</a>  and the <a href="apiFunctionListCategory.htm#packing">other packing/unpacking functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -23057,7 +23050,7 @@ Lua return values
 Description 
 </td> 
 <td class=apiTableRightDescr>
-Attaches a list of custom handles to a given scene object. Those custom handles are handles of other objects, that are linked to the given scene object (for whatever purpose). The advantage of storing references to other objects with this function is that V-REP will take care of correctly adjusting the references if needed: For instance, imaging <em>objectA</em> storing the handle of <em>objectB</em> via this function. If <em>objectB</em> is deleted, then the stored handle will become -1. If <em>objectA</em> and <em>objectB</em> are duplicated at the same time, then the duplicate of <em>objectA</em> will store the handle of the duplicate of <em>objectB</em>. See also <a href="#simGetReferencedHandles">sim.getReferencedHandles</a>. </td>
+Attaches a list of custom handles to a given scene object. Those custom handles are handles of other objects, that are linked to the given scene object (for whatever purpose). The advantage of storing references to other objects with this function is that V-REP will take care of correctly adjusting the references if needed: For instance, imagine <em>objectA</em> storing the handle of <em>objectB</em> via this function. If <em>objectB</em> is deleted, then the stored handle will become -1. If <em>objectA</em> and <em>objectB</em> are duplicated at the same time, then the duplicate of <em>objectA</em> will store the handle of the duplicate of <em>objectB</em>. Optionally, if <em>sim.handleflag_keeporiginal </em>is specified, then linking to original objects is guaranteed, e.g. in above example, after a duplication of <em>objectA</em>, the duplicate of <em>objectA</em> will store the handle of the original <em>objectB</em> (if <em>objectB</em> still exists). See also <a href="#simGetReferencedHandles">sim.getReferencedHandles</a>. </td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -23068,9 +23061,9 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the scene object that will store the list of handles</div>
+<div><strong>objectHandle</strong>: handle of the scene object that will store the list of handles. Can be optionally combined with <em>sim.handleflag_keeporiginal</em>, in which case the handles that link to originals are retrieved.</div>
 <div><strong>count</strong>: the number of handles to store</div>
-<div><strong>referencedHandles</strong>: a list of handles. Handles of following object types are supported: scene objects, collision objects, distance objects, IK groups, collections, and geometric constraint solver objects.</div>
+<div><strong>referencedHandles</strong>: a list of handles. Handles of following object types are supported: scene objects, collision objects, distance objects, IK groups and collections.</div>
 <div><strong>reserved1</strong>: reserved for future extensions</div>
 <div><strong>reserved2</strong>: reserved for future extensions</div>
 </td> 

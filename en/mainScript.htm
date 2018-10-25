@@ -63,7 +63,6 @@ function <strong>sysCall_actuation</strong>()
     sim.handleMechanism(sim.handle_all_except_explicit)
     sim.handleIkGroup(sim.handle_all_except_explicit)
     sim.handleDynamics(sim.getSimulationTimeStep())
-    sim.handleMill(sim.handle_all_except_explicit)
 end
 
 function <strong>sysCall_sensing</strong>()
@@ -85,8 +84,6 @@ end
 
 function <strong>sysCall_cleanup</strong>()
     -- Clean-up part:
-    sim.resetMilling(sim.handle_all)
-    sim.resetMill(sim.handle_all_except_explicit)
     sim.resetCollision(sim.handle_all_except_explicit)
     sim.resetDistance(sim.handle_all_except_explicit)
     sim.resetProximitySensor(sim.handle_all_except_explicit)
