@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>Enabling the Remote API - server side</title>
+<title>Enabling the legacy remote API - server side</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 
@@ -17,15 +17,16 @@
 
 
 
-<h1>Enabling the Remote API - server side</h1>
+<h1>Enabling the legacy remote API - server side</h1>
 
+<p class=warningBox>The legacy remote API should not be mixed-up with the <a href="b0RemoteApiOverview.htm">B&Oslash;-based remote API</a>, which is a newer version of the remote API that is more flexible, easier to use and most importantly, much simpler to extend.</p>
 
 <p>
-The remote API server side is implemented via a <a href="plugins.htm">V-REP plugin</a> that is based on the <a href="apiOverview.htm">regular API</a>. The remote API plugin project is located <a href="https://github.com/CoppeliaRobotics/v_repExtRemoteApi" target="_blank">here</a>. Should you miss one specific function, then you can easily implement it yourself into the remote API framework (see also the section on <a href="remoteApiExtension.htm">extending the remote API</a>). </p>
-<p>To enable the remote API on the server side (i.e. on V-REP's side), make sure the remote API plugin was successfully loaded at V-REP start-up (v_repExtRemoteApi.dll, libv_repExtRemoteApi.dylib or libv_repExtRemoteApi.so) (you can inspect the console window for information related to plugin loading). The remote API plugin can start as many server services as needed (each service will be listening/communicating on a different port). A server service can be started in two different ways:</p>
+The legacy remote API server side is implemented via a <a href="plugins.htm">V-REP plugin</a> that is based on the <a href="apiOverview.htm">regular API</a>. The legacy remote API plugin project is located <a href="https://github.com/CoppeliaRobotics/v_repExtRemoteApi" target="_blank">here</a>. Should you miss one specific function, then you can  implement it yourself into the remote API framework (see also the section on <a href="remoteApiExtension.htm">extending the legacy remote API</a>). </p>
+<p>To enable the legacy remote API on the server side (i.e. on V-REP's side), make sure the legacy remote API plugin was successfully loaded at V-REP start-up (v_repExtRemoteApi.dll, libv_repExtRemoteApi.dylib or libv_repExtRemoteApi.so) (you can inspect the console window for information related to plugin loading). The legacy remote API plugin can start as many server services as needed (each service will be listening/communicating on a different port). A server service can be started in two different ways:</p>
 
-<li><a name="continuousRemoteApiService" id="continuousRemoteApiService"></a>At V-REP start-up (<strong>continuous remote API server service</strong>). The remote API plugin will try reading a configuration file named <em>remoteApiConnections.txt</em> and according to its content, start appropriate server services. Have a look at the  configuration file for details. Use this method for remote control of the simulator itself. With this method remote API functions will always be executed on the server side, even if simulation is not running (which is not always the case with next method here below). There is another method to start a continuous remote API server service, via the <a href="commandLine.htm">command line</a>.</li>
-<li><a name="temporaryRemoteApiService" id="temporaryRemoteApiService"></a>From within a <a href="scripts.htm">script</a> (<strong>temporary remote API server service</strong>). This is most of the time the preferred method of starting a remote API server service. The user is in control when the service is started or stopped. When a temporary remote API server service is started from a <a href="simulationScripts.htm">simulation script</a> however, the service will automatically be stopped at simulation end. A temporary remote API server service can be started or stopped with following 2 custom Lua functions (the 2 functions are exported by the plugin): </li>
+<li><a name="continuousRemoteApiService" id="continuousRemoteApiService"></a>At V-REP start-up (<strong>continuous legacy remote API server service</strong>). The legacy remote API plugin will try reading a configuration file named <em>remoteApiConnections.txt</em> and according to its content, start appropriate server services. Have a look at the  configuration file for details. Use this method for remote control of the simulator itself. With this method legacy remote API functions will always be executed on the server side, even if simulation is not running (which is not always the case with next method here below). There is another method to start a continuous legacy remote API server service, via the <a href="commandLine.htm">command line</a>.</li>
+<li><a name="temporaryRemoteApiService" id="temporaryRemoteApiService"></a>From within a <a href="scripts.htm">script</a> (<strong>temporary legacy remote API server service</strong>). This is most of the time the preferred method of starting a legacy remote API server service. The user is in control when the service is started or stopped. When a temporary legacy remote API server service is started from a <a href="simulationScripts.htm">simulation script</a> however, the service will automatically be stopped at simulation end. A temporary legacy remote API server service can be started or stopped with following 2 custom Lua functions (the 2 functions are exported by the plugin): </li>
 
 
 <h3 class=subsectionBarTab><a name="simExtRemoteApiStart" id="simExtRemoteApiStart"></a><a name="simRemoteApi.start" id="simRemoteApi.start"></a>simRemoteApi.start</h3>
@@ -35,7 +36,7 @@ The remote API server side is implemented via a <a href="plugins.htm">V-REP plug
 Description 
 </td> 
 <td class=apiTableRightDescr>
-Starts a temporary remote API server service on the specified port. When started from a <a href="simulationScripts.htm">simulation script</a>, the service will automatically end when the simulation finishes</td>
+Starts a temporary legacy remote API server service on the specified port. When started from a <a href="simulationScripts.htm">simulation script</a>, the service will automatically end when the simulation finishes</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
@@ -80,7 +81,7 @@ Lua return values
 Description 
 </td> 
 <td class=apiTableRightDescr>
-Stops a temporary remote API server service on the specified port</td>
+Stops a temporary legacy remote API server service on the specified port</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
@@ -108,7 +109,7 @@ Lua return values
 
 <br>
 <p>
-You can gather information about any remote API server service with following custom Lua function (the function is exported by the plugin):
+You can gather information about any legacy remote API server service with following custom Lua function (the function is exported by the plugin):
 </p>
 
 
@@ -151,8 +152,8 @@ Lua return values
 <div class=tab>info[3]: time that passed between 2 successive requests from the client side</div>
 <div class=tab>info[4]: number of commands received during last client request</div>
 <div class=tab>info[5]: number of commands sent during last reply to client</div>
-<div><strong>serverVersion</strong>: the version of the remote API server plugin</div>
-<div><strong>clientVersion</strong>: the version of the remote API client, or -1 if that information is not (yet) available</div>
+<div><strong>serverVersion</strong>: the version of the legacy remote API server plugin</div>
+<div><strong>clientVersion</strong>: the version of the legacy remote API client, or -1 if that information is not (yet) available</div>
 <div><strong>clientIp</strong>: the IP address of the connected client</div>
 </td> 
 </tr> 
@@ -165,7 +166,7 @@ Lua return values
 
 
 <p>
-You can reset (i.e. destroy and recreate) any remote API server service with following custom Lua function (the function is exported by the plugin):
+You can reset (i.e. destroy and recreate) any legacy remote API server service with following custom Lua function (the function is exported by the plugin):
 </p>
 
 
@@ -179,7 +180,7 @@ You can reset (i.e. destroy and recreate) any remote API server service with fol
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Resets a remote API server service on the specified port. This is equivalent to call <a href="#simRemoteApi.stop">simRemoteApi.stop</a> followed by <a href="#simRemoteApi.start">simRemoteApi.start</a>, but also works for <a href="#continuousRemoteApiService">continuous remote API server services</a>. This can be useful to force disconnection from a client.</td>
+<td class=apiTableRightDescr>Resets a legacy remote API server service on the specified port. This is equivalent to call <a href="#simRemoteApi.stop">simRemoteApi.stop</a> followed by <a href="#simRemoteApi.start">simRemoteApi.start</a>, but also works for <a href="#continuousRemoteApiService">continuous legacy remote API server services</a>. This can be useful to force disconnection from a client.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
@@ -211,12 +212,11 @@ Lua return values
 
 <br>
 <h3 class=recommendedTopics>Recommended topics</h3>
-<li><a href="remoteApiClientSide.htm">Enabling the Remote API - client side</a></li>
-<li><a href="remoteApiOverview.htm">Remote API overview</a></li>
-<li><a href="remoteApiModusOperandi.htm">Remote API modus operandi</a></li>
-<li><a href="remoteApiFunctionListAlphabetical.htm">Alphabetical remote API function list</a></li>
-<li><a href="remoteApiFunctionListCategory.htm">Remote API function list by category</a></li>
-<li><a href="remoteApiConstants.htm">Remote API constants</a></li>
+<li><a href="remoteApiClientSide.htm">Enabling the legacy remote API - client side</a></li>
+<li><a href="legacyRemoteApiOverview.htm">Legacy remote API overview</a></li>
+<li><a href="remoteApiModusOperandi.htm">Legacy remote API modus operandi</a></li>
+<li><a href="remoteApiFunctionListAlphabetical.htm">Alphabetical legacy remote API function list</a></li>
+<li><a href="remoteApiConstants.htm">Legacy remote API constants</a></li>
 <br>
 <br>
  </tr>

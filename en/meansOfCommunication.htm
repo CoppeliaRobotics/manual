@@ -133,7 +133,26 @@ end</pre>
   <td class=subsectionTd>
 <a name="remoteApi"></a><a href="remoteApiOverview.htm">Remote API</a></td></tr></table> 
 
-<p>For example, from a Python client:</p>
+<p>For example, from a Python <strong>B0-based</strong> remote API client:</p>
+
+<pre class=lightPurpleBox># Receiving and image from V-REP and sending it back:
+
+import b0RemoteApi
+with b0RemoteApi.RemoteApiClient('b0RemoteApi_pythonClient','b0RemoteApi') as client:    
+        
+    def imageCallback(msg):
+        client.simxSetVisionSensorImage(passiveVisionSensorHandle[1],False,msg[2],client.simxDefaultPublisher())
+    
+    visionSensorHandle=client.simxGetObjectHandle('VisionSensor',client.simxServiceCall())
+    passiveVisionSensorHandle=client.simxGetObjectHandle('PassiveVisionSensor',client.simxServiceCall())
+    client.simxGetVisionSensorImage(visionSensorHandle[1],False,client.simxDefaultSubscriber(imageCallback))
+    client.simxStartSimulation(client.simxDefaultPublisher())
+    while True: 
+        client.simxSpinOnce()
+    client.simxStopSimulation(client.simxDefaultPublisher())</pre>
+
+<br>
+<p>For example, from a Python <strong>legacy</strong> remote API client:</p>
 
 <pre class=lightPurpleBox># Receiving and image from V-REP and sending it back:
 
