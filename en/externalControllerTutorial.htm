@@ -40,30 +40,34 @@
 
 
 
-<p>The V-REP scene file related to this tutorial is <em>controlTypeExamples.ttt</em> located in V-REP's <em>scenes</em> folder. Open the scene and run the simulation:<br>
-</p>
+<p>There are 7 scene files related to this tutorial:</p>
+<li><em>scenes/controlTypeExamples/controlledViaScript</em>: one robot is controlled via a <a href="childScripts.htm#nonThreaded">non-threaded child script</a>, the other is controlled via a <a href="childScripts.htm#threaded">threaded child script</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaPlugin</em>: the robot is controlled via a <a href="plugins.htm">plugin</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaB0RemoteApi</em>: the robot is controlled via the <a href="b0RemoteApiOverview.htm">B0-based remote API</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaLegacyRemoteApi</em>: the robot is controlled via the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaB0</em>: the robot is controlled via the <a href="blueZeroPlugin.htm">BlueZero interface</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaRos</em>: the robot is controlled via the <a href="rosInterf.htm">ROS interface</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaTcp</em>: the robot is controlled via <a href="http://w3.impa.br/~diego/software/luasocket/">LuaSocket</a> and TCP.</li>
 
 <p align=center><img src="images/externalControllerTut1.jpg"></p>
 <br>
 
-<p>The simulation illustrates the 7 control types previously mentioned: the orange robot is controlled by  an embedded child script, the dark-blue robot is controlled by a plugin, the purple robot is controlled via the B0-based remote API and an external client application, the light purple robot is controlled via the legacy remote API and an external client application, the red robot is controlled via an external ROS application, the light-blue robot is controlled via an external BlueZero application,  and the green robot is controlled by an external server application via a custom socket communication. In all 7 cases, <a href="childScripts.htm">child scripts</a> are used, mainly to make the link with the outside world (e.g. launch the correct client application, and pass the correct object handles to it). There are two other ways one can control a robot, a simulation, or the simulator itself: by using <a href="customizationScripts.htm">customization scripts</a>, or <a href="addOns.htm">add-ons</a>. They are however not recommended for control and should be rather used to handle functionality while simulation is not running.</p>
+<p>In all 7 cases, <a href="childScripts.htm">child scripts</a> are used, mainly to make the link with the outside world (e.g. launch the correct client application, and pass the correct object handles to it). There are two other ways one can control a robot, a simulation, or the simulator itself: by using <a href="customizationScripts.htm">customization scripts</a>, or <a href="addOns.htm">add-ons</a>. They are however not recommended for control and should be rather used to handle functionality while simulation is not running.</p>
 
-<p>As an example, the child script linked to the purple robot has following main task:</p>
+<p>As an example, the child script linked to the robot in scene <em>controlledViaB0RemoteApi.ttt</em> has following main task:</p>
 <li>Launch the controller application (<a href="https://github.com/CoppeliaRobotics/b0RemoteApiBindings/tree/master/cpp/bubbleRobClient" target="_blank">bubbleRobClient_b0RemoteApi</a>) with some object handles as arguments. The server functionality of the B0-based remote API is provided by object <em>b0RemoteApiServer</em>.</li>
-<p>As another example, the child script linked to the red robot has following main tasks:</p>
+<p>As another example, the child script linked to the robot in scene <em>controlledViaRos.ttt</em> has following main tasks:</p>
 <li>Check if the <a href="rosInterf.htm">RosInterface</a> for V-REP was loaded</li>
 <li>Launch the controller application (<a href="https://github.com/CoppeliaRobotics/ros_bubble_rob2" target="_blank">rosBubbleRob2</a>) with some topic names or object handles as arguments</li>
 
-<p>Yet, as another example, the child script linked to the green robot has following main tasks:</p>
+<p>Yet, as another example, the child script linked to the robot in scene <em>controlledViaTcp.ttt</em> has following main tasks:</p>
 <li>Search for a free socket connection port</li>
 <li>Launch the controller application (<a href="https://github.com/CoppeliaRobotics/bubbleRobServer" target="_blank">bubbleRobServer</a>) with the chosen connection port as argument</li>
 <li>Locally connect to the controller application</li>
 <li>At each simulation pass, send the sensor values to the controller, and read the desired motor values from the controller</li>
 <li>At each simulation pass, apply the desired motor values to the robot's joints</li>
 
-<p>Run the simulation, and copy-and-paste all robots: you will see that the duplicated robots will directly be operational, since their attached child scripts are in charge of launching new instances of their respective external applications, or calling the appropriate plugin Lua extension function.</p>
-
-<p>Finally, notice that the green robot is controlled via <em>bubbleRobServer</em>, but that its child script acts as client that communicates with the server. You could also imagine having the client part not inside of a child script, but inside of a plugin. Such an example is illustrated in the <a href="robotLanguageIntegrationTutorial.htm">robot language interpreter integration tutorial</a>. </p>
+<p>Run the simulations, and copy-and-paste the robot: you will see that the duplicated robots will directly be operational, since their attached child scripts are in charge of launching new instances of their respective external applications, or calling the appropriate plugin functions.</p>
 
 <p><br>
 </p>
