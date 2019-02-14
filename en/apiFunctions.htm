@@ -1260,7 +1260,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>title</strong>: the title of the console window</div>
 <div><strong>maxLines</strong>: the number of text lines that can be displayed and buffered</div>
-<div><strong>mode</strong>: bit-coded value. Bit0 (1) set indicates that the console window will automatically close at simulation end (when called from a <a href="simulationScripts.htm">simulation script</a>, the consle window will always automatically close at simulation end), bit1 (2) set indicates that lines will be wrapped, bit2 (4) set indicates that the user can close the console window, bit3 (8) set indicates that the console will automatically be hidden during simulation pause, bit4 (16) set indicates that the console will not automatically hide when the user switches to another scene.<br>
+<div><strong>mode</strong>: bit-coded value. Bit0 (1) set indicates that the console window will automatically close at simulation end (when called from a <a href="simulationScripts.htm">simulation script</a>, the console window will always automatically close at simulation end), bit1 (2) set indicates that lines will be wrapped, bit2 (4) set indicates that the user can close the console window, bit3 (8) is not used, bit4 (16) set indicates that the console will not automatically hide when the user switches to another scene (this only applies when called from an add-on script or the sandbox script).<br>
 </div>
 <div><strong>position</strong>: the initial position of the console window (x and y value). Can be NULL<br>
 </div>
@@ -3155,6 +3155,58 @@ Remote API equiv.
 </td> 
 </tr> 
 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simCloseTextEditor" id="simCloseTextEditor"></a>sim.closeTextEditor </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>DEPRECATED. See <a href="#simTextEditorClose">sim.textEditorClose</a> instead.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn><div>-</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn><div>-</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>-</div>
+</td> 
+</tr> 
 </table> 
 <br>
 <br>
@@ -5686,7 +5738,7 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>scriptHandleOrType</strong>: the <a href="#simGetScriptAssociatedWithObject">handle of the script</a>, otherwise the <a href="apiConstants.htm#scriptTypes">type of the script</a>.</div>
-<div><strong>apiWord</strong>: the word that API functions and variables should match, e.g. "sim.getObj"</div>
+<div><strong>apiWord</strong>: the word that API functions and variables should match, e.g. "sim.getObj". Only matches up to the first dot are returned, if the apiWord does not contain any dot. To retrieve all functions and variables, leave apiWord empty. To retrieve only functions, add '+' as prefix. To retrieve only variables, add '-' as prefix.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -11944,11 +11996,11 @@ C synopsis
 <div><strong>index</strong>: 0-based index of the shape element to retrieve (compound shapes contain more than one shape element)</div>
 <div><strong>info</strong>: visual information about the shape:</div>
 <div><br></div>
-<div><strong>vertices</strong>: array of vertices. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 0.</div>
+<div><strong>vertices</strong>: array of vertices, relative to the shape's reference frame. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 0.</div>
 <div><strong>verticesSize</strong>: the size of the vertices array</div>
 <div><strong>indices</strong>: array of indices. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 0.</div>
 <div><strong>indicesSize</strong>: the size of the indices array</div>
-<div><strong>normals</strong>: array of normals. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 0.</div>
+<div><strong>normals</strong>: array of normals, relative to the shape's reference frame. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 0.</div>
 <div><strong>shadingAngle</strong>: the gouraud shading angle</div>
 <div><strong>colors[9]</strong>: array of colors: RGB for ambient-diffuse,  specular, and  emission.</div>
 <div><strong>texture</strong>: the RGBA texture (32bit/pixel). The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 1.</div>
@@ -11991,9 +12043,9 @@ Lua return values
 </td> 
 <td class=apiTableRightLRet>
 <div>In case of success, data contains following fields:</div>
-<div><strong>data.vertices</strong>: array containing the  vertices</div>
+<div><strong>data.vertices</strong>: array containing the  vertices, relative to the shape's reference frame</div>
 <div><strong>data.indices</strong>: array containing the indices</div>
-<div><strong>data.normals</strong>: array containing the normals</div>
+<div><strong>data.normals</strong>: array containing the normals, relative to the shape's reference frame</div>
 <div><strong>data.colors</strong>: array containing the colors: RGB for ambient-diffuse,  specular, and  emission.</div>
 <div><strong>data.shadingAngle</strong>: the gouraud shading angle</div>
 <div><br></div>
@@ -16595,13 +16647,13 @@ Lua return values
 <br>
 <br>
 <br>
-<h3 class=subsectionBar><a name="simOpenTextEditor" id="simOpenTextEditor"></a>simOpenTextEditor / sim.openTextEditor </h3>
+<h3 class=subsectionBar><a name="simOpenTextEditor" id="simOpenTextEditor"></a>simOpenTextEditor</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Opens a modal text edition window.</td>
+<td class=apiTableRightDescr>Opens a text edition window. The C version of this function opens a modal window, see <a href="#simTextEditorOpen">sim.textEditorOpen</a> for the Lua version of this function.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -16662,12 +16714,12 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>string text,table_2 windowSize,table_2 windowPosition=sim.openTextEditor(string initText,string xml=nil)</td> 
+<td class=apiTableRightLSyn><div>DEPRECATED. See <a href="#simTextEditorOpen">sim.textEditorOpen</a> instead.</div></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar to C-function</div>
+<div>-</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -16675,7 +16727,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Similar to C-function</div>
+<div>-</div>
 </td> 
 </tr> 
 </table> 
@@ -25695,6 +25747,248 @@ Lua return values
 <div><strong>result</strong>: 1 if the thread was switched (the current thread gave control to other threads until the next calculation pass), 0 if it was not switched (e.g. because the function was called from the main or application thread), or -1 in case of an error.
 </div>
 <div></div></td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simTextEditorClose" id="simTextEditorClose"></a>sim.textEditorClose </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Closes a  text edition window previously opened with <a href="#simTextEditorOpen">sim.textEditorOpen</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn><div>-</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn><div>string text,table_2 pos,table_2 size=sim.textEditorClose(number handle)</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>handle</strong>: the handle of the text editor window.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>text</strong>: the text of the editor, or nil in case of an error</div>
+<div><strong>pos</strong>: the size of the editor, or nil in case of an error</div>
+<div><strong>size</strong>: the absolute position the editor, or nil in case of an error</div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simTextEditorGetInfo" id="simTextEditorGetInfo"></a>sim.textEditorGetInfo </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retieves information from a text edition window previously opened with <a href="#simTextEditorOpen">sim.textEditorOpen</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn><div>-</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn><div>string text,table_2 pos,table_2 size,boolean visible=sim.textEditorGetInfo(number handle)</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>handle</strong>: the handle of the text editor window.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>text</strong>: the text of the editor, or nil if the given handle is not associated with any text editor window (or the window was already closed)</div>
+<div><strong>pos</strong>: the size of the editor</div>
+<div><strong>size</strong>: the absolute position the editor</div>
+<div><strong>visible</strong>: the visible state the editor</div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simTextEditorOpen" id="simTextEditorOpen"></a>sim.textEditorOpen</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Opens a text edition window. See <a href="#simOpenTextEditor">simOpenTextEditor</a> for the C version of this function. See also <a href="#simTextEditorClose">sim.textEditorClose</a>, <a href="#simTextEditorShow">sim.textEditorShow</a> and <a href="#simTextEditorGetInfo">sim.textEditorGetInfo</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn><div>-</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam><div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn><div>number handle=sim.textEditorOpen(string initText,string properties)</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>initText</strong>: the initial text to be displayed.</div>
+<div><strong>xml</strong>: an XML description of the text editor's properties. Can be an empty string for default properties. Following is a valid content:</div>
+<br>
+
+<pre class=lightRedBoxNoMarginAndSmall>&lt;editor title=&quot;Window title&quot; editable=&quot;true&quot; searchable=&quot;true&quot;
+  tab-width=&quot;4&quot; toolbar=&quot;false&quot; statusbar=&quot;false&quot; resizable=&quot;true&quot; modal=&quot;false&quot;
+  on-close=&quot;callbackFunction&quot; closeable=&quot;true&quot; position=&quot;100 100&quot; size=&quot;800 600&quot;
+  placement=&quot;absolute&quot; font=&quot;Courier&quot; font-size=&quot;14&quot; activate=&quot;false&quot; editable=&quot;true&quot;
+  line-numbers=&quot;true&quot; max-lines=&quot;0&quot; is-lua=&quot;true&quot; wrap-word=&quot;false&quot;
+  text-col=&quot;50 50 50&quot; background-col=&quot;190 190 190&quot; selectionColor=&quot;128 128 255&quot;
+  comment-col=&quot;0 140 0&quot; number-col=&quot;220 0 220&quot; string-col=&quot;255 255 0&quot;
+  character-col=&quot;255 255 0&quot; operator-col=&quot;0 0 0&quot; identifier-col=&quot;64 64 64&quot;
+  preprocessor-col=&quot;0 128 128&quot; keyword1-col=&quot;152 0 0&quot; keyword2-col=&quot;220 80 20&quot;
+  keyword3-col=&quot;0 0 255&quot; keyword4-col=&quot;152 64 0&quot;&gt;
+
+  &lt;keywords1&gt;
+    &lt;item word=&quot;sim.getObjectHandle&quot; autocomplete=&quot;true&quot;
+      calltip=&quot;number handle=sim.getObjectHandle(number objectName)&quot; /&gt;
+    &lt;item word=&quot;sim.getObjectPosition&quot; autocomplete=&quot;true&quot;
+      calltip=&quot;table_3 pos=sim.getObjectPosition(number handle,
+        number relHandle)&quot; /&gt;
+  &lt;/keywords1&gt;
+  &lt;keywords2&gt;
+    &lt;item word=&quot;sim.getObjectOrientation&quot; autocomplete=&quot;true&quot;
+      calltip=&quot;table_3 euler=sim.getObjectOrientation(number handle,
+        number relHandle)&quot; /&gt;
+  &lt;/keywords2&gt;
+&lt;/editor&gt;</pre>
+<em>placement </em> attribute recognizes following values: <em>center</em>, <em>absolute</em> and <em>relative</em>.
+
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>handle</strong>: the handle of the text editor.</div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simTextEditorShow" id="simTextEditorShow"></a>sim.textEditorShow </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Shows or hides a  text edition window previously opened with <a href="#simTextEditorOpen">sim.textEditorOpen</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn><div>-</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn><div>number res=sim.textEditorShow(number handle,boolean showState)</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>handle</strong>: the handle of the text editor window.</div>
+<div><strong>showState</strong>: the desired show state of the text editor window.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>res</strong>: -1 in case of an error, 1 if the visibility state was toggled.</div>
+</td> 
 </tr> 
 </table> 
 <br>

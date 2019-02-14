@@ -31,29 +31,28 @@
 <li>auto-completion</li>
 <li>call tips</li>
 <li>syntax highlighting</li>
-<li>Highlighting of all occurrences of selected word</li>
+<li>Highlighting of all occurrences of the selected word</li>
 <li>source folding/unfolding</li>
-<li>simple word search via the &lt;ctrl+f&gt; key</li>
+<li>search and replace function</li>
 <li>no need for explicit saving</li>
+<li>jump to specific function</li>
+<li>undo/redo</li>
+<li>inspection/edition of included files</li>
 
-<p>The API functions can easily be accessed by typing the first 3 letters (usually &quot;sim&quot;). Copy/paste and undo/redo functionality of the script editor is supported through a popup menu (right-click). When a script was modified, there is no need to explicitly save the changes: closing the script editor, saving the scene or starting a <a href="simulation.htm">simulation</a> will automatically apply the changes to the script. When a simulation is running, modifications to a given script will only have an effect once a new simulation run is started, except for <a href="customizationScripts.htm">customization scripts</a> that will always apply changes once the editor was closed. </p>
+<p>The API functions can easily be accessed by typing the first 3 letters (usually &quot;sim&quot;). When a script was modified, there is no need to explicitly save the changes: closing the script editor, saving the scene or starting a <a href="simulation.htm">simulation</a> will automatically apply the changes to the script. When a simulation is running, modifications to a given script will only have an effect once a new simulation run is started, except for <a href="customizationScripts.htm">customization scripts</a> that will always apply changes once the editor was closed. The user can also explicitely restart/reset a given script, for changes to take immediately effect.</p>
 
-<p>If you have recurring functions you wish to access from a given script, you can add following line at the top of your script:</p>
+<p>If you have recurring functions you wish to access from a given script, or if you simply wish to run code from an external file, you can do this with following:</p>
 
 <pre class=lightRedBox>
 require "myExternalLuaFile"
 </pre>
 
-<p>In that case, make sure the file is named <em>myExternalLuaFile.lua</em>, and do not forget to distribute it together with your scene or model, since that code will not be part of a V-REP file anymore.</p>
-
-<p>It can also be convenient to include the code from an external lua script, for ease of maintenance, or simply if you wish to use the same script content for several scripts:</p>
-
-<pre class=lightRedBox>
-sim.include('/lua/myExternalLuaScript.lua')
-</pre>
-
-
-<p>Above way of including scripts will also allow you to edit your script content with an external editor. Remember however that you will also have to distribute the external files, when distributing your scene or model.</p>
+<p>In that case, make sure the file is named <em>myExternalLuaFile.lua</em>, and do not forget to distribute it together with your scene or model, since that code will not be part of a V-REP file anymore. Searched path are usually following:</p>
+<li><em>&lt;V-REP executable&gt;/</em></li>
+<li><em>&lt;V-REP executable&gt;/lua/</em></li>
+<li><em>&lt;current scene path&gt;/</em></li>
+<li><em>&lt;additional search path&gt;/</em> (this path can be specified with variable <em>additionalLuaPath</em> in file <em>system/usrset.txt</em>)</li>
+<p>Files included via the <em>require</em> directive can be opened in the same script editor by opening the popup menu over the file name.</p>
 <br>
 <br>
 
