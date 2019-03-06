@@ -1121,6 +1121,69 @@ Lua return values
 <br>
 <br>
 <br>
+<h3 class=subsectionBar><a name="simApplyTexture" id="simApplyTexture"></a>simApplyTexture</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Applies a texture via texture coordinates to a shape. See also <a href="#simSetShapeTexture">simSetShapeTexture</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simApplyTexture(simInt shapeHandle,const simFloat* textureCoordinates,simInt textCoordSize,const simUChar* texture,const simInt* textureResolution,simInt options)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>shapeHandle</strong>: The handle of the shape. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
+<div><strong>textureCoordinates</strong>: The UV texture coordinates. For each of the shape's triangle, there should be exactly 3 UV texture coordinate pairs</div>
+<div><strong>textCoordSize</strong>: The size of the textureCoordinate array</div>
+<div><strong>texture</strong>: The RGB or RGBA texture</div>
+<div><strong>textureResolution</strong>: The X/Y resolution of the texture</div>
+<div><strong>options</strong>: bit-coded:</div>
+<div class=tab>bit0: if set (1), then adjacent texture pixels are not interpolated</div>
+<div class=tab>bit1: if set (2), then the texture is applied as a decal (its appearance won't be influenced by light conditions)</div>
+<div class=tab>bit2: unused, keep unset</div>
+<div class=tab>bit3: unused, keep unset</div>
+<div class=tab>bit4: if set (16), then the texture is RGBA, otherwise it is RGB</div>
+<div class=tab>bit5: if set (32), then the texture is horizontally flipped</div>
+<div class=tab>bit6: if set (64), then the texture is vertically flipped</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>The ID of the texture, or -1 in case of an error</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn><div>-</div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>-</div></td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
 <h3 class=subsectionBar><a name="simAssociateScriptWithObject" id="simAssociateScriptWithObject"></a>simAssociateScriptWithObject / sim.associateScriptWithObject </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
@@ -5289,7 +5352,13 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>fileformat</strong>: the fileformat to export to. 0 for OBJ format, 1 for DXF format and 4 for BINARY STL format</div>
+<div><strong>fileformat</strong>: the fileformat to export to:</div>
+<div class=tab>0: OBJ format</div>
+<div class=tab>3: TEXT STL format</div>
+<div class=tab>4: BINARY STL format</div>
+<div class=tab>5: COLLADA format</div>
+<div class=tab>6: TEXT PLY format</div>
+<div class=tab>7: BINARY PLY format</div>
 <div><strong>pathAndFilename</strong>: the location of the file to create.</div>
 <div><strong>options</strong>: keep at 0</div>
 <div><strong>scalingFactor</strong>: the scaling factor to apply to the vertices to export</div>
@@ -5298,7 +5367,7 @@ C synopsis
 <div><strong>indices</strong>: an array to indice arrays. See the example below</div>
 <div><strong>indicesSizes</strong>: an array indicating the individual indice array sizes. See the example below</div>
 <div><strong>reserved</strong>: reserved for future extensions. Keep at NULL.</div>
-<div><strong>names</strong>: an array to mesh names. See the example below</div>
+<div><strong>names</strong>: Keep at NULL</div>
 <br>
 <div>USAGE EXAMPLE:</div>
 <pre class=lightBlueBoxNoMarginAndSmall>
@@ -5310,7 +5379,6 @@ simFloat** vertices=new simFloat*[shapeCount];
 simInt* verticesSizes=new simInt[shapeCount];
 simInt** indices=new simInt*[shapeCount];
 simInt* indicesSizes=new simInt[shapeCount];
-simChar** names=new simChar*[shapeCount];
 simInt index=0;
 while (true)
 {
@@ -5326,7 +5394,6 @@ while (true)
     verticesSizes[index-1]=vertS;
     indices[index-1]=ind;
     indicesSizes[index-1]=indS;
-    names[index-1]=simGetObjectName(shapeHandle);
     simFloat m[12];
     simGetObjectMatrix(shapeHandle,-1,m);
     for (simInt i=0;i&#60;vertS/3;i++)
@@ -5338,19 +5405,17 @@ while (true)
         vert[3*i+2]=v[2];
     }
 }
-simExportMesh(1,"d:\\example.dxf",0,1,shapeCount,vertices,
-                 verticesSizes,indices,indicesSizes,NULL,names);
+simExportMesh(0,"d:\\example.obj",0,1,shapeCount,vertices,
+                 verticesSizes,indices,indicesSizes,NULL,NULL);
 for (simInt i=0;i&#60;shapeCount;i++)
 {
     simReleaseBuffer((simChar*)vertices[i]);
     simReleaseBuffer((simChar*)indices[i]);
-    simReleaseBuffer(names[i]);
 }
 delete[] vertices;
 delete[] verticesSizes;
 delete[] indices;
-delete[] indicesSizes;
-delete[] names;</pre>
+delete[] indicesSizes;</pre>
 
 </td> 
 </tr> 
@@ -5367,20 +5432,17 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result=sim.exportMesh(number fileformat,string pathAndFilename,number options,number scalingFactor,table_of_table vertices,table_of_table indices,nil,table names)<br></td> 
+<td class=apiTableRightLSyn>number result=sim.exportMesh(number fileformat,string pathAndFilename,number options,number scalingFactor,table_of_table vertices,table_of_table indices)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div></div>
-<div><strong>fileformat</strong>: the fileformat to export to. 0 for OBJ format, 1 for DXF format and 4 for BINARY STL format</div>
-<div><strong>pathAndFilename</strong>: the location of the file to create.</div>
-<div><strong>options</strong>: keep at 0</div>
-<div><strong>scalingFactor</strong>: the scaling factor to apply to the vertices to export</div>
+<div><strong>fileformat</strong>: same as C function</div>
+<div><strong>pathAndFilename</strong>: same as C function</div>
+<div><strong>options</strong>: same as C function</div>
+<div><strong>scalingFactor</strong>: same as C function</div>
 <div><strong>vertices</strong>: a table of vertice tables. See the example below</div>
 <div><strong>indices</strong>: a table of indice tables. See the example below</div>
-<div><strong>nil</strong>: reserved for future extensions.</div>
-<div><strong>names</strong>: a table of mesh names. See the example below</div>
 <br>
 <div>USAGE EXAMPLE (e.g. in a <a href="customizationScripts.htm">customization script</a>):</div>
 <pre class=lightRedBoxNoMarginAndSmall>
@@ -5388,7 +5450,6 @@ Lua synopsis
 if (exportButtonPressed) then
     allVertices={}
     allIndices={}
-    allNames={}
     shapeIndex=0
     while (true) do
         h=sim.getObjects(shapeIndex,sim.object_shape_type)
@@ -5407,10 +5468,9 @@ if (exportButtonPressed) then
         end
         table.insert(allVertices,vertices)
         table.insert(allIndices,indices)
-        table.insert(allNames,sim.getObjectName(h))
     end
     if (#allVertices>0) then
-        sim.exportMesh(1,"d:\\example.dxf",0,1,allVertices,allIndices,nil,allNames)
+        sim.exportMesh(0,"d:\\example.obj",0,1,allVertices,allIndices)
     end
 end</pre>
 </td> 
@@ -14841,13 +14901,13 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>fileformat</strong>: the fileformat to import from. 0 for OBJ format, 1 for DXF format, 2 for 3DS format, 3 for ASCII STL format and 4 for BINARY STL format<br>
-</div>
+<div><strong>fileformat</strong>: set to 0. Fileformat is automatically detected</div>
+
 <div><strong>pathAndFilename</strong>: the location of the file to import.<br>
 </div>
-<div><strong>options</strong>: bit-coded: bit0 set (1): keep identical vertices, bit1 set (2): keep identical triangles, bit2 set (4): don't correct triangle windings<br>
-</div>
-<div><strong>identicalVerticeTolerance</strong>: the distance from which two distinct vertices will be merged. Bit0 of options should be cleared for this to have an effect<br>
+<div><strong>options</strong>: bit-coded: bit0 set (1): keep identical vertices</div>
+
+<div><strong>identicalVerticeTolerance</strong>: has no effect. set to zero<br>
 </div>
 <div><strong>scalingFactor</strong>: the scaling factor to apply to the imported vertices<br>
 </div>
@@ -14861,7 +14921,7 @@ C synopsis
 </div>
 <div><strong>reserved</strong>: reserved for future extensions. Keep at NULL.<br>
 </div>
-<div><strong>names</strong>: an array to mesh names extracted from the file. The import operation may generate several meshes depending on the fileformat. The user is in charge of releasing the memory. See the example below<br>
+<div><strong>names</strong>: not used anymore. Set to NULL<br>
 </div>
 <br>
 <div>USAGE EXAMPLE:</div>
@@ -14870,9 +14930,8 @@ simFloat** vertices;
 simInt* verticesSizes;
 simInt** indices;
 simInt* indicesSizes;
-simChar** names;
 simInt elementCount=simImportMesh(1,"d:\\example.dxf",0,0.0001f,1.0f,&vertices,
-                            &verticesSizes,&indices,&indicesSizes,NULL,&names);
+                            &verticesSizes,&indices,&indicesSizes,NULL,NULL);
 if (elementCount>0)
 {
     const float grey[3]={0.5f,0.5f,0.5f};
@@ -14880,13 +14939,10 @@ if (elementCount>0)
     {
         simInt shapeHandle=simCreateMeshShape(2,20.0f*3.1415f/180.0f,vertices[i],
                                verticesSizes[i],indices[i],indicesSizes[i],NULL);
-        simSetObjectName(shapeHandle,names[i]);
         simSetShapeColor(shapeHandle,"",sim_colorcomponent_ambient,grey);
-        simReleaseBuffer(names[i]);
         simReleaseBuffer((simChar*)indices[i]);
         simReleaseBuffer((simChar*)vertices[i]);
     }
-    simReleaseBuffer((simChar*)names);
     simReleaseBuffer((simChar*)indicesSizes);
     simReleaseBuffer((simChar*)indices);
     simReleaseBuffer((simChar*)verticesSizes);
@@ -14907,7 +14963,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table_of_table vertices,table_of_table indices,nil,table names=sim.importMesh(number fileformat,string pathAndFilename,number options,number identicalVerticeTolerance,number scalingFactor)<br></td> 
+<td class=apiTableRightLSyn>table_of_table vertices,table_of_table indices=sim.importMesh(number fileformat,string pathAndFilename,number options,number identicalVerticeTolerance,number scalingFactor)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -14920,13 +14976,9 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div></div>
 <div><strong>vertices</strong>: a table to vertice tables, or nil if operation was not successful. The import operation may generate several meshes depending on the fileformat. See the example below<br>
 </div>
 <div><strong>indices</strong>: a table to indice tables, or nil if operation was not successful. The import operation may generate several meshes depending on the fileformat. See the example below<br>
-</div>
-<div><strong>nil</strong>: return value is reserved for future extensions</div>
-<div><strong>names</strong>: a table to mesh names extracted from the file, or nil if operation was not successful. The import operation may generate several meshes depending on the fileformat. See the example below<br>
 </div>
 <br>
 <div>USAGE EXAMPLE (e.g. in a <a href="customizationScripts.htm">customization script</a>):</div>
@@ -14964,17 +15016,18 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>fileformat</strong>: the fileformat to import from. 0 for OBJ format, 1 for DXF format, 2 for 3DS format, 3 for ASCII STL format,  4 for BINARY STL format and 5 for COLLADA format (in that case, make sure the collada plugin is available and correctly loaded).<br>
+<div><strong>fileformat</strong>: set to 0. Fileformat is automatically detected<br>
 </div>
 <div><strong>pathAndFilename</strong>: the location of the file to import.<br>
 </div>
 <div><strong>options</strong>: bit-coded:</div>
 <div class=tab>bit0 set (1): keep identical vertices</div>
-<div class=tab>bit1 set (2): keep identical triangles</div>
+<div class=tab>bit1 set (2): reserced. keep at 0.</div>
 <div class=tab>bit2 set (4): reserved. keep at 0.</div>
-<div class=tab>bit3 set (8): do not preserve colors (only for COLLADA format for now)</div>
-<div class=tab>bit4 set (16): tries to preserve textures (OBJ format only). When this bit is set and several shapes are imported, they will be grouped. If the bit is not set and several shapes are imported, they will be merged.</div>
-<div><strong>identicalVerticeTolerance</strong>: the distance from which two distinct vertices will be merged. Bit0 of options should be cleared for this to have an effect<br>
+<div class=tab>bit3 set (8): do not preserve colors</div>
+<div class=tab>bit4 set (16): tries to preserve textures.</div>
+<div class=tab>bit5 set (32): realigns the shape's bounding box with the world.</div>
+<div><strong>identicalVerticeTolerance</strong>: not used. Set to 0<br>
 </div>
 <div><strong>scalingFactor</strong>: the scaling factor to apply to the imported vertices<br>
 </div>
@@ -24735,7 +24788,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Applies (or removes) a texture to a shape. See also <a href="#simGetTextureId">sim.getTextureId</a>, <a href="#simGetShapeTextureId">sim.getShapeTextureId</a> and <a href="#simCreateTexture">sim.createTexture</a>.</td>
+<td class=apiTableRightDescr>Applies (or removes) a texture to a shape. See also <a href="#simGetTextureId">sim.getTextureId</a>, <a href="#simGetShapeTextureId">sim.getShapeTextureId</a>, <a href="#simCreateTexture">sim.createTexture</a> and <a href="#simApplyTexture">simApplyTexture</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
