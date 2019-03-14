@@ -5726,7 +5726,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Generates a path that drives a robot from its current configuration to its target dummy in a straight line (i.e. shortest path in Cartesian space).</td>
+<td class=apiTableRightDescr>Generates a path that drives a robot from its current configuration to its target dummy in a straight line (i.e. shortest path in Cartesian space). The function returns NULL if the robot is not able to perform the movement with its end-effector, the reasons can be: there are collisions on the way, or some of the points on the line cannot be reached (e.g. out of reach, or due to joint limits)</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -22461,7 +22461,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the maximum force or torque that a joint can exert. This function has no effect when the joint is not dynamically enabled, or when it is a spherical joint. See also <a href="#simGetJointForce">sim.getJointForce</a>.<br></td>
+<td class=apiTableRightDescr>Sets the maximum force or torque that a joint can exert. The joint will apply that force/torque until the joint target velocity has been reached. To apply a negative force/torque, set a negative target velocity. This function has no effect when the joint is not dynamically enabled, or when it is a spherical joint. See also <a href="#simGetJointForce">sim.getJointForce</a>. and <a href="#simSetJointTargetVelocity">sim.setJointTargetVelocity</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -22473,7 +22473,7 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>objectHandle</strong>: handle of the joint object</div>
-<div><strong>forceOrTorque</strong>: the maximum force or torque that the joint can exert</div>
+<div><strong>forceOrTorque</strong>: the maximum force or torque that the joint can exert. This cannot be a negative value.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
