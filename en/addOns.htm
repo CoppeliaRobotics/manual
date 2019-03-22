@@ -26,11 +26,11 @@ functions. Add-ons  are written in <a href="http://www.lua.org">Lua</a>. Two typ
 first in the add-on menu. They can be seen as functions that will be
 executed once, when selected by the user. Importers and exporters can
 conveniently be implemented with them. </li>
-<li><strong>Add-on scripts</strong>: add-on scripts are executed
-constantly while the simulator is running, effectively running in the
+<li><strong>Add-on scripts</strong>: add-on scripts are persistent across all opened scenes, and are executed
+constantly, effectively running in the
 background. They should only execute minimalistic code everytime they
 are called, since the whole application would otherwise slow down.
-Add-on scripts are called frequently by the system, with a <a href="scriptExecution.htm">precise order</a>.</li>
+Add-on scripts are called frequently by the system, with a <a href="scriptExecution.htm">precise order</a>. Add-on scripts share a lot of properties with <a href="sandboxScript.htm">the sandbox script</a>.</li>
 
 <p>Add-on functions should be written in a text file located in the
 same folder as the main application, with following naming convention:</p>
@@ -83,6 +83,9 @@ end
 function <strong>sysCall_suspend</strong>()
 end
 
+function <strong>sysCall_suspended</strong>()
+end
+
 function <strong>sysCall_resume</strong>()
 end
 
@@ -125,6 +128,12 @@ function <strong>sysCall_afterDelete</strong>(inData)
         print("Object with handle "..key.." was deleted")
     end
     -- inData.allObjects indicates if all objects in the scene were deleted
+end
+
+function <strong>sysCall_afterCreate</strong>(inData)
+    for i=1,#inData.objectHandles,1 do
+        print("Object with handle "..inData.objectHandles[i].." was created")
+    end
 end</pre>
 
 
@@ -139,6 +148,7 @@ a thread. This is because add-ons operate in a non-threaded fashion.</li>
 <h3 class="recommendedTopics">Recommended topics</h3>
 <li><a href="http://www.lua.org">Lua</a></li>
 <li><a href="plugins.htm">Plugins</a></li>
+<li><a href="sandboxScript.htm">The sandbox script</a></li>
 <li><a href="apiFunctionListAlphabetical.htm">Regular API functions</a></li>
 <br>
 <br>

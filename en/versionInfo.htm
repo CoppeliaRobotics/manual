@@ -45,6 +45,14 @@ Version history:
 
 
 <table class=subsectionTable><tr class=subsectionTd>
+ <td class=subsectionTd><a name="3.6.2"></a>V-REP V3.6.2 (Not yet released)</td></tr></table> 
+ 
+<li>Fixed several bugs. Thanks to xxx and xxx for noticing them or helping to resolve them.</li>
+<li><a href="sandboxScript.htm">The sandbox script</a> is now loaded from <em>system/sndbxscpt.txt</em> at start-up, and can contain similar callback functions as <a href="addOns.htm">add-on scripts</a>.</li>
+<br>
+<br>
+
+<table class=subsectionTable><tr class=subsectionTd>
  <td class=subsectionTd><a name="3.6.1"></a>V-REP V3.6.1 (March 15th 2019)</td></tr></table> 
  
 <li>Fixed several bugs. Thanks to Julian Mayer and Boris Bogaerts for noticing them or helping to resolve them.</li>
@@ -91,7 +99,7 @@ Version history:
 <li>Switched to Qt 5.9.0 LTS on all platforms.</li>
 <li>Added an <a href="blueZeroPlugin.htm">interface plugin</a> to the <a href="https://github.com/blueworkforce/bluezero" target="_blank">BlueZero middleware</a>. BlueZero (or B&Oslash;) is a cross-platform middleware which provides tools for interconnecting pieces of software running in multiple threads, multiple processes and even multiple machines.</li>
 <li>From within a script, <em>print()</em> now prints to the status bar, instead of the console. This can be reverted with <em>print=printToConsole</em>. <em>printf</em>() is now also supported. Both, <em>print</em> and printf will now also print the content of tables.</li>
-<li>Added a Lua commander plugin (read-eval-print loop), that adds a text input to the V-REP status bar, which allows entering and executing Lua code on the fly, like in a terminal. The code can be run in a sandbox script, or any other active script in V-REP</li>
+<li>Added a Lua commander plugin (read-eval-print loop), that adds a text input to the V-REP status bar, which allows entering and executing Lua code on the fly, like in a terminal. The code can be run in the <a href="sandboxScript.htm">sandbox script</a>, or any other active script in V-REP</li>
 <li>Moved all the source code items related to V-REP to <a href="https://github.com/CoppeliaRobotics" target="_blank">github</a>.</li>
 <li>Switched to a cleaner API notation for Lua scripts: V-REP function names have moved to the <strong>sim.</strong> namespace (e.g. simGetObjectHandle is now sim.getObjectHandle), plugin function names have moved to specific namespaces (e.g. simExtOMPL_createStateSpace is now simOMPL.createStateSpace). The old API functions remain functional for backward compatibility. Known API functions in embedded scripts are automatically adjusted for that notation change. This makes scenes and models saved with this V-REP version not compatible with older V-REP versions, so make sure to backup your scenes and models. This automatic API function adjustment can be disabled, with  
   <em>changeScriptCodeForNewApiNotation</em>
