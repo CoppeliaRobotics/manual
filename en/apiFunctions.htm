@@ -2034,7 +2034,7 @@ Lua synopsis
 <div class=tab><em>sim.scripttype_mainscript</em> (0): the <a href="mainScript.htm">main script</a> will be called.</div>
 <div class=tab><em>sim.scripttype_childscript</em> (1): a <a href="childScripts.htm">child script</a> will be called. A script name needs to be specified (i.e. the object name where the script is attached)</div>
 <div class=tab><em>sim.scripttype_customizationscript</em> (6): a <a href="customizationScripts.htm">customization script</a> will be called. A script name needs to be specified (i.e. the object name where the script is attached)</div>
-<div class=tab><em>sim.scripttype_sandboxscript</em> (8): the sandbox script will be called.</div>
+<div class=tab><em>sim.scripttype_sandboxscript</em> (8): <a href="sandboxScript.htm">the sandbox script</a> will be called.</div>
 <div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="addOns.htm">add-on script</a> will be called (the add-on needs to be running). A script name needs to be specified (e.g. for  add-on <em>vrepAddOnScript-b0RemoteApiServer.lua</em>, <em>b0RemoteApiServer</em> is the script name)</div>
 <div><strong>...</strong>: any number of arguments that will be handed over to the called function.</div>
 </td> 
@@ -2089,7 +2089,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the type of the script:</div>
 <div class=tab><em>sim_scripttype_mainscript</em> (0): the <a href="mainScript.htm">main script</a> will be called.</div>
-<div class=tab><em>sim.scripttype_sandboxscript</em> (8): the sandbox script will be called.</div>
+<div class=tab><em>sim.scripttype_sandboxscript</em> (8): <a href="sandboxScript.htm">the sandbox script</a> will be called.</div>
 <div class=tab><em>sim_scripttype_childscript</em> (1): a <a href="childScripts.htm">child script</a> will be called. In that case, <em>functionNameAtScriptName</em> should also contain the name of the object associated with the script.</div>
 <div class=tab><em>sim_scripttype_customizationscript</em> (6): a <a href="customizationScripts.htm">customization script</a> will be called. In that case, <em>functionNameAtScriptName</em> should also contain the name of the object associated with the script.</div>
 <div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="addOns.htm">add-on script</a> will be called (the add-on needs to be running). In that case, <em>functionNameAtScriptName</em> should also contain the name of the script (e.g. for  add-on <em>vrepAddOnScript-b0RemoteApiServer.lua</em>, <em>b0RemoteApiServer</em> is the script name)</div>
@@ -5236,7 +5236,7 @@ C synopsis
 <div class=tab><em>sim_scripttype_mainscript</em> (0): the <a href="mainScript.htm">main script</a>.</div>
 <div class=tab><em>sim_scripttype_childscript</em> (1): a <a href="childScripts.htm">child script</a>. In that case, <em>stringAtScriptName</em> should also contain the name of the object associated with the script.</div>
 <div class=tab><em>sim_scripttype_customizationscript</em> (6): a <a href="customizationScripts.htm">customization script</a>. In that case, <em>stringAtScriptName</em> should also contain the name of the object associated with the script.</div>
-<div class=tab><em>sim_scripttype_sandboxscript</em> (8): the sandbox script.</div>
+<div class=tab><em>sim_scripttype_sandboxscript</em> (8): <a href="sandboxScript.htm">the sandbox script</a>.</div>
 <div><strong>stringAtScriptName</strong>: some Lua code to execute in the specified script, followed by @: &quot;string@&quot;. If <em>scriptHandleOrType</em> is <em>sim_scripttype_childscript</em>, or <em>sim_scripttype_customizationscript</em>, then <em>stringAtScriptName</em> should also contain the name of the object associated with the script: &quot;string@objectName&quot;.</div>
 <div><strong>stackId</strong>: 0 (for no stack) or a <a href="#simCreateStack">stack handle</a>. The stack holds possible out values. See also the <a href="apiFunctionListCategory.htm#stacks">available stack functions</a>.</div>
 </td> 
@@ -14109,25 +14109,13 @@ Lua return values
 <br>
 <br>
 <br>
-<h3 class=subsectionBar><a name="simHandleChildScript" id="simHandleChildScript"></a>simHandleChildScript (REPLACED)</h3>
+<h3 class=subsectionBar><a name="simHandleAddOnScripts" id="simHandleAddOnScripts"></a>sim.handleAddOnScripts</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>This function doesn't exist anymore since V-REP 3.1.3, and you should use <a href="#simHandleChildScripts">sim.handleChildScripts</a> instead. Scenes saved with V-REP versions prior to V-REP 3.1.3 are normally automatically adjusted.</td>
-</tr> 
-</table> 
-<br>
-<br>
-<br>
-<h3 class=subsectionBar><a name="simHandleChildScripts" id="simHandleChildScripts"></a>simHandleChildScripts / sim.handleChildScripts </h3>
-<table class=apiTable>
-<tr class=apiTableTr> 
-<td class=apiTableLeftDescr>
-Description 
-</td> 
-<td class=apiTableRightDescr>Executes <a href="childScripts.htm#nonThreaded">non-threaded child scripts</a> located in the current scene hierarchy branch.  Child scripts will be executed in a <a href="scriptExecution.htm">precise order</a>. simHandleChildScripts should only be called from the <a href="mainScript.htm">main script</a>.<br></td>
+<td class=apiTableRightDescr>Calls a specific function in <a href="addOns.htm">add-ons</a>.  sim.handleAddOnScripts should only be called from the <a href="mainScript.htm">main script</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -14154,13 +14142,13 @@ C return value
 Lua synopsis
 </td> 
 <td class=apiTableRightLSyn>
-<div>number executedScriptCount=sim.handleChildScripts(number systemCallbackType)</div>
+<div>number count=sim.handleAddOnScripts(number callType)</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>callType</strong>: the desired system call type for the child scripts (e.g. <em>sysCall_actuation</em>).</div>
+<div><strong>callType</strong>: the desired system call type (e.g. <em>sysCall_actuation</em>).</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -14168,7 +14156,73 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>executedScriptCount: number of executed non-threaded child scripts</div>
+<div>count: number of called add-on scripts</div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simHandleChildScript" id="simHandleChildScript"></a>simHandleChildScript (REPLACED)</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>This function doesn't exist anymore since V-REP 3.1.3, and you should use <a href="#simHandleChildScripts">sim.handleChildScripts</a> instead. Scenes saved with V-REP versions prior to V-REP 3.1.3 are normally automatically adjusted.</td>
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simHandleChildScripts" id="simHandleChildScripts"></a>sim.handleChildScripts</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Calls a specific function in  <a href="childScripts.htm#nonThreaded">non-threaded child scripts</a>.  Child scripts will be executed in a <a href="scriptExecution.htm">precise order</a>. sim.handleChildScripts should only be called from the <a href="mainScript.htm">main script</a>.<br></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>-</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>
+<div>number scriptCount=sim.handleChildScripts(number callType)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>callType</strong>: the desired system call type (e.g. <em>sysCall_actuation</em>).</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>scriptCount: number of called non-threaded child scripts</div>
 </td> 
 </tr> 
 </table> 
@@ -14225,6 +14279,60 @@ Lua return values
 <td class=apiTableRightLRet>
 <div><strong>collisionCount</strong>: number of collisions or -1 if operation was not successful.</div>
 <div><strong>collidingObjectHandles</strong>: handles of the two colliding objects. This return value is only available when a collision object handle is provided (i.e. explicit handling).</div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simHandleCustomizationScripts" id="simHandleCustomizationScripts"></a>sim.handleCustomizationScripts</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Calls a specific function in  <a href="customizationScripts.htm">customization scripts</a>.  Customization scripts will be executed in a <a href="scriptExecution.htm">precise order</a>. sim.handleCustomizationScripts should only be called from the <a href="mainScript.htm">main script</a>.<br></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>-</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>
+<div>number count=sim.handleCustomizationScripts(number callType)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>callType</strong>: the desired system call type (e.g. <em>sysCall_actuation</em>).</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>count: number of called customization scripts</div>
 </td> 
 </tr> 
 </table> 
@@ -14745,6 +14853,60 @@ Lua return values
 <br>
 <div>When several proximity sensors are handled at the same time (e.g. with the sim.handle_all argument), then the return values are relative to the closest detection distance<br>
 </div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simHandleSandboxScript" id="simHandleSandboxScript"></a>sim.handleSandboxScript</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Calls a specific function in the <a href="sandboxScript.htm">sandbox script</a>.  sim.handleSandboxScript should only be called from the <a href="mainScript.htm">main script</a>.<br></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>-</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>
+<div>sim.handleSandboxScript(number callType)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>callType</strong>: the desired system call type (e.g. <em>sysCall_actuation</em>).</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>-</div>
 </td> 
 </tr> 
 </table> 
