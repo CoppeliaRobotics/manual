@@ -28,16 +28,18 @@ Description
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simRunSimulator(const simChar* applicationName,simInt options,simVoid(*initCallBack)(),simVoid(*loopCallBack)(),simVoid(*deinitCallBack)())<br></td> 
+<td class=apiTableRightCSyn>simInt simRunSimulator(const simChar* applicationName,simInt options,simVoid(*initCallBack)(),simVoid(*loopCallBack)(),simVoid(*deinitCallBack)(),simInt stopDelay,simChar* sceneOrModelToLoad)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>applicationName</strong>: name of the application</div>
 <div><strong>options</strong>: <a href="../apiConstants.htm#startupOptions">start-up options</a> (combine them with the OR operator)</div>
-<div><strong>initCallBack</strong>: the call-back address of the initialization routine. The initialization routine will be called just once, and should be used to load plugins for instance. Can be NULL</div>
-<div><strong>loopCallBack</strong>: the call-back address of the main simulator loop. That routine is called continuously in a loop, and should react to simulator messages (<a href="simGetSimulatorMessage.htm">simGetSimulatorMessage</a>), and handle running simulations. Can be NULL</div>
-<div><strong>deinitCallBack</strong>: the call-back address of the deinitialization routine. The deinitialization routine will be called just once, before the simulation ends, and should be used to unload plugins for instance. Can be NULL</div>
+<div><strong>initCallBack</strong>: the call-back address of the initialization routine. The initialization routine will be called just once, and should be used to load plugins for instance. Can be NULL for the default initialization routine.</div>
+<div><strong>loopCallBack</strong>: the call-back address of the main simulator loop. That routine is called continuously in a loop, and should react to simulator messages (<a href="simGetSimulatorMessage.htm">simGetSimulatorMessage</a>), and handle running simulations. Can be NULL for the default loop routine.</div>
+<div><strong>deinitCallBack</strong>: the call-back address of the deinitialization routine. The deinitialization routine will be called just once, before the simulation ends, and should be used to unload plugins for instance. Can be NULL for the default deinitialization routine.</div>
+<div><strong>stopDelay</strong>: a delay in simulation milliseconds, after which the first simulation run will stop, or 0 for no automatic stopping.</div>
+<div><strong>sceneOrModelToLoad</strong>: the name of the initial scene or model to load.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
