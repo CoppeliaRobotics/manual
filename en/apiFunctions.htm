@@ -13123,6 +13123,60 @@ Lua return values
 <br>
 <br>
 <br>
+<h3 class=subsectionBar><a name="simGetStringNamedParam" id="simGetStringNamedParam"></a>simGetStringNamedParam / sim.getStringNamedParam</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves a named string or buffer value. See also <a href="#simSetNamedStringParam">sim.setNamedStringParam</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simChar* simGetStringNamedParam(const simChar* paramName,simInt* paramLength)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>paramName</strong>: the key or name of the parameter</div>
+<div><strong>paramLength</strong>: the size of the parameter</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>NULL if operation was not successful or if such a parameter does not exist. Otherwise the parameter. The user is in charge of releasing the returned buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>string stringParam=sim.getStringNamedParam(string paramName)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div>Same as C-function</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>Same as C-function</div>
+</td> 
+</tr> 
+
+</table> 
+<br>
+<br>
+<br>
 <h3 class=subsectionBar><a name="simGetStringParameter" id="simGetStringParameter"></a>simGetStringParameter / sim.getStringParameter</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
@@ -15033,7 +15087,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Handles (performs sensing, etc. of) a registered vision sensor object. See also <a href="#simReadVisionSensor">sim.readVisionSensor</a>, <a href="#simCheckVisionSensor">sim.checkVisionSensor</a>, <a href="#simCheckVisionSensorEx">sim.checkVisionSensorEx</a> and <a href="#simResetVisionSensor">sim.resetVisionSensor</a>.<br></td>
+<td class=apiTableRightDescr>Handles (performs sensing, etc. of) a registered vision sensor object. It will (1) clear previous computer filter data, (2) read an image and (3) compute filter data on the new image (if the vision sensor is using an <strong>external input</strong> only (1) will be performed).See also <a href="#simReadVisionSensor">sim.readVisionSensor</a>, <a href="#simCheckVisionSensor">sim.checkVisionSensor</a>, <a href="#simCheckVisionSensorEx">sim.checkVisionSensorEx</a> and <a href="#simResetVisionSensor">sim.resetVisionSensor</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -20953,16 +21007,18 @@ Description
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simRunSimulator(const simChar* applicationName,simInt options,simVoid(*initCallBack)(),simVoid(*loopCallBack)(),simVoid(*deinitCallBack)())<br></td> 
+<td class=apiTableRightCSyn>simInt simRunSimulator(const simChar* applicationName,simInt options,simVoid(*initCallBack)(),simVoid(*loopCallBack)(),simVoid(*deinitCallBack)(),simInt stopDelay,simChar* sceneOrModelToLoad)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>applicationName</strong>: name of the application</div>
 <div><strong>options</strong>: <a href="apiConstants.htm#startupOptions">start-up options</a> (combine them with the OR operator)</div>
-<div><strong>initCallBack</strong>: the call-back address of the initialization routine. The initialization routine will be called just once, and should be used to load plugins for instance. Can be NULL</div>
-<div><strong>loopCallBack</strong>: the call-back address of the main simulator loop. That routine is called continuously in a loop, and should react to simulator messages (<a href="#simGetSimulatorMessage">simGetSimulatorMessage</a>), and handle running simulations. Can be NULL</div>
-<div><strong>deinitCallBack</strong>: the call-back address of the deinitialization routine. The deinitialization routine will be called just once, before the simulation ends, and should be used to unload plugins for instance. Can be NULL</div>
+<div><strong>initCallBack</strong>: the call-back address of the initialization routine. The initialization routine will be called just once, and should be used to load plugins for instance. Can be NULL for the default initialization routine.</div>
+<div><strong>loopCallBack</strong>: the call-back address of the main simulator loop. That routine is called continuously in a loop, and should react to simulator messages (<a href="#simGetSimulatorMessage">simGetSimulatorMessage</a>), and handle running simulations. Can be NULL for the default loop routine.</div>
+<div><strong>deinitCallBack</strong>: the call-back address of the deinitialization routine. The deinitialization routine will be called just once, before the simulation ends, and should be used to unload plugins for instance. Can be NULL for the default deinitialization routine.</div>
+<div><strong>stopDelay</strong>: a delay in simulation milliseconds, after which the first simulation run will stop, or 0 for no automatic stopping.</div>
+<div><strong>sceneOrModelToLoad</strong>: the name of the initial scene or model to load.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -25245,6 +25301,61 @@ Remote API equiv.
 </td> 
 </tr> 
 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simSetStringNamedParam" id="simSetStringNamedParam"></a>simSetStringNamedParam / sim.setStringNamedParam</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets a named string or buffer value. See also <a href="#simGetStringNamedParam">sim.getStringNamedParam</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simSetStringNamedParam(const simChar* paramName,const simChar* stringParam,simInt paramLength)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>paramName</strong>: the key or name of the parameter</div>
+<div><strong>stringParam</strong>: the string or buffer value</div>
+<div><strong>paramLength</strong>: the size of the string or buffer value</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 if operation was not successful. 0 if an existing parameter was replaced, 1 if the parameter was set<br>
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>number result=sim.setStringNamedParam(string paramName,string stringParam)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div>Same as C-function</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>Same as C-function</div>
+<div></div></td> 
+</tr> 
 </table> 
 <br>
 <br>
