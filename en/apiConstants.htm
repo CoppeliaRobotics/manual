@@ -297,6 +297,8 @@ See also the <a href="regularApi/simHandleIkGroup.htm">sim.handleIkGroup</a> fun
 <div class=tab>bit10 set: key pressed</div>
 <div class=tab>bit11 set: simulation started</div>
 <div class=tab>bit12 set: simulation ended</div>
+<div>sim_message_eventcallback_uipass</div>
+<div class=tab>Called just after sim_message_eventcallback_instancepass, but from the UI thread</div>
 <div>sim_message_eventcallback_lastinstancepass</div>
 <div class=tab>Last call from the simulation thread to the plugin, that is unloading</div>
 <div>sim_message_eventcallback_instanceswitch</div>
@@ -310,60 +312,10 @@ See also the <a href="regularApi/simHandleIkGroup.htm">sim.handleIkGroup</a> fun
 <div>sim_message_eventcallback_menuitemselected (<strong>called from the UI thread</strong>)</div>
 <div class=tab>auxiliaryData[0]=handle of the item</div>
 <div class=tab>auxiliaryData[1]=state of the item</div>
-<div>sim_message_eventcallback_broadcast</div>
-<div class=tab>auxiliaryData[0]=header (e.g. a large, random identifier, or your V-REP serial number)</div>
-<div class=tab>auxiliaryData[1]=message ID</div>
 <div>sim_message_eventcallback_scenesave</div>
 <div class=tab>about to save a scene</div>
 <div>sim_message_eventcallback_modelsave</div>
 <div class=tab>about to save a model (current selection will be saved)</div>
-<div>sim_message_eventcallback_moduleopen</div>
-<div class=tab>called when sim.openModule in Lua is called</div>
-<div class=tab>customData=name of the plugin to execute the command, or NULL if all should execute the command</div>
-<div>sim_message_eventcallback_modulehandle</div>
-<div class=tab>called when sim.handleModule in Lua is called with second argument false</div>
-<div class=tab>customData=name of the plugin to execute the command, or NULL if all should execute the command</div>
-<div>sim_message_eventcallback_modulehandleinsensingpart</div>
-<div class=tab>called when sim.handleModule in Lua is called with second arg. true</div>
-<div class=tab>customData=name of the plugin to execute the command, or NULL if all should execute the command</div>
-<div>sim_message_eventcallback_moduleclose</div>
-<div class=tab>called when sim.closeModule in Lua is called</div>
-<div class=tab>customData=name of the plugin to execute the command, or NULL if all should execute the command</div>
-<div>sim_message_eventcallback_renderingpass (<strong>called from the UI thread</strong>)</div>
-<div class=tab>called just before the scene is rendered. Enable via <a href="regularApi/simEnableEventCallback.htm">simEnableEventCallback</a>.</div>
-<div>sim_message_eventcallback_beforerendering</div>
-<div class=tab>called just before the scene is rendered, but still from the main simulation thread. Only called when in non-threaded rendering mode.</div>
-<div>sim_message_eventcallback_imagefilter_enumreset</div>
-<div class=tab>"reset enumeration" message for filter plugins</div>
-<div>sim_message_eventcallback_imagefilter_enumerate</div>
-<div class=tab>"enumerate" message for filter plugins</div>
-<div class=tab>replyData[0]=header ID</div>
-<div class=tab>replyData[1]=filterID. A positive ID (including 0) represents a filter whose parameters can be edited. A filter with a negative ID cannot be edited.</div>
-<div class=tab>Return the filter's name as the callback return value (allocate the buffer with the simCreateBuffer function)</div>
-<div>sim_message_eventcallback_imagefilter_adjustparams (<strong>called from the UI thread</strong>)</div>
-<div class=tab>"edit filter parameters" message for filter plugins</div>
-<div class=tab>auxiliaryData[0]=header ID</div>
-<div class=tab>auxiliaryData[1]=filter ID</div>
-<div class=tab>auxiliaryData[2]=size in bytes of the filter parameter buffer to be edited</div>
-<div class=tab>customData=filter parameter buffer. Can be NULL (is NULL when filter parameters were never edited)</div>
-<div class=tab>replyData[0]=size in bytes of the edited filter parameter buffer returned as the callback return buffer. That buffer has to be allocated with the simCreateBuffer command and is automatically released by V-REP upon callback return.</div>
-<div>sim_message_eventcallback_imagefilter_process (<strong>called from the UI thread</strong>)</div>
-<div class=tab>"do image processing" message for filter plugins</div>
-<div class=tab>auxiliaryData[0]=header ID</div>
-<div class=tab>auxiliaryData[1]=filter ID</div>
-<div class=tab>auxiliaryData[2]=resolution X</div>
-<div class=tab>auxiliaryData[3]=resolution Y</div>
-<div class=tab>auxiliaryData[4]=vision sensor handle (available from V-REP 3.1.0 only)</div>
-<div class=tab>customData[0]=input image (size: x*y*3 floats)</div>
-<div class=tab>customData[1]=input depth image (size: x*y floats)</div>
-<div class=tab>customData[2]=work image (size: x*y*3 floats)</div>
-<div class=tab>customData[3]=buffer image 1 (size: x*y*3 floats)</div>
-<div class=tab>customData[4]=buffer image 2 (size: x*y*3 floats)</div>
-<div class=tab>customData[5]=output image (size: x*y*3 floats)</div>
-<div class=tab>customData[6]=filter parameter buffer (size: custom), can be NULL (is NULL when filter parameters were never edited)</div>
-<div class=tab>replyData[0]=1 if the sensor should trigger a detection, 0 otherwise</div>
-<div class=tab>replyData[1]=number of float values returned, representing auxiliary information (that can be retrieved with sim.handleVisionSensor). The auxiliary information can represent a vector, a direction, any result from an image processing algorithm. Allocate the return float buffer with simCreateBuffer</div>
-
 <div>sim_message_eventcallback_abouttoundo</div>
 <div class=tab>the undo button was hit and a previous state is about to be restored</div>
 <div>sim_message_eventcallback_undoperformed</div>
@@ -393,8 +345,6 @@ See also the <a href="regularApi/simHandleIkGroup.htm">sim.handleIkGroup</a> fun
 <div class=tab>called after a scene was loaded</div>
 <div>sim_message_eventcallback_modelloaded</div>
 <div class=tab>called after a model was loaded</div>
-<div>sim_message_eventcallback_guipass (<strong>called from the UI thread</strong>)</div>
-<div class=tab>Called on a regular basis from the GUI thread.</div>
 <div>sim_message_eventcallback_mainscriptabouttobecalled</div>
 <div class=tab>Called just before the main script is called. If a plugin intercepts this message and writes a value different from -1 into replyData[0], the main script will not be called.</div>
 <div>sim_message_eventcallback_rmlpos</div>
@@ -405,36 +355,7 @@ See also the <a href="regularApi/simHandleIkGroup.htm">sim.handleIkGroup</a> fun
 <div class=tab>the command sim.rmlStep was called. The appropriate plugin should handle the call</div>
 <div>sim_message_eventcallback_rmlremove</div>
 <div class=tab>the command sim.rmlRemove was called. The appropriate plugin should handle the call</div>
-<div>sim_message_eventcallback_pathplanningplugin</div>
-<div class=tab>a path planning function was called. The appropriate plugin (i.e. 'PathPlanning') should handle the call</div>
-<div>sim_message_eventcallback_colladaplugin</div>
 <div class=tab>a collada plugin function was called. The appropriate plugin (i.e. 'Collada') should handle the call</div>
-<div>sim_message_eventcallback_opengl. Enable via <a href="regularApi/simEnableEventCallback.htm">simEnableEventCallback</a>. (<strong>called from the UI thread</strong>)</div>
-<div class=tab>the user can perform openGl calls from the plugin, in order to draw custom graphics into the V-REP scene. This has a different functionality from the <a href="regularApi/simAddDrawingObject.htm">sim.addDrawingObject</a> API function. Following data is sent to the plugins:</div>
-<div class=tab>auxiliaryData[0]=index of the program location where the call occured (e.g. 0=before first V-REP rendering, 5=after last V-REP rendering). Refer to the source code for details.</div>
-<div class=tab>auxiliaryData[1]=<a href="#renderingAttributes">current rendering attributes</a></div>
-<div class=tab>auxiliaryData[2]=handle of the camera</div>
-<div class=tab>auxiliaryData[3]=index of the view, or -1 if view is unassociated</div>
-
-
-<div>sim_message_eventcallback_openglframe. Enable via <a href="regularApi/simEnableEventCallback.htm">simEnableEventCallback</a>. (<strong>called from the UI thread</strong>)</div>
-<div class=tab>a callback with the full rendered opengl frame data (that can be modified, then returned):</div>
-<div class=tab>customData (unsigned char*): RGB data of the image.</div>
-<div class=tab>auxiliaryData[0]=picture size X</div>
-<div class=tab>auxiliaryData[1]=picture size Y</div>
-<div class=tab>auxiliaryData[2]=0</div>
-<div class=tab>auxiliaryData[3]=0. If you want V-REP to take into account any modification on the buffer, write 1 in here.</div>
-
-<div>sim_message_eventcallback_openglcameraview. Enable via <a href="regularApi/simEnableEventCallback.htm">simEnableEventCallback</a>. (<strong>called from the UI thread</strong>)</div>
-<div class=tab>a callback with the rendered opengl camera view (that can be modified, then returned):</div>
-<div class=tab>customData (unsigned char*): RGB data of the image.</div>
-<div class=tab>auxiliaryData[0]=picture size X</div>
-<div class=tab>auxiliaryData[1]=picture size Y</div>
-<div class=tab>auxiliaryData[2]=view index</div>
-<div class=tab>auxiliaryData[3]=0. If you want V-REP to take into account any modification on the buffer, write 1 in here.</div>
-
-
-
 
 <div>sim_message_eventcallback_proxsensorselectdown</div>
 <div class=tab>a "geometric" click select (mouse down) was registered. Not generated if the ctrl or shift key is down. A geometric click is generated in a non-delayed manner. See also sim_message_eventcallback_pickselectdown hereafter. Enable with <a href="#integerParameters">sim.intparam_prox_sensor_select_down</a>.</div>

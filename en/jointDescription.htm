@@ -347,14 +347,14 @@ int main(int argc,char* argv[])
 
     // set the desired target position:
     simxSetFloatSignal("myDesiredTorque",1.0f,client.simxDefaultPublisher());
-    simxSetFloatSignal("myDesiredTarget",90.0f*3.1415/180.0f,client.simxDefaultPublisher());
+    simxSetFloatSignal("myDesiredTarget",90.0f*3.1415f/180.0f,client.simxDefaultPublisher());
     client.simxSynchronousTrigger(); // start one simulation step
     while (!doNextStep) // wait until simulation step finished
         client.simxSpinOnce();
     ...
 }</pre>
 
-<p>In above example, your joint callback function could fetch those two signals (with <a href="regularApi/simGetFloatSignal.htm">sim.getFloatSignal</a>) before doing the control.</p>
+<p>In above example, your joint callback function could fetch those two signals (with <a href="regularApi/simGetDoubleSignal.htm">sim.getDoubleSignal</a>) before doing the control.</p>
 
 <p>Following does the same, however with a <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client:</p>
 
