@@ -19,7 +19,7 @@
 
 <h1>Child scripts <img src="images/childScripts1.jpg"></h1>
 
-<p>A child script is a <a href="simulationScripts.htm">simulation script</a>. V-REP supports an unlimited number of child scripts per <a href="scenes.htm">scene</a>. Each child script represents a small collection of routines written in <a href="scripts.htm">Lua</a> allowing handling a particular function in a <a href="simulation.htm">simulation</a>. Child scripts are attached to (or <em>associated with</em>) <a href="objects.htm">scene objects</a>, and they can be easily recognized from their script icon in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:</p>
+<p>A child script is a <a href="simulationScripts.htm">simulation script</a>. CoppeliaSim supports an unlimited number of child scripts per <a href="scenes.htm">scene</a>. Each child script represents a small collection of routines written in <a href="scripts.htm">Lua</a> allowing handling a particular function in a <a href="simulation.htm">simulation</a>. Child scripts are attached to (or <em>associated with</em>) <a href="objects.htm">scene objects</a>, and they can be easily recognized from their script icon in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:</p>
 
 <p align=center><img src="images/childScripts0.jpg"></p>
 <p class=imageLabel>[A child script associated with object <em>youBot</em>]</p>
@@ -33,9 +33,6 @@
 <li><strong>No conflict between different model versions</strong>: if you modify the child script of a given model (e.g. to customize it to your needs), this will have no consequence on other similar models. This is a much more critical aspect when relying on <a href="plugins.htm">plugins</a> instead of child scripts for model control: indeed, with plugins you always run the risk of having conflicts with previous plugin versions.</li>
 
 <li><strong>Very easy synchronization with the simulation loop</strong>: child scripts can run <a href="#threaded">threaded</a> and <a href="#nonThreaded">non-threaded</a> (see further down). And even the threaded version of child scripts can be easily synchronized with the simulation loop, which represents a powerful feature.</li>
-
-<p>Child scripts can have a list of simulation parameters attached to them, called <a href="scriptSimulationParameters.htm">script simulation parameters</a>. Those parameters can be used as a quick way of adjusting values of a specific simulation model for example (e.g. the maximum velocity of a mobile robot or the resolution of a sensor).</p>
-
 
 <p> Child scripts can be of two different types: <a href="#nonThreaded">non-threaded child scripts</a> or <a href="#threaded">threaded child scripts</a>:<br>
 </p>
@@ -193,7 +190,7 @@ end</pre>
 <li><strong>the restoration part</strong>: this part will be executed one time just before a simulation ends, or before the thread ends. <br>
 </li>
 
-<p>V-REP uses threads to mimic the behavior of coroutines, instead of using them <em>traditionally</em>, which allows for a great deal of flexibility and control: by default a threaded child script will execute for about 1-2 milliseconds before automatically switching to another thread. This default behavior can be changed with the <a href="regularApi/simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a> or <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>. Once the current thread was switched, it will resume execution in next simulation pass (i.e. at a time currentTime+simulationTimeStep). The thread switching is automatic (occurs after the specified time), but the <a href="regularApi/simSwitchThread.htm">sim.switchThread</a> command allows to shorten that time when needed. Using above three commands, an excellent synchronization with the main simulation loop can be achieved. Following code (handling the automatic sliding doors from above's example) shows child script synchronization with the main simulation loop:<br>
+<p>CoppeliaSim uses threads to mimic the behavior of coroutines, instead of using them <em>traditionally</em>, which allows for a great deal of flexibility and control: by default a threaded child script will execute for about 1-2 milliseconds before automatically switching to another thread. This default behavior can be changed with the <a href="regularApi/simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a> or <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>. Once the current thread was switched, it will resume execution in next simulation pass (i.e. at a time currentTime+simulationTimeStep). The thread switching is automatic (occurs after the specified time), but the <a href="regularApi/simSwitchThread.htm">sim.switchThread</a> command allows to shorten that time when needed. Using above three commands, an excellent synchronization with the main simulation loop can be achieved. Following code (handling the automatic sliding doors from above's example) shows child script synchronization with the main simulation loop:<br>
 </p>
 
 <pre class=lightRedBox>
@@ -226,7 +223,7 @@ end</pre>
 <p>Above while loop will now execute exactly once for each main simulation loop and not waste time reading sensors states again and again for same simulation times. By default, threads always resume when the main script calls <em>sim.resumeThreads(sim.scriptthreadresume_default)</em>. If you need to make sure your thread runs only while the main script is in the sensing phase, you can resquedule the thread's resume location with the API function <a href="regularApi/simSetThreadResumeLocation.htm">sim.setThreadResumeLocation</a>.<br>
 </p>
 
-<p>The coroutine-like behavior of V-REP's threads cannot be distinguished from regular threads, with the exception that if an external command (for example socket communication commands provided by Lua libraries) is blocking, then V-REP will also appear as blocking. In that case, a non-blocking section can be defined as in following example:<br>
+<p>The coroutine-like behavior of CoppeliaSim's threads cannot be distinguished from regular threads, with the exception that if an external command (for example socket communication commands provided by Lua libraries) is blocking, then CoppeliaSim will also appear as blocking. In that case, a non-blocking section can be defined as in following example:<br>
 </p>
 
 <pre class=lightRedBox>
@@ -237,7 +234,7 @@ print(http.request("http://www.google.com")) -- this command may take several se
 
 <strong>sim.setThreadIsFree</strong>(false) -- End of the non-blocking section</pre>
 
-<p>While in a non-blocking section, try to avoid calling sim-functions. Never forget to close the blocking section otherwise V-REP might hang or run much slowlier. Also refer to the <a href="apiFunctionListCategory.htm#threadRelatedFunctionality">thread-related functions</a> and to the <a href="apiFunctionListCategory.htm#blockingFunctions">blocking functions</a> for more details on thread operation in V-REP.</p>
+<p>While in a non-blocking section, try to avoid calling sim-functions. Never forget to close the blocking section otherwise CoppeliaSim might hang or run much slowlier. Also refer to the <a href="apiFunctionListCategory.htm#threadRelatedFunctionality">thread-related functions</a> and to the <a href="apiFunctionListCategory.htm#blockingFunctions">blocking functions</a> for more details on thread operation in CoppeliaSim.</p>
 <p>Some operation should not be interrupted in order to execute correctly (imagine moving several objects in a loop). In that case, you can temporarily forbid thread switches with the <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a> function.<br>
 </p>
 

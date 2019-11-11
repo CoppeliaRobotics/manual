@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>Means of communication in and around V-REP</title>
+<title>Means of communication in and around CoppeliaSim</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 
@@ -17,7 +17,7 @@
 
 
 
-<h1>Means of communication in and around V-REP</h1>
+<h1>Means of communication in and around CoppeliaSim</h1>
 
 <p>Make sure you understand the <a href="writingCode.htm">overall structure of the simulator</a>, and its <a href="apisOverview.htm">API framework</a> before going ahead reading this section.<br>
 </p>
@@ -135,7 +135,7 @@ end</pre>
 
 <p>For example, from a Python <strong>B0-based</strong> remote API client:</p>
 
-<pre class=lightPurpleBox># Receiving and image from V-REP and sending it back:
+<pre class=lightPurpleBox># Receiving an image from CoppeliaSim and sending it back:
 
 import b0RemoteApi
 with b0RemoteApi.RemoteApiClient('b0RemoteApi_pythonClient','b0RemoteApi') as client:    
@@ -154,20 +154,20 @@ with b0RemoteApi.RemoteApiClient('b0RemoteApi_pythonClient','b0RemoteApi') as cl
 <br>
 <p>For example, from a Python <strong>legacy</strong> remote API client:</p>
 
-<pre class=lightPurpleBox># Receiving and image from V-REP and sending it back:
+<pre class=lightPurpleBox># Receiving an image from CoppeliaSim and sending it back:
 
-import vrep
-clientID=vrep.simxStart('127.0.0.1',19999,True,True,5000,5)
+import sim
+clientID=sim.simxStart('127.0.0.1',19999,True,True,5000,5)
 if clientID!=-1:
-    res,v0=vrep.simxGetObjectHandle(clientID,'Vision_sensor',vrep.simx_opmode_oneshot_wait)
-    res,v1=vrep.simxGetObjectHandle(clientID,'PassiveVision_sensor',vrep.simx_opmode_oneshot_wait)
+    res,v0=sim.simxGetObjectHandle(clientID,'Vision_sensor',sim.simx_opmode_oneshot_wait)
+    res,v1=sim.simxGetObjectHandle(clientID,'PassiveVision_sensor',sim.simx_opmode_oneshot_wait)
 
-    res,resolution,image=vrep.simxGetVisionSensorImage(clientID,v0,0,vrep.simx_opmode_streaming)
-    while (vrep.simxGetConnectionId(clientID)!=-1):
-        res,resolution,image=vrep.simxGetVisionSensorImage(clientID,v0,0,vrep.simx_opmode_buffer)
-        if res==vrep.simx_return_ok:
-            res=vrep.simxSetVisionSensorImage(clientID,v1,image,0,vrep.simx_opmode_oneshot)
-    vrep.simxFinish(clientID)</pre>
+    res,resolution,image=sim.simxGetVisionSensorImage(clientID,v0,0,sim.simx_opmode_streaming)
+    while (sim.simxGetConnectionId(clientID)!=-1):
+        res,resolution,image=sim.simxGetVisionSensorImage(clientID,v0,0,sim.simx_opmode_buffer)
+        if res==sim.simx_return_ok:
+            res=sim.simxSetVisionSensorImage(clientID,v1,image,0,sim.simx_opmode_oneshot)
+    sim.simxFinish(clientID)</pre>
 
 <br>
 
@@ -177,7 +177,7 @@ if clientID!=-1:
 </td></tr></table> 
 
 
-<p><a href="apiFunctionListCategory.htm#persistentData">Persistent data blocks</a> can be seen as persistent global buffers. Persistent data blocks can be defined, redefined, read and cleared, and are shared across all opened scenes. They persist until the simulator ends, but can also persist on file and automatically be reloaded next time V-REP starts.</p>
+<p><a href="apiFunctionListCategory.htm#persistentData">Persistent data blocks</a> can be seen as persistent global buffers. Persistent data blocks can be defined, redefined, read and cleared, and are shared across all opened scenes. They persist until the simulator ends, but can also persist on file and automatically be reloaded next time CoppeliaSim starts.</p>
 <br>
 
 
@@ -206,7 +206,7 @@ if clientID!=-1:
 
 
 
-<p>V-REP allows simulating wireless communications in a very flexible way: data can be emitted into a specific direction, and over a specific distance. Emitted data can then be received if the receiver is located within the specified emission area. Refer to the <a href="apiFunctionListCategory.htm#wirelessFunctionality">corresponding functions</a> in the <a href="apiOverview.htm">regular API</a> for more details. Wireless emission/reception activities can be visualized by enabling the <strong>Visualize wireless emissions</strong> and <strong>Visualize wireless receptions</strong> items in the <a href="environmentPropertiesDialog.htm">environment dialog</a>. Following figure illustrates the visualized wireless communication between two mobile robots:<br>
+<p>CoppeliaSim allows simulating wireless communications in a very flexible way: data can be emitted into a specific direction, and over a specific distance. Emitted data can then be received if the receiver is located within the specified emission area. Refer to the <a href="apiFunctionListCategory.htm#wirelessFunctionality">corresponding functions</a> in the <a href="apiOverview.htm">regular API</a> for more details. Wireless emission/reception activities can be visualized by enabling the <strong>Visualize wireless emissions</strong> and <strong>Visualize wireless receptions</strong> items in the <a href="environmentPropertiesDialog.htm">environment dialog</a>. Following figure illustrates the visualized wireless communication between two mobile robots:<br>
 </p>
 
 <p align=center><img src="images/meansOfComm2.jpg"></p>
@@ -220,7 +220,7 @@ if clientID!=-1:
 </td></tr></table> 
 
 
-<p>V-REP implements <a href="apiFunctionListCategory.htm#serialCommunicationFunctionality">specific functions</a> in the API for serial port communication. <br>
+<p>CoppeliaSim implements <a href="apiFunctionListCategory.htm#serialCommunicationFunctionality">specific functions</a> in the API for serial port communication. <br>
 </p>
 <br>
 
@@ -229,12 +229,12 @@ if clientID!=-1:
 </td></tr></table> 
 
 
-<p>V-REP ships with a Lua extension library called <a href="http://w3.impa.br/~diego/software/luasocket/home.html">LuaSocket</a> (see <a href="acknowledgments.htm#LuaSocketCredit">here</a> for acknowledgements and credits related to this library). It allows performing various type of socket communication from within an <a href="scripts.htm">embedded script</a> or an <a href="addOns.htm">add-on</a>. Following code section illustrates how a <a href="childScripts.htm#threaded">threaded child script</a> would fetch a webpage:<br>
+<p>CoppeliaSim ships with a Lua extension library called <a href="http://w3.impa.br/~diego/software/luasocket/home.html">LuaSocket</a> (see <a href="acknowledgments.htm#LuaSocketCredit">here</a> for acknowledgements and credits related to this library). It allows performing various type of socket communication from within an <a href="scripts.htm">embedded script</a> or an <a href="addOns.htm">add-on</a>. Following code section illustrates how a <a href="childScripts.htm#threaded">threaded child script</a> would fetch a webpage:<br>
 </p>
 
 <pre class=lightRedBox>
 http=require("socket.http")
-sim.setThreadIsFree(true) -- Allow real threading from here (to avoid blocking V-REP)
+sim.setThreadIsFree(true) -- Allow real threading from here (to avoid blocking CoppeliaSim)
 page=http.request("http://www.google.com")
 sim.setThreadIsFree(false) -- Forbid real threading from here</pre>
 
@@ -257,7 +257,7 @@ while (sim.getSimulationState()~=sim.simulation_advancing_abouttostop) do
     data=sim.tubeRead(tubeHandle,true)
     if (data) then
         -- Fetch the page:
-        sim.setThreadIsFree(true) -- Allow real threading from here (to avoid blocking V-REP)
+        sim.setThreadIsFree(true) -- Allow real threading from here (to avoid blocking CoppeliaSim)
         reply=http.request(data)
         sim.setThreadIsFree(false) -- Forbid real threading from here
         -- Send back the page:
@@ -313,7 +313,7 @@ end</pre>
 </td></tr></table> 
 
 
-<p>It is possible to extend the means of communication of V-REP almost infinitely, by using Lua's extension library mechanism. As is done with the LuaSocket library (see above), you could add any other type of <a href="http://lua-users.org/wiki/LibrariesAndBindings">Lua extension library available online</a>. You will just have to install the library in V-REP's installation directory according to the library's instructions. As illustrated with the LuaSocket here above, make sure you make use of a non-blocking section with the <a href="regularApi/simSetThreadIsFree.htm">sim.setThreadIsFree</a> API command should an extension library command block V-REP.<br>
+<p>It is possible to extend the means of communication of CoppeliaSim almost infinitely, by using Lua's extension library mechanism. As is done with the LuaSocket library (see above), you could add any other type of <a href="http://lua-users.org/wiki/LibrariesAndBindings">Lua extension library available online</a>. You will just have to install the library in CoppeliaSim's installation directory according to the library's instructions. As illustrated with the LuaSocket here above, make sure you make use of a non-blocking section with the <a href="regularApi/simSetThreadIsFree.htm">sim.setThreadIsFree</a> API command should an extension library command block CoppeliaSim.<br>
 </p>
 <br>
 
@@ -348,7 +348,7 @@ end</pre>
 
 <br>
 <h3 class=recommendedTopics>Recommended topics</h3>
-<li><a href="writingCode.htm">Writing code in and around V-REP</a></li>
+<li><a href="writingCode.htm">Writing code in and around CoppeliaSim</a></li>
 <li><a href="scripts.htm">Embedded scripts</a></li>
 <li><a href="addOns.htm">Add-ons</a></li>
 <li><a href="plugins.htm">Plugins</a></li>

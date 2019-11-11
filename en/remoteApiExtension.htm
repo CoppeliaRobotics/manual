@@ -21,7 +21,7 @@
 
 <p class=warningBox>The remote API, or <em>legacy remote API</em>, should not be mixed-up with the <a href="b0RemoteApiOverview.htm">B&Oslash;-based remote API</a>, which is a newer version of the remote API that is more flexible, easier to use and most importantly, much simpler to extend.</p>
 
-<p>Instead of extending the functions that the remote API offers, one can  use the generic remote API function <a href="remoteApiFunctions.htm#simxCallScriptFunction">simxCallScriptFunction</a>: this will call a V-REP script function, which can then execute any type of operation locally, then return data. The called script function should always have following input/output form:</p>
+<p>Instead of extending the functions that the remote API offers, one can  use the generic remote API function <a href="remoteApiFunctions.htm#simxCallScriptFunction">simxCallScriptFunction</a>: this will call a CoppeliaSim script function, which can then execute any type of operation locally, then return data. The called script function should always have following input/output form:</p>
 
 <pre class=lightRedBox>
 function myFunctionName(inInts,inFloats,inStrings,inBuffer)
@@ -45,9 +45,9 @@ inputStrings=['Hello','world!']
 inputBuffer=bytearray()
 inputBuffer.append(78)
 inputBuffer.append(42)
-res,retInts,retFloats,retStrings,retBuffer=vrep.simxCallScriptFunction(clientID,'objectName',vrep.sim_scripttype_childscript,
-                'myFunctionName',inputInts,inputFloats,inputStrings,inputBuffer,vrep.simx_opmode_blocking)
-if res==vrep.simx_return_ok:
+res,retInts,retFloats,retStrings,retBuffer=sim.simxCallScriptFunction(clientID,'objectName',sim.sim_scripttype_childscript,
+                'myFunctionName',inputInts,inputFloats,inputStrings,inputBuffer,sim.simx_opmode_blocking)
+if res==sim.simx_return_ok:
     print (retInts)
     print (retFloats)
     print (retStrings)

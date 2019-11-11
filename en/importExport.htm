@@ -27,11 +27,11 @@
 
 
 
-<p>V-REP uses triangular meshes to describe and display <a href="shapes.htm">shapes</a>. Because of this, V-REP will only import formats that describe objects as triangular meshes. If however you wish to import objects described as parametric surfaces for example (e.g. IGES, etc.), then you will first have to convert the file to an appropriate triangular mesh format. There are several conversion application that allow for this operation, and most 3D drawing applications support this quite well too. Make sure you read the sections further down to be able to obtain the best triangular mesh description possible for your 3D drawing.</p>
-<p>V-REP supports following file-formats for <a href="shapes.htm">shape</a> import ([Menu bar --&gt; File --&gt; Import --&gt; Mesh...]):<br>
+<p>CoppeliaSim uses triangular meshes to describe and display <a href="shapes.htm">shapes</a>. Because of this, CoppeliaSim will only import formats that describe objects as triangular meshes. If however you wish to import objects described as parametric surfaces for example (e.g. IGES, etc.), then you will first have to convert the file to an appropriate triangular mesh format. There are several conversion application that allow for this operation, and most 3D drawing applications support this quite well too. Make sure you read the sections further down to be able to obtain the best triangular mesh description possible for your 3D drawing.</p>
+<p>CoppeliaSim supports following file-formats for <a href="shapes.htm">shape</a> import ([Menu bar --&gt; File --&gt; Import --&gt; Mesh...]):<br>
 </p>
 
-<li><strong>OBJ</strong>: Wavefront Technologies file format. This is currently the only format that allows importing of textured meshes in V-REP.
+<li><strong>OBJ</strong>: Wavefront Technologies file format. This is currently the only format that allows importing of textured meshes in CoppeliaSim.
 </li>
 
 <li><strong>DXF</strong>: AutoCAD file format (Autodesk). Non-3D information that might be contained in the file is ignored.<br>
@@ -44,12 +44,12 @@
 <li><strong>URDF</strong>: refer to the <a href="urdfPlugin.htm">URDF plugin</a> for details.</li>
 
 <p>
-The import functionality is handled by the <a href="https://github.com/CoppeliaRobotics/v_repExtAssimp" target="_blank">Assimp plugin for V-REP</a>. See <a href="assimpApi.htm">here</a> for its API functions. More formats can be supported if the Assimp library (and Assimp plugin) are recompiled with the required flags.</p>
+The import functionality is handled by the <a href="https://github.com/CoppeliaRobotics/simExtAssimp" target="_blank">Assimp plugin for CoppeliaSim</a>. See <a href="assimpApi.htm">here</a> for its API functions. More formats can be supported if the Assimp library (and Assimp plugin) are recompiled with the required flags.</p>
 
 
 <p>If after the import operation you can't see any shapes in the <a href="scenes.htm">scene</a>, but the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> indicates the presence of newly added shapes, then most probably your shapes are either too big or too small to be seen. You can then proceed to a scaling operation in the <a href="commonPropertiesDialog.htm">object common properties</a>.
-Also, when exporting meshes from a CAD application, try to export them as a whole (best is to export them as a single object, later on in V-REP you can then divide the imported shape with [Menu Bar --&gt; Edit --&gt; Grouping/Merging --&gt; Divide selected shapes]); this is to avoid the CAD application repositioning/reorienting individual meshes according to their reference frame during the export operation (V-REP's reference frame is different!), which may result in a <em>broken</em> appearance.</p>
-<p>Make sure that your imported meshes do not contain too many triangles (for a robot, typically between 10000-20000 triangles in total), otherwise V-REP could be drastically slowed down (rendering, calculations, load/save operation, etc.). There are applications allowing to reduce the number of polygons in a mesh (e.g. <a href="http://www.meshlab.org/">MeshLab</a> or <a href="http://www.mootools.com/plugins/us/polygoncruncher/index.asp">polygon crunsher</a>). You can also use following V-REP functions:</p>
+Also, when exporting meshes from a CAD application, try to export them as a whole (best is to export them as a single object, later on in CoppeliaSim you can then divide the imported shape with [Menu Bar --&gt; Edit --&gt; Grouping/Merging --&gt; Divide selected shapes]); this is to avoid the CAD application repositioning/reorienting individual meshes according to their reference frame during the export operation (CoppeliaSim's reference frame is different!), which may result in a <em>broken</em> appearance.</p>
+<p>Make sure that your imported meshes do not contain too many triangles (for a robot, typically between 10000-20000 triangles in total), otherwise CoppeliaSim could be drastically slowed down (rendering, calculations, load/save operation, etc.). There are applications allowing to reduce the number of polygons in a mesh (e.g. <a href="http://www.meshlab.org/">MeshLab</a> or <a href="http://www.mootools.com/plugins/us/polygoncruncher/index.asp">polygon crunsher</a>). You can also use following CoppeliaSim functions:</p>
 <li><em><strong>[Menu bar --&gt; Edit --&gt; Morph selection into convex shapes] </strong></em>: allows to convert the selected shapes into a convex shapes.</li>
 <li><em><strong>[Menu bar --&gt; Edit --&gt; Morph selection into its convex decomposition...] </strong></em>: allows to convert the selected shapes into their convex decomposition representation.</li>
 <li><em><strong>[Menu bar --&gt; Edit --&gt; Decimate selected shape...] </strong></em>: allows to reduce the number of triangles in the selected shape.</li>
@@ -67,19 +67,19 @@ Also, when exporting meshes from a CAD application, try to export them as a whol
 </td></tr></table> 
 
 
-<p>V-REP supports following file-formats for shape export [Menu bar --&gt; File --&gt; Export --&gt; Selected shapes...] (note: only selected objects will be exported):<br>
+<p>CoppeliaSim supports following file-formats for shape export [Menu bar --&gt; File --&gt; Export --&gt; Selected shapes...] (note: only selected objects will be exported):<br>
 </p>
 
 <li><strong>OBJ</strong>: Wavefront Technologies file-format.
 </li>
 
-<li><strong>STL (binary)</strong>: 3D Systems file-format. Only the binary format is supported for export. This is the most compact export option in V-REP.<br>
+<li><strong>STL (binary)</strong>: 3D Systems file-format. Only the binary format is supported for export. This is the most compact export option in CoppeliaSim.<br>
 </li>
 
 <li><strong>COLLADA</strong>: refer to the <a href="colladaPlugin.htm">collada plugin</a> for details.</li>
 
 <p>
-The export functionality is also handled by the <a href="https://github.com/CoppeliaRobotics/v_repExtAssimp" target="_blank">Assimp plugin for V-REP</a>. See <a href="assimpApi.htm">here</a> for its API functions. </p>
+The export functionality is also handled by the <a href="https://github.com/CoppeliaRobotics/simExtAssimp" target="_blank">Assimp plugin for CoppeliaSim</a>. See <a href="assimpApi.htm">here</a> for its API functions. </p>
 
 <br>
 <br>
@@ -90,7 +90,7 @@ The export functionality is also handled by the <a href="https://github.com/Copp
 </td></tr></table> 
 
 
-<p>V-REP supports following file-formats for <a href="shapes.htm">heightfield shape</a> import ([Menu bar --&gt; File --&gt; Import --&gt; Heightfield...]):<br>
+<p>CoppeliaSim supports following file-formats for <a href="shapes.htm">heightfield shape</a> import ([Menu bar --&gt; File --&gt; Import --&gt; Heightfield...]):<br>
 </p>
 
 <li><strong>Image file</strong>: an image file (JPEG, PNG, TGA, BMP, TIFF or GIF file) where the various height values are taken from the red-, green-, and blue-color components: height=(red+green+blue)/3. </li>

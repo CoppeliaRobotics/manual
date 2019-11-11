@@ -394,7 +394,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Attaches a menu entry in the simulator's module menu. This is useful if you created an plugin that can display a custom dialog in V-REP for specific settings/operations. If the user selects an item in the simulator's module menu, a <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_menuitemselected</a> message is generated. See also the <a href="plugins.htm">plugin v_repMessage entry point</a>.</td>
+<td class=apiTableRightDescr>Attaches a menu entry in the simulator's module menu. This is useful if you created an plugin that can display a custom dialog in CoppeliaSim for specific settings/operations. If the user selects an item in the simulator's module menu, a <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_menuitemselected</a> message is generated. See also the <a href="plugins.htm">plugin simMessage entry point</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -1754,7 +1754,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows a plugin to communicate with other plugins by broadcasting messages or data that other plugins can intercept. The message is also sent to the plugin that originally broadcasted the message (that module is free to ignore its own message). See V-REP's main client application source code for more details. See also <a href="#simSendModuleMessage">simSendModuleMessage</a>.</td>
+<td class=apiTableRightDescr>Allows a plugin to communicate with other plugins by broadcasting messages or data that other plugins can intercept. The message is also sent to the plugin that originally broadcasted the message (that module is free to ignore its own message). See CoppeliaSim's main client application source code for more details. See also <a href="#simSendModuleMessage">simSendModuleMessage</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -1765,14 +1765,14 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>auxiliaryData</strong>: pointer to 4 integers. auxiliaryData[0] should be a unique identifier different from 0. Use a large, random identifier, or better, your V-REP's serial number if the message is yours. Otherwise, use the identifier of some other module. auxiliaryData[1] could be the messageID of the message you wish to send to another module. auxiliaryData[2] and auxiliaryData[3] can be any values specific to your application.<br>
+<div><strong>auxiliaryData</strong>: pointer to 4 integers. auxiliaryData[0] should be a unique identifier different from 0. Use a large, random identifier, or better, your CoppeliaSim's serial number if the message is yours. Otherwise, use the identifier of some other module. auxiliaryData[1] could be the messageID of the message you wish to send to another module. auxiliaryData[2] and auxiliaryData[3] can be any values specific to your application.<br>
 </div>
 <div><strong>customData</strong>: customData of your application (the broadcaster is in charge to release that buffer). Can be NULL.<br>
 </div>
 <div><strong>replyData</strong>: pointer to 4 integers that can be used by a module to reply to a broadcasted message. Can be NULL. If not NULL, all 4 values are automatically initialized to -1.<br>
 </div>
 <br>
-<div>Broadcasted messages can be intercepted in a plugin's "v_repMessage"-function. In the function, broadcasted messages can be recognized when the function's first argument ("message") is sim_message_module_broadcast.
+<div>Broadcasted messages can be intercepted in a plugin's "simMessage"-function. In the function, broadcasted messages can be recognized when the function's first argument ("message") is sim_message_module_broadcast.
 </div>
 </td> 
 </tr> 
@@ -2035,7 +2035,7 @@ Lua synopsis
 <div class=tab><em>sim.scripttype_childscript</em> (1): a <a href="childScripts.htm">child script</a> will be called. A script name needs to be specified (i.e. the object name where the script is attached)</div>
 <div class=tab><em>sim.scripttype_customizationscript</em> (6): a <a href="customizationScripts.htm">customization script</a> will be called. A script name needs to be specified (i.e. the object name where the script is attached)</div>
 <div class=tab><em>sim.scripttype_sandboxscript</em> (8): <a href="sandboxScript.htm">the sandbox script</a> will be called.</div>
-<div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="addOns.htm">add-on script</a> will be called (the add-on needs to be running). A script name needs to be specified (e.g. for  add-on <em>vrepAddOnScript-b0RemoteApiServer.lua</em>, <em>b0RemoteApiServer</em> is the script name)</div>
+<div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="addOns.htm">add-on script</a> will be called (the add-on needs to be running). A script name needs to be specified (e.g. for  add-on <em>simAddOnScript-b0RemoteApiServer.lua</em>, <em>b0RemoteApiServer</em> is the script name)</div>
 <div><strong>...</strong>: any number of arguments that will be handed over to the called function.</div>
 </td> 
 </tr> 
@@ -2073,7 +2073,7 @@ a) from the main thread, or:<br>
 b) from a thread that originated from a threaded child script. In that case, you cannot call non-threaded child scripts.<br>
 When calling <a href="simulationScripts.htm">simulation scripts</a>, then simulation must be running. See also <a href="#simExecuteScriptString">sim.executeScriptString</a> and <a href="#simSetScriptVariable">sim.setScriptVariable</a>.
 <br><br>
-<div>Data exchange between a plugin and a script happens via a <a href="apiFunctionListCategory.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in <em>programming/common/stack</em> and <em>programming/include/stack</em>: they will greatly simplify the task. Have a look at the example plugins <a href="https://github.com/CoppeliaRobotics/v_repExtSkeletonPlugin" target="_blank">v_repExtSkeletonPlugin</a> and <a href="https://github.com/CoppeliaRobotics/v_repExtSkeletonPluginNG" target="_blank">v_repExtSkeletonPluginNG</a>.</div>
+<div>Data exchange between a plugin and a script happens via a <a href="apiFunctionListCategory.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in <em>programming/common/stack</em> and <em>programming/include/stack</em>: they will greatly simplify the task. Have a look at the example plugins <a href="https://github.com/CoppeliaRobotics/simExtSkeletonPlugin" target="_blank">simExtSkeletonPlugin</a> and <a href="https://github.com/CoppeliaRobotics/simExtSkeletonPluginNG" target="_blank">simExtSkeletonPluginNG</a>.</div>
 
 
 </td>
@@ -2092,7 +2092,7 @@ C synopsis
 <div class=tab><em>sim.scripttype_sandboxscript</em> (8): <a href="sandboxScript.htm">the sandbox script</a> will be called.</div>
 <div class=tab><em>sim_scripttype_childscript</em> (1): a <a href="childScripts.htm">child script</a> will be called. In that case, <em>functionNameAtScriptName</em> should also contain the name of the object associated with the script.</div>
 <div class=tab><em>sim_scripttype_customizationscript</em> (6): a <a href="customizationScripts.htm">customization script</a> will be called. In that case, <em>functionNameAtScriptName</em> should also contain the name of the object associated with the script.</div>
-<div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="addOns.htm">add-on script</a> will be called (the add-on needs to be running). In that case, <em>functionNameAtScriptName</em> should also contain the name of the script (e.g. for  add-on <em>vrepAddOnScript-b0RemoteApiServer.lua</em>, <em>b0RemoteApiServer</em> is the script name)</div>
+<div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="addOns.htm">add-on script</a> will be called (the add-on needs to be running). In that case, <em>functionNameAtScriptName</em> should also contain the name of the script (e.g. for  add-on <em>simAddOnScript-b0RemoteApiServer.lua</em>, <em>b0RemoteApiServer</em> is the script name)</div>
 <div><strong>functionNameAtScriptName</strong>: the name of the Lua function to call in the specified script. If <em>scriptHandleOrType</em> is <em>sim_scripttype_childscript</em>, <em>sim_scripttype_customizationscript</em> or <em>sim_scripttype_addonscript</em>, then <em>functionNameAtScriptName</em> should also contain the name of the script: &quot;functionName@scriptName&quot;.</div>
 <div><strong>stackId</strong>: a <a href="#simCreateStack">stack handle</a>. The stack represents the function's in/out values. See also the <a href="apiFunctionListCategory.htm#stacks">available stack functions</a>.</div>
 </td> 
@@ -2471,7 +2471,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Checks whether the provided points collide with the <a href="octrees.htm">octree</a> voxels. See also <a href="#simInsertVoxelsIntoOctree">sim.insertVoxelsIntoOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">octree related functions</a>.</td>
+<td class=apiTableRightDescr>Checks whether the provided points collide with the <a href="octrees.htm">OC tree</a> voxels. See also <a href="#simInsertVoxelsIntoOctree">sim.insertVoxelsIntoOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">OC tree related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -2482,14 +2482,14 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>octreeHandle</strong>: the handle of the octree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
+<div><strong>octreeHandle</strong>: the handle of the OC tree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
 <div><strong>options</strong>: bit-coded:</div>
-<div class=tab>bit0 set (1): specified points are relative to the octree reference frame, otherwise they are relative to the world reference frame</div>
+<div class=tab>bit0 set (1): specified points are relative to the OC tree reference frame, otherwise they are relative to the world reference frame</div>
 <div><strong>pts</strong>: a pointer to the points specified as X/Y/Z coordinates</div>
 <div><strong>ptCnt</strong>: the number of points contained in pts</div>
 <div><strong>tag</strong>: a pointer to a tag value, receiving the tag value of the voxel that collides with a single point. If several points are tested, then this pointer is ignored. Can be NULL.</div>
 <div><strong>location</strong>: a pointer to a uint64 value, which specifies the location of the voxel that collides with a single point. If several points are tested, then this pointer is ignored. Can be NULL. The location value is coded in following way:</div>
-<div class=tab>bit0 - bit5: the depth level of the voxel in the octree structure (1-63).</div>
+<div class=tab>bit0 - bit5: the depth level of the voxel in the OC tree structure (1-63).</div>
 <div class=tab>bit6 - bit63: a triple bit-value for each depth level. triple bit-values represent the node location relative to the parent node:</div>
 <div class=tabTab>0: (-1,-1,-1)</div>
 <div class=tabTab>1: (+1,-1,-1)</div>
@@ -2777,7 +2777,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Checks whether the vision sensor detects the indicated entity. Detection is silent (no visual feedback) compared to <a href="#simHandleVisionSensor">sim.handleVisionSensor</a>. Also, the renderable flag of the entity is overridden if the entity is an object. See also <a href="#simReadVisionSensor">sim.readVisionSensor</a> and <a href="#simCheckVisionSensorEx">sim.checkVisionSensorEx</a>.<br></td>
+<td class=apiTableRightDescr>Checks whether the vision sensor detects the indicated entity. Detection is silent (no visual feedback) compared to <a href="#simHandleVisionSensor">sim.handleVisionSensor</a>. The <a href="visionCallbackFunctions.htm">vision callback functions</a> will be called on the acquired image. Also, the renderable flag of the entity is overridden if the entity is an object. See also <a href="#simReadVisionSensor">sim.readVisionSensor</a> and <a href="#simCheckVisionSensorEx">sim.checkVisionSensorEx</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -2791,7 +2791,7 @@ C synopsis
 <div><strong>sensorHandle</strong>: handle of the vision sensor object</div>
 <div><strong>entityHandle</strong>: handle of entity to detect (object or collection), or sim_handle_all to detect all detectable objects<br>
 </div>
-<div><strong>auxValues</strong>: auxiliary values returned from the applied filters (refer to the filter's documentation for details). By default V-REP returns one packet of 15 auxiliary values:the minimum of intensity, red, green, blue, depth value, the maximum of intensity, red, green, blue, depth value, and the average of intensity, red, green, blue, depth value. If additional filter components return values, then they will be appended as packets to the first packet. AuxValues can be NULL. The user is in charge of releasing the auxValues buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>(*auxValues).<br>
+<div><strong>auxValues</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values:the minimum of intensity, red, green, blue, depth value, the maximum of intensity, red, green, blue, depth value, and the average of intensity, red, green, blue, depth value. Additional packets can be appended in the <a href="visionCallbackFunctions.htm">vision callback functions</a>. AuxValues can be NULL. The user is in charge of releasing the auxValues buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>(*auxValues).<br>
 </div>
 <div><strong>auxValuesCount</strong>: contains information about the number of auxiliary value packets and packet sizes returned in auxValues. The first value is the number of packets, the second is the size of packet1, the third is the size of packet2, etc. Can be NULL if auxValues is also NULL. The user is in charge of releasing the auxValuesCount buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>(*auxValuesCount).<br>
 </div>
@@ -2845,7 +2845,7 @@ Lua return values
 <div></div>
 <div><strong>result</strong>: -1 if operation was not successful, otherwise 0 (no detection) or 1 (detection)</div>
 <div><strong>auxiliaryValuePacket1</strong>: default auxiliary value packet (same as for the C-function) (table values in Lua are indexed from 1, not 0!)</div>
-<div><strong>auxiliaryValuePacket2</strong>: additional auxiliary value packet (e.g. from a filter component)</div>
+<div><strong>auxiliaryValuePacket2</strong>: additional auxiliary value packet (e.g. from an image processing component)</div>
 <div><strong>auxiliaryValuePacket3</strong>: etc. (the function returns as many tables as there are auxiliary value packets)</div>
 <div></div></td> 
 </tr> 
@@ -2870,7 +2870,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Checks whether the vision sensor detects the indicated entity. This is the extended functionality version of <a href="#simCheckVisionSensor">sim.checkVisionSensor</a>. Detection is silent (no visual feedback) compared to <a href="#simHandleVisionSensor">sim.handleVisionSensor</a>. Also, the renderable flag of the entity is overridden if the entity is an object. See also <a href="#simReadVisionSensor">sim.readVisionSensor</a>. <br></td>
+<td class=apiTableRightDescr>Checks whether the vision sensor detects the indicated entity. This is the extended functionality version of <a href="#simCheckVisionSensor">sim.checkVisionSensor</a>. Detection is silent (no visual feedback) compared to <a href="#simHandleVisionSensor">sim.handleVisionSensor</a>. The <a href="visionCallbackFunctions.htm">vision callback functions</a> will be called on the acquired image. Also, the renderable flag of the entity is overridden if the entity is an object. See also <a href="#simReadVisionSensor">sim.readVisionSensor</a>. <br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -2882,11 +2882,9 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>sensorHandle</strong>: handle of the vision sensor object</div>
-<div><strong>entityHandle</strong>: handle of entity to detect (object or collection), or sim_handle_all to detect all detectable objects<br>
-</div>
-<div><strong>returnImage</strong>: specifies what should be returned. If true, the sensor's image buffer is returned, otherwise its depth buffer is returned<br>
-</div>
-<div></div></td> 
+<div><strong>entityHandle</strong>: handle of entity to detect (object or collection), or sim_handle_all to detect all detectable objects</div>
+<div><strong>returnImage</strong>: specifies what should be returned. If true, the sensor's image buffer is returned, otherwise its depth buffer is returned</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
@@ -2901,13 +2899,18 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table buffer=sim.checkVisionSensorEx(number sensorHandle,number entityHandle,boolean returnImage)<br></td> 
+<td class=apiTableRightLSyn>
+<div>table buffer=sim.checkVisionSensorEx(number sensorHandle,number entityHandle,boolean returnImage)</div>
+<div>string buffer=sim.checkVisionSensorEx(number sensorHandle,number entityHandle,boolean returnImage)</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Same as C-function</div>
-<div></div></td> 
+<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="apiConstants.htm#specialHandleFlags">sim.handleflag_codedstring</a> if you wish to retrieve the image or depth map coded in a string (much faster).</div>
+<div><strong>entityHandle</strong>: Same as C-function</div>
+<div><strong>returnImage</strong>: Same as C-function</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
@@ -4280,7 +4283,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Creates an empty <a href="octrees.htm">octree</a>. See also <a href="#simRemoveObject">sim.removeObject</a> and the other <a href="apiFunctionListCategory.htm#octree">octree related functions</a>.</td>
+<td class=apiTableRightDescr>Creates an empty <a href="octrees.htm">OC tree</a>. See also <a href="#simRemoveObject">sim.removeObject</a> and the other <a href="apiFunctionListCategory.htm#octree">OC tree related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -4294,7 +4297,7 @@ C synopsis
 <div><strong>voxelSize</strong>: the size of the voxels</div>
 <div><strong>options</strong>: bit-coded:</div>
 <div class=tab>bit0 set (1): voxels have random colors</div>
-<div class=tab>bit1 set (2): show octree structure</div>
+<div class=tab>bit1 set (2): show OC tree structure</div>
 <div class=tab>bit2 set (4): show points instead of voxels</div>
 <div class=tab>bit3 set (8): reserved. keep unset</div>
 <div class=tab>bit4 set (16): color is emissive</div>
@@ -4307,8 +4310,8 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful, otherwise the handle of the octree</div>
-</td> 
+<div>-1 if operation was not successful, otherwise the handle of the OC tree
+</div></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
@@ -4413,13 +4416,13 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>maxVoxelSize</strong>: the maximum size of the octree voxels containing points</div>
-<div><strong>maxPtCntPerVoxel</strong>: the maximum number of points allowed in a same octree voxel</div>
+<div><strong>maxVoxelSize</strong>: the maximum size of the OC tree voxels containing points</div>
+<div><strong>maxPtCntPerVoxel</strong>: the maximum number of points allowed in a same OC tree voxel</div>
 <div><strong>options</strong>: bit-coded:</div>
 <div class=tab>bit0 set (1): points have random colors</div>
-<div class=tab>bit1 set (2): show octree structure</div>
+<div class=tab>bit1 set (2): show OC tree structure</div>
 <div class=tab>bit2 set (4): reserved. keep unset</div>
-<div class=tab>bit3 set (8): do not use an octree structure. When enabled, point cloud operations are limited, and point clouds will not be <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a> or <a href="detectableObjects.htm">detectable</a> anymore, but adding points will be much faster</div>
+<div class=tab>bit3 set (8): do not use an OC tree structure. When enabled, point cloud operations are limited, and point clouds will not be <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a> or <a href="detectableObjects.htm">detectable</a> anymore, but adding points will be much faster</div>
 <div class=tab>bit4 set (16): color is emissive</div>
 <div><strong>pointSize</strong>: the size of the points, in pixels</div>
 <div><strong>reserved</strong>: reserved for future extensions. Set to NULL</div>
@@ -4484,7 +4487,6 @@ C synopsis
 <div class=tab>bit 4 set (16): back faces are not detected</div>
 <div class=tab>bit 5 set (32): fast detection (i.e. not exact detection)</div>
 <div class=tab>bit 6 set (64): the normal of the detected surface with the detection ray will have to lie below a specified threshold angle</div>
-<div class=tab>bit 7 set (128): occlusion check is active</div>
 <div class=tab>bit 8 set (256): smallest distance threshold will be active</div>
 <div class=tab>bit 9 set (512): randomized detection (only with ray-type proximity sensors)</div>
 <div><strong>intParams (input)</strong>: 8 integer parameters:</div>
@@ -5096,7 +5098,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Enables or disables a specific <a href="apiConstants.htm#simulatorMessages">event callback</a>, on a <a href="plugins.htm">plugin</a> base. Some event callbacks might be called very frequently, and are not enabled by default, in order not to slow down V-REP. A plugin may enable one or several of such event callbacks, in which case only that plugin will receive the event callback notifications. If a given plugin registers twice the same event callback, it will be disabled again.<br></td>
+<td class=apiTableRightDescr>Enables or disables a specific <a href="apiConstants.htm#simulatorMessages">event callback</a>, on a <a href="plugins.htm">plugin</a> base. Some event callbacks might be called very frequently, and are not enabled by default, in order not to slow down CoppeliaSim. A plugin may enable one or several of such event callbacks, in which case only that plugin will receive the event callback notifications. If a given plugin registers twice the same event callback, it will be disabled again.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -5108,7 +5110,7 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>eventCallbackType</strong>: one of following values: sim_message_eventcallback_renderingpass, sim_message_eventcallback_opengl, sim_message_eventcallback_openglframe or sim_message_eventcallback_openglcameraview.</div>
-<div><strong>plugin</strong>: the case-sensitive name of the plugin that wishes to receive the notifications. For the plugin &quot;v_repExtMyPlugin&quot;, specify &quot;MyPlugin&quot;.</div>
+<div><strong>plugin</strong>: the case-sensitive name of the plugin that wishes to receive the notifications. For the plugin &quot;simExtMyPlugin&quot;, specify &quot;MyPlugin&quot;.</div>
 <div><strong>reserved</strong>: reserved. Set to -1.</div>
 </td> 
 </tr> 
@@ -5218,7 +5220,7 @@ Description
 a) from the main thread, or:<br>
 b) from a thread that originated from a threaded child script. In that case, you cannot call non-threaded child scripts.<br>
 When calling <a href="simulationScripts.htm">simulation scripts</a>, then simulation must be running. See also <a href="#simCallScriptFunction">sim.callScriptFunction</a>. <br><br>
-<div>Data exchange between a plugin and a script happens via a <a href="apiFunctionListCategory.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in <em>programming/common/stack</em> and <em>programming/include/stack</em>: they will greatly simplify the task. Have a look at the example plugins <a href="https://github.com/CoppeliaRobotics/v_repExtSkeletonPlugin" target="_blank">v_repExtSkeletonPlugin</a> and <a href="https://github.com/CoppeliaRobotics/v_repExtSkeletonPluginNG" target="_blank">v_repExtSkeletonPluginNG</a>.</div>
+<div>Data exchange between a plugin and a script happens via a <a href="apiFunctionListCategory.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in <em>programming/common/stack</em> and <em>programming/include/stack</em>: they will greatly simplify the task. Have a look at the example plugins <a href="https://github.com/CoppeliaRobotics/simExtPluginSkeleton" target="_blank">simExtPluginSkeleton</a> and <a href="https://github.com/CoppeliaRobotics/simExtPluginSkeletonNG" target="_blank">simExtPluginSkeletonNG</a>.</div>
 
 
 </td>
@@ -5291,7 +5293,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Exports the IK content of a scene. The generated file can be used with the <a href="externalIk.htm">external IK</a>, to do IK computations in an external application.</td>
+<td class=apiTableRightDescr>Exports the kinematics content of a scene. The generated file can be used with the <a href="coppeliaKinematicsRoutines.htm">Coppelia kinematics routines</a>, to do kinematics computations in a stand-alone application.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -5510,7 +5512,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>dlgType</strong>: the <a href="apiConstants.htm#fileDlgTypes">file dialog type</a>.</div>
 <div><strong>title</strong>: title of the dialog</div>
-<div><strong>startPath</strong>: the initial path. Indicate an empty string for the path to V-REP's application</div>
+<div><strong>startPath</strong>: the initial path. Indicate an empty string for the path to CoppeliaSim's application</div>
 <div><strong>initName</strong>: the initial name. Can be an empty string</div>
 <div><strong>extName</strong>: the extension name, e.g. &quot;text file&quot;. Should be an empty string with dlgType=sim_filedlg_type_folder.</div>
 <div><strong>ext</strong>: the extension, e.g. &quot;txt&quot;. Can contain several extensions, separated by semicolons, with dlgType=sim_filedlg_type_load or dlgType=sim_filedlg_type_load_multiple. Should be an empty string with dlgType=sim_filedlg_type_folder.</div>
@@ -6638,9 +6640,9 @@ C synopsis
 <div><strong>inVerticesL</strong>: the number of input vertices times 3.</div>
 <div><strong>inIndices</strong>: a pointer to the input indices (3 values for each triangle).</div>
 <div><strong>inIndicesL</strong>: the number of input triangles times 3.</div>
-<div><strong>verticesOut</strong>: a pointer to a pointer to the output vertices. The output vertices are allocated by V-REP and the user is in charge of releasing the buffer via <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
+<div><strong>verticesOut</strong>: a pointer to a pointer to the output vertices. The output vertices are allocated by CoppeliaSim and the user is in charge of releasing the buffer via <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
 <div><strong>verticesOutL</strong>: a pointer to the number of output vertices times 3.</div>
-<div><strong>indicesOut</strong>: a pointer to a pointer to the output indices. The output indices are allocated by V-REP and the user is in charge of releasing the buffer via <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
+<div><strong>indicesOut</strong>: a pointer to a pointer to the output indices. The output indices are allocated by CoppeliaSim and the user is in charge of releasing the buffer via <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
 <div><strong>indicesOutL</strong>: a pointer to the number of output indices (i.e. the number of triangles times 3).</div>
 <div><strong>decimationPercent</strong>: the percentage of the desired decimation (0.1-0.9).</div>
 <div><strong>reserved1</strong>: reserved, set to 0.</div>
@@ -10246,7 +10248,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves voxel positions from an <a href="octrees.htm">octree</a>. See also the other <a href="apiFunctionListCategory.htm#octree">octree related functions</a>.</td>
+<td class=apiTableRightDescr>Retrieves voxel positions from an <a href="octrees.htm">OC tree</a>. See also the other <a href="apiFunctionListCategory.htm#octree">OC tree related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -10257,7 +10259,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>octreeHandle</strong>: the handle of the octree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
+<div><strong>octreeHandle</strong>: the handle of the OC tree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
 <div><strong>ptCnt</strong>: a pointer receiving the number of voxels contained in the returned pointer.</div>
 <div><strong>reserved</strong>: reserved for future extensions. Set to NULL</div>
 </td> 
@@ -10267,7 +10269,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>NULL if operation was not successful or if the octree doesn't contain any voxels. Otherwise a pointer to the voxel X/Y/Z positions, relative to the octree reference frame</div>
+<div>NULL if operation was not successful or if the OC tree doesn't contain any voxels. Otherwise a pointer to the voxel X/Y/Z positions, relative to the OC tree reference frame</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -10586,13 +10588,13 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>pointCloudHandle</strong>: the handle of the point cloud. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
-<div><strong>maxVoxelSize</strong>: the maximum size of the octree voxels containing points</div>
-<div><strong>maxPtCntPerVoxel</strong>: the maximum number of points allowed in a same octree voxel</div>
+<div><strong>maxVoxelSize</strong>: the maximum size of the OC tree voxels containing points</div>
+<div><strong>maxPtCntPerVoxel</strong>: the maximum number of points allowed in a same OC tree voxel</div>
 <div><strong>options</strong>: bit-coded:</div>
 <div class=tab>bit0 set (1): points have random colors</div>
-<div class=tab>bit1 set (2): show octree structure</div>
+<div class=tab>bit1 set (2): show OC tree structure</div>
 <div class=tab>bit2 set (4): reserved. keep unset</div>
-<div class=tab>bit3 set (8): do not use an octree structure. When enabled, point cloud operations are limited, and point clouds will not be <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a> or <a href="detectableObjects.htm">detectable</a> anymore, but adding points will be much faster</div>
+<div class=tab>bit3 set (8): do not use an OC tree structure. When enabled, point cloud operations are limited, and point clouds will not be <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a> or <a href="detectableObjects.htm">detectable</a> anymore, but adding points will be much faster</div>
 <div class=tab>bit4 set (16): color is emissive</div>
 <div><strong>pointSize</strong>: the size of the points, in pixels</div>
 <div><strong>reserved</strong>: reserved for future extensions. Set to NULL</div>
@@ -10763,9 +10765,9 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>inVertices</strong>: a pointer to the input vertices (succession of x/y/z values).</div>
 <div><strong>inVerticesL</strong>: the number of input vertices times 3.</div>
-<div><strong>verticesOut</strong>: a pointer to a pointer to the output vertices. The output vertices are allocated by V-REP and the user is in charge of releasing the buffer via <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
+<div><strong>verticesOut</strong>: a pointer to a pointer to the output vertices. The output vertices are allocated by CoppeliaSim and the user is in charge of releasing the buffer via <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
 <div><strong>verticesOutL</strong>: a pointer to the number of output vertices times 3.</div>
-<div><strong>indicesOut</strong>: a pointer to a pointer to the output indices. The output indices are allocated by V-REP and the user is in charge of releasing the buffer via <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
+<div><strong>indicesOut</strong>: a pointer to a pointer to the output indices. The output indices are allocated by CoppeliaSim and the user is in charge of releasing the buffer via <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
 <div><strong>indicesOutL</strong>: a pointer to the number of output indices (i.e. the number of triangles times 3).</div>
 <div><strong>reserved1</strong>: reserved, set to 0.</div>
 <div><strong>reserved2</strong>: reserved, set to NULL.</div>
@@ -11610,31 +11612,24 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a main script's or child script's parameter from its simulation parameter list. Useful for simple interaction with the user, or for simple parameter exchange with other scripts. See also <a href="#simSetScriptSimulationParameter">sim.setScriptSimulationParameter</a>, and the <a href="apiFunctionListCategory.htm#packing">data packing/unpacking functions</a>.</td>
+<td class=apiTableRightDescr>DEPRECATED. Use <a href="#simGetUserParameter">sim.getUserParameter</a> instead.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simChar* simGetScriptSimulationParameter(simInt scriptHandle,const simChar* parameterName,simInt* parameterLength)<br></td> 
+<td class=apiTableRightCSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>scriptHandle</strong>: handle of the main script or child script, or sim_handle_main_script or sim_handle_all. When scriptHandle is sim_handle_all, the function returns only one matching parameter encountered (other matching parameters might be different)<br>
-</div>
-<div><strong>parameterName</strong>: name of the parameter to retrieve</div>
-<div><strong>parameterLength</strong>: the number of bytes that compose the value of the parameter (excluding the terminal zero)<br>
-</div>
-<div></div></td> 
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>value of the parameter or NULL if parameterName does not exist for the given script, or in case of an error. The user is in charge of releasing the returned value with <a href="#simReleaseBuffer">simReleaseBuffer</a>. The returned pointer points to parameterLength byte values, terminated by a terminal zero (the returned buffer may however contain several embedded zeros).<br>
-</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -11642,23 +11637,11 @@ C return value
 Lua synopsis
 </td> 
 <td class=apiTableRightLSyn>
-<div>(1) boolean/number/string parameterValue=sim.getScriptSimulationParameter(number scriptHandle,string parameterName,boolean forceStringReturn=false)</div>
-<div>2) table parameterValues,table scriptHandles=sim.getScriptSimulationParameter(number targetScripts,string parameterName,boolean forceStringReturn=false)</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>(1) <strong>scriptHandle</strong>: handle of the script, or sim.handle_main_script or sim_handle_self.
-</div>
-<div>(2) <strong>targetScripts</strong>: sim.handle_all, sim.handle_tree or sim.handle_chain (with sim.handle_tree and sim.handle_chain the calling script is excluded).
-</div>
-<div>
- <strong>parameterName</strong>: name of the parameter to retrieve.
-</div>
-<div>
- <strong>forceStringReturn</strong>: forces the return of a string (i.e. raw value). False by default. If false, then the returned string will be converted to nil, false, true, a number or a string as appropriate (and in that order).
-</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -11666,11 +11649,6 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>(1) <strong>parameterValue</strong>: value of the parameter, or nil in case of an error (or if that value is nil!).</div>
-<div>(2) <strong>parameterValues</strong>: table of parameter values or nil if no such parameter was found or in case of an error. <strong>scriptHandles</strong>: table of script handles associated with the parameter values (i.e. parameterValue[i] comes from the script with handle scriptHandles[i]) or nil if no such parameter was found or in case of an error.<br>
-</div>
-<br>
-<div>If the returned parameter value is a string, then it might contain any values (also embedded zeros)</div>
 </td> 
 </tr> 
 </table> 
@@ -11883,7 +11861,7 @@ C synopsis
 <div><strong>mass</strong>: the mass of the object</div>
 <div><strong>inertia matrix</strong> (output): the inertia matrix or tensor (9 values), expressed relative to the center of mass. The returned matrix is relative to the orientational frame of <strong>transformation</strong> (see further below). </div>
 <div><strong>centerOfMass</strong> (output): the position of the center of mass, relative to the specified <strong>transformation</strong> (see next item).</div>
-<div><strong>transformation</strong>: the transformation matrix (12 values) relative to which we want the data. Can be NULL, in which case the returned data is relative to the absolute reference frame. See <a href="#simGetObjectMatrix">here</a> to see how matrix transformations are specified in V-REP.</div>
+<div><strong>transformation</strong>: the transformation matrix (12 values) relative to which we want the data. Can be NULL, in which case the returned data is relative to the absolute reference frame. See <a href="#simGetObjectMatrix">here</a> to see how matrix transformations are specified in CoppeliaSim.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -12430,7 +12408,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves and removes the next message in the C/C++ or Lua message queues. Use this in a while-loop until all messages have been extracted. While the C/C++ interface has one single message queue, each Lua script has its own message queue. The C/C++ version of this function should only be called from the V-REP client application. A given message queue cannot hold more than 64 messages, unread messages will be discarded.</td>
+<td class=apiTableRightDescr>Retrieves and removes the next message in the C/C++ or Lua message queues. Use this in a while-loop until all messages have been extracted. While the C/C++ interface has one single message queue, each Lua script has its own message queue. The C/C++ version of this function should only be called from the CoppeliaSim client application. A given message queue cannot hold more than 64 messages, unread messages will be discarded.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -13311,7 +13289,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the system time. The system time is the time is seconds that elapsed since Windows or V-REP was started, depending on the system. See also <a href="#simGetSystemTimeInMs">sim.getSystemTimeInMs</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves the system time. The system time is the time is seconds that elapsed since Windows or CoppeliaSim was started, depending on the system. See also <a href="#simGetSystemTimeInMs">sim.getSystemTimeInMs</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -13376,7 +13354,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>previousTime</strong>: value that indicates how the command should operate:</div>
 <div class=tabTab>&gt;=0: the function returns a time difference with previousTime. PreviousTime must have been previously retrieved with the -1 argument below.</div>
-<div class=tabTab>-1: the function returns a time relative to an arbitrary time. Use this to measure time differences within V-REP</div>
+<div class=tabTab>-1: the function returns a time relative to an arbitrary time. Use this to measure time differences within CoppeliaSim</div>
 <div class=tabTab>-2: the function returns a time as follows:</div>
 <pre class=lightBlueBoxNoMarginAndSmall>
 // On Windows:
@@ -13643,6 +13621,71 @@ Lua return values
 <br>
 <br>
 <br>
+<h3 class=subsectionBar><a name="simGetUserParameter" id="simGetUserParameter"></a>simGetUserParameter / sim.getUserParameter </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves user parameters attached to an object. Useful for simple interaction with the user. See also <a href="#simSetUserParameter">sim.setUserParameter</a>, the <a href="apiFunctionListCategory.htm#packing">data packing/unpacking functions</a> and the <a href="userConfigCallbackFunctions.htm">user config callback functions</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simChar* simGetUserParameter(simInt objectHandle,const simChar* parameterName,simInt* parameterLength)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>objectHandle</strong>: handle of the object<br>
+</div>
+<div><strong>parameterName</strong>: name of the parameter to retrieve</div>
+<div><strong>parameterLength</strong>: the number of bytes that compose the value of the parameter (excluding the terminal zero)<br>
+</div>
+<div></div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>value of the parameter or NULL if parameterName does not exist for the given object, or in case of an error. The user is in charge of releasing the returned value with <a href="#simReleaseBuffer">simReleaseBuffer</a>. The returned pointer points to parameterLength byte values, terminated by a terminal zero (the returned buffer may however contain several embedded zeros).<br>
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>
+<div>boolean/number/string parameterValue=sim.getUserParameter(number objectHandle,string parameterName,boolean forceStringReturn=false)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>objectHandle</strong>: handle of the object, or sim_handle_self, to target the object the current script is attached to.</div>
+<div>
+ <strong>parameterName</strong>: name of the parameter to retrieve.
+</div>
+<div>
+ <strong>forceStringReturn</strong>: forces the return of a string (i.e. raw value). False by default. If false, then the returned string will be converted to nil, false, true, a number or a string as appropriate (and in that order).
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>parameterValue</strong>: value of the parameter, or nil in case of an error (or if that value is nil!). If the returned parameter value is a string, then it might contain any values (also embedded zeros)</div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
 <h3 class=subsectionBar><a name="simGetUserVariables" id="simGetUserVariables"></a>sim.getUserVariables</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
@@ -13896,50 +13939,17 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the parameters and settings of a specific <a href="visionSensorFilterComposition.htm">filter component</a> of a <a href="visionSensors.htm">vision sensor</a>. See also <a href="#simSetVisionSensorFilter">sim.setVisionSensorFilter</a> and the other <a href="apiFunctionListCategory.htm#visionSensor">vision sensor related API functions</a>.</td>
+<td class=apiTableRightDescr>DEPRECATED. Has no effect anymore. Use <a href="visionCallbackFunctions.htm">vision callback functions instead</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simGetVisionSensorFilter(simInt visionSensorHandle,simInt filterIndex,simInt* options,simInt* pSizes,simUChar** bytes,simInt** ints,simFloat** floats,simUChar** custom)</td> 
+<td class=apiTableRightCSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>visionSensorHandle</strong>: handle of a vision sensor. See also <a href="#simGetObjectHandle">simGetObjectHandle</a>.</div>
-<div><strong>filterIndex</strong>: the zero-based index of the filter position.</div>
-<div><strong>options</strong>: bit-coded return value:</div>
-<div class=tab>bit 0 set (1): the component is enabled</div>
-<div><strong>pSizes</strong>: a pointer to 4 integer values receiving the sizes of the returned buffers (see next 4 arguments).</div>
-<div><strong>bytes</strong>: a buffer of bytes values representing the byte parameters of the filter component. The user is in charge of releasing that buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
-<div><strong>ints</strong>: a buffer of ints values representing the int parameters of the filter component. The user is in charge of releasing that buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
-<div><strong>floats</strong>: a buffer of floats values representing the float parameters of the filter component. The user is in charge of releasing that buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
-<div><strong>custom</strong>: a buffer of bytes values representing the custom parameters of the filter component. The user is in charge of releasing that buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>.</div>
-
-<br>
-<div>USAGE EXAMPLE:</div>
-<pre class=lightBlueBoxNoMarginAndSmall>
-int options=0;
-int sizes[4]={0,0,0,0};
-unsigned char* bytes;
-int* ints;
-float* floats;
-unsigned char* custom;
-int filterType=simGetVisionSensorFilter(handle,index,&amp;options,sizes,&amp;bytes,&amp;ints,&amp;floats,&amp;custom);
-if (filterType&gt;0)
-{
-    // Modify options, bytes, ints, floats and custom
-    // ...
-    // Now write back the updated values:
-    simSetVisionSensorFilter(handle,index,options,sizes,bytes,ints,floats,custom);
-    // Destroy the buffers:
-    simReleaseBuffer((simChar*)bytes);
-    simReleaseBuffer((simChar*)ints);
-    simReleaseBuffer((simChar*)floats);
-    simReleaseBuffer((simChar*)custom);
-}
-</pre>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -13947,19 +13957,17 @@ if (filterType&gt;0)
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 in case of an error, 0 if the <em>filterIndex</em> is not valid, otherwise the <a href="apiConstants.htm#filterComponents">type of filter component</a> pointed by the <em>filterIndex</em>.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number filterType,number options,table byteVals,table intVals,table floatVals,string customBuffer=sim.getVisionSensorFilter(number sensorHandle,number filterIndex)</td> 
+<td class=apiTableRightLSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Same as C-function</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -13967,18 +13975,6 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Similar as C-function</div>
-<br>
-<div>USAGE EXAMPLE:</div>
-<pre class=lightRedBoxNoMarginAndSmall>
-local filterType,options,bytes,ints,floats,buffer=sim.getVisionSensorFilter(handle,index)
-if filterType&gt;0 then
-    -- Modify options, bytes, ints, floats and buffer
-    -- ...
-    -- Now write back the updated values:
-    sim.setVisionSensorFilter(handle,index,options,bytes,ints,floats,buffer)
-end
-</pre>
 </td> 
 </tr> 
 </table> 
@@ -14126,7 +14122,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>shapeHandles</strong>: the handles of the shapes you wish to group</div>
+<div><strong>shapeHandles</strong>: the handles of the shapes to be grouped or merged</div>
 <div><strong>shapeCount</strong>: the size of the <strong>shapeHandles</strong> array. A negative number indicates that we want to merge the shapes instead of grouping them.</div>
 <div></div></td> 
 </tr> 
@@ -14143,12 +14139,14 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number shapeHandle=sim.groupShapes(table shapeHandles) <br></td> 
+<td class=apiTableRightLSyn>number shapeHandle=sim.groupShapes(table shapeHandles, bool merge=false) <br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar to C-function</div></td> 
+<div><strong>shapeHandles</strong>: the handles of the shapes to be grouped or merged</div>
+<div><strong>merge</strong>: whether the shapes should be merged or grouped</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
@@ -14221,7 +14219,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>This function doesn't exist anymore since V-REP 3.1.3, and you should use <a href="#simHandleChildScripts">sim.handleChildScripts</a> instead. Scenes saved with V-REP versions prior to V-REP 3.1.3 are normally automatically adjusted.</td>
+<td class=apiTableRightDescr>This function doesn't exist anymore since CoppeliaSim 3.1.3, and you should use <a href="#simHandleChildScripts">sim.handleChildScripts</a> instead. Scenes saved with CoppeliaSim versions prior to CoppeliaSim 3.1.3 are normally automatically adjusted.</td>
 </tr> 
 </table> 
 <br>
@@ -14971,7 +14969,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>This function has been replaced with <a href="#simHandleChildScripts">sim.handleChildScripts</a>, and is not a valid API function anymore since V-REP 3.1.3</td>
+<td class=apiTableRightDescr>This function has been replaced with <a href="#simHandleChildScripts">sim.handleChildScripts</a>, and is not a valid API function anymore since CoppeliaSim 3.1.3</td>
 </tr> 
 </table> 
 <br>
@@ -15085,7 +15083,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Handles (performs sensing, etc. of) a registered vision sensor object. It will (1) clear previous computer filter data, (2) read an image and (3) compute filter data on the new image (if the vision sensor is using an <strong>external input</strong> only (1) will be performed).See also <a href="#simReadVisionSensor">sim.readVisionSensor</a>, <a href="#simCheckVisionSensor">sim.checkVisionSensor</a>, <a href="#simCheckVisionSensorEx">sim.checkVisionSensorEx</a> and <a href="#simResetVisionSensor">sim.resetVisionSensor</a>.<br></td>
+<td class=apiTableRightDescr>Handles (performs sensing, etc. of) a registered vision sensor object. It will (1) clear previous computed  image processing data, (2) read an image and (3) perform image processing via the <a href="visionCallbackFunctions.htm">vision callback functions</a> (if the vision sensor is using an <strong>external input</strong> only (1) will be performed).See also <a href="#simReadVisionSensor">sim.readVisionSensor</a>, <a href="#simCheckVisionSensor">sim.checkVisionSensor</a>, <a href="#simCheckVisionSensorEx">sim.checkVisionSensorEx</a> and <a href="#simResetVisionSensor">sim.resetVisionSensor</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -15098,7 +15096,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>visionSensorHandle</strong>: handle of a vision sensor object or sim_handle_all or sim_handle_all_except_explicit. (sim_handle_all will handle all vision sensor objects, while sim_handle_all_except_explicit will only handle those that are not marked as &quot;explicit handling&quot;)<br>
 </div>
-<div><strong>auxValues</strong>: auxiliary values returned from the applied filters (refer to the <a href="visionSensorFilterComposition.htm">documentation</a> for details). By default V-REP returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. If additional filter components return values, then they will be appended as packets to the first packet. AuxValues can be NULL. The user is in charge of releasing the auxValues buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>(*auxValues). If visionSensorHandle is sim_handle_all or sim_handle_all_except_explicit, nothing is returned in auxValues.<br>
+<div><strong>auxValues</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. If the <a href="visionCallbackFunctions.htm">vision callback function</a> returns additional  values, then they will be appended as packets to the first packet. AuxValues can be NULL. The user is in charge of releasing the auxValues buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>(*auxValues). If visionSensorHandle is sim_handle_all or sim_handle_all_except_explicit, nothing is returned in auxValues.<br>
 </div>
 <div><strong>auxValuesCount</strong>: contains information about the number of auxiliary value packets and packet sizes returned in auxValues. The first value is the number of packets, the second is the size of packet1, the third is the size of packet2, etc. Can be NULL if auxValues is also NULL. The user is in charge of releasing the auxValuesCount buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>(*auxValuesCount).<br>
 </div>
@@ -15150,7 +15148,7 @@ Lua return values
 <div><strong>detectionCount</strong>: number of detections (number of vision sensors that triggered a detection), -1 in case of an error<br>
 </div>
 <div><strong>auxiliaryValuePacket1</strong>: default auxiliary value packet (same as for the C-function)</div>
-<div><strong>auxiliaryValuePacket2</strong>: additional auxiliary value packet (e.g. from a filter component)</div>
+<div><strong>auxiliaryValuePacket2</strong>: additional auxiliary value packet (e.g. from an image processing component)</div>
 <div><strong>auxiliaryValuePacket3</strong>: etc. (the function returns as many tables as there are auxiliary value packets)</div>
 <div></div></td> 
 </tr> 
@@ -15397,7 +15395,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Inserts an object into an <a href="octrees.htm">octree</a>, as voxels. Each voxel will store a color and a tag value. See also <a href="#simSubtractObjectFromOctree">sim.subtractObjectFromOctree</a>, <a href="#simInsertVoxelsIntoOctree">sim.insertVoxelsIntoOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">octree related functions</a>.</td>
+<td class=apiTableRightDescr>Inserts an object into an <a href="octrees.htm">OC tree</a>, as voxels. Each voxel will store a color and a tag value. See also <a href="#simSubtractObjectFromOctree">sim.subtractObjectFromOctree</a>, <a href="#simInsertVoxelsIntoOctree">sim.insertVoxelsIntoOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">OC tree related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -15408,7 +15406,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>octreeHandle</strong>: the handle of the octree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
+<div><strong>octreeHandle</strong>: the handle of the OC tree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
 <div><strong>objectHandle</strong>: the handle of the object to insert. Only potentially <a href="collidableObjects.htm">collidable objects</a> are supported</div>
 <div><strong>options</strong>: reserved. Set to 0</div>
 <div><strong>color</strong>: a pointer to one RGB triple, specifying the red, green and blue color components (0-255). Can be NULL.</div>
@@ -15421,8 +15419,8 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful, otherwise the total number of voxels in the octree</div>
-</td> 
+<div>-1 if operation was not successful, otherwise the total number of voxels in the OC tree
+</div></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
@@ -15468,7 +15466,7 @@ C synopsis
 <div><strong>pointCloudHandle</strong>: the handle of the point cloud. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
 <div><strong>objectHandle</strong>: the handle of the object to insert. Only potentially <a href="collidableObjects.htm">collidable objects</a> are supported</div>
 <div><strong>options</strong>: reserved. Set to 0</div>
-<div><strong>gridSize</strong>: when a shape is inserted, it will first be converted to an octree with a given grid or voxel size.</div>
+<div><strong>gridSize</strong>: when a shape is inserted, it will first be converted to an OC tree with a given grid or voxel size.</div>
 <div><strong>color</strong>: a pointer to one RGB triple, specifying the red, green and blue color components (0-255). Can be NULL.</div>
 <div><strong>optionalValues</strong>: can be used to specify additional parameters, or set to NULL for default parameter values:</div>
 <div class=tab>((simInt*)optionalValues)[0]: an integer value that is bit coded. Each bit indicates which additional parameter will be taken into account:</div>
@@ -15643,7 +15641,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Inserts voxels into an <a href="octrees.htm">octree</a>. Each voxel will store a color and a tag value. See also <a href="#simRemoveVoxelsFromOctree">sim.removeVoxelsFromOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">octree related functions</a>.</td>
+<td class=apiTableRightDescr>Inserts voxels into an <a href="octrees.htm">OC tree</a>. Each voxel will store a color and a tag value. See also <a href="#simRemoveVoxelsFromOctree">sim.removeVoxelsFromOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">OC tree related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -15654,9 +15652,9 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>octreeHandle</strong>: the handle of the octree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
+<div><strong>octreeHandle</strong>: the handle of the OC tree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
 <div><strong>options</strong>: bit-coded:</div>
-<div class=tab>bit0 set (1): specified points are relative to the octree reference frame, otherwise they are relative to the world reference frame</div>
+<div class=tab>bit0 set (1): specified points are relative to the OC tree reference frame, otherwise they are relative to the world reference frame</div>
 <div class=tab>bit1 set (2): the color array contains one RGB triple per point, and the tag array contains one value per point. Otherwise it the color array contains a single RGB triple, and the tag array contains a single value.</div>
 <div><strong>pts</strong>: a pointer to the voxel positions specified as X/Y/Z coordinates</div>
 <div><strong>ptCnt</strong>: the number of point coordinates contained in pts</div>
@@ -15670,7 +15668,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful, otherwise the total number of voxels in the octree</div>
+<div>-1 if operation was not successful, otherwise the total number of voxels in the OC tree</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -15767,7 +15765,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Removes points from a <a href="pointClouds.htm">point cloud</a>, that do not intersect with the provided points (i.e. the result in the point cloud will be the intersection between the two sets of points). When a point cloud doesn't use an octree calculation structure, then this operation cannot be performed. See also <a href="#simInsertPointsIntoPointCloud">sim.insertPointsIntoPointCloud</a>, <a href="#simSetPointCloudOptions">sim.setPointCloudOptions</a> and the other <a href="apiFunctionListCategory.htm#pointCloud">point cloud related functions</a>.</td>
+<td class=apiTableRightDescr>Removes points from a <a href="pointClouds.htm">point cloud</a>, that do not intersect with the provided points (i.e. the result in the point cloud will be the intersection between the two sets of points). When a point cloud doesn't use an OC tree calculation structure, then this operation cannot be performed. See also <a href="#simInsertPointsIntoPointCloud">sim.insertPointsIntoPointCloud</a>, <a href="#simSetPointCloudOptions">sim.setPointCloudOptions</a> and the other <a href="apiFunctionListCategory.htm#pointCloud">point cloud related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -16317,7 +16315,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>filename</strong>: model filename. The filename extension is required (&quot;ttm&quot;). An optional &quot;@copy&quot; can be appended to the filename, in which case the model's objects will be named/renamed as if an associated script was attached to the model.</div>
+<div><strong>filename</strong>: model filename. The filename extension is required (<em>ttm</em> or <em>simmodel.xml</em> ). An optional &quot;@copy&quot; can be appended to the filename, in which case the model's objects will be named/renamed as if an associated script was attached to the model.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -16342,7 +16340,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>a) <strong>filename</strong>: model filename. The filename extension is required (&quot;ttm&quot;). An optional &quot;@copy&quot; can be appended to the filename, in which case the model's objects will be named/renamed as if an associated script was attached to the model.</div>
+<div>a) <strong>filename</strong>: model filename. The filename extension is required (<em>ttm</em>, or <em>simmodel.xml</em>). An optional &quot;@copy&quot; can be appended to the filename, in which case the model's objects will be named/renamed as if an associated script was attached to the model.</div>
 <div>b) <strong>buffer</strong>: a buffer containing the model</div>
 <div>c)&amp;d) <strong>onlyThumbnail</strong>: when true, then only the thumbnail image of the model will be loaded and returned</div>
 </td> 
@@ -16377,7 +16375,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Loads a V-REP <a href="plugins.htm">plugin</a>. This should usually be done in the <a href="mainClientApplication.htm">main client application</a>, just after <a href="#simRunSimulator">simRunSimulator</a> was called. Alternatively, you can also dynamically load/unload a plugin, but depending on the plugin function, this might not work/lead to a crash. In case the dynamically loaded plugin registers custom Lua functions, those functions cannot be used in scripts that were already initialized (except for the script that called <em>sim.loadModule</em>). Normally, all plugins of type <em>v_repExtXXX.dll</em> (or <em>libv_repExtXXX.so</em> or<em> libv_repExtXXX.dylib</em>) in the V-REP directory are loaded at application start. Plugins that are meant to be dynamically loaded should use a different name, or a different directory. See also <a href="#simSendModuleMessage">simSendModuleMessage</a> and <a href="#simUnloadModule">sim.unloadModule</a>.<br></td>
+<td class=apiTableRightDescr>Loads a CoppeliaSim <a href="plugins.htm">plugin</a>. This should usually be done in the <a href="mainClientApplication.htm">main client application</a>, just after <a href="#simRunSimulator">simRunSimulator</a> was called. Alternatively, you can also dynamically load/unload a plugin, but depending on the plugin function, this might not work/lead to a crash. In case the dynamically loaded plugin registers custom Lua functions, those functions cannot be used in scripts that were already initialized (except for the script that called <em>sim.loadModule</em>). Normally, all plugins of type <em>simExtXXX.dll</em> (or <em>libsimExtXXX.so</em> or<em> libsimExtXXX.dylib</em>) in the CoppeliaSim directory are loaded at application start. Plugins that are meant to be dynamically loaded should use a different name, or a different directory. See also <a href="#simSendModuleMessage">simSendModuleMessage</a> and <a href="#simUnloadModule">sim.unloadModule</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -16389,7 +16387,7 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><span class="apiTableRightCSyn"><strong>filenameAndPath</strong></span>: file name and path of the plugin</div>
-<div><span class="apiTableRightCSyn"><strong>pluginName</strong></span>: name of the plugin. If the file name is <em>v_repExtXXX.dll</em>, then the name should be <em>XXX</em></div>
+<div><span class="apiTableRightCSyn"><strong>pluginName</strong></span>: name of the plugin. If the file name is <em>simExtXXX.dll</em>, then the name should be <em>XXX</em></div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -16444,7 +16442,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>filename</strong>: scene filename. The filename extension is required (&quot;ttt&quot;). By default, the current scene will be removed. Append &quot;@keepCurrent&quot; to the filename if the current scene should be preserved.</div>
+<div><strong>filename</strong>: scene filename. The filename extension is required (<em>ttt</em>, or <em>simscene.xml</em> ). By default, the current scene will be removed. Append &quot;@keepCurrent&quot; to the filename if the current scene should be preserved.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -16497,7 +16495,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Prepares V-REP for access to resources. The V-REP API functions normally automatically protect resources appropriately: when the non-GUI thread reads from or writes to resources, they will be protected (the lock always succeeds). When the GUI thread reads from or writes to resources, the protection might fail (i.e the lock will fail if the non-GUI thread has already locked resources for a longer time), in which case the API function will return with a fail error code. This can be troublesome in case a long succession of API calls is planned. In that case, you should additionally protect the API function calls with one initial call to simLockResources. See also <a href="#simUnlockResources">simUnlockResources</a> and <a href="#simGetThreadId">sim.getThreadId</a>.</td>
+<td class=apiTableRightDescr>Prepares CoppeliaSim for access to resources. The CoppeliaSim API functions normally automatically protect resources appropriately: when the non-GUI thread reads from or writes to resources, they will be protected (the lock always succeeds). When the GUI thread reads from or writes to resources, the protection might fail (i.e the lock will fail if the non-GUI thread has already locked resources for a longer time), in which case the API function will return with a fail error code. This can be troublesome in case a long succession of API calls is planned. In that case, you should additionally protect the API function calls with one initial call to simLockResources. See also <a href="#simUnlockResources">simUnlockResources</a> and <a href="#simGetThreadId">sim.getThreadId</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -17016,7 +17014,7 @@ C synopsis
 Other <em>editor</em> attributes with their default values are:
 
 <pre class=lightRedBoxNoMarginAndSmall>isLua=&quot;false&quot;
-useVrepKeywords=&quot;false&quot;
+useSimKeywords=&quot;false&quot;
 commentColor=&quot;0 140 0&quot;
 numberColor=&quot;220 0 220&quot;
 stringColor=&quot;255 255 0&quot;
@@ -17574,7 +17572,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Writes a persistent data block. Persistent data, valid across all opened simulator scenes, remains until the simulator ends, or until it is cleared by writing an empty data block. If the options flag is set appropriately, then persistent data can also be stored on file, and be automatically reloaded next time V-REP starts. See also <a href="#simPersistentDataRead">sim.persistentDataRead</a>, <a href="#simSetStringSignal">sim.setStringSignal</a>, <a href="#simSetIntegerSignal">sim.setIntegerSignal</a>, <a href="#simSetDoubleSignal">sim.setDoubleSignal</a> and <a href="#simWriteCustomDataBlock">sim.writeCustomDataBlock</a>.<br></td>
+<td class=apiTableRightDescr>Writes a persistent data block. Persistent data, valid across all opened simulator scenes, remains until the simulator ends, or until it is cleared by writing an empty data block. If the options flag is set appropriately, then persistent data can also be stored on file, and be automatically reloaded next time CoppeliaSim starts. See also <a href="#simPersistentDataRead">sim.persistentDataRead</a>, <a href="#simSetStringSignal">sim.setStringSignal</a>, <a href="#simSetIntegerSignal">sim.setIntegerSignal</a>, <a href="#simSetDoubleSignal">sim.setDoubleSignal</a> and <a href="#simWriteCustomDataBlock">sim.writeCustomDataBlock</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -17588,7 +17586,7 @@ C synopsis
 <div><strong>dataTag</strong>: name of the data block</div>
 <div><strong>dataValue</strong>: content of the data block (which may contain any value, including embedded zeros). If dataValue is an empty string, then the data block is cleared (if present).</div>
 <div><strong>dataLength</strong>: the size of the data block.</div>
-<div><strong>options</strong>: bit-coded. If bit 0 is set (1), then the data is also stored on file ("system/persistentData.dat"), and automatically reloaded next time V-REP start.</div>
+<div><strong>options</strong>: bit-coded. If bit 0 is set (1), then the data is also stored on file ("system/persistentData.dat"), and automatically reloaded next time CoppeliaSim start.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -19146,7 +19144,7 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>visionSensorHandle</strong>: handle of a vision sensor object</div>
-<div><strong>auxValues</strong>: auxiliary values returned from the <a href="visionSensorFilterComposition.htm">applied filters</a>. By default V-REP returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. If additional filter components return values, then they will be appended as packets to the first packet. AuxValues can be NULL. The user is in charge of releasing the auxValues buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>(*auxValues).<br>
+<div><strong>auxValues</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. Additional packets can be appended in the <a href="visionCallbackFunctions.htm">vision callback function</a>. AuxValues can be NULL. The user is in charge of releasing the auxValues buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>(*auxValues).<br>
 </div>
 <div><strong>auxValuesCount</strong>: contains information about the number of auxiliary value packets and packet sizes returned in auxValues. The first value is the number of packets, the second is the size of packet1, the third is the size of packet2, etc. Can be NULL if auxValues is also NULL. The user is in charge of releasing the auxValuesCount buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a>(*auxValuesCount).<br>
 </div>
@@ -19184,7 +19182,7 @@ Lua return values
 <div><strong>result</strong>: detection state (0 or 1), or -1 in case of an error, or if <a href="#simHandleVisionSensor">sim.handleVisionSensor</a> was never called, or if <a href="#simResetVisionSensor">sim.resetVisionSensor</a> was previously called.<br>
 </div>
 <div><strong>auxiliaryValuePacket1</strong>: default auxiliary value packet (same as for the C-function)</div>
-<div><strong>auxiliaryValuePacket2</strong>: additional auxiliary value packet (e.g. from a filter component)</div>
+<div><strong>auxiliaryValuePacket2</strong>: additional auxiliary value packet (e.g. from an image processing component)</div>
 <div><strong>auxiliaryValuePacket3</strong>: etc. (the function returns as many tables as there are auxiliary value packets)</div>
 <div></div></td> 
 </tr> 
@@ -19295,7 +19293,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Refreshes V-REP's internal dialogs. Calling <a href="#simRefreshDialogs">sim.refreshDialogs</a> will not trigger a <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_refreshdialogs</a> message<br></td>
+<td class=apiTableRightDescr>Refreshes CoppeliaSim's internal dialogs. Calling <a href="#simRefreshDialogs">sim.refreshDialogs</a> will not trigger a <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_refreshdialogs</a> message<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -19365,7 +19363,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>functNameAtPluginName</strong>: name of the function, combined with the plugin name: functionName@pluginName. Avoid using too simple function names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomFunction</em>) for the function name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>v_repExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).<br>
+<div><strong>functNameAtPluginName</strong>: name of the function, combined with the plugin name: functionName@pluginName. Avoid using too simple function names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomFunction</em>) for the function name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>simExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).<br>
 </div>
 <div><strong>callTips</strong>: call tips: string (or several strings separated by '@') that indicates the input/output argument type/size. Call tips appear in the script editor when the function was typed followed by &quot;(&quot;. callTips Can be NULL, in which case no call tips will be displayed, nor syntax highlighting used.<br>
 </div>
@@ -19380,7 +19378,7 @@ C synopsis
 </div>
 <div><strong>simChar waitUntilZero</strong>: this value can be used when threaded scripts call a custom Lua function in a plugin that shouldn't return until a condition is met (e.g. until the robot movement finished). For that purpose, the plugin should write a value different from zero to indicate a &quot;wait&quot; state. When the callback returns, the control is not given back to the script until some other thread calling the plugin writes zero to that location. Once zero was written, the memory location should not be used anymore (because it might be released anytime by the simulator). Also, when the user stops a simulation before zero was written to that location, the wait state is aborted. In that case however the memory location stays valid (i.e. writing zero will not result in a crash) until the simulation ended.<br>
 </div>
-<div><strong>simChar* raiseErrorWithMessage</strong>: max. 256 bytes are available here for an error message. This buffer is allocated by V-REP and initially contains a zero length string. If the length of the string is not zero, a script error will be raised and the message displayed in the status bar.
+<div><strong>simChar* raiseErrorWithMessage</strong>: max. 256 bytes are available here for an error message. This buffer is allocated by CoppeliaSim and initially contains a zero length string. If the length of the string is not zero, a script error will be raised and the message displayed in the status bar.
 </div>
 <br>
 
@@ -19425,7 +19423,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr><div>Registers a script function for auto-completion, syntax highlighting and call-tip display (in the V-REP internal code editor). Useful for script function definitions inside of a Lua file, loaded by a plugin.</div>
+<td class=apiTableRightDescr><div>Registers a script function for auto-completion, syntax highlighting and call-tip display (in the CoppeliaSim internal code editor). Useful for script function definitions inside of a Lua file, loaded by a plugin.</div>
 </td>
 </tr> 
 <tr class=apiTableTr> 
@@ -19459,7 +19457,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>functNameAtPluginName</strong>: name of the function, combined with the plugin name it is associated with: functionName@pluginName. Avoid using too simple function names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomFunction</em>) for the function name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>v_repExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).</div>
+<div><strong>functNameAtPluginName</strong>: name of the function, combined with the plugin name it is associated with: functionName@pluginName. Avoid using too simple function names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomFunction</em>) for the function name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>simExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).</div>
 <div><strong>callTips</strong>: call tips: string (or several strings separated by '@') that indicates the input/output argument type/size. Call tips appear in the script editor when the function was typed followed by &quot;(&quot;.</div>
 </td> 
 </tr> 
@@ -19485,7 +19483,7 @@ Description
 <div></div>
 <div>simRegisterScriptVariable(&quot;simUi&quot;,&quot;require('customUi')&quot;,0);</div>
 <div>which is equivalent with an implicit simUi=require('customUi') command in the initialization phase of every script.</div>
-<div>The Lua counterpart is just used for syntax highlighting and auto-completion purpose in the V-REP internal code editor.</div>
+<div>The Lua counterpart is just used for syntax highlighting and auto-completion purpose in the CoppeliaSim internal code editor.</div>
 <div>See also <a href="#simRegisterScriptCallbackFunction">simRegisterScriptCallbackFunction</a> and <a href="#simSetScriptVariable">sim.setScriptVariable</a>.</div></td>
 </tr> 
 <tr class=apiTableTr> 
@@ -19497,9 +19495,9 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>varNameAtPluginName</strong>: name of the variable, combined with the plugin name: variableName@pluginName. Avoid using too simple variable names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomVariable</em>) for the variable name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>v_repExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).</div>
+<div><strong>varNameAtPluginName</strong>: name of the variable, combined with the plugin name: variableName@pluginName. Avoid using too simple variable names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomVariable</em>) for the variable name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>simExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).</div>
 <div><strong>varValue</strong>: value of the variable. Can be NULL, in which case the value of the variable will be the top item of the provided stack (or, if <em>stackHandle</em> is 0, <em>varName</em> will only be used for code auto-completion purpose).</div>
-<div><strong>stackHandle</strong>: a stack handle obtained with <a href="#simCreateStack">simCreateStack</a>. Set to 0 if <em>varValue</em> is not NULL. Set to -1 if <em>varValue</em> is not NULL and you do not want the variable to appear in the script editor auto-completion list. If a stack is provided, it will be released at a later point by V-REP.</div>
+<div><strong>stackHandle</strong>: a stack handle obtained with <a href="#simCreateStack">simCreateStack</a>. Set to 0 if <em>varValue</em> is not NULL. Set to -1 if <em>varValue</em> is not NULL and you do not want the variable to appear in the script editor auto-completion list. If a stack is provided, it will be released at a later point by CoppeliaSim.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -19519,7 +19517,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>varNameAtPluginName</strong>: name of the variable, combined with the plugin name: variableName@pluginName. Avoid using too simple variable names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomVariable</em>) for the variable name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>v_repExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).</div>
+<div><strong>varNameAtPluginName</strong>: name of the variable, combined with the plugin name: variableName@pluginName. Avoid using too simple variable names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomVariable</em>) for the variable name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>simExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -20185,7 +20183,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Removes points from a <a href="pointClouds.htm">point cloud</a>. When a point cloud doesn't use an octree calculation structure, then individual points cannot be removed, only all points can be removed in that case. See also <a href="#simInsertPointsIntoPointCloud">sim.insertPointsIntoPointCloud</a>, <a href="#simSetPointCloudOptions">sim.setPointCloudOptions</a> and the other <a href="apiFunctionListCategory.htm#pointCloud">point cloud related functions</a>.</td>
+<td class=apiTableRightDescr>Removes points from a <a href="pointClouds.htm">point cloud</a>. When a point cloud doesn't use an OC tree calculation structure, then individual points cannot be removed, only all points can be removed in that case. See also <a href="#simInsertPointsIntoPointCloud">sim.insertPointsIntoPointCloud</a>, <a href="#simSetPointCloudOptions">sim.setPointCloudOptions</a> and the other <a href="apiFunctionListCategory.htm#pointCloud">point cloud related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -20295,7 +20293,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Removes voxels from an <a href="octrees.htm">octree</a>. See also <a href="#simInsertVoxelsIntoOctree">sim.insertVoxelsIntoOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">octree related functions</a>.</td>
+<td class=apiTableRightDescr>Removes voxels from an <a href="octrees.htm">OC tree</a>. See also <a href="#simInsertVoxelsIntoOctree">sim.insertVoxelsIntoOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">OC tree related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -20306,9 +20304,9 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>octreeHandle</strong>: the handle of the octree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
+<div><strong>octreeHandle</strong>: the handle of the OC tree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
 <div><strong>options</strong>: bit-coded:</div>
-<div class=tab>bit0 set (1): specified points are relative to the octree reference frame, otherwise they are relative to the world reference frame</div>
+<div class=tab>bit0 set (1): specified points are relative to the OC tree reference frame, otherwise they are relative to the world reference frame</div>
 <div><strong>pts</strong>: a pointer to the voxel positions specified as X/Y/Z coordinates. Set to NULL to remove all voxels</div>
 <div><strong>ptCnt</strong>: the number of point coordinates contained in pts</div>
 <div><strong>reserved</strong>: reserved for future extensions. Set to NULL</div>
@@ -20319,7 +20317,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful, otherwise the total number of voxels in the octree</div>
+<div>-1 if operation was not successful, otherwise the total number of voxels in the OC tree</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -20888,7 +20886,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>In conjunction with <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>, sim.resumeThreads allows specifying when and in which order threads are resumed. By default, V-REP doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. Once a thread switched to another thread, it will resume execution at the beginning of next simulation pass by default. In order to also have full synchronization control between threads, you can assign a resume location and order to each thread. When sim.resumeThreads(x) is called, all threads that were assigned a resume location of x will be resumed. See also <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>, <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>, <a href="#simSwitchThread">sim.switchThread</a> and <a href="#simSetThreadIsFree">sim.setThreadIsFree</a>. This function can only be called in the <a href="mainScript.htm">main script</a>.</td>
+<td class=apiTableRightDescr>In conjunction with <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>, sim.resumeThreads allows specifying when and in which order threads are resumed. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. Once a thread switched to another thread, it will resume execution at the beginning of next simulation pass by default. In order to also have full synchronization control between threads, you can assign a resume location and order to each thread. When sim.resumeThreads(x) is called, all threads that were assigned a resume location of x will be resumed. See also <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>, <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>, <a href="#simSwitchThread">sim.switchThread</a> and <a href="#simSetThreadIsFree">sim.setThreadIsFree</a>. This function can only be called in the <a href="mainScript.htm">main script</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -21192,7 +21190,7 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>baseOfModelHandle</strong>: handle of an object marked as &quot;Object is model base&quot;</div>
-<div><strong>filename</strong>: model filename. The filename extension is required (&quot;ttm&quot;)</div>
+<div><strong>filename</strong>: model filename. The filename extension is required (<em>ttm</em>, or <em>simmodel.xml</em>)</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -21216,7 +21214,7 @@ Lua synopsis
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
 <div><strong>baseOfModelHandle</strong>: handle of an object marked as &quot;Object is model base&quot;</div>
-<div><strong>filename</strong>: model filename. The filename extension is required (&quot;ttm&quot;). If this argument is omitted, then the model will be saved to a buffer which will be returned</div>
+<div><strong>filename</strong>: model filename. The filename extension is required (<em>ttm</em>, or <em>simmodel.xml</em> ). If this argument is omitted, then the model will be saved to a buffer which will be returned</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -21249,7 +21247,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>filename</strong>: scene filename. The filename extension is required (&quot;ttt&quot;)</div>
+<div><strong>filename</strong>: scene filename. The filename extension is required (<em>ttt</em>, <em>or simscene.xml</em>)</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -21425,7 +21423,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>targetID</strong>: indicates what receivers will receive the message. Can be sim_handle_all, or the handle of a script<br>
 </div>
-<div><strong>dataHeader</strong>: number indicating who &quot;designed&quot; the communication message. Always use the same header (because only you will know the meaning of the message) and stick to it. The best is to use the serial number of your V-REP copy (check the &quot;Help&quot; menu, in the &quot;About&quot; item for the serial number). Otherwise, you risk collision with other developer's messages which might use the same header as yours.<br>
+<div><strong>dataHeader</strong>: number indicating who &quot;designed&quot; the communication message. Always use the same header (because only you will know the meaning of the message) and stick to it. The best is to use the serial number of your CoppeliaSim copy (check the &quot;Help&quot; menu, in the &quot;About&quot; item for the serial number). Otherwise, you risk collision with other developer's messages which might use the same header as yours.<br>
 </div>
 <div><strong>dataName</strong>: name indicating the type of message. dataHeader and dataName will be used to filter out all unwanted messages when trying to receive a specific message (see <a href="#simReceiveData">simReceiveData</a>)<br>
 </div>
@@ -21463,7 +21461,7 @@ Lua synopsis
 <td class=apiTableRightLParam>
 <div><strong>targetID</strong>: indicates what receivers will receive the message. Can be sim.handle_all, sim.handle_tree, sim.handle_chain, or the handle of a script. If sim.handle_tree is specified, then only child scripts built on top of current script's hierarchy will be able to receive the message. If sim.handle_chain is specified, then only child scripts parented with current script (or the main script) will be able to receive the message<br>
 </div>
-<div><strong>dataHeader</strong>: number indicating who &quot;designed&quot; the communication message. Always use the same header (because only you will know the meaning of the message) and stick to it. The best is to use the serial number of your V-REP copy (check the &quot;Help&quot; menu, in the &quot;About&quot; item for the serial number). Otherwise, you risk collision with other developer's messages which might use the same header as yours.<br>
+<div><strong>dataHeader</strong>: number indicating who &quot;designed&quot; the communication message. Always use the same header (because only you will know the meaning of the message) and stick to it. The best is to use the serial number of your CoppeliaSim copy (check the &quot;Help&quot; menu, in the &quot;About&quot; item for the serial number). Otherwise, you risk collision with other developer's messages which might use the same header as yours.<br>
 </div>
 <div><strong>dataName</strong>: name indicating the type of message. dataHeader and dataName will be used to filter out all unwanted messages when trying to receive a specific message (see <a href="#simReceiveData">sim.receiveData</a>)<br>
 </div>
@@ -21507,14 +21505,14 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>message</strong>: the message to send. Refer to <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_</a>-type messages.<br>
 </div>
-<div><strong>auxiliaryData</strong>: pointer to 4 integers. auxiliaryData[0] should be a unique identifier different from 0. Use a large random identifier, or better, your V-REP serial number if the message is yours. Otherwise, use the identifier of some other module. auxiliaryData[1] could be the messageID of the message you wish to send to another module. auxiliaryData[2] and auxiliaryData[3] can be any values specific to your application.<br>
+<div><strong>auxiliaryData</strong>: pointer to 4 integers. auxiliaryData[0] should be a unique identifier different from 0. Use a large random identifier, or better, your CoppeliaSim serial number if the message is yours. Otherwise, use the identifier of some other module. auxiliaryData[1] could be the messageID of the message you wish to send to another module. auxiliaryData[2] and auxiliaryData[3] can be any values specific to your application.<br>
 </div>
 <div><strong>customData</strong>: customData of your application (the broadcaster is in charge to release that buffer). Can be NULL.<br>
 </div>
 <div><strong>replyData</strong>: pointer to 4 integers that can be used by a module to reply to a broadcasted message. Can be NULL. If not NULL, all 4 values are automatically initialized to -1.<br>
 </div>
 <br>
-<div>Broadcasted messages can be intercepted in a plugin's "v_repMessage"-function.</div>
+<div>Broadcasted messages can be intercepted in a plugin's "simMessage"-function.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -21675,7 +21673,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>portString</strong>: a string specifying the port to open. Under Windows, use something similar to &quot;\\.\COM1&quot;. Under MacOS and Linux, use something similar to &quot;/dev/*&quot; (check the &quot;/dev&quot; folder to know what file to specify). Under Linux, you might have to launch V-REP with super user priviledges in order to access the serial port.</div>
+<div><strong>portString</strong>: a string specifying the port to open. Under Windows, use something similar to &quot;\\.\COM1&quot;. Under MacOS and Linux, use something similar to &quot;/dev/*&quot; (check the &quot;/dev&quot; folder to know what file to specify). Under Linux, you might have to launch CoppeliaSim with super user priviledges in order to access the serial port.</div>
 <div><strong>baudRate</strong>: the baudrate</div>
 <div><strong>reserved1</strong>: reserved for future extension. Keep at NULL.</div>
 <div><strong>reserved2</strong>: reserved for future extension. Keep at NULL.</div>
@@ -23568,7 +23566,7 @@ Lua return values
 Description 
 </td> 
 <td class=apiTableRightDescr>
-<div>Sets the name suffix adjustment number (for detailed information on this, read also the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>). In V-REP, all objects are identified by a name and a handle. When an object (scene object or general-type object) is copied at the same time as a child script, the newly created object's name will become &quot;oldName#0&quot;, should the same object be pasted another time, the next name will be &quot;oldName#1&quot;, etc. <br>
+<div>Sets the name suffix adjustment number (for detailed information on this, read also the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>). In CoppeliaSim, all objects are identified by a name and a handle. When an object (scene object or general-type object) is copied at the same time as a child script, the newly created object's name will become &quot;oldName#0&quot;, should the same object be pasted another time, the next name will be &quot;oldName#1&quot;, etc. <br>
 </div>
 <br> 
 <div>From within a child script, retrieving object handles is performed by automatically appending a name suffix to the object name (each script gets initialized with the name suffix number of the object it is attached to). This allows to copy-paste objects and scripts without having to manually adjust the scripts (the scripts will automatically know which object they have to access based on the set name suffix). From within a script, most of the time you won't need to set the name suffix, but in some special cases you might want to temporarily disable it (e.g. &quot;myChildScript#42&quot; (which has its name suffix automatically set to 42) copied itself together with its attached robot (&quot;myRobot#42&quot;) and now from within &quot;myChildScript#42&quot; you want to shift &quot;myRobot#43&quot; to avoid collision. In that case set the name suffix to 43, shift &quot;myRobot&quot; (retrieve its handle with <a href="#simGetObjectHandle">sim.getObjectHandle</a>(&quot;myRobot&quot;) then set the suffix back to 42). From within a script, the <a href="#simSetNameSuffix">sim.setNameSuffix</a> command is influencing only current script.<br>
@@ -24615,13 +24613,13 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>pointCloudHandle</strong>: the handle of the point cloud. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
-<div><strong>maxVoxelSize</strong>: the maximum size of the octree voxels containing points</div>
-<div><strong>maxPtCntPerVoxel</strong>: the maximum number of points allowed in a same octree voxel</div>
+<div><strong>maxVoxelSize</strong>: the maximum size of the OC tree voxels containing points</div>
+<div><strong>maxPtCntPerVoxel</strong>: the maximum number of points allowed in a same OC tree voxel</div>
 <div><strong>options</strong>: bit-coded:</div>
 <div class=tab>bit0 set (1): points have random colors</div>
-<div class=tab>bit1 set (2): show octree structure</div>
+<div class=tab>bit1 set (2): show OC tree structure</div>
 <div class=tab>bit2 set (4): reserved. keep unset</div>
-<div class=tab>bit3 set (8): do not use an octree structure. When enabled, point cloud operations are limited, and point clouds will not be <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a> or <a href="detectableObjects.htm">detectable</a> anymore, but adding points will be much faster</div>
+<div class=tab>bit3 set (8): do not use an OC tree structure. When enabled, point cloud operations are limited, and point clouds will not be <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a> or <a href="detectableObjects.htm">detectable</a> anymore, but adding points will be much faster</div>
 <div class=tab>bit4 set (16): color is emissive</div>
 <div><strong>pointSize</strong>: the size of the points, in pixels</div>
 <div><strong>reserved</strong>: reserved for future extensions. Set to NULL</div>
@@ -24666,7 +24664,7 @@ Lua return values
 Description 
 </td> 
 <td class=apiTableRightDescr>
-Attaches a list of custom handles to a given scene object. Those custom handles are handles of other objects, that are linked to the given scene object (for whatever purpose). The advantage of storing references to other objects with this function is that V-REP will take care of correctly adjusting the references if needed: For instance, imagine <em>objectA</em> storing the handle of <em>objectB</em> via this function. If <em>objectB</em> is deleted, then the stored handle will become -1. If <em>objectA</em> and <em>objectB</em> are duplicated at the same time, then the duplicate of <em>objectA</em> will store the handle of the duplicate of <em>objectB</em>. Optionally, if <em>sim.handleflag_keeporiginal </em>is specified, then linking to original objects is guaranteed, e.g. in above example, after a duplication of <em>objectA</em>, the duplicate of <em>objectA</em> will store the handle of the original <em>objectB</em> (if <em>objectB</em> still exists). See also <a href="#simGetReferencedHandles">sim.getReferencedHandles</a>. </td>
+Attaches a list of custom handles to a given scene object. Those custom handles are handles of other objects, that are linked to the given scene object (for whatever purpose). The advantage of storing references to other objects with this function is that CoppeliaSim will take care of correctly adjusting the references if needed: For instance, imagine <em>objectA</em> storing the handle of <em>objectB</em> via this function. If <em>objectB</em> is deleted, then the stored handle will become -1. If <em>objectA</em> and <em>objectB</em> are duplicated at the same time, then the duplicate of <em>objectA</em> will store the handle of the duplicate of <em>objectB</em>. Optionally, if <em>sim.handleflag_keeporiginal </em>is specified, then linking to original objects is guaranteed, e.g. in above example, after a duplication of <em>objectA</em>, the duplicate of <em>objectA</em> will store the handle of the original <em>objectB</em> (if <em>objectB</em> still exists). See also <a href="#simGetReferencedHandles">sim.getReferencedHandles</a>. </td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -24833,54 +24831,42 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets a main script's or child script's parameter in its simulation parameter list. Useful for simple interaction with the user or for simple parameter exchange with other scripts. See also <a href="#simGetScriptSimulationParameter">sim.getScriptSimulationParameter</a> and the <a href="apiFunctionListCategory.htm#packing">data packing/unpacking functions</a>.</td>
+<td class=apiTableRightDescr>DEPRECATED. Use <a href="#simSetUserParameter">sim.setUserParameter</a> instead.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simSetScriptSimulationParameter(simInt scriptHandle,const simChar* parameterName,const simChar* parameterValue,simInt parameterLength)<br></td> 
+<td class=apiTableRightCSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>scriptHandle</strong>: handle of the script, or sim_handle_main_script or sim_handle_all</div>
-<div><strong>parameterName</strong>: name of the parameter to set</div>
-<div><strong>parameterValue</strong>: value of the parameter (all parameters are treated as strings, but can be converted to number later on. Strings may contain any values (also embedded zeros))<br>
-</div>
-<div><strong>parameterLength</strong>: number of bytes that parameterValue contains. If parameterValue is a regular string (without embedded zeros), then this is strlen(parameterValue).<br>
-</div>
-<div></div></td> 
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>number of parameters that were set (can be &gt;1 if sim_handle_all was specified) or -1 if the parameterName could not be found or in case of an error<br>
-</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number setCount=sim.setScriptSimulationParameter(number scriptHandle,string parameterName,string/number parameterValue)<br></td> 
+<td class=apiTableRightLSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
-<td class=apiTableRightLParam><div><strong>scriptHandle</strong>: handle of the script, or sim.handle_main_script, sim.handle_all, sim.handle_tree, sim.handle_chain or sim.handle_self</div>
-<div><strong>parameterName</strong>: Same as C-function</div>
-<div><strong>parameterValue</strong>: Same as C-function</div>
-<div></div></td> 
+<td class=apiTableRightLParam></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Same as C-function</div>
-<div></div></td> 
+</td> 
 </tr> 
 </table> 
 <br>
@@ -25083,7 +25069,7 @@ C synopsis
 <div><strong>mass</strong>: the new mass of the object</div>
 <div><strong>inertia matrix</strong>: the new inertia matrix or tensor (9 values), expressed relative to the center of mass. The matrix should be relative to the orientational frame of <strong>transformation</strong> (see further below). </div>
 <div><strong>centerOfMass</strong>: the new position of the center of mass, relative to the specified <strong>transformation</strong> (see next item).</div>
-<div><strong>transformation</strong>: the transformation matrix (12 values) relative to which we specify the data. Can be NULL, in which case the data is relative to the absolute reference frame. See <a href="#simGetObjectMatrix">here</a> to see how matrix transformations are specified in V-REP.</div>
+<div><strong>transformation</strong>: the transformation matrix (12 values) relative to which we specify the data. Can be NULL, in which case the data is relative to the absolute reference frame. See <a href="#simGetObjectMatrix">here</a> to see how matrix transformations are specified in CoppeliaSim.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -25552,7 +25538,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows to temporarily forbid thread switches. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, V-REP doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. For complete control over the switching moment, see also <a href="#simGetThreadAutomaticSwitch">sim.getThreadAutomaticSwitch</a>, <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>, <a href="#simSwitchThread">sim.switchThread</a>, <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> and <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>.</td>
+<td class=apiTableRightDescr>Allows to temporarily forbid thread switches. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. For complete control over the switching moment, see also <a href="#simGetThreadAutomaticSwitch">sim.getThreadAutomaticSwitch</a>, <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>, <a href="#simSwitchThread">sim.switchThread</a>, <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> and <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -25607,7 +25593,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Threads created by V-REP are never running concurrently, they rather behave like coroutines. This allows achieving same results as with &quot;pure threads&quot;, except when an external command is blocking (e.g. commands not directly supported by V-REP). Those can be lengthly image processing routines, or socket communication routines for example. When such external blocking commands are called, V-REP appears frozen until the external commands return. To avoid such a situation, you can declare a non-blocking section with the <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> command: <a href="#simSetThreadIsFree">sim.setThreadIsFree</a>(true) starts a non-blocking section, and <a href="#simSetThreadIsFree">sim.setThreadIsFree</a>(false) closes it. Try to avoid using V-REP commands when in a non-blocking section (bad synchronization), and never forget to close a non-blocking section, otherwise V-REP will hang indefinitely. Use <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> with extra care when calling it from C. A thread running in a non-blocking section cannot be paused nor stopped. This command has no effect when called from the main thread or a non-threaded script.<br></td>
+<td class=apiTableRightDescr>Threads created by CoppeliaSim are never running concurrently, they rather behave like coroutines. This allows achieving same results as with &quot;pure threads&quot;, except when an external command is blocking (e.g. commands not directly supported by CoppeliaSim). Those can be lengthly image processing routines, or socket communication routines for example. When such external blocking commands are called, CoppeliaSim appears frozen until the external commands return. To avoid such a situation, you can declare a non-blocking section with the <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> command: <a href="#simSetThreadIsFree">sim.setThreadIsFree</a>(true) starts a non-blocking section, and <a href="#simSetThreadIsFree">sim.setThreadIsFree</a>(false) closes it. Try to avoid using CoppeliaSim commands when in a non-blocking section (bad synchronization), and never forget to close a non-blocking section, otherwise CoppeliaSim will hang indefinitely. Use <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> with extra care when calling it from C. A thread running in a non-blocking section cannot be paused nor stopped. This command has no effect when called from the main thread or a non-threaded script.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -25663,7 +25649,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows specifying when and in which order child script threads are resumed. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, V-REP doesn't use <em>regular</em> threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. Once a thread switched to another thread, it will resume execution when the <a href="mainScript.htm">main script</a> calls <a href="#simResumeThreads">sim.resumeThreads</a> with the corresponding argument, which represents a <a href="apiConstants.htm#threadResumeLocations">child script thread resume location</a>. In order to also have full synchronization control between threads, you can assign a resume location and order to each thread with this function. See also <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>, <a href="#simSetThreadAutomaticSwitch">sim.setThreadAutomaticSwitch</a>, <a href="#simSwitchThread">sim.switchThread</a> and <a href="#simSetThreadIsFree">sim.setThreadIsFree</a>.</td>
+<td class=apiTableRightDescr>Allows specifying when and in which order child script threads are resumed. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, CoppeliaSim doesn't use <em>regular</em> threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. Once a thread switched to another thread, it will resume execution when the <a href="mainScript.htm">main script</a> calls <a href="#simResumeThreads">sim.resumeThreads</a> with the corresponding argument, which represents a <a href="apiConstants.htm#threadResumeLocations">child script thread resume location</a>. In order to also have full synchronization control between threads, you can assign a resume location and order to each thread with this function. See also <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>, <a href="#simSetThreadAutomaticSwitch">sim.setThreadAutomaticSwitch</a>, <a href="#simSwitchThread">sim.switchThread</a> and <a href="#simSetThreadIsFree">sim.setThreadIsFree</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -25718,7 +25704,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows specifying a switching time for the thread in which the current script runs. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, V-REP doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads: each thread (except for the main or application thread) has a switch timing associated, which specifies how long the thread will run before switching to other threads (the execution duration per calculation pass). By default this value is 2 millisecond, but this function allows changing that value (on a thread-basis). Acceptable values are between 0 and 200. For complete control over the switching moment, see also <a href="#simSetThreadAutomaticSwitch">sim.setThreadAutomaticSwitch</a>, <a href="#simSwitchThread">sim.switchThread</a>, <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> and <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>.</td>
+<td class=apiTableRightDescr>Allows specifying a switching time for the thread in which the current script runs. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads: each thread (except for the main or application thread) has a switch timing associated, which specifies how long the thread will run before switching to other threads (the execution duration per calculation pass). By default this value is 2 millisecond, but this function allows changing that value (on a thread-basis). Acceptable values are between 0 and 200. For complete control over the switching moment, see also <a href="#simSetThreadAutomaticSwitch">sim.setThreadAutomaticSwitch</a>, <a href="#simSwitchThread">sim.switchThread</a>, <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> and <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -25768,13 +25754,72 @@ Lua return values
 <br>
 <br>
 <br>
+<h3 class=subsectionBar><a name="simSetUserParameter" id="simSetUserParameter"></a>simSetUserParameter / sim.setUserParameter </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets user parameters of an object. Useful for simple interaction with the user. See also <a href="#simGetUserParameter">sim.getUserParameter</a>, the <a href="apiFunctionListCategory.htm#packing">data packing/unpacking functions</a> and the <a href="userConfigCallbackFunctions.htm">user config callback functions</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simSetUserParameter(simInt objectHandle,const simChar* parameterName,const simChar* parameterValue,simInt parameterLength)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>objectHandle</strong>: handle of the object</div>
+<div><strong>parameterName</strong>: name of the parameter to set</div>
+<div><strong>parameterValue</strong>: value of the parameter (all parameters are treated as strings, but can be converted to number later on. Strings may contain any values (also embedded zeros))<br>
+</div>
+<div><strong>parameterLength</strong>: number of bytes that parameterValue contains. If parameterValue is a regular string (without embedded zeros), then this is strlen(parameterValue).<br>
+</div>
+<div></div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 if the parameterName could not be found or in case of an error<br>
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>number returnValue=sim.setUserParameter(number objectHandle,string parameterName,string/number parameterValue)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam><div><strong>objectHandle</strong>: handle of the object, or sim.handle_self, to target the object the current script is attached to.</div>
+<div><strong>parameterName</strong>: Same as C-function</div>
+<div><strong>parameterValue</strong>: Same as C-function</div>
+<div></div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>Same as C-function</div>
+<div></div></td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
 <h3 class=subsectionBar><a name="simSetVisionSensorCharImage" id="simSetVisionSensorCharImage"></a>simSetVisionSensorCharImage / sim.setVisionSensorCharImage</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the rgb-image of a vision sensor (and applies any image processing filter if specified in the vision sensor dialog). Make sure the vision sensor is flagged as <strong>external input</strong>. Use <a href="#simGetVisionSensorResolution">sim.getVisionSensorResolution</a> to know the size of the image buffer that you need to provide (buffer size=resolutionX *resolutionY*3). The &quot;regular&quot; use of this function is to first read the data from a vision sensor with <a href="#simGetVisionSensorCharImage">sim.getVisionSensorCharImage</a>, do some custom filtering, then write the modified image back. The alternate use of this function is to display textures, video images, etc. by using a vision sensor object (without however making use of the vision sensor functionality), since a vision sensor can be &quot;looked through&quot; like camera objects. See also <a href="#simSetVisionSensorImage">sim.setVisionSensorImage</a>.</td>
+<td class=apiTableRightDescr>Sets the rgb-image of a vision sensor (and applies any image processing via the <a href="visionCallbackFunctions.htm">vision callback functions</a>). Make sure the vision sensor is flagged as <strong>external input</strong>. Use <a href="#simGetVisionSensorResolution">sim.getVisionSensorResolution</a> to know the size of the image buffer that you need to provide (buffer size=resolutionX *resolutionY*3). See also <a href="#simSetVisionSensorImage">sim.setVisionSensorImage</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -25785,7 +25830,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>sensorHandle</strong>: handle of the vision sensor object.   Can be combined with <a href="apiConstants.htm#specialHandleFlags">sim_handleflag_greyscale</a> (simply add sim_handleflag_greyscale to sensorHandle), if you wish to provide grey scale values instead of rgb values..</div>
+<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="apiConstants.htm#specialHandleFlags">sim_handleflag_greyscale</a> (simply add sim_handleflag_greyscale to sensorHandle if you provide grey scale values instead of rgb value) or/and <a href="apiConstants.htm#specialHandleFlags">sim_handleflag_rawvalue</a> (simply add sim_handleflag_rawvalue to sensorHandle if you do not wish to trigger image processing).</div>
 <div><strong>image</strong>: rgb buffer containing the image (buffer size must be resolutionX*resolutionY*3). Values in the buffer should vary between 0 and 255. In case a grey scale image is provided, the buffer size must be resolutionX*resolutionY.</div>
 </td> 
 </tr> 
@@ -25794,7 +25839,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful. 0 if the applied filter didn't trigger anything, 1 if the appIied filter triggered a detection<br>
+<div>-1 if operation was not successful. 0 if the image processing didn't trigger anything, 1 if the image processing triggered a detection<br>
 </div>
 </td> 
 </tr> 
@@ -25837,26 +25882,17 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the parameters and settings of a specific <a href="visionSensorFilterComposition.htm">filter component</a> of a <a href="visionSensors.htm">vision sensor</a>. See also <a href="#simGetVisionSensorFilter">sim.getVisionSensorFilter</a> and the other <a href="apiFunctionListCategory.htm#visionSensor">vision sensor related API functions</a>.</td>
+<td class=apiTableRightDescr>DEPRECATED. Has no effect anymore. Use <a href="visionCallbackFunctions.htm">vision callback functions instead</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simSetVisionSensorFilter(simInt visionSensorHandle,simInt filterIndex,simInt options,const simInt* pSizes,const simUChar* bytes,const simInt* ints,const simFloat* floats,const simUChar* custom)</td> 
+<td class=apiTableRightCSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>visionSensorHandle</strong>: handle of a vision sensor. See also <a href="#simGetObjectHandle">simGetObjectHandle</a>.</div>
-<div><strong>filterIndex</strong>: the zero-based index of the filter position.</div>
-<div><strong>options</strong>: bit-coded value:</div>
-<div class=tab>bit 0 set (1): the component is enabled</div>
-<div><strong>pSizes</strong>: a pointer to 4 integer values indicating the sizes of the provided buffers (see next 4 arguments).</div>
-<div><strong>bytes</strong>: a buffer of bytes values representing the byte parameters of the filter component.</div>
-<div><strong>ints</strong>: a buffer of ints values representing the int parameters of the filter component.</div>
-<div><strong>floats</strong>: a buffer of floats values representing the float parameters of the filter component.</div>
-<div><strong>custom</strong>: a buffer of bytes values representing the custom parameters of the filter component.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -25864,19 +25900,18 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 in case of an error, 0 if the <em>filterIndex</em> is not valid, otherwise the <a href="apiConstants.htm#filterComponents">type of filter component</a> pointed by the <em>filterIndex</em>.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number filterType=sim.setVisionSensorFilter(number sensorHandle,number filterIndex,number options,table byteVals,table intVals,table floatVals,string customBuffer)</td> 
+<td class=apiTableRightLSyn>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar as C-function</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -25884,7 +25919,6 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Same as C-function</div>
 </td> 
 </tr> 
 </table> 
@@ -25897,7 +25931,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the rgb-image of a vision sensor (and applies any image processing filter if specified in the vision sensor dialog). Make sure the vision sensor is flagged as <strong>external input</strong>. Use <a href="#simGetVisionSensorResolution">sim.getVisionSensorResolution</a> to know the size of the image buffer that you need to provide (buffer size=resolutionX *resolutionY*3). The &quot;regular&quot; use of this function is to first read the data from a vision sensor with <a href="#simGetVisionSensorImage">sim.getVisionSensorImage</a>, do some custom filtering, then write the modified image back. The alternate use of this function is to display textures, video images, etc. by using a vision sensor object (without however making use of the vision sensor functionality), since a vision sensor can be &quot;looked through&quot; like camera objects. See also <a href="#simSetVisionSensorCharImage">sim.setVisionSensorCharImage</a>.</td>
+<td class=apiTableRightDescr>Sets the rgb-image of a vision sensor (and applies any image processing via the <a href="visionCallbackFunctions.htm">vision callback functions</a>). Make sure the vision sensor is flagged as <strong>external input</strong>. Use <a href="#simGetVisionSensorResolution">sim.getVisionSensorResolution</a> to know the size of the image buffer that you need to provide (buffer size=resolutionX *resolutionY*3).  See also <a href="#simSetVisionSensorCharImage">sim.setVisionSensorCharImage</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -25908,7 +25942,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="apiConstants.htm#specialHandleFlags">sim_handleflag_greyscale</a> (simply add sim_handleflag_greyscale to sensorHandle), if you wish to provide grey scale values instead of rgb values.</div>
+<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="apiConstants.htm#specialHandleFlags">sim_handleflag_greyscale</a> (simply add sim_handleflag_greyscale to sensorHandle if you provide grey scale values instead of rgb value) or/and <a href="apiConstants.htm#specialHandleFlags">sim_handleflag_rawvalue</a> (simply add sim_handleflag_rawvalue to sensorHandle if you do not wish to trigger image processing).</div>
 <div><strong>image</strong>: rgb buffer containing the image (buffer size must be resolutionX*resolutionY*3). Values in the buffer should vary between 0 and 1. In case a grey scale image is provided, the buffer size must be resolutionX*resolutionY.</div>
 <div></div></td> 
 </tr> 
@@ -25917,7 +25951,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful. 0 if the applied filter didn't trigger anything, 1 if the appIied filter triggered a detection<br>
+<div>-1 if operation was not successful. 0 if the image processing didn't trigger anything, 1 if the image processing triggered a detection<br>
 </div>
 </td> 
 </tr> 
@@ -25931,7 +25965,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="apiConstants.htm#specialHandleFlags">sim.handleflag_greyscale</a> (simply add sim.handleflag_greyscale to sensorHandle), if you wish to provide grey scale values instead of rgb values.</div>
+<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="apiConstants.htm#specialHandleFlags">sim.handleflag_greyscale</a> (simply add sim.handleflag_greyscale to sensorHandle if you provide grey scale values instead of rgb value) or/and <a href="apiConstants.htm#specialHandleFlags">sim.handleflag_rawvalue</a> (simply add sim.handleflag_rawvalue to sensorHandle if you do not wish to trigger image processing).</div>
 <div>(1) a table containing individual values [0-1] for the red, green and blue components, or for the grey component.</div>
 <div>(2) a string containing individual chars [0-255] for the red, green and blue components, or for the grey component.</div></td> 
 </tr> 
@@ -26092,7 +26126,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Removes an object from an <a href="octrees.htm">octree</a>, as voxel subtractions. See also <a href="#simInsertObjectIntoOctree">sim.insertObjectIntoOctree</a>, <a href="#simRemoveVoxelsFromOctree">sim.removeVoxelsFromOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">octree related functions</a>.</td>
+<td class=apiTableRightDescr>Removes an object from an <a href="octrees.htm">OC tree</a>, as voxel subtractions. See also <a href="#simInsertObjectIntoOctree">sim.insertObjectIntoOctree</a>, <a href="#simRemoveVoxelsFromOctree">sim.removeVoxelsFromOctree</a> and the other <a href="apiFunctionListCategory.htm#octree">OC tree related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -26103,7 +26137,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>octreeHandle</strong>: the handle of the octree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
+<div><strong>octreeHandle</strong>: the handle of the OC tree. See also <a href="#simGetObjectHandle">simGetObjectHandle</a></div>
 <div><strong>objectHandle</strong>: the handle of the object to subtract. Only potentially <a href="collidableObjects.htm">collidable objects</a> are supported</div>
 <div><strong>options</strong>: reserved. Set to 0</div>
 <div><strong>reserved</strong>: reserved for future extensions. Set to NULL</div>
@@ -26114,7 +26148,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful, otherwise the total number of voxels in the octree</div>
+<div>-1 if operation was not successful, otherwise the total number of voxels in the OC tree</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -26203,7 +26237,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows specifying the exact moment at which the current thread should switch to another thread. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, V-REP doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads: each thread (except for the main or application thread) has a switch timing associated, which specifies how long the thread will run before switching to other threads. By default this value is 2 millisecond, but can be modified with <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>. That timing can be shortened with <a href="#simSwitchThread">sim.switchThread</a>. Use with care when calling this function from a plugin. See also the <a href="#simSetThreadAutomaticSwitch">sim.setThreadAutomaticSwitch</a>, <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a> and <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> functions.<br></td>
+<td class=apiTableRightDescr>Allows specifying the exact moment at which the current thread should switch to another thread. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads: each thread (except for the main or application thread) has a switch timing associated, which specifies how long the thread will run before switching to other threads. By default this value is 2 millisecond, but can be modified with <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>. That timing can be shortened with <a href="#simSwitchThread">sim.switchThread</a>. Use with care when calling this function from a plugin. See also the <a href="#simSetThreadAutomaticSwitch">sim.setThreadAutomaticSwitch</a>, <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a> and <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> functions.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -26728,7 +26762,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Opens a tube for communication within V-REP. A tube is similar to a bidirectional communication pipe. Messages written on one side can be read on the other side in the same order as they were written. Tubes opened via a script will automatically close upon simulation end. A scene switch will close all communication tubes and tube handles will not be valid anymore. See also <a href="#simTubeClose">sim.tubeClose</a>, <a href="#simTubeWrite">sim.tubeWrite</a>, <a href="#simTubeRead">sim.tubeRead</a>, <a href="#simTubeStatus">sim.tubeStatus</a>, <a href="#simSendData">sim.sendData</a> and <a href="#simReceiveData">sim.receiveData</a>.<br></td>
+<td class=apiTableRightDescr>Opens a tube for communication within CoppeliaSim. A tube is similar to a bidirectional communication pipe. Messages written on one side can be read on the other side in the same order as they were written. Tubes opened via a script will automatically close upon simulation end. A scene switch will close all communication tubes and tube handles will not be valid anymore. See also <a href="#simTubeClose">sim.tubeClose</a>, <a href="#simTubeWrite">sim.tubeWrite</a>, <a href="#simTubeRead">sim.tubeRead</a>, <a href="#simTubeStatus">sim.tubeStatus</a>, <a href="#simSendData">sim.sendData</a> and <a href="#simReceiveData">sim.receiveData</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -26739,7 +26773,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>dataHeader</strong>: number indicating who &quot;designed&quot; the communication message. Always use the same header (because only you will know the meaning of the message) and stick to it. The best is to use the serial number of your V-REP copy (check the &quot;Help&quot; menu, in the &quot;About&quot; item for the serial number). Otherwise, you risk collision with other developer's messages which might use the same header as yours.<br>
+<div><strong>dataHeader</strong>: number indicating who &quot;designed&quot; the communication message. Always use the same header (because only you will know the meaning of the message) and stick to it. The best is to use the serial number of your CoppeliaSim copy (check the &quot;Help&quot; menu, in the &quot;About&quot; item for the serial number). Otherwise, you risk collision with other developer's messages which might use the same header as yours.<br>
 </div>
 <div><strong>dataName</strong>: name indicating the type of message. A tube will only be able to connect if its two sides have the same dataHeader and dataName<br>
 </div>
@@ -27061,7 +27095,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Unloads a V-REP plugin. This should usually be done just before ending the simulator. Alternatively, you can also unload a plugin that was dynamically loaded at any time. This can however lead to a crash if the plugin registered custom Lua functions via simRegisterCustomLuaFunction (deprecated) without specifying a function name as <em>functionName@pluginName</em>. See also <a href="#simSendModuleMessage">simSendModuleMessage</a> and <a href="#simLoadModule">sim.loadModule</a>.<br></td>
+<td class=apiTableRightDescr>Unloads a CoppeliaSim plugin. This should usually be done just before ending the simulator. Alternatively, you can also unload a plugin that was dynamically loaded at any time. This can however lead to a crash if the plugin registered custom Lua functions via simRegisterCustomLuaFunction (deprecated) without specifying a function name as <em>functionName@pluginName</em>. See also <a href="#simSendModuleMessage">simSendModuleMessage</a> and <a href="#simLoadModule">sim.loadModule</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -27682,7 +27716,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Adds or removes custom data to be stored and saved together with an object, a script or a scene (i.e. the data will be part of the object, the script or the scene). If the tag name starts with the string &quot;@tmp&quot;, then the data will not be saved during a scene or model save operation. The data can also be saved globally for the application (for the current V-REP session). See also <a href="#simReadCustomDataBlock">sim.readCustomDataBlock</a> and the <a href="apiFunctionListCategory.htm#packing">data packing/unpacking functions</a>. If you wish to store a reference to another object, have a look at <a href="#simSetReferencedHandles">sim.setReferencedHandles</a>.</td>
+<td class=apiTableRightDescr>Adds or removes custom data to be stored and saved together with an object, a script or a scene (i.e. the data will be part of the object, the script or the scene). If the tag name starts with the string &quot;@tmp&quot;, then the data will not be saved during a scene or model save operation. The data can also be saved globally for the application (for the current CoppeliaSim session). See also <a href="#simReadCustomDataBlock">sim.readCustomDataBlock</a> and the <a href="apiFunctionListCategory.htm#packing">data packing/unpacking functions</a>. If you wish to store a reference to another object, have a look at <a href="#simSetReferencedHandles">sim.setReferencedHandles</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>

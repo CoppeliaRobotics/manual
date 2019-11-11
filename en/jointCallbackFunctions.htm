@@ -47,7 +47,7 @@ function <strong>sysCall_jointCallback</strong>(inData)
     -- inData.targetVel : the joint target velocity (as set in the user interface)
     -- inData.maxForce : the joint maximum force/torque (as set in the user interface)
     -- inData.velUpperLimit : the joint velocity upper limit (as set in the user interface)
-
+    --<br>    -- Make sure that the joint is dynamically enabled, is in force/torque mode, motor enabled and<br>    -- control loop enabled, otherwise this function won't be called<br>
     if inData.first then
         PID_P=0.1
         PID_I=0
@@ -83,7 +83,7 @@ function <strong>sysCall_jointCallback</strong>(inData)
     end
     local forceOrTorqueToApply=inData.maxForce -- the maximum force/torque that the joint will be able to exert
 
-    -- 5. Following data must be returned to V-REP:
+    -- 5. Following data must be returned to CoppeliaSim:
     firstPass=false
     local outData={}
     outData.velocity=maxVelocity

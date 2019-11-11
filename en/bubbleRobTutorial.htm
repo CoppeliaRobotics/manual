@@ -19,13 +19,13 @@
 
 <h1>BubbleRob tutorial</h1>
 
-<p>This tutorial will try to introduce quite many V-REP functionalities while designing the simple mobile robot <em>BubbleRob</em>. The V-REP scene file related to this tutorial is located in V-REP's installation folder's <em>tutorials/BubbleRob</em> folder. Following figure illustrates the simulation scene that we will design:<br>
+<p>This tutorial will try to introduce quite many CoppeliaSim functionalities while designing the simple mobile robot <em>BubbleRob</em>. The CoppeliaSim scene file related to this tutorial is located in CoppeliaSim's installation folder's <em>tutorials/BubbleRob</em> folder. Following figure illustrates the simulation scene that we will design:<br>
 </p>
 
 <p align=center><img src="images/bubbleRobTut1.jpg"></p>
 <br>
 
-<p>Since this tutorial will fly over many different aspects, make sure to also have a look at the <a href="tutorials.htm">other tutorials</a>, mainly the <a href="buildingAModelTutorial.htm">tutorial about building a simulation model</a>. First of all, freshly start V-REP. The simulator displays a default <a href="scenes.htm">scene</a>. We will start with the body of <em>BubbleRob</em>.</p>
+<p>Since this tutorial will fly over many different aspects, make sure to also have a look at the <a href="tutorials.htm">other tutorials</a>, mainly the <a href="buildingAModelTutorial.htm">tutorial about building a simulation model</a>. First of all, freshly start CoppeliaSim. The simulator displays a default <a href="scenes.htm">scene</a>. We will start with the body of <em>BubbleRob</em>.</p>
 
 <p>We add a primitive sphere of diameter 0.2 to the scene with [Menu bar --&gt; Add --&gt; Primitive shape --&gt; Sphere]. We adjust the <strong>X-size</strong> item to 0.2, then click <strong>OK</strong>. The created sphere will appear in the <a href="layerSelectionDialog.htm">visibility layer</a> 1 by default, and be <a href="designingDynamicSimulations.htm#staticAndRespondable">dynamic and respondable</a> (since we kept the item <strong>Create dynamic and respondable shape</strong> enabled). This means that <em>BubbleRob's</em> body will be falling and able to react to collisions with other respondable shapes (i.e. simulated by the physics engine). We can see this is the <a href="shapeDynamicsProperties.htm">shape dynamics properties</a>: items <strong>Body is respondable</strong> and <strong>Body is dynamic</strong> are enabled. We start the simulation (via the toolbar button, or by pressing &lt;control-space&gt; in the scene window), and copy-and-paste the created sphere (with [Menu bar --&gt; Edit --&gt; Copy selected objects] then [Menu bar --&gt; Edit -&gt; Paste buffer], or with &lt;control-c&gt; then &lt;control-v&gt;): the two spheres will react to collision and roll away. We stop the simulation: the duplicated sphere will automatically be removed. This default behaviour can be modified in the <a href="simulationPropertiesDialog.htm">simulation dialog</a>.</p>
 
@@ -54,7 +54,7 @@
 
 
 
-<p>We run the simulation and notice that the robot is falling backwards. We are still missing a third contact point to the floor. We now add a small slider (or caster). In a new scene we and add a pure primitive sphere with diameter 0.05 and make the sphere <strong><a href="collidableObjects.htm">Collidable</a></strong>, <strong><a href="measurableObjects.htm">Measurable</a></strong>, <strong><a href="renderableObjects.htm">Renderable</a></strong> and <strong><a href="detectableObjects.htm">Detectable</a></strong> (if not already enabled), then rename it to <em>bubbleRob_slider</em>. We set the <strong>Material</strong> to <em>noFrictionMaterial </em>in the <a href="shapeDynamicsProperties.htm">shape dynamics properties</a>. To rigidly link the slider with the rest of the robot, we add a<a href="forceSensors.htm"> force sensor object</a> with [Menu bar --&gt; Add --&gt; Force sensor]. We rename it to <em>bubbleRob_connection</em> and shift it up by 0.05. We attach the slider to the force sensor, then copy both objects, switch back to scene 1 and paste them. We then shift the force sensor by -0.07 along the absolute X-axis, then attach it to the robot body. If we run the simulation now, we can notice that the slider is slightly moving in relation to the robot body: this is because both objects (i.e. <em>bubbleRob_slider</em> and <em>bubbleRob</em>) are colliding with each other. To avoid strange effects during dynamics simulation, we have to inform V-REP that both objects do not mutually collide, and we do this in following way: in the <a href="shapeDynamicsProperties.htm">shape dynamics properties</a>, for <em>bubbleRob_slider</em> we set the <strong>local respondable mask</strong> to 00001111, and for <em>bubbleRob</em>, we set the<strong> local respondable mask</strong> to 11110000. If we run the simulation again, we can notice that both objects do not interfere anymore. This is what we now have:</p>
+<p>We run the simulation and notice that the robot is falling backwards. We are still missing a third contact point to the floor. We now add a small slider (or caster). In a new scene we and add a pure primitive sphere with diameter 0.05 and make the sphere <strong><a href="collidableObjects.htm">Collidable</a></strong>, <strong><a href="measurableObjects.htm">Measurable</a></strong>, <strong><a href="renderableObjects.htm">Renderable</a></strong> and <strong><a href="detectableObjects.htm">Detectable</a></strong> (if not already enabled), then rename it to <em>bubbleRob_slider</em>. We set the <strong>Material</strong> to <em>noFrictionMaterial </em>in the <a href="shapeDynamicsProperties.htm">shape dynamics properties</a>. To rigidly link the slider with the rest of the robot, we add a<a href="forceSensors.htm"> force sensor object</a> with [Menu bar --&gt; Add --&gt; Force sensor]. We rename it to <em>bubbleRob_connection</em> and shift it up by 0.05. We attach the slider to the force sensor, then copy both objects, switch back to scene 1 and paste them. We then shift the force sensor by -0.07 along the absolute X-axis, then attach it to the robot body. If we run the simulation now, we can notice that the slider is slightly moving in relation to the robot body: this is because both objects (i.e. <em>bubbleRob_slider</em> and <em>bubbleRob</em>) are colliding with each other. To avoid strange effects during dynamics simulation, we have to inform CoppeliaSim that both objects do not mutually collide, and we do this in following way: in the <a href="shapeDynamicsProperties.htm">shape dynamics properties</a>, for <em>bubbleRob_slider</em> we set the <strong>local respondable mask</strong> to 00001111, and for <em>bubbleRob</em>, we set the<strong> local respondable mask</strong> to 11110000. If we run the simulation again, we can notice that both objects do not interfere anymore. This is what we now have:</p>
 
 <p align=center><img src="images/bubbleRobTut4.jpg"></p>
 <p class=imageLabel>[Proximity sensor, motors, wheels and slider]</p>
@@ -133,18 +133,29 @@
 
 
 
-<p>Next we will add a <a href="visionSensors.htm">vision sensor</a>, at the same position and orientation as <em>BubbleRob's</em> proximity sensor. We open the model hierarchy again, then click [Menu bar --&gt; Add --&gt; Vision sensor --&gt; Perspective type], then attach the vision sensor to the proximity sensor, and set the local position and orientation of the vision sensor to (0,0,0). We also make sure the vision sensor is not not visible, not part of the model bounding box, and that if clicked, the model will be selected instead. In order to customize the vision sensor, we open <a href="visionSensorPropertiesDialog.htm">its properties</a> dialog. We set the <strong>Far clipping plane</strong> item to 1, and the <strong>Resolution x</strong> and <strong>Resolution y</strong> items to 256 and 256. We then open the <a href="visionSensorFilterDialog.htm">vision sensor filter dialog</a> by clicking <strong>Show filter dialog</strong>. We select the filter component <strong>Edge detection on work image</strong> and click <strong>Add filter</strong>. We position the newly added filter in second position (one position up, using the <strong>up</strong> button).  We double-click the newly added filter component and adjust its <strong>Threshold</strong> item to 0.2, then click <strong>OK</strong>. We add a floating view to the scene, and over the newly added floating view, right-click [Popup menu --&gt; View --&gt; Associate view with selected vision sensor] (we make sure the vision sensor is selected during that process). To be able to see the vision sensor's image, we start the simulation, then stop it again.<br>
+<p>Next we will add a <a href="visionSensors.htm">vision sensor</a>, at the same position and orientation as <em>BubbleRob's</em> proximity sensor. We open the model hierarchy again, then click [Menu bar --&gt; Add --&gt; Vision sensor --&gt; Perspective type], then attach the vision sensor to the proximity sensor, and set the local position and orientation of the vision sensor to (0,0,0). We also make sure the vision sensor is not not visible, not part of the model bounding box, and that if clicked, the model will be selected instead. In order to customize the vision sensor, we open <a href="visionSensorPropertiesDialog.htm">its properties</a> dialog. We set the <strong>Far clipping plane</strong> item to 1, and the <strong>Resolution x</strong> and <strong>Resolution y</strong> items to 256 and 256.  We add a floating view to the scene, and over the newly added floating view, right-click [Popup menu --&gt; View --&gt; Associate view with selected vision sensor] (we make sure the vision sensor is selected during that process). 
+
+
+<p>We attach a non-threaded child script to the vision sensor by clicking [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded]. We double-click the little  icon that appeared next to the vision sensor in the scene hierarchy: this opens the child script that we just added. We copy and paste following code into the <a href="scriptEditor.htm">script editor</a>, then close it:<br>
 </p>
 
-<p>The last thing that we need for our scene is a small <a href="childScripts.htm">child script</a> that will control <em>BubbleRob's</em> behavior. We select <em>bubbleRob</em> and click [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded]. This just added a <a href="childScripts.htm#nonThreaded">non-threaded child script</a> to the scene, and associated it with <em>bubbleRob</em>. We can also add, remove or modify scripts via the <a href="scriptProperties.htm">script dialog</a> which can be opened with [Menu bar --&gt; Tools --&gt; Scripts] or through the appropriate toolbar button:<br>
+<pre class=lightRedBox>
+function sysCall_vision(inData)
+    simVision.sensorImgToWorkImg(inData.handle) -- copy the vision sensor image to the work image
+    simVision.edgeDetectionOnWorkImg(inData.handle,0.2) -- perform edge detection on the work image
+    simVision.workImgToSensorImg(inData.handle) -- copy the work image to the vision sensor image buffer
+end
+
+function sysCall_init()
+end
+</pre>
+
+<p>
+To be able to see the vision sensor's image, we start the simulation, then stop it again.<br>
 </p>
 
-<p align=center><img src="images/scriptPropDialog1.jpg"></p>
-<br>
-
-<p>We double-click the little script icon that appeared next to <em>bubbleRob's</em> name in the scene hierarchy: this opens the child script that we just added. We copy and paste following code into the <a href="scriptEditor.htm">script editor</a>, then close it:<br>
+<p>The last thing that we need for our scene is a small <a href="childScripts.htm">child script</a> that will control <em>BubbleRob's</em> behavior. We select <em>bubbleRob</em> and click [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded]. We double-click the script icon that appeared next to <em>bubbleRob's</em> name in the scene hierarchy and copy and paste following code into the <a href="scriptEditor.htm">script editor</a>, then close it:<br>
 </p>
-
 <pre class=lightRedBox>
 function speedChange_callback(ui,id,newVal)
     speed=minMaxSpeed[1]+(minMaxSpeed[2]-minMaxSpeed[1])*newVal/100
@@ -190,7 +201,7 @@ function sysCall_cleanup()
 end</pre>
 
 <p>We run the simulation. <em>BubbleRob</em> now moves forward while trying to avoid obstacles (in a very basic fashion). While the simulation is still running, change <em>BubbleRob's</em> velocity, and copy/paste it a few times. Also try to scale a few of them while the simulation is still running. Be aware that the minimum distance calculation functionality might be heavily slowing down the simulation, depending on the environment. You can turn that functionality on and off in the <a href="distanceCalculation.htm">distance dialog</a>, by checking / unchecking the <strong>Enable all distance calculations</strong> item.</p>
-<p>Using a script to control a robot or model is only one way of doing. V-REP offers many different ways (also combined), have a look at the <a href="externalControllerTutorial.htm">external controller tutorial</a>.</p>
+<p>Using a script to control a robot or model is only one way of doing. CoppeliaSim offers many different ways (also combined), have a look at the <a href="externalControllerTutorial.htm">external controller tutorial</a>.</p>
 
 <br>
 <br>

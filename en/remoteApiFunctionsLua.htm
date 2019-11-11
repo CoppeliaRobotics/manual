@@ -404,7 +404,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Remotely calls a V-REP script function. When calling <a href="simulationScripts.htm">simulation scripts</a>, then simulation must be running (and threaded scripts must still be running, i.e. not ended yet). Refer to <a href="remoteApiExtension.htm">this section</a> for additional details.</td>
+<td class=apiTableRightDescr>Remotely calls a CoppeliaSim script function. When calling <a href="simulationScripts.htm">simulation scripts</a>, then simulation must be running (and threaded scripts must still be running, i.e. not ended yet). Refer to <a href="remoteApiExtension.htm">this section</a> for additional details.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -2036,7 +2036,7 @@ end
 </pre>
 
 <br>
-<div>If some streaming commands are running, simx.getLastCmdTime will always retrieve the current simulation time, otherwise, only the simulation time of the last command that retrieved data from V-REP. This is a remote API helper function.</div></td>
+<div>If some streaming commands are running, simx.getLastCmdTime will always retrieve the current simulation time, otherwise, only the simulation time of the last command that retrieved data from CoppeliaSim. This is a remote API helper function.</div></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -2333,7 +2333,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Simultaneously retrieves data of various objects in a V-REP scene.</td>
+<td class=apiTableRightDescr>Simultaneously retrieves data of various objects in a CoppeliaSim scene.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -3698,7 +3698,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows to temporarily halt the communication thread from sending data. This can be useful if you need to send several values to V-REP that should be received and evaluated at the same time. This is a remote API helper function.</td>
+<td class=apiTableRightDescr>Allows to temporarily halt the communication thread from sending data. This can be useful if you need to send several values to CoppeliaSim that should be received and evaluated at the same time. This is a remote API helper function.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -3725,7 +3725,7 @@ simx.setJointPosition(clientID,joint2Handle,joint2Value,simx.opmode_oneshot)
 simx.setJointPosition(clientID,joint3Handle,joint3Value,simx.opmode_oneshot)
 simx.pauseCommunication(clientID,false)
 
--- Above's 3 joints will be received and set on the V-REP side at the same time</pre>
+-- Above's 3 joints will be received and set on the CoppeliaSim side at the same time</pre>
 
 
 
@@ -3828,7 +3828,7 @@ Other languages
 Description 
 </td> 
 <td class=apiTableRightDescr>DEPRECATED. Refer to <a href="#simxCallScriptFunction">simx.callScriptFunction</a> instead.<br><br>
-Sends a query string to V-REP, and waits for a reply string. Query and reply strings can be accessed via string signals<a href="#simxGetFloatSignal"></a>. This function allows for instance to have a <a href="childScripts.htm">child script</a>, another remote API client or a <a href="rosInterfaces.htm">ROS node</a> handle special requests coming from this remote API client, then send a reply back. To pack/unpack integers/floats into/from a string, refer to <a href="#simxPackInts">simx.packInts</a>, <a href="#simxPackFloats">simx.packFloats</a>, <a href="#simxUnpackInts">simx.unpackInts</a> and <a href="#simxUnpackFloats">simx.unpackFloats</a>.
+Sends a query string to CoppeliaSim, and waits for a reply string. Query and reply strings can be accessed via string signals<a href="#simxGetFloatSignal"></a>. This function allows for instance to have a <a href="childScripts.htm">child script</a>, another remote API client or a <a href="rosInterfaces.htm">ROS node</a> handle special requests coming from this remote API client, then send a reply back. To pack/unpack integers/floats into/from a string, refer to <a href="#simxPackInts">simx.packInts</a>, <a href="#simxPackFloats">simx.packFloats</a>, <a href="#simxUnpackInts">simx.unpackInts</a> and <a href="#simxUnpackFloats">simx.unpackFloats</a>.
 <br>
 <br>
 
@@ -4175,7 +4175,7 @@ Lua synopsis
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simx.start</a>.</div>
 <div><strong>signalName</strong>: name of the signal</div>
-<div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation modes for this function are simx.opmode_streaming (the first call) and simx.opmode_buffer (the following calls). simx.opmode_blocking is forbidden. Use a construction like following in order to continuously exchange data with V-REP:</div>
+<div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation modes for this function are simx.opmode_streaming (the first call) and simx.opmode_buffer (the following calls). simx.opmode_blocking is forbidden. Use a construction like following in order to continuously exchange data with CoppeliaSim:</div>
 
 <br>
 Remote API client side:
@@ -4193,7 +4193,7 @@ while simx.getConnectionId(cid)~=-1 then
 end</pre>
 
 <br>
-Server side (V-REP), from a non-threaded child script:
+Server side (CoppeliaSim), from a non-threaded child script:
 <pre class=lightRedBoxNoMarginAndSmall>
 function sysCall_init()
     -- initialization phase:
@@ -4298,7 +4298,7 @@ Lua return values
 <td class=remApiTableRightCRet>
 <div><strong>returnCode</strong>: a <a href="remoteApiConstants.htm#functionErrorCodes">remote API function return code</a></div>
 <div><strong>detectionState</strong>: the detection state (i.e. the trigger state)</div>
-<div><strong>packet</strong>: various packets of auxiliary data returned from the <a href="visionSensorFilterComposition.htm">applied filters</a>. By default V-REP returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. If additional filter components return values, then they will generate additional return packets.</div>
+<div><strong>packet</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. Additional packets can be appended in the <a href="visionCallbackFunctions.htm">vision callback function</a>.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -4910,7 +4910,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the intrinsic position of a joint. May have no effect depending on the joint mode. This function cannot be used with spherical joints (use <a href="#simxSetSphericalJointMatrix">simx.setSphericalJointMatrix</a> instead). If you want to set several joints that should be applied at the exact same time on the V-REP side, then use <a href="#simxPauseCommunication">simx.pauseCommunication</a>. See also <a href="#simxGetJointPosition">simx.getJointPosition</a> and <a href="#simxSetJointTargetPosition">simx.setJointTargetPosition</a>.</td>
+<td class=apiTableRightDescr>Sets the intrinsic position of a joint. May have no effect depending on the joint mode. This function cannot be used with spherical joints (use <a href="#simxSetSphericalJointMatrix">simx.setSphericalJointMatrix</a> instead). If you want to set several joints that should be applied at the exact same time on the CoppeliaSim side, then use <a href="#simxPauseCommunication">simx.pauseCommunication</a>. See also <a href="#simxGetJointPosition">simx.getJointPosition</a> and <a href="#simxSetJointTargetPosition">simx.setJointTargetPosition</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -5387,6 +5387,67 @@ Other languages
 
 
 <h3 class=subsectionBar>
+<a name="simxSetObjectPosition" id="simxSetObjectPosition"></a><a name="simx.setObjectPosition" id="simx.setObjectPosition"></a>simx.setObjectPosition
+(regular API equivalent: <a href="regularApi/simSetObjectPosition.htm">sim.setObjectPosition</a>)
+</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the position of an object. Dynamically simulated objects will implicitely be reset before the command is applied (i.e. similar to calling <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a> just before). See also <a href="#simxGetObjectPosition">simx.getObjectPosition</a>, <a href="#simxSetObjectQuaternion">simx.setObjectQuaternion</a> and <a href="#simxSetObjectOrientation">simx.setObjectOrientation</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCSyn>
+Lua synopsis
+</td> 
+<td class=remApiTableRightCSyn>
+
+<div>number returnCode=simx.setObjectPosition(number clientID,number objectHandle,number relativeToObjectHandle,table_3 position,number operationMode)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCParam>Lua Parameters</td> 
+<td class=remApiTableRightCParam>
+<div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simx.start</a>.</div>
+<div><strong>objectHandle</strong>: handle of the object</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify -1 to set the absolute position, sim.handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified.</div>
+<div><strong>position</strong>: the desired position</div>
+<div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation mode for this function is simx.opmode_oneshot
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCRet>
+Lua return values
+</td> 
+<td class=remApiTableRightCRet>
+<div><strong>returnCode</strong>: a <a href="remoteApiConstants.htm#functionErrorCodes">remote API function return code</a></div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftLanguages>
+Other languages
+</td> 
+<td class=remApiTableRightLanguages>
+<a href="remoteApiFunctionsPython.htm#simxSetObjectPosition">Python</a>, <a href="remoteApiFunctionsJava.htm#simxSetObjectPosition">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetObjectPosition">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetObjectPosition">Octave</a>, <a href="remoteApiFunctions.htm#simxSetObjectPosition">C/C++</a></td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
 <a name="simxSetObjectQuaternion" id="simxSetObjectQuaternion"></a><a name="simx.setObjectQuaternion" id="simx.setObjectQuaternion"></a>simx.setObjectQuaternion
 (regular API equivalent: <a href="regularApi/simSetObjectQuaternion.htm">sim.setObjectQuaternion</a>)
 </h3>
@@ -5700,7 +5761,7 @@ Description
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the image of a vision sensor (and applies any image processing filter if specified in the vision sensor dialog). Make sure the vision sensor is flagged as <strong>use external image</strong>. The &quot;regular&quot; use of this function is to first read the data from a vision sensor with <a href="#simxGetVisionSensorImage">simx.getVisionSensorImage</a>, do some custom filtering, then write the modified image to a passive vision sensor. The alternate use of this function is to display textures, video images, etc. by using a vision sensor object (without however making use of the vision sensor functionality), since a vision sensor can be &quot;looked through&quot; like camera objects.</td>
+<td class=apiTableRightDescr>Sets the image of a vision sensor (and applies any image processing, if enabled. Make sure the vision sensor is flagged as <strong>use external image</strong>. </td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -5759,7 +5820,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Starts a communication thread with the server (i.e. V-REP). A same client may start several communication threads (but only one communication thread for a given IP and port). This should be the very first remote API function called on the client side. Make sure to start an appropriate remote API server service on the server side, that will wait for a connection. See also <a href="#simxFinish">simx.finish</a>. This is a remote API helper function.</td>
+<td class=apiTableRightDescr>Starts a communication thread with the server (i.e. CoppeliaSim). A same client may start several communication threads (but only one communication thread for a given IP and port). This should be the very first remote API function called on the client side. Make sure to start an appropriate remote API server service on the server side, that will wait for a connection. See also <a href="#simxFinish">simx.finish</a>. This is a remote API helper function.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -5773,7 +5834,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Lua Parameters</td> 
 <td class=remApiTableRightCParam>
-<div><strong>connectionAddress</strong>: the ip address where the server is located (i.e. V-REP)</div>
+<div><strong>connectionAddress</strong>: the ip address where the server is located (i.e. CoppeliaSim)</div>
 <div><strong>connectionPort</strong>: the port number where to connect. Specify a negative port number in order to use shared memory, instead of socket communication.</div>
 <div><strong>waitUntilConnected</strong>: if true, then the function blocks until connected (or timed out).</div>
 <div><strong>doNotReconnectOnceDisconnected</strong>: if true, then the communication thread will not attempt a second connection if a connection was lost.</div>
@@ -5989,7 +6050,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sends a synchronization  trigger signal to the server. The function is blocking. The server needs to be previously enabled for synchronous operation via the <a href="#simxSynchronous">simx.synchronous</a> function. The trigger signal will inform V-REP to execute the next simulation step (i.e. to call <a href="regularApi/simHandleMainScript.htm">sim.handleMainScript</a>). While in synchronous operation mode, the client application is in charge of triggering the next simulation step, otherwise simulation will stall. See also <a href="remoteApiModusOperandi.htm#synchronous">this section</a>. This is a remote API helper function.</td>
+<td class=apiTableRightDescr>Sends a synchronization  trigger signal to the server. The function is blocking. The server needs to be previously enabled for synchronous operation via the <a href="#simxSynchronous">simx.synchronous</a> function. The trigger signal will inform CoppeliaSim to execute the next simulation step (i.e. to call <a href="regularApi/simHandleMainScript.htm">sim.handleMainScript</a>). While in synchronous operation mode, the client application is in charge of triggering the next simulation step, otherwise simulation will stall. See also <a href="remoteApiModusOperandi.htm#synchronous">this section</a>. This is a remote API helper function.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>

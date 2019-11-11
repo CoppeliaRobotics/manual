@@ -17,30 +17,30 @@
 
 <h1>Add-ons</h1>
 
-<p>An add-on in V-REP is quite similar to a <a href="plugins.htm">plugin</a>:
-it is automatically loaded at program start-up, and allows V-REP's
+<p>An add-on in CoppeliaSim is quite similar to a <a href="plugins.htm">plugin</a>:
+it is automatically loaded at program start-up, and allows CoppeliaSim's
 functionality to be extended by user-written functionality or
 functions. Add-ons  are written in <a href="http://www.lua.org">Lua</a>. Two types of add-ons are supported:</p>
 
-<li><strong>Add-on functions</strong>: add-on&nbsp;functions appear
+<li><a name="function"></a><strong>Add-on functions</strong>: add-on&nbsp;functions appear
 first in the add-on menu. They can be seen as functions that will be
 executed once, when selected by the user. Importers and exporters can
 conveniently be implemented with them. </li>
-<li><strong>Add-on scripts</strong>: add-on scripts are persistent across all opened scenes, and are executed
+<li><a name="script"></a><strong>Add-on scripts</strong>: add-on scripts are persistent across all opened scenes, and are executed
 constantly, effectively running in the
 background. They should only execute minimalistic code everytime they
 are called, since the whole application would otherwise slow down.
 Add-on scripts are called frequently by the system, with a <a href="scriptExecution.htm">precise order</a>. Add-on scripts share a lot of properties with <a href="sandboxScript.htm">the sandbox script</a>.</li>
 
-<p>Add-on functions should be written in a text file located in the
+<p>Add-on functions and scripts should be written in a text file located in the
 same folder as the main application, with following naming convention:</p>
 
-<li><strong>vrepAddOnFunc_xxxx.lua</strong>, where xxxx can be any string representing the name of an add-on function.</li>
-<li><strong>vrepAddOnScript_xxxx.lua</strong>, where xxxx can be any
+<li><strong>simAddOnFunc_xxxx.lua</strong>, where xxxx can be any string representing the name of an add-on function.</li>
+<li><strong>simAddOnScript_xxxx.lua</strong>, where xxxx can be any
 string representing the name of the add-on script. The add-on script
 will be automatically started. Selecting it in the add-on menu allows
 pausing/unpausing its execution. The script can request termination by returning sim.syscb_cleanup.</li>
-<li><strong>vrepAddOnScript-xxxx.lua</strong>, where xxxx can be any
+<li><strong>simAddOnScript-xxxx.lua</strong>, where xxxx can be any
 string representing the name of the add-on script. The add-on script
 will not be automatically started. The user can start/pause/unpause it when required
 by selecting it in the add-on menu. The script can request termination by returning sim.syscb_cleanup.</li>
@@ -142,7 +142,7 @@ end</pre>
 a thread. This is because add-ons operate in a non-threaded fashion.</li>
 <li>While simulation is not running, add-ons should not call API functions that make sense only when simulation is running.</li>
 
-<p>For more information on add-ons, make sure to inspect the content of the demo add-ons <em>vrepAddOnScript-addOnScriptDemo.lua</em>, <em>vrepAddOnFunc-addOnFunctionDemo.lua</em> and <em>vrepAddOnScript-b0RemoteApiServer.lua</em>, located in the installation folder.</p>
+<p>For more information on add-ons, make sure to inspect the content of the demo add-ons <em>simAddOnScript-addOnScriptDemo.lua</em>, <em>simAddOnFunc-addOnFunctionDemo.lua</em> and <em>simAddOnScript-b0RemoteApiServer.lua</em>, located in the installation folder.</p>
 <br>
 <br>
 <h3 class="recommendedTopics">Recommended topics</h3>

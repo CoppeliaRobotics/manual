@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Handles (performs sensing, etc. of) a registered vision sensor object. It will (1) clear previous computer filter data, (2) read an image and (3) compute filter data on the new image (if the vision sensor is using an <strong>external input</strong> only (1) will be performed).See also <a href="simReadVisionSensor.htm">sim.readVisionSensor</a>, <a href="simCheckVisionSensor.htm">sim.checkVisionSensor</a>, <a href="simCheckVisionSensorEx.htm">sim.checkVisionSensorEx</a> and <a href="simResetVisionSensor.htm">sim.resetVisionSensor</a>.<br></td>
+<td class=apiTableRightDescr>Handles (performs sensing, etc. of) a registered vision sensor object. It will (1) clear previous computed  image processing data, (2) read an image and (3) perform image processing via the <a href="../visionCallbackFunctions.htm">vision callback functions</a> (if the vision sensor is using an <strong>external input</strong> only (1) will be performed).See also <a href="simReadVisionSensor.htm">sim.readVisionSensor</a>, <a href="simCheckVisionSensor.htm">sim.checkVisionSensor</a>, <a href="simCheckVisionSensorEx.htm">sim.checkVisionSensorEx</a> and <a href="simResetVisionSensor.htm">sim.resetVisionSensor</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -35,7 +35,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>visionSensorHandle</strong>: handle of a vision sensor object or sim_handle_all or sim_handle_all_except_explicit. (sim_handle_all will handle all vision sensor objects, while sim_handle_all_except_explicit will only handle those that are not marked as &quot;explicit handling&quot;)<br>
 </div>
-<div><strong>auxValues</strong>: auxiliary values returned from the applied filters (refer to the <a href="../visionSensorFilterComposition.htm">documentation</a> for details). By default V-REP returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. If additional filter components return values, then they will be appended as packets to the first packet. AuxValues can be NULL. The user is in charge of releasing the auxValues buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>(*auxValues). If visionSensorHandle is sim_handle_all or sim_handle_all_except_explicit, nothing is returned in auxValues.<br>
+<div><strong>auxValues</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. If the <a href="../visionCallbackFunctions.htm">vision callback function</a> returns additional  values, then they will be appended as packets to the first packet. AuxValues can be NULL. The user is in charge of releasing the auxValues buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>(*auxValues). If visionSensorHandle is sim_handle_all or sim_handle_all_except_explicit, nothing is returned in auxValues.<br>
 </div>
 <div><strong>auxValuesCount</strong>: contains information about the number of auxiliary value packets and packet sizes returned in auxValues. The first value is the number of packets, the second is the size of packet1, the third is the size of packet2, etc. Can be NULL if auxValues is also NULL. The user is in charge of releasing the auxValuesCount buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>(*auxValuesCount).<br>
 </div>
@@ -87,7 +87,7 @@ Lua return values
 <div><strong>detectionCount</strong>: number of detections (number of vision sensors that triggered a detection), -1 in case of an error<br>
 </div>
 <div><strong>auxiliaryValuePacket1</strong>: default auxiliary value packet (same as for the C-function)</div>
-<div><strong>auxiliaryValuePacket2</strong>: additional auxiliary value packet (e.g. from a filter component)</div>
+<div><strong>auxiliaryValuePacket2</strong>: additional auxiliary value packet (e.g. from an image processing component)</div>
 <div><strong>auxiliaryValuePacket3</strong>: etc. (the function returns as many tables as there are auxiliary value packets)</div>
 <div></div></td> 
 </tr> 

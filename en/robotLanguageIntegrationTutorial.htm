@@ -19,10 +19,10 @@
 
 <h1>Robot language interpreter integration tutorial</h1>
 
-<p>This tutorial will try to explain how to integrate or embed a robot language interpreter into V-REP. The procedure is very similar in case you want to integrate an emulator (e.g. a specific microcontroller emulator) into V-REP. Extending V-REP's functionality requires most of the time the development of a <a href="plugins.htm">plugin</a>. Make sure you have read the <a href="pluginTutorial.htm">tutorial on plugins</a> , and the <a href="externalControllerTutorial.htm">tutorial on external controllers</a> before proceeding with this tutorial.<br>
+<p>This tutorial will try to explain how to integrate or embed a robot language interpreter into CoppeliaSim. The procedure is very similar in case you want to integrate an emulator (e.g. a specific microcontroller emulator) into CoppeliaSim. Extending CoppeliaSim's functionality requires most of the time the development of a <a href="plugins.htm">plugin</a>. Make sure you have read the <a href="pluginTutorial.htm">tutorial on plugins</a> , and the <a href="externalControllerTutorial.htm">tutorial on external controllers</a> before proceeding with this tutorial.<br>
 </p>
 
-<p>The V-REP <a href="scenes.htm">scene</a> file related to this tutorial is located in V-REP's installation folder  <em>scenes\robotLanguageControl.ttt</em>. You can find the  plugin project files <a href="https://github.com/CoppeliaRobotics/v_repExtMtb" target="_blank">here</a>, and the server application project files <a href="https://github.com/CoppeliaRobotics/mtbServer" target="_blank">here</a>.</p>
+<p>The CoppeliaSim <a href="scenes.htm">scene</a> file related to this tutorial is located in CoppeliaSim's installation folder  <em>scenes\robotLanguageControl.ttt</em>. You can find the  plugin project files <a href="https://github.com/CoppeliaRobotics/simExtMtb" target="_blank">here</a>, and the server application project files <a href="https://github.com/CoppeliaRobotics/mtbServer" target="_blank">here</a>.</p>
 
 <p>First, let's start by loading the related scene file <em>scenes\robotLanguageControl.ttt</em>:<br>
 </p>
@@ -55,7 +55,7 @@
 <p>If the related plugin was found, then the the MTB plugin will launch a server application (i.e. <em>mtbServer</em>) that basically represents the robot language interpreter and controller. There is no direct need for a server application, the mtbServer functionality could also be directly running inside of the MTB plugin. The main advantages of using that functionality inside of a server application are:</p>
 
 <li>The MTB plugin can act as intermediate for as many different languages as needed, also those that haven't been developed yet: the MTB plugin will simply launch the appropriate server depending on the used robot/language.</li>
-<li>If the robot language interpreter / controller crashes, V-REP won't crash, since the two are distinct and separate processes.</li>
+<li>If the robot language interpreter / controller crashes, CoppeliaSim won't crash, since the two are distinct and separate processes.</li>
 
 
  <p>Currently, the MTB server is in charge of two main tasks:</p>
@@ -95,35 +95,35 @@
 <p>The MTB robots are handled in following way:</p>
 
 <li>
-the actual robot language program is compiled and executed by the &quot;mtbServer&quot; application. That application also holds the MTB robot's state variables. For each MTB robot in the simulation scene, there will be an instance of the <em>mtbServer</em> application launched by the <em>v_repExtMtb</em> plugin.
+the actual robot language program is compiled and executed by the &quot;mtbServer&quot; application. That application also holds the MTB robot's state variables. For each MTB robot in the simulation scene, there will be an instance of the <em>mtbServer</em> application launched by the <em>simExtMtb</em> plugin.
 </li>
 <li>
-the <em>v_repExtMtb</em> plugin is in charge of providing custom Lua functions, and  also  launches the <em>mtbServer</em> application when needed, and communicates with it via socket communication.</li>
+the <em>simExtMtb</em> plugin is in charge of providing custom Lua functions, and  also  launches the <em>mtbServer</em> application when needed, and communicates with it via socket communication.</li>
 <li>
-the child scripts attached to <em>MTB_Robot</em> and <em>MTB_Robot#0</em> check whether the <em>v_repExtMtb</em> plugin is loaded, update the OpenGl-based custom UIs for each robot, and handle the communication with the plugin. </li>
+the child scripts attached to <em>MTB_Robot</em> and <em>MTB_Robot#0</em> check whether the <em>simExtMtb</em> plugin is loaded, update the OpenGl-based custom UIs for each robot, and handle the communication with the plugin. </li>
 
 
 
-<p>The MTB robot and its simple robot language is a simple prototype meant to demonstrate how to integrate a robot language interpreter into V-REP. It is very easy to extend current functionality for much more complex robots or robot languages. All what is needed is:<br>
+<p>The MTB robot and its simple robot language is a simple prototype meant to demonstrate how to integrate a robot language interpreter into CoppeliaSim. It is very easy to extend current functionality for much more complex robots or robot languages. All what is needed is:<br>
 </p>
 
-<li>Building the <a href="models.htm">model</a> of the robot. This includes <a href="importExport.htm">importing CAD data</a>, adding <a href="joints.htm">joints</a>, etc. This step can be entirely done in V-REP.<br>
+<li>Building the <a href="models.htm">model</a> of the robot. This includes <a href="importExport.htm">importing CAD data</a>, adding <a href="joints.htm">joints</a>, etc. This step can be entirely done in CoppeliaSim.<br>
 </li>
 
 <li>Writing a <a href="plugins.htm">plugin</a> to handle the new robot natively, i.e. to handle the new robot by interpreting its own robot language. Any language capable of accessing C-API functions and capable of being wrapped in a dll can be used to create the plugin (but c/c++ is preferred). The robot language interpreter could be directly embedded in the plugin, or launched as an external application (<em>mtbServer</em>) as is done in this tutorial.<br>
 </li>
 
-<li>Writing a small <a href="childScripts.htm">child script</a> responsible for handling <a href="customUIPlugin.htm">custom dialogs</a> and linking the robot with the plugin. This step can be entirely done in V-REP.<br>
+<li>Writing a small <a href="childScripts.htm">child script</a> responsible for handling <a href="customUIPlugin.htm">custom dialogs</a> and linking the robot with the plugin. This step can be entirely done in CoppeliaSim.<br>
 </li>
 
 
-<p>Now let's have a look at the MTB's plugin project. There is one prerequisites to embedding a robot language interpreter (or other emulator) into V-REP:<br>
+<p>Now let's have a look at the MTB's plugin project. There is one prerequisites to embedding a robot language interpreter (or other emulator) into CoppeliaSim:<br>
 </p>
 
 <li>The robot language interpreter should be able to be executed several times in parallel. This means that several interpreter instances should be supported, in order to support several identical, in-parallel operating robots. This can be handled the easiest by launching a new interpreter for each new robot, as is done in this tutorial.<br>
 </li>
 
-<p>When writing any plugin, make sure that the plugin accesses V-REP's <a href="apiOverview.htm">regular API</a> only from the main thread (or from a thread created by V-REP)! The plugin can launch new threads, but in that case those new threads should not be used to access V-REP (they can however be used to communicate with a server application, to communicate with some hardware, to execute background calculations, etc.).</p>
+<p>When writing any plugin, make sure that the plugin accesses CoppeliaSim's <a href="apiOverview.htm">regular API</a> only from the main thread (or from a thread created by CoppeliaSim)! The plugin can launch new threads, but in that case those new threads should not be used to access CoppeliaSim (they can however be used to communicate with a server application, to communicate with some hardware, to execute background calculations, etc.).</p>
 <br>
 
 <p>Now let's have a look at the child script that is attached to the MTB robot. The code might seem quite long or complicated. However most functionality handled in the child script could also be directly handled in the plugin, making the child script much smaller/cleaner. The advantage in handling most functionality in the child script is that modifications can be performed without having to recompile the plugin!<br>

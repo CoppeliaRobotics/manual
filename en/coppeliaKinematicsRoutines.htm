@@ -1,0 +1,2205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Coppelia kinematics routines</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Coppelia kinematics routines (<a href="auxiliaryApiOverview.htm">auxiliary API</a>)</h1>
+
+<p>This collection of functions allows to perform the same kinematic calculations as you are able to do from within CoppeliaSim.</p>
+
+<p>The idea is to normally build your kinematic tasks inside CoppeliaSim, then to export the kinematic content of a scene, which can then directly be used with the embeddable functions below. The required source code is located <a href="https://github.com/CoppeliaRobotics/coppeliaKinematicsRoutines" target="_blank">here</a>. Make sure to include all files into your project, and include <em>ik.h</em> in the files where you need access to the functions. Make also sure you know how to use the kinematics functionality from within CoppeliaSim first! If you have access to the <a href="apiOverview.htm">regular API</a>, then you won't need this auxiliary API, since all following functions have their <a href="apiFunctionListCategory.htm#generalIkFunctionality">regular API equivalent</a>.</p>
+
+<p>The Coppelia kinematics routines source code is not directly part of CoppeliaSim, and carries separate licensing conditions. Refer to the source code for details.</p>
+
+<p>Follow the method below to perform kinematic calculations from within your own external application:</p>
+<li>Build your kinematic tasks within CoppeliaSim. Test them.</li>
+<li>Export the kinematic content of the scene with  [Menu bar --&gt; File --&gt; Export --&gt;  Kinematics content...]</li>
+<li>Include the <a href="https://github.com/CoppeliaRobotics/coppeliaKinematicsRoutines" target="_blank">Coppelia kinematics routines</a> in your own application.</li>
+<li>Call <a href="#ikLaunch">ikLaunch</a> at application start-up, and <a href="#ikShutDown">ikShutDown</a> at application end.</li>
+<li>Call <a href="#ikStart">ikStart</a> to import the previously exported file. ikStart may be called as often as desired to reset the kinematic scene. A kinematic scene is similar to a scene in CoppeliaSim, except that it is stripped of everything non-kinematic.</li>
+<li>Call various functions to shift / rotate the target dummies (e.g. with <a href="#ikSetObjectTransformation">ikSetObjectTransformation</a>), or to move non-active joints, i.e. joints that are not in IK mode (e.g. with <a href="#ikSetJointPosition">ikSetJointPosition</a>).</li>
+<li>Call <a href="#ikHandleIkGroup">ikHandleIkGroup</a> to perform one calculation pass (i.e. effectively bringing dummy tips onto their targets). In case you are searching for a specific robot configuration, or need to instantaneously jump to a new end-effector pose, then call <a href="#ikGetConfigForTipPose">ikGetConfigForTipPose</a>.</li>
+<li>Repeat above last 2 steps as often as required. Make sure to check for return values to detect errors.</li>
+<li>If you have several instances of a same robot, then you can call <a href="#ikLaunch">ikLaunch</a> several times to initialize several instances of the embedded kinematics. You can then switch from one instance to another with <a href="#ikSwitch">ikSwitch</a>.</li>
+
+<p>Refer also to the following examples: <a href="https://github.com/CoppeliaRobotics/standAloneKinematicsDemo1" target="_blank">standAloneKinematicsDemo1</a>, <a href="https://github.com/CoppeliaRobotics/standAloneKinematicsDemo2" target="_blank">standAloneKinematicsDemo2</a>, <a href="https://github.com/CoppeliaRobotics/standAloneKinematicsDemo3" target="_blank">standAloneKinematicsDemo3</a>. Those demo applications use the Coppelia kinematics routines described here, combined with the <a href="remoteApiOverview.htm">remote API</a> functionality to control two different robots in inverse/forward kinematics mode. The demo scenes <em>standAloneKinematicsDemo1.ttt</em>, <em>standAloneKinematicsDemo2</em>.ttt and <em>standAloneKinematicsDemo3.ttt</em> launch the <em>standAloneKinematicsDemo1</em>, <em>standAloneKinematicsDemo2</em> and respectively <em>standAloneKinematicsDemo3</em> applications automatically.</p>
+
+<pre class=lightGreyBox>
+<a href="#ikEulerAnglesToQuaternion">ikEulerAnglesToQuaternion</a>
+<a href="#ikGetConfigForTipPose">ikGetConfigForTipPose</a>
+<a href="#ikGetIkGroupHandle">ikGetIkGroupHandle</a>
+<a href="#ikGetJointInterval">ikGetJointInterval</a>
+<a href="#ikGetJointPosition">ikGetJointPosition</a>
+<a href="#ikGetJointTransformation">ikGetJointTransformation</a>
+<a href="#ikGetJointMatrix">ikGetJointMatrix</a>
+<a href="#ikGetObjectHandle">ikGetObjectHandle</a>
+<a href="#ikGetObjectParent">ikGetObjectParent</a>
+<a href="#ikGetObjectTransformation">ikGetObjectTransformation</a>
+<a href="#ikGetObjectMatrix">ikGetObjectMatrix</a>
+<a href="#ikGetRotationAxis">ikGetRotationAxis</a>
+<a href="#ikGetRotationAxis_matrix">ikGetRotationAxis_matrix</a>
+<a href="#ikHandleIkGroup">ikHandleIkGroup</a>
+<a href="#ikInterpolateTransformations">ikInterpolateTransformations</a>
+<a href="#ikInterpolateMatrices">ikInterpolateMatrices</a>
+<a href="#ikInvertTransformation">ikInvertTransformation</a>
+<a href="#ikInvertMatrix">ikInvertMatrix</a>
+<a href="#ikLaunch">ikLaunch</a>
+<a href="#ikMatrixToTransformation">ikMatrixToTransformation</a>
+<a href="#ikMultiplyTransformations">ikMultiplyTransformations</a>
+<a href="#ikMultiplyMatrices">ikMultiplyMatrices</a>
+<a href="#ikMultTransformationWithVector">ikMultTransformationWithVector</a>
+<a href="#ikMultMatrixWithVector">ikMultMatrixWithVector</a>
+<a href="#ikQuaternionToEulerAngles">ikQuaternionToEulerAngles</a>
+<a href="#ikRotateAroundAxis">ikRotateAroundAxis</a>
+<a href="#ikRotateAroundAxis_matrix">ikRotateAroundAxis_matrix</a>
+<a href="#ikSetIkElementProperties">ikSetIkElementProperties</a>
+<a href="#ikSetIkGroupExplicitHandling">ikSetIkGroupExplicitHandling</a>
+<a href="#ikSetIkGroupProperties">ikSetIkGroupProperties</a>
+<a href="#ikSetJointInterval">ikSetJointInterval</a>
+<a href="#ikSetJointMode">ikSetJointMode</a>
+<a href="#ikSetJointPosition">ikSetJointPosition</a>
+<a href="#ikSetObjectParent">ikSetObjectParent</a>
+<a href="#ikSetObjectTransformation">ikSetObjectTransformation</a>
+<a href="#ikSetObjectMatrix">ikSetObjectMatrix</a>
+<a href="#ikSetSphericalJointQuaternion">ikSetSphericalJointQuaternion</a>
+<a href="#ikSetSphericalJointMatrix">ikSetSphericalJointMatrix</a>
+<a href="#ikShutDown">ikShutDown</a>
+<a href="#ikStart">ikStart</a>
+<a href="#ikSwitch">ikSwitch</a>
+<a href="#ikTransformationToMatrix">ikTransformationToMatrix</a>
+</pre>
+
+<br>
+<br>
+<br>
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikEulerAnglesToQuaternion" id="ikEulerAnglesToQuaternion"></a>ikEulerAnglesToQuaternion (regular API equivalent: <a href="regularApi/simGetEulerAnglesFromMatrix.htm">sim.getEulerAnglesFromMatrix</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves a quaternion based on <a href="eulerAngles.htm">Euler angles</a>. See also <a href="#ikQuaternionToEulerAngles">ikQuaternionToEulerAngles</a> and <a href="#ikTransformationToMatrix">ikTransformationToMatrix</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikEulerAnglesToQuaternion(const real* euler,real* quaternion)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>euler (input)</strong>: the 3 Euler angles (alpha, beta, gamma)</div>
+<div><strong>quaternion (output)</strong>: the 4 values of a quaternion (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetConfigForTipPose" id="ikGetConfigForTipPose"></a>ikGetConfigForTipPose (regular API equivalent: <a href="regularApi/simGetConfigForTipPose.htm">sim.getConfigForTipPose</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Searches for a manipulator configuration that matches a given end-effector position/orientation in space. Search is randomized.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetConfigForTipPose(int ikGroupHandle,int jointCnt,const int* jointHandles,real thresholdDist,int maxIterations,real* retConfig,const real* metric,const int* jointOptions,void* reserved)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>ikGroupHandle (input)</strong>: the handle of an IK group that is in charge of bringing the manipulator's tip onto a target. The IK group can also be marked as <em>explicit handling</em> if needed</div>
+<div><strong>jointCnt (input)</strong>: the number of joint handles provided in the <em>jointHandles</em> array</div>
+<div><strong>jointHandles (input)</strong>: an array with <em>jointCnt</em> entries, that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK</div>
+<div><strong>thresholdDist (input)</strong>: a distance indicating when IK should be computed in order to try to bring the tip onto the target: since the search algorithm proceeds by generating random configurations, many of them produce a tip pose that is too far from the target pose to run IK successfully. Choosing a large value will result in slow calculations, choosing a small value might produce a smaller subset of solutions. Distance between two poses is calculated using a <em>metric</em></div>
+<div><strong>maxIterations (input)</strong>: the maximum number of calculation iterations before the function returns</div>
+<div><strong>retConfig (output)</strong>: an array with <em>jointCnt</em> entries, that will receive the IK calculated joint values, as specified by the <em>jointHandles</em> array</div>
+<div><strong>metric (input)</strong>: an array to 4 values indicating a metric used to compute pose-pose distances: distance=sqrt((dx*metric[0])^2+(dy*metric[1])^2+(dz*metric[2])^2+(angle*metric[3])^2). Can be NULL for a default metric of {1.0,1.0,1.0,0.1}</div>
+<div><strong>jointOptions (input)</strong>: a bit-coded value corresponding to each specified joint handle. Bit 0 (i.e. 1) indicates the corresponding joint is dependent of another joint. Can be NULL.</div>
+<div><strong>reserved (input/output)</strong>: reserved for future extensions. Set to NULL</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 in case of an error, 0 if no result was found, otherwise 1.</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetIkGroupHandle" id="ikGetIkGroupHandle"></a>ikGetIkGroupHandle (regular API equivalent: <a href="regularApi/simGetIkGroupHandle.htm">sim.getIkGroupHandle</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the handle of an IK group based on its name. Specify the full IK group name, including suffixes.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetIkGroupHandle(const char* ikGroupName)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>ikGroupName (input)</strong>: the name of the IK group</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed, otherwise the handle of the IK group.</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetJointInterval" id="ikGetJointInterval"></a>ikGetJointInterval (regular API equivalent: <a href="regularApi/simGetJointInterval.htm">sim.getJointInterval</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the limits of a joint. See also <a href="#ikSetJointInterval">ikSetJointInterval</a></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetJointInterval(int jointHandle,real* interval)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>jointHandle (input)</strong>: handle of the joint</div>
+<div><strong>interval (output)</strong>: pointer to 2 values: the low limit, and the range (i.e. highLimit = lowLimit + range). If the joint is cyclic, then the interval has no meaning.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed, 0 if the limits are valid, or 1 if the joint is cyclic.</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetJointPosition" id="ikGetJointPosition"></a>ikGetJointPosition (regular API equivalent: <a href="regularApi/simGetJointPosition.htm">sim.getJointPosition</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the intrinsic position of a joint. This function cannot be used with spherical joints (use <a href="#ikGetJointTransformation">ikGetJointTransformation</a> instead). See also <a href="#ikSetJointPosition">ikSetJointPosition</a></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetJointPosition(int jointHandle,real* position)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>jointHandle (input)</strong>: handle of the joint</div>
+<div><strong>position (output)</strong>: intrinsic position of the joint. This is a one-dimensional value: if the   joint is revolute, the rotation angle is returned, if the joint is   prismatic, the translation amount is returned, etc.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetJointMatrix" id="ikGetJointMatrix"></a>ikGetJointMatrix (regular API equivalent: <a href="regularApi/simGetJointMatrix.htm">sim.getJointMatrix</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the intrinsic matrix of a joint (the transformation matrix caused by the joint movement). See also <a href="#ikSetSphericalJointMatrix">ikSetSphericalJointMatrix</a> and <a href="#ikGetJointTransformation">ikGetJointTransformation</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetJointMatrix(int jointHandle,real* matrix)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>jointHandle (input)</strong>: handle of the joint</div>
+<div><strong>matrix (output)</strong>: the matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetJointTransformation" id="ikGetJointTransformation"></a>ikGetJointTransformation (regular API equivalent: <a href="regularApi/simGetJointMatrix.htm">sim.getJointMatrix</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the intrinsic transformation of a joint (the transformation caused by the joint movement). See also <a href="#ikSetSphericalJointQuaternion">ikSetSphericalJointQuaternion</a> and <a href="#ikGetJointMatrix">ikGetJointMatrix</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetJointTransformation(int jointHandle,real* position,real* quaternion)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>jointHandle (input)</strong>: handle of the joint</div>
+<div><strong>position (output)</strong>: the position component of the transformation (x, y, z)</div>
+<div><strong>quaternion (output)</strong>: the orientation component of the transformation (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetObjectHandle" id="ikGetObjectHandle"></a>ikGetObjectHandle (regular API equivalent: <a href="regularApi/simGetObjectHandle.htm">sim.getObjectHandle</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves an object handle based on its name. Specify the full object name, including suffixes.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetObjectHandle(const char* objectName)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>objectName (input)</strong>: name of the object</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed, otherwise the handle of the object</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetObjectParent" id="ikGetObjectParent"></a>ikGetObjectParent (regular API equivalent: <a href="regularApi/simGetObjectParent.htm">sim.getObjectParent</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the handle of an object's parent object. See also <a href="#ikSetObjectParent">ikSetObjectParent</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetObjectParent(int objectHandle)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>objectHandle (input)</strong>: handle of the object</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed, otherwise the handle of the parent object</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetObjectMatrix" id="ikGetObjectMatrix"></a>ikGetObjectMatrix (regular API equivalent: <a href="regularApi/simGetObjectMatrix.htm">sim.getObjectMatrix</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the matrix of an object. See also <a href="#ikSetObjectMatrix">ikSetObjectMatrix</a> and <a href="#ikGetObjectTransformation">ikGetObjectTransformation</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetObjectMatrix(int objectHandle,int relativeToObjectHandle,real* matrix)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>objectHandle (input)</strong>: handle of the object</div>
+<div><strong>relativeToObjectHandle (input)</strong>: indicates relative to which reference frame we want the transformation. Specify   -1 to retrieve the absolute transformation, sim_handle_parent to   retrieve the transformation relative to the object's parent, or   an object handle relative to whose reference frame we want the   transformation.</div>
+<div><strong>matrix (output)</strong>: the matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetObjectTransformation" id="ikGetObjectTransformation"></a>ikGetObjectTransformation (regular API equivalent: <a href="regularApi/simGetObjectMatrix.htm">sim.getObjectMatrix</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the transformation (position / orientation) of an object. See also <a href="#ikSetObjectTransformation">ikSetObjectTransformation</a> and <a href="#ikGetObjectMatrix">ikGetObjectMatrix</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetObjectTransformation(int objectHandle,int relativeToObjectHandle,real* position,real* quaternion)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>objectHandle (input)</strong>: handle of the object</div>
+<div><strong>relativeToObjectHandle (input)</strong>: indicates relative to which reference frame we want the transformation. Specify   -1 to retrieve the absolute transformation, sim_handle_parent to   retrieve the transformation relative to the object's parent, or   an object handle relative to whose reference frame we want the   transformation.</div>
+<div><strong>position (output)</strong>: the position component of the transformation (x, y, z)</div>
+<div><strong>quaternion (output)</strong>: the orientation component of the transformation (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetRotationAxis_matrix" id="ikGetRotationAxis_matrix"></a>ikGetRotationAxis_matrix (regular API equivalent: <a href="regularApi/simGetRotationAxis.htm">sim.getRotationAxis</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves an axis and rotation angle that brings one matrix onto another one. The translation part of the matrix is ignored. This function, when used in combination with <a href="#ikRotateAroundAxis_matrix">ikRotateAroundAxis_matrix</a>, can be used to build interpolations between matrices. See also <a href="#ikGetRotationAxis">ikGetRotationAxis</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetRotationAxis_matrix(const real* matrixStart,const real* matrixGoal,real* axis,real* angle)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>matrixStart (input)</strong>: the first matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+<div><strong>matrixGoal (input)</strong>: the second matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+<div><strong>axis (output)</strong>: the rotation axis (x, y, z vector)</div>
+<div><strong>angle (output)</strong>: the rotation angle</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikGetRotationAxis" id="ikGetRotationAxis"></a>ikGetRotationAxis (regular API equivalent: <a href="regularApi/simGetRotationAxis.htm">sim.getRotationAxis</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves an axis and rotation angle that brings one transformation onto another one. The translation part of the transformations is ignored. This function, when used in combination with <a href="#ikRotateAroundAxis">ikRotateAroundAxis</a>, can be used to build interpolations between transformations. See also <a href="#ikGetRotationAxis_matrix">ikGetRotationAxis_matrix</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikGetRotationAxis(const real* positionStart,const real* quaternionStart,const real* positionGoal,const real* quaternionGoal,real* axis,real* angle)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>positionStart (input)</strong>: the position component of the first transformation (x, y, z)</div>
+<div><strong>quaternionStart (input)</strong>: the orientation component of the first transformation (x, y, z, w)</div>
+<div><strong>positionGoal (input)</strong>: the position component of the second transformation (x, y, z)</div>
+<div><strong>quaternionGoal (input)</strong>:  the orientation component of the second transformation (x, y, z, w)</div>
+<div><strong>axis (output)</strong>: the rotation axis (x, y, z vector)</div>
+<div><strong>angle (output)</strong>: the rotation angle</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikHandleIkGroup" id="ikHandleIkGroup"></a>ikHandleIkGroup (regular API equivalent: <a href="regularApi/simHandleIkGroup.htm">sim.handleIkGroup</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Handles (i.e. solves) an IK group (i.e. by trying to respect the given constraints).</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikHandleIkGroup(int ikGroupHandle)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>ikGroupHandle (input)</strong>: handle of the IK group or sim_handle_all or   sim_handle_all_except_explicit. (sim_handle_all will handle all IK   groups, while sim_handle_all_except_explicit will only handle those that   are not marked as "explicit handling")</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>number of performed calculations (i.e. when IK group calculation results are   different from sim_ikresult_not_performed) if no specific IK group was   specified, or a value of type <a href="apiConstants.htm#ikCalculationResults">IK result</a> if a specific IK group was specified, -1 in case of an error (a failed IK group calculation is not considered as an error)</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikInterpolateMatrices" id="ikInterpolateMatrices"></a>ikInterpolateMatrices (regular API equivalent: <a href="regularApi/simInterpolateMatrices.htm">sim.interpolateMatrices</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Computes the interpolated matrix between 2 matrices. See also <a href="#ikInterpolateTransformations">ikInterpolateTransformations</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikInterpolateMatrices(const real* matrix1,const real* matrix2,real interpolFactor,real* matrixOut)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>matrix1 (input)</strong>: the first matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+<div><strong>matrix2 (input)</strong>: the second matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+<div><strong>interpolFactor (input)</strong>: the interpolation factor, a value between 0.0 and 1.0 (0.0--&gt; transformationOut=transformationIn1, 1.0--&gt; transformationOut=transformationIn2)</div>
+<div><strong>matrixOut (output)</strong>: the interpolated matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikInterpolateTransformations" id="ikInterpolateTransformations"></a>ikInterpolateTransformations (regular API equivalent: <a href="regularApi/simInterpolateMatrices.htm">sim.interpolateMatrices</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Computes the interpolated transformation between 2 transformations. See also <a href="#ikInterpolateMatrices">ikInterpolateMatrices</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikInterpolateTransformations(const real* position1,const real* quaternion1,const real* position2,const real* quaternion2,real interpolFactor,real* positionOut,real* quaternionOut)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>position1 (input)</strong>: the position component of the first transformation (x, y, z)</div>
+<div><strong>quaternion1 (input)</strong>: the orientation component of the first transformation (x, y, z, w)</div>
+<div><strong>position2 (input)</strong>: the position component of the second transformation (x, y, z)</div>
+<div><strong>quaternion2 (input)</strong>: the orientation component of the second transformation (x, y, z, w)</div>
+<div><strong>interpolFactor (input)</strong>: the interpolation factor, a value between 0.0 and 1.0 (0.0--&gt; transformationOut=transformationIn1, 1.0--&gt; transformationOut=transformationIn2)</div>
+<div><strong>positionOut (output)</strong>: the position component of the interpolated transformation (x, y, z)</div>
+<div><strong>quaternionOut (output)</strong>: the orientation component of the interpolated transformation (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikInvertMatrix" id="ikInvertMatrix"></a>ikInvertMatrix (regular API equivalent: <a href="regularApi/simInvertMatrix.htm">sim.invertMatrix</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Inverts a transformation matrix. See also <a href="#ikInvertTransformation">ikInvertTransformation</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+
+</td> 
+<td class=auxApiTableRightCSyn>int ikInvertMatrix(real* matrix)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>matrix (input/output)</strong>: the matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikInvertTransformation" id="ikInvertTransformation"></a>ikInvertTransformation (regular API equivalent: <a href="regularApi/simInvertMatrix.htm">sim.invertMatrix</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Inverts a transformation. See also <a href="#ikInvertMatrix">ikInvertMatrix</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikInvertTransformation(real* position,real* quaternion)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>position (input/output)</strong>: the position component of the transformation (x, y, z)</div>
+<div><strong>quaternion (input/output)</strong>: the orientation component of the transformation (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikLaunch" id="ikLaunch"></a>ikLaunch
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Initializes a new instance of the Coppelia kinematics routines. Should be the very first function called. See also <a href="#ikShutDown">ikShutDown</a> and <a href="#ikSwitch">ikSwitch</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikLaunch()</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div>none</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>A value &lt;1 if operation failed, otherwise the handle of the created instance. Several instances can be created, but only one instance will be active at a given time. You can switch from one to another instance with <a href="#ikSwitch">ikSwitch</a>.</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikMatrixToTransformation" id="ikMatrixToTransformation"></a>ikMatrixToTransformation
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves a position and a quaternion from a matrix. See also <a href="#ikTransformationToMatrix">ikTransformationToMatrix</a> and <a href="#ikQuaternionToEulerAngles">ikQuaternionToEulerAngles</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikMatrixToTransformation(const real* matrix,real* position,real* quaternion)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>matrix (input)</strong>: the matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted)</div>
+<div><strong>position (output)</strong>: the 3 values of a position (x, y, z)</div>
+<div><strong>quaternion (output)</strong>: the 4 values of a quaternion (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikMultiplyMatrices" id="ikMultiplyMatrices"></a>ikMultiplyMatrices (regular API equivalent: <a href="regularApi/simMultiplyMatrices.htm">sim.multiplyMatrices</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Multiplies two matrices. See also <a href="#ikMultiplyTransformations">ikMultiplyTransformations</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikMultiplyMatrices(const real* matrix1,const real* matrix2,real* matrixOut)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>matrix1 (input)</strong>: the first matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+<div><strong>matrix2 (input)</strong>: the second matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+<div><strong>matrixOut (output)</strong>: the resulting matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikMultiplyTransformations" id="ikMultiplyTransformations"></a>ikMultiplyTransformations (regular API equivalent: <a href="regularApi/simMultiplyMatrices.htm">sim.multiplyMatrices</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Multiplies two transformation. See also <a href="#ikMultiplyMatrices">ikMultiplyMatrices</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikMultiplyTransformations(const real* position1,const real* quaternion1,const real* position2,const real* quaternion2,real* positionOut,real* quaternionOut)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>position1 (input)</strong>: the position component of the first transformation (x, y, z)</div>
+<div><strong>quaternion1 (input)</strong>: the orientation component of the first transformation (x, y, z, w)</div>
+<div><strong>position2 (input)</strong>: the position component of the second transformation (x, y, z)</div>
+<div><strong>quaternion2 (input)</strong>: the orientation component of the second transformation (x, y, z, w)</div>
+<div><strong>positionOut (output)</strong>: the position component of the multiplication (x, y, z)</div>
+<div><strong>quaternionOut (output)</strong>: the orientation component of the multiplication (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikMultMatrixWithVector" id="ikMultMatrixWithVector"></a>ikMultMatrixWithVector (regular API equivalent: <a href="regularApi/simTransformVector.htm">sim.transformVector</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Multiplies a vector with a matrix (v=m*v). See also <a href="#ikMultTransformationWithVector">ikMultTransformationWithVector</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikMultMatrixWithVector(const real* matrix,real* vect)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>matrix (input)</strong>: the matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+<div><strong>vect (input/output)</strong>: the vector to transform (x, y, z)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikMultTransformationWithVector" id="ikMultTransformationWithVector"></a>ikMultTransformationWithVector (regular API equivalent: <a href="regularApi/simTransformVector.htm">sim.transformVector</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Multiplies a vector with a transformation (v=tr*v). See also <a href="#ikMultMatrixWithVector">ikMultMatrixWithVector</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikMultTransformationWithVector(const real* position,const real* quaternion,real* vect)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>position (input)</strong>: the position component of the transformation (x, y, z)</div>
+<div><strong>quaternion (input)</strong>: the orientation component of the transformation (x, y, z, w)</div>
+<div><strong>vect (input/output)</strong>: the vector to transform (x, y, z)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikQuaternionToEulerAngles" id="ikQuaternionToEulerAngles"></a>ikQuaternionToEulerAngles (regular API equivalent: <a href="regularApi/simGetQuaternionFromMatrix.htm">sim.getQuaternionFromMatrix</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves <a href="eulerAngles.htm">Euler angles</a> based on a quaternion. See also <a href="#ikEulerAnglesToQuaternion">ikEulerAnglesToQuaternion</a> and <a href="#ikMatrixToTransformation">ikMatrixToTransformation</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikQuaternionToEulerAngles(const real* quaternion,real* euler)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>quaternion (input)</strong>: the 4 values of a quaternion (x, y, z, w)</div>
+<div><strong>euler (output)</strong>: the 3 Euler angles (alpha, beta, gamma)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikRotateAroundAxis_matrix" id="ikRotateAroundAxis_matrix"></a>ikRotateAroundAxis_matrix (regular API equivalent: <a href="regularApi/simRotateAroundAxis.htm">sim.rotateAroundAxis</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Rotates a matrix around a specific axis in space. This function, when used in combination with <a href="#ikGetRotationAxis_matrix">ikGetRotationAxis_matrix</a>, can be used to build interpolations between matrices. See also <a href="#ikRotateAroundAxis">ikRotateAroundAxis</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikRotateAroundAxis_matrix(const real* matrixIn,const real* axisVector,const real* axisPosition,real angle,real* matrixOut)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>matrixIn (input)</strong>: the input matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+<div><strong>axisVector (input)</strong>: the axis vector (x, y, z)</div>
+<div><strong>axisPosition (input)</strong>: the axis position (x, y, z)</div>
+<div><strong>angle (input)</strong>: the desired rotation angle</div>
+<div><strong>matrixOut (output)</strong>: the output matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikRotateAroundAxis" id="ikRotateAroundAxis"></a>ikRotateAroundAxis (regular API equivalent: <a href="regularApi/simRotateAroundAxis.htm">sim.rotateAroundAxis</a>)
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Rotates a transformation around a specific axis in space. This function, when used in combination with <a href="#ikGetRotationAxis">ikGetRotationAxis</a>, can be used to build interpolations between transformations. See also <a href="#ikRotateAroundAxis_matrix">ikRotateAroundAxis_matrix</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikRotateAroundAxis(const real* positionIn,const real* quaternionIn,const real* axisVector,const real* axisPosition,real angle,real* positionOut,real* quaternionOut)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>positionIn (input)</strong>: the position component of a transformation (x, y, z)</div>
+<div><strong>quaternionIn (input)</strong>: the orientation component of a transformation (x, y, z, w)</div>
+<div><strong>axisVector (input)</strong>: the axis vector (x, y, z)</div>
+<div><strong>axisPosition (input)</strong>: the axis position (x, y, z)</div>
+<div><strong>angle (input)</strong>: the desired rotation angle</div>
+<div><strong>positionOut (output)</strong>: the position component of the rotated transformation (x, y, z)</div>
+<div><strong>quaternionOut (output)</strong>: the orientation component of the rotated transformation (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetIkElementProperties" id="ikSetIkElementProperties"></a>ikSetIkElementProperties (regular API equivalent: <a href="regularApi/simSetIkElementProperties.htm">sim.setIkElementProperties</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets properties of a specific IK element. See also <a href="#ikSetIkGroupProperties">ikSetIkGroupProperties</a> and <a href="#ikGetIkGroupHandle">ikGetIkGroupHandle</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetIkElementProperties(int ikGroupHandle,int tipDummyHandle,int constraints,const real* precision,const real* weight)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>ikGroupHandle (input)</strong>: handle of the IK group</div>
+<div><strong>tipDummyHandle (input)</strong>: handle of the tip dummy object of the IK element</div>
+<div><strong>constraints (input)</strong>: the <a href="apiConstants.htm#ikConstraints">constraints</a> of the ik element. sim_ik_avoidance_constraint is not allowed</div>
+<div><strong>precision (input)</strong>: an array of two values where the first represents the linear precision,   and the second the angular precision. Can be NULL to keep current   settings.</div>
+<div><strong>weight (input)</strong>: an array of two values that represent the linear and angular resolution weights. Can be NULL to keep current settings</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetIkGroupExplicitHandling" id="ikSetIkGroupExplicitHandling"></a>ikSetIkGroupExplicitHandling (regular API equivalent: <a href="regularApi/simSetExplicitHandling.htm">sim.setExplicitHandling</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the explicit handling flags for an IK group. An IK group flagged as &quot;explicit handling&quot; will only be handled or solved when called explicitely with <a href="#ikHandleIkGroup">ikHandleIkGroup</a>(ikGroupHandle) or ikHandleIkGroup(sim_handle_all).</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetIkGroupExplicitHandling(int ikGroupHandle,bool explicitHandling)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>ikGroupHandle (input)</strong>: handle of the IK group</div>
+<div><strong>explicitHandling (input)</strong>: the desired explicit handling state</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetIkGroupProperties" id="ikSetIkGroupProperties"></a>ikSetIkGroupProperties (regular API equivalent: <a href="regularApi/simSetIkGroupProperties.htm">sim.setIkGroupProperties</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets properties of an IK group. See also <a href="#ikSetIkElementProperties">ikSetIkElementProperties</a></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetIkGroupProperties(int ikGroupHandle,int resolutionMethod,int maxIterations,real damping)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>ikGroupHandle (input)</strong>: handle of the IK group</div>
+<div><strong>resolutionMethod (input)</strong>: the <a href="apiConstants.htm#ikCalculationMethods">IK resolution method</a></div>
+<div><strong>maxIterations (input)</strong>: the maximum number of iterations for the calculations</div>
+<div><strong>damping (input)</strong>: the DLS damping factor</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetJointInterval" id="ikSetJointInterval"></a>ikSetJointInterval (regular API equivalent: <a href="regularApi/simSetJointInterval.htm">sim.setJointInterval</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the limits of a joint. See also <a href="#ikGetJointInterval">ikGetJointInterval</a></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetJointInterval(int jointHandle,int cyclic,real* interval)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>jointHandle (input)</strong>: handle of the joint</div>
+<div><strong>cyclic (input)</strong>: 1 if the joint should be cyclic (i.e. without limits), 0 otherwise.</div>
+<div><strong>interval (input)</strong>: pointer to 2 values: the low limit, and the range (i.e. highLimit = lowLimit + range).</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed.</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetJointMode" id="ikSetJointMode"></a>ikSetJointMode (regular API equivalent: <a href="regularApi/simSetJointMode.htm">sim.setJointMode</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the operation mode of a joint. Might have as side-effect the change of additional properties of the joint.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetJointMode(int jointHandle,int jointMode)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>jointHandle (input)</strong>: handle of the joint</div>
+<div><strong>jointMode (input)</strong>: a <a href="apiConstants.htm#jointModes">joint mode</a> value</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetJointPosition" id="ikSetJointPosition"></a>ikSetJointPosition (regular API equivalent: <a href="regularApi/simSetJointPosition.htm">sim.setJointPosition</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the intrinsic position of a joint. This function cannot be used with spherical joints (use <a href="#ikSetSphericalJointQuaternion">ikSetSphericalJointQuaternion</a> instead). See also <a href="#ikGetJointPosition">ikGetJointPosition</a></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetJointPosition(int jointHandle,real position)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>jointHandle (input)</strong>: handle of the joint</div>
+<div><strong>position (input)</strong>: position of the joint (angular or linear value depending on the joint type)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetObjectParent" id="ikSetObjectParent"></a>ikSetObjectParent (regular API equivalent: <a href="regularApi/simSetObjectParent.htm">sim.setObjectParent</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets an  object's parent object. See also <a href="#ikGetObjectParent">ikGetObjectParent</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetObjectParent(int objectHandle,int parentObjectHandle,bool keepInPlace)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>objectHandle (input)</strong>: handle of the object that will become child of the parent object</div>
+<div><strong>parentObjectHandle (input)</strong>: handle of the object that will become parent, or -1 if the object should become parentless</div>
+<div><strong>keepInPlace (input)</strong>: indicates whether the object's absolute position and orientation should stay same</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetObjectMatrix" id="ikSetObjectMatrix"></a>ikSetObjectMatrix (regular API equivalent: <a href="regularApi/simSetObjectMatrix.htm">sim.setObjectMatrix</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the matrix of an object. See also <a href="#ikGetObjectMatrix">ikGetObjectMatrix</a> and <a href="#ikSetObjectTransformation">ikSetObjectTransformation</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetObjectMatrix(int objectHandle,int relativeToObjectHandle,const real* matrix)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>objectHandle (input)</strong>: handle of the object</div>
+<div><strong>relativeToObjectHandle (input)</strong>: indicates relative to which reference frame the transformation is specified. Specify -1 to set the absolute transformation, sim_handle_parent   to set the transformation relative to the object's parent, or an   object handle relative to whose reference frame the transformation   is specified.</div>
+<div><strong>matrix (input)</strong>: the matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetObjectTransformation" id="ikSetObjectTransformation"></a>ikSetObjectTransformation (regular API equivalent: <a href="regularApi/simSetObjectMatrix.htm">sim.setObjectMatrix</a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the transformation (position / orientation) of an object. See also <a href="#ikGetObjectTransformation">ikGetObjectTransformation</a> and <a href="#ikSetObjectMatrix">ikSetObjectMatrix</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetObjectTransformation(int objectHandle,int relativeToObjectHandle,const real* position,const real* quaternion)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>objectHandle (input)</strong>: handle of the object</div>
+<div><strong>relativeToObjectHandle (input)</strong>: indicates relative to which reference frame the transformation is specified. Specify -1 to set the absolute transformation, sim_handle_parent   to set the transformation relative to the object's parent, or an   object handle relative to whose reference frame the transformation   is specified.</div>
+<div><strong>position (input)</strong>: the position component of the transformation (x, y, z)</div>
+<div><strong>quaternion (input)</strong>: the orientation component of the transformation (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetSphericalJointMatrix" id="ikSetSphericalJointMatrix"></a>ikSetSphericalJointMatrix (regular API equivalent: <a href="regularApi/simSetSphericalJointMatrix.htm">sim.setSphericalJointMatrix </a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the intrinsic matrix of a spherical joint object. This function cannot be used with non-spherical joints (use <a href="#ikSetJointPosition">ikSetJointPosition</a> instead). See also <a href="#ikGetJointMatrix">ikGetJointMatrix</a> and <a href="#ikSetSphericalJointQuaternion">ikSetSphericalJointQuaternion</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetSphericalJointMatrix(int jointHandle,const real* matrix)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>jointHandle (input)</strong>: handle of the joint</div>
+<div><strong>matrix (input)</strong>: the matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted))</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSetSphericalJointQuaternion" id="ikSetSphericalJointQuaternion"></a>ikSetSphericalJointQuaternion (regular API equivalent: <a href="regularApi/simSetSphericalJointMatrix.htm">sim.setSphericalJointMatrix </a>) </h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the intrinsic quaternion of a spherical joint object. This function cannot be used with non-spherical joints (use <a href="#ikSetJointPosition">ikSetJointPosition</a> instead). See also <a href="#ikGetJointTransformation">ikGetJointTransformation</a> and <a href="#ikSetSphericalJointMatrix">ikSetSphericalJointMatrix</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikSetSphericalJointQuaternion(int jointHandle,const real* quaternion)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>jointHandle (input)</strong>: handle of the joint</div>
+<div><strong>quaternion (input)</strong>: the quaternion (x, y, z, w)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikShutDown" id="ikShutDown"></a>ikShutDown
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Deinitializes the active instance of the Coppelia kinematics routines. Should be the very last function called. See also <a href="#ikLaunch">ikLaunch</a> and <a href="#ikSwitch">ikSwitch</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikShutDown()</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div>none</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed, otherwise the handle of the newly active instance (or 0 if there is no active instance left).</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikStart" id="ikStart"></a>ikStart
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Imports a previously exported kinematic scene content. Can be called at any time to reset the object/joint configurations.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikStart(unsigned char* data,int dataLength)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>data (input)</strong>: pointer to the data to import</div>
+<div><strong>dataLength (input)</strong>: the size of the data to import</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed, otherwise the number of imported objects</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikSwitch" id="ikSwitch"></a>ikSwitch
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Switches to another instance of an exported kinematic scene content. See also <a href="#ikLaunch">ikLaunch</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>bool ikSwitch(int instanceHandle)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>instanceHandle (input)</strong>: the handle of a kinematic scene content instance, previously returned from <a href="#ikLaunch">ikLaunch</a>.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>false if operation failed.</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar>
+<a name="ikTransformationToMatrix" id="ikTransformationToMatrix"></a>ikTransformationToMatrix
+</h3>
+
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves a matrix from a position and a quaternion. See also <a href="#ikMatrixToTransformation">ikMatrixToTransformation</a> and <a href="#ikEulerAnglesToQuaternion">ikEulerAnglesToQuaternion</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCSyn>
+C++ synopsis
+</td> 
+<td class=auxApiTableRightCSyn>int ikTransformationToMatrix(const real* position,const real* quaternion,real* matrix)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCParam>parameters</td> 
+<td class=auxApiTableRightCParam>
+<div><strong>position (input)</strong>: the 3 values of a position (x, y, z)</div>
+<div><strong>quaternion (input)</strong>: the 4 values of a quaternion (x, y, z, w)</div>
+<div><strong>matrix (output)</strong>: the matrix (Xx, Yx, Zx, Px, Xy, Yy, Zy, Py, Xz, Yz, Zz, Pz. (last row, i.e. 0, 0, 0, 1 is omitted)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=auxApiTableLeftCRet>
+return value
+</td> 
+<td class=auxApiTableRightCRet>
+<div>-1 if operation failed</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br>
+<br>
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

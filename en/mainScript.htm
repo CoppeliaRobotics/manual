@@ -19,7 +19,7 @@
 
 <h1>The main script <img src="images/mainScript1.jpg"></h1>
 
-<p>A main script is a <a href="simulationScripts.htm">simulation script</a>. By default, each <a href="scenes.htm">scene</a> in V-REP will have one main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without main script, a running simulation won't do anything.</p>
+<p>A main script is a <a href="simulationScripts.htm">simulation script</a>. By default, each <a href="scenes.htm">scene</a> in CoppeliaSim will have one main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without main script, a running simulation won't do anything.</p>
 
 <p>The main script contains functions that are appropriately called by the system. If a given function is not defined, the call will be ignored. Except for the initialization function, all other functions are optional. The default main script is typically segmented in 4 functions:
 </p>
@@ -113,7 +113,7 @@ function <strong>sysCall_resume</strong>()
     sim.handleSandboxScript(sim.syscb_resume)
 end</pre>
 
-<p>The main script is not supposed to be modified. The reason for this is following: one of V-REP's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command sim.handleChildScripts then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality (e.g. if a new V-REP version introduces a neat command sim.doMagic(), then old scenes will automatically be updated to have that command also automatically called in their main script).<br>
+<p>The main script is not supposed to be modified. The reason for this is following: one of CoppeliaSim's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command sim.handleChildScripts then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality (e.g. if a new CoppeliaSim version introduces a neat command sim.doMagic(), then old scenes will automatically be updated to have that command also automatically called in their main script).<br>
 </p>
 
 <p>If however, for a reason or another you really need to modify the main script of a scene, you can do this by double-clicking the light-red script icon next to the world icon at the top of the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:<br>
