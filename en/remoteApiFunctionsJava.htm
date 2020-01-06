@@ -1783,7 +1783,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the force or torque applied to a joint  along/about its active axis. This function retrieves meaningful information only if the joint is prismatic or revolute, and is dynamically enabled. With the <a href="dynamicsModule.htm#bullet">Bullet</a> engine, this function returns the force or torque applied to the joint motor  (torques from joint limits are not taken into account). With the <a href="dynamicsModule.htm#ode">ODE</a> or <a href="dynamicsModule.htm#vortex">Vortex</a> engine, this function returns the total force or torque applied to a joint  along/about its z-axis. See also <a href="#simxSetJointForce">simxSetJointForce</a>, <a href="#simxReadForceSensor">simxReadForceSensor</a> and <a href="#simxGetObjectGroupData">simxGetObjectGroupData</a>.</td>
+<td class=apiTableRightDescr>Retrieves the force or torque applied to a joint  along/about its active axis. This function retrieves meaningful information only if the joint is prismatic or revolute, and is dynamically enabled. With the <a href="dynamicsModule.htm#bullet">Bullet</a> engine, this function returns the force or torque applied to the joint motor  (torques from joint limits are not taken into account). With the <a href="dynamicsModule.htm#ode">ODE</a> or <a href="dynamicsModule.htm#vortex">Vortex</a> engine, this function returns the total force or torque applied to a joint  along/about its z-axis. See also <a href="#simxSetJointMaxForce">simxSetJointMaxForce</a>, <a href="#simxReadForceSensor">simxReadForceSensor</a> and <a href="#simxGetObjectGroupData">simxGetObjectGroupData</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -1816,6 +1816,63 @@ Other languages
 </td> 
 <td class=remApiTableRightLanguages>
 <a href="remoteApiFunctions.htm#simxGetJointForce">C/C++</a>, <a href="remoteApiFunctionsPython.htm#simxGetJointForce">Python</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetJointForce">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetJointForce">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetJointForce">Lua</a></td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar><a name="simxGetJointMaxForce" id="simxGetJointMaxForce"></a>simxGetJointMaxForce (regular API equivalent: <a href="regularApi/simGetJointMaxForce.htm">sim.getJointMaxForce</a>)</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the maximum force the joint is able to exert. See also <a href="#simxSetJointMaxForce">simxSetJointMaxForce</a> and <a href="#simxGetJointForce">simxGetJointForce</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCSyn>
+Java synopsis
+</td> 
+<td class=remApiTableRightCSyn>int simxGetJointMaxForce(int clientID,int jointHandle,<a href="#FloatW">FloatW</a> force,int operationMode)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCParam>Java parameters</td> 
+<td class=remApiTableRightCParam>
+<div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
+<div><strong>jointHandle</strong>: handle of the joint</div>
+<div><strong>force</strong>: the maximum force the joint can exert</div>
+<div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation modes for this function are simx_opmode_streaming (the first call) and simx_opmode_buffer (the following calls)
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCRet>
+Java return value
+</td> 
+<td class=remApiTableRightCRet>
+<div>a <a href="remoteApiConstants.htm#functionErrorCodes">remote API function return code</a></div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftLanguages>
+Other languages
+</td> 
+<td class=remApiTableRightLanguages>
+<a href="remoteApiFunctions.htm#simxGetJointMaxForce">C/C++</a>, <a href="remoteApiFunctionsPython.htm#simxGetJointMaxForce">Python</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetJointMaxForce">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetJointMaxForce">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetJointMaxForce">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -4432,19 +4489,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxSetJointForce" id="simxSetJointForce"></a>simxSetJointForce (regular API equivalent: <a href="regularApi/simSetJointForce.htm">sim.setJointForce</a>)</h3>
+<h3 class=subsectionBar><a name="simxSetJointMaxForce" id="simxSetJointMaxForce"></a>simxSetJointMaxForce (regular API equivalent: <a href="regularApi/simSetJointMaxForce.htm">sim.setJointMaxForce</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the maximum force or torque that a joint can exert. This function has no effect when the joint is not dynamically enabled, or when it is a spherical joint. See also <a href="#simxGetJointForce">simxGetJointForce</a>.</td>
+<td class=apiTableRightDescr>Sets the maximum force or torque that a joint can exert. This function has no effect when the joint is not dynamically enabled, or when it is a spherical joint. See also <a href="#simxGetJointMaxForce">simxGetJointMaxForce</a> and See also <a href="#simxGetJointForce">simxGetJointForce</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Java synopsis
 </td> 
-<td class=remApiTableRightCSyn>int simxSetJointForce(int clientID,int jointHandle,float force,int operationMode)<br></td> 
+<td class=remApiTableRightCSyn>int simxSetJointMaxForce(int clientID,int jointHandle,float force,int operationMode)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Java parameters</td> 
@@ -4469,7 +4526,7 @@ Java return value
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxSetJointForce">C/C++</a>, <a href="remoteApiFunctionsPython.htm#simxSetJointForce">Python</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetJointForce">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetJointForce">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetJointForce">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxSetJointMaxForce">C/C++</a>, <a href="remoteApiFunctionsPython.htm#simxSetJointMaxForce">Python</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetJointMaxForce">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetJointMaxForce">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetJointMaxForce">Lua</a></td> 
 </tr> 
 </table> 
 <br>
