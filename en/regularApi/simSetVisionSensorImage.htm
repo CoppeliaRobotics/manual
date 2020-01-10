@@ -33,8 +33,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim_handleflag_greyscale</a> (simply add sim_handleflag_greyscale to sensorHandle if you provide grey scale values instead of rgb value) or/and <a href="../apiConstants.htm#specialHandleFlags">sim_handleflag_rawvalue</a> (simply add sim_handleflag_rawvalue to sensorHandle if you do not wish to trigger image processing).</div>
-<div><strong>image</strong>: rgb buffer containing the image (buffer size must be resolutionX*resolutionY*3). Values in the buffer should vary between 0 and 1. In case a grey scale image is provided, the buffer size must be resolutionX*resolutionY.</div>
+<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim_handleflag_greyscale</a> (simply add sim_handleflag_greyscale to sensorHandle if you provide grey scale values instead of rgb value) or/and <a href="../apiConstants.htm#specialHandleFlags">sim_handleflag_rawvalue</a> (simply add sim_handleflag_rawvalue to sensorHandle if you do not wish to trigger image processing). If you instead want to set the vision sensor depth buffer, you can combine the handle of the vision sensor object with <a href="../apiConstants.htm#specialHandleFlags">sim_handleflag_depthbuffer</a>.</div>
+<div><strong>image</strong>: rgb buffer containing the image (buffer size must be resolutionX*resolutionY*3). Values in the buffer should vary between 0 and 1. In case a grey scale image is provided, the buffer size must be resolutionX*resolutionY. In case sim_handleflag_depthbuffer is specified, then the buffer size must be resolutionX*resolutionY.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -56,9 +56,9 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_greyscale</a> (simply add sim.handleflag_greyscale to sensorHandle if you provide grey scale values instead of rgb value) or/and <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_rawvalue</a> (simply add sim.handleflag_rawvalue to sensorHandle if you do not wish to trigger image processing).</div>
-<div>(1) a table containing individual values [0-1] for the red, green and blue components, or for the grey component.</div>
-<div>(2) a string containing individual chars [0-255] for the red, green and blue components, or for the grey component.</div></td> 
+<div><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_greyscale</a> (simply add sim.handleflag_greyscale to sensorHandle if you provide grey scale values instead of rgb value) or/and <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_rawvalue</a> (simply add sim.handleflag_rawvalue to sensorHandle if you do not wish to trigger image processing). If you instead want to set the vision sensor depth buffer, you can combine the handle of the vision sensor object with <a href="../apiConstants.htm#specialHandleFlags">sim_handleflag_depthbuffer</a>.</div>
+<div>(1) a table containing individual values [0-1] for the red, green and blue components, or for the grey component. In case sim_handleflag_depthbuffer is specified, the table contains depth values.</div>
+<div>(2) a string containing individual chars [0-255] for the red, green and blue components, or for the grey component. In case sim_handleflag_depthbuffer is specified, the string is a coded string (i.e. a packed depth value table).</div></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
