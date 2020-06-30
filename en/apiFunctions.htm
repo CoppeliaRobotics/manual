@@ -388,6 +388,62 @@ Lua return values
 <br>
 <br>
 <br>
+<h3 class=subsectionBar><a name="simAddLog" id="simAddLog"></a>simAddLog / sim.addLog </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Adds a log message that will be output in the console or status bar.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simAddLog(const simChar* pluginName,simInt verbosity,const simChar* message)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>pluginName</strong>: the name of the plugin that outputs the message. e.g. <em>MyPlugin</em> with <em>simExtMyPlugin.dll</em>.</div>
+<div><strong>verbosity</strong>: the <a href="apiConstants.htm#verbosity">verbosity level</a>. Most appropriate values are sim_verbosity_errors (for errors), sim_verbosity_warnings (for warning) and sim_verbosity_infos.</div>
+<div><strong>message</strong>: the message.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 if operation was not successful.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>sim.addLog(number verbosity,string message)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>verbosity</strong>: the <a href="apiConstants.htm#verbosity">verbosity level</a>. Most appropriate values are sim.verbosity_scripterrors (for errors), sim.verbosity_scriptwarnings (for warning) and sim.verbosity_scriptinfos. Combine with sim.verbosity_undecorated if you wish to output the naked message.</div>
+<div><strong>message</strong>: the message. nil clears the status bar.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>Same as C-function</div>
+<div></div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
 <h3 class=subsectionBar><a name="simAddModuleMenuEntry" id="simAddModuleMenuEntry"></a>simAddModuleMenuEntry</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
@@ -779,7 +835,7 @@ Lua return values
 Description 
 </td> 
 <td class=apiTableRightDescr>
-Adds a message to the status bar. See also <a href="#simAuxiliaryConsoleOpen">sim.auxiliaryConsoleOpen</a>. </td>
+DEPRECATED. Use <a href="#simAddLog">sim.addLog</a> instead. </td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -1009,6 +1065,62 @@ Lua return values
 <td class=apiTableRightLRet>
 <div>-</div>
 <div></div>
+</td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simAlphaBetaGammaToYawPitchRoll" id="simAlphaBetaGammaToYawPitchRoll"></a>sim.alphaBetaGammaToYawPitchRoll</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Converts CoppeliaSim's alpha-beta-gamma angles to Yaw-Pitch-Roll angles. See <a href="eulerAngles.htm">here</a> for more details. See also <a href="#simYawPitchRollToAlphaBetaGamma">sim.yawPitchRollToAlphaBetaGamma</a></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>-</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>number yawAngle,number pitchAngle,number rollAngle = sim.alphaBetaGammaToYawPitchRoll(number alphaAngle,number betaAngle,number gammaAngle)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>alphaAngle</strong>: the alpha angle</div>
+<div><strong>betaAngle</strong>: the beta angle</div>
+<div><strong>gammaAngle</strong>: the gamma angle</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>yawAngle</strong>: the yaw angle</div>
+<div><strong>pitchAngle</strong>: the pitch angle</div>
+<div><strong>rollAngle</strong>: the roll angle</div>
 </td> 
 </tr> 
 </table> 
@@ -1310,7 +1422,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Opens an auxiliary console window for text display. This console window is different from the application main console window. Console window handles are shared across all simulator scenes. See also <a href="#simAuxiliaryConsolePrint">sim.auxiliaryConsolePrint</a>, <a href="#simAuxiliaryConsoleClose">sim.auxiliaryConsoleClose</a> and <a href="#simAddStatusbarMessage">sim.addStatusbarMessage</a>.</td>
+<td class=apiTableRightDescr>Opens an auxiliary console window for text display. This console window is different from the application main console window. Console window handles are shared across all simulator scenes. See also <a href="#simAuxiliaryConsolePrint">sim.auxiliaryConsolePrint</a>, <a href="#simAuxiliaryConsoleClose">sim.auxiliaryConsoleClose</a> and <a href="#simAddLog">sim.addLog</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -3165,7 +3277,7 @@ Lua return values
 <br>
 <br>
 <br>
-<h3 class=subsectionBar><a name="simCloseScene" id="simCloseScene"></a>simCloseScene</h3>
+<h3 class=subsectionBar><a name="simCloseScene" id="simCloseScene"></a>simCloseScene / sim.closeScene</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -6091,7 +6203,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a collection handle based on its name. The operation of this function depends on the current name suffix settings (see <a href="#simGetNameSuffix">sim.getNameSuffix</a>, <a href="#simSetNameSuffix">sim.setNameSuffix</a>, and the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>). See also <a href="#simCreateCollection">sim.createCollection</a>, <a href="#simAddObjectToCollection">sim.addObjectToCollection</a>, <a href="#simGetCollectionObjects">sim.getCollectionObjects</a> and <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves a collection handle based on its name. See also the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>, <a href="#simCreateCollection">sim.createCollection</a>, <a href="#simAddObjectToCollection">sim.addObjectToCollection</a>, <a href="#simGetCollectionObjects">sim.getCollectionObjects</a> and <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -6263,7 +6375,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the handle of a collision object. The operation of this function depends on the current name suffix settings (see <a href="#simGetNameSuffix">sim.getNameSuffix</a>, <a href="#simSetNameSuffix">sim.setNameSuffix</a>, and the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>). See also <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves the handle of a collision object. See also the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>, and <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -6825,7 +6937,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the handle of a distance object. The operation of this function depends on the current name suffix settings (see <a href="#simGetNameSuffix">sim.getNameSuffix</a>, <a href="#simSetNameSuffix">sim.setNameSuffix</a>, and the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>). See also <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves the handle of a distance object. See also the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a> and <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -7360,7 +7472,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the handle of an IK group. The operation of this function depends on the current name suffix settings (see <a href="#simGetNameSuffix">sim.getNameSuffix</a>, <a href="#simSetNameSuffix">sim.setNameSuffix</a>, and the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>). See also <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves the handle of an IK group. See also the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>, and <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -8219,7 +8331,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the last generated error message for the calling thread and/or script. By calling this function, the last error message is reset and a subsequent call to this function returns NULL. Errors are memorized on a thread- and/or script basis (e.g. each script have each an individual error handler, so does the C API functions (when the simulation thread and the GUI thread are differentiated)). See also <a href="#simSetLastError">simSetLastError</a>, <a href="#simGetStackTraceback">sim.getStackTraceback</a>, the <a href="apiConstants.htm#integerParameters">sim.intparam_error_report_mode</a> and the <a href="apiConstants.htm#errorReportModes">error report modes</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves the last generated API call error message for a plugin or a script. By calling this function, the last error message is reset and a subsequent call to this function returns NULL or nil. See also <a href="#simSetLastError">simSetLastError</a>, <a href="#simGetStackTraceback">sim.getStackTraceback</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -8246,13 +8358,12 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>string lastError=sim.getLastError()</td> 
+<td class=apiTableRightLSyn>string lastError=sim.getLastError([scriptHandle])</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Same as C-function</div>
-<div></div>
+<div><strong>scriptHandle</strong>: the script handle from which the last error is desired. If omitted, then the calling script's last error will be retrieved and cleared.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -8260,7 +8371,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Same as C-function (but nil instead of NULL, and <a href="#simReleaseBuffer">simReleaseBuffer</a> does not need to be called)</div>
+<div>Same as C-function</div>
 <div></div></td> 
 </tr> 
 
@@ -8584,10 +8695,7 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>moduleName</strong>: the name of the plugin. See <a href="#simGetModuleName">sim.getModuleName</a>.</div>
-<div><strong>infoType</strong>: the type of information to retrieve:</div>
-<div class=tab>0: <em>extended version string</em></div>
-<div class=tab>1: <em>build date string</em></div>
-<div class=tab>2: <em>extended version integer</em></div>
+<div><strong>infoType</strong>: <a href="apiConstants.htm#moduleInfos">the type of information</a> to retrieve</div>
 <div><strong>stringInfo</strong>: a pointer to a string information, in case the information type is for a string. The user is in charge of releasing the string buffer with <a href="#simReleaseBuffer">sim.releaseBuffer</a></div>
 <div><strong>intInfo</strong>: a pointer to an integer information, in case the information type is for an integer.</div>
 </td> 
@@ -8678,67 +8786,6 @@ Lua return values
 </div>
 <div><strong>moduleVersion</strong>: version of the plugin, or nil if moduleName is also nil<br>
 </div>
-<div></div></td> 
-</tr> 
-</table> 
-<br>
-<br>
-<br>
-<h3 class=subsectionBar><a name="simGetNameSuffix" id="simGetNameSuffix"></a>simGetNameSuffix / sim.getNameSuffix </h3>
-<table class=apiTable>
-<tr class=apiTableTr> 
-<td class=apiTableLeftDescr>
-Description 
-</td> 
-<td class=apiTableRightDescr>Returns the name suffix for an object name (e.g. &quot;myRobot#42&quot;'s name suffix is 42), or retrieves the name suffix set for the current script or for c/c++ API calls. See also <a href="#simSetNameSuffix">sim.setNameSuffix</a>, and read the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>.<br></td>
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftCSyn>
-C synopsis
-</td> 
-<td class=apiTableRightCSyn>simInt simGetNameSuffix(const simChar* nameWithSuffix)</td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftCParam>C parameters</td> 
-<td class=apiTableRightCParam>
-<div><strong>nameWithSuffix</strong>: full name (e.g. &quot;myRobot#42&quot;), or NULL to retrieve the name suffix for all c/c++ API calls<br>
-</div>
-<div></div></td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftCRet>
-C return value
-</td> 
-<td class=apiTableRightCRet>
-<div>Name suffix of nameWithSuffix, or current name suffix for c/c++ API calls</div>
-</td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftLSyn>
-Lua synopsis
-</td> 
-<td class=apiTableRightLSyn>
-<div>(1) number nameSuffix,string name=sim.getNameSuffix(string nameWithSuffix): retieves the name suffix of nameWithSuffix<br>
-</div>
-<div>(2) number nameSuffix=sim.getNameSuffix(nil): retrieves the name suffix set for current script<br>
-</div>
-</td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftLParam>Lua parameters</td> 
-<td class=apiTableRightLParam>
-<div></div>
-<div><strong>nameWithSuffix</strong>: full name (e.g. &quot;myRobot#42&quot;)</div>
-<div></div></td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftLRet>
-Lua return values
-</td> 
-<td class=apiTableRightLRet>
-<div></div>
-<div><strong>nameSuffix</strong>: name suffix (e.g. 42) of nameWithSuffix, or name suffix that is set for current script</div>
-<div><strong>name</strong>: name without suffix (e.g. &quot;myRobot&quot;) or nil if the sim.getNameSuffix argument was nil</div>
 <div></div></td> 
 </tr> 
 </table> 
@@ -9049,7 +9096,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves an object handle based on its name. The operation of this function depends on the current name suffix settings (see <a href="#simGetNameSuffix">sim.getNameSuffix</a>, <a href="#simSetNameSuffix">sim.setNameSuffix</a>, and the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>). See also <a href="#simIsHandleValid">sim.isHandleValid</a> and <a href="#simGetObjectUniqueIdentifier">sim.getObjectUniqueIdentifier</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves an object handle based on its name. See also the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>, <a href="#simIsHandleValid">sim.isHandleValid</a> and <a href="#simGetObjectUniqueIdentifier">sim.getObjectUniqueIdentifier</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -9076,12 +9123,12 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number objectHandle=sim.getObjectHandle(string objectName)<br></td> 
+<td class=apiTableRightLSyn>number objectHandle=sim.getObjectHandle(string/number objectName)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Same as C-function<br>
+<div>Same as C-function. The objectName argument can additionally also be <em>sim.handle_self</em>, in order to retrieve the handle of the object associated with the script currently executing.<br>
 </div>
 <div></div></td> 
 </tr> 
@@ -9196,8 +9243,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the matrix. Specify -1 to retrieve the absolute transformation matrix, sim_handle_parent to retrieve the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame we want the transformation matrix.<br>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim_handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the matrix. Specify -1 to retrieve the absolute transformation matrix, sim_handle_parent to retrieve the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame we want the transformation matrix. If this handle is the handle of a joint, then the matrix relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim_handleflag_reljointbaseframe, in which case the matrix relative to the joint's base frame will be returned).<br>
 </div>
 <div><strong>matrix</strong>: pointer to 12 simFloat values (the last row of the 4x4 matrix (0,0,0,1) is not needed)<br>
 </div>
@@ -9226,8 +9273,8 @@ Lua synopsis
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
 <div></div>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the matrix. Specify -1 to retrieve the absolute transformation matrix, sim.handle_parent to retrieve the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame we want the transformation matrix.<br>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next iargument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the matrix. Specify -1 to retrieve the absolute transformation matrix, sim.handle_parent to retrieve the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame we want the transformation matrix.  If this handle is the handle of a joint, then the matrix relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the matrix relative to the joint's base frame will be returned).<br>
 </div>
 <div></div></td> 
 </tr> 
@@ -9336,8 +9383,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify -1 to retrieve the absolute orientation, sim_handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.<br>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify -1 to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.  If this handle is the handle of a joint, then the orientation relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation relative to the joint's base frame will be returned).<br>
 </div>
 <div><strong>eulerAngles</strong>: Euler angles (alpha, beta and gamma)</div>
 <div></div></td> 
@@ -9468,8 +9515,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the position. Specify -1 to retrieve the absolute position, sim_handle_parent to retrieve the position relative to the object's parent, or an object handle relative to whose reference frame we want the position.<br>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the position. Specify -1 to retrieve the absolute position, sim.handle_parent to retrieve the position relative to the object's parent, or an object handle relative to whose reference frame we want the position. If this handle is the handle of a joint, then the position relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the position relative to the joint's base frame will be returned).<br>
 </div>
 <div><strong>position</strong>: pointer to 3 values (x, y and z)<br>
 </div>
@@ -9590,8 +9637,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify -1 to retrieve the absolute orientation, sim_handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.<br>
+<div><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquaternion to retrieve the quaternion as (w,x,y,z) order instead of (x,y,z,w) order. Can also be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify -1 to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.  If this handle is the handle of a joint, then the quaternion relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion relative to the joint's base frame will be returned).<br>
 </div>
 <div><strong>quaternion</strong>: the quaternion (x,y,z,w)</div>
 <div></div></td> 
@@ -10768,7 +10815,7 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>pathHandle</strong>: handle of the path object</div>
-<div><strong>relativeDistance</strong>: a value between 0 and 1, where 0 is the beginning of the path, and 1 the end of the path. Make sure you selected the appropriate <a href="pathPositionCalculationMethod.htm">path length calculation method</a>. See also <a href="#simGetPathLength">simGetPathLength</a>.  In order to retrieve the position that lies exactly on a specific path control point, specify following for <em>relativeDistance</em>: -ctrlPtIndex-1 (the value will be rounded appropriately).<br>
+<div><strong>relativeDistance</strong>: a value between 0 and 1, where 0 is the beginning of the path, and 1 the end of the path. Make sure you selected the appropriate <a href="pathPositionCalculationMethod.htm">path length calculation method</a>. See also <a href="#simGetPathLength">simGetPathLength</a>.  In order to retrieve the position that lies exactly on a specific path control point, specify following for <em>relativeDistance</em>: -ctrlPtIndex-1, where ctrlPtIndex is the zero-based index of the control point.<br>
 </div>
 <div><strong>position</strong>: pointer to 3 values (x, y and z)</div>
 <div></div></td> 
@@ -10793,7 +10840,7 @@ Lua synopsis
 <td class=apiTableRightLParam>
 <div></div>
 <div><strong>pathHandle</strong>: handle of the path object</div>
-<div><strong>relativeDistance</strong>: a value between 0 and 1, where 0 is the beginning of the path, and 1 the end of the path. Make sure you selected the appropriate <a href="pathPositionCalculationMethod.htm">path length calculation method</a>. See also <a href="#simGetPathLength">sim.getPathLength</a>.  In order to retrieve the position that lies exactly on a specific path control point, specify following for <em>relativeDistance</em>: -ctrlPtIndex-1 (the value will be rounded appropriately).<br>
+<div><strong>relativeDistance</strong>: a value between 0 and 1, where 0 is the beginning of the path, and 1 the end of the path. Make sure you selected the appropriate <a href="pathPositionCalculationMethod.htm">path length calculation method</a>. See also <a href="#simGetPathLength">sim.getPathLength</a>.  In order to retrieve the position that lies exactly on a specific path control point, specify following for <em>relativeDistance</em>: -ctrlPtIndex-1, where ctrlPtIndex is the zero-based index of the control point.<br>
 </div>
 <div></div></td> 
 </tr> 
@@ -11456,7 +11503,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the handle of a script. The operation of this function depends on the current name suffix settings (see <a href="#simGetNameSuffix">sim.getNameSuffix</a>, <a href="#simSetNameSuffix">sim.setNameSuffix</a>, and the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>). A script doesn't directly have a name assigned, however the script inherits the name of its associated object, if it has one. See also <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves the handle of a script. A script doesn't directly have a name assigned, however the script inherits the name of its associated object, if it has one. See also the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a> and <a href="#simIsHandleValid">sim.isHandleValid</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -12104,18 +12151,19 @@ C synopsis
 <div><strong>verticesSize</strong>: the size of the vertices array</div>
 <div><strong>indices</strong>: array of indices. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 0.</div>
 <div><strong>indicesSize</strong>: the size of the indices array</div>
-<div><strong>normals</strong>: array of normals, relative to the shape's reference frame. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 0.</div>
+<div><strong>normals</strong>: array of normals, relative to the shape's reference frame. There are 3*indicesSize normals, i.e. 3 normals per triangle. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 0.</div>
 <div><strong>shadingAngle</strong>: the gouraud shading angle</div>
 <div><strong>colors[9]</strong>: array of colors: RGB for ambient-diffuse,  specular, and  emission.</div>
 <div><strong>texture</strong>: the RGBA texture (32bit/pixel). The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 1.</div>
 <div><strong>textureId</strong>: a texture id (to identify textures shared among several shapes)</div>
 <div><strong>textureRes[2]</strong>: the resolution of the texture</div>
-<div><strong>textureCoords</strong>: the texture coordinates. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 1.</div>
+<div><strong>textureCoords</strong>: the texture coordinates. There are 3*indicesSize texture coordinates, i.e. 3 coordinates per triangle. The user is in charge of releasing this buffer with <a href="#simReleaseBuffer">simReleaseBuffer</a> if the return value is &gt; 1.</div>
 <div><strong>textureApplyMode</strong>: 0=modulate, 1=decal, 2=add</div>
 <div><strong>textureOptions</strong>: bit-coded:</div>
 <div class=tab>bit0 set (1): repeat U</div>
 <div class=tab>bit1 set (2): repeat V</div>
 <div class=tab>bit2 set (4): interpolate colors</div>
+<div class=tab>bit3 set (8): wireframe</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -13061,7 +13109,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves and clears the last generated stack traceback for the calling script. See also <a href="#simGetLastError">sim.getLastError</a>.</td>
+<td class=apiTableRightDescr>Retrieves and clears the last generated stack traceback for a script. See also <a href="#simGetLastError">sim.getLastError</a> and <a href="#simGetScriptHandle">sim.getScriptHandle</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -13088,13 +13136,12 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>string stackTraceback=sim.getStackTraceback()</td> 
+<td class=apiTableRightLSyn>string stackTraceback=sim.getStackTraceback([number scriptHandle])</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>-</div>
-<div></div>
+<div><strong>scriptHandle</strong>: the script handle from which the traceback is desired. If omitted, then the calling script's traceback will be retrieved and cleared.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -19543,11 +19590,10 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr><div>Registers a script variable. Each time a script is run for the first time, registered variables will be set. Can also be used for more complex operations as in following example:</div>
+<td class=apiTableRightDescr><div>Registers a script variable. Each time a script is run for the first time, registered variables will be set. The registered variable names will also be used for syntax highlighting and auto-completion purpose in the CoppeliaSim code editor. Can also be used for more complex operations as in following example:</div>
 <div></div>
 <div>simRegisterScriptVariable(&quot;simUi&quot;,&quot;require('customUi')&quot;,0);</div>
 <div>which is equivalent with an implicit simUi=require('customUi') command in the initialization phase of every script.</div>
-<div>The Lua counterpart is just used for syntax highlighting and auto-completion purpose in the CoppeliaSim internal code editor.</div>
 <div>See also <a href="#simRegisterScriptCallbackFunction">simRegisterScriptCallbackFunction</a> and <a href="#simSetScriptVariable">sim.setScriptVariable</a>.</div></td>
 </tr> 
 <tr class=apiTableTr> 
@@ -19576,12 +19622,13 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn><div>number result=sim.registerScriptVariable(string varNameAtPluginName)</div></td> 
+<td class=apiTableRightLSyn><div>number result=sim.registerScriptVariable(string varName [,string varValue])</div></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>varNameAtPluginName</strong>: name of the variable, combined with the plugin name: variableName@pluginName. Avoid using too simple variable names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomVariable</em>) for the variable name. The plugin name should be the exact same name used while loading the plugin via <a href="#simLoadModule">simLoadModule</a> (if the plugin name is <em>simExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).</div>
+<div><strong>varName</strong>: name of the variable.</div>
+<div><strong>varValue</strong>: value of the variable. If omitted, <em>varName</em> will only be used for syntax highlighting and auto-completion purpose in the CoppeliaSim code editor.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -21188,9 +21235,9 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>image</strong>: a pointer to rgb or rgba values.</div>
+<div><strong>image</strong>: a pointer to rgb, rgba or greyscale values.</div>
 <div><strong>resolution</strong>: the x/y resolution of the provided image.</div>
-<div><strong>options</strong>: bit-coded. If bit0 is set (1), then the provided image is rgba, otherwise it is rgb.</div>
+<div><strong>options</strong>: bit-coded. If bit0 and bit1 represent the format of the provided image (0=rgb, 1=rgba, 2=greyscale).</div>
 <div><strong>filename</strong>: the name of the file to write. The file extension indicates the format.</div>
 <div><strong>quality</strong>: the quality of the written image: 0 for best compression, 100 for largest file. Use -1 for default behaviour.</div>
 <div><strong>reserved</strong>: Reserved for future extension. Set to NULL.</div>
@@ -21216,9 +21263,9 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>image</strong>: a pointer to rgb or rgba values.</div>
+<div><strong>image</strong>:  an image a string buffer (in rgb, rgba or greyscale format)</div>
 <div><strong>resolution</strong>: the x/y resolution of the provided image.</div>
-<div><strong>options</strong>: bit-coded. If bit0 is set (1), then the provided image is rgba, otherwise it is rgb.</div>
+<div><strong>options</strong>: bit-coded. If bit0 and bit1 represent the format of the provided image (0=rgb, 1=rgba, 2=greyscale).</div>
 <div><strong>filename</strong>: the name of the file to write. The file extension indicates the format. If the filename only contains '.xxx', where xxx represents the file format, then the image will be saved to memory</div>
 <div><strong>quality</strong>: the quality of the written image: 0 for best compression, 100 for largest file. Use -1 for default behaviour.</div>
 </td> 
@@ -23341,7 +23388,7 @@ Remote API equiv.
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets a custom error or warning message. This function is useful for plugins which wish to generate custom error/warning messages that will be displayed in the calling script. Errors/warnings are set and memorized on a thread-basis (e.g. threads originating from threaded scripts have each an individual error handler). See also <a href="#simGetLastError">sim.getLastError</a>, the sim.intparam_error_report_mode and the <a href="apiConstants.htm#errorReportModes">error report modes</a>.</td>
+<td class=apiTableRightDescr>Sets a custom error message and possibly raises a script error, if a callback to a plugin is underway. See also <a href="#simGetLastError">sim.getLastError</a></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -23352,8 +23399,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>funcName</strong>: name of the function where the error originated. If funcName starts with &quot;warning@&quot;, then a warning messages will be registered instead.</div>
-<div><strong>errorMessage</strong>: error or warning message</div>
+<div><strong>funcName</strong>: name of the function where the error originated. .</div>
+<div><strong>errorMessage</strong>: error message</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -23585,10 +23632,7 @@ C synopsis
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>moduleName</strong>: the name of the plugin.</div>
-<div><strong>infoType</strong>: the type of information to set:</div>
-<div class=tab>0: <em>extended version string</em></div>
-<div class=tab>1: <em>build date string</em></div>
-<div class=tab>2: <em>extended version integer</em></div>
+<div><strong>infoType</strong>: <a href="apiConstants.htm#moduleInfos">the type of information</a> to set</div>
 <div><strong>stringInfo</strong>: a string information value, in case the information type is for a string.</div>
 <div><strong>intInfo</strong>: an integer information value, in case the information type is for an integer.</div>
 </td> 
@@ -23605,12 +23649,12 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>-</td> 
+<td class=apiTableRightLSyn>sim.setModuleInfo(string moduleName,number infoType,string/number info)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>-</div>
+<div>similar to the C-function</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -23674,74 +23718,6 @@ Lua return values
 </td> 
 <td class=apiTableRightLRet>
 <div>-</div>
-<div></div></td> 
-</tr> 
-</table> 
-<br>
-<br>
-<br>
-<h3 class=subsectionBar><a name="simSetNameSuffix" id="simSetNameSuffix"></a>simSetNameSuffix / sim.setNameSuffix </h3>
-<table class=apiTable>
-<tr class=apiTableTr> 
-<td class=apiTableLeftDescr>
-Description 
-</td> 
-<td class=apiTableRightDescr>
-<div>Sets the name suffix adjustment number (for detailed information on this, read also the section on <a href="accessingGeneralObjects.htm">accessing general-type objects</a>). In CoppeliaSim, all objects are identified by a name and a handle. When an object (scene object or general-type object) is copied at the same time as a child script, the newly created object's name will become &quot;oldName#0&quot;, should the same object be pasted another time, the next name will be &quot;oldName#1&quot;, etc. <br>
-</div>
-<br> 
-<div>From within a child script, retrieving object handles is performed by automatically appending a name suffix to the object name (each script gets initialized with the name suffix number of the object it is attached to). This allows to copy-paste objects and scripts without having to manually adjust the scripts (the scripts will automatically know which object they have to access based on the set name suffix). From within a script, most of the time you won't need to set the name suffix, but in some special cases you might want to temporarily disable it (e.g. &quot;myChildScript#42&quot; (which has its name suffix automatically set to 42) copied itself together with its attached robot (&quot;myRobot#42&quot;) and now from within &quot;myChildScript#42&quot; you want to shift &quot;myRobot#43&quot; to avoid collision. In that case set the name suffix to 43, shift &quot;myRobot&quot; (retrieve its handle with <a href="#simGetObjectHandle">sim.getObjectHandle</a>(&quot;myRobot&quot;) then set the suffix back to 42). From within a script, the <a href="#simSetNameSuffix">sim.setNameSuffix</a> command is influencing only current script.<br>
-</div>
-<br> 
-<div>When accessing the API from outside of a script however, the name adjustment mechanism needs to be adjusted manually (make sure you reset the name suffix to its initial state after you are done retrieving handles). Imagine you have one robot in your scene that is named &quot;robot&quot;. You can access the robot from a C/C++ application with <a href="#simGetObjectHandle">sim.getObjectHandle</a>(&quot;robot&quot;). If the robot is duplicated, the second robot's name will be &quot;robot#0&quot;, the third will be &quot;robot#1&quot;, etc. From within you C/C++ application you can now access all robots with the same code, you just need to adjust the name suffix number. E.g. <a href="#simSetNameSuffix">sim.setNameSuffix</a>(42), then <a href="#simGetObjectHandle">sim.getObjectHandle</a>(&quot;robot&quot;) will retrieve the handle of &quot;robot#42&quot;. Once you are done accessing objects, reset the name suffix number to -1 (<a href="#simSetNameSuffix">sim.setNameSuffix</a>(-1)).<br>
-</div>
-<br> 
-<div>Setting the name suffix to -1 disables the name adjustment mechanism (default when accessing the API from outside of a script)<br>
-</div>
-<br> 
-<div>See also the <a href="#simGetNameSuffix">sim.getNameSuffix</a> function.<br>
-</div>
-</td>
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftCSyn>
-C synopsis
-</td> 
-<td class=apiTableRightCSyn>simInt simSetNameSuffix(simInt nameSuffixNumber)<br></td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftCParam>C parameters</td> 
-<td class=apiTableRightCParam>
-<div><strong>nameSuffixNumber</strong>: a number starting from -1 (-1 is for no suffix, 0 is for the 0 suffix, etc.)</div>
-<div></div></td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftCRet>
-C return value
-</td> 
-<td class=apiTableRightCRet>
-<div>-1 if operation was not successful. In a future release, a more differentiated return value might be available<br>
-</div>
-</td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftLSyn>
-Lua synopsis
-</td> 
-<td class=apiTableRightLSyn>number result sim.setNameSuffix(number nameSuffixNumber)<br></td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftLParam>Lua parameters</td> 
-<td class=apiTableRightLParam>
-<div>Same as C-function</div>
-<div></div></td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftLRet>
-Lua return values
-</td> 
-<td class=apiTableRightLRet>
-<div>Same as C-function</div>
 <div></div></td> 
 </tr> 
 </table> 
@@ -24007,8 +23983,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the matrix is specified. Specify -1 to set the absolute transformation matrix, sim_handle_parent to set the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame the transformation matrix is specified.<br>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the matrix is specified. Specify -1 to set the absolute transformation matrix, sim.handle_parent to set the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame the transformation matrix is specified. If this handle is the handle of a joint, then the matrix is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the matrix is applied relative to the joint's base frame).<br>
 </div>
 <div><strong>matrix</strong>: pointer to 12 simFloat values (the last row of the 4x4 matrix (0,0,0,1) is not needed)</div>
 <div class=tab>The x-axis of the orientation component is (matrix[0],matrix[4],matrix[8])</div>
@@ -24132,8 +24108,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify -1 to set the absolute orientation, sim_handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified.<br>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify -1 to set the absolute orientation, sim_handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified.  If this handle is the handle of a joint, then the orientation is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation is applied relative to the joint's base frame).<br>
 </div>
 <div><strong>eulerAngles</strong>: Euler angles (alpha, beta and gamma)</div>
 <div></div></td> 
@@ -24264,8 +24240,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify -1 to set the absolute position, sim_handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified.<br>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify -1 to set the absolute position, sim_handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified.  If this handle is the handle of a joint, then the position is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the position is applied relative to the joint's base frame).<br>
 </div>
 <div><strong>position</strong>: coordinates of the object (x, y and z)</div>
 <div></div></td> 
@@ -24385,8 +24361,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify -1 to set the absolute orientation, sim_handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified.<br>
+<div><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquaternion to provide the quaternion as (w,x,y,z) order instead of (x,y,z,w) order. Can also be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify -1 to set the absolute orientation, sim_handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified.  If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame).<br>
 </div>
 <div><strong>quaternion</strong>: the quaternion (x,y,z,w)</div>
 <div></div></td> 
@@ -27947,6 +27923,62 @@ Lua return values
 <td class=apiTableRightLRet>
 <div>Same as C-function</div>
 <div></div></td> 
+</tr> 
+</table> 
+<br>
+<br>
+<br>
+<h3 class=subsectionBar><a name="simYawPitchRollToAlphaBetaGamma" id="simYawPitchRollToAlphaBetaGamma"></a>sim.yawPitchRollToAlphaBetaGamma</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Converts Yaw-Pitch-Roll angles to CoppeliaSim's alpha-beta-gamma angles. See <a href="eulerAngles.htm">here</a> for more details. See also <a href="#simAlphaBetaGammaToYawPitchRoll">sim.alphaBetaGammaToYawPitchRoll</a></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>-</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>number alphaAngle,number betaAngle,number gammaAngle = sim.yawPitchRollToAlphaBetaGamma(number yawAngle,number pitchAngle,number rollAngle)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>yawAngle</strong>: the yaw angle</div>
+<div><strong>pitchAngle</strong>: the pitch angle</div>
+<div><strong>rollAngle</strong>: the roll angle</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>alphaAngle</strong>: the alpha angle</div>
+<div><strong>betaAngle</strong>: the beta angle</div>
+<div><strong>gammaAngle</strong>: the gamma angle</div>
+</td> 
 </tr> 
 </table> 
 <br>

@@ -105,7 +105,11 @@ while (simxGetConnectionId(clientID)!=-1) // while we are connected to the serve
 
 // Streaming operation is enabled/disabled individually for each command and
 // object(s) the command applies to. In above case, only the joint position of
-// the joint with handle <em>jointHandle</em> will be streamed.</pre>
+// the joint with handle <em>jointHandle</em> will be streamed.
+
+// Before disconnecting from CoppeliaSim, make sure to disable the streamings you previously enabled:
+simxGetJointPosition(clientID,jointHandle,&jointPosition,simx_opmode_discontinue);
+simxGetPingTime(clientID,&pingTime); // needed to insure that above reaches CoppeliaSim before disconnection</pre>
 
 <p>Following diagram illustrates data streaming:</p>
 <p align=center><img src="images/remoteApiDataStreaming.jpg"></p>

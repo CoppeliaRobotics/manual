@@ -45,9 +45,8 @@
 </td></tr></table> 
 
 
-<p>Non-threaded child scripts contain a collection of blocking functions. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole <a href="simulation.htm">simulation</a> halts. Non-threaded child script functions are called by the <a href="mainScript.htm">main script</a> twice per simulation step from the main script's actuation and sensing functions. The system will also call child scripts when appropriate (e.g. during child script initialization, clean-up, or when a <a href="callbackFunctions.htm">callback function</a> is triggered). This type of child script should always be chosen over <a href="#threaded">threaded child scripts</a> whenever possible.</p>
-<p>Non-threaded child scripts follow a <a href="scriptExecution.htm">precise calling or execution order</a>: by default, child scripts are called starting with leaf objects (or childless objects), and ending with root objects (or parentless objects). The command <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, called from the default <a href="mainScript.htm">main script</a>, handles the calling of non-threaded child scripts.</p>
-<p>Imagine an example of a simulation model representing an automatic door: a proximity sensor in the front and the back allows detecting an approaching person. When the person is close enough, the door opens automatically. Following code shows a typical non-threaded child script  illustrating above example:<br>
+<p>Non-threaded child scripts should contain a collection of system callback functions. Those should not be blocking. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole <a href="simulation.htm">simulation</a> halts. Non-threaded child script functions are called by the <a href="mainScript.htm">main script</a> at least twice per simulation step from the main script's actuation and sensing functions. The system will also call other system callback functions where appropriate (e.g. during child script initialization, clean-up, etc). Non-threaded child scripts should always be chosen over <a href="#threaded">threaded child scripts</a> whenever possible.</p>
+<p>Non-threaded child scripts follow a <a href="scriptExecution.htm">precise calling or execution order</a>: by default, child scripts are called starting with leaf objects (or childless objects), and ending with root objects (or parentless objects). The command <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, called from the default <a href="mainScript.htm">main script</a>, handles the most important system callback functions: imagine an example of a simulation model representing an automatic door: a proximity sensor in the front and the back allows detecting an approaching person. When the person is close enough, the door opens automatically. Following code shows a typical non-threaded child script  illustrating above example:<br>
 </p>
 
 <a name="nonThreadedChildScriptExample"></a>
@@ -66,10 +65,36 @@ function <strong>sysCall_actuation</strong>()
     else
         sim.setJointTargetVelocity(motorHandle,0.2)
     end
+end</pre>
+
+<p>
+A non-threaded child script tyically is segmented into a collection of system callback functions, the most important ones are:
+</p>
+
+<li><strong>the initialization function</strong>: <strong>sysCall_init</strong>. This system callback function is the only one that is not optional. It will be executed just one time (the first time the child script is called). This can be at the beginning of a simulation, but also in the middle of a simulation: remember that objects associated with child scripts can be copy/pasted into a <a href="scenes.htm">scene</a> at any time, also when a simulation is running. Usually you would put some initialization code as well as handle retrieval in this part.<br>
+</li>
+
+<li><strong>the actuation function</strong>: <strong>sysCall_actuation</strong>. This part will be executed in each simulation step, during the actuation phase of a simulation step. Refer to the <a href="mainScript.htm">main script</a> default code for more details about the actuation phase, but typically, you would do some actuation in this part (no sensing).<br>
+</li>
+
+<li><strong>the sensing function</strong>: <strong>sysCall_sensing</strong>. This part will be executed in each simulation step, during the sensing phase of a simulation step. Refer to the <a href="mainScript.htm">main script</a> default code for more details about the sensing phase, but typically, you would only do sensing in this part (no actuation).<br>
+</li>
+
+
+<li><strong>the restoration function</strong>: <strong>sysCall_cleanup</strong>. This part will be executed one time just before a simulation ends, or before the script is destroyed. </li>
+
+<p>There are however many more system callback functions a non-threaded child script can use to react to various events:</p>
+<pre class=lightRedBox>
+function <strong>sysCall_init</strong>() -- not optional!!
+    -- Put some initialization code here
+end
+
+function <strong>sysCall_actuation</strong>()
+    -- Put some actuation code here
 end
 
 function <strong>sysCall_sensing</strong>()
-
+    -- Put some sensing code here
 end
 
 function <strong>sysCall_cleanup</strong>()
@@ -77,16 +102,26 @@ function <strong>sysCall_cleanup</strong>()
 end
 
 function <strong>sysCall_dynCallback</strong>(inData)
-    -- See the dynamics callback function section in the user manual for details about the input argument
+    -- See the <a href="dynCallbackFunctions.htm">dynamics callback function</a> section in the user manual for details about the input argument
 end
 
 function <strong>sysCall_jointCallback</strong>(inData)
-    -- See the joint callback function section in the user manual for details about input/output arguments
+    -- See the <a href="jointCallbackFunctions.htm">joint callback function</a> section in the user manual for details about input/output arguments
     return outData
 end
 
 function <strong>sysCall_contactCallback</strong>(inData)
-    -- See the contact callback function section in the user manual for details about input/output arguments
+    -- See the <a href="contactCallbackFunction.htm">contact callback function</a> section in the user manual for details about input/output arguments
+    return outData
+end
+
+function <strong>sysCall_vision</strong>(inData)
+    -- See the <a href="visionCallbackFunctions.htm">vision callback function</a> section in the user manual for details about input/output arguments
+    return outData
+end
+
+function <strong>sysCall_trigger</strong>(inData)
+    -- See the <a href="triggerCallbackFunctions.htm">trigger callback function</a> section in the user manual for details about input/output arguments
     return outData
 end
 
@@ -102,6 +137,12 @@ function <strong>sysCall_afterCopy</strong>(inData)
     end
 end
 
+function <strong>sysCall_afterCreate</strong>(inData)
+    for key,value in pairs(inData.objectHandles) do
+        print("Object with handle "..value.." was created")
+    end
+end
+
 function <strong>sysCall_beforeDelete</strong>(inData)
     for key,value in pairs(inData.objectHandles) do
         print("Object with handle "..key.." will be deleted")
@@ -114,23 +155,19 @@ function <strong>sysCall_afterDelete</strong>(inData)
         print("Object with handle "..key.." was deleted")
     end
     -- inData.allObjects indicates if all objects in the scene were deleted
+end
+
+function <strong>sysCall_suspend</strong>()
+    -- Simulation is about to be suspended
+end
+
+function <strong>sysCall_suspended</strong>()
+    -- Simulation is suspended
+end
+
+function <strong>sysCall_resume</strong>()
+    -- Simulation is about to be resumed
 end</pre>
-
-<p>
-A non-threaded child script should be segmented into 4 main functions:
-</p>
-
-<li><strong>the initialization function</strong>: <strong>sysCall_init</strong>. This part will be executed just one time (the first time the child script is called). This can be at the beginning of a simulation, but also in the middle of a simulation: remember that objects associated with child scripts can be copy/pasted into a <a href="scenes.htm">scene</a> at any time, also when a simulation is running. Usually you would put some initialization code as well as handle retrieval in this part.<br>
-</li>
-
-<li><strong>the actuation function</strong>: <strong>sysCall_actuation</strong>. This part will be executed in each simulation step, during the actuation phase of a simulation step. Refer to the <a href="mainScript.htm">main script</a> default code for more details about the actuation phase, but typically, you would do some actuation in this part (no sensing).<br>
-</li>
-
-<li><strong>the sensing function</strong>: <strong>sysCall_sensing</strong>. This part will be executed in each simulation step, during the sensing phase of a simulation step. Refer to the <a href="mainScript.htm">main script</a> default code for more details about the sensing phase, but typically, you would only do sensing in this part (no actuation).<br>
-</li>
-
-
-<li><strong>the restoration function</strong>: <strong>sysCall_cleanup</strong>. This part will be executed one time just before a simulation ends, or before the script is destroyed. </li>
 
 <br>
 <br>
@@ -180,17 +217,17 @@ function <strong>sysCall_cleanup</strong>()
 	-- Put some clean-up code here:
 end</pre>
 
-<p>Threaded child scripts should be segmented in 2 parts:<br>
+<p>A threaded child script typically is segmented into a collection of system callback functions, the main ones being:<br>
 </p>
 
 
-<li><strong>the main part</strong>: this part will be executed when the thread starts, until shortly before the thread ends. This can be at the beginning of a simulation, but also in the middle of a simulation: remember that objects associated with child scripts can be copy/pasted into a scene at any time, also when a simulation is running. Usually you would put some initialization code as well as the main loop in this part: the code in the loop is in charge of handling a specific part of a simulation (e.g. handle the automatic sliding door). In above specific example, the loop is wasting precious computation time and is running asynchronously with the main simulation loop. See further down for a better example.<br>
+<li><strong>the main function: sysCall_threadmain</strong>: this system callback function is the only one that is not optional. It will be executed when the thread starts, until shortly before the thread ends. This can be at the beginning of a simulation, but also in the middle of a simulation: remember that objects associated with child scripts can be copy/pasted into a scene at any time, also when a simulation is running. Usually you would put some initialization code as well as the main loop in this part: the code in the loop is in charge of handling a specific part of a simulation (e.g. handle the automatic sliding door). In above specific example, the loop is wasting precious computation time and is running asynchronously with the main simulation loop. See further down for a better example.<br>
 </li>
 
-<li><strong>the restoration part</strong>: this part will be executed one time just before a simulation ends, or before the thread ends. <br>
+<li><strong>the restoration function: sysCall_cleanup</strong>: this part will be executed one time just before a simulation ends, or before the thread ends. <br>
 </li>
 
-<p>CoppeliaSim uses threads to mimic the behavior of coroutines, instead of using them <em>traditionally</em>, which allows for a great deal of flexibility and control: by default a threaded child script will execute for about 1-2 milliseconds before automatically switching to another thread. This default behavior can be changed with the <a href="regularApi/simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a> or <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>. Once the current thread was switched, it will resume execution in next simulation pass (i.e. at a time currentTime+simulationTimeStep). The thread switching is automatic (occurs after the specified time), but the <a href="regularApi/simSwitchThread.htm">sim.switchThread</a> command allows to shorten that time when needed. Using above three commands, an excellent synchronization with the main simulation loop can be achieved. Following code (handling the automatic sliding doors from above's example) shows child script synchronization with the main simulation loop:<br>
+<p>CoppeliaSim uses threads to mimic the behavior of coroutines, instead of using them <em>traditionally</em>, which allows for a great deal of flexibility and control: by default a threaded child script will execute for about 1-2 milliseconds before automatically switching to another thread. This default behavior can be changed with the <a href="regularApi/simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a> or <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>. Once the current thread was switched, it will resume execution in next simulation pass (i.e. at a time currentTime+simulationTimeStep). The thread switching is automatic (occurs after the specified time), but the <a href="regularApi/simSwitchThread.htm">sim.switchThread</a> command allows to shorten that time when needed. Using above three commands, a perfect synchronization with the main simulation loop can be achieved. Following code (handling the automatic sliding doors from above's example) shows child script synchronization with the main simulation loop:<br>
 </p>
 
 <pre class=lightRedBox>
@@ -234,9 +271,28 @@ print(http.request("http://www.google.com")) -- this command may take several se
 
 <strong>sim.setThreadIsFree</strong>(false) -- End of the non-blocking section</pre>
 
-<p>While in a non-blocking section, try to avoid calling sim-functions. Never forget to close the blocking section otherwise CoppeliaSim might hang or run much slowlier. Also refer to the <a href="apiFunctionListCategory.htm#threadRelatedFunctionality">thread-related functions</a> and to the <a href="apiFunctionListCategory.htm#blockingFunctions">blocking functions</a> for more details on thread operation in CoppeliaSim.</p>
-<p>Some operation should not be interrupted in order to execute correctly (imagine moving several objects in a loop). In that case, you can temporarily forbid thread switches with the <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a> function.<br>
-</p>
+<p>While in a non-blocking section, avoid at all cost calling sim-functions. Never forget to close the blocking section otherwise CoppeliaSim might hang or run much slowlier. Also refer to the <a href="apiFunctionListCategory.htm#threadRelatedFunctionality">thread-related functions</a> and to the <a href="apiFunctionListCategory.htm#blockingFunctions">blocking functions</a> for more details on thread operation in CoppeliaSim.</p>
+<p>Some operation should not be interrupted in order to execute correctly (imagine moving several objects in a loop). In that case, you can temporarily forbid thread switches with the <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a> function.</p>
+
+<p>There are a few other system callback functions a threaded child script can use to react to various events:</p>
+<pre class=lightRedBox>
+function <strong>sysCall_threadmain</strong>() -- not optional!!
+    -- Initialization and main loop
+end
+
+function <strong>sysCall_cleanup</strong>()
+    -- Put some restoration code here
+end
+
+function <strong>sysCall_vision</strong>(inData)
+    -- See the <a href="visionCallbackFunctions.htm">vision callback function</a> section in the user manual for details about input/output arguments
+    return outData
+end
+
+function <strong>sysCall_trigger</strong>(inData)
+    -- See the <a href="triggerCallbackFunctions.htm">trigger callback function</a> section in the user manual for details about input/output arguments
+    return outData
+end</pre>
 
 
 

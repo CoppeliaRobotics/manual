@@ -33,8 +33,8 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify -1 to retrieve the absolute orientation, sim_handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.<br>
+<div><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquaternion to retrieve the quaternion as (w,x,y,z) order instead of (x,y,z,w) order. Can also be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify -1 to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.  If this handle is the handle of a joint, then the quaternion relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion relative to the joint's base frame will be returned).<br>
 </div>
 <div><strong>quaternion</strong>: the quaternion (x,y,z,w)</div>
 <div></div></td> 

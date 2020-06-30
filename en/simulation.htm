@@ -112,21 +112,6 @@ void deinitializationCallback<br>{<br>    // do some clean-up here
 
 <br>
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="threadedRendering"></a>Threaded rendering
-</td></tr></table> 
-
-
-<p>The rendering operation will always increase the simulation cycle duration, thus also slowing down simulation speed. The number of main script executions per scene rendering can be defined (see further up), but this is not enough in some situations, because rendering will still slow down every xth simulation cycle (which can be handicapping with real-time requirements). For those situations, a threaded rendering mode can be activated via the <a href="settings.htm">user settings</a>, or via the following toolbar button:</p>
-
-<p align=center><img src="images/threadedRenderingButton.jpg"></p>
-<p class=imageLabel>[Threaded rendering toolbar button]</p>
-
-<p>When the threaded rendering mode is activated, a simulation cycle will only consist in execution of the <a href="mainScript.htm">main script</a>, thus simulations will run at maximum speed. Rendering will happen  via a different thread, and not slow down the simulation task. The drawbacks have however to be considered. When threaded rendering is activated, then:</p>
-<li>Rendering will happen asynchronously to the simulation loop, and visual glitches might appear</li>
-<li>The <a href="aviRecorder.htm">video recorder</a> will not operate at constant speed (some frames might get skipped)</li>
-<li>The stability of the application might be reduced</li>
-<li>Some operations (e.g. erasing an object, etc.) require to wait for the rendering thread to finish work, before being able to execute, and vice-versa. In those situations, cycles could take more time than in the sequential rendering mode.</li>
 
 
 

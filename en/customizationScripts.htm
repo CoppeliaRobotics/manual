@@ -40,9 +40,9 @@
 
 
 
-<p>Customization scripts contain a collection of blocking functions. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole application halts. Customization script functions are called by the system very often, but also by the <a href="mainScript.htm">main script</a>, by following a <a href="scriptExecution.htm">precise execution order</a>. <a href="callbackFunctions.htm">Callback functions</a> are also supported by customization scripts. </p>
+<p>Customization scripts should contain a collection of system callback functions. Those should not be blocking. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole application halts. Customization script functions are called by the system very often, but also by the <a href="mainScript.htm">main script</a>, by following a <a href="scriptExecution.htm">precise execution order</a>. <a href="callbackFunctions.htm">Callback functions</a> are also supported by customization scripts. </p>
 
-<p>A customization script should be segmented in several functions, as following skeleton script illustrates: </p>
+<p>A customization script should be segmented in several system callback functions, as following skeleton script illustrates: </p>
 
 
 <pre class=lightRedBox>
@@ -50,7 +50,7 @@
 -- various ways, mainly when simulation is not running. When simulation is running,
 -- do not use customization scripts, but rather child scripts if possible
 
-function <strong>sysCall_init</strong>()
+function <strong>sysCall_init</strong>() -- not optional!
     -- do some initialization here
 end
 
@@ -64,47 +64,70 @@ end
 
 -- You can define additional system calls here:
 function <strong>sysCall_beforeSimulation</strong>()
+    -- Simulation is about to start
 end
 
 function <strong>sysCall_actuation</strong>()
+    -- put some actuation code here.
 end
 
 function <strong>sysCall_sensing</strong>()
+    -- put some sensing code here.
 end
 
 function <strong>sysCall_suspend</strong>()
+    -- Simulation is about to be suspended
 end
 
 function <strong>sysCall_suspended</strong>()
+    -- Simulation is suspended
 end
 
 function <strong>sysCall_resume</strong>()
+    -- Simulation is about to resume
 end
 
 function <strong>sysCall_afterSimulation</strong>()
+    -- Simulation has just ended
 end
 
 function <strong>sysCall_beforeInstanceSwitch</strong>()
+    -- About to switch to another scene
 end
 
 function <strong>sysCall_afterInstanceSwitch</strong>()
+    -- Switched to another scene
 end
 
 function <strong>sysCall_userConfig</strong>()
 end
 
 function <strong>sysCall_dynCallback</strong>(inData)
-    -- See the dynamics callback function section in the user manual for details about the input argument
+    -- See the <a href="dynCallbackFunctions.htm">dynamics callback function</a> section in the user manual for details about the input argument
 end
 
 function <strong>sysCall_jointCallback</strong>(inData)
-    -- See the joint callback function section in the user manual for details about input/output arguments
+    -- See the <a href="jointCallbackFunctions.htm">joint callback function</a> section in the user manual for details about input/output arguments
     return outData
 end
 
 function <strong>sysCall_contactCallback</strong>(inData)
-    -- See the contact callback function section in the user manual for details about input/output arguments
+    -- See the <a href="contactCallbackFunction.htm">contact callback function</a> section in the user manual for details about input/output arguments
     return outData
+end
+
+function <strong>sysCall_vision</strong>(inData)
+    -- See the <a href="visionCallbackFunctions.htm">vision callback function</a> section in the user manual for details about input/output arguments
+    return outData
+end
+
+function <strong>sysCall_trigger</strong>(inData)
+    -- See the <a href="triggerCallbackFunctions.htm">trigger callback function</a> section in the user manual for details about input/output arguments
+    return outData
+end
+
+function <strong>sysCall_userConfig</strong>()
+    -- See the <a href="userConfigCallbackFunctions.htm">user config callback function</a> section in the user manual for details
 end
 
 function <strong>sysCall_beforeCopy</strong>(inData)
@@ -116,6 +139,12 @@ end
 function <strong>sysCall_afterCopy</strong>(inData)
     for key,value in pairs(inData.objectHandles) do
         print("Object with handle "..key.." was copied")
+    end
+end
+
+function <strong>sysCall_afterCreate</strong>(inData)
+    for key,value in pairs(inData.objectHandles) do
+        print("Object with handle "..value.." was created")
     end
 end
 
@@ -137,12 +166,6 @@ end
     -- Can be used to step a simulation in a custom manner.
     local outData={doNotRunMainScript=false} -- when true, then the main script won't be executed
     return outData
-end
-
-function <strong>sysCall_afterCreate</strong>(inData)
-    for i=1,#inData.objectHandles,1 do
-        print("Object with handle "..inData.objectHandles[i].." was created")
-    end
 end</pre>
 
 <p>If possible, do not use customization scripts to run simulation code, which is anyway best handled via <a href="childScripts.htm">child scripts</a>.</p>

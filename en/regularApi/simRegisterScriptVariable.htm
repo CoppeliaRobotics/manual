@@ -22,11 +22,10 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr><div>Registers a script variable. Each time a script is run for the first time, registered variables will be set. Can also be used for more complex operations as in following example:</div>
+<td class=apiTableRightDescr><div>Registers a script variable. Each time a script is run for the first time, registered variables will be set. The registered variable names will also be used for syntax highlighting and auto-completion purpose in the CoppeliaSim code editor. Can also be used for more complex operations as in following example:</div>
 <div></div>
 <div>simRegisterScriptVariable(&quot;simUi&quot;,&quot;require('customUi')&quot;,0);</div>
 <div>which is equivalent with an implicit simUi=require('customUi') command in the initialization phase of every script.</div>
-<div>The Lua counterpart is just used for syntax highlighting and auto-completion purpose in the CoppeliaSim internal code editor.</div>
 <div>See also <a href="simRegisterScriptCallbackFunction.htm">simRegisterScriptCallbackFunction</a> and <a href="simSetScriptVariable.htm">sim.setScriptVariable</a>.</div></td>
 </tr> 
 <tr class=apiTableTr> 
@@ -55,12 +54,13 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn><div>number result=sim.registerScriptVariable(string varNameAtPluginName)</div></td> 
+<td class=apiTableRightLSyn><div>number result=sim.registerScriptVariable(string varName [,string varValue])</div></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>varNameAtPluginName</strong>: name of the variable, combined with the plugin name: variableName@pluginName. Avoid using too simple variable names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomVariable</em>) for the variable name. The plugin name should be the exact same name used while loading the plugin via <a href="simLoadModule.htm">simLoadModule</a> (if the plugin name is <em>simExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).</div>
+<div><strong>varName</strong>: name of the variable.</div>
+<div><strong>varValue</strong>: value of the variable. If omitted, <em>varName</em> will only be used for syntax highlighting and auto-completion purpose in the CoppeliaSim code editor.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 

@@ -138,9 +138,6 @@ See also the <a href="regularApi/simGetObjectProperty.htm">sim.getObjectProperty
 ><div class="sim.objectspecialproperty_detectable_all">sim.objectspecialproperty_detectable_all</div
 ><div class="sim.objectspecialproperty_renderable">sim.objectspecialproperty_renderable</div
 >
-<!--
-<div class="sim.objectspecialproperty_cuttable">sim.objectspecialproperty_cuttable</div>
--->
 <br>
 See also the <a href="regularApi/simGetObjectSpecialProperty.htm">sim.getObjectSpecialProperty</a> and <a href="regularApi/simSetObjectSpecialProperty.htm">sim.setObjectSpecialProperty</a> functions. </td>
 </tr>
@@ -592,23 +589,6 @@ See also the <a href="#scriptAttributes">script attributes</a>. </td>
 
 
 
-<div class="constantsGroup"><h3 class=subsectionBar><a name="errorReportModes"></a>API error message report modes (can be bit-combined)</h3>
-<table class=apiConstantsTable >
-<tr>
-<td>
-<div class="sim.api_error_report">sim.api_error_report</div
-><div class=tab>Errors messages can be fetched with <a href="regularApi/simGetLastError.htm">sim.getLastError</a>.</div>
-<div class="sim.api_error_output">sim.api_error_output</div
-><div class=tab>Errors messages are output (to the console or to the status bar) and can also be fetched with <a href="regularApi/simGetLastError.htm">sim.getLastError</a>.</div>
-<div class="sim.api_warning_output">sim.api_warning_output</div
-><div class=tab>Warning messages are output (to the console or to the status bar).</div>
-<br>
-See also the <a href="apiConstants.htm#integerParameters">sim.intparam_error_report_mode</a> constant,  the <a href="regularApi/simGetInt32Parameter.htm">sim.getInt32Parameter</a>,  <a href="regularApi/simSetInt32Parameter.htm">sim.setInt32Parameter</a> and <a href="regularApi/simGetLastError.htm">sim.getLastError</a> functions. </td>
-</tr>
-</table></div>
-<br>
-
-
 <div class="constantsGroup"><h3 class=subsectionBar><a name="specialArgumentValues"></a>Special argument values</h3>
 <table class=apiConstantsTable >
 <tr>
@@ -653,6 +633,8 @@ See also the <a href="apiConstants.htm#integerParameters">sim.intparam_error_rep
 <div class="sim.handleflag_resettorque">sim.handleflag_resettorque</div>
 <div class="sim.handleflag_absolutecoords">sim.handleflag_absolutecoords</div>
 <div class="sim.handleflag_relativecoords">sim.handleflag_relativecoords</div>
+<div class="sim.handleflag_wxyzquaternion">sim.handleflag_wxyzquaternion</div>
+<div class="sim.handleflag_reljointbaseframe">sim.handleflag_reljointbaseframe</div>
 </td>
 </tr>
 </table></div>
@@ -943,8 +925,6 @@ See also the <a href="regularApi/simGetBoolParameter.htm">sim.getBoolParameter</
 <table class=apiConstantsTable >
 <tr>
 <td>
-<div class="sim.intparam_error_report_mode">sim.intparam_error_report_mode</div>
-<div class=tab>An <a href="#errorReportModes">error report mode</a>. The error report mode will be valid for the current thread and/or script, i.e. each script has its own error handler, so does the C API functions (where the simulation thread and GUI thread are differentiated). See also <a href="regularApi/simGetLastError.htm">sim.getLastError</a>.</div>
 <div class="sim.intparam_program_version">sim.intparam_program_version</div>
 <div class=tab>e.g Version 2.1.4 --> 20104. Can only be read. See also sim.intparam_program_revision and sim.intparam_program_full_version.</div>
 <div class="sim.intparam_program_revision">sim.intparam_program_revision</div>
@@ -1053,6 +1033,12 @@ See also the <a href="regularApi/simGetBoolParameter.htm">sim.getBoolParameter</
 <div class=tab>Can only be read/written when simulation is not stopped.</div>
 <div class="sim.intparam_dynamic_iteration_count">sim.intparam_dynamic_iteration_count</div>
 <div class=tab>The number of calculation iterations of the currently selected physics engine. Can only be written when using a <a href="dynamicsEngineDialog.htm">customized configuration for the physics engine</a>, and when simulation is stopped.</div>
+<div class="sim.intparam_verbosity">sim.intparam_verbosity</div>
+<div class=tab>the console <a href="#verbosity">verbosity level</a>.</div>
+<div class="sim.intparam_statusbarverbosity">sim.intparam_statusbarverbosity</div>
+<div class=tab>the status bar <a href="#verbosity">verbosity level</a>.</div>
+<div class="sim.intparam_dlgverbosity">sim.intparam_dlgverbosity</div>
+<div class=tab>the <a href="#verbosity">verbosity level</a> of simple dialogs.</div>
 
 
 <br>
@@ -1144,9 +1130,79 @@ See also the <a href="regularApi/simGetFloatParameter.htm">sim.getFloatParameter
 <div class=tab>the 8th argument specified via command line option -g</div>
 <div class="sim.stringparam_app_arg9">sim.stringparam_app_arg9</div>
 <div class=tab>the 9th argument specified via command line option -g</div>
+<div class="sim.stringparam_verbosity">sim.stringparam_verbosity</div>
+<div class=tab>Can only be written.</div>
+<div class="sim.stringparam_statusbarverbosity">sim.stringparam_statusbarverbosity</div>
+<div class=tab>Can only be written.</div>
+<div class="sim.stringparam_dlgverbosity">sim.stringparam_dlgverbosity</div>
+<div class=tab>Can only be written.</div>
+<div class="sim.stringparam_consolelogfilter">sim.stringparam_consolelogfilter</div>
+<div class=tab>Format as: txta1&amp;txta2&amp;...&amp;txtaN|txtb1&amp;txtb2&amp;...&amp;txtbN|...</div>
 <br>
 See also the <a href="regularApi/simGetStringParameter.htm">sim.getStringParameter</a> function.
 </td>
+</tr>
+</table></div>
+<br>
+
+
+<div class="constantsGroup"><h3 class=subsectionBar><a name="verbosity"></a>Verbosity</h3>
+<table class=apiConstantsTable >
+<tr>
+<td>
+<div class="sim.verbosity_useglobal">sim.verbosity_useglobal</div>
+<div class=tab>Use global verbosity (can be used to reset a plugin's verbosity to the global verbosity again)</div>
+<div class="sim.verbosity_none">sim.verbosity_none</div>
+<div class=tab>No verbosity</div>
+<div class="sim.verbosity_errors">sim.verbosity_errors</div>
+<div class=tab>System and plugin error messages</div>
+<div class="sim.verbosity_warnings">sim.verbosity_warnings</div>
+<div class=tab>System and plugin warning messages</div>
+<div class="sim.verbosity_loadinfos">sim.verbosity_loadinfos</div>
+<div class=tab>Messages related to CoppeliaSim start-up and shut-down. Default console verbosity.</div>
+<div class="sim.verbosity_loadinfos">sim.verbosity_questions</div>
+<div class=tab>Messages related to question dialogs.</div>
+<div class="sim.verbosity_scripterrors">sim.verbosity_scripterrors</div>
+<div class=tab>Script error messages</div>
+<div class="sim.verbosity_scriptwarnings">sim.verbosity_scriptwarnings</div>
+<div class=tab>Script warning messages</div>
+<div class="sim.verbosity_scriptinfos">sim.verbosity_scriptinfos</div>
+<div class=tab>Information messages mainly related to scripts. Default status bar verbosity.</div>
+<div class="sim.verbosity_infos">sim.verbosity_infos</div>
+<div class=tab>General information messages</div>
+<div class="sim.verbosity_debug">sim.verbosity_debug</div>
+<div class=tab>Debug messages</div>
+<div class="sim.verbosity_trace">sim.verbosity_trace</div>
+<div class=tab>Plugin trace messages</div>
+<div class="sim.verbosity_tracelua">sim.verbosity_tracelua</div>
+<div class=tab>Script calls to API functions</div>
+<div class="sim.verbosity_traceall">sim.verbosity_traceall</div>
+<div class=tab>Full verbosity</div>
+<div class="sim.verbosity_default">sim.verbosity_default</div>
+<div class=tab>Default verbosity (normally sim.verbosity_loadinfos)</div>
+<br>
+See also <a href="regularApi/simGetInt32Parameter.htm">sim.getInt32Parameter</a>(sim.intparam_verbosity), <a href="regularApi/simSetInt32Parameter.htm">sim.setInt32Parameter</a>(sim.intparam_verbosity,verbosity) and <a href="regularApi/simSetModuleInfo.htm">sim.setModuleInfo</a>(pluginName,sim.moduleinfo_verbosity,verbosity). For statusbar verbosity, use sim.intparam_statusbarverbosity or sim.moduleinfo_statusbarverbosity.</td>
+</tr>
+</table></div>
+<br>
+
+
+<div class="constantsGroup"><h3 class=subsectionBar><a name="moduleInfos"></a>Module infos</h3>
+<table class=apiConstantsTable >
+<tr>
+<td>
+<div class="sim.moduleinfo_extversionstr">sim.moduleinfo_extversionstr</div>
+<div class=tab>Extended version string</a></div>
+<div class="sim.moduleinfo_builddatestr">sim.moduleinfo_builddatestr</div>
+<div class=tab>Build date string</a></div>
+<div class="sim.moduleinfo_extversionint">sim.moduleinfo_extversionint</div>
+<div class=tab>Extended version integer</a></div>
+<div class="sim.moduleinfo_verbosity">sim.moduleinfo_verbosity</div>
+<div class=tab>Console verbosity. see the various <a href="#verbosity">verbosity levels</a></div>
+<div class="sim.moduleinfo_statusbarverbosity">sim.moduleinfo_statusbarverbosity</div>
+<div class=tab>Status bar verbosity. see the various <a href="#verbosity">verbosity levels</a></div>
+<br>
+See also <a href="regularApi/simGetModuleInfo.htm">sim.getModuleInfo</a> and <a href="regularApi/simSetModuleInfo.htm">sim.setModuleInfo</a>.</td>
 </tr>
 </table></div>
 <br>
