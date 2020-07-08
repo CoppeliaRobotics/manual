@@ -16,13 +16,13 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1><a href="../apiOverview.htm">Regular API</a> function</h1>
-<h3 class=subsectionBar><a name="simSetThreadAutomaticSwitch" id="simSetThreadAutomaticSwitch"></a>simSetThreadAutomaticSwitch / sim.setThreadAutomaticSwitch </h3>
+<h3 class=subsectionBar><a name="simSetThreadAutomaticSwitch" id="simSetThreadAutomaticSwitch"></a>sim.setThreadAutomaticSwitch </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows to temporarily forbid thread switches. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. For complete control over the switching moment, see also <a href="simGetThreadAutomaticSwitch.htm">sim.getThreadAutomaticSwitch</a>, <a href="simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a>, <a href="simSwitchThread.htm">sim.switchThread</a>, <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a> and <a href="simSetThreadResumeLocation.htm">sim.setThreadResumeLocation</a>.</td>
+<td class=apiTableRightDescr>Allows to temporarily forbid thread switches.  If the current script doesn't run in a thread, this function has no effect. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. For complete control over the switching moment, see also <a href="simGetThreadAutomaticSwitch.htm">sim.getThreadAutomaticSwitch</a>, <a href="simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a>, <a href="simSwitchThread.htm">sim.switchThread</a>, <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a> and <a href="simSetThreadResumeLocation.htm">sim.setThreadResumeLocation</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -54,7 +54,7 @@ Lua synopsis
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
 <div></div>
-<div><strong>switchIsAutomatic</strong>: if true, the thread will be able to automatically switch to another thread, otherwise the switching is temporarily disabled.<br>
+<div><strong>switchIsAutomatic</strong>: if false, the thread will not automatically switch to another thread anymore (i.e. automatic thread switching will be temporarily disabled). Calling n times sim.setThreadAutomaticSwitch(false) requires to call n times sim.setThreadAutomaticSwitch(true) to restore the default behaviour (i.e. automatic thread switching).<br>
 </div>
 <div></div></td> 
 </tr> 
