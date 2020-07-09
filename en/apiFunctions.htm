@@ -15194,7 +15194,7 @@ Lua return values
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Handles (performs sensing, etc. of) a registered vision sensor object. It will (1) clear previous computed  image processing data, (2) read an image and (3) perform image processing via the <a href="visionCallbackFunctions.htm">vision callback functions</a> (if the vision sensor is using an <strong>external input</strong> only (1) will be performed).See also <a href="#simReadVisionSensor">sim.readVisionSensor</a>, <a href="#simCheckVisionSensor">sim.checkVisionSensor</a>, <a href="#simCheckVisionSensorEx">sim.checkVisionSensorEx</a> and <a href="#simResetVisionSensor">sim.resetVisionSensor</a>.<br></td>
+<td class=apiTableRightDescr>Handles (performs sensing, etc. of) a vision sensor object. It will (1) clear previous computed  image processing data, (2) read an image and (3) perform image processing via the <a href="visionCallbackFunctions.htm">vision callback functions</a> (if the vision sensor is using an <strong>external input</strong> only (1) will be performed). See also <a href="#simReadVisionSensor">sim.readVisionSensor</a>, <a href="#simCheckVisionSensor">sim.checkVisionSensor</a>, <a href="#simCheckVisionSensorEx">sim.checkVisionSensorEx</a> and <a href="#simResetVisionSensor">sim.resetVisionSensor</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -25629,13 +25629,13 @@ Remote API equiv.
 <br>
 <br>
 <br>
-<h3 class=subsectionBar><a name="simSetThreadAutomaticSwitch" id="simSetThreadAutomaticSwitch"></a>simSetThreadAutomaticSwitch / sim.setThreadAutomaticSwitch </h3>
+<h3 class=subsectionBar><a name="simSetThreadAutomaticSwitch" id="simSetThreadAutomaticSwitch"></a>sim.setThreadAutomaticSwitch </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows to temporarily forbid thread switches. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. For complete control over the switching moment, see also <a href="#simGetThreadAutomaticSwitch">sim.getThreadAutomaticSwitch</a>, <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>, <a href="#simSwitchThread">sim.switchThread</a>, <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> and <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>.</td>
+<td class=apiTableRightDescr>Allows to temporarily forbid thread switches.  If the current script doesn't run in a thread, this function has no effect. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. For complete control over the switching moment, see also <a href="#simGetThreadAutomaticSwitch">sim.getThreadAutomaticSwitch</a>, <a href="#simSetThreadSwitchTiming">sim.setThreadSwitchTiming</a>, <a href="#simSwitchThread">sim.switchThread</a>, <a href="#simSetThreadIsFree">sim.setThreadIsFree</a> and <a href="#simSetThreadResumeLocation">sim.setThreadResumeLocation</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -25667,7 +25667,7 @@ Lua synopsis
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
 <div></div>
-<div><strong>switchIsAutomatic</strong>: if true, the thread will be able to automatically switch to another thread, otherwise the switching is temporarily disabled.<br>
+<div><strong>switchIsAutomatic</strong>: if false, the thread will not automatically switch to another thread anymore (i.e. automatic thread switching will be temporarily disabled). Calling n times sim.setThreadAutomaticSwitch(false) requires to call n times sim.setThreadAutomaticSwitch(true) to restore the default behaviour (i.e. automatic thread switching).<br>
 </div>
 <div></div></td> 
 </tr> 
