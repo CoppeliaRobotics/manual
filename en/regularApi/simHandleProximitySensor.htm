@@ -35,11 +35,11 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>sensorHandle</strong>: handle of a proximity sensor object or sim_handle_all or sim_handle_all_except_explicit. (sim_handle_all will handle all proximity sensor objects, while sim_handle_all_except_explicit will only handle those that are not marked as &quot;explicit handling&quot;)<br>
 </div>
-<div><strong>detectedPoint</strong>: coordinates of the closest detected point (x, y and z: detectedPoint[0]-detectedPoint[2]) relative to the sensor reference frame, and distance to the detected point (1 value: detectedPoint[3]). Can be NULL<br>
+<div><strong>detectedPoint</strong>: coordinates of the closest detected point (x, y and z: detectedPoint[0]-detectedPoint[2]) relative to the sensor reference frame, and distance to the detected point (1 value: detectedPoint[3]). Can be nullptr<br>
 </div>
-<div><strong>detectedObjectHandle</strong>: handle of the object that was detected. Can be NULL<br>
+<div><strong>detectedObjectHandle</strong>: handle of the object that was detected. Can be nullptr<br>
 </div>
-<div><strong>detectedSurfaceNormalVector</strong>: normal vector (normalized) of the detected surface. Relative to the sensor reference frame. Can be NULL<br>
+<div><strong>detectedSurfaceNormalVector</strong>: normal vector (normalized) of the detected surface. Relative to the sensor reference frame. Can be nullptr<br>
 </div>
 <br>
 <div>When several proximity sensors are handled at the same time (e.g. with the sim_handle_all argument), then the output values are relative to the closest detection distance</div>
@@ -50,7 +50,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>0 if nothing was detected, -1 in case of an error. In a future release, a more detailed return value might be available<br>
+<div>0 if nothing was detected, -1 in case of an error. <br>
 </div>
 </td> 
 </tr> 
@@ -63,29 +63,25 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div></div>
-<div><strong>sensorHandle</strong>: handle of a proximity sensor object or sim.handle_all or sim_handle_all_except_explicit. (sim.handle_all will handle all proximity sensor objects, while sim.handle_all_except_explicit will only handle those that are not marked as &quot;explicit handling&quot;)<br>
-</div></td> 
+<div><strong>sensorHandle</strong>: handle of a proximity sensor object or sim.handle_all or sim_handle_all_except_explicit. (sim.handle_all will handle all proximity sensor objects, while sim.handle_all_except_explicit will only handle those that are not marked as &quot;explicit handling&quot;)</div></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div></div>
-<div><strong>result</strong>: 0 if nothing was detected, -1 in case of an error. In a future release, a more detailed return value might be available<br>
+<div><strong>result</strong>: 0 if nothing was detected<br>
 </div>
-<div><strong>distance</strong>: distance to the detected point if result is &gt;0, nil otherwise<br>
+<div><strong>distance</strong>: distance to the detected point<br>
 </div>
-<div><strong>detectedPoint</strong>: table of 3 numbers indicating the relative coordinates of the detected point if result is &gt;0, nil otherwise<br>
+<div><strong>detectedPoint</strong>: table of 3 numbers indicating the relative coordinates of the detected point<br>
 </div>
-<div><strong>detectedObjectHandle</strong>: handle of the object that was detected if result is &gt;0, nil otherwise<br>
+<div><strong>detectedObjectHandle</strong>: handle of the object that was detected<br>
 </div>
-<div><strong>detectedSurfaceNormalVector</strong>: normal vector (normalized) of the detected surface. Relative to the sensor reference frame. Is nil if result is &lt;1<br>
+<div><strong>detectedSurfaceNormalVector</strong>: normal vector (normalized) of the detected surface. Relative to the sensor reference frame.<br>
 </div>
 <br>
-<div>When several proximity sensors are handled at the same time (e.g. with the sim.handle_all argument), then the return values are relative to the closest detection distance<br>
-</div>
+<div>When several proximity sensors are handled at the same time (e.g. with the sim.handle_all argument), then the return values are relative to the closest detection distance</div>
 </td> 
 </tr> 
 </table> 

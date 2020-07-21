@@ -43,11 +43,11 @@ C synopsis
 </div>
 <div><strong>maxAngle</strong>: maximum detection angle (angle between detection ray and normal vector of the surface). Can be (0;pi/2). Only if bit3 of detectionMode is set will this parameter have an effect. Use this to realistically simulate ultrasonic sensors.<br>
 </div>
-<div><strong>detectedPoint</strong>: coordinates of detected point relative to the sensor origin (detectedPoint[0]-detectedPoint[2]), and distance of detected point to the sensor origin (detectedPoint[3]). Can be NULL<br>
+<div><strong>detectedPoint</strong>: coordinates of detected point relative to the sensor origin (detectedPoint[0]-detectedPoint[2]), and distance of detected point to the sensor origin (detectedPoint[3]). Can be nullptr<br>
 </div>
-<div><strong>detectedObjectHandle</strong>: handle of detected object (useful when entity to be detected is a collection or sim_handle_all). Can be NULL<br>
+<div><strong>detectedObjectHandle</strong>: handle of detected object (useful when entity to be detected is a collection or sim_handle_all). Can be nullptr<br>
 </div>
-<div><strong>surfaceNormalVector</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. Can be NULL<br>
+<div><strong>surfaceNormalVector</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. Can be nullptr<br>
 </div>
 </td> 
 </tr> 
@@ -69,7 +69,6 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div></div>
 <div><strong>sensorHandle</strong>: handle of the proximity sensor object<br>
 </div>
 <div><strong>entityHandle</strong>: handle of entity to detect (object or collection), or sim.handle_all to detect all detectable objects<br>
@@ -78,9 +77,7 @@ Lua synopsis
 </div>
 <div><strong>detectionThreshold</strong>: doesn't detect objects farther than detectionThreshold distance from sensor origin<br>
 </div>
-<div><strong>maxAngle</strong>: maximum detection angle (angle between detection ray and normal vector of the surface). Can be (0;pi/2). Only if bit3 of detectionMode is set will this parameter have an effect. Use this to realistically simulate ultrasonic sensors.<br>
-</div>
-<div></div>
+<div><strong>maxAngle</strong>: maximum detection angle (angle between detection ray and normal vector of the surface). Can be (0;pi/2). Only if bit3 of detectionMode is set will this parameter have an effect. Use this to realistically simulate ultrasonic sensors.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -88,17 +85,14 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div></div>
-<div><strong>result</strong>: -1 (error), 0 (not detected) or 1 (detected)</div>
+<div><strong>result</strong>:  0 (not detected) or 1 (detected)</div>
 <div><strong>distance</strong>: distance from the sensor origin to the detected point. Is nil if result is different from 1<br>
 </div>
 <div><strong>detectedPoint</strong>: position of the detected point relative to the sensor origin. Is nil if result is different from 1<br>
 </div>
 <div><strong>detectedObjectHandle</strong>: handle of detected object. Is nil if result is different from 1<br>
 </div>
-<div><strong>surfaceNormalVector</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. Is nil if result is different from 1<br>
-</div>
-<div></div>
+<div><strong>surfaceNormalVector</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. Is nil if result is different from 1</div>
 </td> 
 </tr> 
 </table> 

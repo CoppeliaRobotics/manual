@@ -42,7 +42,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>Configuration data if operation was successful, NULL otherwise. The returned data should be deleted with <a href="simReleaseBuffer.htm">simReleaseBuffer</a> when not used anymore<br>
+<div>Configuration data if operation was successful, nullptr otherwise. The returned data should be deleted with <a href="simReleaseBuffer.htm">simReleaseBuffer</a> when not used anymore<br>
 </div>
 </td> 
 </tr> 
@@ -50,12 +50,12 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number rawBufferHandle=sim.getConfigurationTree(number objectHandle)<br></td> 
+<td class=apiTableRightLSyn>string buffer=sim.getConfigurationTree(number objectHandle)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Same as C-function. In addition, child scripts can use the argument sim.handle_self to retrieved the configuration tree of the object that the child script is attached to<br>
+<div>Similar to the C-function counterpart. In addition, child scripts can use the argument sim.handle_self to retrieved the configuration tree of the object that the child script is attached to<br>
 </div>
 <div></div></td> 
 </tr> 
@@ -64,10 +64,8 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div></div>
-<div><strong>rawBufferHandle</strong>: handle to a block of raw memory, or -1 in case of an error. Use that value to restore the configuration tree with <a href="simSetConfigurationTree.htm">sim.setConfigurationTree</a>. The raw buffer is attached to the script until the simulation ends, at which time it is automatically released. Alternatively, you can release that buffer with the <a href="simReleaseScriptRawBuffer.htm">simReleaseScriptRawBuffer</a>-function<br>
-</div>
-<div></div></td> 
+<div><strong>buffer</strong>: use that value to restore the configuration tree with <a href="simSetConfigurationTree.htm">sim.setConfigurationTree</a>.</div>
+</td> 
 </tr> 
 </table> 
 

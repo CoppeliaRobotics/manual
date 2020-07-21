@@ -35,15 +35,15 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>visionSensorHandle</strong>: handle of a vision sensor object or sim_handle_all or sim_handle_all_except_explicit. (sim_handle_all will handle all vision sensor objects, while sim_handle_all_except_explicit will only handle those that are not marked as &quot;explicit handling&quot;)<br>
 </div>
-<div><strong>auxValues</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. If the <a href="../visionCallbackFunctions.htm">vision callback function</a> returns additional  values, then they will be appended as packets to the first packet. AuxValues can be NULL. The user is in charge of releasing the auxValues buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>(*auxValues). If visionSensorHandle is sim_handle_all or sim_handle_all_except_explicit, nothing is returned in auxValues.<br>
+<div><strong>auxValues</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values:the minimum of {intensity, red, green, blue, depth value}, the maximum of {intensity, red, green, blue, depth value}, and the average of {intensity, red, green, blue, depth value}. If the <a href="../visionCallbackFunctions.htm">vision callback function</a> returns additional  values, then they will be appended as packets to the first packet. AuxValues can be nullptr. The user is in charge of releasing the auxValues buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>(*auxValues). If visionSensorHandle is sim_handle_all or sim_handle_all_except_explicit, nothing is returned in auxValues.<br>
 </div>
-<div><strong>auxValuesCount</strong>: contains information about the number of auxiliary value packets and packet sizes returned in auxValues. The first value is the number of packets, the second is the size of packet1, the third is the size of packet2, etc. Can be NULL if auxValues is also NULL. The user is in charge of releasing the auxValuesCount buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>(*auxValuesCount).<br>
+<div><strong>auxValuesCount</strong>: contains information about the number of auxiliary value packets and packet sizes returned in auxValues. The first value is the number of packets, the second is the size of packet1, the third is the size of packet2, etc. Can be nullptr if auxValues is also nullptr. The user is in charge of releasing the auxValuesCount buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>(*auxValuesCount).<br>
 </div>
 <br>
 <div>USAGE EXAMPLE:</div>
 <pre class=lightBlueBoxNoMarginAndSmall>
-float* auxValues=NULL;
-int* auxValuesCount=NULL;
+float* auxValues=nullptr;
+int* auxValuesCount=nullptr;
 float averageColor[3]={0.0f,0.0f,0.0f};
 if (simHandleVisionSensor(visionSensorHandle,&auxValues,&auxValuesCount)>=0)
 {
@@ -76,7 +76,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Same as C-function</div>
+<div>Similar to the C-function counterpart</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -84,7 +84,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>detectionCount</strong>: number of detections (number of vision sensors that triggered a detection), -1 in case of an error<br>
+<div><strong>detectionCount</strong>: number of detections (number of vision sensors that triggered a detection)<br>
 </div>
 <div><strong>auxiliaryValuePacket1</strong>: default auxiliary value packet (same as for the C-function)</div>
 <div><strong>auxiliaryValuePacket2</strong>: additional auxiliary value packet (e.g. from an image processing component)</div>

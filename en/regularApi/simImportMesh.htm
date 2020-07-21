@@ -47,13 +47,13 @@ C synopsis
 </div>
 <div><strong>verticesSizes</strong>: an array indicating the individual vertice array sizes. The user is in charge of releasing the memory. See the example below<br>
 </div>
-<div><strong>indices</strong>: an array to indice arrays. The import operation may generate several meshes depending on the fileformat. The user is in charge of releasing the memory. Can be NULL. See the example below<br>
+<div><strong>indices</strong>: an array to indice arrays. The import operation may generate several meshes depending on the fileformat. The user is in charge of releasing the memory. Can be nullptr. See the example below<br>
 </div>
-<div><strong>indicesSizes</strong>: an array indicating the individual indice array sizes. The user is in charge of releasing the memory. Can be NULL if indices is also NULL. See the example below<br>
+<div><strong>indicesSizes</strong>: an array indicating the individual indice array sizes. The user is in charge of releasing the memory. Can be nullptr if indices is also nullptr. See the example below<br>
 </div>
-<div><strong>reserved</strong>: reserved for future extensions. Keep at NULL.<br>
+<div><strong>reserved</strong>: reserved for future extensions. Keep at nullptr.<br>
 </div>
-<div><strong>names</strong>: not used anymore. Set to NULL<br>
+<div><strong>names</strong>: not used anymore. Set to nullptr<br>
 </div>
 <br>
 <div>USAGE EXAMPLE:</div>
@@ -63,14 +63,14 @@ simInt* verticesSizes;
 simInt** indices;
 simInt* indicesSizes;
 simInt elementCount=simImportMesh(1,"d:\\example.dxf",0,0.0001f,1.0f,&vertices,
-                            &verticesSizes,&indices,&indicesSizes,NULL,NULL);
+                            &verticesSizes,&indices,&indicesSizes,nullptr,nullptr);
 if (elementCount>0)
 {
     const float grey[3]={0.5f,0.5f,0.5f};
     for (int i=0;i&#60;elementCount;i++)
     {
         simInt shapeHandle=simCreateMeshShape(2,20.0f*3.1415f/180.0f,vertices[i],
-                               verticesSizes[i],indices[i],indicesSizes[i],NULL);
+                               verticesSizes[i],indices[i],indicesSizes[i],nullptr);
         simSetShapeColor(shapeHandle,"",sim_colorcomponent_ambient,grey);
         simReleaseBuffer((simChar*)indices[i]);
         simReleaseBuffer((simChar*)vertices[i]);
@@ -100,7 +100,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Same as C-function</div>
+<div>Similar to the C-function counterpart</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -108,21 +108,19 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>vertices</strong>: a table to vertice tables, or nil if operation was not successful. The import operation may generate several meshes depending on the fileformat. See the example below<br>
+<div><strong>vertices</strong>: a table to vertice tables. The import operation may generate several meshes depending on the fileformat. See the example below<br>
 </div>
-<div><strong>indices</strong>: a table to indice tables, or nil if operation was not successful. The import operation may generate several meshes depending on the fileformat. See the example below<br>
+<div><strong>indices</strong>: a table to indice tables. The import operation may generate several meshes depending on the fileformat. See the example below<br>
 </div>
 <br>
 <div>USAGE EXAMPLE (e.g. in a <a href="../customizationScripts.htm">customization script</a>):</div>
 <pre class=lightRedBoxNoMarginAndSmall>
 if (importButtonPressed) then
     vertices,indices,reserved,names=sim.importMesh(1,"d:\\example.dxf",0,0.0001,1)
-    if (vertices) then
-        for i=1,#vertices,1 do
-            h=sim.createMeshShape(2,20*math.pi/180,vertices[i],indices[i])
-            sim.setShapeColor(h,"",sim.colorcomponent_ambient,{0.5,0.5,0.5})
-            sim.setObjectName(h,names[i])
-        end
+    for i=1,#vertices,1 do
+        h=sim.createMeshShape(2,20*math.pi/180,vertices[i],indices[i])
+        sim.setShapeColor(h,"",sim.colorcomponent_ambient,{0.5,0.5,0.5})
+        sim.setObjectName(h,names[i])
     end
 end</pre>
 </td> 

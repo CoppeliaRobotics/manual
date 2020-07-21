@@ -46,12 +46,12 @@ C synopsis
 </div>
 <div><strong>index</strong>: zero-based index of the message to read. If -1 is indicated, the first message that matches the dataHeader and dataName is read and removed. Otherwise messages are just read.<br>
 </div>
-<div><strong>dataLength</strong>: length of the received data (if returned pointer is not NULL)<br>
+<div><strong>dataLength</strong>: length of the received data (if returned pointer is not nullptr)<br>
 </div>
-<div><strong>senderID</strong>: identifier of the sender. Can be the handle of a script if the message was sent from a script, or can be 0 if the message was sent from the non-Lua API. Can be NULL.<br>
+<div><strong>senderID</strong>: identifier of the sender. Can be the handle of a script if the message was sent from a script, or can be 0 if the message was sent from the non-Lua API. Can be nullptr.<br>
 </div>
-<div><strong>dataHeaderR</strong>: dataHeader of the data that was read. Can be NULL.</div>
-<div><strong>dataNameR</strong>: dataName of the data that was read. Can be NULL. The user is in charge of releasing the buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>(*dataNameR).<br>
+<div><strong>dataHeaderR</strong>: dataHeader of the data that was read. Can be nullptr.</div>
+<div><strong>dataNameR</strong>: dataName of the data that was read. Can be nullptr. The user is in charge of releasing the buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>(*dataNameR).<br>
 </div>
 </td> 
 </tr> 
@@ -60,7 +60,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>pointer to the received data, or NULL if no data is available or in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>.<br>
+<div>pointer to the received data, or nullptr if no data is available or in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>.<br>
 </div>
 </td> 
 </tr> 
@@ -73,30 +73,26 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div></div>
 <div><strong>dataHeader</strong>: number indicating who &quot;designed&quot; the communication message. Can also be -1, in which case messages with any dataHeader will be retrieved (not recommended, unless index is different from -1). This value can be omitted (-1 will be used).</div>
 <div><strong>dataName</strong>: name indicating the type of message. Can be nil, in which case messages with any dataName will be retrieved (not recommended, unless index is different from -1). This value can be omitted (nill will be used)<br>
 </div>
 <div><strong>antennaHandle</strong>: handle of the scene object that should operate as the antenna for this reception. If sim.handle_default is specified, a reception antenna at (0,0,0) is simulated. If sim.handle_self is specified, the object associated with the current child script is used as the antenna. This value can be omitted (sim.handle_self will be used)<br>
 </div>
-<div><strong>index</strong>: zero-based index of the message to read. If -1 is indicated, the first message that matches the dataHeader and dataName is read and removed. Otherwise messages are just read. This value can be omitted (-1 will be used)<br>
-</div>
-<div></div></td> 
+<div><strong>index</strong>: zero-based index of the message to read. If -1 is indicated, the first message that matches the dataHeader and dataName is read and removed. Otherwise messages are just read. This value can be omitted (-1 will be used)</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div></div>
-<div><strong>data</strong>: string containing the received data, or nil in case of an error or if no data is present. If received data is packed, see also the <a href="../apiFunctionListCategory.htm#packing">data packing/unpacking functions</a></div>
+<div><strong>data</strong>: string containing the received data, or nil if no data is present. If received data is packed, see also the <a href="../apiFunctionListCategory.htm#packing">data packing/unpacking functions</a></div>
 <div><strong>senderID</strong>: identifier of the sender. Can be the handle of a script if the message was sent from a script, or can be 0 if the message was sent from the non-Lua API.<br>
 </div>
 <div><strong>dataHeader</strong>: dataHeader of the data that was read.<br>
 </div>
-<div><strong>dataName</strong>: dataName of the data that was read.<br>
-</div>
-<div></div></td> 
+<div><strong>dataName</strong>: dataName of the data that was read.</div>
+</td> 
 </tr> 
 </table> 
 

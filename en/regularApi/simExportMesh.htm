@@ -47,8 +47,8 @@ C synopsis
 <div><strong>verticesSizes</strong>: an array indicating the individual vertice array sizes. See the example below</div>
 <div><strong>indices</strong>: an array to indice arrays. See the example below</div>
 <div><strong>indicesSizes</strong>: an array indicating the individual indice array sizes. See the example below</div>
-<div><strong>reserved</strong>: reserved for future extensions. Keep at NULL.</div>
-<div><strong>names</strong>: Keep at NULL</div>
+<div><strong>reserved</strong>: reserved for future extensions. Keep at nullptr.</div>
+<div><strong>names</strong>: Keep at nullptr</div>
 <br>
 <div>USAGE EXAMPLE:</div>
 <pre class=lightBlueBoxNoMarginAndSmall>
@@ -70,7 +70,7 @@ while (true)
     simInt vertS;
     simInt* ind;
     simInt indS;
-    simGetShapeMesh(shapeHandle,&vert,&vertS,&ind,&indS,NULL);
+    simGetShapeMesh(shapeHandle,&vert,&vertS,&ind,&indS,nullptr);
     vertices[index-1]=vert;
     verticesSizes[index-1]=vertS;
     indices[index-1]=ind;
@@ -87,7 +87,7 @@ while (true)
     }
 }
 simExportMesh(0,"d:\\example.obj",0,1,shapeCount,vertices,
-                 verticesSizes,indices,indicesSizes,NULL,NULL);
+                 verticesSizes,indices,indicesSizes,nullptr,nullptr);
 for (simInt i=0;i&#60;shapeCount;i++)
 {
     simReleaseBuffer((simChar*)vertices[i]);
@@ -105,7 +105,7 @@ delete[] indicesSizes;</pre>
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful. In a future release, a more differentiated return value might be available<br>
+<div>-1 if operation was not successful<br>
 </div>
 </td> 
 </tr> 
@@ -113,7 +113,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result=sim.exportMesh(number fileformat,string pathAndFilename,number options,number scalingFactor,table_of_table vertices,table_of_table indices)<br></td> 
+<td class=apiTableRightLSyn>sim.exportMesh(number fileformat,string pathAndFilename,number options,number scalingFactor,table_of_table vertices,table_of_table indices)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -161,8 +161,7 @@ end</pre>
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Same as C-function</div>
-<div></div></td> 
+<div>none</div></td> 
 </tr> 
 </table> 
 

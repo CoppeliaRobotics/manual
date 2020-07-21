@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Generates a path that drives a robot from its current configuration to its target dummy in a straight line (i.e. shortest path in Cartesian space). The function returns NULL if the robot is not able to perform the movement with its end-effector, the reasons can be: there are collisions on the way, or some of the points on the line cannot be reached (e.g. out of reach, or due to joint limits)</td>
+<td class=apiTableRightDescr>Generates a path that drives a robot from its current configuration to its target dummy in a straight line (i.e. shortest path in Cartesian space). The function returns nullptr if the robot is not able to perform the movement with its end-effector, the reasons can be: there are collisions on the way, or some of the points on the line cannot be reached (e.g. out of reach, or due to joint limits)</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -38,9 +38,9 @@ C synopsis
 <div><strong>jointHandles</strong> (input): an array with <em>jointCnt</em> entries, that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
 <div><strong>ptCnt</strong>: the desired number of path points. Each path point contains a robot configuration. A minimum of two path points is required. If the tip-target dummy distance is large, a larger number for <em>ptCnt</em> leads to better results for this function.</div>
 <div><strong>collisionPairCnt</strong>: the number of collision pairs. Can be 0 if collision checking is not required.</div>
-<div><strong>collisionPairs</strong>: an array containing 2 <a href="../entities.htm">entity</a> handles for each collision pair. A collision pair is represented by a collider and a collidee, that will be tested against each other. The first pair could be used for robot self-collision testing, and a second pair could be used for robot-environment collision testing. The collider can be an <a href="../objects.htm">object</a> or a <a href="../collections.htm">collection</a> handle. The collidee can be an object or collection handle, or <em>sim_handle_all</em>, in which case the collider will be checked agains all other collidable objects in the scene. Can be NULL if collision checking is not required.</div>
-<div><strong>jointOptions</strong>: a bit-coded value corresponding to each specified joint handle. Bit 0 (i.e. 1) indicates the corresponding joint is dependent of another joint. Can be NULL.</div>
-<div><strong>reserved</strong>: reserved for future extension. Set to NULL.</div>
+<div><strong>collisionPairs</strong>: an array containing 2 <a href="../entities.htm">entity</a> handles for each collision pair. A collision pair is represented by a collider and a collidee, that will be tested against each other. The first pair could be used for robot self-collision testing, and a second pair could be used for robot-environment collision testing. The collider can be an <a href="../objects.htm">object</a> or a <a href="../collections.htm">collection</a> handle. The collidee can be an object or collection handle, or <em>sim_handle_all</em>, in which case the collider will be checked agains all other collidable objects in the scene. Can be nullptr if collision checking is not required.</div>
+<div><strong>jointOptions</strong>: a bit-coded value corresponding to each specified joint handle. Bit 0 (i.e. 1) indicates the corresponding joint is dependent of another joint. Can be nullptr.</div>
+<div><strong>reserved</strong>: reserved for future extension. Set to nullptr.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -48,7 +48,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>a pointer to the computed path, or NULL if no path could be computed. The pointer points to <em>ptCnt</em>*<em>jointCnt</em> values, representing <em>ptCnt</em> robot configurations. The user is in charge of releasing the returned array with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>.</div>
+<div>a pointer to the computed path, or nullptr if no path could be computed. The pointer points to <em>ptCnt</em>*<em>jointCnt</em> values, representing <em>ptCnt</em> robot configurations. The user is in charge of releasing the returned array with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -60,7 +60,7 @@ Lua synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar as C-function</div>
+<div>Similar to the C-function counterpart</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -68,7 +68,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Similar as C-function</div>
+<div>Similar to the C-function counterpart</div>
 </td> 
 </tr> 
 </table> 

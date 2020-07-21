@@ -44,9 +44,9 @@ Version history:
 
 
 <table class=subsectionTable><tr class=subsectionTd>
- <td class=subsectionTd><a name="coppeliaSim4.1.0" id="coppeliaSim4.1.0"></a>CoppeliaSim V4.1.0 (not yet released)</td></tr></table> 
+ <td class=subsectionTd><a name="coppeliaSim4.1.0" id="coppeliaSim4.1.0"></a>CoppeliaSim V4.1.0 (July 21st 2020)</td></tr></table> 
  
-<li>Fixed several bugs. Thanks to Jakub Turaj, Rieky Barady, Jian Ye, Jaime Boal, Mathias Thor, Pável Axel Mc Campos Peña, Filipe Rocha, Patrick Gruener, Thomas Wilmotte, Lorenzo Romanini, Pablo Bustos, Sonny Tarbouriech, Johan Relefors, Adrian Schoisengeier, Arturs Paugurs, Wei Wei, David Page, Ayush Patel and Aleksander Sil for noticing them or helping to resolve them.</li>
+<li>Fixed several bugs. Thanks to Jakub Turaj, Rieky Barady, Jian Ye, Jaime Boal, Mathias Thor, Pável Axel Mc Campos Peña, Filipe Rocha, Patrick Gruener, Thomas Wilmotte, Lorenzo Romanini, Pablo Bustos, Sonny Tarbouriech, Johan Relefors, Adrian Schoisengeier, Arturs Paugurs, Wei Wei, David Page, Ayush Patel, Aleksander Sil and Cameron Kabacinski for noticing them or helping to resolve them.</li>
 <li>Ubuntu20.04 support</li>
 <li>Switched to Qt5.15.0 and VC2019 on Windows.</li>
 <li><a href="inverseKinematicsModule.htm">CoppeliaSim's kinematics functionality</a> (i.e. forward and inverse kinematics) is <a href="kinematicsPlugin.htm">now also available via Lua scripting</a>: this means that instead of creating and handling kinematics tasks via the GUI, one can also entirely create and handle them programmatically in a very flexible manner. Two example scenes illustrate this: <em>scenes/ik_fk_simple_examples/8-computingJointAnglesForRandomPoses.ttt</em> and <em>scenes/ik_fk_simple_examples/9-programmaticallySettingUpIk.ttt</em></li>
@@ -54,13 +54,17 @@ Version history:
 <li><a href="ros2Interface.htm">ROS2 Interface</a> plugin for ROS2 Foxy Fitzroy, supports topics, services, actions, params, TF2 broadcast and image transport.</li>
 <li>GLTF plugin can export static scene and animations in the GLTF 2.0 format. The functionality is available via the add-on menu, or via <a href="gltfApi.htm">related API functions</a>.</li>
 <li>URL Drop plugin allows loading scene from remote locations via drag and drop (e.g. drop an URL from a browser's window).</li>
+<li>The verbosity level (console, status bar and simple dialogs) can now be adjusted from the <a href="commandLine.htm">command line</a> with the <em>-v</em> , -<em>w</em> and <em>-x</em> arguments. To output messages, plugins should now use <a href="regularApi/simAddLog.htm">simAddLog</a> and scripts <a href="regularApi/simAddLog.htm">sim.addLog</a>.</li>
+<li>An optional Lua script string may be executed via the <a href="commandLine.htm">command line</a> with the -c argument.</li>
+<li>Added an example scene illustrating simple motor controllers: <em>scenes/motorControllerExamples.ttt</em></li>
+<li>Added an example scene illustrating how to apply inverse kinematics to dynamically enabled models/manipulators: <em>scenes/ik_fk_simple_examples/10-applyingIkToDynamicallyEnabledModels.ttt</em></li>
+<li>Added an example scene illustrating simple usage of the Reflexxes Motion Library: <em>scenes/reflexxesMotionLibraryExamples.ttt</em></li>
 <li>Added example scenes related to the usage of the <a href="legacyRemoteApiOverview.htm">legacy remote API</a> and <a href="b0RemoteApiOverview.htm">B0-based remote API</a>, illustrating how to send movement sequences, or how to synchronously receive and send images: <em>scenes/movementViaRemoteApi.ttt</em>, <em>scenes/pControllerViaRemoteApi.ttt</em> and <em>scenes/synchronousImageTransmissionViaRemoteApi.ttt</em>. Related Python scripts can be found in <em>programming/remoteApiBindings/python/python/</em> and in <em>programming/b0RemoteApiBindings/python/</em></li>
 <li>Added <a href="regularApi/simSetJointMaxForce.htm">sim.setJointMaxForce</a> and <a href="regularApi/simGetJointMaxForce.htm">sim.getJointMaxForce</a>, including remote API equivalents. <em>sim.setJointForce</em> is now deprecated.</li>
 <li>Added <a href="regularApi/simYawPitchRollToAlphaBetaGamma.htm">sim.yawPitchRollToAlphaBetaGamma</a> and <a href="regularApi/simAlphaBetaGammaToYawPitchRoll.htm">sim.alphaBetaGammaToYawPitchRoll</a>, to convert between those two different <a href="eulerAngles.htm">Euler angle representations</a>.</li>
+<li>The true headless CoppeliaSim library is also shipped (i.e. <em>coppeliaSimLibHeadless.dll</em> or similar). This is in addition to the headless mode supported via the <em>-h</em> <a href="commandLine.htm">command line</a> option, which simply suppresses all GUI elements of the regular CoppeliaSim library.</li>
 <li><a href="regularApi/simSetVisionSensorImage.htm">sim.setVisionSensorImage</a> can now also be used to apply a vision sensor depth buffer.</li>
 <li>Fixed a few shape export problems (i.e. normals and/or textures)</li>
-<li>The verbosity level (console, status bar and simple dialogs) can now be adjusted from the <a href="commandLine.htm">command line</a> with the <em>-v</em> , -<em>w</em> and <em>-x</em> arguments. To output messages, plugins should now use <a href="regularApi/simAddLog.htm">simAddLog</a> and scripts <a href="regularApi/simAddLog.htm">sim.addLog</a>.</li>
-<li>An optional Lua script string may be executed via the <a href="commandLine.htm">command line</a> with the -c argument.</li>
 <li>A <a href="https://github.com/santdiego/simExtSimulink" target="_blank">Simulink-CoppeliaSim communication plugin</a> is now available, courtesy of Diego Daniel Santiago.</li>
 <li>Many <a href="https://www.youtube.com/user/leoarmestoangel/videos">CoppeliaSim video tutorials</a> courtesy of Leopoldo Armesto.</li>
 <br>

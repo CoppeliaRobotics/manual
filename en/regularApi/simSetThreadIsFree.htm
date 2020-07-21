@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Threads created by CoppeliaSim are never running concurrently, they rather behave like coroutines. This allows achieving same results as with &quot;pure threads&quot;, except when an external command is blocking (e.g. commands not directly supported by CoppeliaSim). Those can be lengthly image processing routines, or socket communication routines for example. When such external blocking commands are called, CoppeliaSim appears frozen until the external commands return. To avoid such a situation, you can declare a non-blocking section with the <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a> command: <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a>(true) starts a non-blocking section, and <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a>(false) closes it. Try to avoid using CoppeliaSim commands when in a non-blocking section (bad synchronization), and never forget to close a non-blocking section, otherwise CoppeliaSim will hang indefinitely. Use <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a> with extra care when calling it from C. A thread running in a non-blocking section cannot be paused nor stopped. This command has no effect when called from the main thread or a non-threaded script.<br></td>
+<td class=apiTableRightDescr>Threads created by CoppeliaSim are never running concurrently, they rather behave like coroutines. This allows achieving similar results as with &quot;pure threads&quot;, except when an external command is blocking (e.g. commands not directly supported by CoppeliaSim). Those can be lengthly image processing routines, or socket communication routines for example. When such external blocking commands are called, CoppeliaSim appears frozen until the external commands return. To avoid such a situation, you can declare a non-blocking section with the <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a> command: <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a>(true) starts a non-blocking section, and <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a>(false) closes it. Try to avoid using CoppeliaSim commands when in a non-blocking section (bad synchronization), and never forget to close a non-blocking section, otherwise CoppeliaSim will hang indefinitely. Use <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a> with extra care when calling it from C. A thread running in a non-blocking section cannot be paused nor stopped. This command has no effect when called from the main thread or a non-threaded script.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -42,7 +42,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>1 if operation was successful. In a future release, a more differentiated return value might be available<br>
+<div>1<br>
 </div>
 </td> 
 </tr> 
@@ -50,23 +50,20 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result=sim.setThreadIsFree(Boolean freeMode)<br></td> 
+<td class=apiTableRightLSyn>sim.setThreadIsFree(Boolean freeMode)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div></div>
-<div><strong>freeMode</strong>: specify true to start a non-blocking section. Specify false to end a non-blocking section<br>
-</div>
-<div></div></td> 
+<div><strong>freeMode</strong>: specify true to start a non-blocking section. Specify false to end a non-blocking section</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Same as C-function</div>
-<div></div></td> 
+<div>none</div></td> 
 </tr> 
 </table> 
 
