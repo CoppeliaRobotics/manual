@@ -20,31 +20,28 @@
 <h1>Inverse kinematics</h1>
 
 
-<p>CoppeliaSim's inverse kinematics (IK) calculation module is very powerful and flexible. It allows handling virtually any type of mechanism in inverse kinematics mode (IK mode) or forward kinematics mode (FK mode). The problem of IK can be seen as the one of finding the joint values corresponding to some specific position and/or orientation of a given body element (generally the end effector). More generally, it is a transformation from the task space coordinates into the joint space coordinates. For a serial manipulator for instance, the problem would be to find the value of all <a href="joints.htm">joints</a> in the manipulator given the position (and/or orientation) of the end effector. The inverse problem - finding the end effector position given the joint values - is referred to as FK problem and is often perceived as an easier task than IK. This is surely true when dealing with open kinematic chains, but does not hold true for general type mechanical configurations as following one for instance:
+<p>CoppeliaSim's inverse kinematics (IK) calculation module is very powerful and flexible. It allows handling virtually any type of mechanism in inverse kinematics mode (IK mode) or forward kinematics mode (FK mode). </p>
+<p>The problem of IK can be seen as the one of finding the joint values corresponding to some specific position and/or orientation of a given body element (generally the end effector). More generally, it is a transformation from the task space coordinates into the joint space coordinates. For a serial manipulator for instance, the problem would be to find the value of all <a href="joints.htm">joints</a> in the manipulator given the position (and/or orientation) of the end effector. The inverse problem - finding the end effector position and/or orientation given the joint values - is referred to as FK problem and is often perceived as an easier task than IK. This is surely true when dealing with open kinematic chains, but does not hold true for general type mechanical configurations as following one for instance:
 </p>
 
 <p align=center><img src="images/inverseKinematics1.jpg"></p>
 <p class=imageLabel>[Non-trivial FK problem: knowing the joint values indicated by the arrows, the end effector position and orientation is sought]</p>
 <br>
 
-<p>Some results of the inverse kinematics calculation module can be recorded by graph objects. Refer to <a href="graphs.htm">graphs</a> and <a href="dataStreamTypes.htm">graph data stream types</a> for more information about how to record inverse kinematics calculation data.
-</p>
-
-<p>The kinematics functionality is also available for stand-alone applications (i.e. applications not directly part of the CoppeliaSim framework, like  applications on a different computer,  on a robot, or controller). This is made possible via the <a href="coppeliaKinematicsRoutines.htm">Coppelia kinematics routines</a>.</p>
-
-<p>Finally, make sure to have a look at the various simple example scenes related to IK and FK in folder <em>scenes/ik_fk_simple_examples</em>.</p>
-
-
+<p>Within CoppeliaSim, the kinematics functionality is available through two different, independent methods:</p>
+<li>method1, via the <a href="kinematicsPlugin.htm">kinematics plugin</a> API functions: this method allows setting up complex kinematics tasks via API functions exclusively. It is the recommended method since it allows to nicely isolate the kinematics functionality from the other aspects a simulation model might be involved with (e.g. dynamics, etc.)</li>
+<li>method2, via the built-in kinematics functionality (via the GUI): a kinematic task is prepared by setting up and using scene objects, <a href="ikDialog.htm">creating IK elements and IK groups via the GUI</a>. This method is only recommended for complex mechanisms consisting of several dozens of joints including loop closures, parallel mechanisms, etc.</li>
+<p>Independently of the method selected, CoppeliaSim's kinematics functionality uses exactly the same concepts and terminology in order to set up a kinematics task:</p>
+<li><a href="basicsOnIkGroupsAndIkElements.htm">Basics on IK groups and IK elements</a></li>
+<li><a href="solvingIkAndFk.htm">Solving IK and FK for any type of mechanism</a></li>
+<p>Finally, make sure to have a look at <a href="inverseKinematicsTutorial.htm">inverse kinematics tutorial</a>, and the various simple example scenes related to IK and FK in folder <em>scenes/ik_fk_simple_examples</em>.</p>
 <br>
 <h3 class=recommendedTopics>Recommended topics</h3>
 
 
-<li><a href="apiFunctionListCategory.htm#generalIkFunctionality">Related API functions (regular API)</a></li>
-<li><a href="coppeliaKinematicsRoutines.htm">Related API functions (auxiliary API)</a></li>
 <li><a href="basicsOnIkGroupsAndIkElements.htm">Basics on IK groups and IK elements</a></li>
 <li><a href="solvingIkAndFk.htm">Solving IK and FK for any type of mechanism</a></li>
-<li><a href="ikDialog.htm">Inverse kinematics dialog</a></li>
-<li><a href="coppeliaKinematicsRoutines.htm">Coppelia kinematics routines</a></li>
+<li><a href="inverseKinematicsTutorial.htm">Inverse kinematics tutorial</a></li>
 <br>
 <br>
  </tr>
