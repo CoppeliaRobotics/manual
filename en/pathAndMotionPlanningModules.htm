@@ -29,7 +29,8 @@
 <li>Create the required state space, which can be composed as a compound object: <a href="omplApi.htm#createStateSpace">simOMPL.createStateSpace</a> and <a href="omplApi.htm#setStateSpace">simOMPL.setStateSpace</a>.</li>
 <li>Specify which entities are not allowed to collide with <a href="omplApi.htm#setCollisionPairs">simOMPL.setCollisionPairs</a>.</li>
 <li>Specify the start and goal state with <a href="omplApi.htm#setStartState">simOMPL.setStartState</a> and <a href="omplApi.htm#setGoalState">simOMPL.setGoalState</a>.</li>
-<li>Compute one or several paths with <a href="omplApi.htm#compute">simOMPL.compute</a> (or explicitly use <a href="omplApi.htm#setup">simOMPL.setup</a> and <a href="omplApi.htm#solve">simOMPL.solve</a>, see below).</li>
+<li>Call <a href="omplApi.htm#setup">simOMPL.setup</a> once to initialize OMPL's data structures.</li>
+<li>Compute one (or more) paths with <a href="omplApi.htm#compute">simOMPL.compute</a>; when called multiple times it will reuse previously computed data, if the chosen algorithm supports it, e.g.: multi-query planners such as PRM.</li>
 <li>Destroy the path planning task with <a href="omplApi.htm#destroyTask">simOMPL.destroyTask</a>.</li>
 <li>Often, path planning is used in combination with inverse kinematics: in a pick-and-place task for instance, the final approach should usually be a straight-line path, which can be generated with <a href="regularApi/simGenerateIkPath.htm">sim.generateIkPath</a>.</li>
 
@@ -39,24 +40,15 @@
 <li><a href="omplApi.htm#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a></li>
 <li><a href="omplApi.htm#setGoalCallback">simOMPL.setGoalCallback</a></li>
 
-<h3>Note about optimality</h3>
+<h3>Path optimality</h3>
 
 <p>Most of the planners use randomized algorithms, which don't provide optimal (i.e. shortest) paths. Some of those are <em>optimizing</em> planners, meaning that they are still randomized, but will use the remaining planning time to improve the first solution found.</p>
 
-<p>If a short path is preferable, then an optimizing planner (such as RRT*) should be used</p>
+<p>If a short path is preferable, then an optimizing planner (such as RRT*) should be used.</p>
 
-<h3>Note about multi-query planners</h3>
+<h3>Multi-query planners</h3>
 
-<p>Please note that <a href="omplApi.htm#compute">simOMPL.compute</a> is simply a shorthand for:</p>
-
-<pre>    simOMPL.setup(task)
-    if simOMPL.solve(task, maxTime) then
-        simOMPL.simplifyPath(task, maxSimplificationTime)
-        simOMPL.interpolatePath(task, stateCnt)
-        path = simOMPL.getPath(task)
-    end</pre>
-
-<p>This more verbose form should be used in case of a multi-query planner, to ensure that <a href="omplApi.htm#setup">simOMPL.setup</a> is called only once, as that would erase the previously computed roadmap.</p>
+<p>When using multi-query planners, just call <a href="omplApi.htm#setStartState">simOMPL.setStartState</a> and <a href="omplApi.htm#compute">simOMPL.compute</a> again. Planning will re-use and expand the previously built roadmap.</p>
 
 <p>&nbsp;</p>
 
