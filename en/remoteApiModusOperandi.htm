@@ -116,7 +116,7 @@ simxGetPingTime(clientID,&pingTime); // needed to insure that above reaches Copp
 <p class=imageLabel>[Data streaming]</p>
 <br>
 
-<p>Once you are done streaming the data, the remote API client should always inform the server (i.e. CoppeliaSim) to stop streaming that data, otherwise the server will continue to stream unnecessary data and eventually slow down. Use the <em>simx_opmode_discontinue</em> operation mode for that.</p>
+<p>Once you are done streaming the data, the remote API client should always inform the server (i.e. CoppeliaSim) to stop streaming that data, otherwise the server will continue to stream unnecessary data and eventually slow down. Use the <em>simx_opmode_discontinue</em> operation mode for that. Also, if you have enabled data streaming for a specific command (e.g. <a href="remoteApiFunctionsPython.htm#simxGetJointPosition">simxGetJointPosition</a>), then you shouldn't use any other operation mode with that specific command than <em>simx_opmode_buffer</em> or <em>simx_opmode_discontinue</em>, otherwise streaming will be interrupted on the client side (but data still sent on the server side).</p>
 <br>
 
 

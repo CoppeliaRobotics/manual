@@ -18,14 +18,14 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikAddIkElement(int ikGroupHandle,int tipHandle,int* ikElementIndex)</td>
+<td class="apiTableRightCSyn">bool ikAddIkElement(int ikGroupHandle,int tipHandle,int* ikElementHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
 <div><strong>tipHandle</strong>: the handle of the dummy object that should act as the tip in the IK element.</div>
-<div><strong>ikElementIndex</strong>: the IK element index in the IK group, in return.</div>
+<div><strong>ikElementHandle</strong>: the IK element handle in the IK group, in return.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -93,7 +93,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#ikEraseEnvironment">ikEraseEnvironment</a>, <a href="#ikSwitchEnvironment">ikSwitchEnvironment</a>, <a href="#ikLoad">ikLoad</a></td>
+<td class="apiTableRightDescr"><a href="#ikEraseEnvironment">ikEraseEnvironment</a>, <a href="#ikSwitchEnvironment">ikSwitchEnvironment</a>, <a href="#ikDuplicateEnvironment">ikDuplicateEnvironment</a>, <a href="#ikLoad">ikLoad</a></td>
 </tr>
 </table>
 <br>
@@ -243,6 +243,34 @@
 <br>
 
 <h3 class="subsectionBar">
+<a name="ikDuplicateEnvironment" id="ikDuplicateEnvironment"></a>ikDuplicateEnvironment</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Duplicate current IK environment. Can be used to operate on an environment without modifying the original environment</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftCSyn">Synopsis</td>
+<td class="apiTableRightCSyn">bool ikDuplicateEnvironment(int* newEnvironmentHandle)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftCParam">Arguments</td>
+<td class="apiTableRightCParam">
+<div><strong>newEnvironmentHandle</strong>: the handle of the newly created environment.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftCRet">Return value</td>
+<td class="apiTableRightCRet">true in case of success.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#ikEraseEnvironment">ikEraseEnvironment</a>, <a href="#ikSwitchEnvironment">ikSwitchEnvironment</a>, <a href="#ikDuplicateEnvironment">ikDuplicateEnvironment</a>, <a href="#ikCreateEnvironment">ikCreateEnvironment</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
 <a name="ikEraseEnvironment" id="ikEraseEnvironment"></a>ikEraseEnvironment</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -316,7 +344,7 @@
 <div><strong>jointCnt</strong>: the number of joint handles provided in the jointHandles array.</div>
 <div><strong>jointHandles</strong>: an array with jointCnt entries, that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
 <div><strong>thresholdDist</strong>: a distance indicating when IK should be computed in order to try to bring the tip onto the target: since the search algorithm proceeds by generating random configurations, many of them produce a tip pose that is too far from the target pose to run IK successfully. Choosing a large value will result in slow calculations, choosing a small value might produce a smaller subset of solutions. Distance between two poses is calculated using a metric (see metric argument below).</div>
-<div><strong>maxIterations</strong>: the maximum number of iterations before this function returns.</div>
+<div><strong>maxIterations</strong>: the maximum number of iterations before this function returns. Alternatively, one can specify an upper time limit, in milliseconds, after which the function returns with maxIterations=-timeLimitInMs.</div>
 <div><strong>retConfig</strong>: an array with jointCnt entries, that will receive the IK calculated joint values, as specified by the jointHandles array.</div>
 <div><strong>metric</strong>: an array to 4 values indicating a metric used to compute pose-pose distances: distance=sqrt((dx*metric[0])^2+(dy*metric[1])^2+(dz*metric[2])^2+(angle*metric[3])^2).</div>
 <div><strong>validationCallback</strong>: a callback function taking as input argument the proposed joint values (i.e. a configuration), and as return value whether the configuration is valid (e.g. is not colliding).</div>
@@ -345,13 +373,13 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikGetIkElementBase(int ikGroupHandle,int ikElementIndex,int* baseHandle,int* constraintsBaseHandle)</td>
+<td class="apiTableRightCSyn">bool ikGetIkElementBase(int ikGroupHandle,int ikElementHandle,int* baseHandle,int* constraintsBaseHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
 <div><strong>baseHandle</strong>: the handle of the base object, in return, or -1 if the world is the base.</div>
 <div><strong>constraintsBaseHandle</strong>: the handle of the constraints base object, in return, relative to which the constraints are specified. Returns -1 if the constraints are relative to the base object.</div>
 </td>
@@ -376,13 +404,13 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikGetIkElementConstraints(int ikGroupHandle,int ikElementIndex,int* constraints)</td>
+<td class="apiTableRightCSyn">bool ikGetIkElementConstraints(int ikGroupHandle,int ikElementHandle,int* constraints)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
 <div><strong>constraints</strong>: the constraints, in return. A combination of following is possible: ik_constraint_x, ik_constraint_y, ik_constraint_z, ik_constraint_alpha_beta, ik_constraint_gamma. For convenience we also have ik_constraint_position=ik_constraint_x|ik_constraint_y|ik_constraint_z, ik_constraint_orientation=ik_constraint_alpha_beta|ik_constraint_gamma, and ik_constraint_pose=ik_constraint_position|ik_constraint_orientation.</div>
 </td>
 </tr>
@@ -398,22 +426,22 @@
 <br>
 
 <h3 class="subsectionBar">
-<a name="ikGetIkElementEnabled" id="ikGetIkElementEnabled"></a>ikGetIkElementEnabled</h3>
+<a name="ikGetIkElementFlags" id="ikGetIkElementFlags"></a>ikGetIkElementFlags</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Retrieves the enabled flag of an IK element.</td>
+<td class="apiTableRightDescr">Retrieves various flags of an IK element.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikGetIkElementEnabled(int ikGroupHandle,int ikElementIndex,bool* enabled)</td>
+<td class="apiTableRightCSyn">bool ikGetIkElementFlags(int ikGroupHandle,int ikElementHandle,int* flags)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
-<div><strong>enabled</strong>: the enabled flag, in return.</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>flags</strong>: bit-coded flags, in return: bit0 set (1): the enabled state of the ik element.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -422,7 +450,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#ikSetIkElementEnabled">ikSetIkElementEnabled</a>, <a href="#ikGetIkGroupHandle">ikGetIkGroupHandle</a>, <a href="#ikGetObjectHandle">ikGetObjectHandle</a></td>
+<td class="apiTableRightDescr"><a href="#ikSetIkElementFlags">ikSetIkElementFlags</a>, <a href="#ikGetIkGroupHandle">ikGetIkGroupHandle</a>, <a href="#ikGetObjectHandle">ikGetObjectHandle</a></td>
 </tr>
 </table>
 <br>
@@ -436,13 +464,13 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikGetIkElementPrecision(int ikGroupHandle,int ikElementIndex,simReal* linearPrecision,simReal* angularPrecision)</td>
+<td class="apiTableRightCSyn">bool ikGetIkElementPrecision(int ikGroupHandle,int ikElementHandle,simReal* linearPrecision,simReal* angularPrecision)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
 <div><strong>linearPrecision</strong>: the required linear precision, in return.</div>
 <div><strong>angularPrecision</strong>: the required angular precision, in return.</div>
 </td>
@@ -467,13 +495,13 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikGetIkElementWeights(int ikGroupHandle,int ikElementIndex,simReal* linearWeight,simReal* angularWeight)</td>
+<td class="apiTableRightCSyn">bool ikGetIkElementWeights(int ikGroupHandle,int ikElementHandle,simReal* linearWeight,simReal* angularWeight)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
 <div><strong>linearWeight</strong>: the linear resolution weight, in return.</div>
 <div><strong>angularWeight</strong>: the angular resolution weight, in return.</div>
 </td>
@@ -873,6 +901,36 @@
 <br>
 
 <h3 class="subsectionBar">
+<a name="ikGetJointType" id="ikGetJointType"></a>ikGetJointType</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Retrieves the joint type.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftCSyn">Synopsis</td>
+<td class="apiTableRightCSyn">bool ikGetJointType(int jointHandle,int* jointType)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftCParam">Arguments</td>
+<td class="apiTableRightCParam">
+<div><strong>jointHandle</strong>: the handle of the joint.</div>
+<div><strong>jointType</strong>: the joint type, in return. Possible values are: ik_jointtype_revolute, ik_jointtype_prismatic and ik_jointtype_spherical.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftCRet">Return value</td>
+<td class="apiTableRightCRet">true in case of success.</td>
+</tr>
+<tr class="apiTableTr">
+
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#ikCreateJoint">ikCreateJoint</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
 <a name="ikGetLastError" id="ikGetLastError"></a>ikGetLastError</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -1202,13 +1260,13 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikSetIkElementBase(int ikGroupHandle,int ikElementIndex,int baseHandle,int constraintsBaseHandle=-1)</td>
+<td class="apiTableRightCSyn">bool ikSetIkElementBase(int ikGroupHandle,int ikElementHandle,int baseHandle,int constraintsBaseHandle=-1)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
 <div><strong>baseHandle</strong>: the handle of the base object, or -1 if the world is the base.</div>
 <div><strong>constraintsBaseHandle</strong>: the handle of the constraints base object, relative to which the constraints are specified. Set to -1 to have the constraints relative to the base object.</div>
 </td>
@@ -1233,13 +1291,13 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikSetIkElementConstraints(int ikGroupHandle,int ikElementIndex,int constraints)</td>
+<td class="apiTableRightCSyn">bool ikSetIkElementConstraints(int ikGroupHandle,int ikElementHandle,int constraints)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
 <div><strong>constraints</strong>: the constraints. Combine following: ik_constraint_x, ik_constraint_y, ik_constraint_z, ik_constraint_alpha_beta, ik_constraint_gamma (ik_constraint_gamma should only be set if ik_constraint_alpha_beta is also set). For convenience we also have ik_constraint_position=ik_constraint_x|ik_constraint_y|ik_constraint_z, ik_constraint_orientation=ik_constraint_alpha_beta|ik_constraint_gamma, and ik_constraint_pose=ik_constraint_position|ik_constraint_orientation.</div>
 </td>
 </tr>
@@ -1255,22 +1313,22 @@
 <br>
 
 <h3 class="subsectionBar">
-<a name="ikSetIkElementEnabled" id="ikSetIkElementEnabled"></a>ikSetIkElementEnabled</h3>
+<a name="ikSetIkElementFlags" id="ikSetIkElementFlags"></a>ikSetIkElementFlags</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Sets the enabled flag of an IK element.</td>
+<td class="apiTableRightDescr">Sets various flags for an IK element.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikSetIkElementEnabled(int ikGroupHandle,int ikElementIndex,bool enabled)</td>
+<td class="apiTableRightCSyn">bool ikSetIkElementFlags(int ikGroupHandle,int ikElementHandle,int flags)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
-<div><strong>enabled</strong>: the enabled flag.</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>flags</strong>: bit-coded flags: bit0 set (1): the enabled state of the ik element.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1279,7 +1337,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#ikGetIkElementEnabled">ikGetIkElementEnabled</a>, <a href="#ikGetIkGroupHandle">ikGetIkGroupHandle</a>, <a href="#ikGetObjectHandle">ikGetObjectHandle</a></td>
+<td class="apiTableRightDescr"><a href="#ikGetIkElementFlags">ikGetIkElementFlags</a>, <a href="#ikGetIkGroupHandle">ikGetIkGroupHandle</a>, <a href="#ikGetObjectHandle">ikGetObjectHandle</a></td>
 </tr>
 </table>
 <br>
@@ -1293,13 +1351,13 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikSetIkElementPrecision(int ikGroupHandle,int ikElementIndex,simReal linearPrecision,simReal angularPrecision)</td>
+<td class="apiTableRightCSyn">bool ikSetIkElementPrecision(int ikGroupHandle,int ikElementHandle,simReal linearPrecision,simReal angularPrecision)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
 <div><strong>linearPrecision</strong>: the required linear precision.</div>
 <div><strong>angularPrecision</strong>: the required angular precision.</div>
 </td>
@@ -1324,13 +1382,13 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikSetIkElementWeights(int ikGroupHandle,int ikElementIndex,simReal linearWeight,simReal angularWeight)</td>
+<td class="apiTableRightCSyn">bool ikSetIkElementWeights(int ikGroupHandle,int ikElementHandle,simReal linearWeight,simReal angularWeight)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>ikElementIndex</strong>: the IK element index, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
+<div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
 <div><strong>linearWeight</strong>: the desired linear resolution weight.</div>
 <div><strong>angularWeight</strong>: the desired angular resolution weight.</div>
 </td>

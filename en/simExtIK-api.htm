@@ -258,6 +258,36 @@
 <br>
 
 <h3 class="subsectionBar">
+<a name="simIK.duplicateEnvironment" id="simIK.duplicateEnvironment"></a>simIK.duplicateEnvironment</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Duplicates an IK environment. Useful when operating on an environment while leaving the original environment unchanged.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">number newEnvironmentHandle=simIK.duplicateEnvironment(number environmentHandle)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+<div><strong>newEnvironmentHandle</strong>: the handle of the duplicated environment.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.eraseEnvironment">simIK.eraseEnvironment</a>, <a href="#simIK.createEnvironment">simIK.createEnvironment</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
 <a name="simIK.eraseEnvironment" id="simIK.eraseEnvironment"></a>simIK.eraseEnvironment</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -317,11 +347,46 @@
 <br>
 
 <h3 class="subsectionBar">
+<a name="simIK.getAlternateConfigs" id="simIK.getAlternateConfigs"></a>simIK.getAlternateConfigs</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Useful when called after <a href="#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>: generates alternative manipulator configurations, for a same end-effector pose, for a manipulator that has revolute joints with a range larger than 360 degrees. The original submitted configuration will be part of the returned configurations.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">table configurations=simIK.getAlternateConfigs(number environmentHandle,table jointHandles,table inputConfig,number tipHandle=-1,table lowLimits=nil,table ranges=nil)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment.</div>
+<div><strong>jointHandles</strong>: a table with the handles of the manipulator joints.</div>
+<div><strong>inputConfig</strong>: the manipulator configuration (i.e. joint values).</div>
+<div><strong>tipHandle</strong>: the handle of the object acting as end-effector or tip of the kinematic chain, used to make sure the additional configurations have the same end-effector pose (e.g. in case some joints are dependent on others). Can be set to -1 if there are no joint dependencies involved.</div>
+<div><strong>lowLimits</strong>: a table with joint low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
+<div><strong>ranges</strong>: a table with joint range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+<div><strong>configurations</strong>: a table containing configurations that are equivalent to the specified inputConfig, in terms of end-effector pose.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
 <a name="simIK.getConfigForTipPose" id="simIK.getConfigForTipPose"></a>simIK.getConfigForTipPose</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Searches for a manipulator configuration that matches a given end-effector position/orientation in space. Search is randomized.</td>
+<td class="apiTableRightDescr">Searches for a manipulator configuration that matches a given end-effector position/orientation in space. Search is randomized. One should call <a href="#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a> for each returned configuration, if some revolute joints of the manipulator have a range of more than 360 degrees, in order to generate some equivalent poses but alternate configurations.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
@@ -351,7 +416,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.getJacobian">simIK.getJacobian</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.getJacobian">simIK.getJacobian</a></td>
 </tr>
 </table>
 <br>
@@ -924,6 +989,37 @@
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
 <td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.setSphericalJointRotation">simIK.setSphericalJointRotation</a>, <a href="#simIK.getJointPosition">simIK.getJointPosition</a>, <a href="#simIK.getJointMatrix">simIK.getJointMatrix</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
+<a name="simIK.getJointType" id="simIK.getJointType"></a>simIK.getJointType</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Retrieves the joint type.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">number jointType=simIK.getJointType(number environmentHandle,number jointHandle)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment.</div>
+<div><strong>jointHandle</strong>: the handle of the joint.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+<div><strong>jointType</strong>: the joint type. Possible values are: simIK.jointtype_revolute, simIK.jointtype_prismatic and simIK.jointtype_spherical</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.createJoint">simIK.createJoint</a></td>
 </tr>
 </table>
 <br>
