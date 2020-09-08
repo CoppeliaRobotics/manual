@@ -34,7 +34,75 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getIkGroupHandle">simIK.getIkGroupHandle</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getIkGroupHandle">simIK.getIkGroupHandle</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a>, <a href="#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
+<a name="simIK.addIkElementFromScene" id="simIK.addIkElementFromScene"></a>simIK.addIkElementFromScene</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Convenience function to quickly generate an IK element from a kinematic chain in the scene. Use together with <a href="#simIK.applyIkToScene">simIK.applyIkToScene</a>.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">number ikElement=simIK.addIkElementFromScene(number environmentHandle,number ikGroup,number baseHandle,number tipHandle,number targetHandle,number constraints,table nonIkJoints={})</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the IK environment.</div>
+<div><strong>ikGroup</strong>: the handle of the IK group, where the IK element should be added.</div>
+<div><strong>baseHandle</strong>: the handle of the base object in the scene. Can be -1 if the base of the kinematic chain is not moving nor changing orientation.</div>
+<div><strong>tipHandle</strong>: the handle of the tip object in the scene.</div>
+<div><strong>targetHandle</strong>: the handle of the target object in the scene.</div>
+<div><strong>constraints</strong>: the constraints for the IK element that should be created. Bit-combine following: simIK.constraint_x, simIK.constraint_y, simIK.constraint_z, simIK.constraint_alpha_beta, simIK.constraint_gamma (simIK.constraint_gamma should only be set if simIK.constraint_alpha_beta is also set). For convenience we also have simIK.constraint_position=simIK.constraint_x|simIK.constraint_y|simIK.constraint_z, simIK.constraint_orientation=simIK.constraint_alpha_beta|simIK.constraint_gamma, and simIK.constraint_pose=simIK.constraint_position|simIK.constraint_orientation.</div>
+<div><strong>nonIkJoints</strong>: an optional exclusion list of scene joint handles, that are in the specified kinematic chain, but will not be involved in inverse kinematics calculations.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+<div><strong>ikElement</strong>: the handle of the created IK element.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.applyIkToScene">simIK.applyIkToScene</a>, <a href="#simIK.addIkElement">simIK.addIkElement</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
+<a name="simIK.applyIkToScene" id="simIK.applyIkToScene"></a>simIK.applyIkToScene</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Convenience function to compute and apply inverse kinematic values to the scene. Use together with <a href="#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a>.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">number result=simIK.applyIkToScene(number environmentHandle,number ikGroup,bool applyOnlyWhenSuccessful=false)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the IK environment.</div>
+<div><strong>ikGroup</strong>: the handle of the IK group.</div>
+<div><strong>applyOnlyWhenSuccessful</strong>: whether computed values should only be applied if computation result is simIK.ikresult_success.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+<div><strong>result</strong>: the resolution result, in return. Possible values are simIK.ikresult_not_performed, simIK.ikresult_success, or simIK.ikresult_fail</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a></td>
 </tr>
 </table>
 <br>
@@ -72,35 +140,6 @@
 <br>
 
 <h3 class="subsectionBar">
-<a name="simIK.createEnvironment" id="simIK.createEnvironment"></a>simIK.createEnvironment</h3>
-<table class="apiTable">
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Creates an new IK environment.</td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">number environmentHandle=simIK.createEnvironment()</td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftLParam">Arguments</td>
-<td class="apiTableRightLParam">
-</td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftLRet">Return values</td>
-<td class="apiTableRightLRet">
-<div><strong>environmentHandle</strong>: the handle of the newly created environment.</div>
-</td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.eraseEnvironment">simIK.eraseEnvironment</a>, <a href="#simIK.load">simIK.load</a></td>
-</tr>
-</table>
-<br>
-
-<h3 class="subsectionBar">
 <a name="simIK.createDummy" id="simIK.createDummy"></a>simIK.createDummy</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -127,6 +166,35 @@
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
 <td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.doesObjectExist">simIK.doesObjectExist</a>, <a href="#simIK.createJoint">simIK.createJoint</a>, <a href="#simIK.eraseObject">simIK.eraseObject</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
+<a name="simIK.createEnvironment" id="simIK.createEnvironment"></a>simIK.createEnvironment</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Creates an new IK environment.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">number environmentHandle=simIK.createEnvironment()</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+<div><strong>environmentHandle</strong>: the handle of the newly created environment.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.eraseEnvironment">simIK.eraseEnvironment</a>, <a href="#simIK.load">simIK.load</a></td>
 </tr>
 </table>
 <br>
@@ -365,7 +433,7 @@
 <div><strong>inputConfig</strong>: the manipulator configuration (i.e. joint values).</div>
 <div><strong>tipHandle</strong>: the handle of the object acting as end-effector or tip of the kinematic chain, used to make sure the additional configurations have the same end-effector pose (e.g. in case some joints are dependent on others). Can be set to -1 if there are no joint dependencies involved.</div>
 <div><strong>lowLimits</strong>: a table with joint low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
-<div><strong>ranges</strong>: a table with joint range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
+<div><strong>ranges</strong>: a table with joint range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals. If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current joint position, with an extent of (-range).</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -405,7 +473,7 @@
 <div><strong>scriptType</strong>: the type of the script the callback function is contained in. Can be sim_scripttype_mainscript, sim.scripttype_sandboxscript, sim_scripttype_childscript, sim_scripttype_customizationscript, or sim.scripttype_addonscript</div>
 <div><strong>jointOptions</strong>: a table with bit-coded values corresponding to each specified joint handle. Bit 0 (i.e. 1) indicates the corresponding joint is dependent of another joint.</div>
 <div><strong>lowLimits</strong>: a table with joint low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
-<div><strong>ranges</strong>: a table with joint range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
+<div><strong>ranges</strong>: a table with joint range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals. If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current joint position, with an extent of (-range).</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -603,7 +671,7 @@
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Return values</td>
 <td class="apiTableRightLRet">
-<div><strong>method</strong>: the resolution method. Possible values are simIK.method_pseudo_inverse and simIK.method_damped_least_squares.</div>
+<div><strong>method</strong>: the resolution method. Possible values are simIK.method_pseudo_inverse (features a tiny bit of hard-coded damping), simIK.method_undamped_pseudo_inverse, simIK.method_damped_least_squares and simIK.method_jacobian_transpose.</div>
 <div><strong>damping</strong>: the damping, in case the resolution method is simIK.method_damped_least_squares.</div>
 <div><strong>maxIterations</strong>: the maximum number of iterations.</div>
 </td>
@@ -1486,7 +1554,7 @@
 <td class="apiTableRightLParam">
 <div><strong>environmentHandle</strong>: the handle of the environment.</div>
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>method</strong>: the resolution method. Possible values are simIK.method_pseudo_inverse and simIK.method_damped_least_squares.</div>
+<div><strong>method</strong>: the resolution method. Possible values are simIK.method_pseudo_inverse (features a tiny bit of hard-coded damping), simIK.method_undamped_pseudo_inverse, simIK.method_damped_least_squares and simIK.method_jacobian_transpose.</div>
 <div><strong>damping</strong>: the damping, in case the resolution method is simIK.method_damped_least_squares.</div>
 <div><strong>maxIterations</strong>: the maximum number of iterations.</div>
 </td>

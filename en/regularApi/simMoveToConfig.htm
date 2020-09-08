@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simRMLMoveToJointPositions</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<h1><a href="../apiOverview.htm">Regular API</a> function</h1>
+<h3 class=subsectionBar><a name="simMoveToJointConfig" id="simMoveToJointConfig"></a>sim.moveToJointConfig 
+</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Generates joint movement data using the <a href="http://www.reflexxes.com">Reflexxes Motion Library type II or IV</a>. This function   can only be called from <a href="../childScripts.htm">child scripts</a> running in a thread or from a coroutine (since this is   a blocking operation).  See also <a href="simMoveToPose.htm">sim.moveToPose</a>, and <a href="simRMLPos.htm">sim.rmlPos</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn><div></div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam><div></div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div></div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>table endPos,table endVel,table endAccel=sim.moveToConfig(number flags,table currentPos,table currentVel,table currentAccel,table maxVel,table maxAccel,table maxJerk,table targetPos,table targetVel,function callback,auxData,table cyclicJoints=nil)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>flags</strong>: <a href="../apiConstants.htm#RMLFunctions">RML flags</a>. -1 for default flags.</div>
+<div><strong>currentPos</strong>: the current configuration, i.e. the current joint positions/angles.</div>
+<div><strong>currentVel</strong>: the current velocity. Can be nil in which case a velocity vector of 0 is used.</div>
+<div><strong>currentAccel</strong>: the current acceleration. Can be nil in which case an acceleration vector of 0 is used.</div>
+<div><strong>maxVel</strong>: the maximum allowed velocity.</div>
+<div><strong>maxAccel</strong>: the maximum allowed acceleration.</div>
+<div><strong>maxJerk</strong>: the maximum allowed jerk. With the RML type II plugin, the max. jerk will however always be infinite.</div>
+<div><strong>targetPos</strong>: the desired target configuration.</div>
+<div><strong>targetVel</strong>: the desired target point velocity. Can be nil in which case a velocity vector of 0 is used.</div>
+<div><strong>callback</strong>: a callback function that will be called for each movement. The arguments provided to the callback function are: currentConfig, currentVel, currentAccel, auxData.</div>
+<div><strong>auxData</strong>: random data that will be forwarded to the callback function.</div>
+<div><strong>cyclicJoints</strong>: a table of booleans indicating which joint is cyclic (for cyclic joints, the movement will always go in the direction that represents the shortest distance to the goal). Can be nil or omitted.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>endPos</strong>: the configuration at the end of the movement.</div>
+<div><strong>endVel</strong>: the velocity at the end of the movement.</div>
+<div><strong>endAccel</strong>: the acceleration at the end of the movement.</div>
+</td> 
+</tr> 
+</table> 
+
+<br>
+<p><a href="../apiFunctions.htm">All regular API functions on one page</a></p>
+<br>
+<br>
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

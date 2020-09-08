@@ -350,7 +350,7 @@
 <div><strong>validationCallback</strong>: a callback function taking as input argument the proposed joint values (i.e. a configuration), and as return value whether the configuration is valid (e.g. is not colliding).</div>
 <div><strong>jointOptions</strong>: a bit-coded value corresponding to each specified joint handle. Bit 0 (i.e. 1) indicates the corresponding joint is dependent of another joint.</div>
 <div><strong>lowLimits</strong>: an optional array pointing to different low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
-<div><strong>ranges</strong>: an optional array pointing to different range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
+<div><strong>ranges</strong>: an optional array pointing to different range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals. If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current joint position, with an extent of (-range).</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -532,7 +532,7 @@
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>method</strong>: the resolution method, in return. Possible values are ik_method_pseudo_inverse and ik_method_damped_least_squares.</div>
+<div><strong>method</strong>: the resolution method, in return. Possible values are ik_method_pseudo_inverse (features a tiny bit of hard-coded damping), ik_method_undamped_pseudo_inverse, ik_method_damped_least_squares and ik_method_jacobian_transpose.</div>
 <div><strong>damping</strong>: the damping, in case the resolution method is ik_method_damped_least_squares, in return.</div>
 <div><strong>maxIterations</strong>: the maximum number of iterations, in return.</div>
 </td>
@@ -1419,7 +1419,7 @@
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>method</strong>: the resolution method. Possible values are ik_method_pseudo_inverse and ik_method_damped_least_squares.</div>
+<div><strong>method</strong>: the resolution method. Possible values are ik_method_pseudo_inverse (features a tiny bit of hard-coded damping), ik_method_undamped_pseudo_inverse, ik_method_damped_least_squares and ik_method_jacobian_transpose.</div>
 <div><strong>damping</strong>: the damping, in case the resolution method is ik_method_damped_least_squares.</div>
 <div><strong>maxIterations</strong>: the maximum number of iterations.</div>
 </td>
