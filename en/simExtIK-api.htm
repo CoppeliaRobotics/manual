@@ -48,7 +48,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">number ikElement=simIK.addIkElementFromScene(number environmentHandle,number ikGroup,number baseHandle,number tipHandle,number targetHandle,number constraints,table nonIkJoints={})</td>
+<td class="apiTableRightLSyn">number ikElement,table simToIkObjectMap=simIK.addIkElementFromScene(number environmentHandle,number ikGroup,number baseHandle,number tipHandle,number targetHandle,number constraints)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -59,13 +59,13 @@
 <div><strong>tipHandle</strong>: the handle of the tip object in the scene.</div>
 <div><strong>targetHandle</strong>: the handle of the target object in the scene.</div>
 <div><strong>constraints</strong>: the constraints for the IK element that should be created. Bit-combine following: simIK.constraint_x, simIK.constraint_y, simIK.constraint_z, simIK.constraint_alpha_beta, simIK.constraint_gamma (simIK.constraint_gamma should only be set if simIK.constraint_alpha_beta is also set). For convenience we also have simIK.constraint_position=simIK.constraint_x|simIK.constraint_y|simIK.constraint_z, simIK.constraint_orientation=simIK.constraint_alpha_beta|simIK.constraint_gamma, and simIK.constraint_pose=simIK.constraint_position|simIK.constraint_orientation.</div>
-<div><strong>nonIkJoints</strong>: an optional exclusion list of scene joint handles, that are in the specified kinematic chain, but will not be involved in inverse kinematics calculations.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Return values</td>
 <td class="apiTableRightLRet">
 <div><strong>ikElement</strong>: the handle of the created IK element.</div>
+<div><strong>simToIkObjectMap</strong>: the mapping of scene object to IK environment objects.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -102,7 +102,37 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a>,<a href="#simIK.applySceneToIkEnvironment">simIK.applySceneToIkEnvironment</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
+<a name="simIK.applySceneToIkEnvironment" id="simIK.applySceneToIkEnvironment"></a>simIK.applySceneToIkEnvironment</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Convenience function to apply the scene state to its ik environment counterpart. Use together with <a href="#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a>.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">simIK.applySceneToIkEnvironment(number environmentHandle,number ikGroup)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the IK environment.</div>
+<div><strong>ikGroup</strong>: the handle of the IK group.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a>,<a href="#simIK.applyIkToScene">simIK.applyIkToScene</a></td>
 </tr>
 </table>
 <br>
@@ -415,23 +445,57 @@
 <br>
 
 <h3 class="subsectionBar">
+<a name="simIK.generatePath" id="simIK.generatePath"></a>simIK.generatePath</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Generates a path that drives the IK tip onto its IK target, in a straight line (i.e. shortest path in Cartesian space). The function returns a path in the configuration space if the operation was successful. A reason for a non-successful operation can be: there are some forbidden poses/configurations on the way, or some of the configuration points cannot be reached (e.g. out of reach, or due to joint limits). The IK environment remains unchanged.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">table configurationList=simIK.generatePath(number environmentHandle,table ikGroupHandle,table jointHandles,number tipHandle,number pathPointCount,function validationCallback=nil,auxData=nil</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment.</div>
+<div><strong>ikGroupHandle</strong>: the IK group handle.</div>
+<div><strong>jointHandles</strong>: a table that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
+<div><strong>tipHandle</strong>: the handle of the tip object.</div>
+<div><strong>pathPointCount</strong>: the desired number of path points. Each path point contains a joint configuration. A minimum of two path points is required.</div>
+<div><strong>validationCallback</strong>: an optional callback function. The callback function takes as input arguments proposed joint values (i.e. a configuration) and  <strong>auxData</strong>, and as return value whether the configuration is valid (e.g. is not colliding).</div>
+<div><strong>auxData</strong>: auxiliary data that will be handed to the validation callback.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+<div><strong>configurationList</strong>: a table that contains configurations that will bring the IK tip onto its IK target.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.duplicateEnvironment">simIK.duplicateEnvironment</a></td>
+</tr>
+</table>
+<br>
+
+<h3 class="subsectionBar">
 <a name="simIK.getAlternateConfigs" id="simIK.getAlternateConfigs"></a>simIK.getAlternateConfigs</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Useful when called after <a href="#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>: generates alternative manipulator configurations, for a same end-effector pose, for a manipulator that has revolute joints with a range larger than 360 degrees. The original submitted configuration will be part of the returned configurations.</td>
+<td class="apiTableRightDescr">Useful when called after <a href="#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>: generates alternative manipulator configurations, for a same end-effector pose, for a manipulator that has revolute joints with a range larger than 360 degrees. The original submitted configuration will be part of the returned configurations. The IK environment remains unchanged.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table configurations=simIK.getAlternateConfigs(number environmentHandle,table jointHandles,table inputConfig,number tipHandle=-1,table lowLimits=nil,table ranges=nil)</td>
+<td class="apiTableRightLSyn">table configurations=simIK.getAlternateConfigs(number environmentHandle,table jointHandles,table lowLimits=nil,table ranges=nil)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
 <td class="apiTableRightLParam">
 <div><strong>environmentHandle</strong>: the handle of the environment.</div>
 <div><strong>jointHandles</strong>: a table with the handles of the manipulator joints.</div>
-<div><strong>inputConfig</strong>: the manipulator configuration (i.e. joint values).</div>
-<div><strong>tipHandle</strong>: the handle of the object acting as end-effector or tip of the kinematic chain, used to make sure the additional configurations have the same end-effector pose (e.g. in case some joints are dependent on others). Can be set to -1 if there are no joint dependencies involved.</div>
 <div><strong>lowLimits</strong>: a table with joint low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
 <div><strong>ranges</strong>: a table with joint range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals. If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current joint position, with an extent of (-range).</div>
 </td>
@@ -454,11 +518,11 @@
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Searches for a manipulator configuration that matches a given end-effector position/orientation in space. Search is randomized. One should call <a href="#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a> for each returned configuration, if some revolute joints of the manipulator have a range of more than 360 degrees, in order to generate some equivalent poses but alternate configurations.</td>
+<td class="apiTableRightDescr">Searches for a manipulator configuration that matches the target dummy position/orientation in space. Search is randomized. One should call <a href="#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a> for each returned configuration, if some revolute joints of the manipulator have a range of more than 360 degrees, in order to generate some equivalent poses but alternate configurations. The IK environment remains unchanged.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table jointPositions=simIK.getConfigForTipPose(number environmentHandle,number ikGroupHandle,table jointHandles,number thresholdDist=0.1,number maxIterations=1000,table_4 metric={1,1,1,0.1},string validationCallback='',number scriptType=sim.scripttype_childscript,table jointOptions={},table lowLimits={},table ranges={})</td>
+<td class="apiTableRightLSyn">table jointPositions=simIK.getConfigForTipPose(number environmentHandle,number ikGroupHandle,table jointHandles,number thresholdDist=0.1,number maxTime=0.5,table_4 metric={1,1,1,0.1},function validationCallback=nil,auxData=nil,table jointOptions={},table lowLimits={},table ranges={})</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -467,10 +531,10 @@
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
 <div><strong>jointHandles</strong>: a table that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
 <div><strong>thresholdDist</strong>: a distance indicating when IK should be computed in order to try to bring the tip onto the target: since the search algorithm proceeds by generating random configurations, many of them produce a tip pose that is too far from the target pose to run IK successfully. Choosing a large value will result in slow calculations, choosing a small value might produce a smaller subset of solutions. Distance between two poses is calculated using a metric (see metric argument below).</div>
-<div><strong>maxIterations</strong>: the maximum number of iterations before this function returns. Alternatively, one can specify an upper time limit, in milliseconds, after which the function returns with maxIterations=-timeLimitInMs.</div>
+<div><strong>maxTime</strong>: the upper time limit, in seconds, after which the function returns.</div>
 <div><strong>metric</strong>: a table to 4 values indicating a metric used to compute pose-pose distances: distance=sqrt((dx*metric[1])^2+(dy*metric[2])^2+(dz*metric[3])^2+(angle*metric[4])^2).</div>
-<div><strong>validationCallback</strong>: a string indicating the callback function name. The callback function takes as input argument the proposed joint values (i.e. a configuration), and as return value whether the configuration is valid (e.g. is not colliding). If the function is contained in a child or customization script, then the validationCallback argument should be formatted as <em>functionName@scriptName</em>.</div>
-<div><strong>scriptType</strong>: the type of the script the callback function is contained in. Can be sim_scripttype_mainscript, sim.scripttype_sandboxscript, sim_scripttype_childscript, sim_scripttype_customizationscript, or sim.scripttype_addonscript</div>
+<div><strong>validationCallback</strong>: an optional callback function. The callback function takes as input arguments the proposed joint values (i.e. a configuration) and  <strong>auxData</strong>, and as return value whether the configuration is valid (e.g. is not colliding).</div>
+<div><strong>auxData</strong>: auxiliary data that will be handed to the validation callback.</div>
 <div><strong>jointOptions</strong>: a table with bit-coded values corresponding to each specified joint handle. Bit 0 (i.e. 1) indicates the corresponding joint is dependent of another joint.</div>
 <div><strong>lowLimits</strong>: a table with joint low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
 <div><strong>ranges</strong>: a table with joint range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals. If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current joint position, with an extent of (-range).</div>
@@ -484,7 +548,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.getJacobian">simIK.getJacobian</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.duplicateEnvironment">simIK.duplicateEnvironment</a>, <a href="#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.getJacobian">simIK.getJacobian</a></td>
 </tr>
 </table>
 <br>
