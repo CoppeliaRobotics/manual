@@ -19,29 +19,26 @@
 
 <h1>Simulation scripts</h1>
 
-<p>Simulation scripts are <a href="scripts.htm">embedded scripts</a> that are only executed while a simulation is running. There two types of simulation scripts: </p>
+<p>Simulation <a href="scripts.htm">scripts</a> play the central role in a simulation, and are only executed while a simulation is running. There two types of simulation scripts: </p>
 
-<p align=center><img src="images/simulationScripts.jpg"></p>
-<p class=imageLabel>[Simulation script types]</p>
-<br>
-
-<li><strong><a href="mainScript.htm">The main script</a></strong>: by default, each <a href="scenes.htm">scene</a> has a main script that handles all the functionality (that is is charge of calling child scripts (see hereafter)). Without main script, a <a href="simulation.htm">simulation</a> cannot run. The main script can be customized, but it is preferable to do all the customization work in a child script.<br>
+<li><strong><a href="mainScript.htm">The main script</a></strong>: by default, each <a href="scenes.htm">scene</a> has a main script that handles all the functionality (that is is charge of calling child scripts (see hereafter)). Without main script, a <a href="simulation.htm">simulation</a> cannot run. The main script can be customized, but it is preferable to do all the customization work in child scripts.<br>
 </li>
 
-<li><strong><a href="childScripts.htm">Child scripts</a></strong>: each <a href="objects.htm">scene object</a> can be associated with a child script that will handle a specific part of a simulation. One particularity of them is that they can also run threaded (which is not the case with any other script types). The most common use for child scripts is to have them control a <a href="models.htm">model</a> (e.g. a robot).<br>
-</li>
+<li><strong><a href="childScripts.htm">Child scripts</a></strong>: each <a href="objects.htm">scene object</a> can be associated with a child script that can handle a specific part of a simulation. The most common use for a child script is to have it control a <a href="models.htm">model</a> (e.g. a robot). Since child scripts  are attached to scene objects (i.e. they are <em>associated</em> scripts), they will also be duplicated during a copy-and-paste operation, which is an important feature that allows a simulation scene to be easily scalable. <em>Associated</em> scripts form the basis of CoppeliaSim's distributed control architecture.</li>
+
+<p>Following are the main differences between the main script and a child script:</p>
+
+<li>there can only be one main script. There can be an unlimited number of child scripts.</li>
+
+<li>the main script is independent and should preferably not be customized. Child scripts are associated with scene objects and should be customized.</li>
+
+<li>the main script is never duplicated in a copy/paste operation of scene objects. Child scripts will duplicate themselves together with their associated scene object.</li>
+
+<li>child scripts support a few more <a href="callbackFunctions.htm">callback functions</a> than the main script.</li>
 
 
-<p>Since child scripts  are attached to scene objects (i.e. they are <em>associated</em> scripts), they will also be duplicated during a copy-and-paste operation, which is an important feature that allows a simulation scene to be easily scalable. <em>Associated</em> scripts form the basis of CoppeliaSim's distributed control architecture.</p>
+<p>Simulation scripts, and all scripts in general, are mainly invoked via <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> by CoppeliaSim, and follow a precise<a href="scriptExecution.htm"> execution order </a>in relation with other script types. They can <a href="threadedAndNonThreadedCode.htm">run threaded or non-threaded</a>.</p>
 
-
-
-<br>
-<h3 class=recommendedTopics>Recommended topics</h3>
-<li><a href="mainScript.htm">The main script</a></li>
-<li><a href="childScripts.htm">Child scripts</a></li>
-<li><a href="customizationScripts.htm">Customization scripts</a></li>
-<li><a href="accessingGeneralObjects.htm">Accessing objects programmatically</a></li>
 <br>
 <br>
  </tr>

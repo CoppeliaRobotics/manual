@@ -19,21 +19,164 @@
 
 <h1>Callback functions</h1>
 
-<p>Callback functions are special script functions that are optionally called by CoppeliaSim in a specific state of a simulation step:</p>
+<p>Callbacks or callback functions are script functions that are triggered by a specific event. They represent the only entrance into a script code. They can be categorized into user callbacks, and system callbacks:</p>
+
+<li>user callback functions are directly triggered by user code, or a plugin. This happens for instance when the user calls a script function in a different script via <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a>, or when the user clicks a <a href="customUserInterfaces.htm">custom UI</a> button, which triggers a custom event. User callback functions can usually run in <a href="scripts.htm">any type of script</a>.</li>
+<li>system callback functions on the other hand are triggered by CoppeliaSim when a certain event happens, for instance when a script is initialized, or before the switch to another scene. System callback functions have fixed function names, such as <em>sysCall_init</em> or <em>sysCall_beforeInstanceSwitch</em>. Not all system callback functions can be handled by all types of scripts, e.g. some can only run in an <a href="addOns.htm">add-on</a>. (e.g. <em>sysCall_addOnScriptSuspend</em>)</li>
+<p>While most system callback functions operate in a relatively straight-forward manner and are easy to understand (see further down for a complete list of system callback functions), some require a little bit more explanations:</p>
 <li><a href="dynCallbackFunctions.htm"><strong>Dynamics callback functions</strong></a> are called by the physics engine  before and after each dynamics simulation step.</li>
 <li>The <a href="contactCallbackFunction.htm"><strong>contact callback function</strong></a> is called by the physics engine for each contact pair.</li>
 <li><a href="jointCallbackFunctions.htm"><strong>Joint callback functions</strong></a> are called by the physics engine for custom joint control.</li>
-<li><a href="visionCallbackFunctions.htm"><strong>Vision callback functions</strong></a> are called by the system whenever an new image is acquires or applied.</li>
-
-
+<li><a href="visionCallbackFunctions.htm"><strong>Vision callback functions</strong></a> are called whenever an new image is acquires or applied.</li>
+<li><a href="triggerCallbackFunctions.htm"><strong>Trigger callback functions</strong></a> are called when a certain trigger event is fired.</li>
+<li><a href="userConfigCallbackFunctions.htm"><strong>User config callback functions</strong></a> are called when the user double-clicks a user parameter icon.</li>
 
 <br>
-<br>
-<h3 class=recommendedTopics>Recommended topics</h3>
-<li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a></li>
-<li><a href="contactCallbackFunction.htm">Contact callback function</a></li>
-<li><a href="jointCallbackFunctions.htm">Joint callback functions</a></li>
-<li><a href="visionCallbackFunctions.htm">Vision callback functions</a></li>
+<p><a name="systemCallbacks"></a>Following is a list of all supported system callback functions. Refer to the comments in the code below for details about individual functions:</p>
+
+<pre class=lightRedBox>
+function <strong>sysCall_init</strong>()
+    -- Do some initialization here. 
+    -- <strong>Required</strong> for every type of script.
+end
+
+function <strong>sysCall_cleanup</strong>()
+    -- Do some clean-up here.
+end
+
+function <strong>sysCall_nonSimulation</strong>()
+    -- Is executed when simulation is not running. 
+    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+end
+
+function <strong>sysCall_beforeSimulation</strong>()
+    -- Simulation is about to start. 
+    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+end
+
+function <strong>sysCall_afterSimulation</strong>()
+    -- Simulation has just ended. 
+    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+end
+
+function <strong>sysCall_actuation</strong>()
+    -- Put some actuation code here.
+end
+
+function <strong>sysCall_sensing</strong>()
+    -- Put some sensing code here.
+end
+
+function <strong>sysCall_suspend</strong>()
+    -- Simulation is about to be suspended.
+end
+
+function <strong>sysCall_suspended</strong>()
+    -- Simulation is suspended.
+end
+
+function <strong>sysCall_resume</strong>()
+    -- Simulation is about to resume.
+end
+
+function <strong>sysCall_beforeInstanceSwitch</strong>()
+    -- About to switch to another scene.
+    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+end
+
+function <strong>sysCall_afterInstanceSwitch</strong>()
+    -- Switched to another scene. 
+    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+end
+
+function <strong>sysCall_beforeCopy</strong>(inData)
+    -- Before one or several objects will be copied.
+    for key,value in pairs(inData.objectHandles) do
+        print("Object with handle "..key.." will be copied")
+    end
+end
+
+function <strong>sysCall_afterCopy</strong>(inData)
+    -- After one or several objects were be copied.
+    for key,value in pairs(inData.objectHandles) do
+        print("Object with handle "..key.." was copied")
+    end
+end
+
+function <strong>sysCall_afterCreate</strong>(inData)
+    -- After one or several objects were created.
+    for key,value in pairs(inData.objectHandles) do
+        print("Object with handle "..value.." was created")
+    end
+end
+
+function <strong>sysCall_beforeDelete</strong>(inData)
+    -- Before one or several objects will be deleted.
+    for key,value in pairs(inData.objectHandles) do
+        print("Object with handle "..key.." will be deleted")
+    end
+    -- inData.allObjects indicates if all objects in the scene will be deleted
+end
+
+function <strong>sysCall_afterDelete</strong>(inData)
+    -- After one or several objects were deleted.
+    for key,value in pairs(inData.objectHandles) do
+        print("Object with handle "..key.." was deleted")
+    end
+    -- inData.allObjects indicates if all objects in the scene were deleted
+end
+
+<a name="sysCall_beforeMainScript"></a>function <strong>sysCall_beforeMainScript</strong>()
+    -- Can be used to step a simulation in a custom manner.
+    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+    local outData={doNotRunMainScript=false} -- when true, then the main script won't be executed
+    return outData
+end
+
+function <strong>sysCall_addOnScriptSuspend</strong>()
+    -- Add-on script execution is about to be suspended.
+    -- Only for <a href="addOns.htm">add-on scripts</a>.
+end
+
+function <strong>sysCall_addOnScriptResume</strong>()
+    -- Add-on script execution is about to be resumed.
+    -- Only for <a href="addOns.htm">add-on scripts</a>.
+end
+
+function <strong>sysCall_dynCallback</strong>(inData)
+    -- See the <a href="dynCallbackFunctions.htm">dynamics callback function</a> section for details.
+    -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
+end
+
+function <strong>sysCall_jointCallback</strong>(inData)
+    -- See the <a href="jointCallbackFunctions.htm">joint callback function</a> section for details.
+    -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
+    return outData
+end
+
+function <strong>sysCall_contactCallback</strong>(inData)
+    -- See the <a href="contactCallbackFunction.htm">contact callback function</a> section for details.
+    -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
+    return outData
+end
+
+function <strong>sysCall_vision</strong>(inData)
+    -- See the <a href="visionCallbackFunctions.htm">vision callback function</a> section for details.
+    -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
+    return outData
+end
+
+function <strong>sysCall_trigger</strong>(inData)
+    -- See the <a href="triggerCallbackFunctions.htm">trigger callback function</a> section for details.
+    -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
+    return outData
+end
+
+function <strong>sysCall_userConfig</strong>()
+    -- See the <a href="userConfigCallbackFunctions.htm">user config callback function</a> section for details.
+    -- Only for <a href="customizationScripts.htm">customization scripts</a>.
+end</pre>
+
 
 <br>
 <br>

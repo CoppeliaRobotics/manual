@@ -46,20 +46,21 @@ Version history:
 <table class=subsectionTable><tr class=subsectionTd>
  <td class=subsectionTd><a name="coppeliaSim4.2.0" id="coppeliaSim4.2.0"></a>CoppeliaSim V4.2.0 (not yet released)</td></tr></table> 
  
-<li>Fixed several bugs. Thanks to Adrian Schoisengeier, Mathias Thor, Francisco Marin and Kevin Thomas for noticing them or helping to resolve them.</li>
+<li>Fixed several bugs. Thanks to Adrian Schoisengeier, Mathias Thor, Francisco Marin, Nikita Aigner and Kevin Thomas for noticing them or helping to resolve them.</li>
+<li><a href="scripts.htm">All script types</a> now support <a href="threadedAndNonThreadedCode.htm">threaded or non-threaded operation</a>. Threaded operation is handled via coroutines that are preemptively interrupted by CoppeliaSim. Except for its code, there is no difference anymore between a threaded and non-threaded script. Old threaded child scripts are automatically updated to use coroutines, when possible. If this is not desired, adjust value <em>makeOldThreadedScriptsAvailable</em> in file <em>system/usrset.txt</em>.</li>
 <li><em>sim.getShapeMassAndInertia</em> and <em>sim.setShapeMassAndInertia</em> are deprecated, and replaced by <a href="regularApi/simGetShapeMass.htm">sim.getShapeMass</a>, <a href="regularApi/simSetShapeMass.htm">sim.setShapeMass</a>, <a href="regularApi/simGetShapeInertia.htm">sim.getShapeInertia</a> and <a href="regularApi/simSetShapeInertia.htm">sim.setShapeInertia</a>.</li>
 <li>Rewrote the <a href="inverseKinematicsTutorial.htm">inverse kinematics tutorial</a>.</li>
 <li>Added a new demo scene illustrating smooth movement profiles in forward and inverse kinematics mode: <em>kinematics/smoothMovementsInFkAndIk.ttt</em></li>
-<li>Added a new demo scene illustrating how to execute a sequential task via a <a href="childScripts.htm#threaded">threaded child script</a>, and via a <a href="childScripts.htm#nonThreaded">non-threaded child script</a> executing a coroutine: <em>coroutineAndThreadExample.ttt</em></li>
 <li>Updated the <a href="pathAndMotionPlanningModules.htm">OMPL plugin</a> to use the OMPL library version 1.5.0</li>
-<li>Added <a href="simExtIK-api.htm#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a> and <a href="regularApi/simGetAlternateConfigs.htm">sim.getAlternateConfigs</a>, to be used in conjunction with <a href="simExtIK-api.htm#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a> and <a href="regularApi/simGetConfigForTipPose.htm">sim.getConfigForTipPose</a>, when dealing with manipulators that have joint ranges larger than 360 degrees, to generate alternative configurations.</li>
-<li>Added <a href="simExtIK-api.htm#simIK.duplicateEnvironment">simIK.duplicateEnvironment</a>: useful when operating on an IK environment while leaving the original environment unchanged.</li>
+<li>Added <a href="simExtIK-api.htm#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a> and <a href="regularApi/simGetAlternateConfigs.htm">sim.getAlternateConfigs</a>, to be used in conjunction with <a href="simExtIK-api.htm#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>, when dealing with manipulators that have joint ranges larger than 360 degrees, to generate alternative configurations.</li>
+<li>Added <a href="simExtIK-api.htm#simIK.duplicateEnvironment">simIK.duplicateEnvironment</a>: useful when operating on an IK environment while leaving the original environment unchanged. Also added <a href="simExtIK-api.htm#simIK.save">simIK.save</a>.</li>
 <li>Added the convenience functions <a href="simExtIK-api.htm#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a>, <a href="simExtIK-api.htm#simIK.applyIkToScene">simIK.applyIkToScene</a>, <a href="simExtIK-api.htm#simIK.applySceneToIkEnvironment">simIK.applySceneToIkEnvironment</a>, allowing to quickly generate an IK element from a kinematic chain in the scene, and to perform/apply calculations to it.</li>
-<li>Added <a href="simExtIK-api.htm#simIK.generatePath">simIK.generatePath</a>.</li>
+<li>Added <a href="simExtIK-api.htm#simIK.generatePath">simIK.generatePath</a> and a related demo scene: <em>scenes/kinematics/ikPathGeneration.ttt</em></li>
 <li>Kinematic example scene in folder <em>kinematics</em> have been reworked and simplified.</li>
-<li>sim.rmlMoveToJointPositions and sim.rmlMoveToPosition are deprecated in favor of <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a>.</li>
+<li>Added <a href="regularApi/simGenerateTimeOptimalTrajectory.htm">sim.generateTimeOptimalTrajectory</a>, <a href="regularApi/simGetInterpolatedConfig.htm">sim.getInterpolatedConfig</a> and <a href="regularApi/simResamplePath.htm">sim.resamplePath</a>. The former allows to generate time optimal trajectories (i.e. trajectories that respect velocity and acceleration constraints), based on the <a href="https://toppra.readthedocs.io/en/latest/index.html" target="_blank">TOPPRA library</a>. A demo scene related to that can be found in <em>scenes/trajectoryAndMotion/pathToTrajectory.ttt</em>.
+<li>sim.rmlMoveToJointPositions and sim.rmlMoveToPosition are deprecated in favor of <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a>, which feature a callback mechanism for maximum flexibility.</li>
 <li>Added following API functions: <a href="regularApi/simIsDynamicallyEnabled.htm">sim.isDynamicallyEnabled</a>, <a href="regularApi/simGetJointDependency.htm">sim.getJointDependency</a>.</li>
-<br>
+<li>The Windows installer/uninstaller can now silently operate by invoking it with following command-line arguments:<em> /silent /hide /[silent]=true</em></li>
 <br>
 
 
@@ -69,7 +70,7 @@ Version history:
 <li>Fixed several bugs. Thanks to Jakub Turaj, Rieky Barady, Jian Ye, Jaime Boal, Mathias Thor, Pável Axel Mc Campos Peña, Filipe Rocha, Patrick Gruener, Thomas Wilmotte, Lorenzo Romanini, Pablo Bustos, Sonny Tarbouriech, Johan Relefors, Adrian Schoisengeier, Arturs Paugurs, Wei Wei, David Page, Ayush Patel, Aleksander Sil and Cameron Kabacinski for noticing them or helping to resolve them.</li>
 <li>Ubuntu20.04 support</li>
 <li>Switched to Qt5.15.0 and VC2019 on Windows.</li>
-<li><a href="inverseKinematicsModule.htm">CoppeliaSim's kinematics functionality</a> (i.e. forward and inverse kinematics) is <a href="kinematicsPlugin.htm">now also available via Lua scripting</a>: this means that instead of creating and handling kinematics tasks via the GUI, one can also entirely create and handle them programmatically in a very flexible manner. Two example scenes illustrate this: <em>scenes/kinematics/8-computingJointAnglesForRandomPoses.ttt</em> and <em>scenes/kinematics/9-programmaticallySettingUpIk.ttt</em></li>
+<li><a href="kinematics.htm">CoppeliaSim's kinematics functionality</a> (i.e. forward and inverse kinematics) is <a href="kinematicsPlugin.htm">now also available via Lua scripting</a>: this means that instead of creating and handling kinematics tasks via the GUI, one can also entirely create and handle them programmatically in a very flexible manner. Two example scenes illustrate this: <em>scenes/kinematics/8-computingJointAnglesForRandomPoses.ttt</em> and <em>scenes/kinematics/9-programmaticallySettingUpIk.ttt</em></li>
 <li>CoppeliaSim's <a href="collisionDetection.htm">collision detection</a> and <a href="distanceCalculation.htm">minimum distance calculation</a> functionality on <a href="shapes.htm">shapes</a>, <a href="octrees.htm">OC-Trees</a> and <a href="pointClouds.htm">point-clouds</a> is <a href="geometricPlugin.htm">now also available via Lua scripting</a>: you can now also perform the same kind of calculations without the need of creating any scene object or modifying the scene content. This is illustrated in following example scene: <em>scenes/sceneObjectIndependentGeometricCalculationExample.ttt</em></li>
 <li><a href="ros2Interface.htm">ROS2 Interface</a> plugin for ROS2 Foxy Fitzroy, supports topics, services, actions, params, TF2 broadcast and image transport.</li>
 <li>GLTF plugin can export static scene and animations in the GLTF 2.0 format. The functionality is available via the add-on menu, or via <a href="gltfApi.htm">related API functions</a>.</li>
@@ -139,8 +140,8 @@ Version history:
  <td class=subsectionTd><a name="3.6.0"></a>V-REP V3.6.0 (February 15th 2019)</td></tr></table> 
  
 <li>Fixed several bugs. Thanks to Leon Masopust, Michael Tong, Zhengxing Yang, Lenka Pitonakova, Thomas Gurriet, Hervé Frezza-Buet, Justus Rijke, Stefan Müller, Julien Lechalupe, Tristan Gahler, Robert Peck, William Jones, Benjamin Erdemann, Ulrich Viereck, Joachim Haensel and Justus Rijke for noticing them or helping to resolve them.</li>
-<li><a href="scriptExecution.htm">Script execution/calling order</a> has been adjusted, for a more consistent and overall logical behaviour. This may have an impact on how a simulation runs in certain situations. The user can revert to previous behaviour by replacing <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, <a href="regularApi/simLaunchThreadedChildScripts.htm">sim.launchThreadedChildScripts</a> and <a href="regularApi/simResumeThreads.htm">sim.resumeThreads</a> in the <a href="mainScript.htm">main script</a> with <em>sim.handleChildScripts_legacy</em>, <em>sim.launchThreadedChildScripts_legacy</em> and <em>sim.resumeThreads_legacy</em>. A better alternative would be to adjust the <em><a href="scriptProperties.htm">Tree traversal</a></em><a href="scriptProperties.htm"> parameter</a> for scripts that require it. </li>
-<li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a> have been implemented and are supported in <a href="childScripts.htm#nonThreaded">non-threaded child scripts</a> and <a href="customizationScripts.htm">customization scripts</a>.</li>
+<li><a href="scriptExecution.htm">Script execution/calling order</a> has been adjusted, for a more consistent and overall logical behaviour. This may have an impact on how a simulation runs in certain situations.</li>
+<li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a> have been implemented and are supported in <a href="childScripts.htm">child scripts</a> and <a href="customizationScripts.htm">customization scripts</a>.</li>
 <li>Added a system callback function for <a href="customizationScripts.htm">customization scripts</a> and <a href="addOns.htm">add-on scripts</a> that allows, during simulation, to control the execution of the <a href="mainScript.htm">main script</a>: <em><a href="customizationScripts.htm#sysCall_beforeMainScript">sysCall_beforeMainScript</a></em>. This is useful to easily implement step-by-step simulation, or to easily synchronize the simulation with an external application.</li>
 <li>Added a simple <a href="scriptProperties.htm#debugMode">script debug functionality</a> that allows to monitor function calls and watching variables.</li>
 <li>The Lua commander now has dynamic variable completion, history, explicitely prints any variable, etc. Type <em>help()</em> for details.</li>
@@ -176,9 +177,9 @@ Version history:
 <li>Switched to a cleaner API notation for Lua scripts: V-REP function names have moved to the <strong>sim.</strong> namespace (e.g. simGetObjectHandle is now sim.getObjectHandle), plugin function names have moved to specific namespaces (e.g. simExtOMPL_createStateSpace is now simOMPL.createStateSpace). The old API functions remain functional for backward compatibility. Known API functions in embedded scripts are automatically adjusted for that notation change. This makes scenes and models saved with this V-REP version not compatible with older V-REP versions, so make sure to backup your scenes and models. This automatic API function adjustment can be disabled, with  
   <em>changeScriptCodeForNewApiNotation</em>
 in file <em>system/usrset.txt</em>.
-<li>Switched to a cleaner way of calling script code, by using predefined functions (e.g. <em>sysCall_init</em>, <em>sysCall_actuation</em>, etc. Check out <a href="childScripts.htm#nonThreadedChildScriptExample">this example</a>). Scripts should now  contain nothing else than functions anymore. The old way of calling scripts is however still supported for the sake of backward compatibility (but make sure not to mix both methods).</li>
-<li>New <a href="jointCallbackFunctions.htm">joint callback functions</a> have been implemented and are supported in <a href="childScripts.htm#nonThreaded">non-threaded child scripts</a> and <a href="customizationScripts.htm">customization scripts</a>. The old joint control callback script functionality should not be used anymore and is not accessible anymore via the GUI, but is still operational (you can  temporarily make it accessible again via <em>enableOldJointCallbackScriptEdition</em> in <em>system/usrset.txt</em>)</li>
-<li>A new <a href="contactCallbackFunction.htm">contact  callback function</a> has been implemented and is supported in <a href="childScripts.htm#nonThreaded">non-threaded child scripts</a> and <a href="customizationScripts.htm">customization script</a>. The old contact callback script functionality should not be used anymore and is not accessible anymore via the GUI, but is still operational (you can  temporarily make it accessible again via <em>enableOldCustomContactHandlingEdition</em> in <em>system/usrset.txt</em>)</li>
+<li>Switched to a cleaner way of calling script code, by using predefined functions (e.g. <em>sysCall_init</em>, <em>sysCall_actuation</em>, etc. Scripts should now  contain nothing else than functions anymore. The old way of calling scripts is however still supported for the sake of backward compatibility (but make sure not to mix both methods).</li>
+<li>New <a href="jointCallbackFunctions.htm">joint callback functions</a> have been implemented and are supported in <a href="childScripts.htm">child scripts</a> and <a href="customizationScripts.htm">customization scripts</a>. The old joint control callback script functionality should not be used anymore and is not accessible anymore via the GUI, but is still operational (you can  temporarily make it accessible again via <em>enableOldJointCallbackScriptEdition</em> in <em>system/usrset.txt</em>)</li>
+<li>A new <a href="contactCallbackFunction.htm">contact  callback function</a> has been implemented and is supported in <a href="childScripts.htm">child scripts</a> and <a href="customizationScripts.htm">customization script</a>. The old contact callback script functionality should not be used anymore and is not accessible anymore via the GUI, but is still operational (you can  temporarily make it accessible again via <em>enableOldCustomContactHandlingEdition</em> in <em>system/usrset.txt</em>)</li>
 <li>New widgets and API functions were added to the <a href="customUIPlugin.htm">custom UI</a>.</li>
 <li>Updated the content of v-repNotepad++.zip, which contains all V-REP-related calltips and syntax highlighting keywords for Notepad++.</li>
 <li>Each scene object now also has a unique alternative name, which can be used for custom application, and which doesn't interfere with <a href="accessingGeneralObjects.htm#fromAssociatedCode">V-REP's object handle retrieval for associated code</a>: <a href="regularApi/simGetObjectName.htm">sim.getObjectName</a>, <a href="regularApi/simSetObjectName.htm">sim.setObjectName</a> and <a href="regularApi/simGetObjectHandle.htm">sim.getObjectHandle</a> can now be used with <em>sim.handleflag_altname</em>.</li>
@@ -283,10 +284,8 @@ in file <em>system/usrset.txt</em>.
 <li>Added a new legacy remote API function that allows to call script functions: <a href="remoteApiFunctions.htm#simxCallScriptFunction">simxCallScriptFunction</a>: this function is very useful when a <a href="apiOverview.htm">regular API</a> function is not available in the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, or when a succession of complex commands need to be executed locally. The demo scene <em>remoteApiCommandServerExample.ttt</em> was updated, as well as the related <em>complexCommandTest.*</em> files in <em>programming/remoteApiBindings</em>. </li>
 <li>Added a new ROS service, ROS publisher type, and ROS subscriber type: simRosCallScriptFunction, simros_strmcmd_receive_data_from_script_function and simros_strmcmd_send_data_to_script_function. These are very useful when a <a href="apiOverview.htm">regular API</a> function is not immediately available in the RosPlugin, or when a succession of complex commands need to be executed locally. Have a look at the demo scene <em>rosTopicPublisherAndSubscriber2.ttt</em>, which illustrates the new functionality.</li>
 <li>Improved and corrected the <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a> API function.</li>
-<li>Added a new API function that allows computing manipulator joint values from a random end-effector pose: <a href="regularApi/simGetConfigForTipPose.htm">sim.getConfigForTipPose</a>. This function replaces the deprecated simGetMpConfigFromTipPose. The demo scene <em>kinematics/8-computingJointAnglesForRandomPoses.ttt</em> illustrates this new function. </li>
-<li>Added a new API function that allows generating a straight-line path between a robot configuration and a target end-effector pose: <a href="regularApi/simGenerateIkPath.htm">sim.generateIkPath</a>. This function replaces the deprecated simFindIkPath.</li>
 <li><a href="regularApi/simLoadModule.htm">sim.loadModule</a> and <a href="regularApi/simUnloadModule.htm">sim.unloadModule</a> can now also be used from a script, in order to dynamically load/unload a plugin. Certain restrictions apply: in particular, if the plugin registered custom lua functions via simRegisterCustomLuaFunction without specifying the function name as <em>functionName@pluginName</em>, a crash might occure during the dynamic plugin unload operation.</li>
-<li>Added an API function that allows to compute the Jacobian of an IK group: <a href="regularApi/simComputeJacobian.htm">sim.computeJacobian</a>.</li>
+<li>Added an API function that allows to compute the Jacobian of an IK group.</li>
 <li>The V-REP source code can now be compiled for headless operation, without any Qt dependency. In that case however, the vision sensors will only generate an image content when the rendering is handled via a plugin (e.g. POV-Ray or and external renderer).</li>
 <li>Added following new API functions: <a href="regularApi/simComputeMassAndInertia.htm">sim.computeMassAndInertia</a> and <a href="regularApi/simGetExtensionString.htm">sim.getExtensionString</a>.</li>
 <li>Added a model of the uArm with gripper and inverse kinematic routine: <em>Models/robots/non-mobile/uarm with gripper.ttm</em></li>
@@ -301,7 +300,7 @@ in file <em>system/usrset.txt</em>.
 <li>Fixed several bugs. Thanks to Karol Mocniak, Ana Lucia, Ricardo Azambuja, Diego Daniel Santiago, Graeme Neff Wilson, Anto Ronson and Minson Lee for noticing them or helping to resolve them.</li>
 <li>Added a simulation model of the ABB IRB 4600-40/2.55 robot, courtesy of ABB. The model is located at <em>Models/robots/non-mobile/ABB IRB 4600-40-255.ttm</em></li>
 <li>Added a scene illustrating workspace visualization: <em>scenes/workspace.ttt</em></li>
-<li>Added several new API functions: <a href="regularApi/simGetQHull.htm">sim.getQHull</a>, <a href="regularApi/simGetDecimatedMesh.htm">sim.getDecimatedMesh</a>, <a href="regularApi/simExportIk.htm">sim.exportIk</a>.</li>
+<li>Added several new API functions: <a href="regularApi/simGetQHull.htm">sim.getQHull</a>, <a href="regularApi/simGetDecimatedMesh.htm">sim.getDecimatedMesh</a>.</li>
 <li>Added two simple <a href="addOns.htm">add-on functions</a> illustrating scene content export/import: minimalisticExporter and minimalisticImporter.</li>
 <li>Improved the convex hull calculation routines.</li>
 <li>Added several convenience functions to morph shapes into their convex hull repesentation, to decimate shapes, and to extract a shape's inside. The functions can be accessed with [Menu bar --> Edit --> ...].</li>
@@ -310,7 +309,7 @@ in file <em>system/usrset.txt</em>.
 <li>Added a section about <a href="jointDescription.htm#controller">joint controllers</a> and how to implement them within V-REP, or inside of an external application (e.g. a <a href="remoteApiOverview.htm">remote API</a> client, or a ROS node).</li>
 <li>Added a model of the P-Arm robot, and two of its grippers. The CAD data is courtesy of <a href="http://www.fp-robotics.com/">F&P Robotics</a>. The models can be found at <em>models/robots/non-mobile/P-Arm.ttm</em>, <em>models/components/grippers/P-Grip-straight.ttm</em> and <em>models/components/grippers/P-Grip-right-angle.ttm</em>.</li>
 <li>Modified the <a href="coppeliaKinematicsRoutines.htm">Coppelia kinematics routines</a> source code, in order to support handling several instances of the same robot/kinematics, via the <a href="coppeliaKinematicsRoutines.htm#ikSwitch">ikSwitch</a> function. The source code can now also be compiled in double-precision.</li>
-<li>Added several simple example scenes that illustrate how to use the <a href="inverseKinematicsModule.htm">kinematics module</a>. The scenes can be found in <em>scenes/kinematics</em>.</li>
+<li>Added several simple example scenes that illustrate how to use the <a href="kinematics.htm">kinematics module</a>. The scenes can be found in <em>scenes/kinematics</em>.</li>
 <li>Updated the webcam plugin for V-REP, using the newest <a href="https://github.com/jarikomppa/escapi/" target="_blank">ESCAPI library</a>. A model using that plugin can be found in <em>Models/other/webcam.ttm</em>. The source code of the plugin can be found <a href="https://github.com/CoppeliaRobotics/simExtCam" target="_blank">here</a>.</li>
 <li>Added a simulation model of the Velodyne VPL-16. The model can be found in <em>Models/components/sensors/velodyne VPL-16.ttm</em>.</li>
 <li>Added a new API function that allows to call a script function from a plugin or another embedded script: <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a>.</li>
@@ -370,7 +369,6 @@ in file <em>system/usrset.txt</em>.
 <li>Added a demo scene (<em>Scenes/headlessModeDebug.ttt</em>) that illustrates how to launch a headless instance of V-REP, connect to it, and stream back the view of the scene.</li>
 <li>Added a model that allows to extract Denavit-Hartenberg parameters in a kinematic chain (<em>Models/tools/Denavit Hartenberg parameter extractor.ttm</em>).</li>
 <li>Added a model that allows to create joints in poses defined by Denavit-Hartenberg parameters (<em>Models/tools/Denavit Hartenberg joint creator.ttm</em>).</li>
-<li>Added following new API functions: <a href="regularApi/simCreateIkGroup.htm">sim.createIkGroup</a>, <a href="regularApi/simRemoveIkGroup.htm">sim.removeIkGroup</a>, <a href="regularApi/simCreateIkElement.htm">sim.createIkElement</a>, simCreateMotionPlanning, simRemoveMotionPlanning, <a href="regularApi/simCreateCollection.htm">sim.createCollection</a> and <a href="regularApi/simAddObjectToCollection.htm">sim.addObjectToCollection</a>.</li>
 <li><a href="remoteApiServerSide.htm#continuousRemoteApiService">Continuous legacy remote API server services</a> can now also be started via the <a href="commandLine.htm">command line</a>, when launching V-REP.</li>
 <li>Added an API function that allows saving images: <a href="regularApi/simSaveImage.htm">sim.saveImage</a></li>
 <li>Added a model, courtesy of Ulrich Schwesinger, allowing to take high-resolution screenshots of the scene: <em>Models/tools/high-res screenshot tool</em>.</li>
@@ -430,11 +428,9 @@ in file <em>system/usrset.txt</em>.
 
 <li>Added several models that demonstrate the new <a href="customizationScripts.htm">customization script</a> functionality: <em>Models/nature/terrain bump.ttm</em>, <em>Models/nature/Terrain.ttm</em>, <em>Models/nature/Tree.ttm</em>, <em>Models/infrastructure/other/resizable concret block.ttm</em>, <em>Models/infrastructure/floors/resizable floor*.ttm</em>, <em>Models/tools/playback tool.ttm</em>, <em>Models/tools/isometric scaling tool.ttm</em>, <em>Models/tools/name change tool.ttm</em>, <em>Models/tools/custom data viewer tool.ttm</em>, <em>Models/equipment/conveyor belts/customizable conveyor belt.ttm</em>, <em>Models/furniture/tables/customizable table.ttm</em>.</li>
 
-<li>Modified   the way <a href="childScripts.htm">child scripts</a> are handled in order to make them operate in a more coherent manner:</li>
-<li class=tabTab> <a href="childScripts.htm#nonThreaded">non-threaded child scripts</a> execution is now automatically cascaded (i.e. no need to explicitely call simHandleChildScript anymore).</li>
-<li class=tabTab> non-threaded child scripts are now executed in the<em> actuation</em> phase as well as in the <em>sensing</em> phase of a given simulation step: there is no distinction anymore with what previously used to be <em>sensing child scripts</em>.</li>
-<li class=tabTab> <a href="childScripts.htm#threaded">threaded child scripts</a> are now launched/relaunched via the <a href="regularApi/simLaunchThreadedChildScripts.htm">sim.launchThreadedChildScripts</a> function.</li>
-<li class=tabTab> a non-threaded child script cannot launch a threaded child script anymore. And vice-versa.</li>
+<li>Modified  the way <a href="childScripts.htm">child scripts</a> are handled in order to make them operate in a more coherent manner:</li>
+<li class=tabTab> <a href="childScripts.htm">child scripts</a> execution is now automatically cascaded (i.e. no need to explicitely call simHandleChildScript anymore).</li>
+<li class=tabTab> child scripts are now executed in the<em> actuation</em> phase as well as in the <em>sensing</em> phase of a given simulation step: there is no distinction anymore with what previously used to be <em>sensing child scripts</em>.</li>
 <li class=tabTab> script compatibility with previous file versions is guaranteed by <strong>1)</strong> automatic child script code modification (clearly marked as such), <strong>2)</strong> automatic <a href="mainScript.htm">main script</a> replacement. This covers 99% of all situations, but it can happen that this automatic modification partly fails (e.g. when the main script was customized, or when explicitely executing a specific child script (previously marked as <em>explicit handling</em>)). In that case,<a href="http://coppeliarobotics.com/contact.html"> contact us</a> for assistance.</li>
 
 
@@ -451,7 +447,7 @@ in file <em>system/usrset.txt</em>.
 
 <li>The vision sensor code has been optimized and vision sensors now run faster. They now can also operate in a different mode, in order to simulate the temperature of objects for instance, or in order to detect object handles.</li>
 
-<li>Added several new API functions: <a href="regularApi/simGetObjectsInTree.htm">sim.getObjectsInTree</a>, <a href="regularApi/simGetObjectSizeValues.htm">sim.getObjectSizeValues</a>, <a href="regularApi/simSetObjectSizeValues.htm">sim.setObjectSizeValues</a>, <a href="regularApi/simScaleObject.htm">sim.scaleObject</a> (i.e. non-isometric scaling), <a href="regularApi/simGetShapeTextureId.htm">sim.getShapeTextureId</a>, <a href="regularApi/simSetShapeTexture.htm">sim.setShapeTexture</a>, <a href="regularApi/simGetVisionSensorCharImage.htm">sim.getVisionSensorCharImage</a>, <a href="regularApi/simSetVisionSensorCharImage.htm">sim.setVisionSensorCharImage</a>, <a href="regularApi/simGetCollectionObjects.htm">sim.getCollectionObjects</a>, <a href="regularApi/simGetScriptAttribute.htm">sim.getScriptAttribute</a>, <a href="regularApi/simSetScriptAttribute.htm">sim.setScriptAttribute</a>, <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, <a href="regularApi/simLaunchThreadedChildScripts.htm">sim.launchThreadedChildScripts</a> and <a href="regularApi/simReorientShapeBoundingBox.htm">sim.reorientShapeBoundingBox</a>.</li>
+<li>Added several new API functions: <a href="regularApi/simGetObjectsInTree.htm">sim.getObjectsInTree</a>, <a href="regularApi/simGetObjectSizeValues.htm">sim.getObjectSizeValues</a>, <a href="regularApi/simSetObjectSizeValues.htm">sim.setObjectSizeValues</a>, <a href="regularApi/simScaleObject.htm">sim.scaleObject</a> (i.e. non-isometric scaling), <a href="regularApi/simGetShapeTextureId.htm">sim.getShapeTextureId</a>, <a href="regularApi/simSetShapeTexture.htm">sim.setShapeTexture</a>, <a href="regularApi/simGetVisionSensorCharImage.htm">sim.getVisionSensorCharImage</a>, <a href="regularApi/simSetVisionSensorCharImage.htm">sim.setVisionSensorCharImage</a>, <a href="regularApi/simGetCollectionObjects.htm">sim.getCollectionObjects</a>, <a href="regularApi/simGetScriptAttribute.htm">sim.getScriptAttribute</a>, <a href="regularApi/simSetScriptAttribute.htm">sim.setScriptAttribute</a>, <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a> and <a href="regularApi/simReorientShapeBoundingBox.htm">sim.reorientShapeBoundingBox</a>.</li>
 
 <li>Added a <a href="http://coppeliarobotics.com/contributions/slamDemo.rar">SLAM demo based on ROS</a>, courtesy of Leopoldo Armesto.</li>
 <li>Added a link to a <a href="http://teaching-robotics.org/trs2014" target="_blank">tutorial on teaching robotics with a simulator</a>, courtesy of Prof. Renaud Detry.</li>
@@ -490,9 +486,7 @@ in file <em>system/usrset.txt</em>.
 <li>Added a simulation model that allows visualizing the center of mass of a dynamic model: <em>models/other/center of mass visualizer.ttm</em>.</li>
 <li>Added a new API function to retrieve geometric information about shapes: <a href="regularApi/simGetShapeGeomInfo.htm">sim.getShapeGeomInfo</a>.</li>
 <li>Added a new API function that helps to make a motion planning transition from one configuration to another, by following a predefined Cartesian space path. This is useful for redundant manipulators, but also for safely driving  non-redundant manipulators via IK through a singular configuration: simGetMpConfigTransition.</li>
-<li>Added a new API function that allows to compute IK groups without directly applying the calculated values: <a href="regularApi/simCheckIkGroup.htm">sim.checkIkGroup</a>.</li>
 <li>simRMLPosition and simRMLVelocity are declared deprecated and are replaced by following API functions: <a href="regularApi/simRMLPos.htm">sim.rmlPos</a>, <a href="regularApi/simRMLVel.htm">sim.rmlVel</a>, <a href="regularApi/simRMLStep.htm">sim.rmlStep</a> and <a href="regularApi/simRMLRemove.htm">sim.rmlRemove</a>. This is to correct for a bug linked to simRMLPosition and simRMLVelocity.</li>
-<li>Added the possibility to attach user data to each path control point. For each control point, there are 16 auxiliary flags, and 4 auxiliary data channels. User data can be retrieved in an interpolated fashion along a path via a new API function: <a href="regularApi/simGetDataOnPath.htm">sim.getDataOnPath</a>.</li>
 
 <li>Added a simulation model of the Adept Quattro 650HS parallel manipulator, courtesy of Preben Hjornet: <em>models/robots/non-mobile/Adept Quattro 650HS.ttm</em>. The original CAD data is courtesy of Adept Technology.</li>
 
@@ -535,7 +529,6 @@ in file <em>system/usrset.txt</em>.
  <td class=subsectionTd><a name="3.1.0"></a>V-REP V3.1.0 (January 20th 2014)</td></tr></table> 
  
 <li>Switched to Qt5.2.0  for the Mac and Linux releases, which solved a few open glitches/bugs. The Windows release is still running under Qt5.1.1.</li>
-<li>Separated the GUI thread from the simulation thread for better application stability, speed, and safer <a href="simulation.htm#threadedRendering">threaded rendering</a> operation.</li>
 <li>Fixed several bugs. Thanks to Matthias Schindler,  Renaud Detry and Ulrich Schwesinger for noticing them.</li>
 <li>Added two <a href="apiOverview.htm">regular API functions</a> allowing to create ghost objects: <a href="regularApi/simAddGhost.htm">sim.addGhost</a> and <a href="regularApi/simModifyGhost.htm">sim.modifyGhost</a>. Ghost objects can be used to visually compare several simulation runs with each other.</li>
 <li>Added a scene that illustrates the new ghost recorder functionality: <em>ghostDemo.ttt</em>.
@@ -545,7 +538,7 @@ in file <em>system/usrset.txt</em>.
 <li>Added a model of a basket: <em>Models/infrastructure/other/largeBasket.ttm</em>.</li>
 <li>Added a <em>Debug</em> menu item in the <em>Help</em> menu. This allows displaying various debug information to the console or a file, or running the simulator in special modes.</li>
 <li>Added a laserscan and odometry publisher to the RosPlugin, together with a laser scanner model prepared for ROS: models/components/sensors/Hokuyo_URG_04LX_UG01_ROS.ttm. The code modification and the model are both courtesy of George Moustris.</li>
-<li>Added following <a href="apiOverview.htm">regular API</a> functions: <a href="regularApi/simQuitSimulator.htm">sim.quitSimulator</a>, <a href="regularApi/simGetThreadId.htm">sim.getThreadId</a>, <a href="regularApi/simLockResources.htm">simLockResources</a> and <a href="regularApi/simUnlockResources.htm">simUnlockResources</a>.</li>
+<li>Added following <a href="apiOverview.htm">regular API</a> functions: <a href="regularApi/simQuitSimulator.htm">sim.quitSimulator</a>.</li>
 <li>Added the option to run V-REP headless (without any graphical user interface (i.e. in the command line only)), as well as other <a href="commandLine.htm">command line options</a>. The graphics libraries are still needed. A binary that doesn't rely of graphics libraries is planned.</li>
 <li>Redefined most <em>simxChar</em> types to <em>simxUChar</em> types in the legacy remote API, in order to avoid confusions (a <em>char</em> can be signed or unsigned, depending on the implementation). When recompiling older projects, you might have to cast between types.</li>
 <li>Added a bridge to <a href="http://opencv.org/">OpenCV</a> via a plugin, courtesy of Marco Bellaccini. The files are located <a href="http://opencv.org/">here</a>.</li>
@@ -569,8 +562,6 @@ in file <em>system/usrset.txt</em>.
 <li>Adjusted all default light intensities and default object colors (ambient component only) in order to be more compatible with other CAD applications. Older scenes and models will automatically adjust for that during a load operation (i.e. light intensities will be scaled by 0.675, colors by 1.5). If you do not wish for this automatic adjustment, turn variable <em>correctColorsAndLights</em> to false in <em>system/usrset.txt</em>.</li>
 <li>Added a ROS publisher for <a href="visionSensors.htm">vision sensor</a> depth data as RGBD point cloud, courtesy of Cedric Pradalier.</li>
 <li>Added a <a href="primitiveShapes.htm">possibility to create negative volumes</a> (i.e. holes) in pure shapes, for efficient dynamic simulation of tubes or pipes for instance.</li>
-<li>Added the option to run <a href="simulation.htm#threadedRendering">simulations with threaded rendering</a>: this allows, in some cases, to drastically accelerate  simulation cycles. </li>
-<li>Added a new scene: <em>fastClientServerCommunication.ttt</em>. It illustrates the <a href="simulation.htm#threadedRendering">threaded rendering mode</a>.</li>
 <li>Fixed a bug affecting the <a href="apiOverview.htm">regular API</a> function <a href="regularApi/simGetObjectVelocity.htm">sim.getObjectVelocity</a>.</li>
 <li>Added a new <a href="legacyRemoteApiOverview.htm">legacy remote API</a> function: <a href="remoteApiFunctions.htm#simxGetObjectVelocity">simxGetObjectVelocity</a>.</li>
 <li>Added more predefined <a href="pagesAndViews.htm#pageConfigurations">page configurations</a>.</li>
@@ -610,7 +601,6 @@ in file <em>system/usrset.txt</em>.
 <li>Added a simulation model of the KUKA LBR4+ robot: <em>models/robots/non-mobile/KUKA LBR4+.ttm</em></li>
 <li>Added a simulation model of the Kilobot, together with its controller model: <em>models/robots/mobile/Kilobot.ttm</em> and <em>models/robots/mobile/Kilobot_Controller.ttm</em>. The models are courtesy of K-Team.</li>
 <li>Added new wall models, in 3 different heights: 240cm, 80cm and 20cm. They are located in <em>models/infrastructure/walls</em></li>
-<li>Added a new <a href="apiOverview.htm">regular API function</a>: <a href="regularApi/simGetIkGroupMatrix.htm">sim.getIkGroupMatrix</a>. It allows for example to retrieve the Jacobian.</li>
 <li>Removed the annoying watermark appearing when recording a movie (<em>Simulated with V-REP</em>)</li>
 
 <br>
@@ -622,7 +612,6 @@ in file <em>system/usrset.txt</em>.
 <li>Fixed a bug created in release 3.0.2: pure shapes would see their <em>Bullet custom collision margin scalings</em> set to a non-default value automatically. Thanks to Geerten Doornenbal and others for reporting this.</li>
 <li>Fixed several minor bugs. Thanks to Qi Wang, Giordano and Karl Robillard.
 
-<li>Added 3 new <a href="apiOverview.htm">regular API</a> functions to create and edit <a href="paths.htm">paths</a> programmatically: <a href="regularApi/simCreatePath.htm">sim.createPath</a>, <a href="regularApi/simInsertPathCtrlPoints.htm">sim.insertPathCtrlPoints</a> and <a href="regularApi/simCutPathCtrlPoints.htm">sim.cutPathCtrlPoints</a>.</li>
 <li>Added also following new <a href="apiOverview.htm">regular API</a> functions: <a href="regularApi/simGetJointMode.htm">sim.getJointMode</a>, <a href="regularApi/simGetJointTargetPosition.htm">sim.getJointTargetPosition</a> and <a href="regularApi/simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.</li>
 <li>Added 3 new <a href="objectParameterIDs.htm">object parameter IDs</a> (3020-3022) that allow setting the initial rotational velocity of a dynamically enabled <a href="shapes.htm">shape</a>.</li>
 <li>Added an <a href="apiConstants.htm#simulatorMessages">event callback message</a> (sim_message_eventcallback_opengl) that allows to draw with openGl commands into the V-REP scene, from a <a href="plugins.htm">plugin</a>.</li>
@@ -631,8 +620,6 @@ in file <em>system/usrset.txt</em>.
 
 
 <li>Added two new API functions: simEnableWorkThreads and simWaitForWorkThreads. They allow to execute sensing operations concurrently (i.e. in parallel), taking advantage of several processor cores. By default the functionality is turned off. It can be turned on via the <a href="settings.htm">user settings dialog</a>, the variable <em>workThreadCount</em> in file <em>system/usrset.txt</em>, or programmatically via <a href="regularApi/simSetInt32Parameter.htm">sim.setInt32Parameter</a>(sim.intparam_work_thread_count,coreCount). Refer also to the default <a href="mainScript.htm">main script</a>, that was slightly modified to accomodate for that.</li>
-
-<li>Added a new model: <em>models/components/sensors/Hokuyo URG 04LX UG01_Multithreaded.ttm</em>. It demonstrates a laser scanner capable of using multithreading for potential speed increases.</li>
 
 <li>Added a new model: <em>models/other/timing info.ttm</em>. It allows to quickly have an overview of the time spent in the various calculations.</li>
 
@@ -760,7 +747,7 @@ in file <em>system/usrset.txt</em>.
 
 <br><table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>V-REP V2.6.4 (May 23rd 2012)</td></tr></table> 
 <li>A new powerful mechanism was developed to allow easy access to V-REP API functions from external applications (e.g. robots): the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>. Now V-REP supports <a href="writingCode.htm">4 different programming approaches</a>.</li>
-<li>simSerialPortOpen, simSerialPortClose, simSerialPortSend and simSerialPortRead are declared deprecated. They are replaced by <a href="regularApi/simSerialOpen.htm">sim.serialOpen</a>, <a href="regularApi/simSerialClose.htm">sim.serialClose</a>, <a href="regularApi/simSerialSend.htm">sim.serialSend</a>, <a href="regularApi/simSerialRead.htm">sim.serialRead</a> and <a href="regularApi/simSerialCheck.htm">sim.serialCheck</a>.</li>
+<li>Serial port functions: <a href="regularApi/simSerialOpen.htm">sim.serialOpen</a>, <a href="regularApi/simSerialClose.htm">sim.serialClose</a>, <a href="regularApi/simSerialSend.htm">sim.serialSend</a>, <a href="regularApi/simSerialRead.htm">sim.serialRead</a> and <a href="regularApi/simSerialCheck.htm">sim.serialCheck</a>.</li>
 <li>The serial port functionality is now also operational on the Mac and Linux platforms</li>
 <li>Fixed a bug where icons would not appear on systems with an old or non-accelerated graphic card</li>
 <li>Added a new integer parameter:  <a href="apiConstants.htm#integerParameters">sim.intparam_scene_unique_id</a></li>
@@ -887,13 +874,12 @@ in file <em>system/usrset.txt</em>.
 <li>Improved the <a href="regularApi/simAddParticleObject.htm">sim.addParticleObject</a> function to also support linear and quadratic drag parameters</li>
 <li>Added more arguments to the API functions <a href="regularApi/simGetVisionSensorImage.htm">sim.getVisionSensorImage</a> and <a href="regularApi/simGetVisionSensorDepthBuffer.htm">sim.getVisionSensorDepthBuffer</a></li>
 <li>New API functions: <a href="regularApi/simGetArrayParameter.htm">sim.getArrayParameter</a> and <a href="regularApi/simSetArrayParameter.htm">sim.setArrayParameter</a>
-<li>New API functions: <a href="regularApi/simSetIkGroupProperties.htm">sim.setIkGroupProperties</a> and <a href="regularApi/simSetIkElementProperties.htm">sim.setIkElementProperties</a></li>
 <li>Temporarily removed following commands to facilitate a move towards other platforms: simAttachCustomMenu, simRemoveCustomMenu, simCreateCustomToolbar, simSetCustomToolbarState, simRemoveCustomToolbar, simGetWindowMessage, simProcessWindowMessage</li>
 <li>Removed the "SimpleCustomClientApplication" project files</li>
 <li>Added more fog parameters</li>
 <li>Added new <a href="apiConstants.htm#integerParameters">int parameters</a>: sim.intparam_infotext_style and sim.intparam_settings</li>
 <li>Added new <a href="apiConstants.htm#arrayParameters">array parameters</a>: sim.arrayparam_gravity, sim.arrayparam_fog, sim.arrayparam_fog_color, sim.arrayparam_background_color1, sim.arrayparam_background_color2 and sim.arrayparam_ambient_light</li>
-<li>Added new <a href="apiConstants.htm#booleanParameters">Boolean parameters</a>: sim.boolparam_display_enabled, sim.boolparam_infotext_visible, sim.boolparam_statustext_open and sim.boolparam_fog_enabled</li>
+<li>Added new <a href="apiConstants.htm#booleanParameters">boolean parameters</a>: sim.boolparam_display_enabled, sim.boolparam_infotext_visible, sim.boolparam_statustext_open and sim.boolparam_fog_enabled</li>
 <li>Added new <a href="objectParameterIDs.htm">object parameter IDs</a></li>
 <li>Added a new <a href="visionSensors.htm">vision sensor</a> filter component: blob detection</li>
 <li>New <a href="joints.htm">joints</a> added to the <a href="scenes.htm">scene</a> are in Force/torque mode by default since this release</li>
@@ -998,13 +984,9 @@ New scene: &quot;inverseKinematicsOf144DoFManipulator.ttt&quot; </li>
 <br><table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>V-REP V2.5.3 (March 20th 2011)</td></tr></table> 
 
 <li>
-Extended the functionality of the simSerialPortRead Lua function </li>
-<li>
 Extended the functionality of the <a href="regularApi/simUnpackInt32Table.htm">sim.unpackInt32Table</a> and <a href="regularApi/simUnpackFloatTable.htm">sim.unpackFloatTable</a> functions </li>
 <li>
 Extended the functionality of the <a href="regularApi/simAdjustView.htm">sim.adjustView</a> function </li>
-<li>
-New API commands for even more inter-thread synchronization control: <a href="regularApi/simSetThreadResumeLocation.htm">sim.setThreadResumeLocation</a> and <a href="regularApi/simResumeThreads.htm">sim.resumeThreads</a></li>
 <li>New API command to control the show state of an auxiliary console window: <a href="regularApi/simAuxiliaryConsoleShow.htm">sim.auxiliaryConsoleShow</a><br>
 </li>
 <li>
@@ -1122,10 +1104,6 @@ Extended the lifetime of license keys (key version x.y.z now works for all V-REP
 <br>
 <br><table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>V-REP V2.4.15 (December 20th 2010)</td></tr></table> 
 <li>
-New API command to implement non-blocking thread sections for external commands: sim.setThreadIsFree </li>
-<li>
-New API commands similar to bidirectional communication pipes: sim.tubeOpen, sim.tubeClose, sim.tubeRead, sim.tubeWrite, sim.tubeStatus </li>
-<li>
 New API command to set the maximum force/torque a joint can exert: sim.setJointForce </li>
 <li>
 New API commands to create and handle auxiliary console windows: sim.auxiliaryConsoleOpen, sim.auxiliaryConsolePrint, sim.auxiliaryConsoleClose </li>
@@ -1159,8 +1137,6 @@ Corrected a small bug that appeared with joints in hybrid dependent mode </li>
 New dongle drivers </li>
 <li>
 New API commands to handle particles: sim.addParticleObject, sim.removeParticleObject and sim.addParticleObjectItem </li>
-<li>
-New API commands for serial port communication: simSerialPortOpen, simSerialPortClose, simSerialPortSend and simSerialPortRead </li>
 <li>
 New API command to retrieve information on contacts: sim.getContactInfo </li>
 <li>

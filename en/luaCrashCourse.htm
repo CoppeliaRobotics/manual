@@ -32,32 +32,29 @@
 Lua is a case sensitive language. &quot;and&quot;, &quot;And&quot; or &quot;AND&quot; are not the same. </li>
 
 <li>
-Following are Lua keywords:
+Following are Lua keywords:</li>
   <pre class=lightRedBox>
 and       break     do        else      elseif
 end       false     for       function  if
 in        local     nil       not       or
 repeat    return    then      true      until     while</pre>
-</li>
 
 <li>
-Following strings denote other tokens:
+Following strings denote other tokens:</li>
   <pre class=lightRedBox>
 +     -     *     /     %     ^     #
 ==    ~=    <=    >=    <     >     =
 (     )     {     }     [     ]
 ;     :     ,     .     ..    ...</pre>
-</li>
 
 <li>
 Literal strings can be delimited by matching single or double quotes (e.g. 'hello' or &quot;hello&quot;) </li>
 
 
 <li>
-A comment starts with a double hyphen (--) anywhere outside of a string. e.g.:
+A comment starts with a double hyphen (--) anywhere outside of a string. e.g.:</li>
 <pre class=lightRedBox>
 a=4 -- variable a is now 4!</pre>
-</li>
 
 
 <br>
@@ -70,7 +67,7 @@ Lua is a dynamically typed language which means that variables do not have types
 </li>
 
 <li>
-There are 8 basic types in Lua:
+There are 8 basic types in Lua:</li>
 <pre class=lightRedBox>
 <strong>nil</strong>       type of the value nil whose main property is to be different from any other value.
           It usually represents the absence of a useful value
@@ -83,7 +80,6 @@ There are 8 basic types in Lua:
 <strong>userdata</strong>  can hold arbitrary C data (corresponds to a block of raw memory)
 <strong>thread</strong>    independent threads of execution used to implement coroutines
 <strong>table</strong>     arrays that can hold values of any type except nil</pre>
-</li>
 
 
 
@@ -92,15 +88,12 @@ There are 8 basic types in Lua:
 <a name="variables"></a>Variables
 </td></tr></table> 
 
-<li>There are 3 kinds of variables: global variables, local variables and table fields. Any variable is assumed to be global unless explicitely declared as local<br>
-</li>
+<li>There are 3 kinds of variables: global variables, local variables and table fields. Any variable is assumed to be global unless explicitely declared as local</li>
 
 <li>
-Before the first assignment to a variable, its value is nil
-</li>
+Before the first assignment to a variable, its value is nil</li>
 
-<li>Square brackets are used to index a table (e.g. value=table[x]). The first value in a table is at position 1 (and not 0 as for C arrays)<br>
-</li>
+<li>Square brackets are used to index a table (e.g. value=table[x]). The first value in a table is at position 1 (and not 0 as for C arrays)</li>
 
 
 <br>
@@ -109,13 +102,12 @@ Before the first assignment to a variable, its value is nil
 <a name="statements"></a>Statements
 </td></tr></table> 
 
-<li>Lua allows multiple assignments. The syntax for assignments defines a list of variables on the left side and a list of expressions on the right side. The elements in both lists are separated by commas:
+<li>Lua allows multiple assignments. The syntax for assignments defines a list of variables on the left side and a list of expressions on the right side. The elements in both lists are separated by commas:</li>
 <pre class=lightRedBox>
 x,y,z = myTable[1],myTable[2],myTable[3]</pre>
-</li>
 
 <li>
-Relational operators (always result in <strong>false</strong> or <strong>true</strong>)
+Relational operators (always result in <strong>false</strong> or <strong>true</strong>)</li>
 <pre class=lightRedBox>
 <strong>==</strong>     equality
 <strong>~=</strong>     negation of equality
@@ -123,54 +115,67 @@ Relational operators (always result in <strong>false</strong> or <strong>true</s
 <strong>></strong>      bigger than
 <strong><=</strong>     smaller or equal than
 <strong>>=</strong>     bigger or equal than</pre>
-</li>
 
 <li>
-<strong>If</strong> control structure (by example):
+<strong>If</strong> control structure (by example):</li>
 <pre class=lightRedBox>
 if value1==value2 then
     print('value1 and value2 are same!')
 end</pre>
-</li>
 
 <li>
-<strong>For</strong> control structure (by example):
+<strong>For</strong> control structure (by example):</li>
 <pre class=lightRedBox>
 for i=1,4,1 do -- count from 1 to 4 with increments of 1
     print(i)
 end</pre>
-</li>
 
 <li>
-<strong>While</strong> control structure (by example):
+<strong>While</strong> control structure (by example):</li>
 <pre class=lightRedBox>i=0<br>while i~=4 do<br>    i=i+1<br>end</pre>
-</li>
 
 <li>
-<strong>Repeat</strong> control structure (by example):
+<strong>Repeat</strong> control structure (by example):</li>
 <pre class=lightRedBox>i=0<br>repeat<br>    i=i+1<br>until i==4</pre>
-</li>
 
 <li>
-<strong>Table</strong> operations (by example):
+<strong>Table</strong> operations (by example):</li>
 <pre class=lightRedBox>myTable={'firstValue',2,3} -- builds a table with 3 values<br>print(myTable[1]) -- prints the first element in the table<br>table.insert(myTable,4) -- appends the number 4 to the table</pre>
-</li>
 
 <li>
-Concatenation (by example):
+Concatenation (by example):</li>
 <pre class=lightRedBox>a=' hello'<br>b=' world'<br>c=a..b -- c contains 'hello world'</pre>
-</li>
 
 <li>
-Length operator #:
+Length operator #:</li>
 <pre class=lightRedBox>stringLength=#'hello world'<br>tableSize=#{1,2,3,4,5}</pre>
-</li>
-
 
 <br>
-<h3 class=recommendedTopics>Recommended topics</h3>
-<li><a href="http://www.lua.org">Lua website</a></li>
-<li><a href="scripts.htm">Embedded scripts</a></li>
+<br>
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="coroutines"></a><a name="threads"></a>Coroutines or threads
+</td></tr></table> 
+
+<li>Coroutines are easily created and resumed with:</li>
+<pre class=lightRedBox>
+-- Create a coroutine:
+corout=coroutine.create(coroutineMain)
+
+-- Start/resume a coroutine:
+if coroutine.status(corout)~='dead' then
+    local ok,errorMsg=coroutine.resume(corout)
+    if errorMsg then
+        error(errorMsg)
+    end
+end
+
+-- The coroutine itself:
+function coroutineMain()
+    while true do
+        -- some code
+    end
+end</pre>
+
 <br>
 <br>
  </tr>

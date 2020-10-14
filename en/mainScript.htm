@@ -21,20 +21,19 @@
 
 <p>A main script is a <a href="simulationScripts.htm">simulation script</a>. By default, each <a href="scenes.htm">scene</a> in CoppeliaSim will have one main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without main script, a running simulation won't do anything.</p>
 
-<p>The main script contains a collection of callback functions that are appropriately called by the system. If a given system callback function is not defined, the call will be ignored. Except for the initialization function, all other functions are optional. The default main script is typically segmented in 4 main system callback functions:
-</p>
+<p>The main script contains a collection of <a href="callbackFunctions.htm">callbacks functions</a> that are appropriately called by the system. Except for the initialization callback, all other callbacks are optional. The default main script is typically segmented in 4  callback functions: </p>
 
 
-<li><strong>the initialization function</strong>: <strong>sysCall_init</strong>. this system callback function is not optional. It will be executed one time just at the beginning of a simulation. The code is in charge of preparing a simulation, etc.<br>
+<li><strong>the initialization function</strong>: <strong>sysCall_init</strong>. This callback function is not optional. It will be executed one time just at the beginning of a simulation. The code is in charge of preparing a simulation, etc.<br>
 </li>
 
-<li><strong>the actuation function</strong>: <strong>sysCall_actuation</strong>. This function will be executed in each simulation pass. The code is in charge of handling all the actuation functionality of the simulator <a href="inverseKinematicsModule.htm">(kinematics</a>, <a href="dynamicsModule.htm">dynamics</a>, etc.) in a generic way. Three commands are of particular interest: <a href="regularApi/simLaunchThreadedChildScripts.htm">sim.launchThreadedChildScripts</a>, <a href="regularApi/simResumeThreads.htm">sim.resumeThreads</a> and <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>. sim.launchThreadedChildScripts/sim.resumeThreads launches/resumes <a href="childScripts.htm#threaded">threaded child scripts</a>, while sim.handleChildScripts calls <a href="childScripts.htm#nonThreaded">non-threaded child scripts'</a> <em>sysCall_actuation</em> functions. Without those commands, <a href="childScripts.htm">child scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
+<li><strong>the actuation function</strong>: <strong>sysCall_actuation</strong>. This callback function will be executed in each simulation pass. The code is in charge of handling all the actuation functionality of the simulation. One command is of particular interest: <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, which calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_actuation</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
 </li>
 
-<li><strong>the sensing function</strong>: <strong>sysCall_sensing</strong>. This function will be executed in each simulation pass. The code is in charge of handling all the sensing functionality of the simulator (<a href="proximitySensors.htm">proximity sensors</a>, <a href="collisionDetection.htm">collision detection</a>, etc.) in a generic way. Two commands are of particular interest: <a href="regularApi/simResumeThreads.htm">sim.resumeThreads</a> and <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>.  sim.resumeThreads resumes <a href="childScripts.htm#threaded">threaded child scripts</a>, while sim.handleChildScripts calls <a href="childScripts.htm#nonThreaded">non-threaded child scripts'</a> <em>sysCall_sensing</em> functions. Without those commands, <a href="childScripts.htm">child scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
+<li><strong>the sensing function</strong>: <strong>sysCall_sensing</strong>. This callback function will be executed in each simulation pass. The code is in charge of handling all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One command is of particular interest:<a href="regularApi/simHandleChildScripts.htm"> sim.handleChildScripts</a>, which  calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_sensing</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
 </li>
 
-<li><strong>the restoration function</strong>: <strong>sysCall_cleanup</strong>. This function will be executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">object's</a> initial configuration, clearing sensor states, collision states, etc.<br>
+<li><strong>the restoration function</strong>: <strong>sysCall_cleanup</strong>. This function will be executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">object's</a> initial configuration, clearing sensor states, etc.<br>
 </li>
 
 <p>
@@ -51,41 +50,29 @@ end
 
 function <strong>sysCall_actuation</strong>()
     -- Actuation part:
-    sim.resumeThreads(sim.scriptthreadresume_default)
-    sim.resumeThreads(sim.scriptthreadresume_actuation_first)
-    sim.launchThreadedChildScripts()
     sim.handleChildScripts(sim.syscb_actuation)
-    sim.resumeThreads(sim.scriptthreadresume_actuation_last)
     sim.handleCustomizationScripts(sim.syscb_actuation)
     sim.handleAddOnScripts(sim.syscb_actuation)
     sim.handleSandboxScript(sim.syscb_actuation)
     sim.handleModule(sim.handle_all,false)
-    sim.handleIkGroup(sim.handle_all_except_explicit)
     sim.handleDynamics(sim.getSimulationTimeStep())
 end
 
 function <strong>sysCall_sensing</strong>()
     -- Sensing part:
     sim.handleSensingStart()
-    sim.handleCollision(sim.handle_all_except_explicit)
-    sim.handleDistance(sim.handle_all_except_explicit)
     sim.handleProximitySensor(sim.handle_all_except_explicit)
     sim.handleVisionSensor(sim.handle_all_except_explicit)
-    sim.resumeThreads(sim.scriptthreadresume_sensing_first)
     sim.handleChildScripts(sim.syscb_sensing)
-    sim.resumeThreads(sim.scriptthreadresume_sensing_last)
     sim.handleCustomizationScripts(sim.syscb_sensing)
     sim.handleAddOnScripts(sim.syscb_sensing)
     sim.handleSandboxScript(sim.syscb_sensing)
     sim.handleModule(sim.handle_all,true)
-    sim.resumeThreads(sim.scriptthreadresume_allnotyetresumed)
     sim.handleGraph(sim.handle_all_except_explicit,sim.getSimulationTime()+sim.getSimulationTimeStep())
 end
 
 function <strong>sysCall_cleanup</strong>()
     -- Clean-up part:
-    sim.resetCollision(sim.handle_all_except_explicit)
-    sim.resetDistance(sim.handle_all_except_explicit)
     sim.resetProximitySensor(sim.handle_all_except_explicit)
     sim.resetVisionSensor(sim.handle_all_except_explicit)
     sim.closeModule(sim.handle_all)
@@ -112,69 +99,9 @@ function <strong>sysCall_resume</strong>()
     sim.handleSandboxScript(sim.syscb_resume)
 end</pre>
 
-<p>There are however many more system callback functions the main script can use to react to various events:</p>
-<pre class=lightRedBox>
-function <strong>sysCall_init</strong>() -- not optional!!
-    -- Put some initialization code here
-end
+<p>There are however many more <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> the main script can use to react to various events.</p>
 
-function <strong>sysCall_actuation</strong>()
-    -- Put some actuation code here
-end
-
-function <strong>sysCall_sensing</strong>()
-    -- Put some sensing code here
-end
-
-function <strong>sysCall_cleanup</strong>()
-    -- Put some restoration code here
-end
-
-function <strong>sysCall_beforeCopy</strong>(inData)
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..key.." will be copied")
-    end
-end
-
-function <strong>sysCall_afterCopy</strong>(inData)
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..key.." was copied")
-    end
-end
-
-function <strong>sysCall_afterCreate</strong>(inData)
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..value.." was created")
-    end
-end
-
-function <strong>sysCall_beforeDelete</strong>(inData)
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..key.." will be deleted")
-    end
-    -- inData.allObjects indicates if all objects in the scene will be deleted
-end
-
-function <strong>sysCall_afterDelete</strong>(inData)
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..key.." was deleted")
-    end
-    -- inData.allObjects indicates if all objects in the scene were deleted
-end
-
-function <strong>sysCall_suspend</strong>()
-    -- Simulation is about to be suspended
-end
-
-function <strong>sysCall_suspended</strong>()
-    -- Simulation is suspended
-end
-
-function <strong>sysCall_resume</strong>()
-    -- Simulation is about to be resumed
-end</pre>
-
-<p>The main script is not supposed to be modified. The reason for this is following: one of CoppeliaSim's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command sim.handleChildScripts then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality (e.g. if a new CoppeliaSim version introduces a neat command sim.doMagic(), then old scenes will automatically be updated to have that command also automatically called in their main script).<br>
+<p>The main script is not supposed to be modified. The reason for this is following: one of CoppeliaSim's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command sim.handleChildScripts then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality (e.g. if a new CoppeliaSim version introduces a neat command sim.doMagic(), then old scenes will automatically be updated to have that command also called in their main script).<br>
 </p>
 
 <p>If however, for a reason or another you really need to modify the main script of a scene, you can do this by double-clicking the light-red script icon next to the world icon at the top of the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:<br>
@@ -190,17 +117,8 @@ end</pre>
 <p>From the moment when you opened the main script, it will be marked as customized and won't be automatically updated anymore.</p>
 
 
-<p>Most commands in the main script behave or operate in a similar way. If we take for example the <a href="distanceCalculation.htm">distance calculation functionality</a>, we have in the regular part:
-</p>
-
-<li><strong><a href="regularApi/simHandleDistance.htm">sim.handleDistance</a>(sim.handle_all_except_explicit)</strong>: the effect of this command is to calculate minimum distances for all distance objects that have been registered and that are listed in the <a href="distanceCalculation.htm">distance calculation dialog</a> (handling distance calculation for a distance object will compute its minimum distance, set the distance variable and the minimum distance segment will be displayed in the scene). All distance objects are handled (i.e. calculated) with that command, except those that have been marked as <strong><a href="explicitHandling.htm">explicit handling</a></strong>. <br>
-</li>
-
-<p>Any new distance object will automatically be handled with above  command (as long as it is not marked as explicit handling). The exact same mechanism is applied to <a href="collisionDetection.htm">collision detection</a>, <a href="proximitySensors.htm">proximity sensor</a> and <a href="visionSensors.htm">vision sensor</a> simulations, <a href="inverseKinematicsModule.htm">kinematics</a>, etc. This is a powerful mechanism that allows running simple simulations without writing a single line of code.<br>
-</p>
-
-<p>Most of child script's system callback functions are called from the main script, via the <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a> function, which operates in a cascading fashion upon the scene hierarchy and the child scripts attached to  individual scene object. </p>
-<p>If you look at the default main script, you can notice that the actuation function allows actuating or modifying the scene content (e.g. sim.handleIkGroup, sim.handleDynamics, etc.), while the sensing function allows sensing and probing the scene content (e.g. sim.handleCollision, sim.handleDistance, sim.handleProximitySensor, etc.). Following illustrates what happens in the default main script when a mobile robot equipped with a <a href="proximitySensors.htm">proximity sensor</a> is simulated:<br>
+<p>Most of child script's system callback functions are called from the main script, via the <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a> function, which <a href="scriptExecution.htm">operates in a cascading fashion</a> upon the scene hierarchy and the child scripts attached to  individual scene object. </p>
+<p>If you look at the default main script, you can notice that the actuation function allows actuating or modifying the scene content (e.g. sim.handleDynamics, etc.), while the sensing function allows sensing and probing the scene content (e.g. sim.handleProximitySensor, etc.). Following illustrates what happens in the default main script when a mobile robot equipped with a <a href="proximitySensors.htm">proximity sensor</a> is simulated:<br>
 </p>
 
 
@@ -216,14 +134,7 @@ end</pre>
 <p class=imageLabel>[Sensing - actuation - display sequence]</p>
 <br>
 
-<p>As does the main script have an actuation and sensing function, so do <a href="childScripts.htm#nonThreaded">non-threaded child scripts</a>. <a href="childScripts.htm#threaded">Threaded child scripts</a> on the other hand can be squeduled to run while the main script is in the actuation or sensing function, refer to the API function <a href="regularApi/simSetThreadResumeLocation.htm">sim.setThreadResumeLocation</a>.
-</p>
-
-
-
-<br>
-<h3 class=recommendedTopics>Recommended topics</h3>
-<li><a href="childScripts.htm">Child scripts</a></li>
+<p>As does the main script have an actuation-sensing sequence, so do <a href="childScripts.htm">child scripts</a>.</p>
 <br>
 <br>
  </tr>

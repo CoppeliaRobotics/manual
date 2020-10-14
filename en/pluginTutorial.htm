@@ -20,7 +20,7 @@
 <h1>Plugin tutorial</h1>
 
 
-<p>This tutorial will try to explain how to write a <a href="plugins.htm">plugin</a> for CoppeliaSim. The CoppeliaSim scene file related to this tutorial is located in CoppeliaSim's installation folder's <em>tutorials/BubbleRobExt</em>. The plugin project files of this tutorial can be found <a href="https://github.com/CoppeliaRobotics/simExtBubbleRob" target="_blank">here</a>.<br>
+<p>This tutorial describes how to write a <a href="plugins.htm">plugin</a> for CoppeliaSim. The CoppeliaSim scene file related to this tutorial is located in <em>scenes/tutorials/BubbleRobExt</em>. The plugin project files of this tutorial can be found <a href="https://github.com/CoppeliaRobotics/simExtBubbleRob" target="_blank">here</a>.<br>
 </p>
 
 <p>CoppeliaSim automatically loads all plugins that it can find in its folder (i.e. the installation folder, or the same folder as the one that contains <em>coppeliaSim.exe</em>) at program start-up. CoppeliaSim recognizes plugin files with following mask: &quot;simExt*.dll&quot; on Windows, &quot;libsimExt*.dylib&quot; on Mac OS and &quot;libsimExt*.so&quot; on Linux. Additionally a plugin's filename should not contain any underscore (except the one at the beginning obviously). The plugin file of this tutorial is <em>simExtBubbleRob.dll</em>. When testing it, make sure it was properly loaded at CoppeliaSim start-up: switch the <a href="userInterface.htm#ConsoleWindow">console window</a> to visible by unchecking the <strong>Hide console window</strong> item in the <a href="settings.htm">user settings dialog</a> ([Menu bar --&gt; Tools --&gt; Settings]). This option is only available in the Windows version. On Mac, have a look at the system's console, and on Linux try to start CoppeliaSim from within a console. The console window should display something similar to this:<br>
@@ -29,7 +29,7 @@
 <p align=center><img src="images/pluginTut1.jpg"></p>
 <br>
 
-<p>As you already understood, this plugin was written for BubbleRob from the <a href="bubbleRobTutorial.htm">BubbleRob tutorial</a>. Load the related scene file (<em>tutorials\BubbleRobExt\BubbleRobExt.ttt</em>). The BubbleRob plugin adds 4 new Lua commands (custom Lua commands should follow the convention: &quot;simXXX.YYY&quot; for the name, e.g. simRob.start):<br>
+<p>As you already understood, this plugin was written for BubbleRob from the <a href="bubbleRobTutorial.htm">BubbleRob tutorial</a>. Load the related scene file (<em>scenes/tutorials/BubbleRobExt/BubbleRobExt.ttt</em>). The BubbleRob plugin adds 4 new Lua commands (custom Lua commands should follow the convention: &quot;simXXX.YYY&quot; for the name, e.g. simRob.start):<br>
 </p>
 
 
@@ -97,28 +97,26 @@
 </table> 
 <br>
 
-<h3 class=subsectionBar>simBubble.moveAndAvoid</h3>
+<h3 class=subsectionBar>simBubble.start</h3>
 <table class=apiTable>
 	<tr class=apiTableTr> 
 		<td class=apiTableLeftDescr>
 			Description 
 		</td> 
 		<td class=apiTableRightDescr>
-			Sets a BubbleRob into an automatic movement mode for a given duration 
+			Sets a BubbleRob into an automatic movement mode 
 		</td>
 	</tr> 
 	<tr class=apiTableTr> 
 		<td class=apiTableLeftLSyn>
 			Lua synopsis
 		</td> 
-		<td class=apiTableRightLSyn>boolean result=simBubble.moveAndAvoid(number bubbleRobHandle,number movementDuration,boolean returnDirectly=false)</td> 
+		<td class=apiTableRightLSyn>boolean result=simBubble.start(number bubbleRobHandle)</td> 
 	</tr> 
 	<tr class=apiTableTr> 
 		<td class=apiTableLeftLParam>Lua parameters</td> 
 		<td class=apiTableRightLParam>
 			<div><strong>bubbleRobHandle</strong>: the handle of a BubbleRob instance previously returned from simBubble.create.</div>
-			<div><strong>movementDuration</strong>: duration in seconds of the automatic movement</div>
-			<div><strong>returnDirectly</strong>: if true, the function returns directly (non-blocking operation), otherwise the function only returns when the automatic movement finished (this however requires the calling script to be threaded!). Can be nil or omitted, in which case the operation is blocking.</div>
 		</td> 
 	</tr> 
 	<tr class=apiTableTr> 
@@ -164,10 +162,23 @@
 </table> 
 <br>
 
-<p>Now open the <a href="childScripts.htm#threaded">threaded child script</a> attached to the BubbleRob model in the scene (e.g. double-click the script icon next to object <em>bubbleRob</em> in the scene hierarchy). Inspect the code:<br>
+<p>Now open the threaded <a href="childScripts.htm">child script</a> attached to the BubbleRob model in the scene (e.g. double-click the script icon next to object <em>bubbleRob</em> in the scene hierarchy). Inspect the code:<br>
 </p>
 
-<pre class=lightRedBox>function sysCall_threadmain()
+<pre class=lightRedBox>function sysCall_init()
+    corout=coroutine.create(coroutineMain)
+end
+
+function sysCall_actuation()
+    if coroutine.status(corout)~='dead' then
+        local ok,errorMsg=coroutine.resume(corout)
+        if errorMsg then
+            error(errorMsg)
+        end
+    end
+end
+
+function coroutineMain()
     -- Check if the required plugin is there:
     moduleName=0
     moduleVersion=0
@@ -180,22 +191,24 @@
         end
         index=index+1
     end
-    if (bubbleRobModuleNotFound) then
-        sim.displayDialog('Error','BubbleRob plugin was not found. (simExtBubbleRob.dll)\n
-        Simulation will not run properly',sim.dlgstyle_ok,true,nil,{0.8,0,0,0,0,0},{0.5,0,0,1,1,1})
+    if bubbleRobModuleNotFound then
+        local msg='BubbleRob plugin was not found.\nSimulation will not run properly.'
+        sim.displayDialog('Error',msg,sim.dlgstyle_ok,true)
     else
         local jointHandles={sim.getObjectHandle('leftMotor'),sim.getObjectHandle('rightMotor')}
         local sensorHandle=sim.getObjectHandle('sensingNose')
-        local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25}) -- create a BubbleRob instance
+        local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25})
         if robHandle>=0 then
-            simBubble.start(robHandle,20) -- control happens here
+            simBubble.start(robHandle) -- start the robot
+            local st=sim.getSimulationTime()
+            sim.wait(20) -- run for 20 seconds
             simBubble.stop(robHandle)
-            simBubble.destroy(robHandle) -- destroy the BubbleRob instance
+            simBubble.destroy(robHandle)
         end
     end
 end</pre>
 
-<p>The first part of the code is in charge of checking whether the plugin required to run this script (i.e. <em>simExtBubbleRob.dll</em>) is available (i.e. was found and successfully loaded). If not, an error message is displayed. Otherwise, joint and sensor handles are retrieved and given to the custom Lua function that creates a controller instance of our BubbleRob in the plugin. If the call was successfull, then we can call <em>simBubble.moveAndAvoid</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles, and this for a duration of 20 seconds. The function is blocking (the omitted third argument is false by default), which means that the call doesn't return until the function has finished (i.e. after 20 seconds). Run the simulation: BubbleRob moves for 20 seconds then stops, as expected. Now leave CoppeliaSim. Temporarily rename the plugin to <em>TEMP_simExtBubbleRob.dll</em> so that CoppeliaSim won't load it anymore, then start CoppeliaSim again. Load the previous scene and run the simulation: an error message now appears, indicating that the required plugin could not be found. Leave CoppeliaSim again, rename back the plugin to <em>simExtBubbleRob.dll</em> and start CoppeliaSim again.<br>
+<p>The first part of the code is in charge of checking whether the plugin required to run this script (i.e. <em>simExtBubbleRob.dll</em>) is available (i.e. was found and successfully loaded). If not, an error message is displayed. Otherwise, joint and sensor handles are retrieved and given to the custom Lua function that creates a controller instance of our BubbleRob in the plugin. If the call was successfull, then we can call <em>simBubble.start</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles. Run the simulation: BubbleRob moves for 20 seconds then stops, as expected. Now leave CoppeliaSim. Temporarily rename the plugin to <em>TEMP_simExtBubbleRob.dll</em> so that CoppeliaSim won't load it anymore, then start CoppeliaSim again. Load the previous scene and run the simulation: an error message now appears, indicating that the required plugin could not be found. Leave CoppeliaSim again, rename back the plugin to <em>simExtBubbleRob.dll</em> and start CoppeliaSim again.<br>
 </p>
 
 <p>Let's have a look at how the plugin registers and handles the above 4 custom Lua functions. Open the <a href="https://github.com/CoppeliaRobotics/simExtBubbleRob" target="_blank">BubbleRob plugin project</a>, and have a look at file <em>simExtBubbleRob.cpp</em>:</p>

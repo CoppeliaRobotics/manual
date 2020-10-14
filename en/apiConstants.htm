@@ -28,10 +28,7 @@
 <div class="sim.appobj_collision_type">sim.appobj_collision_type</div>
 <div class="sim.appobj_distance_type">sim.appobj_distance_type</div>
 <div class="sim.appobj_simulation_type">sim.appobj_simulation_type</div>
-<div class="sim.appobj_ik_type">sim.appobj_ik_type</div>
-<div class="sim.appobj_constraintsolver_type">sim.appobj_constraintsolver_type</div>
 <div class="sim.appobj_collection_type">sim.appobj_collection_type</div>
-<div class="sim.appobj_ui_type">sim.appobj_ui_type</div>
 <div class="sim.appobj_script_type">sim.appobj_script_type</div>
 <div class="sim.appobj_texture_type">sim.appobj_texture_type</div>
 <br>
@@ -175,63 +172,6 @@ See also the <a href="regularApi/simGetModelProperty.htm">sim.getModelProperty</
 </tr>
 </table></div>
 <br>
-
-
-
-
-
-
-
-
-
-<div class="constantsGroup"><h3 class=subsectionBar><a name="ikCalculationMethods"></a>IK calculation methods</h3>
-<table class=apiConstantsTable >
-<tr>
-<td>
-<div class="sim.ik_pseudo_inverse_method">sim.ik_pseudo_inverse_method (features a tiny little bit of hard-coded damping)</div>
-<div class="sim.ik_undamped_pseudo_inverse_method">sim.ik_undamped_pseudo_inverse_method</div>
-<div class="sim.ik_damped_least_squares_method">sim.ik_damped_least_squares_method</div>
-<div class="sim.ik_jacobian_transpose_method">sim.ik_jacobian_transpose_method</div>
-<br>
-See also the <a href="regularApi/simSetIkGroupProperties.htm">sim.setIkGroupProperties</a> function.
-</td>
-</tr>
-</table></div>
-<br>
-
-
-<div class="constantsGroup"><h3 class=subsectionBar><a name="ikConstraints"></a>IK constraints (can be combined with the OR operator)</h3>
-<table class=apiConstantsTable >
-<tr>
-<td>
-<div class="sim.ik_x_constraint">sim.ik_x_constraint</div
-><div class="sim.ik_y_constraint">sim.ik_y_constraint</div
-><div class="sim.ik_z_constraint">sim.ik_z_constraint</div
-><div class="sim.ik_alpha_beta_constraint">sim.ik_alpha_beta_constraint</div
-><div class="sim.ik_gamma_constraint">sim.ik_gamma_constraint</div
-><div class="sim.ik_avoidance_constraint">sim.ik_avoidance_constraint</div
-><br>
-See also the <a href="regularApi/simSetIkElementProperties.htm">sim.setIkElementProperties</a> function.
-</td>
-</tr>
-</table></div>
-<br>
-
-
-<div class="constantsGroup"><h3 class=subsectionBar><a name="ikCalculationResults"></a>IK calculation results</h3>
-<table class=apiConstantsTable >
-<tr>
-<td>
-<div class="sim.ikresult_not_performed">sim.ikresult_not_performed</div
-><div class="sim.ikresult_success">sim.ikresult_success</div
-><div class="sim.ikresult_fail">sim.ikresult_fail</div
-><br>
-See also the <a href="regularApi/simHandleIkGroup.htm">sim.handleIkGroup</a> function.
-</td>
-</tr>
-</table></div>
-<br>
-
 
 
 <div class="constantsGroup"><h3 class=subsectionBar><a name="simulatorMessages"></a>Simulator messages</h3>
@@ -492,14 +432,10 @@ See also the <a href="regularApi/simHandleMainScript.htm">simHandleMainScript</a
 <td>
 <div class="sim.scripttype_mainscript">sim.scripttype_mainscript</div
 ><div class="sim.scripttype_childscript">sim.scripttype_childscript</div
-><div class=tab>can be combined with sim.scripttype_threaded </div
 ><div class="sim.scripttype_addonscript">sim.scripttype_addonscript</div
 ><div class="sim.scripttype_addonfunction">sim.scripttype_addonfunction</div
 ><div class="sim.scripttype_customizationscript">sim.scripttype_customizationscript</div
 ><div class="sim.scripttype_sandboxscript">sim.scripttype_sandboxscript</div
-><br>
-<div class="sim.scripttype_threaded">sim.scripttype_threaded</div
-><div class=tab>can only be used if combined with sim.scripttype_childscript </div
 ><br>
 See also the <a href="regularApi/simGetScriptProperty.htm">sim.getScriptProperty</a> function.</td>
 </tr>
@@ -518,7 +454,7 @@ See also the <a href="regularApi/simGetScriptProperty.htm">sim.getScriptProperty
 <div class="sim.scriptattribute_executioncount">sim.scriptattribute_executioncount</div
 ><div class=tab>Integer attribute</div>
 <div class="sim.scriptattribute_enabled">sim.scriptattribute_enabled</div
-><div class=tab>Boolean attribute</div>
+><div class=tab>boolean attribute</div>
 <div class="sim.scriptattribute_debuglevel">sim.scriptattribute_debuglevel</div
 ><div class=tab>Integer attribute, see the <a href="#scriptDebugLevel">script debug levels</a></div>
 <div class="sim.scriptattribute_scripttype">sim.scriptattribute_scripttype</div
@@ -559,30 +495,6 @@ See also the <a href="#scriptAttributes">script attributes</a>. </td>
 <div class="sim.scriptdebug_callsandvars">sim.scriptdebug_callsandvars</div>
 <br>
 See also the <a href="#scriptAttributes">script attributes</a>. </td>
-</tr>
-</table></div>
-<br>
-
-
-
-<div class="constantsGroup"><h3 class=subsectionBar><a name="threadResumeLocations"></a>Threaded child script resume locations</h3>
-<table class=apiConstantsTable >
-<tr>
-<td>
-<div class="sim.scriptthreadresume_default">sim.scriptthreadresume_default</div>
-<div class=tab>the default resume location (before sim.scriptthreadresume_actuation_first)</div>
-<div class="sim.scriptthreadresume_actuation_first">sim.scriptthreadresume_actuation_first</div>
-<div class=tab>just before non-threaded child scripts are handled in the actuation phase</div>
-<div class="sim.scriptthreadresume_actuation_last">sim.scriptthreadresume_actuation_last</div>
-<div class=tab>just after non-threaded child scripts were handled in the actuation phase</div>
-<div class="sim.scriptthreadresume_sensing_first">sim.scriptthreadresume_sensing_first</div>
-<div class=tab>just before non-threaded child scripts are handled in the sensing phase</div>
-<div class="sim.scriptthreadresume_sensing_last">sim.scriptthreadresume_sensing_last</div>
-<div class=tab>just after non-threaded child scripts were handled in the sensing phase</div>
-<div class="sim.scriptthreadresume_custom">sim.scriptthreadresume_custom</div>
-<div class=tab>start value for user defined resume locations</div>
-<div class="sim.scriptthreadresume_allnotyetresumed">sim.scriptthreadresume_allnotyetresumed</div>
-<div class=tab>will resume all threads that have not yet been resumed</div>
 </tr>
 </table></div>
 <br>
@@ -855,7 +767,7 @@ See also the <a href="regularApi/simAddParticleObject.htm">sim.addParticleObject
 
 
 
-<div class="constantsGroup"><h3 class=subsectionBar><a name="booleanParameters"></a>Boolean parameters</h3>
+<div class="constantsGroup"><h3 class=subsectionBar><a name="booleanParameters"></a>boolean parameters</h3>
 <table class=apiConstantsTable >
 <tr>
 <td>
@@ -873,8 +785,6 @@ See also the <a href="regularApi/simAddParticleObject.htm">sim.addParticleObject
 <div class="sim.boolparam_console_visible">sim.boolparam_console_visible</div>
 <div class="sim.boolparam_collision_handling_enabled">sim.boolparam_collision_handling_enabled</div>
 <div class="sim.boolparam_distance_handling_enabled">sim.boolparam_distance_handling_enabled</div>
-<div class="sim.boolparam_ik_handling_enabled">sim.boolparam_ik_handling_enabled</div>
-<div class="sim.boolparam_gcs_handling_enabled">sim.boolparam_gcs_handling_enabled</div>
 <div class="sim.boolparam_dynamics_handling_enabled">sim.boolparam_dynamics_handling_enabled</div>
 <div class="sim.boolparam_proximity_sensor_handling_enabled">sim.boolparam_proximity_sensor_handling_enabled</div>
 <div class="sim.boolparam_vision_sensor_handling_enabled">sim.boolparam_vision_sensor_handling_enabled</div>
@@ -895,7 +805,6 @@ See also the <a href="regularApi/simAddParticleObject.htm">sim.addParticleObject
 <div class="sim.boolparam_force_show_wireless_emission">sim.boolparam_force_show_wireless_emission</div>
 <div class="sim.boolparam_force_show_wireless_reception">sim.boolparam_force_show_wireless_reception</div>
 <div class="sim.boolparam_video_recording_triggered">sim.boolparam_video_recording_triggered</div>
-<div><a href="simulation.htm#threadedRendering">sim.boolparam_threaded_rendering_enabled</a></div>
 <div class="sim.boolparam_fullscreen">sim.boolparam_fullscreen</div>
 <div class=tab>can only be read/written during simulation.</div>
 <div class="sim.boolparam_headless">sim.boolparam_headless</div>
@@ -1297,8 +1206,6 @@ See also the <a href="regularApi/simRunSimulator.htm">simRunSimulator</a> functi
 <tr>
 <td>
 <div class="sim.jointmode_passive">sim.jointmode_passive</div>
-<div class="sim.jointmode_ik">sim.jointmode_ik</div>
-<div class="sim.jointmode_ikdependent">sim.jointmode_ikdependent</div>
 <div class="sim.jointmode_dependent">sim.jointmode_dependent</div>
 <div class="sim.jointmode_force">sim.jointmode_force</div>
 <br>
@@ -1381,11 +1288,6 @@ See also the <a href="regularApi/simSetJointMode.htm">sim.setJointMode</a> funct
 <tr>
 <td>
 <div class="sim.dummy_linktype_dynamics_loop_closure">sim.dummy_linktype_dynamics_loop_closure</div>
-<div class="sim.dummy_linktype_dynamics_force_constraint">sim.dummy_linktype_dynamics_force_constraint</div>
-<div class="sim.dummy_linktype_gcs_loop_closure">sim.dummy_linktype_gcs_loop_closure</div>
-<div class="sim.dummy_linktype_gcs_tip">sim.dummy_linktype_gcs_tip</div>
-<div class="sim.dummy_linktype_gcs_target">sim.dummy_linktype_gcs_target</div>
-<div class="sim.dummy_linktype_ik_tip_target">sim.dummy_linktype_ik_tip_target</div>
 </td>
 </tr>
 </table></div>
@@ -1603,22 +1505,6 @@ See also the <a href="regularApi/simCombineRgbImages.htm">sim.combineRgbImages</
 <div class="sim.dynmat_wheel">sim.dynmat_wheel</div>
 <div class="sim.dynmat_gripper">sim.dynmat_gripper</div>
 <div class="sim.dynmat_floor">sim.dynmat_floor</div>
-</td>
-</tr>
-</table></div>
-
-<div class="constantsGroup"><h3 class=subsectionBar><a name="resourceLockTypes"></a>Resources lock types</h3>
-<table class=apiConstantsTable >
-<tr>
-<td>
-<div>sim_lock_ui_wants_to_read</div>
-<div class=tab>when the GUI thread wants to read resources. Lock might fail.</div>
-<div>sim_lock_ui_wants_to_write</div>
-<div class=tab>when the GUI thread wants to write resources. Lock might fail.</div>
-<div>sim_lock_nonui_wants_to_write</div>
-<div class=tab>when the non-GUI thread wants to write resources. Lock never fails.</div>
-<br>
-See also the <a href="regularApi/simLockResources.htm">simLockResources</a> function.
 </td>
 </tr>
 </table></div>

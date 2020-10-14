@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows specifying a switching time for the thread in which the current script runs. If the current script doesn't run in a thread (i.e. if it runs in the application main thread), this function has no effect. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads: each thread (except for the main or application thread) has a switch timing associated, which specifies how long the thread will run before switching to other threads (the execution duration per calculation pass). By default this value is 2 millisecond, but this function allows changing that value (on a thread-basis). Acceptable values are between 0 and 200. For complete control over the switching moment, see also <a href="simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>, <a href="simSwitchThread.htm">sim.switchThread</a>, <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a> and <a href="simSetThreadResumeLocation.htm">sim.setThreadResumeLocation</a>.</td>
+<td class=apiTableRightDescr>Allows specifying a thread interruption- or switch-delay, that will be automatically enforced by the system (preemptive threading). By default this value is 2 millisecond. For complete control over the switching moment, see also <a href="simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>, <a href="simSetThreadSwitchAllowed.htm">sim.setThreadSwitchAllowed</a> and <a href="simSwitchThread.htm">sim.switchThread</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -48,12 +48,12 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result=sim.setThreadSwitchTiming(number deltaTimeInMilliseconds)</td> 
+<td class=apiTableRightLSyn>sim.setThreadSwitchTiming(number deltaTimeInMilliseconds)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>deltaTimeInMilliseconds</strong>: desired non-stop execution time before a switching occurs. A value of x will let the thread execute for x-1 to x milliseconds before switching to another thread.</div>
+<div><strong>deltaTimeInMilliseconds</strong>: desired execution time before an interruption or switch occurs.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -61,7 +61,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>result</strong>: 1 if the timing was set, 0 if it was not set (e.g. because the function was called from the main or application thread).</div>
+None
 </td> 
 </tr> 
 </table> 

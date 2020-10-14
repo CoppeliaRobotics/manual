@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simRMLMoveToPosition</title>
+<title>sim.moveToPose</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -47,7 +47,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table_12 endMatrix=sim.moveToPose(number flags,table_12 currentMatrix,table maxVel,table maxAccel,table maxJerk,table_12 targetMatrix,function callback,auxData,table_4 metric=nil)<br></td> 
+<td class=apiTableRightLSyn>table_12 endMatrix,number timeLeft=sim.moveToPose(number flags,table_12 currentMatrix,table maxVel,table maxAccel,table maxJerk,table_12 targetMatrix,function callback,auxData,table_4 metric=nil,number timeStep=0)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -61,6 +61,7 @@ Lua synopsis
 <div><strong>callback</strong>: a callback function that will be called for each movement step. The arguments provided to the callback function are: currentMatrix, currentVel, currentAccel, auxData.</div>
 <div><strong>auxData</strong>: random data that will be forwarded to the callback function.</div>
 <div><strong>metric</strong>: an optional metric, used to compute a pose-pose distance. If metric is nil, the movement calculation happens in the 4-dimensional space (x,y,z,angle), otherwise it happens in the 1-dimensional space (t).</div>
+<div><strong>timeStep</strong>: the desired time step size. A value of 0 indicates that the current simulation time step will be used.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -69,6 +70,7 @@ Lua return values
 </td> 
 <td class=apiTableRightLRet>
 <div><strong>endMatrix</strong>: the pose at the end of the movement, specified via a transformation matrix (the last row of the 4x4 matrix is omitted).</div>
+<div><strong>timeLeft</strong>: the leftover time in current simulation step, i.e. the remaining time that was not used for movement.</div>
 </td> 
 </tr> 
 </table> 

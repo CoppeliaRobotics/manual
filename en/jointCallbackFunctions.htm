@@ -19,7 +19,7 @@
 
 <h1>Joint callback functions</h1>
 
-<p>A <a href="childScripts.htm">non-threaded child script</a>, or a <a href="customizationScripts.htm">customization script</a> can include a joint callback function. When present for a given joint (that must be <a href="designingDynamicSimulations.htm#dynamicallyEnabled">dynamically enabled</a> and have its control loop enabled too), then the physics engine will call the callback function with appropriate arguments, allowing the user to customize the control loop for the related joint in order to write low-level control algorithms. The joint callback function might be called quite often, normally 10 times per simulation step for a given joint (remember that the physics engine time step, by default, is 10 times smaller that the simulation time step). For that reason, keep things simple, in order to avoid slowing down the simulation.</p>
+<p><a href="childScripts.htm">Child script</a>s, or <a href="customizationScripts.htm">customization scripts</a> can include a joint callback function, which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>. When present for a given joint (that must be <a href="designingDynamicSimulations.htm#dynamicallyEnabled">dynamically enabled</a> and have its control loop enabled too), then the physics engine will call the callback function with appropriate arguments, allowing the user to customize the control loop for the related joint in order to write low-level control algorithms. The joint callback function might be called quite often, normally 10 times per simulation step for a given joint (remember that the physics engine time step, by default, is 10 times smaller that the simulation time step). For that reason, keep things simple, in order to avoid slowing down the simulation.</p>
 <p>Following represents a simple PID joint  callback function:<br>
 </p>
 
@@ -89,15 +89,7 @@ function <strong>sysCall_jointCallback</strong>(inData)
     outData.velocity=maxVelocity
     outData.force=forceOrTorqueToApply
     return outData
-end
-</pre>
-
-<br>
-<h3 class=recommendedTopics>Recommended topics</h3>
-<li><a href="childScripts.htm">Child scripts</a></li>
-<li><a href="customizationScripts.htm">Customization scripts</a></li>
-<li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a></li>
-<li><a href="contactCallbackFunction.htm">Contact callback function</a></li>
+end</pre>
 
 <br>
 <br>

@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simRMLMoveToJointPositions</title>
+<title>sim.moveToConfig</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,7 +16,7 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1><a href="../apiOverview.htm">Regular API</a> function</h1>
-<h3 class=subsectionBar><a name="simMoveToJointConfig" id="simMoveToJointConfig"></a>sim.moveToJointConfig 
+<h3 class=subsectionBar><a name="simMoveToConfig" id="simMoveToConfig"></a>sim.moveToJointConfig 
 </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
@@ -47,7 +47,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table endPos,table endVel,table endAccel=sim.moveToConfig(number flags,table currentPos,table currentVel,table currentAccel,table maxVel,table maxAccel,table maxJerk,table targetPos,table targetVel,function callback,auxData,table cyclicJoints=nil)</td> 
+<td class=apiTableRightLSyn>table endPos,table endVel,table endAccel,number timeLeft=sim.moveToConfig(number flags,table currentPos,table currentVel,table currentAccel,table maxVel,table maxAccel,table maxJerk,table targetPos,table targetVel,function callback,auxData,table cyclicJoints=nil,number timeStep=0)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -64,6 +64,7 @@ Lua synopsis
 <div><strong>callback</strong>: a callback function that will be called for each movement step. The arguments provided to the callback function are: currentConfig, currentVel, currentAccel, auxData.</div>
 <div><strong>auxData</strong>: random data that will be forwarded to the callback function.</div>
 <div><strong>cyclicJoints</strong>: a table of booleans indicating which joint is cyclic (for cyclic joints, the movement will always go in the direction that represents the shortest distance to the goal). Can be nil or omitted.</div>
+<div><strong>timeStep</strong>: the desired time step size. A value of 0 indicates that the current simulation time step will be used.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -74,6 +75,7 @@ Lua return values
 <div><strong>endPos</strong>: the configuration at the end of the movement.</div>
 <div><strong>endVel</strong>: the velocity at the end of the movement.</div>
 <div><strong>endAccel</strong>: the acceleration at the end of the movement.</div>
+<div><strong>timeLeft</strong>: the leftover time in current simulation step, i.e. the remaining time that was not used for movement.</div>
 </td> 
 </tr> 
 </table> 

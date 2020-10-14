@@ -19,11 +19,10 @@
 
 <h1>Inverse kinematics tutorial</h1>
 
-<p>This tutorial explains how to use CoppeliaSim's <a href="inverseKinematicsModule.htm">kinematics functionality</a>, while building a 7 DoF redundant manipulator. But before that, make sure  to have a look at the various simple example scenes related to IK and FK in folder <em>scenes/kinematics</em>. </p>
-<p>This tutorial is segmented into 4 parts:</p>
+<p>This tutorial explains how to use CoppeliaSim's <a href="kinematics.htm">kinematics functionality</a>, while building a 7 DoF redundant manipulator. But before that, make sure  to have a look at the various example scenes related to IK and FK in folder <em>scenes/kinematics</em>. </p>
+<p>This tutorial is segmented into 3 parts:</p>
 <li><strong><a href="#model">Building</a></strong> the simple simulation model of a redundant manipulator</li>
-<li><strong><a href="#method1">Method1</a></strong>, building and handling the inverse kinematics task via programming entirely</li>
-<li><strong><a href="#method2">Method2</a></strong>, building and handling the inverse kinematics task mainly via the GUI</li>
+<li><strong><a href="#setup">Setting up</a></strong> an inverse kinematics task</li>
 <li><strong><a href="#run">Testing</a></strong> the inverse kinematics</li>
 
 <br>
@@ -32,7 +31,7 @@
 <a name="model"></a>Simple simulation model
 </td></tr></table>
 
-<p>For this tutorial, we will build a non-dynamic manipulator, that just uses inverse kinematics without using any physics engine functionality. The CoppeliaSim CAD data related to this tutorial (<em>redundantManipulator.stl</em>) is located in CoppeliaSim's installation folder <em>cadFiles</em>. A CoppeliaSim scene related to this tutorial can be found in CoppeliaSim's installation folder <em>tutorials/InverseKinematics</em>. Click [Menu bar --&gt; File --&gt; Import --&gt; Mesh...] then select the file to import. Also refer to the section on how to <a href="importExport.htm">import/export shapes</a>. A dialog pops open with various import options. Click <em>Import</em>. A single <a href="shapes.htm">simple shape</a> was imported and is located in the middle of the scene. The shape also appears in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> on the left hand side of the main window. Depending on how the original CAD data was exported, the imported CAD data could be at a different scale, different location, or even subdivided into several shapes. Following figure shows the imported shape:<br>
+<p>For this tutorial, we will build a non-dynamic manipulator, that just uses inverse kinematics without using any physics engine functionality. The CoppeliaSim CAD data related to this tutorial (<em>redundantManipulator.stl</em>) is located in CoppeliaSim's installation folder <em>cadFiles</em>. A CoppeliaSim scene related to this tutorial can be found in <em>scenes/tutorials/InverseKinematics</em>. Click [Menu bar --&gt; File --&gt; Import --&gt; Mesh...] then select the file to import. Also refer to the section on how to <a href="importExport.htm">import/export shapes</a>. A dialog pops open with various import options. Click <em>Import</em>. A single <a href="shapes.htm">simple shape</a> was imported and is located in the middle of the scene. The shape also appears in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> on the left hand side of the main window. Depending on how the original CAD data was exported, the imported CAD data could be at a different scale, different location, or even subdivided into several shapes. Following figure shows the imported shape:<br>
 </p>
 
 
@@ -97,17 +96,41 @@
 <br>
 <br>
 <table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="method1"></a>IK via method 1
+<a name="setup"></a>Setting up the inverse kinematics task
 </td></tr></table>
 
 
 
 
-<p>The recommended method to add inverse kinematics functionality to a robot model is to do this entirely via a script calling appropriate API commands: the idea is to build an equivalent kinematic model via the  functions provided by the <a href="kinematicsPlugin.htm">kinematics plugin</a>. The approach uses the concept and terminology of <a href="basicsOnIkGroupsAndIkElements.htm">IK groups and IK elements</a>.</p>
-<p>Select object <em>redundantRobot</em>, then [Menu bar --&gt; Add --&gt; Associated child script --&gt; non-threaded] to attach a <a href="childScripts.htm#nonThreaded">non-threaded child script</a> to that object. Double-click the script icon that appeared next to the object name, and replace the script content with following code:</p>
+<p>Inverse kinematics is entirely set up by having a script calling appropriate API commands: the idea is to build an equivalent kinematic model via the  functions provided by the <a href="kinematicsPlugin.htm">kinematics plugin</a>. The approach uses the concept and terminology of <a href="basicsOnIkGroupsAndIkElements.htm">IK groups and IK elements</a>.</p>
+<p>Select object <em>redundantRobot</em>, then [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non-threaded] to attach a <a href="childScripts.htm">child script</a> to that object. Double-click the script icon that appeared next to the object name, and replace the script content with following code:</p>
 
 <pre class=lightRedBox>function sysCall_init()
-    -- Take a few handles from the robot:
+    -- Build a kinematic chain and 2 IK groups (undamped and damped) inside of the IK plugin environment,
+    -- based on the kinematics of the robot in the scene:
+    -- There is a simple way, and a more elaborate way (but which gives you more options/flexibility):
+
+    -- Simple way:
+    local simBase=sim.getObjectHandle('redundantRobot')
+    local simTip=sim.getObjectHandle('redundantRob_tip')
+    local simTarget=sim.getObjectHandle('redundantRob_target')
+    -- create an IK environment:
+    ikEnv=simIK.createEnvironment()
+    -- create an IK group: 
+    ikGroup_undamped=simIK.createIkGroup(ikEnv)
+    -- set its resolution method to undamped: 
+    simIK.setIkGroupCalculation(ikEnv,ikGroup_undamped,simIK.method_pseudo_inverse,0,6)
+    -- create an IK element based on the scene content: 
+    simIK.addIkElementFromScene(ikEnv,ikGroup_undamped,simBase,simTip,simTarget,simIK.constraint_pose)
+    -- create another IK group: 
+    ikGroup_damped=simIK.createIkGroup(ikEnv)
+    -- set its resolution method to damped: 
+    simIK.setIkGroupCalculation(ikEnv,ikGroup_damped,simIK.method_damped_least_squares,1,99)
+    -- create an IK element based on the scene content: 
+    simIK.addIkElementFromScene(ikEnv,ikGroup_damped,simBase,simTip,simTarget,simIK.constraint_pose) 
+    
+    -- Elaborate way:
+    --[[
     simBase=sim.getObjectHandle('redundantRobot')
     simTip=sim.getObjectHandle('redundantRob_tip')
     simTarget=sim.getObjectHandle('redundantRob_target')
@@ -115,24 +138,20 @@
     for i=1,7,1 do
         simJoints[i]=sim.getObjectHandle('redundantRob_joint'..i)
     end
-
-    -- Now build a kinematic chain and 2 IK groups (undamped and damped) inside
-    -- of the IK plugin environment, based on the kinematics of the robot in the scene:
     ikJoints={}
     -- create an IK environment:
     ikEnv=simIK.createEnvironment()
-    -- create a dummy in the IK environemnt: 
-    ikBase=simIK.createDummy(ikEnv) 
-    -- set that dummy into the same pose as its CoppeliaSim counterpart:
+    -- create a dummy in the IK environment: 
+    ikBase=simIK.createDummy(ikEnv)
+    -- set that dummy into the same pose as its CoppeliaSim counterpart: 
     simIK.setObjectMatrix(ikEnv,ikBase,-1,sim.getObjectMatrix(simBase,-1)) 
     local parent=ikBase
-    -- loop through all joints:
-    for i=1,#simJoints,1 do
-        -- create a joint in the IK environment: 
+    for i=1,#simJoints,1 do -- loop through all joints
+        -- create a joint in the IK environment:
         ikJoints[i]=simIK.createJoint(ikEnv,simIK.jointtype_revolute)
         -- set it into IK mode: 
-        simIK.setJointMode(ikEnv,ikJoints[i],simIK.jointmode_ik) 
-        -- set the same joint limits as its CoppeliaSim counterpart joint:
+        simIK.setJointMode(ikEnv,ikJoints[i],simIK.jointmode_ik)
+        -- set the same joint limits as its CoppeliaSim counterpart joint: 
         local cyclic,interv=sim.getJointInterval(simJoints[i])
         simIK.setJointInterval(ikEnv,ikJoints[i],cyclic,interv)
         -- set the same joint position as its CoppeliaSim counterpart joint: 
@@ -177,41 +196,63 @@
     simIK.setIkElementBase(ikEnv,ikGroup_damped,ikElementHandle,ikBase)
     -- specify the constraints of that IK element: 
     simIK.setIkElementConstraints(ikEnv,ikGroup_damped,ikElementHandle,simIK.constraint_pose) 
+    --]]
 end
 
 function sysCall_actuation()
-    -- reflect the pose of the target dummy to its counterpart in the IK environment:
-    simIK.setObjectMatrix(ikEnv,ikTarget,ikBase,sim.getObjectMatrix(simTarget,simBase)) 
-
+    -- There is a simple way, and a more elaborate way (but which gives you more options/flexibility):
+    
+    -- Simple way:
     -- try to solve with the undamped method:
-    if simIK.handleIkGroup(ikEnv,ikGroup_undamped)==simIK.result_fail then 
+    if simIK.applyIkToScene(ikEnv,ikGroup_undamped,true)==simIK.result_fail then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
-        simIK.handleIkGroup(ikEnv,ikGroup_damped) 
-        if not ikFailedReportHandle then
-            -- We display a IK failure report message:
+        simIK.applyIkToScene(ikEnv,ikGroup_damped)
+        -- We display a IK failure report message: 
+        if not ikFailedReportHandle then 
             ikFailedReportHandle=sim.displayDialog("IK failure report","IK solver failed.",
                 sim.dlgstyle_message,false,"",nil,{1,0.7,0,0,0,0})
         end
     else
         if ikFailedReportHandle then
-            -- We close any report message about IK failure:
-            sim.endDialog(ikFailedReportHandle)
+        	-- We close any report message about IK failure:
+            sim.endDialog(ikFailedReportHandle) 
             ikFailedReportHandle=nil
         end
     end
     
-    for i=1,#simJoints,1 do
-        -- apply the joint values computed in the IK environment to
-        -- their CoppeliaSim joint counterparts:
-        sim.setJointPosition(simJoints[i],simIK.getJointPosition(ikEnv,ikJoints[i]))
+    -- Elaborate way:
+    --[[
+    -- reflect the pose of the target dummy to its counterpart in the IK environment:
+    simIK.setObjectMatrix(ikEnv,ikTarget,ikBase,sim.getObjectMatrix(simTarget,simBase)) 
+	-- try to solve with the undamped method:
+    if simIK.handleIkGroup(ikEnv,ikGroup_undamped)==simIK.result_fail then 
+        -- the position/orientation could not be reached.
+        -- try to solve with the damped method:
+        simIK.handleIkGroup(ikEnv,ikGroup_damped)
+        -- We display a IK failure report message: 
+        if not ikFailedReportHandle then 
+            ikFailedReportHandle=sim.displayDialog("IK failure report","IK solver failed.",
+                sim.dlgstyle_message,false,"",nil,{1,0.7,0,0,0,0})
+        end
+    else
+        if ikFailedReportHandle then
+        	-- We close any report message about IK failure:
+            sim.endDialog(ikFailedReportHandle) 
+            ikFailedReportHandle=nil
+        end
     end
+    -- apply the joint values computed in the IK environment to their CoppeliaSim joint counterparts:
+    for i=1,#simJoints,1 do
+        sim.setJointPosition(simJoints[i],simIK.getJointPosition(ikEnv,ikJoints[i])) 
+    end
+    --]]
 end 
 
 function sysCall_cleanup()
-    -- erase the IK environment: 
+	-- erase the IK environment: 
     simIK.eraseEnvironment(ikEnv) 
-end</pre>
+end </pre>
 
 
 
@@ -219,32 +260,6 @@ end</pre>
 <p>Above script creates an equivalent kinematic model from the CoppeliaSim model, then in each simulation step, reads the position/orientation of the CoppeliaSim target, applies it to the target of the equivalent kinematic model, runs the IK solver, and finally reads the joint angles of the equivalent kinematic model, and applies them to the joints of the CoppeliaSim model. To handle singular configurations and situations where the target is out of reach, we first try with a non-damped solver, and if it fails, we revert to a damped solver (with a damped solver, when damping is large, resolution becomes more stable but convergence slower).</p>
 <p> Method 1 for solving IK is elegant since it allows to nicely separate the IK functionality from the CoppeliaSim model (e.g. the IK solver can also run in an empty scene). This is however not always so convenient, especially when the IK task is complex and involves several dozens of joints (e.g. in case of a parallel kinematics machine for instance), and <a href="#method2">method 2</a> might be better in that case:</p>
 
-
-<br>
-<br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="method2"></a>IK via method 2
-</td></tr></table>
-
-
-
-
-<p>The recommended method to add inverse kinematics functionality to a robot model is to entirely handle this programmatically, via <a href="method1">method 1</a>. This is however not allways so convenient, especially when the IK task is complex and involves several dozens of joints (e.g. in case of a parallel kinematics machine for instance). In that situation, method 2 comes in handy: it consists of preparing the CoppeliaSim model appropriately, then creating the kinematics task via the GUI. This approach too, uses the concept and terminology of <a href="basicsOnIkGroupsAndIkElements.htm">IK groups and IK elements</a>.</p>
-<p>Select all joints, then in the joint dialog, select <strong>Inverse kinematics mode</strong>, then click <strong>Apply to selection</strong>. Next, we inform CoppeliaSim that <em>redundantRob_tip</em> and <em>redundantRob_target</em> are a <em>tip-target</em> pair for inverse kinematics resolution. Open the <a href="dummyPropertiesDialog.htm">dummy properties</a> dialog, and in the <strong>Dummy-dummy linking</strong> section, specify <em>redundantRob_target</em> as <strong>Linked dummy</strong>. In the same dialog, <strong>Link type</strong> is already <strong>IK, tip-target</strong>, which is the default value. This is what you should have by now:</p>
-<p align=center><img src="images/ikTut11.jpg"></p>
-<br>
-<p>At this stage, all elements for the definition of the inverse kinematics task are ready, and we just need to register the task as an <a href="basicsOnIkGroupsAndIkElements.htm"><em>IK group</em></a>. Open the <a href="ikDialog.htm">kinematics dialog</a> and click <strong>Add new IK group</strong>. A new item appears in the <strong>IK groups</strong> list: <em>IK_Group</em>. Double-click it to rename it to <em>redundantRobot_undamped</em>. While that item is selected, click <strong>Edit IK elements</strong> to open the <a href="ikElementDialog.htm">IK element dialog</a>. Next to the <strong>Add new IK element with tip </strong>button, select <em>redundantRob_tip</em> in the drop-down box, then click the <strong>Add new IK element with tip</strong> button. This just added an IK element that appears in the list. Further down, indicate <em>redundantRobot</em> as the <strong>Base</strong>. Finally, make sure that all items are checked in the <strong>Constraints</strong> section (check als <strong>Alpha-Beta</strong> and <strong>Gamma</strong>). Indeed, we want the tip dummy to follow our target dummy in position and orientation:</p>
-
-<p align=center><img src="images/ikTut8b.jpg"></p>
-<br>
-
-<p> Close the IK element dialog. This is how it should look like:</p>
-
-<p align=center><img src="images/ikTut8.jpg"></p>
-<br>
-
-<p>At this stage, IK resolution won't be that robust since calculations around singular configurations, or situation where the target can't possibly be reached, will lead to instabilities. To avoid this, add a second IK group, rename it to <em>redundantRobot_damped</em>, and select <strong>Damped least squares</strong> for the <strong>calculation method</strong>, with a <strong>damping</strong> at 1.0 and <strong>maximum iterations</strong> at 99 (with a damped solver, when damping is large, resolution becomes more stable but convergence slower). Click <strong>Edit IK elements</strong> and add the same IK element as previously. Select the undamped IK group, and click <strong>Edit conditional params</strong>. In the <strong>Restor if...</strong> section, check both checkboxes. Then select the damped IK group,  click <strong>Edit conditional params</strong> and adjust the <strong>Perform if...</strong> section to <strong>redundantRobot_undamped</strong> <strong>was performed and failed</strong>.</p>
-<p>Both of the IK groups have their <strong>Explicit handling</strong> flag unchecked: this means that they will be handled via the <a href="mainScript.htm">main script</a>, i.e. in each simulation step those two IK groups will automatically be calculated. If you rather wish to handle calculation manually, at a time of your wish, then check the <strong>Explicit handling</strong> checkbox for both IK groups: from now on those IK groups will only be calculated when you call <a href="regularApi/simHandleIkGroup.htm">sim.handleIkGroup</a> upon them explicitely.</p>
 
 <br>
 <br>

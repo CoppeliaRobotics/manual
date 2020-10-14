@@ -229,91 +229,22 @@ if clientID!=-1:
 </td></tr></table> 
 
 
-<p>CoppeliaSim ships with a Lua extension library called <a href="http://w3.impa.br/~diego/software/luasocket/home.html">LuaSocket</a> (see <a href="acknowledgments.htm#LuaSocketCredit">here</a> for acknowledgements and credits related to this library). It allows performing various type of socket communication from within an <a href="scripts.htm">embedded script</a> or an <a href="addOns.htm">add-on</a>. Following code section illustrates how a <a href="childScripts.htm#threaded">threaded child script</a> would fetch a webpage:<br>
+<p>CoppeliaSim ships with a Lua extension library called <a href="http://w3.impa.br/~diego/software/luasocket/home.html">LuaSocket</a> (see <a href="acknowledgments.htm#LuaSocketCredit">here</a> for acknowledgements and credits related to this library). It allows performing various type of socket communication from within an <a href="scripts.htm">embedded script</a> or an <a href="addOns.htm">add-on</a>. Following code section illustrates how to fetch a webpage:<br>
 </p>
 
 <pre class=lightRedBox>
 http=require("socket.http")
-sim.setThreadIsFree(true) -- Allow real threading from here (to avoid blocking CoppeliaSim)
 page=http.request("http://www.google.com")
-sim.setThreadIsFree(false) -- Forbid real threading from here</pre>
-
-<p>Notice how the blocking part of the request command is put  within a non-blocking section. For more information on how to avoid external commands to block, refer to the <a href="regularApi/simSetThreadIsFree.htm">sim.setThreadIsFree</a> API command.<br>
-</p>
-
-<p>If your application requires socket communication, it is very convenient to set-up a threaded script as a <em>request server</em> and have the other scripts access it for socket communication as in following example:<br>
-</p>
-
-<p>
-The threaded <em>request server</em>: </p>
-
-<pre class=lightRedBox>
-http = require("socket.http")
--- Open a communication tube:
-tubeHandle=sim.tubeOpen(0,'http_communication_test',1)
-
-while (sim.getSimulationState()~=sim.simulation_advancing_abouttostop) do
-    -- Wait for a message in the tube and reat it:
-    data=sim.tubeRead(tubeHandle,true)
-    if (data) then
-        -- Fetch the page:
-        sim.setThreadIsFree(true) -- Allow real threading from here (to avoid blocking CoppeliaSim)
-        reply=http.request(data)
-        sim.setThreadIsFree(false) -- Forbid real threading from here
-        -- Send back the page:
-        if (reply) then
-            sim.tubeWrite(tubeHandle,reply)
-        else
-            sim.tubeWrite(tubeHandle,'Page could not be retrieved')
-        end
-    else
-        sim.switchThread() -- explicitely switch thread
-    end
-end</pre>
-
-<p>
-Following <a href="childScripts.htm#nonThreaded">non-threaded child script</a> example could then be used to access socket information: </p>
-
-
-<pre class=lightRedBox>
-function sysCall_init()
-    -- Open a communication tube:
-    tubeHandle=sim.tubeOpen(0,'http_communication_test',1)
-
-    urlsToCheck={'http://www.google.com','http://www.yahoo.com','http://www.titech.co.jp'}
-    urlIndex=1
-end
-
-function sysCall_sensing()
-    s,r,w=sim.tubeStatus(tubeHandle)
-    if (s==1)and(r==0)and(w==0) then
-        -- Send a request for a page:
-        sim.tubeWrite(tubeHandle,urlsToCheck[urlIndex])
-    end
-    if (s==1)and(r==1) then
-        -- Read the reply (the page):
-        page=sim.tubeRead(tubeHandle)
-        print('URL: '..urlsToCheck[urlIndex])
-        print(page:sub(1,200)) -- Only print the first 200 chars
-        urlIndex=urlIndex+1
-        if (urlIndex>3) then
-            urlIndex=1
-        end
-    end
-end</pre>
-
+</pre>
 
 <br>
-
-
-
-
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<table class=subsectionTable>
+  <tr class=subsectionTd><td class=subsectionTd>
 <a name="luaExtensionLibrary"></a><a href="http://lua-users.org/wiki/LibrariesAndBindings">Lua extension library</a>
 </td></tr></table> 
 
 
-<p>It is possible to extend the means of communication of CoppeliaSim almost infinitely, by using Lua's extension library mechanism. As is done with the LuaSocket library (see above), you could add any other type of <a href="http://lua-users.org/wiki/LibrariesAndBindings">Lua extension library available online</a>. You will just have to install the library in CoppeliaSim's installation directory according to the library's instructions. As illustrated with the LuaSocket here above, make sure you make use of a non-blocking section with the <a href="regularApi/simSetThreadIsFree.htm">sim.setThreadIsFree</a> API command should an extension library command block CoppeliaSim.<br>
+<p>It is possible to extend the means of communication of CoppeliaSim almost infinitely, by using Lua's extension library mechanism. As is done with the LuaSocket library (see above), you could add any other type of <a href="http://lua-users.org/wiki/LibrariesAndBindings">Lua extension library available online</a>. You will just have to install the library in CoppeliaSim's installation directory according to the library's instructions.<br>
 </p>
 <br>
 
@@ -337,26 +268,7 @@ end</pre>
 </td></tr></table> 
 
 
-<p>From the <a href="mainClientApplication.htm">main client application</a> or from a <a href="plugins.htm">plugin</a> it is possible to set/clear script variables (i.e. Lua variables) using <a href="regularApi/simSetScriptVariable.htm">sim.setScriptVariable</a>.<br>
-</p>
-<br>
-
-
-
-
-
-
-<br>
-<h3 class=recommendedTopics>Recommended topics</h3>
-<li><a href="writingCode.htm">Writing code in and around CoppeliaSim</a></li>
-<li><a href="scripts.htm">Embedded scripts</a></li>
-<li><a href="addOns.htm">Add-ons</a></li>
-<li><a href="plugins.htm">Plugins</a></li>
-<li><a href="mainClientApplication.htm">The main client application</a></li>
-<li><a href="apiOverview.htm">Regular API</a></li>
-<li><a href="remoteApiOverview.htm">Remote API</a></li>
-<li><a href="rosInterfaces.htm">ROS interfaces</a></li>
-<li><a href="blueZeroPlugin.htm">BlueZero interface</a></li>
+<p>From the <a href="mainClientApplication.htm">main client application</a> or from a <a href="plugins.htm">plugin</a> it is possible to set/clear script variables (i.e. Lua variables) using <a href="regularApi/simSetScriptVariable.htm">sim.setScriptVariable</a>.</p>
 <br>
 <br>
  </tr>

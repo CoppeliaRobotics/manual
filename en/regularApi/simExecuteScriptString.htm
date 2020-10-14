@@ -22,10 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Executes some Lua code in a specific script (from a <a href="../plugins.htm">plugin</a>, <a href="../mainClientApplication.htm">the main client application</a>, or from another script). Call this only:<br>
-a) from the main thread, or:<br>
-b) from a thread that originated from a threaded child script. In that case, you cannot call non-threaded child scripts.<br>
-When calling <a href="../simulationScripts.htm">simulation scripts</a>, then simulation must be running. See also <a href="simCallScriptFunction.htm">sim.callScriptFunction</a>. <br><br>
+<td class=apiTableRightDescr>Executes some Lua code in a specific script (from a <a href="../plugins.htm">plugin</a>, <a href="../mainClientApplication.htm">the main client application</a>, or from another script). The target script must be initialized for this call to succeed, e.g. when calling <a href="../simulationScripts.htm">simulation scripts</a>, then simulation must be running. See also <a href="simCallScriptFunction.htm">sim.callScriptFunction</a>. <br><br>
 <div>Data exchange between a plugin and a script happens via a <a href="../apiFunctionListCategory.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in <em>programming/common/stack</em> and <em>programming/include/stack</em>: they will greatly simplify the task. Have a look at the example plugins <a href="https://github.com/CoppeliaRobotics/simExtPluginSkeleton" target="_blank">simExtPluginSkeleton</a> and <a href="https://github.com/CoppeliaRobotics/simExtPluginSkeletonNG" target="_blank">simExtPluginSkeletonNG</a>.</div>
 
 
@@ -45,6 +42,7 @@ C synopsis
 <div class=tab><em>sim_scripttype_childscript</em> (1): a <a href="../childScripts.htm">child script</a>. In that case, <em>stringAtScriptName</em> should also contain the name of the object associated with the script.</div>
 <div class=tab><em>sim_scripttype_customizationscript</em> (6): a <a href="../customizationScripts.htm">customization script</a>. In that case, <em>stringAtScriptName</em> should also contain the name of the object associated with the script.</div>
 <div class=tab><em>sim_scripttype_sandboxscript</em> (8): <a href="../sandboxScript.htm">the sandbox script</a>.</div>
+<div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="../addOns.htm">add-on script</a>. In that case, <em>stringAtScriptName</em> should also contain the name of the script (e.g. for  add-on <em>simAddOnScript-b0RemoteApiServer.lua</em>, <em>b0RemoteApiServer</em> is the script name)</div>
 <div><strong>stringAtScriptName</strong>: some Lua code to execute in the specified script, followed by @: &quot;string@&quot;. If <em>scriptHandleOrType</em> is <em>sim_scripttype_childscript</em>, or <em>sim_scripttype_customizationscript</em>, then <em>stringAtScriptName</em> should also contain the name of the object associated with the script: &quot;string@objectName&quot;.</div>
 <div><strong>stackId</strong>: 0 (for no stack) or a <a href="simCreateStack.htm">stack handle</a>. The stack holds possible out values. See also the <a href="../apiFunctionListCategory.htm#stacks">available stack functions</a>.</div>
 </td> 

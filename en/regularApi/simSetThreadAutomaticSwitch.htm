@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows to temporarily forbid thread switches.  If the current script doesn't run in a thread, this function has no effect. By default, CoppeliaSim doesn't use &quot;regular&quot; threads, but something similar to hybrid threads (which behave like coroutines, but can also behave like regular threads). This allows much more flexibility and execution control of the threads. For complete control over the switching moment, see also <a href="simGetThreadAutomaticSwitch.htm">sim.getThreadAutomaticSwitch</a>, <a href="simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a>, <a href="simSwitchThread.htm">sim.switchThread</a>, <a href="simSetThreadIsFree.htm">sim.setThreadIsFree</a> and <a href="simSetThreadResumeLocation.htm">sim.setThreadResumeLocation</a>.</td>
+<td class=apiTableRightDescr>Allows to temporarily forbid automatic thread interruptions, i.e. preemptive threading. Explicit thread interruptions, i.e. switching, are still allowed. For complete control over thread switching, see also <a href="simGetThreadAutomaticSwitch.htm">sim.getThreadAutomaticSwitch</a>, <a href="simSetThreadSwitchAllowed.htm">sim.setThreadSwitchAllowed</a>, <a href="simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a> and <a href="simSwitchThread.htm">sim.switchThread</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -48,12 +48,18 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result=sim.setThreadAutomaticSwitch(Boolean switchIsAutomatic)<br></td> 
+<td class=apiTableRightLSyn>number autoSwitchForbidLevel=sim.setThreadAutomaticSwitch(boolean allowAutoSwitch / number forbidLevel)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>switchIsAutomatic</strong>: if false, the thread will not automatically switch to another thread anymore (i.e. automatic thread switching will be temporarily disabled). Calling n times sim.setThreadAutomaticSwitch(false) requires to call n times sim.setThreadAutomaticSwitch(true) to restore the default behaviour (i.e. automatic thread switching).</div>
+<div><strong>allowAutoSwitch</strong>: if false, then the thread will not be automatically interrupted anymore (i.e. automatic thread switching will be temporarily disabled). Calling n times sim.setThreadAutomaticSwitch(false) requires to call n times sim.setThreadAutomaticSwitch(true) to restore the initial behaviour.</div>
+<div><strong>forbidLevel</strong>: allows to set an auto switch forbid level: a level &gt; 0 indicates that automatic thread interruption is disabled.</div>
+<div></div>
+<div>Best is to always use following to temporarily forbid automatic thread interruptions:</div>
+<pre class=lightRedBoxNoMarginAndSmall>local initialForbidLevel=sim.setThreadAutomaticSwitch(false) -- forbid automatic thread switches
+...
+sim.setThreadAutomaticSwitch(initialForbidLevel) -- restore to initial state</pre>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -61,7 +67,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>result</strong>: 1 if the command was successful, 0 if it didn't have an effect (e.g. because the function was called from the main or application thread).</div></td> 
+<div><strong>autoSwitchForbidLevel</strong>: the forbid switch level before calling the function, i.e. the forbid switch level that should be restored later on.</div></td> 
 </tr> 
 </table> 
 

@@ -19,8 +19,8 @@
 
 <h1>Trigger callback functions</h1>
 
-<p>A <a href="childScripts.htm">child script</a>, or a <a href="customizationScripts.htm">customization script</a> can include a trigger callback function, when associated with a <a href="visionSensors.htm">vision sensor</a>, a <a href="proximitySensors.htm">proximity sensor</a>, or a <a href="forceSensors.htm">force/torque sensor</a>. </p>
-<p>Some conditions apply as to the location of the trigger callback function: normally, it should be inside of a <a href="customizationScripts.htm">customization script</a>, or a <a href="childScripts.htm#nonThreaded">non-threaded child script</a>. However, if the triggering API function (e.g. <a href="regularApi/simHandleVisionSensor.htm">sim.handleVisionSensor</a> or <a href="regularApi/simHandleProximitySensor.htm">sim.handleProximitySensor</a>) is called from within of a <a href="childScripts.htm#threaded">threaded child script</a>, then the trigger callback function should also be located in the threaded child script. If a trigger callback function is present in a non-threaded child script as well as in a customization script, both attached to the object triggering, then the child script will be called first, and the customization script second.</p>
+<p><a href="childScripts.htm">Child script</a>s, or <a href="customizationScripts.htm">customization scripts</a> can include a trigger callback function (which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>), when associated with a <a href="visionSensors.htm">vision sensor</a>, a <a href="proximitySensors.htm">proximity sensor</a>, or a <a href="forceSensors.htm">force/torque sensor</a>. </p>
+<p>Some conditions apply as to the location of the trigger callback function: if a trigger callback function is present in a child script as well as in a customization script, both attached to the object triggering, then the child script will be called first, and the customization script second.</p>
 
 <p>A vision sensor can generate the trigger signal inside of the <a href="visionCallbackFunctions.htm">vision callback function</a>. The trigger callback (if present) is then called as in following example:<br>
 </p>
@@ -69,22 +69,7 @@ function <strong>sysCall_trigger</strong>(inData)
     -- inData.filteredForce : current filtered force
     -- inData.filteredTorque : current filtered torque
     sim.breakForceSensor(inData.handle)
-end
-</pre>
-
-<br>
-
-
-
-
-<br>
-<h3 class=recommendedTopics>Recommended topics</h3>
-<li><a href="childScripts.htm">Child scripts</a></li>
-<li><a href="customizationScripts.htm">Customization scripts</a></li>
-<li><a href="visionSensors.htm">Vision sensors</a></li>
-<li><a href="visionCallbackFunctions.htm">Vision callback function</a></li>
-<li><a href="proximitySensors.htm">Proximity sensors</a></li>
-<li><a href="forceSensors.htm">Force/torque sensors</a></li>
+end</pre>
 
 <br>
 <br>
