@@ -51,7 +51,7 @@ function sysCall_actuation()
     if coroutine.status(corout)~='dead' then
         local ok,errorMsg=coroutine.resume(corout) -- resume the coroutine
         if errorMsg then
-            error(errorMsg)
+            error(debug.traceback(corout,errorMsg),2)
         end
     end
 end
@@ -73,7 +73,7 @@ function sysCall_actuation()
     if coroutine.status(corout)~='dead' then
         local ok,errorMsg=coroutine.resume(corout)
         if errorMsg then
-            error(errorMsg)
+            error(debug.traceback(corout,errorMsg),2)
         end
     end
 end
