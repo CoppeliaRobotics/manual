@@ -1343,13 +1343,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetCollectionHandle" id="simxGetCollectionHandle"></a>simxGetCollectionHandle (regular API equivalent: <a href="regularApi/simGetCollectionHandle.htm">sim.getCollectionHandle</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetCollectionHandle" id="simxGetCollectionHandle"></a>simxGetCollectionHandle</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a collection handle based on its name.</td>
+<td class=apiTableRightDescr>This is a convenience function. Since CoppeliaSim V4.2.0, collections should be dynamically created and do not have a name anymore. This function will first try to retrieve a static collection with the specified name (for backward compatibility's sake). If such a collection does not exist, it will try to return the integer signal with the specified name. On CoppeliaSim's side, one could do:
+
+<pre class=lightRedBoxNoMarginAndSmall>
+local collectionHandle=sim.addCollection(0)
+sim.addItemToCollection(collectionHandle,..)
+..
+sim.setIntegerSignal('collectionName',collectionHandle)</pre></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -1397,7 +1403,7 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetCollisionHandle" id="simxGetCollisionHandle"></a>simxGetCollisionHandle (regular API equivalent: <a href="regularApi/simGetCollisionHandle.htm">sim.getCollisionHandle</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetCollisionHandle" id="simxGetCollisionHandle"></a>simxGetCollisionHandle</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -1612,7 +1618,7 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetDistanceHandle" id="simxGetDistanceHandle"></a>simxGetDistanceHandle (regular API equivalent: <a href="regularApi/simGetDistanceHandle.htm">sim.getDistanceHandle</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetDistanceHandle" id="simxGetDistanceHandle"></a>simxGetDistanceHandle</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -4054,7 +4060,7 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxReadCollision" id="simxReadCollision"></a>simxReadCollision (regular API equivalent: <a href="regularApi/simReadCollision.htm">sim.readCollision</a>)</h3>
+<h3 class=subsectionBar><a name="simxReadCollision" id="simxReadCollision"></a>simxReadCollision</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -4108,7 +4114,7 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxReadDistance" id="simxReadDistance"></a>simxReadDistance (regular API equivalent: <a href="regularApi/simReadDistance.htm">sim.readDistance</a>)</h3>
+<h3 class=subsectionBar><a name="simxReadDistance" id="simxReadDistance"></a>simxReadDistance</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>

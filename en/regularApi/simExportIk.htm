@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simGetCollectionName</title>
+<title>simExportIk</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,47 +16,47 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1><a href="../apiOverview.htm">Regular API</a> function</h1>
-<h3 class=subsectionBar><a name="simGetCollectionName" id="simGetCollectionName"></a>simGetCollectionName / sim.getCollectionName </h3>
+<h3 class=subsectionBar><a name="simExportIk" id="simExportIk"></a>simExportIk / sim.exportIk </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>DEPRECATED.</td>
+<td class=apiTableRightDescr><div>DEPRECATED. Use the <a href="../kinematicsPlugin.htm">kinematic plugin</a> functionality instead.</div>
+<div>Exports the kinematics content of a scene. The generated file can be used with the <a href="../coppeliaKinematicsRoutines.htm">Coppelia kinematics routines</a>, to do kinematics computations in a stand-alone application.</div></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simChar* simGetCollectionName(simInt collectionHandle)<br></td> 
+<td class=apiTableRightCSyn>simInt simExportIk(const simChar* pathAndFilename,simInt reserved1,simVoid* reserved2)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>collectionHandle</strong>: handle of the collection<br>
-</div>
-<div></div></td> 
+<div><strong>pathAndFilename</strong>: the location and the name of the file to create.</div>
+<div><strong>reserved1</strong>: reserved argument, keep at 0.</div>
+<div><strong>reserved2</strong>: reserved argument, keep at nullptr.</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>pointer to the name of the collection or nullptr if an error occurred. The user is in charge of destroying the returned buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a><br>
-</div>
+<div>1 if operation was successful.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>string collectionName=sim.getCollectionName(number collectionHandle)<br></td> 
+<td class=apiTableRightLSyn>number result=sim.exportIk(string pathAndFilename)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
 <div>Similar to the C-function counterpart</div>
-<div></div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -64,7 +64,8 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Similar to the C-function counterpart</div></td> 
+<div>Similar to the C-function counterpart</div>
+</td> 
 </tr> 
 </table> 
 
