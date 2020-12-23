@@ -20,57 +20,77 @@
 <h1>Collision detection</h1>
 
 
-<p>CoppeliaSim can detect collisions between two <a href="collidableObjects.htm">collidable</a> <a href="entities.htm">entities</a> in a very flexible way. The calculation is an exact interference calculation. The collision detection module will only detect collisions; it does however not directly react to them (for collision response, refer to the <a href="dynamicsModule.htm">dynamics module</a>). Following figure illustrates the collision detection functionality:<br>
-  <br>
+<p>CoppeliaSim can detect collisions between two <a href="collidableObjects.htm">collidable</a> <a href="entities.htm">entities</a> in a flexible way. The calculation is an exact interference calculation. Collision detection, as its name states, only detect collisions; it does however not directly react to them (for collision response, refer to the <a href="dynamicsModule.htm">dynamics module</a>).<br>
 </p>
 
 <p align=center><img src="images/collisionDetection1.jpg"></p>
-<p class=imageLabel>[(1) Simple collision detection between two manipulators, (2) Exhaustive collision detection between two shapes]</p>
+<p class=imageLabel>[Collision detection between two manipulators]</p>
 <br>
 
-<p>The collision detection module allows registering collision objects  which are collidable entity-pairs (collider entity and collidee entity). During <a href="simulation.htm">simulation</a>, the collision state of each registered collision object can then be visualized with a different coloring, or recorded in a graph object. Refer to <a href="graphs.htm">graphs</a> and <a href="dataStreamTypes.htm">graph data stream types</a> for more information about how to record collision states. Registered collision objects are automatically duplicated (copied) if their two composing entities are duplicated simultaneously in a copy-paste operation.<br>
-</p>
+<p>Using the API function <a href="regularApi/simCheckCollision.htm">sim.checkCollision</a>, one can easily detect collision between entities, for instance collision detection between a robot and its environment, from within a <a href="childScripts.htm">child script</a>, in each simulation step:</p>
 
-<p>The collision detection routines used in the collision detection module are also available as stand-alone routines via the <a href="coppeliaGeometricRoutines.htm">Coppelia Geometric Routines</a>.</p>
+<pre class=lightRedBox>
+function sysCall_init()
+    local robotBase=sim.getObjectHandle('robotModelName')
+    robotCollection=sim.addCollection(0)
+    sim.addItemToCollection(robotCollection,sim.handle_tree,robotBase,0)
+end
 
-<p align=center><img src="images/calculationModuleButton.jpg"></p>
-<p class=imageLabel>[Calculation module properties toolbar button]</p>
+function sysCall_sensing()
+    local result,pairHandles=sim.checkCollision(robotCollection,sim.handle_all)
+    if result&gt;0 then
+        print('Robot is colliding. Colliding pair is '..getAsString(pairHandles))
+    end
+end</pre>
+
+<p>One can also temporarily modify the color of <a href="objects.htm">objects</a> or whole <a href="collections.htm">collections</a>, in order to visually indicate a collision:</p>
+
+<pre class=lightRedBox>
+function changePairColor(entityPair,colorPair)
+    originalColorData={}
+    originalColorData[1]=sim.changeEntityColor(entityPair[1],colorPair[1])
+    originalColorData[2]=sim.changeEntityColor(entityPair[2],colorPair[2])
+end
+
+function restorePairColor()
+    if originalColorData then
+        sim.restoreEntityColor(originalColorData[1])
+        sim.restoreEntityColor(originalColorData[2])
+        originalColorData=nil
+    end
+end
+
+function sysCall_init()
+    local robotBase=sim.getObjectHandle('irb360')
+    robotCollection=sim.addCollection(0)
+    sim.addItemToCollection(robotCollection,sim.handle_tree,robotBase,0)
+    collisionColors={{1,0,0},{1,0,1}} -- collider and collidee
+end
+
+function sysCall_sensing()
+    local result,pairHandles=sim.checkCollision(robotCollection,sim.handle_all)
+    restorePairColor()
+    if result&gt;0 then
+        -- Change color of the collection and the collidee:
+        changePairColor({robotCollection,pairHandles[2]},collisionColors)
+        -- Change color of the collider and collidee objects:
+        -- changePairColor({pairHandles[1],pairHandles[2]},collisionColors)
+    end
+end
+
+function sysCall_cleanup()
+    restorePairColor()
+end</pre>
+
+
+
+<p>CoppeliaSim's collision detection functionality is also available as stand-alone routines via the <a href="coppeliaGeometricRoutines.htm">Coppelia geometric routines</a>.</p>
+
+
+<br>
 <br>
 
-<p>In the calculation module properties dialog, click  the <strong>Collision detection</strong> button to display the collision detection dialog:
-</p>
-
-<p align=center>&nbsp;</p>
-<p class=imageLabel>[Collision detection dialog]</p>
-<br>
-
-<li><strong>Enable all collision detections</strong>: allows enabling or disabling collision detection of all registered collision objects.<br>
-</li>
-
-<li><strong>Add new collision object</strong>: allows specifying  two entities for collision detection. The list below the button displays all registered collision objects that can be renamed with a double-click. Individual collision objects in the list can be selected, and related properties are then displayed below (see hereafter)..<br>
-</li>
-
-<li><strong>Adjust collision color</strong>: allows adjusting the color that a colliding entity will be displayed in. See also the <strong>Collision changes collider color</strong> and <strong>Collision changes collidee color</strong> items further down.<br>
-</li>
-
-<li><strong>Explicit handling</strong>: indicates whether the selected collision object should be explicitly handled. If checked, collision detection for this collision object will not be handled when sim.handleCollision(sim.handle_all_except_explicit) is called, but only if sim.handleCollision(sim.handle_all) or sim.handleCollision(collisionObjectHandle) is called. This is useful if the user wishes to handle collision detection for that collision object in a <a href="childScripts.htm">child script</a> rather than in the <a href="mainScript.htm">main script</a> (if not checked, collision detection for that collision object will be handled twice, once when sim.handleCollision(sim.handle_all_except_explicit) is called in the main script, and once when sim.handleCollision(collisionObjectHandle) is called in the child script). Refer also to the section on <a href="explicitHandling.htm">explicit and non-explicit calls</a>.<br>
-</li>
-
-<li><strong>Collision changes collider / collidee color</strong>: enables or disables a color change during collision for the collider / collidee entity.<br>
-</li>
-
-<li><strong>Comp. coll. contour (shapes only)</strong>: if enabled, then an exhaustive collision detection will be performed for shape-shape collisions: all intersections (i.e. the collision contour) are calculated and visualized. This however requires much more computation time than <em>simple</em> collision detection.<br>
-</li>
-
-<li><strong>Adjust contour color</strong>: allows adjusting the color of the collision contour line (see the <strong>Compute collision contour</strong> item above).<br>
-</li>
-
-<li><strong>Contour width</strong>: width of the collision contour line (see the <strong>Compute collision contour</strong> item above).</li>
-
-
-<br>
-<br>
- </tr>
+  </tr>
 </table> 
 </div>  
   

@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Adds or removes custom data to be stored and saved together with an object, a script or a scene (i.e. the data will be part of the object, the script or the scene). If the tag name starts with the string &quot;@tmp&quot;, then the data will not be saved during a scene or model save operation. The data can also be saved globally for the application (for the current CoppeliaSim session). See also <a href="simReadCustomDataBlock.htm">sim.readCustomDataBlock</a> and the <a href="../apiFunctionListCategory.htm#packing">data packing/unpacking functions</a>. If you wish to store a reference to another object, have a look at <a href="simSetReferencedHandles.htm">sim.setReferencedHandles</a>.</td>
+<td class=apiTableRightDescr>Adds or removes custom data to be stored and saved together with an object, or the scene. If the tag name starts with the string &quot;@tmp&quot;, then the data will not be saved during a scene or model save operation. The data can also be saved globally for the application (for the current CoppeliaSim session). See also <a href="simReadCustomDataBlock.htm">sim.readCustomDataBlock</a> and the <a href="../apiFunctionListCategory.htm#packing">data packing/unpacking functions</a>. If you wish to store a reference to another object, have a look at <a href="simSetReferencedHandles.htm">sim.setReferencedHandles</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -33,7 +33,7 @@ C synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object or script where you want to store your data, or sim_handle_scene if you wish to store the data with the scene, or sim_handle_app if you wish to store the data with the application's current session.</div>
+<div><strong>objectHandle</strong>: handle of the object where you want to store your data, or sim_handle_scene if you wish to store the data with the scene, or sim_handle_app if you wish to store the data with the application's current session.</div>
 <div><strong>tagName</strong>: a string that identifies the data. An empty string will remove all custom data blocks.<br>
 </div>
 <div><strong>data</strong>: your custom data. If nullptr, the current data under the specified dataName will be removed. <br>
@@ -57,12 +57,12 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>sim.writeCustomDataBlock(number objectHandle,string tagName,string data)</td> 
+<td class=apiTableRightLSyn>sim.writeCustomDataBlock(int objectHandle,string tagName,string data)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar to the C-function counterpart.  In addition, you can specify sim.handle_self for the <strong>objectHandle</strong> argument, if your target is the current script.</div>
+<div>Similar to the C-function counterpart.</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 

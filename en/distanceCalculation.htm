@@ -20,56 +20,52 @@
 <h1>Distance calculation</h1>
 
 
-<p>CoppeliaSim can measure the minimum distance between two <a href="measurableObjects.htm">measurable</a> <a href="entities.htm">entities</a> in a very flexible way. The calculation is an exact minimum distance calculation. The distance calculation module will only measure distances; it does however not directly react to them. Following figure illustrates the distance calculation functionality:<br>
+<p>CoppeliaSim can measure the minimum distance between two <a href="measurableObjects.htm">measurable</a> <a href="entities.htm">entities</a> in a flexible way. The calculation is an exact minimum distance calculation.<br>
   <br>
   <br>
 </p>
 
 <p align=center><img src="images/distanceCalculation1.jpg"></p>
-<p class=imageLabel>[(1) Minimum distance calculation between two manipulators, (2) Minimum distance calculation between a robot and an obstacle]</p>
+<p class=imageLabel>[Minimum distance calculation between two manipulators]</p>
 <br>
+<p>Using the API function <a href="regularApi/simCheckDistance.htm">sim.checkDistance</a>, one can easily calculate the minimum distance between entities, for instance between a robot and its environment, from within a <a href="childScripts.htm">child script</a>, in each simulation step:</p>
 
-<p>The distance calculation module allows registering distance objects  which are measurable entity-pairs. During <a href="simulation.htm">simulation</a>, the minimum distance segment of each registered distance object can then be visualized, or recorded in a graph object. Refer to <a href="graphs.htm">graphs</a> and <a href="dataStreamTypes.htm">graph data stream types</a> for more information about how to record distance objects. Registered distance objects are automatically duplicated (copied) if their two composing entities are duplicated simultaneously in a copy-paste operation.<br>
-</p>
+<pre class=lightRedBox>
+function sysCall_init()
+    local robotBase=sim.getObjectHandle('robotModelName')
+    robotCollection=sim.addCollection(0)
+    sim.addItemToCollection(robotCollection,sim.handle_tree,robotBase,0)
+end
 
-<p>The distance calculation routines used in the minimum distance calculation module are also available as stand-alone routines via the <a href="coppeliaGeometricRoutines.htm">Coppelia geometric routines</a>.</p>
+function sysCall_sensing()
+    local result,distData,objectPair=sim.checkDistance(robotCollection,sim.handle_all)
+    if result>0 then
+        local txt='Robot clearance is '..distData[7]
+        txt=txt..'m, minimum distance object pair is '..getAsString(objectPair)
+        print(txt)
+    end
+end</pre>
+
+<p>One can also display the measured minimum distance, as a colored segment in the scene:</p>
+
+<pre class=lightRedBox>
+function sysCall_init()
+    local robotBase=sim.getObjectHandle('robotModelName')
+    robotCollection=sim.addCollection(0)
+    sim.addItemToCollection(robotCollection,sim.handle_tree,robotBase,0)
+    distanceSegment=sim.addDrawingObject(sim.drawing_lines,4,0,-1,1,{0,1,0})
+end
+
+function sysCall_sensing()
+    local result,distData,objectPair=sim.checkDistance(robotCollection,sim.handle_all)
+    if result>0 then
+        sim.addDrawingObjectItem(distanceSegment,nil)
+        sim.addDrawingObjectItem(distanceSegment,distData)
+    end
+end</pre>
 
 
-
-<p align=center><img src="images/calculationModuleButton.jpg"></p>
-<p class=imageLabel>[Calculation module properties toolbar button]</p>
-<br>
-
-<p>In the calculation module properties dialog, click  the <strong>Distance calculation</strong> button to display the distance calculation dialog:
-</p>
-
-
-
-<p align=center><img src="images/distanceCalculation3.jpg"></p>
-<p class=imageLabel>[Distance calculation dialog]</p>
-<br>
-
-<li><strong>Enable all distance calculations</strong>: allows enabling or disabling distance calculation of all registered distance objects.
-</li>
-
-<li><strong>Add new distance object</strong>: allows specifying  two entities for distance calculation. The list below the button displays all registered distance objects that can be renamed with a double-click. Individual distance objects in the list can be selected, and related properties are then displayed below (see hereafter).<br>
-</li>
-
-
-<li><strong>Explicit handling</strong>: indicates whether the selected distance object should be explicitly handled. If checked, distance calculation for this distance object will not be handled when sim.handleDistance(sim.handle_all_except_explicit) is called, but only if sim.handleDistance(sim.handle_all) or sim.handleDistance(distanceObjectHandle) is called. This is useful if the user wishes to handle distance measurement for that distance object in a <a href="childScripts.htm">child script</a> rather than in the <a href="mainScript.htm">main script</a> (if not checked, distance calculation for that distance object will be handled twice, once when sim.handleDistance(sim.handle_all_except_explicit) is called in the main script, and once when sim.handleDistance(distanceObjectHandle) is called in the child script). Refer also to the section on <a href="explicitHandling.htm">explicit and non-explicit calls</a>.<br>
-</li>
-
-<li><strong>Use threshold</strong>: a distance threshold can be specified to speed-up calculations when the distance pair entities are far apart and distance doesn't need to be calculated then.<br>
-</li>
-
-<li><strong>Display distance segment</strong>: if enabled, then a minimum distance segment of that distance object becomes visible in the scene.<br>
-</li>
-
-<li><strong>Segment width</strong>: width of the distance segment.</li>
-
-<li><strong>Segment color</strong>: allows adjusting the color of the distance segment.
-</li>
-
+<p>CoppeliaSim's distance calculation functionality is also available as stand-alone routines via the <a href="coppeliaGeometricRoutines.htm">Coppelia geometric routines</a>.</p>
 
 <br>
 <br>

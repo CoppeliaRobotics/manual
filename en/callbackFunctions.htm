@@ -24,12 +24,12 @@
 <li>user callback functions are directly triggered by user code, or a plugin. This happens for instance when the user calls a script function in a different script via <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a>, or when the user clicks a <a href="customUserInterfaces.htm">custom UI</a> button, which triggers a custom event. User callback functions can usually run in <a href="scripts.htm">any type of script</a>.</li>
 <li>system callback functions on the other hand are triggered by CoppeliaSim when a certain event happens, for instance when a script is initialized, or before the switch to another scene. System callback functions have fixed function names, such as <em>sysCall_init</em> or <em>sysCall_beforeInstanceSwitch</em>. Not all system callback functions can be handled by all types of scripts, e.g. some can only run in an <a href="addOns.htm">add-on</a>. (e.g. <em>sysCall_addOnScriptSuspend</em>)</li>
 <p>While most system callback functions operate in a relatively straight-forward manner and are easy to understand (see further down for a complete list of system callback functions), some require a little bit more explanations:</p>
-<li><a href="dynCallbackFunctions.htm"><strong>Dynamics callback functions</strong></a> are called by the physics engine  before and after each dynamics simulation step.</li>
-<li>The <a href="contactCallbackFunction.htm"><strong>contact callback function</strong></a> is called by the physics engine for each contact pair.</li>
-<li><a href="jointCallbackFunctions.htm"><strong>Joint callback functions</strong></a> are called by the physics engine for custom joint control.</li>
-<li><a href="visionCallbackFunctions.htm"><strong>Vision callback functions</strong></a> are called whenever an new image is acquires or applied.</li>
-<li><a href="triggerCallbackFunctions.htm"><strong>Trigger callback functions</strong></a> are called when a certain trigger event is fired.</li>
-<li><a href="userConfigCallbackFunctions.htm"><strong>User config callback functions</strong></a> are called when the user double-clicks a user parameter icon.</li>
+<li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a> are called by the physics engine  before and after each dynamics simulation step.</li>
+<li>The <a href="contactCallbackFunction.htm">contact callback function</a> is called by the physics engine for each contact pair.</li>
+<li><a href="jointCallbackFunctions.htm">Joint callback functions</a> are called by the physics engine for custom joint control.</li>
+<li><a href="visionCallbackFunctions.htm">Vision callback functions</a> are called whenever an new image is acquires or applied.</li>
+<li><a href="triggerCallbackFunctions.htm">Trigger callback functions</a> are called when a certain trigger event is fired.</li>
+<li><a href="userConfigCallbackFunctions.htm">User config callback functions</a> are called when the user double-clicks a user parameter icon.</li>
 
 <br>
 <p><a name="systemCallbacks"></a>Following is a list of all supported system callback functions. Refer to the comments in the code below for details about individual functions:</p>
@@ -105,8 +105,8 @@ end
 
 function <strong>sysCall_afterCreate</strong>(inData)
     -- After one or several objects were created.
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..value.." was created")
+    for i,#inData.objectHandles,1 do
+        print("Object with handle "..inData.objectHandles[i].." was created")
     end
 end
 
