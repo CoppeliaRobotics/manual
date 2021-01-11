@@ -62,7 +62,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.addCurve(int handle, int id, int type, string name, table color, int style, curve_options options)<br>
+<td class="apiTableRightLSyn">simUI.addCurve(int handle, int id, int type, string name, table[] color, int style, curve_options options)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -77,7 +77,7 @@
 <div>
 <strong>name</strong> (string): name of the curve</div>
 <div>
-<strong>color</strong> (table of int): color of the curve, as RGB values in the 0...255 range</div>
+<strong>color</strong> (table[] of int): color of the curve, as RGB values in the 0...255 range</div>
 <div>
 <strong>style</strong> (int): style of the curve. see <a href="#enum:curve_style">simUI.curve_style</a>.</div>
 <div>
@@ -107,7 +107,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.addCurveTimePoints(int handle, int id, string name, table x, table y)<br>
+<td class="apiTableRightLSyn">simUI.addCurveTimePoints(int handle, int id, string name, table[] x, table[] y)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -120,9 +120,9 @@
 <div>
 <strong>name</strong> (string): name of the curve</div>
 <div>
-<strong>x</strong> (table of double): x values</div>
+<strong>x</strong> (table[] of double): x values</div>
 <div>
-<strong>y</strong> (table of double): y values</div>
+<strong>y</strong> (table[] of double): y values</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -148,7 +148,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.addCurveXYPoints(int handle, int id, string name, table t, table x, table y)<br>
+<td class="apiTableRightLSyn">simUI.addCurveXYPoints(int handle, int id, string name, table[] t, table[] x, table[] y)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -161,11 +161,11 @@
 <div>
 <strong>name</strong> (string): name of the curve</div>
 <div>
-<strong>t</strong> (table of double): t values (i.e. the curve parameter, used also to determine how points are connected, according to natural ordering of t)</div>
+<strong>t</strong> (table[] of double): t values (i.e. the curve parameter, used also to determine how points are connected, according to natural ordering of t)</div>
 <div>
-<strong>x</strong> (table of double): x values</div>
+<strong>x</strong> (table[] of double): x values</div>
 <div>
-<strong>y</strong> (table of double): y values</div>
+<strong>y</strong> (table[] of double): y values</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -279,7 +279,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.addTreeItem(int handle, int id, int item_id, table text, int parent_id=0, bool expanded=false, bool suppressEvents=true)<br>
+<td class="apiTableRightLSyn">simUI.addTreeItem(int handle, int id, int item_id, table[] text, int parent_id=0, bool expanded=false, bool suppressEvents=true)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -292,7 +292,7 @@
 <div>
 <strong>item_id</strong> (int): item id</div>
 <div>
-<strong>text</strong> (table of string): item text fields</div>
+<strong>text</strong> (table[] of string): item text fields</div>
 <div>
 <strong>parent_id</strong> (int, default: 0): parent item id (0 means a toplevel item)</div>
 <div>
@@ -611,7 +611,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">table result=simUI.fileDialog(int type, string title, string startPath, string initName, string extName, string ext, bool native=false)<br>
+<td class="apiTableRightLSyn">table[] result=simUI.fileDialog(int type, string title, string startPath, string initName, string extName, string ext, bool native=false)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -636,7 +636,7 @@
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>result</strong> (table of string): result</div></td>
+<strong>result</strong> (table[] of string): result</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">
@@ -802,7 +802,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">table items=simUI.getComboboxItems(int handle, int id)<br>
+<td class="apiTableRightLSyn">table[] items=simUI.getComboboxItems(int handle, int id)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -817,7 +817,7 @@
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>items</strong> (table of string): Array of items (strings).</div></td>
+<strong>items</strong> (table[] of string): Array of items (strings).</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">
@@ -942,7 +942,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">table t, table x, table y=simUI.getCurveData(int handle, int id, string name)<br>
+<td class="apiTableRightLSyn">table[] t, table[] x, table[] y=simUI.getCurveData(int handle, int id, string name)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -960,11 +960,11 @@
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet">
 <div>
-<strong>t</strong> (table of double): t values (if applicable)</div>
+<strong>t</strong> (table[] of double): t values (if applicable)</div>
 <div>
-<strong>x</strong> (table of double): x values</div>
+<strong>x</strong> (table[] of double): x values</div>
 <div>
-<strong>y</strong> (table of double): y values</div>
+<strong>y</strong> (table[] of double): y values</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2636,7 +2636,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.setComboboxItems(int handle, int id, table items, int index, bool suppressEvents=true)<br>
+<td class="apiTableRightLSyn">simUI.setComboboxItems(int handle, int id, table[] items, int index, bool suppressEvents=true)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2647,7 +2647,7 @@
 <div>
 <strong>id</strong> (int): widget id</div>
 <div>
-<strong>items</strong> (table of string): Array of items (strings).</div>
+<strong>items</strong> (table[] of string): Array of items (strings).</div>
 <div>
 <strong>index</strong> (int): Index of selected item after inserting all the items.</div>
 <div>
@@ -4617,7 +4617,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.updateTreeItemText(int handle, int id, int item_id, table text)<br>
+<td class="apiTableRightLSyn">simUI.updateTreeItemText(int handle, int id, int item_id, table[] text)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -4630,7 +4630,7 @@
 <div>
 <strong>item_id</strong> (int): item id</div>
 <div>
-<strong>text</strong> (table of string): item text fields</div>
+<strong>text</strong> (table[] of string): item text fields</div>
 </td>
 </tr>
 <tr class="apiTableTr">
