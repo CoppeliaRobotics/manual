@@ -2,13 +2,205 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Language" content="en-us">
-<title>Kinematics API</title>
+<title>simIK API</title>
 <link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
-</head>
-<body><div align="center"><table class="allEncompassingTable"><tr><td>
-<h1>Kinematics API</h1>
-<p class="infoBox">All units, unless otherwise indicated, are specified in meters and radians.</p>
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style></head>
+<body>
+<div align="center"><table class="allEncompassingTable">
 
+<tr><td id="title" class="section"><h1>IK plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">API functions for creating kinematics tasks. All units, unless otherwise indicated, are specified in meters and radians.</p></td></tr>
+
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox">
+<a href="?#simIK.addIkElement">simIK.addIkElement</a>
+<a href="?#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a>
+<a href="?#simIK.applyIkToScene">simIK.applyIkToScene</a>
+<a href="?#simIK.applySceneToIkEnvironment">simIK.applySceneToIkEnvironment</a>
+<a href="?#simIK.computeJacobian">simIK.computeJacobian</a>
+<a href="?#simIK.createEnvironment">simIK.createEnvironment</a>
+<a href="?#simIK.createDummy">simIK.createDummy</a>
+<a href="?#simIK.createIkGroup">simIK.createIkGroup</a>
+<a href="?#simIK.createJoint">simIK.createJoint</a>
+<a href="?#simIK.doesObjectExist">simIK.doesObjectExist</a>
+<a href="?#simIK.doesIkGroupExist">simIK.doesIkGroupExist</a>
+<a href="?#simIK.duplicateEnvironment">simIK.duplicateEnvironment</a>
+<a href="?#simIK.eraseEnvironment">simIK.eraseEnvironment</a>
+<a href="?#simIK.eraseObject">simIK.eraseObject</a>
+<a href="?#simIK.generatePath">simIK.generatePath</a>
+<a href="?#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>
+<a href="?#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>
+<a href="?#simIK.getIkElementBase">simIK.getIkElementBase</a>
+<a href="?#simIK.getIkElementConstraints">simIK.getIkElementConstraints</a>
+<a href="?#simIK.getIkElementFlags">simIK.getIkElementFlags</a>
+<a href="?#simIK.getIkElementPrecision">simIK.getIkElementPrecision</a>
+<a href="?#simIK.getIkElementWeights">simIK.getIkElementWeights</a>
+<a href="?#simIK.getIkGroupCalculation">simIK.getIkGroupCalculation</a>
+<a href="?#simIK.getIkGroupFlags">simIK.getIkGroupFlags</a>
+<a href="?#simIK.getIkGroupHandle">simIK.getIkGroupHandle</a>
+<a href="?#simIK.getJacobian">simIK.getJacobian</a>
+<a href="?#simIK.getJointDependency">simIK.getJointDependency</a>
+<a href="?#simIK.getJointIkWeight">simIK.getJointIkWeight</a>
+<a href="?#simIK.getJointInterval">simIK.getJointInterval</a>
+<a href="?#simIK.getJointMatrix">simIK.getJointMatrix</a>
+<a href="?#simIK.getJointMaxStepSize">simIK.getJointMaxStepSize</a>
+<a href="?#simIK.getJointMode">simIK.getJointMode</a>
+<a href="?#simIK.getJointPosition">simIK.getJointPosition</a>
+<a href="?#simIK.getJointScrewPitch">simIK.getJointScrewPitch</a>
+<a href="?#simIK.getJointTransformation">simIK.getJointTransformation</a>
+<a href="?#simIK.getJointType">simIK.getJointType</a>
+<a href="?#simIK.getLinkedDummy">simIK.getLinkedDummy</a>
+<a href="?#simIK.getManipulability">simIK.getManipulability</a>
+<a href="?#simIK.getObjectHandle">simIK.getObjectHandle</a>
+<a href="?#simIK.getObjectMatrix">simIK.getObjectMatrix</a>
+<a href="?#simIK.getObjectParent">simIK.getObjectParent</a>
+<a href="?#simIK.getObjects">simIK.getObjects</a>
+<a href="?#simIK.getObjectTransformation">simIK.getObjectTransformation</a>
+<a href="?#simIK.handleIkGroup">simIK.handleIkGroup</a>
+<a href="?#simIK.load">simIK.load</a>
+<a href="?#simIK.save">simIK.save</a>
+<a href="?#simIK.setIkElementBase">simIK.setIkElementBase</a>
+<a href="?#simIK.setIkElementConstraints">simIK.setIkElementConstraints</a>
+<a href="?#simIK.setIkElementFlags">simIK.setIkElementFlags</a>
+<a href="?#simIK.setIkElementPrecision">simIK.setIkElementPrecision</a>
+<a href="?#simIK.setIkElementWeights">simIK.setIkElementWeights</a>
+<a href="?#simIK.setIkGroupCalculation">simIK.setIkGroupCalculation</a>
+<a href="?#simIK.setIkGroupFlags">simIK.setIkGroupFlags</a>
+<a href="?#simIK.setJointDependency">simIK.setJointDependency</a>
+<a href="?#simIK.setJointIkWeight">simIK.setJointIkWeight</a>
+<a href="?#simIK.setJointInterval">simIK.setJointInterval</a>
+<a href="?#simIK.setJointMaxStepSize">simIK.setJointMaxStepSize</a>
+<a href="?#simIK.setJointMode">simIK.setJointMode</a>
+<a href="?#simIK.setJointPosition">simIK.setJointPosition</a>
+<a href="?#simIK.setJointScrewPitch">simIK.setJointScrewPitch</a>
+<a href="?#simIK.setLinkedDummy">simIK.setLinkedDummy</a>
+<a href="?#simIK.setObjectMatrix">simIK.setObjectMatrix</a>
+<a href="?#simIK.setObjectParent">simIK.setObjectParent</a>
+<a href="?#simIK.setObjectTransformation">simIK.setObjectTransformation</a>
+<a href="?#simIK.setSphericalJointMatrix">simIK.setSphericalJointMatrix</a>
+<a href="?#simIK.setSphericalJointRotation">simIK.setSphericalJointRotation</a></pre></td></tr>
+
+<tr><td id="category" class="section">
+
+<h3 class=subsectionBar><a name="environment"></a>Environment functions and helpers</h3>
+<pre class=lightGreyBox>
+<a href="?#simIK.createEnvironment">simIK.createEnvironment</a>
+<a href="?#simIK.eraseEnvironment">simIK.eraseEnvironment</a>
+<a href="?#simIK.duplicateEnvironment">simIK.duplicateEnvironment</a>
+<a href="?#simIK.save">simIK.save</a>
+<a href="?#simIK.load">simIK.load</a>
+<a href="?#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a>
+<a href="?#simIK.applyIkToScene">simIK.applyIkToScene</a>
+<a href="?#simIK.applySceneToIkEnvironment">simIK.applySceneToIkEnvironment</a>
+</pre>
+
+
+<h3 class=subsectionBar><a name="objects"></a>Objects</h3>
+<pre class=lightGreyBox>
+<a href="?#simIK.getObjects">simIK.getObjects</a>
+<a href="?#simIK.getObjectHandle">simIK.getObjectHandle</a>
+<a href="?#simIK.doesObjectExist">simIK.doesObjectExist</a>
+<a href="?#simIK.eraseObject">simIK.eraseObject</a>
+<a href="?#simIK.getObjectParent">simIK.getObjectParent</a>
+<a href="?#simIK.setObjectParent">simIK.setObjectParent</a>
+<a href="?#simIK.getObjectTransformation">simIK.getObjectTransformation</a>
+<a href="?#simIK.setObjectTransformation">simIK.setObjectTransformation</a>
+<a href="?#simIK.getObjectMatrix">simIK.getObjectMatrix</a>
+<a href="?#simIK.setObjectMatrix">simIK.setObjectMatrix</a>
+</pre>
+
+
+<h3 class=subsectionBar><a name="dummies"></a>Dummies</h3>
+<pre class=lightGreyBox>
+<a href="?#simIK.createDummy">simIK.createDummy</a>
+<a href="?#simIK.eraseObject">simIK.eraseObject</a>
+<a href="?#simIK.getLinkedDummy">simIK.getLinkedDummy</a>
+<a href="?#simIK.setLinkedDummy">simIK.setLinkedDummy</a>
+</pre>
+
+
+<h3 class=subsectionBar><a name="joints"></a>Joints</h3>
+<pre class=lightGreyBox>
+<a href="?#simIK.createJoint">simIK.createJoint</a>
+<a href="?#simIK.eraseObject">simIK.eraseObject</a>
+<a href="?#simIK.getJointPosition">simIK.getJointPosition</a>
+<a href="?#simIK.setJointPosition">simIK.setJointPosition</a>
+<a href="?#simIK.getJointMode">simIK.getJointMode</a>
+<a href="?#simIK.setJointMode">simIK.setJointMode</a>
+<a href="?#simIK.getJointInterval">simIK.getJointInterval</a>
+<a href="?#simIK.setJointInterval">simIK.setJointInterval</a>
+<a href="?#simIK.getJointDependency">simIK.getJointDependency</a>
+<a href="?#simIK.setJointDependency">simIK.setJointDependency</a>
+<a href="?#simIK.getJointIkWeight">simIK.getJointIkWeight</a>
+<a href="?#simIK.setJointIkWeight">simIK.setJointIkWeight</a>
+<a href="?#simIK.getJointMaxStepSize">simIK.getJointMaxStepSize</a>
+<a href="?#simIK.setJointMaxStepSize">simIK.setJointMaxStepSize</a>
+<a href="?#simIK.getJointScrewPitch">simIK.getJointScrewPitch</a>
+<a href="?#simIK.setJointScrewPitch">simIK.setJointScrewPitch</a>
+<a href="?#simIK.getJointTransformation">simIK.getJointTransformation</a>
+<a href="?#simIK.setSphericalJointRotation">simIK.setSphericalJointRotation</a>
+<a href="?#simIK.getJointType">simIK.getJointType</a>
+<a href="?#simIK.getJointMatrix">simIK.getJointMatrix</a>
+<a href="?#simIK.setSphericalJointMatrix">simIK.setSphericalJointMatrix</a>
+</pre>
+
+
+<h3 class=subsectionBar><a name="ikGroups"></a>IK groups</h3>
+<pre class=lightGreyBox>
+<a href="?#simIK.createIkGroup">simIK.createIkGroup</a>
+<a href="?#simIK.getIkGroupHandle">simIK.getIkGroupHandle</a>
+<a href="?#simIK.doesIkGroupExist">simIK.doesIkGroupExist</a>
+<a href="?#simIK.getIkGroupFlags">simIK.getIkGroupFlags</a>
+<a href="?#simIK.setIkGroupFlags">simIK.setIkGroupFlags</a>
+<a href="?#simIK.getIkGroupCalculation">simIK.getIkGroupCalculation</a>
+<a href="?#simIK.setIkGroupCalculation">simIK.setIkGroupCalculation</a>
+</pre>
+
+
+<h3 class=subsectionBar><a name="ikElements"></a>IK elements</h3>
+<pre class=lightGreyBox>
+<a href="?#simIK.addIkElement">simIK.addIkElement</a>
+<a href="?#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a>
+<a href="?#simIK.getIkElementFlags">simIK.getIkElementFlags</a>
+<a href="?#simIK.setIkElementFlags">simIK.setIkElementFlags</a>
+<a href="?#simIK.getIkElementConstraints">simIK.getIkElementConstraints</a>
+<a href="?#simIK.setIkElementConstraints">simIK.setIkElementConstraints</a>
+<a href="?#simIK.getIkElementBase">simIK.getIkElementBase</a>
+<a href="?#simIK.setIkElementBase">simIK.setIkElementBase</a>
+<a href="?#simIK.getIkElementPrecision">simIK.getIkElementPrecision</a>
+<a href="?#simIK.setIkElementPrecision">simIK.setIkElementPrecision</a>
+<a href="?#simIK.getIkElementWeights">simIK.getIkElementWeights</a>
+<a href="?#simIK.setIkElementWeights">simIK.setIkElementWeights</a>
+</pre>
+
+
+<h3 class=subsectionBar><a name="ikCalculation"></a>IK calculation</h3>
+<pre class=lightGreyBox>
+<a href="?#simIK.handleIkGroup">simIK.handleIkGroup</a>
+<a href="?#simIK.applyIkToScene">simIK.applyIkToScene</a>
+<a href="?#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>
+<a href="?#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>
+<a href="?#simIK.computeJacobian">simIK.computeJacobian</a>
+<a href="?#simIK.getJacobian">simIK.getJacobian</a>
+<a href="?#simIK.getManipulability">simIK.getManipulability</a>
+<a href="?#simIK.generatePath">simIK.generatePath</a>
+</pre>
+</td></tr>
+
+<tr><td id="commands" class="section">
 <h3 class="subsectionBar">
 <a name="simIK.addIkElement" id="simIK.addIkElement"></a>simIK.addIkElement</h3>
 <table class="apiTable">
@@ -48,7 +240,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">number ikElement,table[] simToIkObjectMap=simIK.addIkElementFromScene(number environmentHandle,number ikGroup,number baseHandle,number tipHandle,number targetHandle,number constraints)</td>
+<td class="apiTableRightLSyn">number ikElement,table simToIkObjectMap=simIK.addIkElementFromScene(number environmentHandle,number ikGroup,number baseHandle,number tipHandle,number targetHandle,number constraints)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -453,7 +645,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[] configurationList=simIK.generatePath(number environmentHandle,table[] ikGroupHandle,table[] jointHandles,number tipHandle,number pathPointCount,function validationCallback=nil,auxData=nil</td>
+<td class="apiTableRightLSyn">table configurationList=simIK.generatePath(number environmentHandle,table ikGroupHandle,table jointHandles,number tipHandle,number pathPointCount,function validationCallback=nil,auxData=nil</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -470,7 +662,7 @@
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Return values</td>
 <td class="apiTableRightLRet">
-<div><strong>configurationList</strong>: a table that contains configurations that will bring the IK tip onto its IK target.</div>
+<div><strong>configurationList</strong>: a table that contains configurations (in row-major order) that will bring the IK tip onto its IK target.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -489,7 +681,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[] configurations=simIK.getAlternateConfigs(number environmentHandle,table[] jointHandles,table[] lowLimits=nil,table[] ranges=nil)</td>
+<td class="apiTableRightLSyn">table configurations=simIK.getAlternateConfigs(number environmentHandle,table jointHandles,table lowLimits=nil,table ranges=nil)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -503,7 +695,7 @@
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Return values</td>
 <td class="apiTableRightLRet">
-<div><strong>configurations</strong>: a table containing configurations that are equivalent to the specified inputConfig, in terms of end-effector pose.</div>
+<div><strong>configurations</strong>: a table containing configurations (in row-major order) that are equivalent to the specified inputConfig, in terms of end-effector pose.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -522,7 +714,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[] jointPositions=simIK.getConfigForTipPose(number environmentHandle,number ikGroupHandle,table[] jointHandles,number thresholdDist=0.1,number maxTime=0.5,table[4] metric={1,1,1,0.1},function validationCallback=nil,auxData=nil,table[] jointOptions={},table[] lowLimits={},table[] ranges={})</td>
+<td class="apiTableRightLSyn">table jointPositions=simIK.getConfigForTipPose(number environmentHandle,number ikGroupHandle,table jointHandles,number thresholdDist=0.1,number maxTime=0.5,table_4 metric={1,1,1,0.1},function validationCallback=nil,auxData=nil,table jointOptions={},table lowLimits={},table ranges={})</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -659,7 +851,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[2] precision=simIK.getIkElementPrecision(number environmentHandle,number ikGroupHandle,number elementHandle)</td>
+<td class="apiTableRightLSyn">table_2 precision=simIK.getIkElementPrecision(number environmentHandle,number ikGroupHandle,number elementHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -691,7 +883,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[2] weights=simIK.getIkElementWeights(number environmentHandle,number ikGroupHandle,number elementHandle)</td>
+<td class="apiTableRightLSyn">table_2 weights=simIK.getIkElementWeights(number environmentHandle,number ikGroupHandle,number elementHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -818,7 +1010,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[] jacobian,table[2] matrixSize=simIK.getJacobian(number environmentHandle,number ikGroupHandle)</td>
+<td class="apiTableRightLSyn">table jacobian,table_2 matrixSize=simIK.getJacobian(number environmentHandle,number ikGroupHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -914,7 +1106,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">bool cyclic,table[2] interval=simIK.getJointInterval(number environmentHandle,number jointHandle)</td>
+<td class="apiTableRightLSyn">bool cyclic,table_2 interval=simIK.getJointInterval(number environmentHandle,number jointHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -946,7 +1138,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[12] matrix=simIK.getJointMatrix(number environmentHandle,number jointHandle)</td>
+<td class="apiTableRightLSyn">table_12 matrix=simIK.getJointMatrix(number environmentHandle,number jointHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -1101,7 +1293,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[3] position,table[4] quaternion,table[3] euler=simIK.getJointTransformation(number environmentHandle,number jointHandle)</td>
+<td class="apiTableRightLSyn">table_3 position,table_4 quaternion,table_3 euler=simIK.getJointTransformation(number environmentHandle,number jointHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -1258,7 +1450,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[12] matrix=simIK.getObjectMatrix(number environmentHandle,number objectHandle,number relativeToObjectHandle)</td>
+<td class="apiTableRightLSyn">table_12 matrix=simIK.getObjectMatrix(number environmentHandle,number objectHandle,number relativeToObjectHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -1355,7 +1547,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">table[3] position,table[4] quaternion,table[3] euler=simIK.getObjectTransformation(number environmentHandle,number objectHandle,number relativeToObjectHandle)</td>
+<td class="apiTableRightLSyn">table_3 position,table_4 quaternion,table_3 euler=simIK.getObjectTransformation(number environmentHandle,number objectHandle,number relativeToObjectHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -1577,7 +1769,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">simIK.setIkElementPrecision(number environmentHandle,number ikGroupHandle,number elementHandle,table[2] precision)</td>
+<td class="apiTableRightLSyn">simIK.setIkElementPrecision(number environmentHandle,number ikGroupHandle,number elementHandle,table_2 precision)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -1609,7 +1801,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">simIK.setIkElementWeights(number environmentHandle,number ikGroupHandle,number elementHandle,table[2] weights)</td>
+<td class="apiTableRightLSyn">simIK.setIkElementWeights(number environmentHandle,number ikGroupHandle,number elementHandle,table_2 weights)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -1769,7 +1961,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">simIK.setJointInterval(number environmentHandle,number jointHandle,bool cyclic,table[2] interval={})</td>
+<td class="apiTableRightLSyn">simIK.setJointInterval(number environmentHandle,number jointHandle,bool cyclic,table_2 interval={})</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -1957,7 +2149,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">simIK.setObjectMatrix(number environmentHandle,number objectHandle,number relativeToObjectHandle,table[12] matrix)</td>
+<td class="apiTableRightLSyn">simIK.setObjectMatrix(number environmentHandle,number objectHandle,number relativeToObjectHandle,table_12 matrix)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -2021,7 +2213,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">simIK.setObjectTransformation(number environmentHandle,number objectHandle,number relativeToObjectHandle,table[3] position,table[] eulerOrQuaternion)</td>
+<td class="apiTableRightLSyn">simIK.setObjectTransformation(number environmentHandle,number objectHandle,number relativeToObjectHandle,table_3 position,table eulerOrQuaternion)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -2054,7 +2246,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">simIK.setSphericalJointMatrix(number environmentHandle,number jointHandle,table[12] matrix)</td>
+<td class="apiTableRightLSyn">simIK.setSphericalJointMatrix(number environmentHandle,number jointHandle,table_12 matrix)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -2085,7 +2277,7 @@
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
-<td class="apiTableRightLSyn">simIK.setSphericalJointRotation(number environmentHandle,number jointHandle,table[] eulerOrQuaternion)</td>
+<td class="apiTableRightLSyn">simIK.setSphericalJointRotation(number environmentHandle,number jointHandle,table eulerOrQuaternion)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Arguments</td>
@@ -2105,12 +2297,20 @@
 <td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getJointTransformation">simIK.getJointTransformation</a>, <a href="#simIK.setSphericalJointMatrix">simIK.setSphericalJointMatrix</a>, <a href="#simIK.setJointPosition">simIK.setJointPosition</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
 </tr>
 </table>
+
 <br>
-<br>
-
-
-
-
-
-</td></tr></table></div></body>
+</td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('category').style.display = view == 'category' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script>
+</body>
 </html>
