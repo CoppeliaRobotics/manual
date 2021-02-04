@@ -22,7 +22,7 @@
 <p>A plugin is a shared library (e.g. a dll) that is automatically loaded by CoppeliaSim's <a href="mainClientApplication.htm">main client application</a> at program start-up, or dynamically loaded/unloaded via <a href="regularApi/simLoadModule.htm">sim.loadModule</a>/<a href="regularApi/simUnloadModule.htm">sim.unloadModule</a>. It allows CoppeliaSim's functionality to be extended by user-written functions (in a similar way as with <a href="addOns.htm">add-ons</a>). The language can be any language able to generate a shared library and able to call exported C-functions (e.g. in the case of Java, refer to <a href="http://gcc.gnu.org/java/">GCJ</a> and <a href="http://www.ikvm.net/">IKVM</a>). A plugin can also be used as a <em>wrapper</em> for running code written in other languages or even written for other microcontrollers (e.g. a plugin was written that handles and executes code for Atmel microcontrollers).<br>
 </p>
 
-<p>Plugins are usually used to customize the simulator and/or a particular simulation. Often, plugins are only used to provide a simulation with <a href="apiFunctionListCategory.htm#customizingLuaFunctions">custom script commands</a>, and so are used in conjunction with <a href="scripts.htm">scripts</a>. Other times, plugins are used to provide CoppeliaSim with a special functionality requiring either fast calculation capability (scripts are most of the times slower than compiled languages) or an interface to a hardware device (e.g. a real robot).<br>
+<p>Plugins are usually used to customize the simulator and/or a particular simulation. Often, plugins are only used to provide a simulation with <a href="apiFunctions.htm#customizingLuaFunctions">custom script commands</a>, and so are used in conjunction with <a href="scripts.htm">scripts</a>. Other times, plugins are used to provide CoppeliaSim with a special functionality requiring either fast calculation capability (scripts are most of the times slower than compiled languages) or an interface to a hardware device (e.g. a real robot).<br>
 </p>
 
 <p>Each plugin is required to have following 3 entry point procedures:<br>
@@ -77,8 +77,8 @@ register custom script variables (if required) .
 <li>When objects were created, destroyed, scaled, or when models are loaded: make sure you reflect the change in the plugin (i.e. synchronize the plugin with the scene content)</li>
 <li>When scenes were loaded or the undo/redo functionality called: make sure you erase and reconstruct all plugin objects that are linked to the scene content</li>
 <li>When the scene was switched: make sure you erase and reconstruct all plugin objects that are linked to the scene content. In addition to this, remember that a scene switch will discard handles of following items:</li>
-<li class=tab><a href="apiFunctionListCategory.htm#signals">signals</a></li>
-<li class=tab><a href="apiFunctionListCategory.htm#drawingObject">drawing objects</a></li>
+<li class=tab><a href="apiFunctions.htm#signals">signals</a></li>
+<li class=tab><a href="apiFunctions.htm#drawingObject">drawing objects</a></li>
 <li class=tab>etc.</li>
 <li>When the simulator is in an edit mode: make sure you disable any "special functionality" provided by the plugin, until the edit mode was ended. In particular, make sure you do not programmatically select <a href="objects.htm">scene objects</a>.</li>
 <li>When a simulation was launched: make sure you initialize your plugin elements if needed</li>

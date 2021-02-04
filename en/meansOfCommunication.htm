@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>messaging</title>
+<title>messaging/interfaces/connectivity</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 
@@ -17,17 +17,19 @@
 
 
 
-<h1>Messaging</h1>
+<h1>Messaging/interfaces/connectivity</h1>
 
-<p>There are several ways messages or data can be exchanged in and around CoppeliaSim, using for instance:</p>
-
+<p>There are several ways messages or data can be exchanged/transmitted/received in and around CoppeliaSim. One can exchange data within CoppeliaSim, via:</p>
 <li><a href="#signals">signals</a></li>
 <li><a href="#customDataBlocks">custom data blocks</a></li>
-<li><a href="#simCallScriptFunction">calling script functions</a></li>
 <li><a href="#pluginFunctions">calling plugin functions</a></li>
+
+<p>Data can also be exchanged with an external application, other computer, machine, etc., via:</p>
+<li><a href="#simCallScriptFunction">calling script functions</a></li>
+<li><a href="#zmq">ZMQ</a></li>
 <li><a href="#ros">ROS</a></li>
-<li><a href="#b0">BlueZero</a></li>
 <li><a href="#remoteApi">the remote API</a></li>
+<li><a href="#b0">BlueZero</a></li>
 <li><a href="#serialPort">serial port</a></li>
 <li><a href="#sockets">sockets</a></li>
 
@@ -40,7 +42,7 @@
 </td></tr></table> 
 
 
-<p><a href="apiFunctionListCategory.htm#signals">Signals</a> can be seen as global variables. They can be defined, redefined, read and cleared. For example:</p>
+<p><a href="apiFunctions.htm#signals">Signals</a> can be seen as global variables. They can be defined, redefined, read and cleared. For example:</p>
 
 <pre class=lightRedBox>
 -- script 1 writes the data to string signal <em>mySignalName</em>:
@@ -64,7 +66,7 @@ end</pre>
 </td></tr></table> 
 
 
-<p><a href="apiFunctionListCategory.htm#customDataBlocks">Custom data blocks</a> is data that is stored inside of a <a href="objects.htm">scene object</a>, or inside a <a href="scenes.htm">scene</a>. It can be used to store custom data to be saved together with a <a href="models.htm">model</a> or scene, but also as a means of communication. For example:</p>
+<p><a href="apiFunctions.htm#customDataBlocks">Custom data blocks</a> is data that is stored inside of a <a href="objects.htm">scene object</a>, or inside a <a href="scenes.htm">scene</a>. It can be used to store custom data to be saved together with a <a href="models.htm">model</a> or scene, but also as a means of communication. For example:</p>
 
 <pre class=lightRedBox>
 -- script 1 writes the data to the scene:
@@ -85,28 +87,12 @@ end</pre>
 
 
 
-<table class=subsectionTable><tr class=subsectionTd>
-  <td class=subsectionTd>
-<a name="simCallScriptFunction"></a><a name="simCallScriptFunctionEx"></a>Calling script functions
-</td></tr></table> 
-
-
-<p>A <a href="scripts.htm">script</a> function can obviously be called from within the same script, but also:</p>
-<li>across scripts (via <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a>)</li>
-<li>from a plugin (via <a href="regularApi/simCallScriptFunctionEx.htm">simCallScriptFunctionEx</a>)</li>
-<li>from a <a href="#ros">ROS</a> client (via a callback mechanism)
-<li>or from a <a href="#remoteApi">remote API</a> client (via <a href="remoteApiFunctionsPython.htm#simxCallScriptFunction">simxCallScriptFunction</a> (legacy remote API) and <a href="b0RemoteApi-python.htm#simxCallScriptFunction">simxCallScriptFunction</a> (B0-based remote API)</li>
-<p>The called script function can perform various tasks, then send back data to the caller. This is also a simple way to extend the functionality of an external application in a quick manner. It is however important that the called script doesn't perform lengthly tasks, otherwise everything will come to a halt (lengthly tasks should rather be triggered externally, and processed at an appropriate moment by the script itself when called from the regular <a href="file:///D:/coppeliaRobotics/helpFiles/en/callbackFunctions.htm">system callbacks</a>).</p>
-<br>
-
-
-
 <table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="callingPluginFunctions"></a>Calling plugin functions
+<a name="callingPluginFunctions"></a><a name="pluginFunctions"></a>Calling plugin functions
 </td></tr></table> 
 
 
-<p><a href="scripts.htm">Scripts</a> can call specific <a href="plugins.htm">plugin</a> functions, so-called callback functions: in order to be able to do this, the plugin must  first register its callback functions via <a href="apiFunctionListCategory.htm#customScriptFunctions">simRegisterScriptFunction</a>. This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. Following illustrates a very simple plugin function and its registration:</p>
+<p><a href="scripts.htm">Scripts</a> can call specific <a href="plugins.htm">plugin</a> functions, so-called callback functions: in order to be able to do this, the plugin must  first register its callback functions via <a href="apiFunctions.htm#customScriptFunctions">simRegisterScriptFunction</a>. This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. Following illustrates a very simple plugin function and its registration:</p>
 
 <pre class=lightBlueBox>void myCallbackFunc(SScriptCallBack* p)
 {
@@ -135,6 +121,101 @@ simRegisterScriptCallbackFunction(&quot;simABC.func@ABC&quot;,&quot;string reply
 
 <br>
 
+
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="simCallScriptFunction"></a><a name="simCallScriptFunctionEx"></a>Calling script functions
+</td></tr></table> 
+
+
+<p>A <a href="scripts.htm">script</a> function can obviously be called from within the same script, but also:</p>
+<li>across scripts (via <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a>)</li>
+<li>from a plugin (via <a href="regularApi/simCallScriptFunctionEx.htm">simCallScriptFunctionEx</a>)</li>
+<li>from a <a href="#ros">ROS</a> client (via a callback mechanism)
+<li>or from a <a href="#remoteApi">remote API</a> client (via <a href="remoteApiFunctionsPython.htm#simxCallScriptFunction">simxCallScriptFunction</a> (legacy remote API) and <a href="b0RemoteApi-python.htm#simxCallScriptFunction">simxCallScriptFunction</a> (B0-based remote API)</li>
+<p>The called script function can perform various tasks, then send back data to the caller. This is also a simple way to extend the functionality of an external application in a quick manner. It is however important that the called script doesn't perform lengthly tasks, otherwise everything will come to a halt (lengthly tasks should rather be triggered externally, and processed at an appropriate moment by the script itself when called from the regular <a href="file:///D:/coppeliaRobotics/helpFiles/en/callbackFunctions.htm">system callbacks</a>).</p>
+<br>
+
+
+
+
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="zmq"></a>ZMQ
+</td></tr></table> 
+
+
+<p>The <a href="http://api.zeromq.org/" target="_blank">ZeroMQ library</a>, wrapped inside the <a href="https://github.com/CoppeliaRobotics/simExtZMQ" target="_blank">ZMQ plugin</a>, offers several <a href="simZMQ.htm">API functions related to ZeroMQ messaging</a>. Following illustrates a simple requester:</p>
+
+<pre class=lightRedBox>function sysCall_init()
+    corout=coroutine.create(coroutineMain)
+end
+
+function sysCall_actuation()
+    if coroutine.status(corout)~='dead' then
+        local ok,errorMsg=coroutine.resume(corout)
+        if errorMsg then
+            error(debug.traceback(corout,errorMsg),2)
+        end
+    end
+end
+
+function coroutineMain()
+    printf('Connecting to hello world server...')
+    context=simZMQ.ctx_new()
+    requester=simZMQ.socket(context,simZMQ.REQ)
+    simZMQ.connect(requester,'tcp://localhost:5555')
+
+    for request_nbr=0,10 do
+        print('-----------------------------------------')
+        local data='Hello'
+        printf('[requester] Sending &quot;%s&quot;...',data)
+        simZMQ.send(requester,data,0)
+        local rc,data=simZMQ.recv(requester,0)
+        printf('[requester] Received &quot;%s&quot;',data)
+    end
+end
+
+function sysCall_cleanup()
+    simZMQ.close(requester)
+    simZMQ.ctx_term(context)
+end</pre>
+
+<p>And following would be the corresponding responder:</p>
+
+<pre class=lightRedBox>function sysCall_init()
+    corout=coroutine.create(coroutineMain)
+end
+
+function sysCall_actuation()
+    if coroutine.status(corout)~='dead' then
+        local ok,errorMsg=coroutine.resume(corout)
+        if errorMsg then
+            error(debug.traceback(corout,errorMsg),2)
+        end
+    end
+end
+
+function coroutineMain()
+    context=simZMQ.ctx_new()
+    responder=simZMQ.socket(context,simZMQ.REP)
+    local rc=simZMQ.bind(responder,'tcp://*:5555')
+    if rc~=0 then error('failed bind') end
+    
+    while true do
+        local rc,data=simZMQ.recv(responder,0)
+        printf('[responder] Received &quot;%s&quot;',data)
+        data='World'
+        printf('[responder] Sending &quot;%s&quot;...',data)
+        simZMQ.send(responder,data,0)
+    end
+end
+
+function sysCall_cleanup()
+    simZMQ.close(responder)
+    simZMQ.ctx_term(context)
+end</pre>
+<br>
 
 
 <table class=subsectionTable><tr class=subsectionTd>
@@ -187,6 +268,52 @@ function sysCall_cleanup()
     simROS2.shutdownSubscription(sub)
 end</pre>
 <br>
+
+
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="remoteApi"></a>Remote API</td></tr></table> 
+
+<p>Using the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, or the <a href="b0RemoteApiOverview.htm">B0-based remote API</a>, one can communicate with the outside world, but also within CoppeliaSim. For example, a Python legacy remote API client receiving and applying back a <a href="visionSensors.htm">vision sensor</a> image could look like:</p>
+
+<pre class=lightPurpleBox>import sim
+from time import sleep
+clientID=sim.simxStart('127.0.0.1',19997,True,True,5000,5)
+if clientID!=-1:
+    res,sensor1Handle=sim.simxGetObjectHandle(clientID,'VisionSensor1',sim.simx_opmode_oneshot_wait)
+    res,sensor2Handle=sim.simxGetObjectHandle(clientID,'VisionSensor2',sim.simx_opmode_oneshot_wait)
+
+    res,resolution,image=sim.simxGetVisionSensorImage(clientID,sensor1Handle,0,sim.simx_opmode_streaming)
+    sim.simxStartSimulation(clientID,sim.simx_opmode_oneshot)
+    while (sim.simxGetConnectionId(clientID)!=-1):
+        res,resolution,image=sim.simxGetVisionSensorImage(clientID,sensor1Handle,0,sim.simx_opmode_buffer)
+        if res==sim.simx_return_ok:
+            res=sim.simxSetVisionSensorImage(clientID,sensor2Handle,image,0,sim.simx_opmode_oneshot)
+        sleep(0.01)
+    sim.simxFinish(clientID)</pre>
+<br>
+<p>The same example as above, but for a B0-based remote API client:</p>
+
+<pre class=lightPurpleBox>import b0RemoteApi
+from time import sleep
+with b0RemoteApi.RemoteApiClient('b0RemoteApi_pythonClient','b0RemoteApi') as client:    
+        
+    def imageCallback(msg):
+        client.simxSetVisionSensorImage(sensor2Handle[1],False,msg[2],client.simxDefaultPublisher())
+    
+    sensor1Handle=client.simxGetObjectHandle('VisionSensor1',client.simxServiceCall())
+    sensor2Handle=client.simxGetObjectHandle('VisionSensor2',client.simxServiceCall())
+    client.simxGetVisionSensorImage(sensor1Handle[1],False,client.simxDefaultSubscriber(imageCallback))
+    client.simxStartSimulation(client.simxDefaultPublisher())
+    while True: 
+        client.simxSpinOnce()
+        sleep(0.01)
+    client.simxStopSimulation(client.simxDefaultPublisher())</pre>
+
+
+
+<br>
+
 
 
 <table class=subsectionTable><tr class=subsectionTd>
@@ -246,58 +373,12 @@ function sysCall_cleanup()
 end</pre>
 <br>
 
-<table class=subsectionTable><tr class=subsectionTd>
-  <td class=subsectionTd>
-<a name="remoteApi"></a>Remote API</td></tr></table> 
-
-<p>Using the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, or the <a href="b0RemoteApiOverview.htm">B0-based remote API</a>, one can communicate with the outside world, but also within CoppeliaSim. For example, a Python legacy remote API client receiving and applying back a <a href="visionSensors.htm">vision sensor</a> image could look like:</p>
-
-<pre class=lightPurpleBox>import sim
-from time import sleep
-clientID=sim.simxStart('127.0.0.1',19997,True,True,5000,5)
-if clientID!=-1:
-    res,sensor1Handle=sim.simxGetObjectHandle(clientID,'VisionSensor1',sim.simx_opmode_oneshot_wait)
-    res,sensor2Handle=sim.simxGetObjectHandle(clientID,'VisionSensor2',sim.simx_opmode_oneshot_wait)
-
-    res,resolution,image=sim.simxGetVisionSensorImage(clientID,sensor1Handle,0,sim.simx_opmode_streaming)
-    sim.simxStartSimulation(clientID,sim.simx_opmode_oneshot)
-    while (sim.simxGetConnectionId(clientID)!=-1):
-        res,resolution,image=sim.simxGetVisionSensorImage(clientID,sensor1Handle,0,sim.simx_opmode_buffer)
-        if res==sim.simx_return_ok:
-            res=sim.simxSetVisionSensorImage(clientID,sensor2Handle,image,0,sim.simx_opmode_oneshot)
-        sleep(0.01)
-    sim.simxFinish(clientID)</pre>
-<br>
-<p>The same example as above, but for a B0-based remote API client:</p>
-
-<pre class=lightPurpleBox>import b0RemoteApi
-from time import sleep
-with b0RemoteApi.RemoteApiClient('b0RemoteApi_pythonClient','b0RemoteApi') as client:    
-        
-    def imageCallback(msg):
-        client.simxSetVisionSensorImage(sensor2Handle[1],False,msg[2],client.simxDefaultPublisher())
-    
-    sensor1Handle=client.simxGetObjectHandle('VisionSensor1',client.simxServiceCall())
-    sensor2Handle=client.simxGetObjectHandle('VisionSensor2',client.simxServiceCall())
-    client.simxGetVisionSensorImage(sensor1Handle[1],False,client.simxDefaultSubscriber(imageCallback))
-    client.simxStartSimulation(client.simxDefaultPublisher())
-    while True: 
-        client.simxSpinOnce()
-        sleep(0.01)
-    client.simxStopSimulation(client.simxDefaultPublisher())</pre>
-
-
-
-<br>
-
-
-
 <table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
 <a name="serialPort"></a>Serial port</a>
 </td></tr></table> 
 
 
-<p>CoppeliaSim implements several <a href="apiFunctionListCategory.htm#serialPort">serial port API functions</a>. <br>
+<p>CoppeliaSim implements several <a href="apiFunctions.htm#serialPort">serial port API functions</a>. <br>
 </p>
 <br>
 

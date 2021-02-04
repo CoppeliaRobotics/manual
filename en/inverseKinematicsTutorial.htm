@@ -258,12 +258,10 @@ end </pre>
 
 
 <p>Above script creates an equivalent kinematic model from the CoppeliaSim model, then in each simulation step, reads the position/orientation of the CoppeliaSim target, applies it to the target of the equivalent kinematic model, runs the IK solver, and finally reads the joint angles of the equivalent kinematic model, and applies them to the joints of the CoppeliaSim model. To handle singular configurations and situations where the target is out of reach, we first try with a non-damped solver, and if it fails, we revert to a damped solver (with a damped solver, when damping is large, resolution becomes more stable but convergence slower).</p>
-<p> Method 1 for solving IK is elegant since it allows to nicely separate the IK functionality from the CoppeliaSim model (e.g. the IK solver can also run in an empty scene). This is however not always so convenient, especially when the IK task is complex and involves several dozens of joints (e.g. in case of a parallel kinematics machine for instance), and <a href="#method2">method 2</a> might be better in that case:</p>
-
 
 <br>
-<br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<table class=subsectionTable>
+  <tr class=subsectionTd><td class=subsectionTd>
 <a name="run"></a>Running the simulation
 </td></tr></table>
 
