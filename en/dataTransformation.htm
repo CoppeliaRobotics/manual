@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>data manipulation/transformation</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Data manipulation/transformation</h1>
+
+<p>Data in CoppeliaSim can transformed in various ways:</p>
+
+<li><a href="apiFunctions.htm#packing">data packing/unpacking</a></li>
+<li><a href="https://github.com/CoppeliaRobotics/lua/blob/master/matrix.md" target="_blank">linear algebra functionality</a></li>
+<li><a href="syntheticVision.htm">image processing</a></li>
+<li><a href="apiFunctions.htm#paths">path data transformation</a></li>
+<li><a href="regularApi/simTransformBuffer.htm">sim.transformBuffer</a></li>
+<li>other <a href="apiFunctions.htm#coordinatesAndTransformations">matrix/transformation related functions</a></li>
+<p>Following example illustrates how to pack/unpack data:</p>
+  
+<pre class=lightRedBox>-- Packing/unpacking specific type of data, e.g. doubles:
+local data={1,2,3}
+local packedData=sim.packDoubleTable(data) -- packing
+data=sim.unpackDoubleTable(dpackedData) -- unpacking
+
+-- Packing/unpacking random data:
+local data={1,'hello',{value='world'},{1,{2,3}}}
+local packedData=sim.packTable(data) -- packing
+data=sim.unpackTable(dpackedData) -- unpacking
+</pre>  
+
+<br>
+<p>Following example illustrates usage of the linear algebra functionality:</p>
+  
+<pre class=lightRedBox>
+-- Get the absolute transformation matrices of an object and its parent:
+local absObj=Matrix4x4:frompose(sim.getObjectPose(objectHandle,-1))
+local absParentObj=Matrix4x4:frompose(sim.getObjectPose(parentHandle,-1))
+
+-- Compute the relative transformation matrix of the object:
+local relObj=Matrix4x4:inv(absParentObj)*absObj
+
+-- Get the relative transformation matrix of the object directly:
+local relObj2=Matrix4x4:frompose(sim.getObjectPose(objectHandle,parentHandle))
+
+-- Check that both matrices are same:
+print(relObj:sub(relObj2):abs():max())</pre>
+  
+<br>
+<p>Following example illustrates how to convert to/from base64:</p>
+  
+<pre class=lightRedBox>
+local base64Buffer=sim.transformBuffer(buffer,sim.buffer_uint8,1,0,sim.buffer_base64)
+local originalBuffer=sim.transformBuffer(base64Buffer,sim.buffer_base64,1,0,sim.buffer_uint8)</pre>
+
+<br>
+<br>
+
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

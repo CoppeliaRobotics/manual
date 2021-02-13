@@ -19,7 +19,7 @@
 
 <h1>Line following BubbleRob tutorial</h1>
 
-<p>In this tutorial we aim at extending the functionality of BubbleRob to let him/her follow a line on the ground. Make sure you have fully read and understood the <a href="bubbleRobTutorial.htm">first BubbleRob tutorial</a>. This tutorial is courtesy of Eric Rohmer.</p>
+<p>In this tutorial we aim at extending the functionality of BubbleRob to let it follow a line on the ground. Make sure you have fully read and understood the <a href="bubbleRobTutorial.htm">first BubbleRob tutorial</a>. This tutorial is courtesy of Eric Rohmer.</p>
 
 
 
@@ -51,14 +51,28 @@
 <li>middle sensor: [0.2;0;0.018]</li>
 <li>right sensor: [0.2;-0.042;0.018]</li>
 
-<p>Now let's modify the environment. We can remove a few cylinders in front of BubbleRob. Next, we will build the <a href="paths.htm">path</a> that the robot will try to follow. It is probaby better to switch to a top view from now on: select <a href="pagesAndViews.htm">page</a> 4 via the <a href="pagesAndViews.htm#pageSelector">page selector toolbar button</a>. Then click [Menu bar --&gt; Add --&gt; Path --&gt; Circle type]. Enable the <a href="objectMovement.htm">object movement with the mouse</a>. You have two possibilities to adjust the shape of the path:</p>
+<p>Now let's modify the environment. We can remove a few cylinders in front of BubbleRob. Next, we will build the <a href="paths.htm">path</a> that the robot will try to follow: click [Menu bar --&gt; Add --&gt; Path --&gt; Closed]. You have several possibilities to adjust the shape of the path, by manipulating its control points: you can delete or duplicate them, and you can shift/reorient them.  Enable the <a href="objectMovement.htm">object movement with the mouse</a>, and adjust the path to your liking.</p>
 
-<li>With the path (and only the path) selected, ctrl-click one of its <a href="pathsControlPointsAndBezierPoints.htm">control points</a>. You can then drag them to the right position.</li>
-<li>With the path selected, enter the <a href="pathEditMode.htm">path edit mode</a>. In there, you have much more flexibility to adjust the individual path control points.</li>
+<p>Once you are satisfied with the geometry of the path (you can always modify it at a later stage), open the<a href="customizationScripts.htm"> customization script</a> attached to it and replace its content with:</p>
+
+<pre class=lightRedBox>
+path=require('path_customization')
+
+function path.shaping(path,pathIsClosed,upVector)
+    local section={-0.02,0.001,0.02,0.001}
+    local color={0.3,0.3,0.3}
+    local options=0
+    if pathIsClosed then
+        options=options|4
+    end
+    local shape=sim.generateShapeFromPath(path,section,options,upVector)
+    sim.setShapeColor(shape,nil,sim.colorcomponent_ambient_diffuse,color)
+    return shape
+end</pre>
 
 
 
-<p>Once you are satisfied with the geometry of the path (you can always modify it at a later stage), select it, and uncheck <strong>Show orientation of points</strong>, <strong>Show path line</strong> and<strong> Show current position on path</strong> in  the <a href="pathPropertiesDialog.htm">path properties</a>. Then click <strong>Show path shaping dialog</strong>. This opens the <a href="pathShaping.htm">path shaping dialog</a>. Click <strong>Path shaping enabled</strong>, set the <strong>type</strong> to <strong>horizontal segment</strong>, and <strong>Scaling factor</strong> to 4.0. Finally adjust the color to black. There is a last important adjustment we have to make to the path: currently, the z-position of the path coincides with the z-position of the floor. The consequence is that sometimes we see the path, sometimes the floor (this effect is known as <em>z-fighting</em> in the openGl jargon). This not only affects what we see, but also what the vision sensors see. In order to avoid problems linked to z-fighting, just move the position of the path object up by 0.5 mm.<br>
+<p> Restart the customization script for the changes to take effect, then open the path's <a href="userConfigCallbackFunctions.htm">user configuration dialog</a> and check the <strong>Generate extruded shape</strong> checkbox.<br>
 </p>
 
 <p>The last step is to adjust the controller of BubbleRob, so that it will also follow the black path. Open the <a href="childScripts.htm">child script</a> attached to <em>bubbleRob</em>, and replace it with following code:</p>
@@ -137,9 +151,6 @@ end</pre>
 
 <p>You can easily debug your line following vision sensors: select one, then in the scene view select [Right-click --> Add --> Floating view], then in the newly added floating view select [Right click --> View --> Associate view with selected vision sensor].
 </p>
-
-<p>Finally, remove the auxiliary items that were added in the <a href="bubbleRobTutorial.htm">first BubbleRob tutorial</a>: remove the image processing vision sensor, its associated floating view, the floating view representing the obstacle clearance. Remove also the distance calculation object via the <a href="distanceCalculation.htm">distance dialog</a>. That's it!</p>
-
 
 
 <br>
