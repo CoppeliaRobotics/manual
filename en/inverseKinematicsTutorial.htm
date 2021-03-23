@@ -204,10 +204,10 @@ function sysCall_actuation()
     
     -- Simple way:
     -- try to solve with the undamped method:
-    if simIK.applyIkToScene(ikEnv,ikGroup_undamped,true)==simIK.result_fail then 
+    if simIK.applyIkEnvironmentToScene(ikEnv,ikGroup_undamped,true)==simIK.result_fail then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
-        simIK.applyIkToScene(ikEnv,ikGroup_damped)
+        simIK.applyIkEnvironmentToScene(ikEnv,ikGroup_damped)
         -- We display a IK failure report message: 
         if not ikFailedReportHandle then 
             ikFailedReportHandle=sim.displayDialog("IK failure report","IK solver failed.",

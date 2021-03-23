@@ -40,20 +40,21 @@
 
 
 
-<p>There are 8 scene files related to this tutorial:</p>
+<p>There are 9 scene files related to this tutorial:</p>
 <li><em>scenes/controlTypeExamples/controlledViaScript</em>: two robots are controlled via a <a href="childScripts.htm">child script</a>: one runs threaded, the other runs non-threaded.</li>
 <li><em>scenes/controlTypeExamples/controlledViaPlugin</em>: the robot is controlled via a <a href="plugins.htm">plugin</a>.</li>
-<li><em>scenes/controlTypeExamples/controlledViaB0RemoteApi</em>: the robot is controlled via the <a href="b0RemoteApiOverview.htm">B0-based remote API</a>.</li>
-<li><em>scenes/controlTypeExamples/controlledViaLegacyRemoteApi</em>: the robot is controlled via the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>.</li>
-<li><em>scenes/controlTypeExamples/controlledViaB0</em>: the robot is controlled via the <a href="blueZeroPlugin.htm">BlueZero interface</a>.</li>
-<li><em>scenes/controlTypeExamples/controlledViaRos</em>: the robot is controlled via the <a href="rosInterf.htm">ROS interface</a>.</li>
-<li><em>scenes/controlTypeExamples/controlledViaRos2</em>: the robot is controlled via the <a href="ros2Interface.htm">ROS 2 interface</a>.</li>
-<li><em>scenes/controlTypeExamples/controlledViaTcp</em>: the robot is controlled via <a href="http://w3.impa.br/~diego/software/luasocket/">LuaSocket</a> and TCP.</li>
+<li><em>scenes/controlTypeExamples/controlledViaB0RemoteApi</em>: the robot is controlled via an external application and the <a href="b0RemoteApiOverview.htm">B0-based remote API</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaLegacyRemoteApi</em>: the robot is controlled via an <a href="https://github.com/CoppeliaRobotics/bubbleRobClient" target="_blank">external application</a> and the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaB0</em>: the robot is controlled via and <a href="https://github.com/CoppeliaRobotics/b0_bubbleRob" target="_blank">external application</a> and the <a href="blueZeroPlugin.htm">BlueZero interface</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaRos</em>: the robot is controlled via an <a href="https://github.com/CoppeliaRobotics/ros_bubble_rob" target="_blank">external application</a> and the <a href="rosInterf.htm">ROS interface</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaRos2</em>: the robot is controlled via an <a href="https://github.com/CoppeliaRobotics/ros2_bubble_rob" target="_blank">external application</a> and the <a href="ros2Interface.htm">ROS 2 interface</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaZmq</em>: the robot is controlled via and <a href="https://github.com/CoppeliaRobotics/bubbleRobZmqServer" target="_blank">external application</a> and <a href="https://zeromq.org/" target="_blank">ZeroMQ</a>.</li>
+<li><em>scenes/controlTypeExamples/controlledViaTcp</em>: the robot is controlled via an <a href="https://github.com/CoppeliaRobotics/bubbleRobServer" target="_blank">external application</a> and <a href="http://w3.impa.br/~diego/software/luasocket/">LuaSocket</a> and TCP.</li>
 
 <p align=center><img src="images/externalControllerTut1.jpg"></p>
 <br>
 
-<p>In all 8 cases, <a href="childScripts.htm">child scripts</a> are used, mainly to make the link with the outside world (e.g. launch the correct client application, and pass the correct object handles to it). There are two other ways one can control a robot, a simulation, or the simulator itself: by using <a href="customizationScripts.htm">customization scripts</a>, or <a href="addOns.htm">add-ons</a>. They are however not recommended for control and should be rather used to handle functionality while simulation is not running.</p>
+<p>In all 9 cases, <a href="childScripts.htm">child scripts</a> are used, mainly to make the link with the outside world (e.g. launch the correct client application, and pass the correct object handles to it). There are two other ways one can control a robot, a simulation, or the simulator itself: by using <a href="customizationScripts.htm">customization scripts</a>, or <a href="addOns.htm">add-ons</a>. They are however not recommended for control and should be rather used to handle functionality while simulation is not running.</p>
 
 <p>As an example, the child script linked to the robot in scene <em>controlledViaB0RemoteApi.ttt</em> has following main task:</p>
 <li>Launch the controller application (<a href="https://github.com/CoppeliaRobotics/b0RemoteApiBindings/tree/master/cpp/bubbleRobClient" target="_blank">bubbleRobClient_b0RemoteApi</a>) with some object handles as arguments. The server functionality of the B0-based remote API is provided by object <em>b0RemoteApiServer</em>.</li>
@@ -61,9 +62,9 @@
 <li>Check if the <a href="rosInterf.htm">ROS Interface</a>/<a href="ros2Interface.htm">ROS 2 Interface</a> for CoppeliaSim was loaded</li>
 <li>Launch the controller application (<a href="https://github.com/CoppeliaRobotics/ros_bubble_rob" target="_blank">rosBubbleRob</a> / <a href="https://github.com/CoppeliaRobotics/ros2_bubble_rob" target="_blank">ros2BubbleRob</a>) with some topic names or object handles as arguments</li>
 
-<p>Yet, as another example, the child script linked to the robot in scene <em>controlledViaTcp.ttt</em> has following main tasks:</p>
+<p>Yet, as another example, the child script linked to the robot in scene <em>controlledViaZmq.ttt</em> has following main tasks:</p>
 <li>Search for a free socket connection port</li>
-<li>Launch the controller application (<a href="https://github.com/CoppeliaRobotics/bubbleRobServer" target="_blank">bubbleRobServer</a>) with the chosen connection port as argument</li>
+<li>Launch the controller application (<a href="https://github.com/CoppeliaRobotics/bubbleRobZmqServer" target="_blank">bubbleRobZmqServer</a>) with the chosen connection port as argument</li>
 <li>Locally connect to the controller application</li>
 <li>At each simulation pass, send the sensor values to the controller, and read the desired motor values from the controller</li>
 <li>At each simulation pass, apply the desired motor values to the robot's joints</li>
