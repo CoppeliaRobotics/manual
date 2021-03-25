@@ -47,18 +47,18 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table[12] endMatrix,float timeLeft=sim.moveToPose(int flags,table[12] currentMatrix,table[] maxVel,table[] maxAccel,table[] maxJerk,table[12] targetMatrix,function callback,auxData,table[4] metric=nil,float timeStep=0)</td> 
+<td class=apiTableRightLSyn>table[7]/table[12] endPose/endMatrix,float timeLeft=sim.moveToPose(int flags,table[7]/table[12] currentPose/currentMatrix,table[] maxVel,table[] maxAccel,table[] maxJerk,table[7]/table[12] targetPose/targetMatrix,function callback,auxData,table[4] metric=nil,float timeStep=0)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
 <div><strong>flags</strong>: <a href="../apiConstants.htm#RMLFunctions">RML flags</a>. -1 for default flags.</div>
-<div><strong>currentMatrix</strong>: the start pose, specified via a transformation matrix (the last row of the 4x4 matrix is omitted).</div>
+<div><strong>currentPose/currentMatrix</strong>: the start pose, specified via a pose (x,y,z,qx,qy,qz,qw) or transformation matrix (the last row of the 4x4 matrix is omitted).</div>
 <div><strong>maxVel</strong>: the maximum allowed velocity. If <em>metric</em> is specified, then this is a table of size 1, otherwse a table of size 4.</div>
 <div><strong>maxAccel</strong>: the maximum allowed acceleration. If <em>metric</em> is specified, then this is a table of size 1, otherwse a table of size 4.</div>
 <div><strong>maxJerk</strong>: the maximum allowed jerk. If <em>metric</em> is specified, then this is a table of size 1, otherwse a table of size 4. With the RML type II plugin, the max. jerk will however always be infinite.</div>
-<div><strong>targetMatrix</strong>: the goal pose, specified via a transformation matrix (the last row of the 4x4 matrix is omitted).</div>
-<div><strong>callback</strong>: a callback function that will be called for each movement step. The arguments provided to the callback function are: currentMatrix, currentVel, currentAccel, auxData.</div>
+<div><strong>targetPose/targetMatrix</strong>: the goal pose, specified via a pose (x,y,z,qx,qy,qz,qw) or transformation matrix (the last row of the 4x4 matrix is omitted).</div>
+<div><strong>callback</strong>: a callback function that will be called for each movement step. The arguments provided to the callback function are: currentPose/currentMatrix, currentVel, currentAccel, auxData.</div>
 <div><strong>auxData</strong>: random data that will be forwarded to the callback function.</div>
 <div><strong>metric</strong>: an optional metric, used to compute a pose-pose distance. If metric is nil, the movement calculation happens in the 4-dimensional space (x,y,z,angle), otherwise it happens in the 1-dimensional space (t).</div>
 <div><strong>timeStep</strong>: the desired time step size. A value of 0 indicates that the current simulation time step will be used.</div>
@@ -69,7 +69,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>endMatrix</strong>: the pose at the end of the movement, specified via a transformation matrix (the last row of the 4x4 matrix is omitted).</div>
+<div><strong>endPose/endMatrix</strong>: the pose at the end of the movement, specified via a pose (x,y,z,qx,qy,qz,qw) or transformation matrix (the last row of the 4x4 matrix is omitted).</div>
 <div><strong>timeLeft</strong>: the leftover time in current simulation step, i.e. the remaining time that was not used for movement.</div>
 </td> 
 </tr> 
