@@ -73,7 +73,7 @@
 <p>Non-static shapes will fall (i.e. be influenced by gravity) if they are not otherwise constrained. Dynamic constraints between shapes can be set-up by attaching two shapes together with a <em>dynamically enabled</em> <a href="joints.htm">joint</a> or with a <em>dynamically enabled</em> <a href="forceSensors.htm">force sensor</a>. <br>
 </p>
 
-<li><strong><a name="dynamicallyEnabledJoints"></a>Dynamically enabled joints</strong> are joints that are in force or torque mode or that operate in hybrid fashion (see the <a href="jointProperties.htm">joint properties</a>), and that have a shape as parent object and exactly one child object which must be a non-static shape.  In addition, it is possible to involve a joint in a <em>loop closure configuration</em>. In that case the joint has to connect to the two shapes through a <a href="dummies.htm">dummy</a>-dummy link (where the link type has to be <strong>Dynamics, overlap constraint</strong>). For dummy-dummy links, refer to the <a href="dummyPropertiesDialog.htm">dummy properties</a>.<br>
+<li><strong><a name="dynamicallyEnabledJoints"></a>Dynamically enabled joints</strong> are joints that are in force or torque mode, and that have a shape as parent object and exactly one child object which must be a non-static shape.  In addition, it is possible to involve a joint in a <em>loop closure configuration</em>. In that case the joint has to connect to the two shapes through a <a href="dummies.htm">dummy</a>-dummy link (where the link type has to be <strong>Dynamics, overlap constraint</strong>). For dummy-dummy links, refer to the <a href="dummyPropertiesDialog.htm">dummy properties</a>.<br>
 </li>
 
 <li><strong><a name="dynamicallyEnabledForceSensors"></a>Dynamically enabled force sensors</strong> are force sensors that have a shape as parent object and exactly one child object which must be a non-static shape.  In addition, it is possible to involve a force sensor in a <em>loop closure configuration</em>. In that case the force sensor has to connect to the two shapes through a <a href="dummies.htm">dummy</a>-dummy link (where the link type has to be <strong>Dynamics, overlap constraint</strong>). For dummy-dummy links, refer to the <a href="dummyPropertiesDialog.htm">dummy properties</a>.<br>
@@ -90,14 +90,14 @@
 <p class=imageLabel>[Example of valid <em>dynamically enabled joint</em> situations]</p>
 <br>
 
-<p>It is very important that you follow above guidelines in order to obtain dynamically enabled joints or force sensors. During simulation, if CoppeliaSim discovers force sensors that are not dynamically enabled, it will display a small warning icon next to its name in the scene <a href="userInterface.htm#SceneHierarchy">hierarchy view</a>. The same happens to joints in force/torque mode or that are supposed to operate in a hybrid fashion, and that are not dynamically enabled.<br>
+<p>It is very important that you follow above guidelines in order to obtain dynamically enabled joints or force sensors. During simulation, if CoppeliaSim discovers force sensors that are not dynamically enabled, it will display a small warning icon next to its name in the scene <a href="userInterface.htm#SceneHierarchy">hierarchy view</a>. The same happens to joints in force/torque mode, and that are not dynamically enabled.<br>
 </p>
 
 <p>Following are a few example situations where a joint won't be dynamically enabled:<br>
 </p>
 
 <li>
-the joint is not in force or torque mode, and the joint is not operating in a hybrid fashion.
+the joint is not in force or torque mode.
 </li>
 
 <li>
@@ -297,7 +297,8 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 </td></tr></table> 
 
 
-<p><strong>Use reasonable sizes</strong>. Shapes that are very long and thin, or that are too small might behave strangely (jittering, jumping). Try keeping sizes above 3 centimeters if possible. Otherwise you can adjust the internal scaling parameter in the <a href="dynamicsEngineDialog.htm">dynamics engines general properties</a> dialog.<br>
+<p><strong>Use reasonable sizes</strong>. Shapes that are very long and thin, or that are too small might behave strangely (jittering, jumping). Try keeping sizes above 3 centimeters if possible. Otherwise you can adjust the internal scaling parameter in the <a href="dynamicsEngineDialog.htm">dynamics engines general properties</a> dialog.</p>
+<p>This requirement can be loosened by using a different engine, or by selecting a more precise <a href="dynamicsEngineDialog.htm#configurationMode">dynamics configuration mode</a>.<br>
 </p>
 <br>
 
@@ -306,7 +307,8 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <a name="masses"></a>Design consideration 7
 </td></tr></table> 
 
-<p><strong>Keep masses similar and not too light</strong>. When linking two shapes with a dynamically enabled joint or a dynamically enabled force sensor, make sure the two shape's masses are not too different (m1&lt;10*m2 and m2&lt;10*m1), otherwise the joint or force sensor might be very <em>soft</em> and <em>wobbly</em> and present large positional/orientational errors (this effect can however also be used as a <em>natural damping</em> sometimes). Additionally, very low mass shapes should be avoided since they won't be able to exert very large forces onto other shapes (even if propelled by high force actuators!).<br>
+<p><strong>Keep masses similar and not too light</strong>. When linking two shapes with a dynamically enabled joint or a dynamically enabled force sensor, make sure the two shape's masses are not too different (m1&lt;10*m2 and m2&lt;10*m1), otherwise the joint or force sensor might be very <em>soft</em> and <em>wobbly</em> and present large positional/orientational errors (this effect can however also be used as a <em>natural damping</em> sometimes). Additionally, very low mass shapes should be avoided since they won't be able to exert very large forces onto other shapes (even if propelled by high force actuators!).</p>
+<p>This requirement can be loosened by using a different engine, or by selecting a more precise <a href="dynamicsEngineDialog.htm#configurationMode">dynamics configuration mode</a>.<br>
 </p>
 <br>
 
@@ -316,7 +318,8 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 </td></tr></table> 
 
 
-<p><strong>Keep principal moments of inertia* relatively large</strong>. Try keeping the <em>principal moments of inertia / mass</em> (*refer to the <a href="shapeDynamicsProperties.htm">shape dynamics properties</a> dialog) relatively large, otherwise mechanical chains might be difficult to control and/or might behave in a strange way.<br>
+<p><strong>Keep principal moments of inertia* relatively large</strong>. Try keeping the <em>principal moments of inertia / mass</em> (*refer to the <a href="shapeDynamicsProperties.htm">shape dynamics properties</a> dialog) relatively large, otherwise mechanical chains might be difficult to control and/or might behave in a strange way.</p>
+<p>This requirement can be loosened by using a different engine, or by selecting a more precise <a href="dynamicsEngineDialog.htm#configurationMode">dynamics configuration mode</a>.<br>
 </p>
 <br>
 

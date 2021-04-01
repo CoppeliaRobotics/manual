@@ -44,7 +44,7 @@ Version history:
 
 
 <table class=subsectionTable><tr class=subsectionTd>
- <td class=subsectionTd><a name="coppeliaSim4.2.0" id="coppeliaSim4.2.0"></a>CoppeliaSim V4.2.0 (not yet released)</td></tr></table> 
+ <td class=subsectionTd><a name="coppeliaSim4.2.0" id="coppeliaSim4.2.0"></a>CoppeliaSim V4.2.0 (April 6th 2021)</td></tr></table> 
  
 <li>Fixed several bugs. Thanks to Adrian Schoisengeier, Mathias Thor, Francisco Marin, Nikita Aigner, Charles Han, Shai Levy, Bobovsky Zdenko, Salvatore Sessa, Jakob Ambsdorf, Hayato Amaike and Kevin Thomas for noticing them or helping to resolve them.</li>
 <li><a href="scripts.htm">All script types</a> now support <a href="threadedAndNonThreadedCode.htm">threaded or non-threaded operation</a>. Threaded operation is handled via coroutines that are preemptively interrupted by CoppeliaSim. Except for its code, there is no difference anymore between a threaded and non-threaded script. Old threaded child scripts are still supported for backward compatibility, but CoppeliaSim will try to automatically convert them. If this is not desired, adjust value <em>keepOldThreadedScripts</em> in <em>system/usrset.txt</em>.</li>
@@ -79,6 +79,7 @@ Version history:
 <li>Added following API functions: <a href="regularApi/simIsDynamicallyEnabled.htm">sim.isDynamicallyEnabled</a>, <a href="regularApi/simGetJointDependency.htm">sim.getJointDependency</a>, <a href="regularApi/simChangeEntityColor.htm">sim.changeEntityColor</a> and <a href="regularApi/simRestoreEntityColor.htm">sim.restoreEntityColor</a>.</li>
 <li>Following Docker image is available for running CoppeliaSim in a container: <a href="https://github.com/CoppeliaRobotics/docker-image-coppeliasim" target="_blank">docker-image-coppeliasim</a></li>
 <li>The default scene will now pause simulation when a script error is raised.</li>
+<li>Added an additional <a href="dynamicsEngineDialog.htm#configurationMode">dynamics configuration mode</a> that performs smaller dynamics steps and/or does more calculation iterations. Went from [<strong>very accurate</strong>, <strong>accurate (default)</strong>, <strong>fast</strong>, <strong>very fast</strong>, <strong>custom</strong>] to: [<strong>very accurate</strong>, <strong>accurate</strong>, <strong>balanced (default), fast</strong>, <strong>very fast</strong>, <strong>custom</strong>].</li>
 <li>The Windows installer/uninstaller can now silently operate by invoking it with following command-line arguments:<em> /silent /hide /[silent]=true</em></li>
 <br>
 
@@ -1142,8 +1143,6 @@ Removed an OpenGL instruction that caused opengl driver crashes on some graphic 
 Warning message appears now when a scene was not saved (when leaving or discarding a scene) </li>
 <li>
 Improved and corrected the BubbleRob tutorial </li>
-<li>
-Corrected a small bug that appeared with joints in hybrid dependent mode </li>
 <li>
 New dongle drivers </li>
 <li>
