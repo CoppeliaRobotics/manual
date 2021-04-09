@@ -27,6 +27,7 @@
 <li><a href="#gltf">animation or scene data, via the GLTF format</a></li>
 <li><a href="aviRecorder.htm">video data, via various formats</a></li>
 <li><a href="#image">image data, via various formats</a></li>
+<li><a href="#text">text/binary data</a></li>
 
 <p>New importers/exports can easily be created via an <a href="addOns.htm">add-on</a>, or via a <a href="plugins.htm">plugin</a>.</p>
 
@@ -68,6 +69,38 @@
 
 <p>Images can be imported/exported with <a href="regularApi/simLoadImage.htm">sim.loadImage</a> and <a href="regularApi/simSaveImage.htm">sim.saveImage</a>. </p>
 <p>See also <a href="regularApi/simGetScaledImage.htm">sim.getScaledImage</a>, <a href="regularApi/simTransformImage.htm">sim.transformImage</a>, <a href="regularApi/simTransformBuffer.htm">sim.transformBuffer</a> and the <a href="simIM.htm?view=alphabetical">OpenCV plugin API reference</a>.</p>
+
+<br>
+
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="text"></a>Importing/exporting text/binary data
+</td></tr></table> 
+
+<p>Following example illustrates how to log a joint angle to a file, as text data:</p>
+  
+<pre class=lightRedBox>function sysCall_init()
+    jointHandle=sim.getObjectHandle('Joint')
+    file=io.open('jointAngles.txt','w+')
+    file:write('Joint angles for each simulation step:\n\n')
+end
+
+function sysCall_sensing()
+    local v=180*sim.getJointPosition(jointHandle)/math.pi
+    file:write(string.format('time: %.3f [s]',sim.getSimulationTime()+sim.getSimulationTimeStep()))
+    file:write(string.format(', joint angle: %.1f [deg]\n',v))
+end
+
+function sysCall_cleanup()
+    file:close()
+end</pre>
+
+<p>Following example illustrates how to read a file, line by line:</p>
+  
+<pre class=lightRedBox>for line in io.lines('textFile.txt') do 
+    print(line)
+end</pre>
+
+
 
 <br>
 <br>
