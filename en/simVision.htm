@@ -735,7 +735,7 @@ Performs a circular cut on the <em>work image</em>.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.circularCutWorkImg(int handle,float radius,boolean toBuffer1)</td> 
+<td class=apiTableRightLSyn>simVision.circularCutWorkImg(int handle,float radius,bool toBuffer1)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -808,7 +808,7 @@ Extracts coordinates from the <em>work image</em> (based on the view field of a 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int trigger,string packedPacket=simVision.coordinatesFromWorkImg(int handle,table[2] pointCount,boolean angularSpace)</td> 
+<td class=apiTableRightLSyn>int trigger,string packedPacket,string colorData=simVision.coordinatesFromWorkImg(int handle,table[2] pointCount,bool angularSpace,bool returnColorData)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -816,6 +816,7 @@ Lua synopsis
 <div><strong>handle</strong>: handle of the vision sensor. Can be combined with sim.handleflag_abscoords in order to retrieve points relative to the absolute reference frame, instead of the vision sensor reference frame.</div>
 <div><strong>pointCount</strong>: the desired point count along X and Y.</div>
 <div><strong>angularSpace</strong>: whether the point sampling happens in the cartesian or angular space (within a given direction).</div>
+<div><strong>returnColorData</strong>: whether to also return color data for each point. If true, then the vision sensor's image data should be located in buffer <em>buffer1</em>.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -832,6 +833,7 @@ Lua return values
 <div>c.2) the y coordinate of the point</div>
 <div>c.3) the z coordinate of the point</div>
 <div>c.4) the distance to the point</div>
+<div><strong>colorData</strong>: optional color data (use <a href="regularApi/simUnpackUInt8Table.htm">sim.unpackUInt8Table</a> to unpack) containing RGB triplets for each point.</div>
 </td> 
 </tr> 
 </table> 
@@ -925,7 +927,7 @@ Transforms the <em>work image</em> into an intensity representation.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.intensityScaleOnWorkImg(int handle,float start,float end,boolean greyscale)</td> 
+<td class=apiTableRightLSyn>simVision.intensityScaleOnWorkImg(int handle,float start,float end,bool greyscale)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1109,7 +1111,7 @@ Performs a rectangular cut on the <em>work image</em>.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.rectangularCutWorkImg(int handle,table[2] rectangle,boolean toBuffer1)</td> 
+<td class=apiTableRightLSyn>simVision.rectangularCutWorkImg(int handle,table[2] rectangle,bool toBuffer1)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1218,7 +1220,7 @@ Shifts and scales colors of the <em>work image</em>, in the RGB or HSL space: co
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.scaleAndOffsetWorkImg(int handle,table[3] colorPreOffset,table[3] colorScaling,table[3] colorPostOffset,boolean rgbSpace)</td> 
+<td class=apiTableRightLSyn>simVision.scaleAndOffsetWorkImg(int handle,table[3] colorPreOffset,table[3] colorScaling,table[3] colorPostOffset,bool rgbSpace)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1257,7 +1259,7 @@ Selects a specific color in the RGB or HSL space of the <em>work image</em>.</td
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.selectiveColorOnWorkImg(int handle,table[3] nominalColor,table[3] colorTolerance,boolean rgbSpace,boolean keepColor,boolean toBuffer1)</td> 
+<td class=apiTableRightLSyn>simVision.selectiveColorOnWorkImg(int handle,table[3] nominalColor,table[3] colorTolerance,bool rgbSpace,bool keepColor,bool toBuffer1)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1402,7 +1404,7 @@ Shifts the <em>work image</em>.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.shiftWorkImg(int handle,table[2] shift,boolean wrap)</td> 
+<td class=apiTableRightLSyn>simVision.shiftWorkImg(int handle,table[2] shift,bool wrap)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
