@@ -381,7 +381,7 @@ Handles a velodyne HDL64E sensor (i.e. generates and displays detection points. 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table[] points=simVision.handleVelodyneHDL64E(int velodyneHandle,float dt)</td> 
+<td class=apiTableRightLSyn>table[]/string points,string colors=simVision.handleVelodyneHDL64E(int velodyneHandle,float dt)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -396,6 +396,7 @@ Lua return values
 </td> 
 <td class=apiTableRightLRet>
 <div><strong>points</strong>: a table containing the detected points, or a coded string.</div></td> 
+<div><strong>colors</strong>: a coded string containing the colors of each point (3 byte values for each point (RGB)). The colors are only returned if the Velodyne model is appropriately configured.</div></td> 
 </tr> 
 </table> 
 <br>
@@ -417,7 +418,7 @@ Handles a velodyne VPL16 sensor (i.e. generates and displays detection points. S
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table[] points=simVision.V(int velodyneHandle,float dt)</td> 
+<td class=apiTableRightLSyn>table[]/string points,string colors=simVision.V(int velodyneHandle,float dt)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -432,6 +433,7 @@ Lua return values
 </td> 
 <td class=apiTableRightLRet>
 <div><strong>points</strong>: a table containing the detected points, or a coded string.</div></td> 
+<div><strong>colors</strong>: a coded string containing the colors of each point (3 byte values for each point (RGB)). The colors are only returned if the Velodyne model is appropriately configured.</div></td> 
 </tr> 
 </table> 
 <br>
@@ -1617,7 +1619,7 @@ Extracts Velodyne coordinates from the <em>work image</em> (based on the view fi
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int trigger,string packedPacket=simVision.velodyneDataFromWorkImg(int handle,table[2] pointCount,float verticalScanAngle)</td> 
+<td class=apiTableRightLSyn>int trigger,string packedPacket,string colorData=simVision.velodyneDataFromWorkImg(int handle,table[2] pointCount,float verticalScanAngle,bool returnColorData=false)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1625,6 +1627,7 @@ Lua synopsis
 <div><strong>handle</strong>: handle of the vision sensor. Can be combined with sim.handleflag_abscoords in order to retrieve points relative to the absolute reference frame, instead of the vision sensor reference frame.</div>
 <div><strong>pointCount</strong>: the desired point count along X and Y.</div>
 <div><strong>verticalScanAngle</strong>: the vertical scan angle.</div>
+<div><strong>returnColorData</strong>: whether to also return color data for each point. If true, then the vision sensor's image data should be located in buffer <em>buffer1</em>.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -1641,11 +1644,11 @@ Lua return values
 <div>c.2) the y coordinate of the point</div>
 <div>c.3) the z coordinate of the point</div>
 <div>c.4) the distance from the sensor to the point</div>
+<div><strong>colorData</strong>: optional color data (use <a href="regularApi/simUnpackUInt8Table.htm">sim.unpackUInt8Table</a> to unpack) containing RGB triplets for each point.</div>
 </td> 
 </tr> 
 </table> 
 <br>
-
 
 
 

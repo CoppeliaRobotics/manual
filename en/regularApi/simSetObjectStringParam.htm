@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simSetObjectInt32Parameter</title>
+<title>simSetObjectStringParam</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,26 +16,27 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<h3 class=subsectionBar><a name="simSetObjectInt32Parameter" id="simSetObjectInt32Parameter"></a>simSetObjectInt32Parameter / sim.setObjectInt32Parameter</h3>
+<h3 class=subsectionBar><a name="simSetObjectStringParam" id="simSetObjectStringParam"></a>simSetObjectStringParam / sim.setObjectStringParam </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets an int32 parameter of a <a href="../objects.htm">scene object</a>. See also <a href="simGetObjectInt32Parameter.htm">sim.getObjectInt32Parameter</a>, <a href="simSetObjectFloatParameter.htm">sim.setObjectFloatParameter</a> and <a href="simSetObjectStringParameter.htm">sim.setObjectStringParameter</a><br></td>
+<td class=apiTableRightDescr>Sets a string parameter of a <a href="../objects.htm">scene object</a>. See also <a href="simGetObjectStringParam.htm">sim.getObjectStringParam</a>, <a href="simSetObjectInt32Param.htm">sim.setObjectInt32Param</a> and <a href="simSetObjectFloatParam.htm">sim.setObjectFloatParam</a><br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simSetObjectInt32Parameter(simInt objectHandle,simInt parameterID,simInt parameter)<br></td> 
+<td class=apiTableRightCSyn>simInt simSetObjectStringParam(simInt objectHandle,simInt parameterID,simChar* parameter,simInt parameterLength)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>objectHandle</strong>: handle of the object</div>
 <div><strong>parameterID</strong>: identifier of the parameter to retrieve. See the <a href="../objectParameterIDs.htm">list of all possible object parameter identifiers</a></div>
-<div><strong>parameter</strong>: parameter value</div>
+<div><strong>parameter</strong>: parameter value (can contain embedded zeros)</div>
+<div><strong>parameterLength</strong>: the length of the parameter value</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -51,13 +52,13 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>sim.setObjectInt32Parameter(int objectHandle,int parameterID,int parameter)<br></td> 
+<td class=apiTableRightLSyn>sim.setObjectStringParam(int objectHandle,int parameterID,string parameter)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
 <div>Similar to the C-function counterpart</div>
-<div></div></td> 
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
@@ -72,8 +73,8 @@ Lua return values
 Remote API equiv.
 </td> 
 <td class=remApiTableRightCParam>
-<div>B0-based remote API: <a href="../b0RemoteApi-cpp.htm#simxSetObjectIntParameter">simxSetObjectIntParameter</a></div>
-<div>Legacy remote API: <a href="../remoteApiFunctions.htm#simxSetObjectIntParameter">simxSetObjectIntParameter</a></div>
+<div>B0-based remote API: <a href="../b0RemoteApi-cpp.htm#simxSetObjectStringParameter">simxSetObjectStringParameter</a></div>
+<div>Legacy remote API: -</div>
 </td> 
 </tr> 
 

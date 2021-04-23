@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simSetEngineBoolParameter</title>
+<title>simGetEngineInt32Param</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,29 +16,29 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<h3 class=subsectionBar><a name="simSetEngineBoolParameter" id="simSetEngineBoolParameter"></a>simSetEngineBoolParameter / sim.setEngineBoolParameter </h3>
+<h3 class=subsectionBar><a name="simGetEngineInt32Param" id="simGetEngineInt32Param"></a>simGetEngineInt32Param / sim.getEngineInt32Param </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
 <td class=apiTableRightDescr>
-Sets a bool-type physics engine property. You might have to call <a href="simResetDynamicObject.htm">sim.resetDynamicObject</a> for changes to take effect. See also <a href="../apiFunctions.htm#engineParameters">the other engine properties setter and getter API functions</a>.</td>
+Retrieves an int32 value from the physics engine properties. See also <a href="../apiFunctions.htm#engineParameters">the other engine properties setter and getter API functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simSetEngineBoolParameter(simInt paramId,simInt objectHandle,const simVoid* object,simBool val)</td> 
+<td class=apiTableRightCSyn>simInt simGetEngineInt32Param(simInt paramId,simInt objectHandle,const simVoid* object,simBool* ok)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>paramId</strong>: the <a href="../apiConstants.htm#engineParameters">engine parameter identifier</a>.</div>
-<div><strong>objectHandle</strong>: the handle of the shape or joint, or -1 to set a global engine parameter. If -1, then the <em>object</em> argument will be evaluated.<br>
+<div><strong>objectHandle</strong>: the handle of the shape or joint, or -1 to retrieve a global engine parameter. If -1, then the <em>object</em> argument will be evaluated.<br>
 </div>
-<div><strong>object</strong>: a pointer to a shape or joint objects, or nullptr to set a global engine parameter. If nullptr, then the <em>objectHandle</em> argument will be evaluated.</div>
-<div><strong>val</strong>: the new property values.</div>
+<div><strong>object</strong>: a pointer to a shape or joint objects, or nullptr to retrieve a global engine parameter. If nullptr, then the <em>objectHandle</em> argument will be evaluated.</div>
+<div><strong>ok</strong>: an optional pointer to a value that can be used to determine the success of the API call. Can be nullptr.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -46,14 +46,14 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>1 in case of success. This function call doesn't generate any error message.</div>
+<div>value of the requested parameter.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>sim.setEngineBoolParameter(int paramId,int objectHandle,boolean boolParam)</td> 
+<td class=apiTableRightLSyn>int int32Param=sim.getEngineInt32Param(int paramId,int objectHandle)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -66,7 +66,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>none</div>
+<div>Similar to the C-function counterpart</div>
 </td> 
 </tr> 
 </table> 

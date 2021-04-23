@@ -648,7 +648,7 @@ in file <em>system/usrset.txt</em>.
 <li>Added a <a href="lineFollowingBubbleRobTutorial.htm">tutorial about a line following robot</a>, courtesy of Eric Rohmer.</li>
 
 
-<li>Added two new API functions: simEnableWorkThreads and simWaitForWorkThreads. They allow to execute sensing operations concurrently (i.e. in parallel), taking advantage of several processor cores. By default the functionality is turned off. It can be turned on via the <a href="settings.htm">user settings dialog</a>, the variable <em>workThreadCount</em> in file <em>system/usrset.txt</em>, or programmatically via <a href="regularApi/simSetInt32Parameter.htm">sim.setInt32Parameter</a>(sim.intparam_work_thread_count,coreCount). Refer also to the default <a href="mainScript.htm">main script</a>, that was slightly modified to accomodate for that.</li>
+<li>Added two new API functions: simEnableWorkThreads and simWaitForWorkThreads. They allow to execute sensing operations concurrently (i.e. in parallel), taking advantage of several processor cores. By default the functionality is turned off. It can be turned on via the <a href="settings.htm">user settings dialog</a>, the variable <em>workThreadCount</em> in file <em>system/usrset.txt</em>, or programmatically via <a href="regularApi/simSetInt32Param.htm">sim.setInt32Param</a>(sim.intparam_work_thread_count,coreCount). Refer also to the default <a href="mainScript.htm">main script</a>, that was slightly modified to accomodate for that.</li>
 
 <li>Added a new model: <em>models/other/timing info.ttm</em>. It allows to quickly have an overview of the time spent in the various calculations.</li>
 
@@ -680,7 +680,7 @@ in file <em>system/usrset.txt</em>.
 <li>Added a few new <a href="shortcuts.htm">shortcut keys</a>.</li>
 <li>Added an example Ackermann steering vehicle: models/examples/simple Ackermann steering.ttm</li>
 <li>Added two transceiver models: models/components/sensors/transceiver.ttm and models/components/sensors/directionalTransceiver.ttm</li>
-<li>Added several mechanisms allowing to execute sensing operations concurrently (i.e. in parallel), taking advantage of several processor cores. By default the functionality is turned off, since still in development phase. It can be turned on via the variable <em>workThreadCount</em> in file <em>system/usrset.txt</em>, or programmatically via <a href="regularApi/simSetInt32Parameter.htm">sim.setInt32Parameter</a>(<a href="apiConstants.htm#integerParameters">sim.intparam_work_thread_count</a>,coreCount). Refer also to the default <a href="mainScript.htm">main script</a>, that was slightly modified to accomodate for that.</li>
+<li>Added several mechanisms allowing to execute sensing operations concurrently (i.e. in parallel), taking advantage of several processor cores. By default the functionality is turned off, since still in development phase. It can be turned on via the variable <em>workThreadCount</em> in file <em>system/usrset.txt</em>, or programmatically via <a href="regularApi/simSetInt32Param.htm">sim.setInt32Param</a>(<a href="apiConstants.htm#integerParameters">sim.intparam_work_thread_count</a>,coreCount). Refer also to the default <a href="mainScript.htm">main script</a>, that was slightly modified to accomodate for that.</li>
 <br>
 
 
@@ -847,7 +847,7 @@ in file <em>system/usrset.txt</em>.
 <li>Added an option to allow for local lights (i.e. lights activated only with flagged cameras). Refer to the <a href="lightPropertiesDialog.htm">light properties</a>, the <a href="cameraPropertiesDialog.htm">camera dialog</a> and the <a href="visionSensorPropertiesDialog.htm">vision sensor properties</a>.</li>
 <li>Added a new toolbar button to automatically adjust the main view to the scene, or selected objects</li>
 <li>Added a new API function: <a href="regularApi/simCameraFitToView.htm">sim.cameraFitToView</a> (click <a href="http://www.youtube.com/watch?v=D3UCJci487Q" target="_blank">here</a> for a simulation that illustrates what kind of camera movement can be achieved with that function)</li>
-<li>Added a new API function: <a href="regularApi/simIsHandleValid.htm">sim.isHandleValid</a>.</li>
+<li>Added a new API function: <a href="regularApi/simIsHandle.htm">sim.isHandle</a>.</li>
 <li>Added following API functions: <a href="regularApi/simPersistentDataWrite.htm">sim.persistentDataWrite</a> and <a href="regularApi/simPersistentDataRead.htm">sim.persistentDataRead</a>.</li>
 <li>Added a new item in the <a href="commonPropertiesDialog.htm">object common properties</a> (&quot;ignored for view-fitting&quot;)</li>
 <li>New model: "auto fitting camera.ttm"</li>
@@ -900,7 +900,7 @@ in file <em>system/usrset.txt</em>.
 <br><table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>V-REP V2.5.8 (July 20th 2011)</td></tr></table> 
 <li>Improved the <a href="regularApi/simAddParticleObject.htm">sim.addParticleObject</a> function to also support linear and quadratic drag parameters</li>
 <li>Added more arguments to the API functions <a href="regularApi/simGetVisionSensorImage.htm">sim.getVisionSensorImage</a> and <a href="regularApi/simGetVisionSensorDepthBuffer.htm">sim.getVisionSensorDepthBuffer</a></li>
-<li>New API functions: <a href="regularApi/simGetArrayParameter.htm">sim.getArrayParameter</a> and <a href="regularApi/simSetArrayParameter.htm">sim.setArrayParameter</a>
+<li>New API functions: <a href="regularApi/simGetArrayParam.htm">sim.getArrayParam</a> and <a href="regularApi/simSetArrayParam.htm">sim.setArrayParam</a>
 <li>Temporarily removed following commands to facilitate a move towards other platforms: simAttachCustomMenu, simRemoveCustomMenu, simCreateCustomToolbar, simSetCustomToolbarState, simRemoveCustomToolbar, simGetWindowMessage, simProcessWindowMessage</li>
 <li>Removed the "SimpleCustomClientApplication" project files</li>
 <li>Added more fog parameters</li>
@@ -1017,7 +1017,7 @@ Extended the functionality of the <a href="regularApi/simAdjustView.htm">sim.adj
 <li>New API command to control the show state of an auxiliary console window: <a href="regularApi/simAuxiliaryConsoleShow.htm">sim.auxiliaryConsoleShow</a><br>
 </li>
 <li>
-New API commands to set and retrieve various values linked to objects (will be extended on a regular basis): <a href="regularApi/simGetObjectInt32Parameter.htm">sim.getObjectInt32Parameter</a>, <a href="regularApi/simSetObjectInt32Parameter.htm">sim.setObjectInt32Parameter</a>, <a href="regularApi/simGetObjectFloatParameter.htm">sim.getObjectFloatParameter</a>, <a href="regularApi/simSetObjectFloatParameter.htm">sim.setObjectFloatParameter</a>, <a href="regularApi/simGetObjectStringParameter.htm">sim.getObjectStringParameter</a> and <a href="regularApi/simSetObjectStringParameter.htm">sim.setObjectStringParameter</a></li>
+New API commands to set and retrieve various values linked to objects (will be extended on a regular basis): <a href="regularApi/simGetObjectInt32Param.htm">sim.getObjectInt32Param</a>, <a href="regularApi/simSetObjectInt32Param.htm">sim.setObjectInt32Param</a>, <a href="regularApi/simGetObjectFloatParam.htm">sim.getObjectFloatParam</a>, <a href="regularApi/simSetObjectFloatParam.htm">sim.setObjectFloatParam</a>, <a href="regularApi/simGetObjectStringParam.htm">sim.getObjectStringParam</a> and <a href="regularApi/simSetObjectStringParam.htm">sim.setObjectStringParam</a></li>
 <li>
 New API command to adjust the number of displayed frames during simulation: <a href="regularApi/simSetSimulationPassesPerRenderingPass.htm">simSetSimulationPassesPerRenderingPass</a></li>
 <li>
@@ -1286,7 +1286,7 @@ New API commands: sim.setModelProperty and sim.getModelProperty </li>
 <br><table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>V-REP V2.4.7</td></tr></table> 
 
 <li>
-New API command: sim.getStringParameter </li>
+New API command: sim.getStringParam </li>
 <li>
 Option to create pure shapes with selected triangles in the triangle edit mode </li>
 <li>
