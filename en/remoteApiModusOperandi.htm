@@ -199,12 +199,12 @@ function sysCall_init()
 end
 
 function sysCall_sensing()
-   simSetIntegerSignal('iteration',iteration)
+   simSetInt32Signal('iteration',iteration)
    iteration=iteration+1
 end
 
 function sysCall_cleanup()
-   simClearIntegerSignal('iteration')
+   simClearInt32Signal('iteration')
 end</pre>
 
 <p>and following code in each one of your remote API clients:</p>
@@ -218,29 +218,29 @@ simxStartSimulation(clientID,simx_opmode_blocking);
 
 // enable streaming of a value:
 int anyValue;
-simxGetIntegerSignal(clientID,&quot;anyValue&quot;,&amp;anyValue,simx_opmode_streaming);
+simxGetInt32Signal(clientID,&quot;anyValue&quot;,&amp;anyValue,simx_opmode_streaming);
 
 // enable streaming of the iteration counter:
 int iteration1;
-simxGetIntegerSignal(clientID,&quot;iteration&quot;,&amp;iteration,simx_opmode_streaming);
+simxGetInt32Signal(clientID,&quot;iteration&quot;,&amp;iteration,simx_opmode_streaming);
 
 // Now step a few times:
 for (int i=0;i&lt;30;i++)
 {
-    int res=simxGetIntegerSignal(clientID,&quot;iteration&quot;,&amp;iteration1,simx_opmode_buffer);
+    int res=simxGetInt32Signal(clientID,&quot;iteration&quot;,&amp;iteration1,simx_opmode_buffer);
     if (res!=simx_return_ok)
         iteration1=-1;
     simxSynchronousTrigger(clientID);
     int iteration2=iteration1;
     while (iteration2==iteration1)
     { // wait until the iteration counter has changed
-        res=simxGetIntegerSignal(clientID,&quot;iteration&quot;,&amp;iteration2,simx_opmode_buffer);
+        res=simxGetInt32Signal(clientID,&quot;iteration&quot;,&amp;iteration2,simx_opmode_buffer);
         if (res!=simx_return_ok)
             iteration2=-1;
     }
 
     // Now fetch other values:
-    simxGetIntegerSignal(clientID,&quot;anyValue&quot;,&amp;anyValue,simx_opmode_buffer);
+    simxGetInt32Signal(clientID,&quot;anyValue&quot;,&amp;anyValue,simx_opmode_buffer);
     printf(&quot;Streamed value: %i\n&quot;,anyValue) // this is the freshest value
 }</pre>
 
