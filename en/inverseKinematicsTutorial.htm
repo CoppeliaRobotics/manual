@@ -68,7 +68,7 @@
 <p>The next step in this tutorial is to group shapes that belong to the same rigid entity. Select the 5 shapes that are part of link 1 (the base cylinder being link 0), then click [Menu bar --&gt; Edit --&gt; Grouping/Merging --&gt; Group selected shapes]. Once the shapes are grouped in a compound shape, you could re-align its bounding box with the world, but this step is not required (and has only a visual effect). Repeat the same procedure with all shapes that logically belong together. In this tutorial we will not actuate the gripper's fingers, and so simply rigidly group them with the last link. When all shapes that are meant to be grouped share the same visual attributes, try merging them together instead: [Menu bar --&gt; Edit --&gt; Grouping/Merging --&gt; Merge selected shapes].<br>
 </p>
 
-<p>At this point you can rename all objects in the scene in following way, when going from base to tip: <em>redundantRobot</em> -  <em>redundantRob_joint1</em>  - <em>redundantRob_link1</em> - <em>redundantRob_joint2</em>, etc. Just double-click an object's name in the scene hierarchy to edit it.<br>
+<p>At this point you can rename all objects in the scene in following way, when going from base to tip: <em>redundantRobot</em> -  <em>redundantRob_joint1</em>  - <em>redundantRob_link1</em> - <em>redundantRob_joint2</em>, etc. Just double-click an object's alias in the scene hierarchy to edit it.<br>
 </p>
 
 <p>Now we can build the kinematic chain, going from tip to base: select object <em>redundantRob_link7</em>, then ctrl-select object <em>redundantRob_joint7</em> and click [Menu bar --&gt; Edit --&gt; Make last selected object parent]. Alternatively you can drag an object onto another one in the scene hierarchy to achieve a similar operation. Next do the same for object <em>redundantRob_joint7</em> and object <em>redundantRob_link6</em>. Continue in a same way until the whole kinematic chain of the manipulator was built. This is what you should have (notice the scene hierarchy structure):<br>
@@ -103,7 +103,7 @@
 
 
 <p>Inverse kinematics is entirely set up by having a script calling appropriate API commands: the idea is to build an equivalent kinematic model via the  functions provided by the <a href="kinematicsPlugin.htm">kinematics plugin</a>. The approach uses the concept and terminology of <a href="basicsOnIkGroupsAndIkElements.htm">IK groups and IK elements</a>.</p>
-<p>Select object <em>redundantRobot</em>, then [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non-threaded] to attach a <a href="childScripts.htm">child script</a> to that object. Double-click the script icon that appeared next to the object name, and replace the script content with following code:</p>
+<p>Select object <em>redundantRobot</em>, then [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non-threaded] to attach a <a href="childScripts.htm">child script</a> to that object. Double-click the script icon that appeared next to the object alias, and replace the script content with following code:</p>
 
 <pre class=lightRedBox>function sysCall_init()
     -- Build a kinematic chain and 2 IK groups (undamped and damped) inside of the IK plugin environment,
@@ -111,9 +111,9 @@
     -- There is a simple way, and a more elaborate way (but which gives you more options/flexibility):
 
     -- Simple way:
-    local simBase=sim.getObjectHandle('redundantRobot')
-    local simTip=sim.getObjectHandle('redundantRob_tip')
-    local simTarget=sim.getObjectHandle('redundantRob_target')
+    local simBase=sim.getObjectHandle('.')
+    local simTip=sim.getObjectHandle('./redundantRob_tip')
+    local simTarget=sim.getObjectHandle('./redundantRob_target')
     -- create an IK environment:
     ikEnv=simIK.createEnvironment()
     -- create an IK group: 
@@ -131,12 +131,12 @@
     
     -- Elaborate way:
     --[[
-    simBase=sim.getObjectHandle('redundantRobot')
-    simTip=sim.getObjectHandle('redundantRob_tip')
-    simTarget=sim.getObjectHandle('redundantRob_target')
+    simBase=sim.getObjectHandle('.')
+    simTip=sim.getObjectHandle('./redundantRob_tip')
+    simTarget=sim.getObjectHandle('./redundantRob_target')
     simJoints={}
     for i=1,7,1 do
-        simJoints[i]=sim.getObjectHandle('redundantRob_joint'..i)
+        simJoints[i]=sim.getObjectHandle('./redundantRob_joint'..i)
     end
     ikJoints={}
     -- create an IK environment:

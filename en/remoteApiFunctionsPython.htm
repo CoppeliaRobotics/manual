@@ -413,13 +413,13 @@ Description
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,array outInts,array outFloats,array outStrings,string outBuffer=simxCallScriptFunction(number clientID,string scriptDescription,number scriptHandleOrType,string functionName,array inInts,array inFloats,array inStrings,string inBuffer,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,array outInts,array outFloats,array outStrings,string outBuffer=simxCallScriptFunction(number clientID,string pathToScript,number scriptHandleOrType,string functionName,array inInts,array inFloats,array inStrings,string inBuffer,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
-<div><strong>scriptDescription</strong>: the name of the scene object where the script is attached to, or an empty string if the script has no associated scene object.</div>
+<div><strong>pathToScript</strong>: the path to the scene object where the script is attached to, or an empty string if the script has no associated scene object.</div>
 <div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the type of the script:</div>
 <div class=tab><em>sim_scripttype_mainscript</em> (0): the <a href="mainScript.htm">main script</a> will be called.</div>
 <div class=tab><em>sim_scripttype_childscript</em> (1): a <a href="childScripts.htm">child script</a> will be called.</div>
@@ -2462,7 +2462,7 @@ Python synopsis
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
 <div><strong>objectType</strong>: a <a href="apiConstants.htm#sceneObjectTypes">scene object type</a>, sim_appobj_object_type for all <a href="objects.htm">scene objects</a>, or a <a href="#simxGetCollectionHandle">collection</a> handle.</div>
 <div><strong>dataType</strong>: the type of data that is desired: </div>
-<div class=tab>0: retrieves the object names (in stringData.)</div>
+<div class=tab>0: retrieves the object names (deprecated. See further down)</div>
 <div class=tab>1: retrieves the <a href="apiConstants.htm#sceneObjectTypes">object types</a> (in intData)</div>
 <div class=tab>2: retrieves the parent object handles (in intData)</div>
 <div class=tab>3: retrieves the absolute object positions (in floatData. There are 3 values for each object (x,y,z))</div>
@@ -2482,6 +2482,8 @@ Python synopsis
 <div class=tab>17: retrieves the object linear velocity (in floatData. There are 3 values for each object (vx,vy,vz))</div>
 <div class=tab>18: retrieves the object angular velocity as <a href="eulerAngles.htm">Euler angles</a> per seconds (in floatData. There are 3 values for each object (dAlpha,dBeta,dGamma))</div>
 <div class=tab>19: retrieves the object linear and angular velocity (in floatData. There are 6 values for each object (vx,vy,vz,dAlpha,dBeta,dGamma))</div>
+<div class=tab>20: retrieves the object aliases (in stringData.)</div>
+<div class=tab>21: retrieves the object paths (in stringData.)</div>
 
 
 <div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation mode for this function is simx_opmode_blocking or simx_opmode_streaming.</div>
@@ -2528,19 +2530,19 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves an object handle based on its name.</td>
+<td class=apiTableRightDescr>Retrieves an object handle based on its path and alias.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,number handle=simxGetObjectHandle(number clientID,string objectName,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,number handle=simxGetObjectHandle(number clientID,string objectPath,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
-<div><strong>objectName</strong>: name of the object.</div>
+<div><strong>objectPath</strong>: the path of the object. See the section on <a href="../accessingSceneObjects.htm">accessing scene objects</a> for details.</div>
 <div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation mode for this function is simx_opmode_blocking
 </div>
 </td> 

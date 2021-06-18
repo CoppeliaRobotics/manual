@@ -25,9 +25,9 @@
 <pre class=lightRedBox>
 -- set-up:
 function sysCall_init()
-    simBase=sim.getObjectHandle('base')
-    simTip=sim.getObjectHandle('tip')
-    simTarget=sim.getObjectHandle('target')
+    simBase=sim.getObjectHandle('/base')
+    simTip=sim.getObjectHandle('/tip')
+    simTarget=sim.getObjectHandle('/target')
     ikEnv=simIK.createEnvironment()
     ikGroup=simIK.createIkGroup(ikEnv)
     local ikElement=simIK.addIkElementFromScene(ikEnv,ikGroup,simBase,simTip,simTarget,desiredConstraints)
@@ -44,7 +44,7 @@ end</pre>
 <pre class=lightRedBox>
 -- set-up:
 function sysCall_init()
-    simJoints={sim.getObjectHandle('j1'),sim.getObjectHandle('j2')}
+    simJoints={sim.getObjectHandle('/j1'),sim.getObjectHandle('/j2')}
     ikJoints={}
     ikBase=simIK.createDummy(ikEnv) -- create a dummy in the IK environemnt
     -- set that dummy into the same pose as its CoppeliaSim counterpart:

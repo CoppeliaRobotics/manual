@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simCallScriptFunction</title>
+<title>sim.callScriptFunction</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Calls a script function (from a <a href="../plugins.htm">plugin</a>, <a href="../mainClientApplication.htm">the main client application</a>, or from another script). This represents a <a href="../callbackFunctions.htm">user callback</a> inside of a script. The target script must be initialized for this call to succeed, e.g. when calling <a href="../simulationScripts.htm">simulation scripts</a>, then simulation must be running. See also <a href="simExecuteScriptString.htm">sim.executeScriptString</a> and <a href="simSetScriptVariable.htm">sim.setScriptVariable</a>.</td>
+<td class=apiTableRightDescr>Calls a script function (from a <a href="../plugins.htm">plugin</a>, <a href="../mainClientApplication.htm">the main client application</a>, or from another script). This represents a <a href="../callbackFunctions.htm">user callback</a> inside of a script. The target script must be initialized for this call to succeed, e.g. when calling <a href="../simulationScripts.htm">simulation scripts</a>, then simulation must be running. See also <a href="simExecuteScriptString.htm">sim.executeScriptString</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -49,18 +49,18 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>...=sim.callScriptFunction(string functionNameAtScriptName,int scriptHandleOrType,...)</td> 
+<td class=apiTableRightLSyn>...=sim.callScriptFunction(string functionNameAtScriptPath,int scriptHandleOrType,...)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>functionNameAtScriptName</strong>: a string representing the function name and script name, e.g. <em>myFunctionName@theScriptName</em>. When the script is not associated with an object or name, then just specify the function name.</div>
+<div><strong>functionNameAtScriptPath</strong>: a string representing the function name and script path, e.g. <em>myFunctionName@/theScriptPath</em>. When the script is not associated with an object, then just specify the function name.</div>
 <div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the type of the script:</div>
 <div class=tab><em>sim.scripttype_mainscript</em> (0): the <a href="../mainScript.htm">main script</a> will be called.</div>
-<div class=tab><em>sim.scripttype_childscript</em> (1): a <a href="../childScripts.htm">child script</a> will be called. A script name needs to be specified (i.e. the object name where the script is attached)</div>
-<div class=tab><em>sim.scripttype_customizationscript</em> (6): a <a href="../customizationScripts.htm">customization script</a> will be called. A script name needs to be specified (i.e. the object name where the script is attached)</div>
+<div class=tab><em>sim.scripttype_childscript</em> (1): a <a href="../childScripts.htm">child script</a> will be called. A script path needs to be specified (i.e. the object path where the script is attached)</div>
+<div class=tab><em>sim.scripttype_customizationscript</em> (6): a <a href="../customizationScripts.htm">customization script</a> will be called. A script path needs to be specified (i.e. the object path where the script is attached)</div>
 <div class=tab><em>sim.scripttype_sandboxscript</em> (8): <a href="../sandboxScript.htm">the sandbox script</a> will be called.</div>
-<div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="../addOns.htm">add-on script</a> will be called (the add-on needs to be running). A script name needs to be specified (e.g. for  add-on <em>simAddOnB0RemoteApiServer.lua</em>, <em>B0RemoteApiServer</em> is the script name)</div>
+<div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="../addOns.htm">add-on script</a> will be called (the add-on needs to be running). An add-on name needs to be specified (e.g. for  add-on <em>simAddOnB0RemoteApiServer.lua</em>, <em>B0RemoteApiServer</em> is the add-on name)</div>
 <div><strong>...</strong>: any number of arguments that will be handed over to the called function.</div>
 </td> 
 </tr> 

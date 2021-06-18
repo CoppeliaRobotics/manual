@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simGetScriptHandle</title>
+<title>sim.getScriptHandle</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,55 +16,53 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<h3 class=subsectionBar><a name="simGetScriptHandle" id="simGetScriptHandle"></a>simGetScriptHandle / sim.getScriptHandle </h3>
+<h3 class=subsectionBar><a name="simGetScriptHandle" id="simGetScriptHandle"></a>sim.getScriptHandle </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the handle of a script. A script doesn't directly have a name assigned, however the script inherits the name of its associated object, if it has one. See also the section on <a href="../accessingGeneralObjects.htm">accessing general-type objects</a> and <a href="simIsHandle.htm">sim.isHandle</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves the handle of a script.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simGetScriptHandle(const simChar* scriptName)<br></td> 
+<td class=apiTableRightCSyn>From C/C++, call <a href="simGetScriptHandleEx.htm">simGetScriptHandleEx</a> instead.</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>scriptName</strong>: name of the script. The name of a child script. If the name is left blank, the handle of the main script is retrieved. In order to retrieve the handle of a customization script, use following scriptName prefix: <em>customization@</em> (for instance, <em>customization@objectName</em>)</div>
-<div></div></td> 
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>handle of the script if operation was successful, -1 otherwise<br>
-</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int scriptHandle=sim.getScriptHandle(string scriptName)</td> 
+<td class=apiTableRightLSyn>int scriptHandle=sim.getScriptHandle(int scriptType,int objectHandle=-1 / string scriptName='')</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar to the C-function counterpart. Alternatively, scriptName can be sim.handle_self, nil or inexistent, in which case the current script's handle is returned<br>
-</div>
-<div></div></td> 
+<div><strong>scriptType</strong>: the <a href="../apiConstants.htm#scriptTypes">type of the script</a>.</div>
+<div><strong>objectHandle</strong>: the object that this script is associated with (in case of child- or customization scripts. Can be omitted.</div>
+<div><strong>scriptName</strong>: name of the script, if this script is an add-on. Can be omitted.</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Similar to the C-function counterpart</div>
-<div></div></td> 
+<div>handle of the script, or -1 if the script does not exist.</div>
+</td> 
 </tr> 
 </table> 
 

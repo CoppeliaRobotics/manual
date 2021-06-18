@@ -96,12 +96,11 @@ end
 
 function sysCall_init()
     -- The child script initialization
-    objectHandle=sim.getObjectAssociatedWithScript(sim.handle_self)
-    objectName=sim.getObjectName(objectHandle)
-    rosInterfacePresent=simROS
+    objectHandle=sim.getObjectHandle('.')
+    objectAlias=sim.getObjectAlias(objectHandle,3)
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
-    if rosInterfacePresent then
+    if simROS then
         publisher=simROS.advertise('/simulationTime','std_msgs/Float32')
         subscriber=simROS.subscribe('/simulationTime','std_msgs/Float32','subscriber_callback')
     end
@@ -109,16 +108,16 @@ end
 
 function sysCall_actuation()
     -- Send an updated simulation time message, and send the transform of the object attached to this script:
-    if rosInterfacePresent then
+    if simROS then
         simROS.publish(publisher,{data=sim.getSimulationTime()})
-        simROS.sendTransform(getTransformStamped(objectHandle,objectName,-1,'world'))
+        simROS.sendTransform(getTransformStamped(objectHandle,objectAlias,-1,'world'))
         -- To send several transforms at once, use simROS.sendTransforms instead
     end
 end
 
 function sysCall_cleanup()
     -- Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
-    if rosInterfacePresent then
+    if simROS then
         simROS.shutdownPublisher(publisher)
         simROS.shutdownSubscriber(subscriber)
     end

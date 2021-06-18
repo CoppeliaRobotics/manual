@@ -78,8 +78,8 @@ local pathData=sim.unpackDoubleTable(sim.readCustomDataBlock(pathHandle,'PATH'))
 <p>Various <a href="apiFunctions.htm#paths">API functions related to paths</a> are available, e.g. in order to have an object follow a path in position and orientation, one could use following script:</p>
 
 <pre class=lightRedBox>function sysCall_init()
-    objectToFollowPath=sim.getObjectHandle(sim.handle_self)
-    path=sim.getObjectHandle('Path')
+    objectToFollowPath=sim.getObjectHandle('.')
+    path=sim.getObjectHandle('/Path')
     pathData=sim.unpackDoubleTable(sim.readCustomDataBlock(path,'PATH'))
     local m=Matrix(#pathData//7,7,pathData)
     pathPositions=m:slice(1,1,m:rows(),3):data()

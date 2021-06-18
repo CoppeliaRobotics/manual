@@ -475,12 +475,12 @@
 </tr>
 <tr class="apiTableTr">
 <td class="remApiTableLeftCSyn">synopsis</td>
-<td class="remApiTableRightCSyn">public MessageUnpacker simxCallScriptFunction(final String funcAtObjName, int/String scriptType, final byte[] funcArgs, final String topic)<br></td>
+<td class="remApiTableRightCSyn">public MessageUnpacker simxCallScriptFunction(final String funcAtScriptPath, int/String scriptType, final byte[] funcArgs, final String topic)<br></td>
 </tr>
 <tr class="apiTableTr">
 <td class="remApiTableLeftCParam">Parameters</td>
 <td class="remApiTableRightCParam">
-<div><strong>funcAtObjName</strong>: A string representing the function name and script name, e.g. myFunctionName@theScriptName. When the script is not associated with an object, then just specify the function name</div>
+<div><strong>funcAtScriptPath</strong>: A string representing the function name and script path, e.g. myFunctionName@/path/to/script. When the script is not associated with an object, then just specify the function name</div>
 <div><strong>scriptType</strong>: The <a href="apiConstants.htm#scriptTypes">type of the script</a> (specified as number or string). E.g. <i>"sim.scripttype_mainscript"</i> is a valid string argument that will be evaluated on the server side. See also <a href="#simxEvaluateToInt">simxEvaluateToInt</a></div>
 <div><strong>funcArgs</strong>: The function arguments, packed in a messagePack message</div>
 <div><strong>topic</strong>: The <a href="#topics">topic or communication channel</a> to use for executing the function call</div>
@@ -1911,6 +1911,47 @@
 <br>
 
     <h3 class="subsectionBar">
+<a name="simxGetObjectAlias" id="simxGetObjectAlias"></a>simxGetObjectAlias</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Retrieves the path/alias of an object</td>
+</tr>
+<tr class="apiTableTr">
+<td class="remApiTableLeftCSyn">synopsis</td>
+<td class="remApiTableRightCSyn">public MessageUnpacker simxGetObjectAlias(int objectHandle, int options, final String topic)<br></td>
+</tr>
+<tr class="apiTableTr">
+<td class="remApiTableLeftCParam">Parameters</td>
+<td class="remApiTableRightCParam">
+<div><strong>objectHandle</strong>: Handle of the object</div>
+<div><strong>options</strong>: Value indicating how the return value is formatted. Check the regular API equivalent for details</div>
+<div><strong>topic</strong>: The <a href="#topics">topic or communication channel</a> to use for executing the function call</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="remApiTableLeftCRet">return</td>
+<td class="remApiTableRightCRet">
+<div>A MessageUnpacker. For convenience, you can use the <a href="#helperFunctions">helper functions</a> to read its values. The MessageUnpacker contains:</div><div><strong>item1</strong> (bool): Whether the function was successfully called on the server side</div>
+<div><strong>item2</strong> (string): The path/alias of the object</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="remApiTableLeftCParam">See also</td>
+<td class="remApiTableRightCParam">
+<div>
+<a href="regularApi/simGetObjectAlias.htm">sim.getObjectAlias</a> (regular API)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="remApiTableLeftCParam">Other languages</td>
+<td class="remApiTableRightCParam">
+<div><a href="b0RemoteApi-cpp.htm#simxGetObjectAlias">C++</a>, <a href="b0RemoteApi-python.htm#simxGetObjectAlias">Python</a>, <a href="b0RemoteApi-matlab.htm#simxGetObjectAlias">Matlab</a>, <a href="b0RemoteApi-lua.htm#simxGetObjectAlias">Lua</a></div></td>
+</tr>
+</table>
+<br>
+
+    <h3 class="subsectionBar">
 <a name="simxGetObjectChild" id="simxGetObjectChild"></a>simxGetObjectChild</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2001,12 +2042,12 @@
 </tr>
 <tr class="apiTableTr">
 <td class="remApiTableLeftCSyn">synopsis</td>
-<td class="remApiTableRightCSyn">public MessageUnpacker simxGetObjectHandle(final String objectName, final String topic)<br></td>
+<td class="remApiTableRightCSyn">public MessageUnpacker simxGetObjectHandle(final String objectPath, final String topic)<br></td>
 </tr>
 <tr class="apiTableTr">
 <td class="remApiTableLeftCParam">Parameters</td>
 <td class="remApiTableRightCParam">
-<div><strong>objectName</strong>: Name of object. If the name is appended by a <i>"@alt"</i> suffix, then the object handle based on the object's alternative name will be retrieved. If the name is appended by a <i>"@silentError"</i> suffix, then no error will be output if the object does not exist</div>
+<div><strong>objectPath</strong>: Path and alias of object.</div>
 <div><strong>topic</strong>: The <a href="#topics">topic or communication channel</a> to use for executing the function call</div>
 </td>
 </tr>
@@ -2110,47 +2151,6 @@
 <td class="remApiTableLeftCParam">Other languages</td>
 <td class="remApiTableRightCParam">
 <div><a href="b0RemoteApi-cpp.htm#simxGetObjectMatrix">C++</a>, <a href="b0RemoteApi-python.htm#simxGetObjectMatrix">Python</a>, <a href="b0RemoteApi-matlab.htm#simxGetObjectMatrix">Matlab</a>, <a href="b0RemoteApi-lua.htm#simxGetObjectMatrix">Lua</a></div></td>
-</tr>
-</table>
-<br>
-
-    <h3 class="subsectionBar">
-<a name="simxGetObjectName" id="simxGetObjectName"></a>simxGetObjectName</h3>
-<table class="apiTable">
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Retrieves the name or alternative name of an object</td>
-</tr>
-<tr class="apiTableTr">
-<td class="remApiTableLeftCSyn">synopsis</td>
-<td class="remApiTableRightCSyn">public MessageUnpacker simxGetObjectName(int objectHandle, bool altName, final String topic)<br></td>
-</tr>
-<tr class="apiTableTr">
-<td class="remApiTableLeftCParam">Parameters</td>
-<td class="remApiTableRightCParam">
-<div><strong>objectHandle</strong>: Handle of the object</div>
-<div><strong>altName</strong>: Value indicating whether the regular or alternative name should be retrieved</div>
-<div><strong>topic</strong>: The <a href="#topics">topic or communication channel</a> to use for executing the function call</div>
-</td>
-</tr>
-<tr class="apiTableTr">
-<td class="remApiTableLeftCRet">return</td>
-<td class="remApiTableRightCRet">
-<div>A MessageUnpacker. For convenience, you can use the <a href="#helperFunctions">helper functions</a> to read its values. The MessageUnpacker contains:</div><div><strong>item1</strong> (bool): Whether the function was successfully called on the server side</div>
-<div><strong>item2</strong> (string): The name or alternative name of the object</div>
-</td>
-</tr>
-<tr class="apiTableTr">
-<td class="remApiTableLeftCParam">See also</td>
-<td class="remApiTableRightCParam">
-<div>
-<a href="regularApi/simGetObjectName.htm">sim.getObjectName</a> (regular API)</div>
-</td>
-</tr>
-<tr class="apiTableTr">
-<td class="remApiTableLeftCParam">Other languages</td>
-<td class="remApiTableRightCParam">
-<div><a href="b0RemoteApi-cpp.htm#simxGetObjectName">C++</a>, <a href="b0RemoteApi-python.htm#simxGetObjectName">Python</a>, <a href="b0RemoteApi-matlab.htm#simxGetObjectName">Matlab</a>, <a href="b0RemoteApi-lua.htm#simxGetObjectName">Lua</a></div></td>
 </tr>
 </table>
 <br>
