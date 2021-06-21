@@ -48,13 +48,14 @@ Version history:
  <td class=subsectionTd><a name="coppeliaSim4.3.0" id="coppeliaSim4.3.0"></a>CoppeliaSim V4.3.0 (not yet released)</td></tr></table> 
  
 <li>Fixed several bugs. Thanks to Nathan Kocherhans, René Simon, Yongdong Wang, Andrés Faíña, Eric Rohmer, Davide Scorza, Jovan Sumarac and Alex Wuqi Zhang for noticing them or helping to resolve them.</li>
+<li>Objects are now identified via a path and an alias, instead of a unique object name, as was the case in previous versions: this allows for a safer and more flexible <a href="accessingSceneObjects.htm">object access</a>, by specifying absolute or relative paths, e.g. <a href="regularApi/simGetObjectHandle.htm">sim.getObjectHandle</a>(&quot;./descendentObject&quot;). This also means that object aliases (i.e. formerly <em>names</em>), do not need to be unique anymore. See also <a href="regularApi/simGetObjectAlias.htm">sim.getObjectAlias</a> and <a href="regularApi/simSetObjectAlias.htm">sim.setObjectAlias</a>.</li>
 <li>Added an <a href="addOns.htm">add-on</a> that allows to record animations from any selected object/model: <em>Animation capture</em></li>
 <li>Added an example model of a Stewart platform: <em>Models/robots/non-mobile/Stewart platform.ttm</em>.</li>
 <li>Added an example scenes of IK and obstacle avoidance: <em>Scenes/kinematics/obstacleAvoidanceAndIk.ttt</em>.</li>
 <br>
 <br>
-
 -->
+
 
 <table class=subsectionTable><tr class=subsectionTd>
  <td class=subsectionTd><a name="coppeliaSim4.2.0" id="coppeliaSim4.2.0"></a>CoppeliaSim V4.2.0 (April 6th 2021)</td></tr></table> 
@@ -571,7 +572,6 @@ Version history:
 <li>Added a first version of a C# wrapper for the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, courtesy of Hendrik Wiese. The files are located <a href="http://coppeliarobotics.com/contributions/cSharp.zip">here</a>.</li>
 <li>Added a first version of a Labview interface for the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, courtesy of Peter Mačička. The files are located <a href="http://coppeliarobotics.com/contributions/labview.zip">here</a>.</li>
 <li>Added a legacy remote API binding for the <a href="http://www.gnu.org/software/octave/">Octave framework</a> (i.e. the open-source equivalent of Matlab). All required files are located in <em>programming/remoteApiBindings/octave</em>. Refer also to the <a href="remoteApiFunctionsOctave.htm">Octave legacy remote API functions</a>.</li>
-<li>In order to speed-up rendering, some event callbacks have been disabled by default (<a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_renderingpass</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_opengl</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_openglframe</a> and <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_openglcameraview</a>). They can be enabled on a plugin-base via the new <a href="regularApi/simEnableEventCallback.htm">simEnableEventCallback</a> API function.</li>
  <br>
 
 
@@ -604,7 +604,6 @@ Version history:
 
 
 <br><table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd><a name="3.0.4"></a>V-REP V3.0.4 (July 8th 2013)</td></tr></table> 
-<li>Added 2 optional callbacks, that allow to access and modify the main window  rendered image, or any camera view rendered image: <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_openglframe</a> &amp; <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_openglcameraview</a>.</li>
 <li>Fixed several minor bugs. Thanks to Brian Yeomans,  Kiyoshi Irie, Ulrich Schwesinger,  David Butterworth and Xinyu Zhang.</li>
 <li>Added the possibility for <a href="visionSensors.htm">vision sensors</a> to ignore their RGB or depth information. When used, this allows to accelerate vision sensor operation. Refer to the <a href="visionSensorPropertiesDialog.htm">vision sensor properties</a>.</li>
 
@@ -640,7 +639,6 @@ Version history:
 
 <li>Added also following new <a href="apiFunctions.htm">regular API</a> functions: <a href="regularApi/simGetJointMode.htm">sim.getJointMode</a>, <a href="regularApi/simGetJointTargetPosition.htm">sim.getJointTargetPosition</a> and <a href="regularApi/simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.</li>
 <li>Added 3 new <a href="objectParameterIDs.htm">object parameter IDs</a> (3020-3022) that allow setting the initial rotational velocity of a dynamically enabled <a href="shapes.htm">shape</a>.</li>
-<li>Added an <a href="apiConstants.htm#simulatorMessages">event callback message</a> (sim_message_eventcallback_opengl) that allows to draw with openGl commands into the V-REP scene, from a <a href="plugins.htm">plugin</a>.</li>
 <li>Added a <a href="userInterface.htm#toolbars">toolbar button</a> that facilitates object/model re-instanciation: this allows modifying in a same way an unlimited number of same robots. Refer to the <a href="commonPropertiesDialog.htm#dna">object/model can transfer or accept DNA checkbox</a> in the object common properties.</li>
 <li>Added a <a href="lineFollowingBubbleRobTutorial.htm">tutorial about a line following robot</a>, courtesy of Eric Rohmer.</li>
 
@@ -1105,8 +1103,6 @@ New API commands to create shapes and to extract the mesh of a shape: sim.create
 New API command to create joints: sim.createJoint </li>
 <li>
 API commands simGetShapeVertex and simGetShapeTriangle are declared deprecated </li>
-<li>
-New event callback messages: sim_message_eventcallback_renderingpass and sim_message_eventcallback_modulehandleinsensingpart </li>
 <li>
 Scene hierarchy now always contains a double-clickable &quot;World&quot; object. This replaces the environment toolbar button which was removed</li>
 <li>
