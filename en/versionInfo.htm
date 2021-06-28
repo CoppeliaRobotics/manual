@@ -33,8 +33,8 @@ Where:
 </p>
 <pre class=lightGreyBox>
 X identifies a special release (once every couple of years)
-Y identifies a yearly release (increments each year)
-Z identifies a release within a year
+Y identifies a major release
+Z identifies a minor release
 W identifies a revision number (0 is usually for a beta version, 1 for a first regular release)</pre>
 
 <br>
@@ -43,15 +43,19 @@ Version history:
 </p>
 
 <!--
-
+ 
 <table class=subsectionTable><tr class=subsectionTd>
  <td class=subsectionTd><a name="coppeliaSim4.3.0" id="coppeliaSim4.3.0"></a>CoppeliaSim V4.3.0 (not yet released)</td></tr></table> 
  
 <li>Fixed several bugs. Thanks to Nathan Kocherhans, René Simon, Yongdong Wang, Andrés Faíña, Eric Rohmer, Davide Scorza, Jovan Sumarac and Alex Wuqi Zhang for noticing them or helping to resolve them.</li>
-<li>Objects are now identified via a path and an alias, instead of a unique object name, as was the case in previous versions: this allows for a safer and more flexible <a href="accessingSceneObjects.htm">object access</a>, by specifying absolute or relative paths, e.g. <a href="regularApi/simGetObjectHandle.htm">sim.getObjectHandle</a>(&quot;./descendentObject&quot;). This also means that object aliases (i.e. formerly <em>names</em>), do not need to be unique anymore. See also <a href="regularApi/simGetObjectAlias.htm">sim.getObjectAlias</a> and <a href="regularApi/simSetObjectAlias.htm">sim.setObjectAlias</a>.</li>
+<li>Objects are now identified via a path and an <em>alias</em>, instead of a unique object name, as was the case in previous versions: this allows for a safer and more flexible <a href="accessingSceneObjects.htm">object access</a>, by specifying absolute or relative paths, e.g. <a href="regularApi/simGetObjectHandle.htm">sim.getObjectHandle</a>(&quot;./descendentObject&quot;). This also means that object aliases (i.e. formerly <em>names</em>), do not need to be unique anymore. See also <a href="regularApi/simGetObjectAlias.htm">sim.getObjectAlias</a> and <a href="regularApi/simSetObjectAlias.htm">sim.setObjectAlias</a>.</li>
+<li>Object's <em>renderable</em> flags are now ignored by <a href="visionSensors.htm">vision sensors</a>: instead, vision sensors will render object in the same way as do <a href="cameras.htm">cameras</a>, by only taking into account their visibility state: this ends some confusion, but can lead in some situations to a different behaviour and result. Flexibility is however still guaranteed, with the ability to use a <a href="collections.htm">collection</a> as renderable entity, which can override object's visibility states.</li>
 <li>Added an <a href="addOns.htm">add-on</a> that allows to record animations from any selected object/model: <em>Animation capture</em></li>
+<li>Added an add-on that allows to generate and edit 3D text: <em>3D text generator</em>. The add-on is courtesy of <em>Mechatronics Ninja</em></li>
+<li>Added a model of the Franka Emika gripper, courtesy of Alexander Oliva</li>
 <li>Added an example model of a Stewart platform: <em>Models/robots/non-mobile/Stewart platform.ttm</em>.</li>
 <li>Added an example scenes of IK and obstacle avoidance: <em>Scenes/kinematics/obstacleAvoidanceAndIk.ttt</em>.</li>
+<li>Added an scene that illustrate's the relationship of <a href="eulerAngles.htm">CoppeliaSim's Euler angles convention (alpha-beta-gamma)</a> and the yaw-pitch-roll Euler angles convention: <em>Scenes/eulerAngles.ttt</em>.</li>
 <br>
 <br>
 -->
@@ -639,7 +643,7 @@ Version history:
 
 <li>Added also following new <a href="apiFunctions.htm">regular API</a> functions: <a href="regularApi/simGetJointMode.htm">sim.getJointMode</a>, <a href="regularApi/simGetJointTargetPosition.htm">sim.getJointTargetPosition</a> and <a href="regularApi/simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.</li>
 <li>Added 3 new <a href="objectParameterIDs.htm">object parameter IDs</a> (3020-3022) that allow setting the initial rotational velocity of a dynamically enabled <a href="shapes.htm">shape</a>.</li>
-<li>Added a <a href="userInterface.htm#toolbars">toolbar button</a> that facilitates object/model re-instanciation: this allows modifying in a same way an unlimited number of same robots. Refer to the <a href="commonPropertiesDialog.htm#dna">object/model can transfer or accept DNA checkbox</a> in the object common properties.</li>
+<li>Added a <a href="userInterface.htm#toolbars">toolbar button</a> that facilitates object/model re-instanciation: this allows modifying in a same way an unlimited number of same robots.</li>
 <li>Added a <a href="lineFollowingBubbleRobTutorial.htm">tutorial about a line following robot</a>, courtesy of Eric Rohmer.</li>
 
 
