@@ -16,13 +16,13 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<h3 class=subsectionBar><a name="simGetLastError" id="simGetLastError"></a>simGetLastError / sim.getLastError</h3>
+<h3 class=subsectionBar><a name="simGetLastError" id="simGetLastError"></a>simGetLastError</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the last generated API call error message for a plugin or a script. By calling this function, the last error message is reset and a subsequent call to this function returns nullptr or nil. See also <a href="simSetLastError.htm">simSetLastError</a>, <a href="simGetStackTraceback.htm">sim.getStackTraceback</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves the last generated API call error or warning message. By calling this function, the last message is cleared and a subsequent call to this function returns nullptr. See also <a href="simSetLastError.htm">simSetLastError</a>, <a href="simGetStackTraceback.htm">sim.getStackTraceback</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -41,7 +41,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>Error message buffer or nullptr if no error message is present. The user has to delete the returned buffer with a call to <a href="simReleaseBuffer.htm">simReleaseBuffer</a><br>
+<div>Error or warning message buffer or nullptr if no error message is present. A warning starts with <em>warning@</em>. The user has to delete the returned buffer with a call to <a href="simReleaseBuffer.htm">simReleaseBuffer</a><br>
 </div>
 </td> 
 </tr> 
@@ -49,12 +49,11 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>string lastError=sim.getLastError([scriptHandle])</td> 
+<td class=apiTableRightLSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>scriptHandle</strong>: the script handle from which the last error is desired. If omitted, then the calling script's last error will be retrieved and cleared.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -62,8 +61,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Similar to the C-function counterpart</div>
-<div></div></td> 
+</td> 
 </tr> 
 
 <tr class=apiTableTr> 
