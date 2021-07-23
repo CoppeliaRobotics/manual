@@ -42,21 +42,23 @@ W identifies a revision number (0 is usually for a beta version, 1 for a first r
 Version history:
 </p>
 
-<!--
  
+<!--
 <table class=subsectionTable><tr class=subsectionTd>
  <td class=subsectionTd><a name="coppeliaSim4.3.0" id="coppeliaSim4.3.0"></a>CoppeliaSim V4.3.0 (not yet released)</td></tr></table> 
  
-<li>Fixed several bugs. Thanks to Nathan Kocherhans, René Simon, Yongdong Wang, Andrés Faíña, Eric Rohmer, Davide Scorza, Jovan Sumarac and Alex Wuqi Zhang for noticing them or helping to resolve them.</li>
+<li>Fixed several bugs. Thanks to Nathan Kocherhans, René Simon, Yongdong Wang, Andrés Faíña, Eric Rohmer, Davide Scorza, Jovan Sumarac, Luigi Ascione, Cameron Kabacinski and Alex Wuqi Zhang for noticing them or helping to resolve them.</li>
 <li>Objects are now identified via a path and an <em>alias</em>, instead of a unique object name, as was the case in previous versions: this allows for a safer and more flexible <a href="accessingSceneObjects.htm">object access</a>, by specifying absolute or relative paths, e.g. <a href="regularApi/simGetObjectHandle.htm">sim.getObjectHandle</a>(&quot;./descendentObject&quot;). This also means that object aliases (i.e. formerly <em>names</em>), do not need to be unique anymore. See also <a href="regularApi/simGetObjectAlias.htm">sim.getObjectAlias</a> and <a href="regularApi/simSetObjectAlias.htm">sim.setObjectAlias</a>.</li>
 <li>Object's <em>renderable</em> flags are now ignored by <a href="visionSensors.htm">vision sensors</a>: instead, vision sensors will render object in the same way as do <a href="cameras.htm">cameras</a>, by only taking into account their visibility state: this ends some confusion, but can lead in some situations to a different behaviour and result. Flexibility is however still guaranteed, with the ability to use a <a href="collections.htm">collection</a> as renderable entity, which can override object's visibility states.</li>
 <li>Added an <a href="addOns.htm">add-on</a> that allows to record animations from any selected object/model: <em>Animation capture</em></li>
 <li>Added an add-on that allows to generate and edit 3D text: <em>3D text generator</em>. The add-on is courtesy of <em>Mechatronics Ninja</em></li>
 <li>Added a model of the Franka Emika gripper, courtesy of Alexander Oliva</li>
+<li>Added <a href="regularApi/simRegisterScriptFuncHook.htm">sim.registerScriptFuncHook</a> that allows to hook functions</li>
 <li>Added <a href="regularApi/simGetShapeBB.htm">sim.getShapeBB</a> and <a href="regularApi/simSetShapeBB.htm">sim.setShapeBB</a> to be able to scale shapes more conveniently</li>
 <li>Added an example model of a Stewart platform: <em>Models/robots/non-mobile/Stewart platform.ttm</em></li>
 <li>Added an example scenes of IK and obstacle avoidance: <em>Scenes/kinematics/obstacleAvoidanceAndIk.ttt</em></li>
 <li>Added an scene that illustrate's the relationship of <a href="eulerAngles.htm">CoppeliaSim's Euler angles convention (alpha-beta-gamma)</a> and the yaw-pitch-roll Euler angles convention: <em>Scenes/eulerAngles.ttt</em></li>
+<li>Added an example scene illustrating IK movement via the <a href="legacyRemoteApiOverview.htm">legacy remote API</a> or via the <a href="b0RemoteApiOverview.htm">B0-based remote API</a>: <em>scenes/messaging/ikMovementViaRemoteApi.ttt</em>. Related Python scripts can be found in <em>programming/remoteApiBindings/python/python/</em> and in <em>programming/b0RemoteApiBindings/python/</em></li>
 <br>
 <br>
 -->
@@ -65,7 +67,7 @@ Version history:
 <table class=subsectionTable><tr class=subsectionTd>
  <td class=subsectionTd><a name="coppeliaSim4.2.0" id="coppeliaSim4.2.0"></a>CoppeliaSim V4.2.0 (April 6th 2021)</td></tr></table> 
  
-<li>Fixed several bugs. Thanks to Adrian Schoisengeier, Mathias Thor, Francisco Marin, Nikita Aigner, Charles Han, Shai Levy, Bobovsky Zdenko, Salvatore Sessa, Jakob Ambsdorf, Hayato Amaike and Kevin Thomas for noticing them or helping to resolve them.</li>
+<li>Fixed several bugs. Thanks to Adrian Schoisengeier, Mathias Thor, Francisco Marin, Nikita Aigner, Charles Han, Shai Levy, Bobovsky Zdenko, Salvatore Sessa, Jakob Ambsdorf, Hayato Amaike, and Kevin Thomas for noticing them or helping to resolve them.</li>
 <li><a href="scripts.htm">All script types</a> now support <a href="threadedAndNonThreadedCode.htm">threaded or non-threaded operation</a>. Threaded operation is handled via coroutines that are preemptively interrupted by CoppeliaSim. Except for its code, there is no difference anymore between a threaded and non-threaded script. Old threaded child scripts are still supported for backward compatibility, but CoppeliaSim will try to automatically convert them. If this is not desired, adjust value <em>keepOldThreadedScripts</em> in <em>system/usrset.txt</em>.</li>
 <li>Switched from Lua 5.1 to Lua 5.3. Backward compatibility should normally be maintained, except maybe for old Lua modules you might be using. If this is the case, update those module to their Lua 5.3 counterparts. Read also about the <a href="http://www.lua.org/manual/5.2/manual.html#8" target="_blank">language incompatibilities introduced in Lua 5.2</a>, and the <a href="http://www.lua.org/manual/5.3/manual.html#8" target="_blank">language incompatibilities introduced in Lua 5.3</a>. Additional backward compatibility code can be communicated to us and added to <em>lua/sim.lua.</em></li>
 <li>The <a href="ros2Interface.htm">ROS2 interface</a> is now also supported on Windows.</li>
