@@ -28,6 +28,7 @@
 <li><a href="aviRecorder.htm">video data, via various formats</a></li>
 <li><a href="#image">image data, via various formats</a></li>
 <li><a href="#text">text/binary data</a></li>
+<li><a href="#misc">miscellaneous data</a></li>
 
 <p>New importers/exports can easily be created via an <a href="addOns.htm">add-on</a>, or via a <a href="plugins.htm">plugin</a>.</p>
 
@@ -101,6 +102,39 @@ end</pre>
 end</pre>
 
 
+
+<br>
+<br>
+
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="text"></a>Importing miscellaneous data
+</td></tr></table> 
+
+<p>The <em>Floor Plan Importer</em> add-on can create shapes from a floor plan image, by mapping each pixel value to either a <em>wall</em>, a <em>door</em> or a <em>window</em>.</p>
+
+<p>A floor-plan image looks like this:</p>
+
+<img src="images/floorPlanZoom.png" />
+
+<p>Note that above image is zoomed in, and actual lines are 1px thick.</p>
+
+<p>Different gray levels are used to indicate different classes. In this example, 0 is used for walls, 82 for window holes, and 187 for door holes. These values can be configured (see below) and anything outside the given ranges will be ignored, so it is possible to use a floor plan that contains more annotations, but only extract wall/door/window lines if given in a specific gray value.</p>
+
+<p>The add-on is available via [Menu bar --&gt; Add-ons]. After selecting the menu entry, an image file must be selected, then a few import options can be specified:</p>
+
+<ul>
+    <li><em>pixel size</em>: the scaling of the image. One pixel in the image will correspond to this length in the real world.</li>
+    <li>For every class (walls, windows, doors):
+        <ul>
+            <li><em>height</em>: the height of the wall/hole in the real world.</li>
+            <li><em>range</em>: the range of the intensity (grayscale value) in the image.</li>
+        </ul>
+    </li>
+    <li><em>color</em>: the color of the walls shape.</li>
+    <li><em>respondable</em>: wether the walls shape will be respondable.</li>
+    <li><em>optimize</em>: if checked, the lines will be dissected to a minimal number of rectangles, so the shape will contain a low count of pure (cuboid) shapes.</li>
+    <li><em>invert image values</em>: if checked, the image values will be inverted before processing.</li>
+</ul>
 
 <br>
 <br>
