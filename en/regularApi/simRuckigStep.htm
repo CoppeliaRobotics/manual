@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simRuckigStep</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<h1>Regular API function</h1>
+<h3 class=subsectionBar><a name="simRuckigStep" id="simRuckigStep"></a>simRuckigStep / sim.ruckigStep </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Executes a call to the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>. The Ruckig online trajectory generator provides instantaneous trajectory generation capabilities for motion control systems. This function steps forward a trajectory generation algorithm previously prepared via <a href="simRuckigPos.htm">sim.ruckigPos</a> or <a href="simRuckigVel.htm">sim.ruckigVel</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simRuckigStep(simInt handle,simDouble timeStep,simDouble* newPos,simDouble* newVel,simDouble* newAccel,simDouble* syncTime)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>handle</strong>: the handle of the object created via <a href="simRuckigPos.htm">simRuckigPos</a> or <a href="simRuckigVel.htm">simRuckigVel</a>.</div>
+<div><strong>timeStep</strong>: the cycle time</div>
+<div><strong>newPos</strong>: the new position</div>
+<div><strong>newVel</strong>: the new velocity</div>
+<div><strong>newAccel</strong>: the new acceleration</div>
+<div><strong>syncTime</strong>: the synchronization time (output). This is the time needed to reach the desired state. This time does not include the cycle time of the current call to sim.RuckigStep)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 or -2 in case of an immediate error, otherwise the return value of the update function in the motion library:</div>
+<div class=tab>1: Result::Finished (final state reached)</div>
+<div class=tab>0: Result::Working (final state not yet reached)</div>
+<div class=tab>-100: Result::ErrorInvalidInput</div>
+<div class=tab>-101: Result::ErrorTrajectoryDuration</div>
+<div class=tab>-110: Result::ErrorExecutionTimeCalculation</div>
+<div class=tab>-111: Result::ErrorSynchronizationCalculation</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>int result,table[] newPosVelAccel,float synchronizationTime=sim.ruckigStep(int handle,float timeStep)
+<br>
+<br>
+
+<div>If you wish to use this function in a blocking mode, consider using <a href="simMoveToPose.htm">sim.moveToPose</a> and <a href="simMoveToConfig.htm">sim.moveToConfig</a> instead.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div>Similar to the C-function counterpart</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>Similar to the C-function counterpart</div>
+</td> 
+</tr> 
+</table> 
+
+
+<br>
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
