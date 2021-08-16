@@ -413,17 +413,16 @@ Description
 <td class=remApiTableLeftCSyn>
 Matlab synopsis
 </td> 
-<td class=remApiTableRightCSyn>[number returnCode,array outInts,array outFloats,string outStrings,array outBuffer]=simxCallScriptFunction(number clientID,string pathToScript,number scriptHandleOrType,string functionName,array inInts,array inFloats,string inStrings,array inBuffer,number operationMode)</td> 
+<td class=remApiTableRightCSyn>[number returnCode,array outInts,array outFloats,string outStrings,array outBuffer]=simxCallScriptFunction(number clientID,string scriptName,number scriptHandleOrType,string functionName,array inInts,array inFloats,string inStrings,array inBuffer,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Matlab parameters</td> 
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
-<div><strong>pathToScript</strong>: the path to the scene object where the script is attached to, or an empty string if the script has no associated scene object.</div>
-<div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the type of the script:</div>
-<div class=tab><em>sim_scripttype_mainscript</em> (0): the <a href="mainScript.htm">main script</a> will be called.</div>
-<div class=tab><em>sim_scripttype_childscript</em> (1): a <a href="childScripts.htm">child script</a> will be called.</div>
-<div class=tab><em>sim_scripttype_customizationscript</em> (6): a <a href="customizationScripts.htm">customization script</a> will be called.</div>
+<div><strong>scriptName</strong>: an empty string, or:</div>
+<div class=tab>if<em> scriptHandleOrType</em> is sim_scripttype_childscript (1) or sim_scripttype_customizationscript (6), then this should be the path to the scene object this script is attached to (e.g. &quot;/path/to/object&quot;)</div>
+<div class=tab>if<em> scriptHandleOrType</em> is sim_scripttype_addonscript (2), then this should be the name of the add-on (e.g. &quot;Isometric scaling;)</div>
+<div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the <a href="apiConstants.htm#scriptTypes">type of the script</a></div>
 <div><strong>functionName</strong>: the name of the Lua function to call in the specified script.</div>
 
 <div><strong>inInts</strong>: the input integer values that are handed over to the script function. Can be [].</div>

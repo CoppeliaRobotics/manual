@@ -32,18 +32,15 @@ Description
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simExecuteScriptString(simInt scriptHandleOrType,const simChar* stringAtScriptPath,simInt stackId)</td> 
+<td class=apiTableRightCSyn>simInt simExecuteScriptString(simInt scriptHandleOrType,const simChar* stringAtScriptName,simInt stackId)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the type of the script:</div>
-<div class=tab><em>sim_scripttype_mainscript</em> (0): the <a href="../mainScript.htm">main script</a>.</div>
-<div class=tab><em>sim_scripttype_childscript</em> (1): a <a href="../childScripts.htm">child script</a>. In that case, <em>stringAtScriptPath</em> should also contain the path of the object associated with the script.</div>
-<div class=tab><em>sim_scripttype_customizationscript</em> (6): a <a href="../customizationScripts.htm">customization script</a>. In that case, <em>stringAtScriptPath</em> should also contain the path of the object associated with the script.</div>
-<div class=tab><em>sim_scripttype_sandboxscript</em> (8): <a href="../sandboxScript.htm">the sandbox script</a>.</div>
-<div class=tab><em>sim.scripttype_addonscript</em> (2): an <a href="../addOns.htm">add-on script</a>. In that case, <em>stringAtScriptPath</em> should also contain the name of the add-on (e.g. for  add-on <em>simAddOnB0RemoteApiServer.lua</em>, <em>B0RemoteApiServer</em> is the add-on name)</div>
-<div><strong>stringAtScriptPath</strong>: some  code to execute in the specified script, followed by @: &quot;string@&quot;. If <em>scriptHandleOrType</em> is <em>sim_scripttype_childscript</em>, or <em>sim_scripttype_customizationscript</em>, then <em>stringAtScriptPath</em> should also contain the path of the object associated with the script: &quot;string@/path/to/object&quot;.</div>
+<div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the <a href="../apiConstants.htm#scriptTypes">type of the script</a></div>
+<div><strong>stringAtScriptName</strong>: a string representing the  code to execute in the specified script.</div>
+<div class=tab>if <em>scriptHandleOrType</em> is sim.scripttype_childscript or sim.scripttype_customizationscript, then append to the string '@' and the path of the object the script is attached to, e.g. &quot;print('Hello')@/path/to/object&quot;</div>
+<div class=tab>if <em>scriptHandleOrType</em> is sim.scripttype_addonscript, then append to the string '@' and the name of the add-on, e.g. &quot;print('Hello')@Isometric scaling&quot;</div>
 <div><strong>stackId</strong>: 0 (for no stack) or a <a href="simCreateStack.htm">stack handle</a>. The stack holds possible out values. See also the <a href="../apiFunctions.htm#stacks">available stack functions</a>.</div>
 </td> 
 </tr> 
@@ -59,7 +56,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int result,executionResult=sim.executeScriptString(string stringAtScriptPath,int scriptHandleOrType)</td> 
+<td class=apiTableRightLSyn>int result,executionResult=sim.executeScriptString(string stringAtScriptName,int scriptHandleOrType)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
