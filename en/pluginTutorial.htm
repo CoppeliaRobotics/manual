@@ -223,7 +223,7 @@ end</pre>
 
 <p>When a script calls the specified function name, then CoppeliaSim will try to convert the provided arguments to what is expected by the callback, then calls the callback address. The most difficult task inside of a callback function is to correctly read the input arguments, and correctly write the output values. To ease the task, two helper classes are used, that will be in charge of that: <em>CLuaFunctionData</em> and <em>CLuaFunctionDataItem</em>, located in <em>programming/common</em> and <em>programming/include</em>.</p>
 <p>When writing your own custom Lua functions, try to use the same code layout/skeleton as was done in file <em>simExtBubbleRob.cpp</em>.</p>
-<p>Control of a BubbleRob instance does not happen in any of the 4 custom Lua function callbacks: the callbacks just initialize/destroy/update data structures. The control happens in <em>simMessage</em>, with message <em>sim_message_eventcallback_modulehandle</em>: that message is called for all plugins when the <a href="mainScript.htm">main script</a> calls <em>sim.handleModule(sim.handle_all,false)</em>, which happens once per simulation pass.</p>
+<p>Control of a BubbleRob instance does not happen in any of the 4 custom Lua function callbacks: the callbacks just initialize/destroy/update data structures. The control happens in <em>simMessage</em>, with message <em>sim_message_eventcallback_simulationactuation</em>.</p>
 
 
 

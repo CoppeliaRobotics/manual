@@ -40,6 +40,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simVision.createVelodyneVPL16">simVision.createVelodyneVPL16</a>
 <a href="?#simVision.destroyVelodyneHDL64E">simVision.destroyVelodyneHDL64E</a>
 <a href="?#simVision.destroyVelodyneVPL16">simVision.destroyVelodyneVPL16</a>
+<a href="?#simVision.distort">simVision.distort</a>
 <a href="?#simVision.edgeDetectionOnWorkImg">simVision.edgeDetectionOnWorkImg</a>
 <a href="?#simVision.handleAnaglyphStereo">simVision.handleAnaglyphStereo</a>
 <a href="?#simVision.handleSpherical">simVision.handleSpherical</a>
@@ -70,7 +71,9 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simVision.workImgToBuffer1">simVision.workImgToBuffer1</a>
 <a href="?#simVision.workImgToBuffer2">simVision.workImgToBuffer2</a>
 <a href="?#simVision.workImgToSensorDepthMap">simVision.workImgToSensorDepthMap</a>
-<a href="?#simVision.workImgToSensorImg">simVision.workImgToSensorImg</a></pre></td></tr>
+<a href="?#simVision.workImgToSensorImg">simVision.workImgToSensorImg</a></pre>
+<br>
+</td></tr>
 
 <tr><td id="category" class="section">
 
@@ -80,6 +83,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simVision.createVelodyneVPL16">simVision.createVelodyneVPL16</a>
 <a href="?#simVision.destroyVelodyneHDL64E">simVision.destroyVelodyneHDL64E</a>
 <a href="?#simVision.destroyVelodyneVPL16">simVision.destroyVelodyneVPL16</a>
+<a href="?#simVision.distort">simVision.distort</a>
 <a href="?#simVision.handleAnaglyphStereo">simVision.handleAnaglyphStereo</a>
 <a href="?#simVision.handleSpherical">simVision.handleSpherical</a>
 <a href="?#simVision.handleVelodyneHDL64E">simVision.handleVelodyneHDL64E</a>
@@ -292,6 +296,45 @@ Lua return values
 
 
 
+<h3 class=subsectionBarTab><a name="simVision.distort" id="simVision.distort"></a>simVision.distort</h3>
+<table class=apiTableTab>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>
+Transforms (distorts) a vision sensor image via pixel remapping.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>simVision.distort(int visionSensorHandle,table[] pixelMap=nil,table[] depthScalings=nil)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>visionSensorHandle</strong>: the handle of the vision sensor.</div>
+<div><strong>pixelMap</strong>: a table containing indices to new pixel positions. Should be of size resX*resY. Consecutive, incremental indices (starting at 0) represents the identity transformation. Can be omitted if a map was previously provided and doesn't need change.</div>
+<div><strong>depthScaling</strong>: an optional table containing scaling factors for each depth value.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>none</div>
+</td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
 <h3 class=subsectionBarTab><a name="simVision.handleAnaglyphStereo" id="simVision.handleAnaglyphStereo"></a>simVision.handleAnaglyphStereo</h3>
 <table class=apiTableTab>
 <tr class=apiTableTr> 
@@ -395,8 +438,9 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>points</strong>: a table containing the detected points, or a coded string.</div></td> 
-<div><strong>colors</strong>: a coded string containing the colors of each point (3 byte values for each point (RGB)). The colors are only returned if the Velodyne model is appropriately configured.</div></td> 
+<div><strong>points</strong>: a table containing the detected points, or a coded string.</div>
+<div><strong>colors</strong>: a coded string containing the colors of each point (3 byte values for each point (RGB)). The colors are only returned if the Velodyne model is appropriately configured.</div>
+</td> 
 </tr> 
 </table> 
 <br>
@@ -418,7 +462,7 @@ Handles a velodyne VPL16 sensor (i.e. generates and displays detection points. S
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table[]/string points,string colors=simVision.V(int velodyneHandle,float dt)</td> 
+<td class=apiTableRightLSyn>table[]/string points,string colors=simVision.handleVelodyneVPL16(int velodyneHandle,float dt)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -432,8 +476,9 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>points</strong>: a table containing the detected points, or a coded string.</div></td> 
-<div><strong>colors</strong>: a coded string containing the colors of each point (3 byte values for each point (RGB)). The colors are only returned if the Velodyne model is appropriately configured.</div></td> 
+<div><strong>points</strong>: a table containing the detected points, or a coded string.</div>
+<div><strong>colors</strong>: a coded string containing the colors of each point (3 byte values for each point (RGB)). The colors are only returned if the Velodyne model is appropriately configured.</div>
+</td> 
 </tr> 
 </table> 
 <br>
