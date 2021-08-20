@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>API Functions</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>URDF Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">API functions for URDF input.</p></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox">
+<a href="?#import">simURDF.import</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="import" id="import"></a>simURDF.import</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Import a URDF file into the current scene.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string robotName=simURDF.import(string fileName,int options=0)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>fileName</strong> (string): URDF file path, or URDF string</div>
+<div>
+<strong>options</strong> (ImportOptions, default: 0),bit coded: bit0=show collision links, bit1=showJoints, bit2=do not convex decompose non convex collidables, bit3=do not create visual if none, bit4=show convex decomposition dlg, bit5=do not center above ground, bit6=do not make model, bit7=no seld collision, bit8=no position control</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>robotName</strong> (string): name of the robot</div>
+<div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+
+<tr><td id="scriptFunctions" class="section"></td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script>
+</body>
+</html>

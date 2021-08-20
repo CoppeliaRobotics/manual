@@ -19,17 +19,82 @@
 
 <h1>Kinematics Plugin</h1>
 
-<p>The kinematics plugin for CoppeliaSim (<em>simExtIK.dll</em> or similar) wraps the <a href="coppeliaKinematicsRoutines.htm">Coppelia Kinematics Routines</a>. It exports several API functions that can be recognized from their simIK-prefix: </p>
-<li><a href="simExtIK-api-alphabetic.htm">Kinematics plugin API list (in alphabetical order)</a></li>
-<li><a href="simExtIK-api-category.htm">Kinematics plugin API list (by category)</a></li>
+<p>The kinematics plugin for CoppeliaSim (<em>simExtIK.dll</em> or similar) wraps the <a href="coppeliaKinematicsRoutines.htm">Coppelia Kinematics Routines</a>. It exports <a href="simIK.htm?view=category">several API functions</a> that can be recognized from their simIK-prefix; they allow to create, handle and solve forward/inverse kinematics tasks for any type of mechanism (redundant/non-redundant, containing nested loops, etc.) fully programmatically.</p>
+<p>Kinematics tasks can very easily be set up from the scene's content like in following example:</p>
+
+<pre class=lightRedBox>
+-- set-up:
+function sysCall_init()
+    simBase=sim.getObjectHandle('/base')
+    simTip=sim.getObjectHandle('/tip')
+    simTarget=sim.getObjectHandle('/target')
+    ikEnv=simIK.createEnvironment()
+    ikGroup=simIK.createIkGroup(ikEnv)
+    local ikElement=simIK.addIkElementFromScene(ikEnv,ikGroup,simBase,simTip,simTarget,desiredConstraints)
+end
+
+-- IK calculation, and application to the scene:
+function sysCall_actuation()
+    simIK.applyIkEnvironmentToScene(ikEnv,ikGroup)
+end</pre>
 
 
-<br>
+<p><a href="simIK.htm#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a> will parse the scene given a base, tip and target object, and generate an IK element appropriately, with the given constraints. <a href="simIK.htm#simIK.applyIkEnvironmentToScene">simIK.applyIkEnvironmentToScene</a> on the other hand will compute IK, then apply the calculation results to the corresponding scene joints. One can of course also manually build the kinematic environment, for full control, as in following example:</p>
 
+<pre class=lightRedBox>
+-- set-up:
+function sysCall_init()
+    simJoints={sim.getObjectHandle('/j1'),sim.getObjectHandle('/j2')}
+    ikJoints={}
+    ikBase=simIK.createDummy(ikEnv) -- create a dummy in the IK environemnt
+    -- set that dummy into the same pose as its CoppeliaSim counterpart:
+    simIK.setObjectMatrix(ikEnv,ikBase,-1,sim.getObjectMatrix(simBase,-1)) 
+    local parent=ikBase
+    for i=1,#simJoints,1 do -- loop through all joints
+        -- create a joint in the IK environment:
+        ikJoints[i]=simIK.createJoint(ikEnv,simIK.jointtype_revolute)
+       -- set it into IK mode: 
+        simIK.setJointMode(ikEnv,ikJoints[i],simIK.jointmode_ik) 
+        -- set the same joint limits as its CoppeliaSim counterpart joint:
+        local cyclic,interv=sim.getJointInterval(simJoints[i])
+        simIK.setJointInterval(ikEnv,ikJoints[i],cyclic,interv)
+        -- set the same joint position as its CoppeliaSim counterpart joint: 
+        simIK.setJointPosition(ikEnv,ikJoints[i],sim.getJointPosition(simJoints[i]))
+        -- set the same object pose as its CoppeliaSim counterpart joint: 
+        simIK.setObjectMatrix(ikEnv,ikJoints[i],-1,sim.getObjectMatrix(simJoints[i],-1)) 
+        simIK.setObjectParent(ikEnv,ikJoints[i],parent) -- set its corresponding parent
+        parent=ikJoints[i]
+    end
+    ikTip=simIK.createDummy(ikEnv) -- create the tip dummy in the IK environment
+    -- set that dummy into the same pose as its CoppeliaSim counterpart:
+    simIK.setObjectMatrix(ikEnv,ikTip,-1,sim.getObjectMatrix(simTip,-1)) 
+    simIK.setObjectParent(ikEnv,ikTip,parent) -- attach it to the kinematic chain
+    ikTarget=simIK.createDummy(ikEnv) -- create the target dummy in the IK environment
+    -- set that dummy into the same pose as its CoppeliaSim counterpart:
+    simIK.setObjectMatrix(ikEnv,ikTarget,-1,sim.getObjectMatrix(simTip,-1)) 
+    simIK.setLinkedDummy(ikEnv,ikTip,ikTarget) -- link the two dummies
+    ikGroup=simIK.createIkGroup(ikEnv) -- create an IK group
+    -- set its resolution method to undamped:
+    simIK.setIkGroupCalculation(ikEnv,ikGroup,simIK.method_pseudo_inverse,0,3)
+    -- add an IK element to that IK group: 
+    local ikElement=simIK.addIkElement(ikEnv,ikGroup,ikTip)
+    -- specify the base of that IK element: 
+    simIK.setIkElementBase(ikEnv,ikGroup,ikElement,ikBase)
+    -- specify the constraints of that IK element: 
+    simIK.setIkElementConstraints(ikEnv,ikGroup,ikElement,simIK.constraint_x+simIK.constraint_y) 
+end
 
+-- IK calculation, and application to the scene:
+function sysCall_actuation()
+    -- reflect the pose of the target dummy in the IK environment:
+    simIK.setObjectMatrix(ikEnv,ikTarget,ikBase,sim.getObjectMatrix(simTarget,simBase)) 
+    simIK.handleIkGroup(ikEnv,ikGroup) -- solve
+    -- apply the calculated joint values:
+    sim.setJointPosition(simJoints[1],simIK.getJointPosition(ikEnv,ikJoints[1])) 
+    sim.setJointPosition(simJoints[2],simIK.getJointPosition(ikEnv,ikJoints[2]))
+end</pre>
 
-<p>Above API functions allow to create, handle and solve forward/inverse kinematics tasks for any type of mechanism (redundant/non-redundant, containing nested loops, etc.) fully programmatically. </p>
-<p>For examples on how to use above API functions, refer to the following scenes, <em>scenes/kinematics/8-computingJointAnglesForRandomPoses.ttt</em> and <em>scenes/kinematics/9-programmaticallySettingUpIk.ttt</em>, and make sure to inspect the attached child scripts.</p>
+<p>For examples on how to use above API functions, refer to the scenes in <em>scenes/kinematics/</em>, and make sure to inspect the attached scripts.</p>
 
 <br>
 <br>

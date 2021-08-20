@@ -19,7 +19,7 @@
 
 <h1>Object Parameter IDs</h1>
 
-<p>Refer to the API functions <a href="regularApi/simGetObjectInt32Parameter.htm">sim.getObjectInt32Parameter</a>, <a href="regularApi/simSetObjectInt32Parameter.htm">sim.setObjectInt32Parameter</a>, <a href="regularApi/simGetObjectFloatParameter.htm">sim.getObjectFloatParameter</a>, <a href="regularApi/simSetObjectFloatParameter.htm">sim.setObjectFloatParameter</a>, <a href="regularApi/simGetObjectStringParameter.htm">sim.getObjectStringParameter</a> and <a href="regularApi/simSetObjectStringParameter.htm">sim.setObjectStringParameter</a> for details on following values:<br>
+<p>Refer to the API functions <a href="regularApi/simGetObjectInt32Param.htm">sim.getObjectInt32Param</a>, <a href="regularApi/simSetObjectInt32Param.htm">sim.setObjectInt32Param</a>, <a href="regularApi/simGetObjectFloatParam.htm">sim.getObjectFloatParam</a>, <a href="regularApi/simSetObjectFloatParam.htm">sim.setObjectFloatParam</a>, <a href="regularApi/simGetObjectStringParam.htm">sim.getObjectStringParam</a> and <a href="regularApi/simSetObjectStringParam.htm">sim.setObjectStringParam</a> for details on following values:<br>
 </p>
 
 
@@ -51,7 +51,6 @@
 <div><strong>sim.objfloatparam_transparency_offset (28)</strong>: float parameter : transparent object distance offset. When rendering transparent objects, they are ordered from back to front for rendering. With this value you can influence the ordering a bit.</div>
 <div><strong>sim.objintparam_manipulation_permissions (31)</strong>: int32 parameter : object manipulation permissions, bit-coded: bit0 set (1) --> object can be translated during non-simulation, bit1 set (2) --> object can be translated during simulation, bit2 set (4) --> object can be rotated during non-simulation, bit3 set (8) --> object can be rotated during simulation, bit4 set (16) --&gt; object manual shift settings are locked, bit5 set (32) --&gt; object nanual rotation settings are locked.</div>
 <div><strong>sim.objintparam_illumination_handle (32)</strong>: int32 parameter : -1 if object should be illuminated by all light objects, otherwise a light handle (or collection handle) for the light object(s) that should illuminate the object.</div>
-<div><strong>sim.objstringparam_dna (33)</strong>: string parameter : the object DNA string, if available. Can only be read.</div>
 <div><strong>sim.objfloatparam_size_factor (34)</strong>: float parameter : a size factor that will be automatically scaled when the object gets scaled.</div>
 <div><strong>sim.objstringparam_unique_id (35)</strong>: string parameter : a string that uniquely and persistently identifies an object. Can only be read.</div>
 <div><strong>sim.objintparam_visible (36)</strong>: int32 parameter : 0 if the shape is not visible. Can only be read.</div>
@@ -87,7 +86,7 @@
 <div><strong>sim.visionfloatparam_pov_aperture (1015)</strong>: float parameter : POV-Ray aperture.</div>
 <div><strong>sim.visionintparam_pov_blur_sampled (1016)</strong>: int32 parameter : POV-Ray blur samples.</div>
 <div><strong>sim.visionintparam_render_mode (1017)</strong>: int32 parameter : Render mode. Use with care. 0=normal, 1=aux. channels, 2=object handles, 3=POV-Ray.</div>
-<div><strong>sim.visionintparam_perspective_operation (1018)</strong>: int32 parameter : whether the vision sensor operated in perspective mode (1) or orthogonal mode (0).</div>
+<div><strong>sim.visionintparam_perspective_operation (1018)</strong>: int32 parameter : whether the vision sensor is operated in perspective mode (1) or orthogonal mode (0).</div>
 <br>
 <div>More parameters you wish to adjust from the API? Ask us to add them for a future release!</div>
 </td>
@@ -149,7 +148,7 @@
 <div><strong>sim.shapefloatparam_init_velocity_x (3000)</strong>: float parameter : x-component of the initial dynamic linear velocity of a dynamically enabled shape (static or non-static). The shape might have to be reset with <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a></div>
 <div><strong>sim.shapefloatparam_init_velocity_y (3001)</strong>: float parameter : y-component of the initial dynamic linear velocity of a dynamically enabled shape (static or non-static). The shape might have to be reset with <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a></div>
 <div><strong>sim.shapefloatparam_init_velocity_z (3002)</strong>: float parameter : z-component of the initial dynamic linear velocity of a dynamically enabled shape (static or non-static). The shape might have to be reset with <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a></div>
-<div><strong>sim.shapeintparam_static (3003)</strong>: int32 parameter : static state (0 or !=0). Use with care when setting this parameter</div>
+<div><strong>sim.shapeintparam_static (3003)</strong>: int32 parameter : static state (0 or !=0). Use with care when setting this parameter during simulation (the shape might have to be reset with <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a>)</div>
 <div><strong>sim.shapeintparam_respondable (3004)</strong>: int32 parameter : respondable state (0 or !=0). Use with care when setting this parameter during simulation (the shape might have to be reset with <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a>)</div>
 <div><strong>sim.shapefloatparam_mass (3005)</strong>: float parameter : mass of the shape. Use with care when setting this parameter during simulation (the shape might have to be reset with <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a>)</div>
 <div><strong>sim.shapefloatparam_texture_x (3006)</strong>: float parameter : texture x-coordinate. Has no effect when imported texture coordinates are used</div>
@@ -175,6 +174,7 @@
 <div><strong>sim.shapefloatparam_shading_angle (3025)</strong>: float parameter : shading angle.</div>
 <div><strong>sim.shapefloatparam_edge_angle (3026)</strong>: float parameter : edge threshold angle.</div>
 <div><strong>sim.shapeintparam_edge_borders_hidden (3027)</strong>: int32 parameter : hide edge borders (0 or !=0).</div>
+<div><strong>sim.shapeintparam_component_cnt (3028)</strong>: int32 parameter : the number of items in a compound shape, or 1 otherwise.</div>
 
 <br>
 <div>More parameters you wish to adjust from the API? Ask us to add them for a future release!</div>
@@ -220,6 +220,7 @@
 <table class=apiConstantsTable >
 <tr>
 <td>
+<div><strong>sim.graphintparam_needs_refresh (10500)</strong>: int32 parameter : reads and clears the refresh flag.</div>
 <br>
 <div>More parameters you wish to adjust from the API? Ask us to add them for a future release!</div>
 </td>
@@ -256,8 +257,8 @@
 <div><strong>sim.camerafloatparam_pov_blur_distance (9005)</strong>: float parameter : POV-Ray focal blur distance.</div>
 <div><strong>sim.camerafloatparam_pov_aperture (9006)</strong>: float parameter : POV-Ray aperture.</div>
 <div><strong>sim.cameraintparam_pov_blur_samples (9007)</strong>: int32 parameter : POV-Ray blur samples.</div>
-<div><strong>sim.visionfloatparam_near_clipping (9008)</strong>: float parameter : near clipping plane</div>
-<div><strong>sim.visionfloatparam_far_clipping (9009)</strong>: float parameter : far clipping plane</div>
+<div><strong>sim.camerafloatparam_near_clipping (9008)</strong>: float parameter : near clipping plane</div>
+<div><strong>sim.camerafloatparam_far_clipping (9009)</strong>: float parameter : far clipping plane</div>
 <br>
 <div>More parameters you wish to adjust from the API? Ask us to add them for a future release!</div>
 </td>
@@ -270,8 +271,7 @@
 <tr>
 <td>
 <div><strong>sim.dummyintparam_link_type (10000)</strong>: int32 parameter : <a href="apiConstants.htm#dummyLinkTypes">dummy link type</a>. If you set this value for a dummy that is dynamically enabled or that will be come dynamically enabled, you might have to call <a href="regularApi/simResetDynamicObject.htm">sim.resetDynamicObject</a> on the two dummies for the effect to become active.</div>
-<div><strong>sim.dummyintparam_follow_path (10001)</strong>: int32 parameter : 1 if the dummy should follow its parent path, 0 otherwise.</div>
-<div><strong>sim.dummyfloatparam_follow_path_offset (10002)</strong>: float parameter : the offset on the path object, when following a path.</div>
+<div><strong>sim.dummyfloatparam_size (10003)</strong>: float parameter : the size of the dummy.</div>
 <br>
 <div>More parameters you wish to adjust from the API? Ask us to add them for a future release!</div>
 </td>

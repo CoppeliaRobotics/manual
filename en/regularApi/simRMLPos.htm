@@ -15,14 +15,14 @@
   <td >
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
-<h1><a href="../apiOverview.htm">Regular API</a> function</h1>
+<h1>Regular API function</h1>
 <h3 class=subsectionBar><a name="simRMLPos" id="simRMLPos"></a>simRMLPos / sim.rmlPos </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Executes a call to the <a href="http://www.reflexxes.com">Reflexxes Motion Library type II or IV</a>. The Reflexxes Motion Library provides instantaneous trajectory generation capabilities for motion control systems. This function prepares a  position-based trajectory generation object, that can then be calculated with <a href="simRMLStep.htm">sim.rmlStep</a>. When this object is not needed anymore, remove it with <a href="simRMLRemove.htm">sim.rmlRemove</a>. See also <a href="simRMLVel.htm">sim.rmlVel</a>, <a href="simMoveToPose.htm">sim.moveToPose</a> and <a href="simMoveToConfig.htm">sim.moveToConfig</a>.</td>
+<td class=apiTableRightDescr>DEPRECATED. See <a href="simRuckigPos.htm">sim.ruckigPos</a> instead.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -35,7 +35,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>dofs</strong>: the number of degrees of freedom (N).</div>
 <div><strong>smallestTimeStep</strong>: the smallest expected cycle time. Use a value of 0.0001 (0.1ms).</div>
-<div><strong>flags</strong>: <a href="../apiConstants.htm#RMLFunctions">RML flags</a>. -1 for default flags.</div>
+<div><strong>flags</strong>: RML flags. -1 for default flags.</div>
 <div><strong>currentPosVelAccel</strong>: the current position, velocity and acceleration. Arrange values as {pos1,pos2,..,posN,vel1,vel2,..,velN,accel1,accel2,..,accelN}</div>
 
 <div><strong>maxVelAccelJerk</strong>: the maximum allowed velocity, acceleration and jerk. Arrange values as {vel1,vel2,..,velN,accel1,accel2,..,accelN,jerk1,jerk2,..,jerkN}. With the RML type II plugin, the max. jerk will however always be infinite.</div>
@@ -59,7 +59,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number handle=sim.rmlPos(number dofs,number smallestTimeStep,number flags,table currentPosVelAccel,table maxVelAccelJerk,table selection,table targetPosVel)
+<td class=apiTableRightLSyn>int handle=sim.rmlPos(int dofs,float smallestTimeStep,int flags,table[] currentPosVelAccel,table[] maxVelAccelJerk,table[] selection,table[] targetPosVel)
 <br>
 <br>
 
@@ -82,9 +82,7 @@ Lua return values
 </tr> 
 </table> 
 
-<br>
-<p><a href="../apiFunctions.htm">All regular API functions on one page</a></p>
-<br>
+
 <br>
 </td>
 </tr>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>SurfRec Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>SurfRec Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">API functions for surface reconstruction from point clouds</p></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#reconstruct_scale_space">simSurfRec.reconstruct_scale_space</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="reconstruct_scale_space" id="reconstruct_scale_space"></a>simSurfRec.reconstruct_scale_space</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Reconstruct a mesh from the given point cloud</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int shapeHandle=simSurfRec.reconstruct_scale_space(int pointCloudHandle, int iterations=4, int neighbors=12, int samples=300, float squared_radius=-1.0)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>pointCloudHandle</strong> (int): handle of the point cloud</div>
+<div>
+<strong>iterations</strong> (int, default: 4): number of iterations</div>
+<div>
+<strong>neighbors</strong> (int, default: 12): number of neighbors a point's neighborhood should contain on average</div>
+<div>
+<strong>samples</strong> (int, default: 300): number of points sampled to estimate the neighborhood radius</div>
+<div>
+<strong>squared_radius</strong> (float, default: -1.0): neighborhood squared radius used for principal component analysis. if this is positive, neighbors and samples will be ignored</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>shapeHandle</strong> (int): handle of the shape with the reconstructed mesh, or -1 if failed</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section"></td></tr>
+<tr><td id="structs" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section"></td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script><script type="text/javascript">
+//
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('code.hljs').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+});
+//
+                </script>
+</body>
+</html>

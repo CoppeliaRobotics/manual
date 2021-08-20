@@ -413,17 +413,16 @@ Description
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,array outInts,array outFloats,array outStrings,string outBuffer=simxCallScriptFunction(number clientID,string scriptDescription,number scriptHandleOrType,string functionName,array inInts,array inFloats,array inStrings,string inBuffer,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,array outInts,array outFloats,array outStrings,string outBuffer=simxCallScriptFunction(number clientID,string scriptName,number scriptHandleOrType,string functionName,array inInts,array inFloats,array inStrings,string inBuffer,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
-<div><strong>scriptDescription</strong>: the name of the scene object where the script is attached to, or an empty string if the script has no associated scene object.</div>
-<div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the type of the script:</div>
-<div class=tab><em>sim_scripttype_mainscript</em> (0): the <a href="mainScript.htm">main script</a> will be called.</div>
-<div class=tab><em>sim_scripttype_childscript</em> (1): a <a href="childScripts.htm">child script</a> will be called.</div>
-<div class=tab><em>sim_scripttype_customizationscript</em> (6): a <a href="customizationScripts.htm">customization script</a> will be called.</div>
+<div><strong>scriptName</strong>: an empty string, or:</div>
+<div class=tab>if<em> scriptHandleOrType</em> is sim_scripttype_childscript (1) or sim_scripttype_customizationscript (6), then this should be the path to the scene object this script is attached to (e.g. &quot;/path/to/object&quot;)</div>
+<div class=tab>if<em> scriptHandleOrType</em> is sim_scripttype_addonscript (2), then this should be the name of the add-on (e.g. &quot;Isometric scaling;)</div>
+<div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the <a href="apiConstants.htm#scriptTypes">type of the script</a></div>
 <div><strong>functionName</strong>: the name of the Lua function to call in the specified script.</div>
 
 <div><strong>inInts</strong>: the input integer values that are handed over to the script function. Can be [].</div>
@@ -467,13 +466,124 @@ Other languages
 
 
 
+<h3 class=subsectionBar><a name="simxCheckCollision" id="simxCheckCollision"></a>simxCheckCollision (regular API equivalent: <a href="regularApi/simCheckCollision.htm">sim.checkCollision</a>)</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Checks whether two entities collide.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCSyn>
+Python synopsis
+</td> 
+<td class=remApiTableRightCSyn>number returnCode,boolean collisionState=simxCheckCollision(number clientID,number entity1,number entity2,number operationMode)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCParam>Python parameters</td> 
+<td class=remApiTableRightCParam>
+<div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
+<div><strong>entity1</strong>: the handle of the first entity.</div>
+<div><strong>entity2</strong>: the handle of the second entity.</div>
+<div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation modes for this function are simx_opmode_streaming (the first call) and simx_opmode_buffer (the following calls)
+</div>
+</td> 
+</tr> 
+
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCRet>
+Python return values
+</td> 
+<td class=remApiTableRightCRet>
+<div><strong>returnCode</strong>: a <a href="remoteApiConstants.htm#functionErrorCodes">remote API function return code</a></div>
+<div><strong>collisionState</strong>: the collision state</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftLanguages>
+Other languages
+</td> 
+<td class=remApiTableRightLanguages>
+<a href="remoteApiFunctions.htm#simxCheckCollision">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxCheckCollision">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxCheckCollision">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxCheckCollision">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxCheckCollision">Lua</a></td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h3 class=subsectionBar><a name="simxCheckDistance" id="simxCheckDistance"></a>simxCheckDistance (regular API equivalent: <a href="regularApi/simCheckDistance.htm">sim.checkDistance</a>)</h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Measures the distance between two entities.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCSyn>
+Python synopsis
+</td> 
+<td class=remApiTableRightCSyn>number returnCode,number minimumDistance=simxCheckDistance(number clientID,number distanceObjectHandle, number operationMode)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCParam>Python parameters</td> 
+<td class=remApiTableRightCParam>
+<div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
+<div><strong>entity1</strong>: the handle of the first entity.</div>
+<div><strong>entity2</strong>: the handle of the second entity.</div>
+<div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation modes for this function are simx_opmode_streaming (the first call) and simx_opmode_buffer (the following calls)
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftCRet>
+Python return values
+</td> 
+<td class=remApiTableRightCRet>
+<div><strong>returnCode</strong>: a <a href="remoteApiConstants.htm#functionErrorCodes">remote API function return code</a></div>
+<div><strong>minimumDistance</strong>: the minimum distance.</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=remApiTableLeftLanguages>
+Other languages
+</td> 
+<td class=remApiTableRightLanguages>
+<a href="remoteApiFunctions.htm#simxCheckDistance">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxCheckDistance">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxCheckDistance">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxCheckDistance">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxCheckDistance">Lua</a></td> 
+</tr> 
+</table> 
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <h3 class=subsectionBar><a name="simxClearFloatSignal" id="simxClearFloatSignal"></a>simxClearFloatSignal (regular API equivalent: <a href="regularApi/simClearDoubleSignal.htm">sim.clearDoubleSignal</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Clears a float signal (removes it). See also <a href="#simxSetFloatSignal">simxSetFloatSignal</a>, <a href="#simxClearIntegerSignal">simxClearIntegerSignal</a> and <a href="#simxClearStringSignal">simxClearStringSignal</a>.</td>
+<td class=apiTableRightDescr>Clears a float signal (removes it). See also <a href="#simxSetFloatSignal">simxSetFloatSignal</a>, <a href="#simxClearInt32Signal">simxClearInt32Signal</a> and <a href="#simxClearStringSignal">simxClearStringSignal</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -485,7 +595,7 @@ Python synopsis
 <td class=remApiTableLeftCParam>Python parameters</td> 
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
-<div><strong>signalName</strong>: name of the signal or an empty string to clear all float signals</div>
+<div><strong>signalName</strong>: name of the signal</div>
 <div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation mode for this function is simx_opmode_oneshot
 </div>
 </td> 
@@ -520,25 +630,25 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxClearIntegerSignal" id="simxClearIntegerSignal"></a>simxClearIntegerSignal (regular API equivalent: <a href="regularApi/simClearIntegerSignal.htm">sim.clearIntegerSignal</a>)</h3>
+<h3 class=subsectionBar><a name="simxClearInt32Signal" id="simxClearInt32Signal"></a>simxClearInt32Signal (regular API equivalent: <a href="regularApi/simClearInt32Signal.htm">sim.clearInt32Signal</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Clears an integer signal (removes it). See also <a href="#simxSetIntegerSignal">simxSetIntegerSignal</a>, <a href="#simxClearFloatSignal">simxClearFloatSignal</a> and <a href="#simxClearStringSignal">simxClearStringSignal</a>.</td>
+<td class=apiTableRightDescr>Clears an integer signal (removes it). See also <a href="#simxSetInt32Signal">simxSetInt32Signal</a>, <a href="#simxClearFloatSignal">simxClearFloatSignal</a> and <a href="#simxClearStringSignal">simxClearStringSignal</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode=simxClearIntegerSignal(number clientID,string signalName,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode=simxClearInt32Signal(number clientID,string signalName,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
-<div><strong>signalName</strong>: name of the signal or an empty string to clear all integer signals</div>
+<div><strong>signalName</strong>: name of the signal</div>
 <div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation mode for this function is simx_opmode_oneshot
 </div>
 </td> 
@@ -556,7 +666,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxClearIntegerSignal">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxClearIntegerSignal">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxClearIntegerSignal">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxClearIntegerSignal">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxClearIntegerSignal">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxClearInt32Signal">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxClearInt32Signal">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxClearInt32Signal">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxClearInt32Signal">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxClearInt32Signal">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -579,7 +689,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Clears a string signal (removes it). See also <a href="#simxSetStringSignal">simxSetStringSignal</a>, <a href="#simxClearIntegerSignal">simxClearIntegerSignal</a> and <a href="#simxClearFloatSignal">simxClearFloatSignal</a>.</td>
+<td class=apiTableRightDescr>Clears a string signal (removes it). See also <a href="#simxSetStringSignal">simxSetStringSignal</a>, <a href="#simxClearInt32Signal">simxClearInt32Signal</a> and <a href="#simxClearFloatSignal">simxClearFloatSignal</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -591,7 +701,7 @@ Python synopsis
 <td class=remApiTableLeftCParam>Python parameters</td> 
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
-<div><strong>signalName</strong>: name of the signal or an empty string to clear all string signals</div>
+<div><strong>signalName</strong>: name of the signal</div>
 <div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation mode for this function is simx_opmode_oneshot
 </div>
 </td> 
@@ -684,7 +794,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Copies and pastes objects, together with all their associated calculation objects and child scripts. To copy and paste whole models, you can simply copy and paste the model base object.</td>
+<td class=apiTableRightDescr>Copies and pastes objects, together with all their associated child scripts. To copy and paste whole models, you can simply copy and paste the model base object.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -1123,19 +1233,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetArrayParameter" id="simxGetArrayParameter"></a>simxGetArrayParameter (regular API equivalent: <a href="regularApi/simGetArrayParameter.htm">sim.getArrayParameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetArrayParam" id="simxGetArrayParam"></a>simxGetArrayParam (regular API equivalent: <a href="regularApi/simGetArrayParam.htm">sim.getArrayParam</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves 3 values from an array. See the <a href="apiConstants.htm#arrayParameters">array parameter identifiers</a>. See also <a href="#simxSetArrayParameter">simxSetArrayParameter</a>, <a href="#simxGetBooleanParameter">simxGetBooleanParameter</a>, <a href="#simxGetIntegerParameter">simxGetIntegerParameter</a>, <a href="#simxGetFloatingParameter">simxGetFloatingParameter</a> and <a href="#simxGetStringParameter">simxGetStringParameter</a>.</td>
+<td class=apiTableRightDescr>Retrieves 3 values from an array. See the <a href="apiConstants.htm#arrayParameters">array parameter identifiers</a>. See also <a href="#simxSetArrayParam">simxSetArrayParam</a>, <a href="#simxGetBoolParam">simxGetBoolParam</a>, <a href="#simxGetInt32Param">simxGetInt32Param</a>, <a href="#simxGetFloatParam">simxGetFloatParam</a> and <a href="#simxGetStringParam">simxGetStringParam</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,array paramValues=simxGetArrayParameter(number clientID,number paramIdentifier,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,array paramValues=simxGetArrayParam(number clientID,number paramIdentifier,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -1160,7 +1270,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxGetArrayParameter">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetArrayParameter">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetArrayParameter">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetArrayParameter">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetArrayParameter">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxGetArrayParam">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetArrayParam">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetArrayParam">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetArrayParam">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetArrayParam">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -1177,19 +1287,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetBooleanParameter" id="simxGetBooleanParameter"></a>simxGetBooleanParameter (regular API equivalent: <a href="regularApi/simGetBoolParameter.htm">sim.getBoolParameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetBoolParam" id="simxGetBoolParam"></a>simxGetBoolParam (regular API equivalent: <a href="regularApi/simGetBoolParam.htm">sim.getBoolParam</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a boolean value. See the <a href="apiConstants.htm#booleanParameters">boolean parameter identifiers</a>. See also <a href="#simxSetBooleanParameter">simxSetBooleanParameter</a>, <a href="#simxGetIntegerParameter">simxGetIntegerParameter</a>, <a href="#simxGetFloatingParameter">simxGetFloatingParameter</a>, <a href="#simxGetArrayParameter">simxGetArrayParameter</a> and <a href="#simxGetStringParameter">simxGetStringParameter</a>.</td>
+<td class=apiTableRightDescr>Retrieves a boolean value. See the <a href="apiConstants.htm#booleanParameters">boolean parameter identifiers</a>. See also <a href="#simxSetBoolParam">simxSetBoolParam</a>, <a href="#simxGetInt32Param">simxGetInt32Param</a>, <a href="#simxGetFloatParam">simxGetFloatParam</a>, <a href="#simxGetArrayParam">simxGetArrayParam</a> and <a href="#simxGetStringParam">simxGetStringParam</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,boolean paramValue=simxGetBooleanParameter(number clientID,number paramIdentifier,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,boolean paramValue=simxGetBoolParam(number clientID,number paramIdentifier,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -1214,7 +1324,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxGetBooleanParameter">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetBooleanParameter">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetBooleanParameter">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetBooleanParameter">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetBooleanParameter">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxGetBoolParam">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetBoolParam">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetBoolParam">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetBoolParam">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetBoolParam">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -1231,13 +1341,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetCollectionHandle" id="simxGetCollectionHandle"></a>simxGetCollectionHandle (regular API equivalent: <a href="regularApi/simGetCollectionHandle.htm">sim.getCollectionHandle</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetCollectionHandle" id="simxGetCollectionHandle"></a>simxGetCollectionHandle</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a collection handle based on its name.</td>
+<td class=apiTableRightDescr>This is a convenience function. Since CoppeliaSim V4.2.0, collections should be dynamically created and do not have a name anymore. This function will first try to retrieve a static collection with the specified name (for backward compatibility's sake). If such a collection does not exist, it will try to return the integer signal with the specified name. On CoppeliaSim's side, one could do:
+
+<pre class=lightRedBoxNoMarginAndSmall>
+local collectionHandle=sim.createCollection(0)
+sim.addItemToCollection(collectionHandle,..)
+..
+sim.setInt32Signal('collectionName',collectionHandle)</pre></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -1260,7 +1376,7 @@ Python return values
 </td> 
 <td class=remApiTableRightCRet>
 <div><strong>returnCode</strong>: a <a href="remoteApiConstants.htm#functionErrorCodes">remote API function return code</a></div>
-<div><strong>handle</strong>: the collision handle</div>
+<div><strong>handle</strong>: the collection handle</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -1285,13 +1401,13 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetCollisionHandle" id="simxGetCollisionHandle"></a>simxGetCollisionHandle (regular API equivalent: <a href="regularApi/simGetCollisionHandle.htm">sim.getCollisionHandle</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetCollisionHandle" id="simxGetCollisionHandle"></a>simxGetCollisionHandle</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a collision object handle based on its name. See also <a href="#simxReadCollision">simxReadCollision</a>.</td>
+<td class=apiTableRightDescr>DEPRECATED. see <a href="#simxCheckCollision">simxCheckCollision</a> instead.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -1499,13 +1615,13 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetDistanceHandle" id="simxGetDistanceHandle"></a>simxGetDistanceHandle (regular API equivalent: <a href="regularApi/simGetDistanceHandle.htm">sim.getDistanceHandle</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetDistanceHandle" id="simxGetDistanceHandle"></a>simxGetDistanceHandle</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a distance object handle based on its name. See also <a href="#simxReadDistance">simxReadDistance</a>.</td>
+<td class=apiTableRightDescr>DEPRECATED. see <a href="#simxCheckDistance">simxCheckDistance</a> instead.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -1553,19 +1669,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetFloatingParameter" id="simxGetFloatingParameter"></a>simxGetFloatingParameter (regular API equivalent: <a href="regularApi/simGetFloatParameter.htm">sim.getFloatParameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetFloatParam" id="simxGetFloatParam"></a>simxGetFloatParam (regular API equivalent: <a href="regularApi/simGetFloatParam.htm">sim.getFloatParam</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a floating point value. See the <a href="apiConstants.htm#floatingParameters">floating-point parameter identifiers</a>. See also <a href="#simxSetFloatingParameter">simxSetFloatingParameter</a>, <a href="#simxGetBooleanParameter">simxGetBooleanParameter</a>, <a href="#simxGetIntegerParameter">simxGetIntegerParameter</a>, <a href="#simxGetArrayParameter">simxGetArrayParameter</a> and <a href="#simxGetStringParameter">simxGetStringParameter</a>.</td>
+<td class=apiTableRightDescr>Retrieves a floating point value. See the <a href="apiConstants.htm#floatingParameters">floating-point parameter identifiers</a>. See also <a href="#simxSetFloatParam">simxSetFloatParam</a>, <a href="#simxGetBoolParam">simxGetBoolParam</a>, <a href="#simxGetInt32Param">simxGetInt32Param</a>, <a href="#simxGetArrayParam">simxGetArrayParam</a> and <a href="#simxGetStringParam">simxGetStringParam</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,number paramValue=simxGetFloatingParameter(number clientID,number paramIdentifier,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,number paramValue=simxGetFloatParam(number clientID,number paramIdentifier,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -1590,7 +1706,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxGetFloatingParameter">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetFloatingParameter">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetFloatingParameter">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetFloatingParameter">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetFloatingParameter">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxGetFloatParam">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetFloatParam">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetFloatParam">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetFloatParam">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetFloatParam">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -1613,7 +1729,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Gets the value of a float signal. Signals are cleared at simulation start. See also <a href="#simxSetFloatSignal">simxSetFloatSignal</a>, <a href="#simxClearFloatSignal">simxClearFloatSignal</a>, <a href="#simxGetIntegerSignal">simxGetIntegerSignal</a> and <a href="#simxGetStringSignal">simxGetStringSignal</a>.</td>
+<td class=apiTableRightDescr>Gets the value of a float signal. Signals are cleared at simulation start. See also <a href="#simxSetFloatSignal">simxSetFloatSignal</a>, <a href="#simxClearFloatSignal">simxClearFloatSignal</a>, <a href="#simxGetInt32Signal">simxGetInt32Signal</a> and <a href="#simxGetStringSignal">simxGetStringSignal</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -1717,19 +1833,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetIntegerParameter" id="simxGetIntegerParameter"></a>simxGetIntegerParameter (regular API equivalent: <a href="regularApi/simGetInt32Parameter.htm">sim.getInt32Parameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetInt32Param" id="simxGetInt32Param"></a>simxGetInt32Param (regular API equivalent: <a href="regularApi/simGetInt32Param.htm">sim.getInt32Param</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves an integer value. See the <a href="apiConstants.htm#integerParameters">integer parameter identifiers</a>. See also <a href="#simxSetIntegerParameter">simxSetIntegerParameter</a>, <a href="#simxGetBooleanParameter">simxGetBooleanParameter</a>, <a href="#simxGetFloatingParameter">simxGetFloatingParameter</a>, <a href="#simxGetArrayParameter">simxGetArrayParameter</a> and <a href="#simxGetStringParameter">simxGetStringParameter</a>.</td>
+<td class=apiTableRightDescr>Retrieves an integer value. See the <a href="apiConstants.htm#integerParameters">integer parameter identifiers</a>. See also <a href="#simxSetInt32Param">simxSetInt32Param</a>, <a href="#simxGetBoolParam">simxGetBoolParam</a>, <a href="#simxGetFloatParam">simxGetFloatParam</a>, <a href="#simxGetArrayParam">simxGetArrayParam</a> and <a href="#simxGetStringParam">simxGetStringParam</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,number paramValue=simxGetIntegerParameter(number clientID,number paramIdentifier,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,number paramValue=simxGetInt32Param(number clientID,number paramIdentifier,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -1754,7 +1870,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxGetIntegerParameter">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetIntegerParameter">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetIntegerParameter">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetIntegerParameter">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetIntegerParameter">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxGetInt32Param">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetInt32Param">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetInt32Param">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetInt32Param">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetInt32Param">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -1771,19 +1887,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetIntegerSignal" id="simxGetIntegerSignal"></a>simxGetIntegerSignal (regular API equivalent: <a href="regularApi/simGetIntegerSignal.htm">sim.getIntegerSignal</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetInt32Signal" id="simxGetInt32Signal"></a>simxGetInt32Signal (regular API equivalent: <a href="regularApi/simGetInt32Signal.htm">sim.getInt32Signal</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Gets the value of an integer signal. Signals are cleared at simulation start. See also <a href="#simxSetIntegerSignal">simxSetIntegerSignal</a>, <a href="#simxClearIntegerSignal">simxClearIntegerSignal</a>, <a href="#simxGetFloatSignal">simxGetFloatSignal</a> and <a href="#simxGetStringSignal">simxGetStringSignal</a>.</td>
+<td class=apiTableRightDescr>Gets the value of an integer signal. Signals are cleared at simulation start. See also <a href="#simxSetInt32Signal">simxSetInt32Signal</a>, <a href="#simxClearInt32Signal">simxClearInt32Signal</a>, <a href="#simxGetFloatSignal">simxGetFloatSignal</a> and <a href="#simxGetStringSignal">simxGetStringSignal</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,number signalValue=simxGetIntegerSignal(number clientID,string signalName,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,number signalValue=simxGetInt32Signal(number clientID,string signalName,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -1808,7 +1924,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxGetIntegerSignal">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetIntegerSignal">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetIntegerSignal">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetIntegerSignal">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetIntegerSignal">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxGetInt32Signal">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetInt32Signal">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetInt32Signal">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetInt32Signal">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetInt32Signal">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -2108,7 +2224,7 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetLastErrors" id="simxGetLastErrors"></a>simxGetLastErrors (regular API equivalent: <a href="regularApi/simGetLastError.htm">sim.getLastError</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetLastErrors" id="simxGetLastErrors"></a>simxGetLastErrors (regular API equivalent: <a href="regularApi/simGetLastError.htm">simGetLastError</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -2270,7 +2386,7 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetObjectFloatParameter" id="simxGetObjectFloatParameter"></a>simxGetObjectFloatParameter (regular API equivalent: <a href="regularApi/simGetObjectFloatParameter.htm">sim.getObjectFloatParameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetObjectFloatParameter" id="simxGetObjectFloatParameter"></a>simxGetObjectFloatParameter (regular API equivalent: <a href="regularApi/simGetObjectFloatParam.htm">sim.getObjectFloatParam</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -2345,7 +2461,7 @@ Python synopsis
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
 <div><strong>objectType</strong>: a <a href="apiConstants.htm#sceneObjectTypes">scene object type</a>, sim_appobj_object_type for all <a href="objects.htm">scene objects</a>, or a <a href="#simxGetCollectionHandle">collection</a> handle.</div>
 <div><strong>dataType</strong>: the type of data that is desired: </div>
-<div class=tab>0: retrieves the object names (in stringData.)</div>
+<div class=tab>0: retrieves the object names (deprecated. See further down)</div>
 <div class=tab>1: retrieves the <a href="apiConstants.htm#sceneObjectTypes">object types</a> (in intData)</div>
 <div class=tab>2: retrieves the parent object handles (in intData)</div>
 <div class=tab>3: retrieves the absolute object positions (in floatData. There are 3 values for each object (x,y,z))</div>
@@ -2365,6 +2481,8 @@ Python synopsis
 <div class=tab>17: retrieves the object linear velocity (in floatData. There are 3 values for each object (vx,vy,vz))</div>
 <div class=tab>18: retrieves the object angular velocity as <a href="eulerAngles.htm">Euler angles</a> per seconds (in floatData. There are 3 values for each object (dAlpha,dBeta,dGamma))</div>
 <div class=tab>19: retrieves the object linear and angular velocity (in floatData. There are 6 values for each object (vx,vy,vz,dAlpha,dBeta,dGamma))</div>
+<div class=tab>20: retrieves the object aliases (in stringData.)</div>
+<div class=tab>21: retrieves the object paths (in stringData.)</div>
 
 
 <div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation mode for this function is simx_opmode_blocking or simx_opmode_streaming.</div>
@@ -2411,19 +2529,19 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves an object handle based on its name.</td>
+<td class=apiTableRightDescr>Retrieves an object handle based on its path and alias.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,number handle=simxGetObjectHandle(number clientID,string objectName,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,number handle=simxGetObjectHandle(number clientID,string objectPath,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
 <td class=remApiTableRightCParam>
 <div><strong>clientID</strong>: the client ID. refer to <a href="#simxStart">simxStart</a>.</div>
-<div><strong>objectName</strong>: name of the object.</div>
+<div><strong>objectPath</strong>: the path of the object. See the section on <a href="accessingSceneObjects.htm">accessing scene objects</a> for details.</div>
 <div><strong>operationMode</strong>: a <a href="remoteApiConstants.htm#operationModes">remote API function operation mode</a>. Recommended operation mode for this function is simx_opmode_blocking
 </div>
 </td> 
@@ -2459,7 +2577,7 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetObjectIntParameter" id="simxGetObjectIntParameter"></a>simxGetObjectIntParameter (regular API equivalent: <a href="regularApi/simGetObjectInt32Parameter.htm">sim.getObjectInt32Parameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetObjectIntParameter" id="simxGetObjectIntParameter"></a>simxGetObjectIntParameter (regular API equivalent: <a href="regularApi/simGetObjectInt32Param.htm">simGetObjectInt32Param</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -2998,19 +3116,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxGetStringParameter" id="simxGetStringParameter"></a>simxGetStringParameter (regular API equivalent: <a href="regularApi/simGetStringParameter.htm">sim.getStringParameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxGetStringParam" id="simxGetStringParam"></a>simxGetStringParam (regular API equivalent: <a href="regularApi/simGetStringParam.htm">sim.getStringParam</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a string value. See the <a href="apiConstants.htm#stringParameters">string parameter identifiers</a>. See also <a href="#simxGetBooleanParameter">simxGetBooleanParameter</a>, <a href="#simxGetIntegerParameter">simxGetIntegerParameter</a>, <a href="#simxGetArrayParameter">simxGetArrayParameter</a> and <a href="#simxGetFloatingParameter">simxGetFloatingParameter</a>.</td>
+<td class=apiTableRightDescr>Retrieves a string value. See the <a href="apiConstants.htm#stringParameters">string parameter identifiers</a>. See also <a href="#simxGetBoolParam">simxGetBoolParam</a>, <a href="#simxGetInt32Param">simxGetInt32Param</a>, <a href="#simxGetArrayParam">simxGetArrayParam</a> and <a href="#simxGetFloatParam">simxGetFloatParam</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode,string paramValue=simxGetStringParameter(number clientID,number paramIdentifier,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode,string paramValue=simxGetStringParam(number clientID,number paramIdentifier,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -3035,7 +3153,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxGetStringParameter">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetStringParameter">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetStringParameter">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetStringParameter">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetStringParameter">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxGetStringParam">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxGetStringParam">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxGetStringParam">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxGetStringParam">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxGetStringParam">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -3058,7 +3176,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Gets the value of a string signal. Signals are cleared at simulation start. To pack/unpack integers/floats into/from a string, refer to <a href="#simxPackInts">simxPackInts</a>, <a href="#simxPackFloats">simxPackFloats</a>, <a href="#simxUnpackInts">simxUnpackInts</a> and <a href="#simxUnpackFloats">simxUnpackFloats</a>. See also <a href="#simxSetStringSignal">simxSetStringSignal</a>, <a href="#simxReadStringStream">simxReadStringStream</a>, <a href="#simxClearStringSignal">simxClearStringSignal</a>, <a href="#simxGetIntegerSignal">simxGetIntegerSignal</a> and <a href="#simxGetFloatSignal">simxGetFloatSignal</a>.</td>
+<td class=apiTableRightDescr>Gets the value of a string signal. Signals are cleared at simulation start. To pack/unpack integers/floats into/from a string, refer to <a href="#simxPackInts">simxPackInts</a>, <a href="#simxPackFloats">simxPackFloats</a>, <a href="#simxUnpackInts">simxUnpackInts</a> and <a href="#simxUnpackFloats">simxUnpackFloats</a>. See also <a href="#simxSetStringSignal">simxSetStringSignal</a>, <a href="#simxReadStringStream">simxReadStringStream</a>, <a href="#simxClearStringSignal">simxClearStringSignal</a>, <a href="#simxGetInt32Signal">simxGetInt32Signal</a> and <a href="#simxGetFloatSignal">simxGetFloatSignal</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -3809,13 +3927,13 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxReadCollision" id="simxReadCollision"></a>simxReadCollision (regular API equivalent: <a href="regularApi/simReadCollision.htm">sim.readCollision</a>)</h3>
+<h3 class=subsectionBar><a name="simxReadCollision" id="simxReadCollision"></a>simxReadCollision</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Reads the collision state of a registered collision object. This function doesn't perform collision detection, it merely reads the result from a previous call to <a href="regularApi/simHandleCollision.htm">sim.handleCollision</a> (sim.handleCollision is called in the default main script). See also <a href="#simxGetObjectGroupData">simxGetObjectGroupData</a>.</td>
+<td class=apiTableRightDescr>DEPRECATED. see <a href="#simxCheckCollision">simxCheckCollision</a> instead.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -3864,13 +3982,13 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxReadDistance" id="simxReadDistance"></a>simxReadDistance (regular API equivalent: <a href="regularApi/simReadDistance.htm">sim.readDistance</a>)</h3>
+<h3 class=subsectionBar><a name="simxReadDistance" id="simxReadDistance"></a>simxReadDistance</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Reads the distance that a  registered distance object measured. This function doesn't perform minimum distance calculation, it merely reads the result from a previous call to <a href="regularApi/simHandleDistance.htm">sim.handleDistance</a> (sim.handleDistance is called in the default main script). See also <a href="#simxGetObjectGroupData">simxGetObjectGroupData</a>.</td>
+<td class=apiTableRightDescr>DEPRECATED. see <a href="#simxCheckDistance">simxCheckDistance</a> instead.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -4374,19 +4492,19 @@ Description
 
 
 
-<h3 class=subsectionBar><a name="simxSetArrayParameter" id="simxSetArrayParameter"></a>simxSetArrayParameter (regular API equivalent: <a href="regularApi/simSetArrayParameter.htm">sim.setArrayParameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxSetArrayParam" id="simxSetArrayParam"></a>simxSetArrayParam (regular API equivalent: <a href="regularApi/simSetArrayParam.htm">sim.setArrayParam</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets 3 values of an <a href="apiConstants.htm#arrayParameters">array parameter</a>. See also <a href="#simxGetArrayParameter">simxGetArrayParameter</a>, <a href="#simxSetBooleanParameter">simxSetBooleanParameter</a>, <a href="#simxSetIntegerParameter">simxSetIntegerParameter</a> and <a href="#simxSetFloatingParameter">simxSetFloatingParameter</a>.</td>
+<td class=apiTableRightDescr>Sets 3 values of an <a href="apiConstants.htm#arrayParameters">array parameter</a>. See also <a href="#simxGetArrayParam">simxGetArrayParam</a>, <a href="#simxSetBoolParam">simxSetBoolParam</a>, <a href="#simxSetInt32Param">simxSetInt32Param</a> and <a href="#simxSetFloatParam">simxSetFloatParam</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode=simxSetArrayParameter(number clientID,number paramIdentifier,array paramValues,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode=simxSetArrayParam(number clientID,number paramIdentifier,array paramValues,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -4411,7 +4529,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxSetArrayParameter">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetArrayParameter">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetArrayParameter">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetArrayParameter">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetArrayParameter">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxSetArrayParam">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetArrayParam">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetArrayParam">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetArrayParam">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetArrayParam">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -4428,19 +4546,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxSetBooleanParameter" id="simxSetBooleanParameter"></a>simxSetBooleanParameter (regular API equivalent: <a href="regularApi/simSetBoolParameter.htm">sim.setBoolParameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxSetBoolParam" id="simxSetBoolParam"></a>simxSetBoolParam (regular API equivalent: <a href="regularApi/simSetBoolParam.htm">sim.setBoolParam</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets a <a href="apiConstants.htm#booleanParameters">boolean parameter</a>. See also <a href="#simxGetBooleanParameter">simxGetBooleanParameter</a>, <a href="#simxSetIntegerParameter">simxSetIntegerParameter</a>, <a href="#simxSetArrayParameter">simxSetArrayParameter</a> and <a href="#simxSetFloatingParameter">simxSetFloatingParameter</a>.</td>
+<td class=apiTableRightDescr>Sets a <a href="apiConstants.htm#booleanParameters">boolean parameter</a>. See also <a href="#simxGetBoolParam">simxGetBoolParam</a>, <a href="#simxSetInt32Param">simxSetInt32Param</a>, <a href="#simxSetArrayParam">simxSetArrayParam</a> and <a href="#simxSetFloatParam">simxSetFloatParam</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode=simxSetBooleanParameter(number clientID,number paramIdentifier,boolean paramValue,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode=simxSetBoolParam(number clientID,number paramIdentifier,boolean paramValue,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -4465,7 +4583,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxSetBooleanParameter">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetBooleanParameter">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetBooleanParameter">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetBooleanParameter">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetBooleanParameter">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxSetBoolParam">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetBoolParam">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetBoolParam">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetBoolParam">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetBoolParam">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -4482,19 +4600,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxSetFloatingParameter" id="simxSetFloatingParameter"></a>simxSetFloatingParameter (regular API equivalent: <a href="regularApi/simSetFloatParameter.htm">sim.setFloatParameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxSetFloatParam" id="simxSetFloatParam"></a>simxSetFloatParam (regular API equivalent: <a href="regularApi/simSetFloatParam.htm">sim.setFloatParam</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets a <a href="apiConstants.htm#floatingParameters">floating point parameter</a>. See also <a href="#simxGetFloatingParameter">simxGetFloatingParameter</a>, <a href="#simxSetBooleanParameter">simxSetBooleanParameter</a>, <a href="#simxSetArrayParameter">simxSetArrayParameter</a> and <a href="#simxSetIntegerParameter">simxSetIntegerParameter</a>.</td>
+<td class=apiTableRightDescr>Sets a <a href="apiConstants.htm#floatingParameters">floating point parameter</a>. See also <a href="#simxGetFloatParam">simxGetFloatParam</a>, <a href="#simxSetBoolParam">simxSetBoolParam</a>, <a href="#simxSetArrayParam">simxSetArrayParam</a> and <a href="#simxSetInt32Param">simxSetInt32Param</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode=simxSetFloatingParameter(number clientID,number paramIdentifier,number paramValue,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode=simxSetFloatParam(number clientID,number paramIdentifier,number paramValue,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -4519,7 +4637,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxSetFloatingParameter">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetFloatingParameter">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetFloatingParameter">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetFloatingParameter">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetFloatingParameter">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxSetFloatParam">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetFloatParam">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetFloatParam">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetFloatParam">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetFloatParam">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -4542,7 +4660,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the value of a float signal. If that signal is not yet present, it is added. See also <a href="#simxGetFloatSignal">simxGetFloatSignal</a>, <a href="#simxClearFloatSignal">simxClearFloatSignal</a>, <a href="#simxSetIntegerSignal">simxSetIntegerSignal</a> and <a href="#simxSetStringSignal">simxSetStringSignal</a>.</td>
+<td class=apiTableRightDescr>Sets the value of a float signal. If that signal is not yet present, it is added. See also <a href="#simxGetFloatSignal">simxGetFloatSignal</a>, <a href="#simxClearFloatSignal">simxClearFloatSignal</a>, <a href="#simxSetInt32Signal">simxSetInt32Signal</a> and <a href="#simxSetStringSignal">simxSetStringSignal</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
@@ -4590,19 +4708,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxSetIntegerParameter" id="simxSetIntegerParameter"></a>simxSetIntegerParameter (regular API equivalent: <a href="regularApi/simSetInt32Parameter.htm">sim.setInt32Parameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxSetInt32Param" id="simxSetInt32Param"></a>simxSetInt32Param (regular API equivalent: <a href="regularApi/simSetInt32Param.htm">sim.setInt32Param</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets an <a href="apiConstants.htm#integerParameters">integer parameter</a>. See also <a href="#simxGetIntegerParameter">simxGetIntegerParameter</a>, <a href="#simxSetBooleanParameter">simxSetBooleanParameter</a>, <a href="#simxSetArrayParameter">simxSetArrayParameter</a> and <a href="#simxSetFloatingParameter">simxSetFloatingParameter</a>.</td>
+<td class=apiTableRightDescr>Sets an <a href="apiConstants.htm#integerParameters">integer parameter</a>. See also <a href="#simxGetInt32Param">simxGetInt32Param</a>, <a href="#simxSetBoolParam">simxSetBoolParam</a>, <a href="#simxSetArrayParam">simxSetArrayParam</a> and <a href="#simxSetFloatParam">simxSetFloatParam</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode=simxSetIntegerParameter(number clientID,number paramIdentifier,number paramValue,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode=simxSetInt32Param(number clientID,number paramIdentifier,number paramValue,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -4627,7 +4745,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxSetIntegerParameter">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetIntegerParameter">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetIntegerParameter">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetIntegerParameter">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetIntegerParameter">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxSetInt32Param">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetInt32Param">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetInt32Param">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetInt32Param">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetInt32Param">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -4644,19 +4762,19 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxSetIntegerSignal" id="simxSetIntegerSignal"></a>simxSetIntegerSignal (regular API equivalent: <a href="regularApi/simSetIntegerSignal.htm">sim.setIntegerSignal</a>)</h3>
+<h3 class=subsectionBar><a name="simxSetInt32Signal" id="simxSetInt32Signal"></a>simxSetInt32Signal (regular API equivalent: <a href="regularApi/simSetInt32Signal.htm">sim.setInt32Signal</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the value of an integer signal. If that signal is not yet present, it is added. See also <a href="#simxGetIntegerSignal">simxGetIntegerSignal</a>, <a href="#simxClearIntegerSignal">simxClearIntegerSignal</a>, <a href="#simxSetFloatSignal">simxSetFloatSignal</a> and <a href="#simxSetStringSignal">simxSetStringSignal</a>.</td>
+<td class=apiTableRightDescr>Sets the value of an integer signal. If that signal is not yet present, it is added. See also <a href="#simxGetInt32Signal">simxGetInt32Signal</a>, <a href="#simxClearInt32Signal">simxClearInt32Signal</a>, <a href="#simxSetFloatSignal">simxSetFloatSignal</a> and <a href="#simxSetStringSignal">simxSetStringSignal</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>
 Python synopsis
 </td> 
-<td class=remApiTableRightCSyn>number returnCode=simxSetIntegerSignal(number clientID,string signalName,number signalValue,number operationMode)</td> 
+<td class=remApiTableRightCSyn>number returnCode=simxSetInt32Signal(number clientID,string signalName,number signalValue,number operationMode)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCParam>Python parameters</td> 
@@ -4681,7 +4799,7 @@ Python return values
 Other languages
 </td> 
 <td class=remApiTableRightLanguages>
-<a href="remoteApiFunctions.htm#simxSetIntegerSignal">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetIntegerSignal">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetIntegerSignal">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetIntegerSignal">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetIntegerSignal">Lua</a></td> 
+<a href="remoteApiFunctions.htm#simxSetInt32Signal">C/C++</a>, <a href="remoteApiFunctionsJava.htm#simxSetInt32Signal">Java</a>, <a href="remoteApiFunctionsMatlab.htm#simxSetInt32Signal">Matlab</a>, <a href="remoteApiFunctionsOctave.htm#simxSetInt32Signal">Octave</a>, <a href="remoteApiFunctionsLua.htm#simxSetInt32Signal">Lua</a></td> 
 </tr> 
 </table> 
 <br>
@@ -4979,7 +5097,7 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxSetObjectFloatParameter" id="simxSetObjectFloatParameter"></a>simxSetObjectFloatParameter (regular API equivalent: <a href="regularApi/simSetObjectFloatParameter.htm">sim.setObjectFloatParameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxSetObjectFloatParameter" id="simxSetObjectFloatParameter"></a>simxSetObjectFloatParameter (regular API equivalent: <a href="regularApi/simSetObjectFloatParam.htm">sim.setObjectFloatParam</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -5034,7 +5152,7 @@ Other languages
 
 
 
-<h3 class=subsectionBar><a name="simxSetObjectIntParameter" id="simxSetObjectIntParameter"></a>simxSetObjectIntParameter (regular API equivalent: <a href="regularApi/simSetObjectInt32Parameter.htm">sim.setObjectInt32Parameter</a>)</h3>
+<h3 class=subsectionBar><a name="simxSetObjectIntParameter" id="simxSetObjectIntParameter"></a>simxSetObjectIntParameter (regular API equivalent: <a href="regularApi/simSetObjectInt32Param.htm">sim.setObjectInt32Param</a>)</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -5421,7 +5539,7 @@ Other languages
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the value of a string signal. If that signal is not yet present, it is added. To pack/unpack integers/floats into/from a string, refer to <a href="#simxPackInts">simxPackInts</a>, <a href="#simxPackFloats">simxPackFloats</a>, <a href="#simxUnpackInts">simxUnpackInts</a> and <a href="#simxUnpackFloats">simxUnpackFloats</a>. See also <a href="#simxWriteStringStream">simxWriteStringStream</a>, <a href="#simxGetStringSignal">simxGetStringSignal</a>, <a href="#simxClearStringSignal">simxClearStringSignal</a>, <a href="#simxSetIntegerSignal">simxSetIntegerSignal</a> and <a href="#simxSetFloatSignal">simxSetFloatSignal</a>.</td>
+<td class=apiTableRightDescr>Sets the value of a string signal. If that signal is not yet present, it is added. To pack/unpack integers/floats into/from a string, refer to <a href="#simxPackInts">simxPackInts</a>, <a href="#simxPackFloats">simxPackFloats</a>, <a href="#simxUnpackInts">simxUnpackInts</a> and <a href="#simxUnpackFloats">simxUnpackFloats</a>. See also <a href="#simxWriteStringStream">simxWriteStringStream</a>, <a href="#simxGetStringSignal">simxGetStringSignal</a>, <a href="#simxClearStringSignal">simxClearStringSignal</a>, <a href="#simxSetInt32Signal">simxSetInt32Signal</a> and <a href="#simxSetFloatSignal">simxSetFloatSignal</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=remApiTableLeftCSyn>

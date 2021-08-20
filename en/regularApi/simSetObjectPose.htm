@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.setObjectPose</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<h1>Regular API function</h1>
+<h3 class=subsectionBar><a name="simSetObjectPose" id="simSetObjectPose"></a>simSetObjectPose / sim.setObjectPose </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Sets the pose of an object. Dynamically simulated objects will implicitely be reset before the command is applied (i.e. similar to calling  <a href="simResetDynamicObject.htm">sim.resetDynamicObject</a> just before). See also the other <a href="../apiFunctions.htm#coordinatesAndTransformations">matrix/transformation functions</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simSetObjectPose(simInt objectHandle,simInt relativeToObjectHandle,const simFloat* pose)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the pose is specified. Specify -1 to set the absolute pose, sim.handle_parent to set the pose relative to the object's parent, or an object handle relative to whose reference frame the pose is specified. If this handle is the handle of a joint, then the pose is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the pose is applied relative to the joint's base frame).<br>
+</div>
+<div><strong>pose</strong>: pointer to 7 values (x,y,z,qx,qy,qz,qw)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 if operation was not successful<br>
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>sim.setObjectPose(int objectHandle,int relativeToObjectHandle,table[7] pose)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div>Similar to the C-function counterpart</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div>none</div></td> 
+</tr> 
+
+</table> 
+
+
+<br>
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

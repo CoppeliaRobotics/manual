@@ -20,34 +20,60 @@
 <p>An add-on is a <a href="scripts.htm">script</a> running in CoppeliaSim, that can act in a similar way as a <a href="plugins.htm">plugin</a>:
 it is automatically loaded at program start-up, and allows CoppeliaSim's
 functionality to be extended by user-written functionality or
-functions. Two types of add-ons are supported:</p>
-
-<li><a name="function"></a><strong>Add-on functions</strong>: add-on&nbsp;functions appear
-first in the add-on menu. They can be seen as functions that will be
-executed once, when selected by the user. Importers and exporters can
-conveniently be implemented with them. </li>
-<li><a name="script"></a><strong>Add-on scripts</strong>: add-on scripts are persistent across all opened scenes, and are executed
+functions; it persists across all opened scenes, and is executed
 constantly, effectively running in the
-background. They should only execute minimalistic code everytime they
-are called, since the whole application would otherwise slow down.
-Add-on scripts are called via <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>, and follow a precise<a href="scriptExecution.htm"> execution order </a>in relation with other script types. Add-on scripts share a lot of properties with <a href="sandboxScript.htm">the sandbox script</a>.</li>
-
+background. Add-ons can run <a href="threadedAndNonThreadedCode.htm">threaded or non-threaded</a>, should be segmented into several <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>, and follow a precise<a href="scriptExecution.htm"> execution order </a>in relation with other script types. They share a lot of properties with <a href="sandboxScript.htm">the sandbox script</a>.</p>
 <p>Add-ons should be written in a text file located in the
-same folder as the main application, with following naming convention:</p>
+  same folder as the main application, with following naming convention: <em>simAddOnXXXX.lua</em>. Add-ons that do not follow above naming convention can still be loaded and run via <a href="commandLine.htm">command line options</a>.</p>
+<p>By default, add-ons will automatically start when CoppeliaSim starts, e.g.:</p>
 
-<li><strong>simAddOnFunc_xxxx.lua</strong>, where xxxx can be any string representing the name of an add-on function.</li>
-<li><strong>simAddOnScript_xxxx.lua</strong>, where xxxx can be any
-string representing the name of the add-on script. The add-on script
-will be automatically started. Selecting it in the add-on menu allows
-pausing/unpausing its execution. The script can request termination by returning sim.syscb_cleanup.</li>
-<li><strong>simAddOnScript-xxxx.lua</strong>, where xxxx can be any
-string representing the name of the add-on script. The add-on script
-will not be automatically started. The user can start/pause/unpause it when required
-by selecting it in the add-on menu. The script can request termination by returning sim.syscb_cleanup.</li>
+<pre class=lightRedBox>function sysCall_init()
+    print(&quot;Executing the initialization section. Starting together with CoppeliaSim&quot;)
+end
 
-<p>Add-on scripts that do not follow above naming convention can still be loaded and run via <a href="commandLine.htm">command line options</a>.</p>
+function sysCall_addOnScriptSuspend()<br>    print(&quot;Ending... (triggered by the user)&quot;)
+    return {cmd='cleanup'} -- end this add-on. The cleanup section will be called<br>end
 
-<p>An add-on script can run <a href="threadedAndNonThreadedCode.htm">threaded or non-threaded</a>, and should be segmented into several <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>. For more information on add-ons, make sure to inspect the content of the demo add-ons <em>simAddOnScript-addOnScriptDemo.lua</em>, <em>simAddOnFunc-addOnFunctionDemo.lua</em> and <em>simAddOnScript-b0RemoteApiServer.lua</em>, located in the installation folder.</p>
+function sysCall_cleanup()
+    print(&quot;Executing the clean-up section&quot;)
+end</pre>  
+
+<br>
+<p>An add-on can also be manually started and stopped from the add-on menu, e.g.:</p>
+
+<pre class=lightRedBox>function sysCall_info()<br>    return {autoStart=false}<br>end
+
+function sysCall_init()
+    print(&quot;Executing the initialization section. Start triggered by the user&quot;)
+end
+
+function sysCall_addOnScriptSuspend()<br>    print(&quot;Ending... (triggered by the user)&quot;)
+    return {cmd='cleanup'} -- end this add-on.<br>end
+</pre>
+<br>
+<p>An add-on can also be suspended/resumed from the add-on menu, e.g.:</p>
+
+<pre class=lightRedBox>...
+
+function sysCall_addOnScriptSuspend()<br>    print(&quot;Suspending the add-on... (triggered by the user)&quot;)
+end
+
+function sysCall_addOnScriptResume()<br>    print(&quot;Resuming the add-on... (triggered by the user)&quot;)
+end
+
+...</pre>
+<br>
+<p>An add-on can also act as a simple function triggered by the user, e.g.:</p>
+
+<pre class=lightRedBox>function sysCall_info()<br>    return {autoStart=false}<br>end
+
+function sysCall_init()
+    print(&quot;Executing the initialization section. Start triggered by the user&quot;)
+    -- execute some functions here, e.g. import something
+    return {cmd='cleanup'} -- end this add-on.
+end</pre>
+<br>
+<p>For more information about add-ons, have a look at the add-ons located in the installation folder.</p>
 <br>
 <br>
  </td></tr>

@@ -1,0 +1,2096 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>OMPL Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>OMPL Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">The list of API functions below allows you to define and solve a motion planning problem with OMPL.</p></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#addGoalState">simOMPL.addGoalState</a>
+<a href="?#compute">simOMPL.compute</a>
+<a href="?#createStateSpace">simOMPL.createStateSpace</a>
+<a href="?#createTask">simOMPL.createTask</a>
+<a href="?#destroyStateSpace">simOMPL.destroyStateSpace</a>
+<a href="?#destroyTask">simOMPL.destroyTask</a>
+<a href="?#drawPath">simOMPL.drawPath</a>
+<a href="?#drawPlannerData">simOMPL.drawPlannerData</a>
+<a href="?#enforceBounds">simOMPL.enforceBounds</a>
+<a href="?#getGoalDistance">simOMPL.getGoalDistance</a>
+<a href="?#getPath">simOMPL.getPath</a>
+<a href="?#getPathState">simOMPL.getPathState</a>
+<a href="?#getPathStateCount">simOMPL.getPathStateCount</a>
+<a href="?#getPlannerData">simOMPL.getPlannerData</a>
+<a href="?#getProjectedPathLength">simOMPL.getProjectedPathLength</a>
+<a href="?#getReversedPath">simOMPL.getReversedPath</a>
+<a href="?#getStateSpaceDimension">simOMPL.getStateSpaceDimension</a>
+<a href="?#hasApproximateSolution">simOMPL.hasApproximateSolution</a>
+<a href="?#hasExactSolution">simOMPL.hasExactSolution</a>
+<a href="?#hasSolution">simOMPL.hasSolution</a>
+<a href="?#interpolatePath">simOMPL.interpolatePath</a>
+<a href="?#isStateValid">simOMPL.isStateValid</a>
+<a href="?#isStateWithinBounds">simOMPL.isStateWithinBounds</a>
+<a href="?#printTaskInfo">simOMPL.printTaskInfo</a>
+<a href="?#projectStates">simOMPL.projectStates</a>
+<a href="?#projectionSize">simOMPL.projectionSize</a>
+<a href="?#readState">simOMPL.readState</a>
+<a href="?#removeDrawingObjects">simOMPL.removeDrawingObjects</a>
+<a href="?#setAlgorithm">simOMPL.setAlgorithm</a>
+<a href="?#setCollisionPairs">simOMPL.setCollisionPairs</a>
+<a href="?#setDubinsParams">simOMPL.setDubinsParams</a>
+<a href="?#setGoal">simOMPL.setGoal</a>
+<a href="?#setGoalCallback">simOMPL.setGoalCallback</a>
+<a href="?#setGoalState">simOMPL.setGoalState</a>
+<a href="?#setGoalStates">simOMPL.setGoalStates</a>
+<a href="?#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a>
+<a href="?#setStartState">simOMPL.setStartState</a>
+<a href="?#setStateSpace">simOMPL.setStateSpace</a>
+<a href="?#setStateValidationCallback">simOMPL.setStateValidationCallback</a>
+<a href="?#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a>
+<a href="?#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a>
+<a href="?#setVerboseLevel">simOMPL.setVerboseLevel</a>
+<a href="?#setup">simOMPL.setup</a>
+<a href="?#simplifyPath">simOMPL.simplifyPath</a>
+<a href="?#solve">simOMPL.solve</a>
+<a href="?#stateDistance">simOMPL.stateDistance</a>
+<a href="?#writeState">simOMPL.writeState</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="addGoalState" id="addGoalState"></a>simOMPL.addGoalState</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Add a goal state, without clearing previously set goal state(s), if any.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.addGoalState(string taskHandle, table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>state</strong> (table of float): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="compute" id="compute"></a>simOMPL.compute</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Use OMPL to find a solution for this motion planning task.
+            <br>
+            It is equivalent to executing:
+            <code class="code-block hljs lua">
+if simOMPL.solve(task, maxTime) then
+    simOMPL.simplifyPath(task, maxSimplificationTime)
+    simOMPL.interpolatePath(task, stateCnt)
+    path = simOMPL.getPath(task)
+end
+            </code>
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool solved, table[] states=simOMPL.compute(string taskHandle, float maxTime, float maxSimplificationTime=-1.0, int stateCnt=0)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>maxTime</strong> (float): maximum time used for the path searching procedure, in seconds.</div>
+<div>
+<strong>maxSimplificationTime</strong> (float, default: -1.0): maximum time used for the path simplification procedure, in seconds. -1 for a default simplification procedure.</div>
+<div>
+<strong>stateCnt</strong> (int, default: 0): minimum number of states to be returned. 0 for a default behaviour.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>solved</strong> (bool): true if a solution has been found.</div>
+<div>
+<strong>states</strong> (table of float): a table of states, representing the solution, from start to goal. States are specified linearly.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#simplifyPath">simOMPL.simplifyPath</a> <a href="#solve">simOMPL.solve</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="createStateSpace" id="createStateSpace"></a>simOMPL.createStateSpace</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Create a component of the state space for the motion planning problem.
+            <br>
+            In case of a dubins state space, set additional parameters with <a href="#setDubinsParams">simOMPL.setDubinsParams</a>
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string stateSpaceHandle=simOMPL.createStateSpace(string name, int type, int objectHandle, table[] boundsLow, table[] boundsHigh, int useForProjection, float weight=1.0, int refObjectHandle=-1)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>name</strong> (string): a name for this state space</div>
+<div>
+<strong>type</strong> (int): type of this state space component (see <a href="#enum:StateSpaceType">simOMPL.StateSpaceType</a>)</div>
+<div>
+<strong>objectHandle</strong> (int): the object handle (a joint object if type is simOMPL.StateSpaceType.joint_position or .cyclic_joint_position, otherwise a shape)</div>
+<div>
+<strong>boundsLow</strong> (table of float): lower bounds (if type is pose, specify only the 3 position components)</div>
+<div>
+<strong>boundsHigh</strong> (table of float): upper bounds (if type is pose, specify only the 3 position components)</div>
+<div>
+<strong>useForProjection</strong> (int): if true, this object position or joint value will be used for computing a default projection</div>
+<div>
+<strong>weight</strong> (float, default: 1.0): the weight of this state space component, used for computing distance between states. Default value is 1.0</div>
+<div>
+<strong>refObjectHandle</strong> (int, default: -1): an object handle relative to which reference frame position/orientations will be evaluated. Default value is -1, for the absolute reference frame</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>stateSpaceHandle</strong> (string): a handle to the created state space component</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#destroyStateSpace">simOMPL.destroyStateSpace</a> <a href="#getStateSpaceDimension">simOMPL.getStateSpaceDimension</a> <a href="#setDubinsParams">simOMPL.setDubinsParams</a> <a href="#setStateSpace">simOMPL.setStateSpace</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="createTask" id="createTask"></a>simOMPL.createTask</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Create a task object, used to represent the motion planning task.
+            <br>
+            A task object contains informations about:
+            <ul>
+                <li>collision pairs (used by the default state validity checker)</li>
+                <li>state spaces</li>
+                <li>start state</li>
+                <li>goal state, or goal specification (e.g. pair of dummies, Lua callback, ...)</li>
+                <li>various Lua callbacks (projection evaluation, state validation, goal satisfaction)</li>
+            </ul>
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string taskHandle=simOMPL.createTask(string name)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>name</strong> (string): a name for this task object</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>taskHandle</strong> (string): a handle to the created task object</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="destroyStateSpace" id="destroyStateSpace"></a>simOMPL.destroyStateSpace</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Destroy the spacified state space component.
+            <br>
+            <br>
+            Note: state space components created during simulation are automatically destroyed when simulation ends.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.destroyStateSpace(string stateSpaceHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>stateSpaceHandle</strong> (string): handle to state space component</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#createStateSpace">simOMPL.createStateSpace</a> <a href="#getStateSpaceDimension">simOMPL.getStateSpaceDimension</a> <a href="#setDubinsParams">simOMPL.setDubinsParams</a> <a href="#setStateSpace">simOMPL.setStateSpace</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="destroyTask" id="destroyTask"></a>simOMPL.destroyTask</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Destroy the specified task object.
+            <br>
+            <br>
+            Note: task objects created during simulation are automatically destroyed when simulation ends.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.destroyTask(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="drawPath" id="drawPath"></a>simOMPL.drawPath</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">draw a solution path for the specified motion planning task (as lines)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] dwos=simOMPL.drawPath(string taskHandle, table[] path, float lineSize, table[3] color, int extraAttributes)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): the handle of the task</div>
+<div>
+<strong>path</strong> (table of float): the path, as returned by simOMPL.getPath</div>
+<div>
+<strong>lineSize</strong> (float): size of the line (in pixels)</div>
+<div>
+<strong>color</strong> (table of float, size 3): color of the lines</div>
+<div>
+<strong>extraAttributes</strong> (int): extra attributes to pass to sim.addDrawingObject</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>dwos</strong> (table of int): a table of handles of new drawing objects</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#drawPlannerData">simOMPL.drawPlannerData</a> <a href="#removeDrawingObjects">simOMPL.removeDrawingObjects</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="drawPlannerData" id="drawPlannerData"></a>simOMPL.drawPlannerData</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">draw planner data (graph) extracted from the specified motion planning task</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] dwos=simOMPL.drawPlannerData(string taskHandle, float pointSize, float lineSize, table[3] color, table[3] startColor, table[3] goalColor)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): handle of the task</div>
+<div>
+<strong>pointSize</strong> (float): size of nodes (in meters)</div>
+<div>
+<strong>lineSize</strong> (float): size of lines (in pixels)</div>
+<div>
+<strong>color</strong> (table of float, size 3): color of nodes and lines</div>
+<div>
+<strong>startColor</strong> (table of float, size 3): color of start nodes</div>
+<div>
+<strong>goalColor</strong> (table of float, size 3): color of goal nodes</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>dwos</strong> (table of int): a table of handles of new drawing objects</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#drawPath">simOMPL.drawPath</a> <a href="#removeDrawingObjects">simOMPL.removeDrawingObjects</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="enforceBounds" id="enforceBounds"></a>simOMPL.enforceBounds</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Bring the state within the bounds of the state space.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] state=simOMPL.enforceBounds(string taskHandle, table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>state</strong> (table of float): state vector</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>state</strong> (table of float): state vector</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getGoalDistance" id="getGoalDistance"></a>simOMPL.getGoalDistance</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get the distance to the desired goal for the top solution.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float distance=simOMPL.getGoalDistance(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>distance</strong> (float): distance to the desired goal for the top solution, or -1.0 if there are no solutions available</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#simplifyPath">simOMPL.simplifyPath</a> <a href="#solve">simOMPL.solve</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getPath" id="getPath"></a>simOMPL.getPath</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Return the top solution path, if one is found.
+            <br>
+            The top path is the shortest one that was found, preference being given to solutions that are not approximate.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] states=simOMPL.getPath(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>states</strong> (table of float): a table of states, representing the solution, from start to goal. States are specified linearly.</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#simplifyPath">simOMPL.simplifyPath</a> <a href="#solve">simOMPL.solve</a> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getPathState" id="getPathState"></a>simOMPL.getPathState</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">extract the state at specified index from the given path</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] state=simOMPL.getPathState(string taskHandle, table[] path, int index)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): the handle of the task</div>
+<div>
+<strong>path</strong> (table of float): the path, as returned by simOMPL.getPath</div>
+<div>
+<strong>index</strong> (int): the index, starting from 1</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>state</strong> (table of float): a state extracted from the path</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getPathStateCount" id="getPathStateCount"></a>simOMPL.getPathStateCount</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">get the number of states in the given path</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int count=simOMPL.getPathStateCount(string taskHandle, table[] path)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): the handle of the task</div>
+<div>
+<strong>path</strong> (table of float): the path, as returned by simOMPL.getPath</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>count</strong> (int): the number of states in the path</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getPlannerData" id="getPlannerData"></a>simOMPL.getPlannerData</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get planner data for this motion planning task.
+            <br>
+            Data is represented as a graph. For each graph vertex, a state and a tag are returned. A list of edges is returned as well, as pairs of vertex indices, describing connectivity of vertices. Some vertices are marked start or goal.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] states, table[] tags, table[] tagsReal, table[] edges, table[] edgeWeights, table[] startVertices, table[] goalVertices=simOMPL.getPlannerData(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>.</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>states</strong> (table of float): a table of states, representing the configurations in the constructed search graph. States are specified linearly.</div>
+<div>
+<strong>tags</strong> (table of int): a table of tags (one integer for every vertex)</div>
+<div>
+<strong>tagsReal</strong> (table of float): a table of tags (one float for every vertex)</div>
+<div>
+<strong>edges</strong> (table of int): the pairs of vertex indices describing vertex connectivity</div>
+<div>
+<strong>edgeWeights</strong> (table of float): the weight (cost) associated to each edge</div>
+<div>
+<strong>startVertices</strong> (table of int): the indices of vertices marked 'start'</div>
+<div>
+<strong>goalVertices</strong> (table of int): the indices of vertices marked 'goal'</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPath">simOMPL.getPath</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#simplifyPath">simOMPL.simplifyPath</a> <a href="#solve">simOMPL.solve</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getProjectedPathLength" id="getProjectedPathLength"></a>simOMPL.getProjectedPathLength</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">get the length of the path projected onto the default projection</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.getProjectedPathLength(string taskHandle, table[] path)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): the handle of the task</div>
+<div>
+<strong>path</strong> (table of float): the path, as returned by simOMPL.getPath</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#projectionSize">simOMPL.projectionSize</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getReversedPath" id="getReversedPath"></a>simOMPL.getReversedPath</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">reverse the given path</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] reversedPath=simOMPL.getReversedPath(string taskHandle, table[] path)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): the handle of the task</div>
+<div>
+<strong>path</strong> (table of float): the path, as returned by simOMPL.getPath</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>reversedPath</strong> (table of float): the reversed path</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#projectStates">simOMPL.projectStates</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getStateSpaceDimension" id="getStateSpaceDimension"></a>simOMPL.getStateSpaceDimension</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get the dimension of the state space, i.e. the number of elements of a state.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int dim=simOMPL.getStateSpaceDimension(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>dim</strong> (int): dimension of the state space</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#createStateSpace">simOMPL.createStateSpace</a> <a href="#destroyStateSpace">simOMPL.destroyStateSpace</a> <a href="#setDubinsParams">simOMPL.setDubinsParams</a> <a href="#setStateSpace">simOMPL.setStateSpace</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="hasApproximateSolution" id="hasApproximateSolution"></a>simOMPL.hasApproximateSolution</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Return true if the top found solution is approximate.
+            <br>
+            An approximate solution does not actually reach the desired goal, but hopefully is closer to it.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool result=simOMPL.hasApproximateSolution(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (bool): true if the top found solution is approximate</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#simplifyPath">simOMPL.simplifyPath</a> <a href="#solve">simOMPL.solve</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="hasExactSolution" id="hasExactSolution"></a>simOMPL.hasExactSolution</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Returns true if an exact solution path has been found.
+            <br>
+            Specifically returns hasSolution() and not hasApproximateSolution()
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool result=simOMPL.hasExactSolution(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (bool): true if an exact solution path has been found</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#simplifyPath">simOMPL.simplifyPath</a> <a href="#solve">simOMPL.solve</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="hasSolution" id="hasSolution"></a>simOMPL.hasSolution</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Returns true if a solution path has been found (could be approximate).</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool result=simOMPL.hasSolution(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (bool): true if a solution path has been found (could be approximate)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#simplifyPath">simOMPL.simplifyPath</a> <a href="#solve">simOMPL.solve</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="interpolatePath" id="interpolatePath"></a>simOMPL.interpolatePath</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Interpolate the path found by planner to obtain a minimum number of states.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.interpolatePath(string taskHandle, int stateCnt=0)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>stateCnt</strong> (int, default: 0): minimum number of states to be returned. 0 for a default behaviour.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#simplifyPath">simOMPL.simplifyPath</a> <a href="#solve">simOMPL.solve</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="isStateValid" id="isStateValid"></a>simOMPL.isStateValid</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Check if the specified state is valid.
+            <br>
+            If a state validation callback has been specified, that will be used to determine the validity of the state, otherwise the default state validation method will be used.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool valid=simOMPL.isStateValid(string taskHandle, table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>state</strong> (table of float): state vector</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>valid</strong> (bool): true if the state is valid</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="isStateWithinBounds" id="isStateWithinBounds"></a>simOMPL.isStateWithinBounds</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Check if the specified state is inside the bounding box.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool valid=simOMPL.isStateWithinBounds(string taskHandle, table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>state</strong> (table of float): state vector</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>valid</strong> (bool): true if the state is within the bounding box</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="printTaskInfo" id="printTaskInfo"></a>simOMPL.printTaskInfo</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Print a summary of the specified task object.
+            <br>
+            Useful for debugging and submitting bug reports.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.printTaskInfo(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="projectStates" id="projectStates"></a>simOMPL.projectStates</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Project a state using the task's projection evaluation routine.
+            <br>
+            If multiple states are specified (e.g. a path) multiple projections will be returned.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] projection=simOMPL.projectStates(string taskHandle, table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>state</strong> (table of float): state vector(s)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>projection</strong> (table of float): state projection vector(s)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#projectionSize">simOMPL.projectionSize</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="projectionSize" id="projectionSize"></a>simOMPL.projectionSize</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return the dimension of the projection</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int size=simOMPL.projectionSize(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): the handle of the task</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>size</strong> (int): of the projection</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="readState" id="readState"></a>simOMPL.readState</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Read a state vector from current simulator state.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] state=simOMPL.readState(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>state</strong> (table of float): state vector</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="removeDrawingObjects" id="removeDrawingObjects"></a>simOMPL.removeDrawingObjects</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">remove the drawing objects created with related functions</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.removeDrawingObjects(string taskHandle, table[] dwos)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): handle of the task</div>
+<div>
+<strong>dwos</strong> (table of int): table of handles to drawing objects, as returned by the functions</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#drawPath">simOMPL.drawPath</a> <a href="#drawPlannerData">simOMPL.drawPlannerData</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setAlgorithm" id="setAlgorithm"></a>simOMPL.setAlgorithm</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the search algorithm for the specified task. Default algorithm used is KPIECE1.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setAlgorithm(string taskHandle, int algorithm)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>algorithm</strong> (int): see <a href="#enum:Algorithm">simOMPL.Algorithm</a>
+</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a> <a href="#compute">simOMPL.compute</a> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#simplifyPath">simOMPL.simplifyPath</a> <a href="#solve">simOMPL.solve</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setCollisionPairs" id="setCollisionPairs"></a>simOMPL.setCollisionPairs</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the collision pairs for the specified task object.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setCollisionPairs(string taskHandle, table[] collisionPairHandles)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>collisionPairHandles</strong> (table of int): a table containing 2 entity handles for each collision pair. A collision pair is represented by a collider and a collidee, that will be tested against each other. The collider can be an object or a collection handle. The collidee can be an object or collection handle, or sim_handle_all, in which case the collider will be checked agains all other collidable objects in the scene.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setDubinsParams" id="setDubinsParams"></a>simOMPL.setDubinsParams</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set extra state space parameters of a dubins state space.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setDubinsParams(string stateSpaceHandle, float turningRadius, bool isSymmetric)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>stateSpaceHandle</strong> (string): handle to state space component</div>
+<div>
+<strong>turningRadius</strong> (float): turning radius</div>
+<div>
+<strong>isSymmetric</strong> (bool): true if it is symmetric, otherwise false</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#createStateSpace">simOMPL.createStateSpace</a> <a href="#destroyStateSpace">simOMPL.destroyStateSpace</a> <a href="#getStateSpaceDimension">simOMPL.getStateSpaceDimension</a> <a href="#setStateSpace">simOMPL.setStateSpace</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setGoal" id="setGoal"></a>simOMPL.setGoal</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the goal for the specificed task object by a dummy pair.
+            <br>
+            One of the two dummies is part of the robot. The other dummy is fixed in the environment. When the task is solved, the position or pose of the two dummies will (approximatively) be the same. Dummy-dummy distances are relative to an optional reference dummy, and are evaluated using an optional metric
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setGoal(string taskHandle, int robotDummy, int goalDummy, float tolerance=0.001f, table[] metric={1.0, 1.0, 1.0, 0.1}, int refDummy=-1)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>robotDummy</strong> (int): a dummy attached to the robot</div>
+<div>
+<strong>goalDummy</strong> (int): a dummy fixed in the environment, representing the goal pose/position</div>
+<div>
+<strong>tolerance</strong> (float, default: 0.001f): tolerated dummy-dummy distance</div>
+<div>
+<strong>metric</strong> (table of float, default: {1.0, 1.0, 1.0, 0.1}): a metric (x,y,z,angle) used to evaluate the dummy-dummy distance</div>
+<div>
+<strong>refDummy</strong> (int, default: -1): an reference dummy, relative to which the metric will be used</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setGoalCallback" id="setGoalCallback"></a>simOMPL.setGoalCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set a custom goal callback for the specified task.
+            See <a href="#scriptfun:goalCallback">goalCallback</a> for the arguments and the return values of the callback.
+            <br>
+            If a distance to the goal is not known, a constant value can be used, but the performance of the algorithm will be worse.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setGoalCallback(string taskHandle, string callback)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>callback</strong> (string): name of the Lua callback</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setGoalState" id="setGoalState"></a>simOMPL.setGoalState</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the goal state for the specified task object.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setGoalState(string taskHandle, table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>state</strong> (table of float): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalStates">simOMPL.setGoalStates</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setGoalStates" id="setGoalStates"></a>simOMPL.setGoalStates</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">set multiple goal states at once, equivalent to calling simOMPL.setGoalState, simOMPL.addGoalState, simOMPL.addGoalState...</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setGoalStates(string taskHandle, table[] states)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): the handle of the task</div>
+<div>
+<strong>states</strong> (table): a table of tables, one element for each goal state</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setProjectionEvaluationCallback" id="setProjectionEvaluationCallback"></a>simOMPL.setProjectionEvaluationCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set a custom projection evaluation.
+            See <a href="#scriptfun:projectionEvaluationCallback">projectionEvaluationCallback</a> for the arguments and the return values of the callback.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setProjectionEvaluationCallback(string taskHandle, string callback, int projectionSize)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>callback</strong> (string): name of the Lua callback</div>
+<div>
+<strong>projectionSize</strong> (int): size of the projection (usually 2 or 3)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#projectionSize">simOMPL.projectionSize</a> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setStartState" id="setStartState"></a>simOMPL.setStartState</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the start state for the specified task object.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setStartState(string taskHandle, table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>state</strong> (table of float): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setStateSpace" id="setStateSpace"></a>simOMPL.setStateSpace</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the state space of this task object.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setStateSpace(string taskHandle, table[] stateSpaceHandles)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>stateSpaceHandles</strong> (table of string): a table of handles to state space components, created with <a href="#createStateSpace">simOMPL.createStateSpace</a>
+</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#createStateSpace">simOMPL.createStateSpace</a> <a href="#destroyStateSpace">simOMPL.destroyStateSpace</a> <a href="#getStateSpaceDimension">simOMPL.getStateSpaceDimension</a> <a href="#setDubinsParams">simOMPL.setDubinsParams</a> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setStateValidationCallback" id="setStateValidationCallback"></a>simOMPL.setStateValidationCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set a custom state validation.
+            See <a href="#scriptfun:stateValidationCallback">stateValidationCallback</a> for the arguments and the return values of the callback.
+            <br>
+            By default state validation is performed by collision checking, between robot's collision objects and environment's objects. By specifying a custom state validation, it is possible to perform any arbitrary check on a state to determine wether it is valid or not.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setStateValidationCallback(string taskHandle, string callback)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>callback</strong> (string): name of the Lua callback</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setStateValidityCheckingResolution" id="setStateValidityCheckingResolution"></a>simOMPL.setStateValidityCheckingResolution</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the resolution of state validity checking, expressed as fraction of state space's extent.
+            <br>
+            Default resolution is 0.01 which is 1% of the state space's extent.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setStateValidityCheckingResolution(string taskHandle, float resolution)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>resolution</strong> (float): resolution of state validity checking, expressed as fraction of state space's extent</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setValidStateSamplerCallback" id="setValidStateSamplerCallback"></a>simOMPL.setValidStateSamplerCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set a valid state sampler callbacks for the specified task.
+            See <a href="#scriptfun:validStateSamplerCallback">validStateSamplerCallback</a> and <a href="#scriptfun:validStateSamplerCallbackNear">validStateSamplerCallbackNear</a> for the arguments and the return values of the callbacks.
+            <br>
+            The valid state sampler callbacks must generate valid states.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setValidStateSamplerCallback(string taskHandle, string callback, string callbackNear)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>callback</strong> (string): the name of the Lua callback for sampling a state</div>
+<div>
+<strong>callbackNear</strong> (string): the name of the Lua callback for sampling near a given state within the given distance</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setVerboseLevel" id="setVerboseLevel"></a>simOMPL.setVerboseLevel</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the verbosity level for messages printed to application console.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setVerboseLevel(string taskHandle, int verboseLevel)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>verboseLevel</strong> (int): level of verbosity (positive integer), 0 to suppress any message</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setup">simOMPL.setup</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setup" id="setup"></a>simOMPL.setup</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Setup the OMPL classes with the information contained in the task.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setup(string taskHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#addGoalState">simOMPL.addGoalState</a> <a href="#createTask">simOMPL.createTask</a> <a href="#destroyTask">simOMPL.destroyTask</a> <a href="#printTaskInfo">simOMPL.printTaskInfo</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#setCollisionPairs">simOMPL.setCollisionPairs</a> <a href="#setGoal">simOMPL.setGoal</a> <a href="#setGoalCallback">simOMPL.setGoalCallback</a> <a href="#setGoalState">simOMPL.setGoalState</a> <a href="#setGoalStates">simOMPL.setGoalStates</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#setStartState">simOMPL.setStartState</a> <a href="#setStateSpace">simOMPL.setStateSpace</a> <a href="#setStateValidationCallback">simOMPL.setStateValidationCallback</a> <a href="#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a> <a href="#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a> <a href="#setVerboseLevel">simOMPL.setVerboseLevel</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="simplifyPath" id="simplifyPath"></a>simOMPL.simplifyPath</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Simplify the path found by planner.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.simplifyPath(string taskHandle, float maxSimplificationTime=-1.0)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>maxSimplificationTime</strong> (float, default: -1.0): maximum time used for the path simplification procedure, in seconds. -1 for a default simplification procedure.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#solve">simOMPL.solve</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="solve" id="solve"></a>simOMPL.solve</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Run the planning algorithm to search for a solution.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool solved=simOMPL.solve(string taskHandle, float maxTime)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>maxTime</strong> (float): maximum time used for the path searching procedure, in seconds.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>solved</strong> (bool): true if a solution is found.</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#getGoalDistance">simOMPL.getGoalDistance</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPlannerData">simOMPL.getPlannerData</a> <a href="#hasApproximateSolution">simOMPL.hasApproximateSolution</a> <a href="#hasExactSolution">simOMPL.hasExactSolution</a> <a href="#hasSolution">simOMPL.hasSolution</a> <a href="#interpolatePath">simOMPL.interpolatePath</a> <a href="#setAlgorithm">simOMPL.setAlgorithm</a> <a href="#simplifyPath">simOMPL.simplifyPath</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="stateDistance" id="stateDistance"></a>simOMPL.stateDistance</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute the distanbce between two states.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float distance=simOMPL.stateDistance(string taskHandle, table[] a, table[] b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>a</strong> (table of float): state vector</div>
+<div>
+<strong>b</strong> (table of float): state vector</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>distance</strong> (float): computed distance</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#writeState">simOMPL.writeState</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="writeState" id="writeState"></a>simOMPL.writeState</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Write the specified state to simulator</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.writeState(string taskHandle, table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
+</div>
+<div>
+<strong>state</strong> (table of float): state vector</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a>
+</td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section">
+<br><br><h1>Constants</h1>
+<p>Constants used in the various functions. Refer to each constant using <i>enumName.constantName</i>, i.e. <b>simUI.curve_type.xy</b> for <b>xy</b> constant in <b>simUI.curve_type</b> enum.</p>
+<h3 class="subsectionBar">
+<a name="enum:Algorithm" id="enum:Algorithm"></a>simOMPL.Algorithm</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>BiTRRT</strong></div>
+<div><strong>BITstar</strong></div>
+<div><strong>BKPIECE1</strong></div>
+<div><strong>CForest</strong></div>
+<div><strong>EST</strong></div>
+<div><strong>FMT</strong></div>
+<div><strong>KPIECE1</strong></div>
+<div><strong>LazyPRM</strong></div>
+<div><strong>LazyPRMstar</strong></div>
+<div><strong>LazyRRT</strong></div>
+<div><strong>LBKPIECE1</strong></div>
+<div><strong>LBTRRT</strong></div>
+<div><strong>PDST</strong></div>
+<div><strong>PRM</strong></div>
+<div><strong>PRMstar</strong></div>
+<div><strong>pRRT</strong></div>
+<div><strong>pSBL</strong></div>
+<div><strong>RRT</strong></div>
+<div><strong>RRTConnect</strong></div>
+<div><strong>RRTstar</strong></div>
+<div><strong>SBL</strong></div>
+<div><strong>SPARS</strong></div>
+<div><strong>SPARStwo</strong></div>
+<div><strong>STRIDE</strong></div>
+<div><strong>TRRT</strong></div>
+</td></tr></tbody></table>
+<h3 class="subsectionBar">
+<a name="enum:StateSpaceType" id="enum:StateSpaceType"></a>simOMPL.StateSpaceType</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>position2d</strong></div>
+<div><strong>pose2d</strong></div>
+<div><strong>position3d</strong></div>
+<div><strong>pose3d</strong></div>
+<div><strong>joint_position</strong></div>
+<div><strong>dubins</strong></div>
+<div><strong>cyclic_joint_position</strong></div>
+</td></tr></tbody></table>
+</td></tr>
+<tr><td id="structs" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section">
+<br><br><h1>Script functions</h1>
+<p>Script functions are used to call some lua code from the plugin side (tipically used for event handlers).</p>
+<h3 class="subsectionBar">
+<a name="scriptfun:goalCallback" id="scriptfun:goalCallback"></a>goalCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback for checking if the goal is satisfied.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool satisfied, float distance=simOMPL.goalCallback(table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>state</strong> (table of float): the state to test for goal satisfaction</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>satisfied</strong> (bool): true if satisfied, false otherwise</div>
+<div>
+<strong>distance</strong> (float): distance to goal, if it is known. A constant value can be returned otherwise, but the performance of the algorithm will be worse.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:projectionEvaluationCallback" id="scriptfun:projectionEvaluationCallback"></a>projectionEvaluationCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback for computing a (euclidean) projection of states.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] projection=simOMPL.projectionEvaluationCallback(table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>state</strong> (table of float): the state to compute the projection for</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>projection</strong> (table of float): projected state, usualy of size 2 or 3, representing a point in plane or space.</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:stateValidationCallback" id="scriptfun:stateValidationCallback"></a>stateValidationCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback for checking the validity of states.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool valid=simOMPL.stateValidationCallback(table[] state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>state</strong> (table of float): the state to compute the projection for</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>valid</strong> (bool): true if valid, false otherwise</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:validStateSamplerCallback" id="scriptfun:validStateSamplerCallback"></a>validStateSamplerCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback for sampling valid states from the state space.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] sampledState=simOMPL.validStateSamplerCallback()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>sampledState</strong> (table of float): a valid state</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:validStateSamplerCallbackNear" id="scriptfun:validStateSamplerCallbackNear"></a>validStateSamplerCallbackNear</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback for sampling valid states in the proximity of a given state, within a certain distance.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table[] sampledState=simOMPL.validStateSamplerCallbackNear(table[] state, float distance)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>state</strong> (table of float): the center state</div>
+<div>
+<strong>distance</strong> (float): distance bound</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>sampledState</strong> (table of float): a valid state</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script><script type="text/javascript">
+//
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('code.hljs').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+});
+//
+                </script>
+</body>
+</html>

@@ -23,11 +23,11 @@
 
 <p>First of all you should make sure that you have gone through the <a href="https://index.ros.org/doc/ros2/Tutorials/#tutorials">official ROS 2 tutorials</a>, at least the beginner section. Then, we assume that you have the latest Ubuntu running, that ROS is installed, and that the workspace folders are set. Here also refer to the <a href="https://index.ros.org/doc/ros2/Installation/">official documentation regarding the ROS 2 installation</a>.</p>
 
-<p>The general ROS 2 functionality in CoppeliaSim is supported via the <a href="rosInterf.htm">ROS 2 Interface</a> (<em>libsimExtROS2Interface.so</em>). The Linux distribution should include that file already compiled in <em>CoppeliaSim/compiledROSPlugins</em>, but it first needs to be copied to <em>CoppeliaSim/</em>, otherwise it won't be loaded. You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of CoppeliaSim for details about plugin load operations. Plugins are loaded when CoppeliaSim is launched. Also make sure to source the ROS 2 environment prior to running CoppeliaSim.</p>
+<p>The general ROS 2 functionality in CoppeliaSim is supported via the <a href="rosInterf.htm">ROS 2 Interface</a> (<em>libsimExtROS2.so</em>). The Linux distribution should include that file already compiled in <em>CoppeliaSim/compiledROSPlugins</em>, but it first needs to be copied to <em>CoppeliaSim/</em>, otherwise it won't be loaded. You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of CoppeliaSim for details about plugin load operations. Plugins are loaded when CoppeliaSim is launched. Also make sure to source the ROS 2 environment prior to running CoppeliaSim.</p>
 
-<p>If the plugin cannot be loaded, then you should recompile it by yourself. It is open source and can be modified as much as needed in order to support a specific feature or to extend its functionality. If specific messages/services/etc. need to be supported, make sure to edit files located in <em>simExtROSInterface/meta/</em>, prior to recompilation. There are<em> </em>2 packages:</p>
+<p>If the plugin cannot be loaded, then you should recompile it by yourself. It is open source and can be modified as much as needed in order to support a specific feature or to extend its functionality. If specific messages/services/etc. need to be supported, make sure to edit files located in <em>simExtROS2/meta/</em>, prior to recompilation. There are<em> </em>2 packages:</p>
 
-<li><a href="https://github.com/CoppeliaRobotics/simExtROS2Interface" target="_blank">simExtROS2Interface</a>: this package is the <a href="rosInterf.htm">ROS 2 Interface</a> that will be compiled to a &quot;.so&quot; file, and that is used by CoppeliaSim.</li>
+<li><a href="https://github.com/CoppeliaRobotics/simExtROS2" target="_blank">simExtROS2</a>: this package is the <a href="rosInterf.htm">ROS 2 Interface</a> that will be compiled to a &quot;.so&quot; file, and that is used by CoppeliaSim.</li>
 <li><a href="https://github.com/CoppeliaRobotics/ros2_bubble_rob" target="_blank">ros2_bubble_rob</a>: this is the package of a very simple robot controller that connects to CoppeliaSim via the <a href="rosInterf.htm">ROS 2 Interface</a>. This node will be in charge of controlling the  red robot in the demo scene <em>controlTypeExamples/controlledViaRos.ttt</em></li>
 
 
@@ -86,12 +86,11 @@ end
 
 function sysCall_init()
     -- The child script initialization
-    objectHandle=sim.getObjectAssociatedWithScript(sim.handle_self)
-    objectName=sim.getObjectName(objectHandle)
-    ros2InterfacePresent=simROS2
+    objectHandle=sim.getObjectHandle('.')
+    objectAlias=sim.getObjectAlias(objectHandle,3)
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we publish):
-    if ros2InterfacePresent then
+    if simROS2 then
         publisher=simROS2.createPublisher('/simulationTime','std_msgs/msg/Float32')
         subscriber=simROS2.createSubscription('/simulationTime','std_msgs/msg/Float32','subscriber_callback')
     end
@@ -99,16 +98,16 @@ end
 
 function sysCall_actuation()
     -- Send an updated simulation time message, and send the transform of the object attached to this script:
-    if ros2InterfacePresent then
+    if simROS2 then
         simROS2.publish(publisher,{data=sim.getSimulationTime()})
-        simROS2.sendTransform(getTransformStamped(objectHandle,objectName,-1,'world'))
+        simROS2.sendTransform(getTransformStamped(objectHandle,objectAlias,-1,'world'))
         -- To send several transforms at once, use simROS2.sendTransforms instead
     end
 end
 
 function sysCall_cleanup()
     -- Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
-    if rosInterfacePresent then
+    if simROS2 then
         simROS.shutdownPublisher(publisher)
         simROS.shutdownSubscriber(subscriber)
     end

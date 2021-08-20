@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Accessing objects programmatically</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Accessing scene objects programmatically</h1>
+
+<p>When programming in and around CoppeliaSim, you will always need to reference <a href="objects.htm">scene objects</a>. You do this with handles, that you obtain via <a href="regularApi/simGetObjectHandle.htm">sim.getObjectHandle</a>, which expects an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner in case of <a href="#fromAssociatedCode">associated code</a>.</p>
+<p>In both cases, the path to the object can often be simplified. You may also use wildcards, and optionally specify the object sequence or order in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path/alias.</p>
+<p class=infoBox><strong>Note</strong>: until CoppeliaSim V4.2.0, object access was based on <em>object names</em>, which are now deprecated (but still functional for backward compatibility). We however highly recommend to use object paths as described below, to retrieve object handles. Object paths can easily be identified since they start with one of following characters: <strong>/</strong>, <strong>.</strong> or <strong>:</strong></p>
+
+
+<br>
+<br>
+
+
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="fromUnassociatedCode"></a>Access from <em>unassociated</em> code </td></tr></table> 
+
+<p><em>Unassociated</em> code is code that is not attached to any scene object. This includes all the code written for <a href="plugins.htm">plugins</a>, <a href="addOns.htm">add-ons</a>, <a href="remoteApiOverview.htm">remote API</a> clients, external <a href="rosInterfaces.htm">ROS</a> nodes, external <a href="blueZeroPlugin.htm">BlueZero</a> nodes, and <a href="mainScript.htm">the main script</a>.</p>
+
+<p>In that case, you simply specify the object's absolute path, in order to retrieve its handle. If the object alias is unique, the path to the object can be simplified. You may also use wildcards, and optionally specify the object sequence in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path:</p>
+
+<pre class=lightBlueBox>
+// e.g. inside of a c/c++ plugin:
+
+// using the full <em>Object</em> path:
+int objectHandle=simGetObjectHandleEx(&quot;/Path/to/Object&quot;,-1,-1,0);
+
+// if object with alias <em>Object</em> is unique:
+int objectHandle=simGetObjectHandleEx(&quot;/Object&quot;,-1,-1,0); 
+
+// handle of the first <em>Robot</em>, in a given tree:
+int robotHandle=simGetObjectHandleEx(&quot;/Robot[0]&quot;,-1,-1,0);
+ 
+// handle of the second <em>Robot</em>, in a given tree:
+int robotHandle=simGetObjectHandleEx(&quot;/Robot[1]&quot;,-1,-1,0);
+
+// find all objects starting with prefix <em>Mobile</em>:
+int i=0
+while (true)
+{
+    int objectHandle=simGetObjectHandleEx(&quot;/Mobile*&quot;,i++,-1,1);
+    if (objectHandle&lt;0)
+        break;
+} </pre>
+
+<pre class=lightPurpleBox>
+# e.g. inside of a Python legacy remote API client:
+
+opMode=sim.simx_opmode_blocking
+
+# using the full <em>Object</em> path:
+res,objectHandle=sim.simxGetObjectHandle(clientId,&quot;/Path/to/Object&quot;,opMode)
+
+# if object with alias <em>Object</em> is unique:
+res,objectHandle=sim.simxGetObjectHandle(clientId,&quot;/Object&quot;,opMode)
+
+# handle of the first <em>Robot</em>, in a given tree:
+res,robotHandle=sim.simxGetObjectHandle(clientId,&quot;/Robot[0]&quot;,opMode) 
+
+# handle of the second <em>Robot</em>, in a given tree:
+res,robotHandle=sim.simxGetObjectHandle(clientId,&quot;/Robot[1]&quot;,opMode) 
+</pre>
+
+<br>
+<br>
+
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="fromAssociatedCode"></a>Access from <em>associated</em> code </td></tr></table> 
+
+<p><em>Associated</em> code is code that is associated with a scene object (i.e. <em>attached</em> to a scene object). This includes all the code written for <a href="childScripts.htm">child scripts</a> or <a href="customizationScripts.htm">customization scripts</a>.</p>
+
+<p>In that case, objects can also be accessed in an absolute manner, but additionally, object access can also operate in a relative manner (relative to the current script/object (<em> ./ </em>), or relative to the model containing current script ( <em>:/</em> ) ):</p>
+
+
+
+<pre class=lightRedBox>
+// e.g. inside of child or customization script:
+
+-- returns the object this script is attached to:
+local objectHandle=sim.getObjectHandle(&quot;.&quot;) 
+
+-- returns the parent object this script is attached to:
+local parentHandle=sim.getObjectHandle(&quot;..&quot;) 
+
+-- returns the model this script is contained in:
+local modelHandle=sim.getObjectHandle(&quot;:&quot;) 
+
+-- returns the parent model this script is contained in:
+local parentModelHandle=sim.getObjectHandle(&quot;::&quot;) 
+
+-- returns the first object in the current tree, that starts with <em>Object</em>:
+local objectHandle=sim.getObjectHandle(&quot;./Object*&quot;) 
+
+-- returns the first <em>Object</em> in the current model tree:
+local objectHandle=sim.getObjectHandle(&quot;:/Object&quot;) 
+
+-- returns the 4th <em>Leg</em> in the current model tree:
+legHandle=sim.getObjectHandle(&quot;:/Leg[3]&quot;) 
+
+-- parse through all <em>Leg</em> objects the current model tree:
+local i=0
+while true do
+    local legHandle=sim.getObjectHandle(&quot;:/Leg&quot;,{index=i,noError=true})
+    if legHandle&lt;0 then
+        break
+    end
+    i=i+1
+end
+
+-- returns the first <em>Object</em> in the tree of <em>AnotherObject</em>:
+local objectHandle=sim.getObjectHandle(&quot;./Object&quot;,{proxy=AnotherObject}) </pre>
+
+
+
+<br>
+<br>
+ </tr>
+ <tr>
+   <td > 
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

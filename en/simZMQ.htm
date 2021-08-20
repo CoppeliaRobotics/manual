@@ -1,0 +1,1215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>ZMQ Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>ZMQ Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">ZeroMQ plugin. Description of ZeroMQ API functions is not provided. Please refer to <a href="http://api.zeromq.org">http://api.zeromq.org</a>.</p></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#bind">simZMQ.bind</a>
+<a href="?#close">simZMQ.close</a>
+<a href="?#connect">simZMQ.connect</a>
+<a href="?#ctx_get">simZMQ.ctx_get</a>
+<a href="?#ctx_new">simZMQ.ctx_new</a>
+<a href="?#ctx_set">simZMQ.ctx_set</a>
+<a href="?#ctx_shutdown">simZMQ.ctx_shutdown</a>
+<a href="?#ctx_singleton">simZMQ.ctx_singleton</a>
+<a href="?#ctx_term">simZMQ.ctx_term</a>
+<a href="?#disconnect">simZMQ.disconnect</a>
+<a href="?#errnum">simZMQ.errnum</a>
+<a href="?#getsockopt">simZMQ.getsockopt</a>
+<a href="?#has">simZMQ.has</a>
+<a href="?#msg_close">simZMQ.msg_close</a>
+<a href="?#msg_copy">simZMQ.msg_copy</a>
+<a href="?#msg_data">simZMQ.msg_data</a>
+<a href="?#msg_destroy">simZMQ.msg_destroy</a>
+<a href="?#msg_get">simZMQ.msg_get</a>
+<a href="?#msg_gets">simZMQ.msg_gets</a>
+<a href="?#msg_init">simZMQ.msg_init</a>
+<a href="?#msg_init_size">simZMQ.msg_init_size</a>
+<a href="?#msg_more">simZMQ.msg_more</a>
+<a href="?#msg_move">simZMQ.msg_move</a>
+<a href="?#msg_new">simZMQ.msg_new</a>
+<a href="?#msg_recv">simZMQ.msg_recv</a>
+<a href="?#msg_send">simZMQ.msg_send</a>
+<a href="?#msg_set">simZMQ.msg_set</a>
+<a href="?#msg_size">simZMQ.msg_size</a>
+<a href="?#poll">simZMQ.poll</a>
+<a href="?#proxy">simZMQ.proxy</a>
+<a href="?#proxy_steerable">simZMQ.proxy_steerable</a>
+<a href="?#recv">simZMQ.recv</a>
+<a href="?#send">simZMQ.send</a>
+<a href="?#setsockopt">simZMQ.setsockopt</a>
+<a href="?#socket">simZMQ.socket</a>
+<a href="?#socket_monitor">simZMQ.socket_monitor</a>
+<a href="?#strerror">simZMQ.strerror</a>
+<a href="?#unbind">simZMQ.unbind</a>
+<a href="?#version">simZMQ.version</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="bind" id="bind"></a>simZMQ.bind</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.bind(string socket, string endpoint)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>endpoint</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="close" id="close"></a>simZMQ.close</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.close(string socket)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>socket</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="connect" id="connect"></a>simZMQ.connect</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.connect(string socket, string endpoint)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>endpoint</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="ctx_get" id="ctx_get"></a>simZMQ.ctx_get</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.ctx_get(string context, int option_name)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>context</strong> (string): </div>
+<div>
+<strong>option_name</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="ctx_new" id="ctx_new"></a>simZMQ.ctx_new</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Use <a href="#ctx_singleton">simZMQ.ctx_singleton</a> for sharing a global context.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string context=simZMQ.ctx_new()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>context</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="ctx_set" id="ctx_set"></a>simZMQ.ctx_set</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.ctx_set(string context, int option_name, int option_value)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>context</strong> (string): </div>
+<div>
+<strong>option_name</strong> (int): </div>
+<div>
+<strong>option_value</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="ctx_shutdown" id="ctx_shutdown"></a>simZMQ.ctx_shutdown</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.ctx_shutdown(string context)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>context</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="ctx_singleton" id="ctx_singleton"></a>simZMQ.ctx_singleton</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">This function, not part of the libzmq API, return a singleton context instance, useful for sharing a single context across different parts of the application.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string context=simZMQ.ctx_singleton()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>context</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="ctx_term" id="ctx_term"></a>simZMQ.ctx_term</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.ctx_term(string context)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>context</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="disconnect" id="disconnect"></a>simZMQ.disconnect</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.disconnect(string socket, string endpoint)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>endpoint</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="errnum" id="errnum"></a>simZMQ.errnum</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.errnum()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getsockopt" id="getsockopt"></a>simZMQ.getsockopt</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result, string value=simZMQ.getsockopt(string socket, int option_name, int option_len)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>option_name</strong> (int): </div>
+<div>
+<strong>option_len</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>result</strong> (int): </div>
+<div>
+<strong>value</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="has" id="has"></a>simZMQ.has</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.has(string capability)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>capability</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_close" id="msg_close"></a>simZMQ.msg_close</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_close(string msg)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>msg</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_copy" id="msg_copy"></a>simZMQ.msg_copy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_copy(string dest, string src)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>dest</strong> (string): </div>
+<div>
+<strong>src</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_data" id="msg_data"></a>simZMQ.msg_data</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string data=simZMQ.msg_data(string msg)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>msg</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>data</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_destroy" id="msg_destroy"></a>simZMQ.msg_destroy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simZMQ.msg_destroy(string msg)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>msg</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_get" id="msg_get"></a>simZMQ.msg_get</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_get(string msg, int property)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>msg</strong> (string): </div>
+<div>
+<strong>property</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_gets" id="msg_gets"></a>simZMQ.msg_gets</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result, string value=simZMQ.msg_gets(string msg, string property)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>msg</strong> (string): </div>
+<div>
+<strong>property</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>result</strong> (int): </div>
+<div>
+<strong>value</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_init" id="msg_init"></a>simZMQ.msg_init</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_init(string msg)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>msg</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_init_size" id="msg_init_size"></a>simZMQ.msg_init_size</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_init_size(string msg, int size)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>msg</strong> (string): </div>
+<div>
+<strong>size</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_more" id="msg_more"></a>simZMQ.msg_more</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_more(string msg)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>msg</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_move" id="msg_move"></a>simZMQ.msg_move</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_move(string dest, string src)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>dest</strong> (string): </div>
+<div>
+<strong>src</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_new" id="msg_new"></a>simZMQ.msg_new</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string msg=simZMQ.msg_new()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>msg</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_recv" id="msg_recv"></a>simZMQ.msg_recv</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_recv(string msg, string socket, int flags)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>msg</strong> (string): </div>
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>flags</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_send" id="msg_send"></a>simZMQ.msg_send</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_send(string msg, string socket, int flags)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>msg</strong> (string): </div>
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>flags</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_set" id="msg_set"></a>simZMQ.msg_set</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_set(string msg, int property, int value)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>msg</strong> (string): </div>
+<div>
+<strong>property</strong> (int): </div>
+<div>
+<strong>value</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="msg_size" id="msg_size"></a>simZMQ.msg_size</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.msg_size(string msg)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>msg</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="poll" id="poll"></a>simZMQ.poll</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result, table[] revents=simZMQ.poll(table[] sockets, table[] events, int timeout=0)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>sockets</strong> (table of string): </div>
+<div>
+<strong>events</strong> (table of int): </div>
+<div>
+<strong>timeout</strong> (int, default: 0): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>result</strong> (int): </div>
+<div>
+<strong>revents</strong> (table of int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="proxy" id="proxy"></a>simZMQ.proxy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.proxy(string frontend, string backend, string capture)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>frontend</strong> (string): </div>
+<div>
+<strong>backend</strong> (string): </div>
+<div>
+<strong>capture</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="proxy_steerable" id="proxy_steerable"></a>simZMQ.proxy_steerable</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.proxy_steerable(string frontend, string backend, string capture, string control)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>frontend</strong> (string): </div>
+<div>
+<strong>backend</strong> (string): </div>
+<div>
+<strong>capture</strong> (string): </div>
+<div>
+<strong>control</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="recv" id="recv"></a>simZMQ.recv</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result, string data=simZMQ.recv(string socket, int flags, int max_buf_size=256)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>flags</strong> (int): </div>
+<div>
+<strong>max_buf_size</strong> (int, default: 256): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>result</strong> (int): </div>
+<div>
+<strong>data</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="send" id="send"></a>simZMQ.send</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.send(string socket, string data, int flags)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>data</strong> (string): </div>
+<div>
+<strong>flags</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setsockopt" id="setsockopt"></a>simZMQ.setsockopt</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.setsockopt(string socket, int option_name, string option_value)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>option_name</strong> (int): </div>
+<div>
+<strong>option_value</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="socket" id="socket"></a>simZMQ.socket</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string socket=simZMQ.socket(string context, int type)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>context</strong> (string): </div>
+<div>
+<strong>type</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>socket</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="socket_monitor" id="socket_monitor"></a>simZMQ.socket_monitor</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.socket_monitor(string socket, string endpoint, int events)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>endpoint</strong> (string): </div>
+<div>
+<strong>events</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="strerror" id="strerror"></a>simZMQ.strerror</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string message=simZMQ.strerror(int errnum)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>errnum</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>message</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="unbind" id="unbind"></a>simZMQ.unbind</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result=simZMQ.unbind(string socket, string endpoint)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>socket</strong> (string): </div>
+<div>
+<strong>endpoint</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="version" id="version"></a>simZMQ.version</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int major, int minor, int patch=simZMQ.version()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>major</strong> (int): </div>
+<div>
+<strong>minor</strong> (int): </div>
+<div>
+<strong>patch</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section"></td></tr>
+<tr><td id="structs" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section"></td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script><script type="text/javascript">
+//
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('code.hljs').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+});
+//
+                </script>
+</body>
+</html>

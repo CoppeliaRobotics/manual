@@ -46,7 +46,7 @@
 		<td class=apiTableLeftLSyn>
 			Lua synopsis
 		</td> 
-		<td class=apiTableRightLSyn>number bubbleRobHandle=simBubble.create(table_2 motorJointHandles,number sensorHandle,table_2 backRelativeVelocities)<br></td> 
+		<td class=apiTableRightLSyn>number bubbleRobHandle=simBubble.create(table[2] motorJointHandles,number sensorHandle,table[2] backRelativeVelocities)<br></td> 
 	</tr> 
 	<tr class=apiTableTr> 
 		<td class=apiTableLeftLParam>Lua parameters</td> 
@@ -173,7 +173,7 @@ function sysCall_actuation()
     if coroutine.status(corout)~='dead' then
         local ok,errorMsg=coroutine.resume(corout)
         if errorMsg then
-            error(errorMsg)
+            error(debug.traceback(corout,errorMsg),2)
         end
     end
 end
@@ -195,8 +195,8 @@ function coroutineMain()
         local msg='BubbleRob plugin was not found.\nSimulation will not run properly.'
         sim.displayDialog('Error',msg,sim.dlgstyle_ok,true)
     else
-        local jointHandles={sim.getObjectHandle('leftMotor'),sim.getObjectHandle('rightMotor')}
-        local sensorHandle=sim.getObjectHandle('sensingNose')
+        local jointHandles={sim.getObjectHandle('./leftMotor'),sim.getObjectHandle('./rightMotor')}
+        local sensorHandle=sim.getObjectHandle('./sensingNose')
         local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25})
         if robHandle>=0 then
             simBubble.start(robHandle) -- start the robot
@@ -223,7 +223,7 @@ end</pre>
 
 <p>When a script calls the specified function name, then CoppeliaSim will try to convert the provided arguments to what is expected by the callback, then calls the callback address. The most difficult task inside of a callback function is to correctly read the input arguments, and correctly write the output values. To ease the task, two helper classes are used, that will be in charge of that: <em>CLuaFunctionData</em> and <em>CLuaFunctionDataItem</em>, located in <em>programming/common</em> and <em>programming/include</em>.</p>
 <p>When writing your own custom Lua functions, try to use the same code layout/skeleton as was done in file <em>simExtBubbleRob.cpp</em>.</p>
-<p>Control of a BubbleRob instance does not happen in any of the 4 custom Lua function callbacks: the callbacks just initialize/destroy/update data structures. The control happens in <em>simMessage</em>, with message <em>sim_message_eventcallback_modulehandle</em>: that message is called for all plugins when the <a href="mainScript.htm">main script</a> calls <em>sim.handleModule(sim.handle_all,false)</em>, which happens once per simulation pass.</p>
+<p>Control of a BubbleRob instance does not happen in any of the 4 custom Lua function callbacks: the callbacks just initialize/destroy/update data structures. The control happens in <em>simMessage</em>, with message <em>sim_message_eventcallback_simulationactuation</em>.</p>
 
 
 

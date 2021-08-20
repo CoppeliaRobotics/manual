@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>data visualization/output</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Data visualization/output</h1>
+
+<p>Data in CoppeliaSim can be visualized or output/logged in various ways:</p>
+
+<li>visualizing data in <a href="graphs.htm">graphs</a></li>
+<li>displaying data in <a href="customUIPlugin.htm">custom user interfaces</a></li>
+<li><a href="#augmentingScene">augmenting the scene with visual items</a></li>
+<li>logging data to the status bar via the simple <em>print</em> command</li>
+<li>logging data to the status bar and/or terminal via the <a href="regularApi/simAddLog.htm">sim.addLog</a> API function</li>
+<li><a href="#loggingToFile">logging data to a file</a></li>
+
+
+
+<p>Following example illustrates how to display a joint angle in a simple custom user interface:</p>
+  
+<pre class=lightRedBox>function sysCall_init()
+    jointHandle=sim.getObjectHandle('/Joint')
+    local xml =[[&lt;ui title=&quot;Example&quot; closeable=&quot;false&quot; layout=&quot;form&quot;&gt;
+        &lt;label text=&quot;joint angle:&quot; /&gt;
+        &lt;label id=&quot;1&quot; text=&quot;-&quot; /&gt;
+        &lt;/ui&gt;]]
+    ui=simUI.create(xml)
+end
+
+function sysCall_sensing()
+    local v=180*sim.getJointPosition(jointHandle)/math.pi
+    simUI.setLabelText(ui,1,string.format('%.3f',v))
+end
+
+function sysCall_cleanup()
+    simUI.destroy(ui)
+end</pre>  
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd>
+  <td class=subsectionTd>
+<a name="augmentingScene"></a>Augmenting the scene with visual items</td></tr></table> 
+<p>Simple visual items such as points, lines, spheres or individual triangles can easily be added to the scene via API functions sim.addDrawingObject and sim.addDrawingObjectItem, for example:</p>
+  
+<pre class=lightRedBox>function sysCall_init()
+    local drawingObject=sim.addDrawingObject(sim.drawing_spherepoints,0.005,0,-1,1000,{1,0,0})
+    for i=0,359,1 do
+        local coord={math.cos(i*math.pi/180),math.sin(i*math.pi/180),0.01}
+        sim.addDrawingObjectItem(drawingObject,coord)
+    end
+end</pre>
+
+<p>More complex items, such as random meshes can be created on the fly via <a href="regularApi/simLoadModel.htm">sim.loadModel</a>, <a href="simAssimp.htm">simAssimp.importShapes</a>, <a href="regularApi/simCreatePureShape.htm">sim.createPureShape</a>, <a href="regularApi/simCreateMeshShape.htm">sim.createMeshShape</a> and/or <a href="regularApi/simCopyPasteObjects.htm">sim.copyPasteObjects</a>. To avoid surcharching the scene with too many additional objects, make sure to group them with <a href="regularApi/simGroupShapes.htm">sim.groupShapes</a>. For example:</p>
+  
+<pre class=lightRedBox>function sysCall_init()
+    local individualShapes={}
+    for i=0,359,1 do
+        local shape=sim.createPureShape(2,4|16,{0.005,0.005,0.02},0.1)
+        local coord={math.cos(i*math.pi/180),math.sin(i*math.pi/180),0.01}
+        sim.setObjectPosition(shape,-1,coord)
+        sim.setShapeColor(shape,nil,sim.colorcomponent_ambient_diffuse,{1,0,0})
+        individualShapes[i+1]=shape
+    end
+    -- Group individual shapes:
+    local masterShape=sim.groupShapes(individualShapes,true)
+    -- Make it invisible to collision detection, sensors, etc.:
+    sim.setObjectSpecialProperty(masterShape,0)
+end</pre>  
+  
+
+<br>
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="loggingToFile"></a>Logging data to a file
+</td></tr></table> 
+<p>Following example illustrates how to log a joint angle to a file:</p>
+  
+<pre class=lightRedBox>function sysCall_init()
+    jointHandle=sim.getObjectHandle('/Joint')
+    file=io.open('jointAngles.txt','w+')
+    file:write('Joint angles for each simulation step:\n\n')
+end
+
+function sysCall_sensing()
+    local v=180*sim.getJointPosition(jointHandle)/math.pi
+    file:write(string.format('time: %.3f [s]',sim.getSimulationTime()+sim.getSimulationTimeStep()))
+    file:write(string.format(', joint angle: %.1f [deg]\n',v))
+end
+
+function sysCall_cleanup()
+    file:close()
+end</pre>
+  
+
+<br>
+<br>
+
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

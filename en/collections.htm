@@ -19,10 +19,10 @@
 
 <h1>Collections</h1>
 
-<p>A collection is a user-defined collection of <a href="objects.htm">scene objects</a>. A collection has to contain at least one object and is considered to be an <a href="entities.htm">entity</a> (objects are also entities). Collections are useful when referring to several objects like a robot for instance. CoppeliaSim supports <a href="calculationModules.htm">calculations</a> based not only on objects, but also on collections. For instance the <a href="collisionDetection.htm">collision detection module</a> allows registering following collision pair: (collection A; object B). The collision checking algorithm will then check whether the collection A (any object composing it) collides with object B.<br>
+<p>A collection is a user-defined collection of <a href="objects.htm">scene objects</a>. Both collections and scene objects are <a href="entities.htm">entities</a>. Collections are useful when referring to several objects like a robot for instance, when performing a specific operation, such as <a href="collisionDetection.htm">checking for collision</a> between two robots: if a collision detection pair was defined as (collectionRobot1; collectionRobot2), then the collision checking algorithm would check whether any object from the first collection interferes with any object from the second collection.<br>
 </p>
 
-<p>Collections are <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a>, <a href="detectableObjects.htm">detectable</a><!--, <a href="cuttableObjects.htm">cuttable</a>--> and <a href="renderableObjects.htm">renderable</a> entities. This means that collections:<br>
+<p>Collections are <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a>, <a href="detectableObjects.htm">detectable</a> and <a href="renderableObjects.htm">renderable</a> entities. This means that collections:<br>
 </p>
 
 <li>can be used in <a href="collisionDetection.htm">collision detections</a> against other collidable entities.<br>
@@ -33,14 +33,10 @@
 
 <li>can be detected by <a href="proximitySensors.htm">proximity sensors</a>. </li>
 
-<!--
-<li>can be cut by <a href="mills.htm">mills</a>. </li>
--->
-
 <li>can be detected or <em>seen</em> by <a href="visionSensors.htm">vision sensors</a>. </li>
 
 
-<p>Even if a collection is collidable, measurable, detectable<!--, cuttable--> and renderable, this doesn't mean that all objects contained in the collection are collidable, measurable, detectable<!--, cuttable--> or renderable:<br>
+<p>Even if a collection is collidable, measurable, detectable and renderable, this doesn't mean that all objects contained in the collection are collidable, measurable, detectable or renderable:<br>
 </p>
 
 
@@ -53,160 +49,52 @@
 <li>Only the detectable objects of a collection (subset of the collection) can be detected by proximity sensors.<br>
 </li>
 
-<!--
-<li>Only the cuttable objects of a collection (subset of the collection) can be cut by mills.<br>
-</li>
--->
-
 <li>Only the renderable objects of a collection (subset of the collection) can be detected by vision sensors.<br>
 </li>
 
 
-<p>A collection can however override the collidable, measurable, detectable<!--, cuttable--> and renderable properties of its objects. Refer to the <a href="collectionsDialog.htm">collection dialog</a> for more details.<br>
+<p>A collection can however override the collidable, measurable, detectable and visibility properties of its objects.<br>
 </p>
 
-<p>A collection has to be composed by at least one element. Following elements are supported:</p>
+<p>A collection is defined by one or several items that can be combined in an additive or subtractive manner. Following items are supported:</p>
 
-<li><a href="#all">All scene objects</a></li>
-<li><a href="#loose">Loose objects</a></li>
-<li><a href="#treeWithBase">Tree, base included</a></li>
-<li><a href="#treeWithoutBase">Tree, base excluded</a></li>
-<li><a href="#chainWithTip">Chain, tip included</a></li>
-<li><a href="#chainWithoutTip">Chain, tip excluded</a></li>
-<li><a href="#combination">A combination of above elements</a></li>
+<li>a single object</li>
+<li>a tree of objects: this item represents all descendants of a single object (located at the tree root). If the tree grows or shrinks, the item will dynamically grow/shrink too.</li>
+<li>a chain of objects: this represents all objects encountered when following all ancestors of a single object, If the chain grows or shrinks, the item will dynamically grow/shrink too.</li>
+<li>all scene objects</li>
+<p>A collection is not static, and is constantly evaluated/updated to determine its containing objects. A given collection can also be defined in many different ways, depending on specific needs:</p>
 
+<p align=center><img src="images/collections.jpg"></p>
+<p class=imageLabel>[Example collection containing 4 objects (the colored objects]</p>
 <br>
 
+<p>Above collection could be defined as a combination of 4 items, resulting in following code:</p>
 
-<br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="all"></a>All scene objects
-</td></tr></table>
+<pre class=lightRedBox>
+-- Collection defined as: &lt;object2&gt; + &lt;object4&gt; + &lt;object6&gt; + &lt;object7&gt;
 
+local object2=sim.getObjectHandle('/object2')
+local object4=sim.getObjectHandle('/object4')
+local object6=sim.getObjectHandle('/object6')
+local object7=sim.getObjectHandle('/object7')
+collectionHandle=sim.createCollection(0)
+sim.addItemToCollection(collectionHandle,sim.handle_single,object2,0)
+sim.addItemToCollection(collectionHandle,sim.handle_single,object4,0)
+sim.addItemToCollection(collectionHandle,sim.handle_single,object6,0)
+sim.addItemToCollection(collectionHandle,sim.handle_single,object7,0)</pre>
 
-<p>The element is made up of all scene objects as can be seen in following figure (arrows indicate: <em>is child of</em>):</p>
+<p>But a similar collection could also be defined as a combination of following 3 items too:</p>
 
-<p align=center><img src="images/collections1.jpg"></p>
-<p class=imageLabel>[Element made up of all scene objects]</p>
-<br>
+<pre class=lightRedBox>-- Collection defined as: &lt;all objects&gt; - &lt;tree starting at object1&gt; + &lt;object6&gt;
 
-<p>Above element doesn't have any defining objects and can't exist by itself. Combine it with other types of elements.<br>
-</p>
+local object1=sim.getObjectHandle('/object1')
+local object6=sim.getObjectHandle('/object6')
+collectionHandle=sim.createCollection(0)
+sim.addItemToCollection(collectionHandle,sim.handle_all,-1,0)
+sim.addItemToCollection(collectionHandle,sim.handle_tree,object1,1)
+sim.addItemToCollection(collectionHandle,sim.handle_single,object6,0)</pre>
 
-
-<br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="loose"></a>Loose objects
-</td></tr></table>
-
-<p>This is a loosely definable combination of scene objects as can be seen in following figure (arrows indicate: <em>is child of</em>):</p>
-
-<p align=center><img src="images/collections2.jpg"></p>
-<p class=imageLabel>[Element made up of loose objects]</p>
-<br>
-
-<p>In above example, if object 2, object 3, object 4 and object 7 are removed from the <a href="scenes.htm">scene</a>, the element is not valid anymore and will also be removed. Object 2, object 3, object 4 and object 7 are the element's defining objects.<br>
-</p>
-
-
-<br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="treeWithBase"></a>Tree, base included
-</td></tr></table>
-
-<p>This includes an object and all of its children (and children's children, etc.) as can be seen in following figure (arrows indicate: <em>is child of</em>):</p>
-
-<p align=center><img src="images/collections3.jpg"></p>
-<p class=imageLabel>[Element made up of a tree, with base included]</p>
-<br>
-
-<p>In above example, if object 1 is removed from the scene, the element is not valid anymore and will also be removed. Object 1 is the element's defining object.<br>
-</p>
-
-
-<br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="treeWithoutBase"></a>Tree, base excluded
-</td></tr></table>
-
-<p>This includes all children (and children's children, etc.) of an object, without the object itself as can be seen in following figure (arrows indicate: <em>is child of</em>):</p>
-
-<p align=center><img src="images/collections4.jpg"></p>
-<p class=imageLabel>[Element made up of a tree, with the base excluded]</p>
-<br>
-
-<p>In above example, if object 1 is removed from the scene, the element is not valid anymore and will also be removed. Object 1 is the element's defining object.<br>
-</p>
-
-
-<br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="chainWithTip"></a>Chain, tip included
-</td></tr></table>
-
-
-<p>his includes an object and all of its parents (and parent's parents, etc.) as can be seen in following figure (arrows indicate: <em>is child of</em>):</p>
-
-<p align=center><img src="images/collections5.jpg"></p>
-<p class=imageLabel>[Element made up of a chain, with the tip included]</p>
-<br>
-
-<p>In above example, if object 6 is removed from the scene, the element is not valid anymore and will also be removed. Object 6 is the element's defining object.<br>
-</p>
-
-
-<br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="chainWithoutTip"></a>Chain, tip excluded
-</td></tr></table>
-
-<p>This includes all parents (and parent's parents, etc.) of an object, without the object itself as can be seen in following figure (arrows indicate: <em>is child of</em>):</p>
-
-<p align=center><img src="images/collections6.jpg"></p>
-<p class=imageLabel>[Element made up of a chain, with the tip excluded]</p>
-<br>
-
-<p>In above example, if object 6 is removed from the scene, the element is not valid anymore and will also be removed. Object 6 is the element's defining object.<br>
-</p>
-
-
-<br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="combination"></a>Combination of elements
-</td></tr></table>
-
-
-<p>Within a collection, elements can be additive or subtractive. Following figure shows a collection defined by three elements:<br>
-</p>
-
-
-<p align=center><img src="images/collections7.jpg"></p>
-<p class=imageLabel>[(1) three elements, (2) resulting collection composed by the three elements]</p>
-<br>
-
-
-<p>In above example, the resulting collection contains two objects. If a new object is attached to object 2 or object 4, it won't be included in the collection (since it will be part of the tree defined in element 2, which is subtractive). If a new object becomes parent of object 5, object 3 or object 1, it will not be included in the collection (since it will be part of the chain defined in element 3, which is subtractive). Otherwise, new objects are automatically included in the collection. Collections are dynamic entities and are automatically recalculated or updated. When an object, which is also a defining object of a collection is copied or saved, the related collection will also automatically be copied or saved.<br>
-</p>
-
-
-<p>Use collections wisely and only when no other alternative can be found. If, for instance, you wish to test your mobile robot for collision against all other objects in the scene, you could define a <em>robot</em> collection (tree starting at the robot base) and an <em>obstacles</em> collection (All scene objects - tree starting at the robot base), then test collection <em>robot</em> against collection <em>obstacles</em> for collisions. This works just fine, but the <em>obstacles</em> collection is not really needed: indeed, the <a href="collisionDetection.htm">collision detection module</a> allows specifying a <strong>Check against all other collidable objects in the scene</strong> item.<br>
-</p>
-
-
-<p>When all objects contained in a collection are selected, the collection will be highlighted in pink (default color that can be adjusted in the <a href="settings.htm">user settings dialog</a>) as can be seen in following figure.<br>
-</p>
-
-
-<p align=center><img src="images/collections8.jpg"></p>
-<p class=imageLabel>[Collection selection]</p>
-<br>
-
-
-
-<p>
-Collections can be defined in the <a href="collectionsDialog.htm">collection dialog</a>. </p>
-
-
+<p>See also the <a href="apiFunctions.htm#collections">API functions related to collections</a>.</p>
 
 <br>
 <br>

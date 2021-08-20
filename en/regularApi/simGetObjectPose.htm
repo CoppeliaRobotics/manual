@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.getObjectPose</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<h1>Regular API function</h1>
+<h3 class=subsectionBar><a name="simGetObjectPose" id="simGetObjectPose"></a>simGetObjectPose / sim.getObjectPose </h3>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Retrieves the pose of an object. See also the other <a href="../apiFunctions.htm#coordinatesAndTransformations">matrix/transformation functions</a>.</td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simGetObjectPose(simInt objectHandle,simInt relativeToObjectHandle,simFloat* pose)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim_handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the pose. Specify -1 to retrieve the absolute pose, sim_handle_parent to retrieve the pose relative to the object's parent, or an object handle relative to whose reference frame we want the pose. If this handle is the handle of a joint, then the pose relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim_handleflag_reljointbaseframe, in which case the pose relative to the joint's base frame will be returned).<br>
+</div>
+<div><strong>pose</strong>: pointer to 7 values (x,y,z,qx,qy,qz,qw)</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 if operation was not successful<br>
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua synopsis
+</td> 
+<td class=apiTableRightLSyn>table[7] pose=sim.getObjectPose(int objectHandle,int relativeToObjectHandle)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</div>
+<div><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the pose. Specify -1 to retrieve the absolute pose, sim.handle_parent to retrieve the pose relative to the object's parent, or an object handle relative to whose reference frame we want the pose.  If this handle is the handle of a joint, then the pose relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the pose relative to the joint's base frame will be returned).</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>pose</strong>: table of 7 numbers (x,y,z,qx,qy,qz,qw)</div>
+</td> 
+</tr> 
+</table> 
+
+
+<br>
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

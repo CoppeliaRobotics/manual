@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>SDF Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>SDF Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">API functions for SDF input/output.</p></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#dump">simSDF.dump</a>
+<a href="?#import">simSDF.import</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="dump" id="dump"></a>simSDF.dump</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Inspect the structure of a SDF file. Can be useful for tracking bugs.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simSDF.dump(string fileName)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>fileName</strong> (string): SDF file path</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="import" id="import"></a>simSDF.import</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Import a SDF file into the current scene.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simSDF.import(string fileName, ImportOptions options={})<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>fileName</strong> (string): SDF file path</div>
+<div>
+<strong>options</strong> (ImportOptions, default: {}): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section"></td></tr>
+<tr><td id="structs" class="section">
+<br><br><h1>Data structures</h1>
+<p>Data structures are used to pass complex data around. Create data structures in Lua in the form of a map, e.g.: <code>{line_size=3, add_to_legend=false, selectable=true}</code></p>
+<h3 class="subsectionBar">
+<a name="struct:ImportOptions" id="struct:ImportOptions"></a>ImportOptions</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                Description
+                                            </td>
+<td class="apiTableRightDescr"><br></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Fields</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>fileName</strong> (string, default: nil): </div>
+<div>
+<strong>ignoreMissingValues</strong> (bool, default: false): </div>
+<div>
+<strong>hideCollisionLinks</strong> (bool, default: true): </div>
+<div>
+<strong>hideJoints</strong> (bool, default: true): </div>
+<div>
+<strong>convexDecompose</strong> (bool, default: true): </div>
+<div>
+<strong>showConvexDecompositionDlg</strong> (bool, default: false): </div>
+<div>
+<strong>createVisualIfNone</strong> (bool, default: true): </div>
+<div>
+<strong>centerModel</strong> (bool, default: true): </div>
+<div>
+<strong>prepareModel</strong> (bool, default: true): </div>
+<div>
+<strong>noSelfCollision</strong> (bool, default: true): </div>
+<div>
+<strong>positionCtrl</strong> (bool, default: true): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="scriptFunctions" class="section"></td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script><script type="text/javascript">
+//
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('code.hljs').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+});
+//
+                </script>
+</body>
+</html>

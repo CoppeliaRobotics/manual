@@ -23,11 +23,11 @@
 
 <p>First of all you should make sure that you have gone through the <a href="http://www.ros.org/wiki/ROS/Tutorials">official ROS tutorials</a>, at least the beginner section, and that you have installed the <a href="http://catkin-tools.readthedocs.io/en/latest/installing.html">Catkin tools</a>. Then, we assume that you have the latest Ubuntu running, that ROS is installed, and that the workspace folders are set. Here also refer to the <a href="http://wiki.ros.org/melodic/Installation/Ubuntu">official documentation regarding the ROS installation</a>.</p>
 
-<p>The general ROS functionality in CoppeliaSim is supported via the <a href="rosInterf.htm">ROS Interface</a> (<em>libsimExtROSInterface.so</em>). The Linux distribution should include that file already compiled in <em>CoppeliaSim/compiledROSPlugins</em>, but it first needs to be copied to <em>CoppeliaSim/</em>, otherwise it won't be loaded. You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of CoppeliaSim for details about plugin load operations. Plugins are loaded when CoppeliaSim is launched. The ROS plugin will only successfully load and initialize if <em>roscore</em> is running at that time (<em>roscore</em> is the ROS master). Also make sure to source the ROS environment prior to running CoppeliaSim.</p>
+<p>The general ROS functionality in CoppeliaSim is supported via the <a href="rosInterf.htm">ROS Interface</a> (<em>libsimExtROS.so</em>). The Linux distribution should include that file already compiled in <em>CoppeliaSim/compiledROSPlugins</em>, but it first needs to be copied to <em>CoppeliaSim/</em>, otherwise it won't be loaded. You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of CoppeliaSim for details about plugin load operations. Plugins are loaded when CoppeliaSim is launched. The ROS plugin will only successfully load and initialize if <em>roscore</em> is running at that time (<em>roscore</em> is the ROS master). Also make sure to source the ROS environment prior to running CoppeliaSim.</p>
 
-<p>If the plugin cannot be loaded, then you should recompile it by yourself. It is open source and can be modified as much as needed in order to support a specific feature or to extend its functionality. If specific messages/services/etc. need to be supported, make sure to edit files located in <em>simExtROSInterface/meta/</em>, prior to recompilation. There are 2 packages:</p>
+<p>If the plugin cannot be loaded, then you should recompile it by yourself. It is open source and can be modified as much as needed in order to support a specific feature or to extend its functionality. If specific messages/services/etc. need to be supported, make sure to edit files located in <em>simExtROS/meta/</em>, prior to recompilation. There are 2 packages:</p>
 
-<li><a href="https://github.com/CoppeliaRobotics/simExtROSInterface" target="_blank">simExtROSInterface</a>: this package is the <a href="rosInterf.htm">ROS Interface</a> that will be compiled to a &quot;.so&quot; file, and that is used by CoppeliaSim.</li>
+<li><a href="https://github.com/CoppeliaRobotics/simExtROS" target="_blank">simExtROS</a>: this package is the <a href="rosInterf.htm">ROS Interface</a> that will be compiled to a &quot;.so&quot; file, and that is used by CoppeliaSim.</li>
 <li><a href="https://github.com/CoppeliaRobotics/ros_bubble_rob" target="_blank">ros_bubble_rob</a>: this is the package of a very simple robot controller that connects to CoppeliaSim via the <a href="rosInterf.htm">ROS Interface</a>. This node will be in charge of controlling the  red robot in the demo scene <em>controlTypeExamples/controlledViaRos.ttt</em></li>
 
 
@@ -45,7 +45,7 @@ $ catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release</pre>
 
 <p>Note for Ubuntu 20.04: due to a bug in python-catkin-tools you need to use catkin_make instead of catkin build.</p>
 
-<p>That's it! The packages should have been generated and compiled to a library. Copy the devel/lib/libsimExtROSInterface.so file to the CoppeliaSim installation folder. The plugin is now ready to be used!</p>
+<p>That's it! The packages should have been generated and compiled to a library. Copy the devel/lib/libsimExtROS.so file to the CoppeliaSim installation folder. The plugin is now ready to be used!</p>
 
 <p>Now open a terminal and start the ROS master with:</p>
 <pre class=lightGreyBox>
@@ -96,12 +96,11 @@ end
 
 function sysCall_init()
     -- The child script initialization
-    objectHandle=sim.getObjectAssociatedWithScript(sim.handle_self)
-    objectName=sim.getObjectName(objectHandle)
-    rosInterfacePresent=simROS
+    objectHandle=sim.getObjectHandle('.')
+    objectAlias=sim.getObjectAlias(objectHandle,3)
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
-    if rosInterfacePresent then
+    if simROS then
         publisher=simROS.advertise('/simulationTime','std_msgs/Float32')
         subscriber=simROS.subscribe('/simulationTime','std_msgs/Float32','subscriber_callback')
     end
@@ -109,16 +108,16 @@ end
 
 function sysCall_actuation()
     -- Send an updated simulation time message, and send the transform of the object attached to this script:
-    if rosInterfacePresent then
+    if simROS then
         simROS.publish(publisher,{data=sim.getSimulationTime()})
-        simROS.sendTransform(getTransformStamped(objectHandle,objectName,-1,'world'))
+        simROS.sendTransform(getTransformStamped(objectHandle,objectAlias,-1,'world'))
         -- To send several transforms at once, use simROS.sendTransforms instead
     end
 end
 
 function sysCall_cleanup()
     -- Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
-    if rosInterfacePresent then
+    if simROS then
         simROS.shutdownPublisher(publisher)
         simROS.shutdownSubscriber(subscriber)
     end

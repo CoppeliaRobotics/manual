@@ -15,15 +15,15 @@
   <td >
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
-<h1><a href="../apiOverview.htm">Regular API</a> function</h1>
-<h3 class=subsectionBar><a name="simMoveToConfig" id="simMoveToConfig"></a>sim.moveToJointConfig 
+<h1>Regular API function</h1>
+<h3 class=subsectionBar><a name="simMoveToConfig" id="simMoveToConfig"></a>sim.moveToConfig 
 </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Generates joint movement data using the <a href="http://www.reflexxes.com">Reflexxes Motion Library type II or IV</a>. This function   can only be called from <a href="../childScripts.htm">child scripts</a> running in a thread or from a coroutine (since this is   a blocking operation).  See also <a href="simMoveToPose.htm">sim.moveToPose</a>, and <a href="simRMLPos.htm">sim.rmlPos</a>.</td>
+<td class=apiTableRightDescr>Generates joint movement data using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>. This function   can only be called from <a href="../childScripts.htm">child scripts</a> running in a thread or from a coroutine (since this is   a blocking operation).  See also <a href="simMoveToPose.htm">sim.moveToPose</a>, and <a href="simRuckigPos.htm">sim.ruckigPos</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -47,18 +47,18 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table endPos,table endVel,table endAccel,number timeLeft=sim.moveToConfig(number flags,table currentPos,table currentVel,table currentAccel,table maxVel,table maxAccel,table maxJerk,table targetPos,table targetVel,function callback,auxData,table cyclicJoints=nil,number timeStep=0)</td> 
+<td class=apiTableRightLSyn>table[] endPos,table[] endVel,table[] endAccel,float timeLeft=sim.moveToConfig(int flags,table[] currentPos,table[] currentVel,table[] currentAccel,table[] maxVel,table[] maxAccel,table[] maxJerk,table[] targetPos,table[] targetVel,function callback,auxData,table[] cyclicJoints=nil,float timeStep=0)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>flags</strong>: <a href="../apiConstants.htm#RMLFunctions">RML flags</a>. -1 for default flags.</div>
+<div><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</div>
 <div><strong>currentPos</strong>: the current configuration, i.e. the current joint positions/angles.</div>
 <div><strong>currentVel</strong>: the current velocity. Can be nil in which case a velocity vector of 0 is used.</div>
 <div><strong>currentAccel</strong>: the current acceleration. Can be nil in which case an acceleration vector of 0 is used.</div>
 <div><strong>maxVel</strong>: the maximum allowed velocity.</div>
 <div><strong>maxAccel</strong>: the maximum allowed acceleration.</div>
-<div><strong>maxJerk</strong>: the maximum allowed jerk. With the RML type II plugin, the max. jerk will however always be infinite.</div>
+<div><strong>maxJerk</strong>: the maximum allowed jerk.</div>
 <div><strong>targetPos</strong>: the desired target configuration.</div>
 <div><strong>targetVel</strong>: the desired target point velocity. Can be nil in which case a velocity vector of 0 is used.</div>
 <div><strong>callback</strong>: a callback function that will be called for each movement step. The arguments provided to the callback function are: currentConfig, currentVel, currentAccel, auxData.</div>
@@ -80,9 +80,7 @@ Lua return values
 </tr> 
 </table> 
 
-<br>
-<p><a href="../apiFunctions.htm">All regular API functions on one page</a></p>
-<br>
+
 <br>
 </td>
 </tr>

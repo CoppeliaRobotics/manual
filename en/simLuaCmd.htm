@@ -1,0 +1,705 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>LuaCmd Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>LuaCmd Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">API functions for LuaCommander plugin.</p></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#clearHistory">simLuaCmd.clearHistory</a>
+<a href="?#setArrayMaxItemsDisplayed">simLuaCmd.setArrayMaxItemsDisplayed</a>
+<a href="?#setAutoAcceptCommonCompletionPrefix">simLuaCmd.setAutoAcceptCommonCompletionPrefix</a>
+<a href="?#setDynamicCompletion">simLuaCmd.setDynamicCompletion</a>
+<a href="?#setEnabled">simLuaCmd.setEnabled</a>
+<a href="?#setFloatPrecision">simLuaCmd.setFloatPrecision</a>
+<a href="?#setHistoryRemoveDups">simLuaCmd.setHistoryRemoveDups</a>
+<a href="?#setHistorySize">simLuaCmd.setHistorySize</a>
+<a href="?#setHistorySkipRepeated">simLuaCmd.setHistorySkipRepeated</a>
+<a href="?#setMapMaxDepth">simLuaCmd.setMapMaxDepth</a>
+<a href="?#setMapShadowBufferStrings">simLuaCmd.setMapShadowBufferStrings</a>
+<a href="?#setMapShadowLongStrings">simLuaCmd.setMapShadowLongStrings</a>
+<a href="?#setMapShadowSpecialStrings">simLuaCmd.setMapShadowSpecialStrings</a>
+<a href="?#setMapSortKeysByName">simLuaCmd.setMapSortKeysByName</a>
+<a href="?#setMapSortKeysByType">simLuaCmd.setMapSortKeysByType</a>
+<a href="?#setPrintAllReturnedValues">simLuaCmd.setPrintAllReturnedValues</a>
+<a href="?#setResizeStatusbarWhenFocused">simLuaCmd.setResizeStatusbarWhenFocused</a>
+<a href="?#setShowMatchingHistory">simLuaCmd.setShowMatchingHistory</a>
+<a href="?#setStringEscapeSpecials">simLuaCmd.setStringEscapeSpecials</a>
+<a href="?#setStringLongLimit">simLuaCmd.setStringLongLimit</a>
+<a href="?#setWarnAboutMultipleReturnedValues">simLuaCmd.setWarnAboutMultipleReturnedValues</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="clearHistory" id="clearHistory"></a>simLuaCmd.clearHistory</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Clear command history</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.clearHistory()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setArrayMaxItemsDisplayed" id="setArrayMaxItemsDisplayed"></a>simLuaCmd.setArrayMaxItemsDisplayed</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the maximum number of items displayed when rendering an array</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setArrayMaxItemsDisplayed(int n)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>n</strong> (int): the maximum number of items</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setAutoAcceptCommonCompletionPrefix" id="setAutoAcceptCommonCompletionPrefix"></a>simLuaCmd.setAutoAcceptCommonCompletionPrefix</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">If all completions have a common prefix, that is automatically accepted if this option is set to true</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setAutoAcceptCommonCompletionPrefix(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, common prefix is accepted</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setDynamicCompletion" id="setDynamicCompletion"></a>simLuaCmd.setDynamicCompletion</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Complete words using the selected script</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setDynamicCompletion(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, dynamic completion will be used</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setEnabled" id="setEnabled"></a>simLuaCmd.setEnabled</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Enable/disable the plugin (i.e. show or hide the UI)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setEnabled(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, plugin is enabled</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setFloatPrecision" id="setFloatPrecision"></a>simLuaCmd.setFloatPrecision</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Number of significative digits to show</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setFloatPrecision(int n)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>n</strong> (int): number of significative digits</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setHistoryRemoveDups" id="setHistoryRemoveDups"></a>simLuaCmd.setHistoryRemoveDups</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Skip saving duplicate entries in command history</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setHistoryRemoveDups(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, no duplicate entries will be saved</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setHistorySize" id="setHistorySize"></a>simLuaCmd.setHistorySize</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Maximum number of items to store in command history</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setHistorySize(int n)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>n</strong> (int): number of items</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setHistorySkipRepeated" id="setHistorySkipRepeated"></a>simLuaCmd.setHistorySkipRepeated</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Skip saving repeated entries in command history</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setHistorySkipRepeated(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, more than one identical consecutive entries will not be saved</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setMapMaxDepth" id="setMapMaxDepth"></a>simLuaCmd.setMapMaxDepth</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set map maximum rendering depth (use -1 for unlimited)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setMapMaxDepth(int n)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>n</strong> (int): maximum depth</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setMapShadowBufferStrings" id="setMapShadowBufferStrings"></a>simLuaCmd.setMapShadowBufferStrings</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Buffer strings (containing null chars) will be replaced by a placeholder</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setMapShadowBufferStrings(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, buffer strings will be replaced by a placeholder</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setMapShadowLongStrings" id="setMapShadowLongStrings"></a>simLuaCmd.setMapShadowLongStrings</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Long strings will be replaced by a placeholder</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setMapShadowLongStrings(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, long strings will be replaced by a placeholder</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setMapShadowSpecialStrings" id="setMapShadowSpecialStrings"></a>simLuaCmd.setMapShadowSpecialStrings</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Strings containing special characters will be replaced by a placeholder</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setMapShadowSpecialStrings(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, strings containing special characters will be replaced by a placeholder</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setMapSortKeysByName" id="setMapSortKeysByName"></a>simLuaCmd.setMapSortKeysByName</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Sort map keys by name</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setMapSortKeysByName(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, map keys will be sorted by name</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setMapSortKeysByType" id="setMapSortKeysByType"></a>simLuaCmd.setMapSortKeysByType</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Sort map keys by type</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setMapSortKeysByType(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, map keys will be sorted by type</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setPrintAllReturnedValues" id="setPrintAllReturnedValues"></a>simLuaCmd.setPrintAllReturnedValues</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set whether to print all the returned values or only the first</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setPrintAllReturnedValues(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, all returned values will be printed</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setResizeStatusbarWhenFocused" id="setResizeStatusbarWhenFocused"></a>simLuaCmd.setResizeStatusbarWhenFocused</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Save alternative statusbar size for when the commander has the focus</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setResizeStatusbarWhenFocused(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, alternate size will be used when widget has focus</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setShowMatchingHistory" id="setShowMatchingHistory"></a>simLuaCmd.setShowMatchingHistory</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">History entries beginning with current buffer will be shown in preview. Use UP arrow to navigate matching entries.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setShowMatchingHistory(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, matching entries are shown</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setStringEscapeSpecials" id="setStringEscapeSpecials"></a>simLuaCmd.setStringEscapeSpecials</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Escape special characters in strings</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setStringEscapeSpecials(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, special characters will be escaped</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setStringLongLimit" id="setStringLongLimit"></a>simLuaCmd.setStringLongLimit</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the length threshold for strings</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setStringLongLimit(int n)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>n</strong> (int): the string length threshold</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setWarnAboutMultipleReturnedValues" id="setWarnAboutMultipleReturnedValues"></a>simLuaCmd.setWarnAboutMultipleReturnedValues</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set whether to print a warning is there are multiple returned values, and only one value is displayed</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simLuaCmd.setWarnAboutMultipleReturnedValues(bool b)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>b</strong> (bool): if true, warning will be emitted</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section"></td></tr>
+<tr><td id="structs" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section"></td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script><script type="text/javascript">
+//
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('code.hljs').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+});
+//
+                </script>
+</body>
+</html>

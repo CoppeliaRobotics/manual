@@ -15,14 +15,14 @@
   <td >
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
-<h1><a href="../apiOverview.htm">Regular API</a> function</h1>
+<h1>Regular API function</h1>
 <h3 class=subsectionBar><a name="simCopyPasteObjects" id="simCopyPasteObjects"></a>simCopyPasteObjects / sim.copyPasteObjects</h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Copies and pastes objects, together with all their associated calculation objects and associated scripts. See also <a href="simRemoveObject.htm">sim.removeObject</a> and <a href="simRemoveModel.htm">sim.removeModel</a>.</td>
+<td class=apiTableRightDescr>Copies and pastes objects, together with all their associated scripts. Duplicate objects might be returned in a different order than the submitted original objects. If you need to copy, but not immediately want to paste the copy, then use <a href="simSaveModel.htm">sim.saveModel</a> and <a href="simLoadModel.htm">sim.loadModel</a>. See also <a href="simRemoveObject.htm">sim.removeObject</a> and <a href="simRemoveModel.htm">sim.removeModel</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -35,7 +35,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>objectHandles</strong>: array containing the handles of the objects to copy and paste. The same array will receive the copied object handles.</div>
 <div><strong>objectCount</strong>: the number of handles contained in the objectHandles array.</div>
-<div><strong>options</strong>: bit-coded. If bit0 is set (i.e. 1), then whole models will be copied. In that case, all specified objects should be flagged as <em>model base</em>..</div>
+<div><strong>options</strong>: bit-coded. If bit0 is set (i.e. 1), then whole models will be copied. In that case, all specified objects should be flagged as <em>model base</em>. If bit1 is set (i.e. 2), then all child and customization scripts are stripped away. If bit2 is set (i.e. 4), then all object custom data is stripped away. If bit3 is set (i.e. 8), then all object references are stripped away. If bit4 is set (i.e. 16), then all textures are stripped away. If bit5 is set (i.e. 32), then model tags and DNA information is stripped away.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -50,7 +50,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table copiedObjectHandles=sim.copyPasteObjects(table objectHandles,number options)</td> 
+<td class=apiTableRightLSyn>table[] copiedObjectHandles=sim.copyPasteObjects(table[] objectHandles,int options)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -79,9 +79,7 @@ Remote API equiv.
 
 </table> 
 
-<br>
-<p><a href="../apiFunctions.htm">All regular API functions on one page</a></p>
-<br>
+
 <br>
 </td>
 </tr>

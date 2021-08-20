@@ -15,7 +15,7 @@
   <td >
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
-<h1><a href="../apiOverview.htm">Regular API</a> function</h1>
+<h1>Regular API function</h1>
 <h3 class=subsectionBar><a name="simGetShapeColor" id="simGetShapeColor"></a>simGetShapeColor / sim.getShapeColor </h3>
 <table class=apiTable>
 <tr class=apiTableTr> 
@@ -23,7 +23,7 @@
 Description 
 </td> 
 <td class=apiTableRightDescr>
-Retrieves the color of a shapes. See also <a href="simSetShapeColor.htm">sim.setShapeColor</a>. </td>
+Retrieves the color of a shape. See also <a href="simSetShapeColor.htm">sim.setShapeColor</a>. </td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -36,7 +36,7 @@ C synopsis
 <td class=apiTableRightCParam>
 <div><strong>shapeHandle</strong>: handle of the shape<br>
 </div>
-<div><strong>colorName</strong>: name of a color. If a name is provided, a specific color component will be retrieved (e.g. if a shape is a compound shape. Can be nullptr.<br>
+<div><strong>colorName</strong>: name of a color. If a name is provided, a specific color component will be retrieved (e.g. if a shape is a compound shape. Can be nullptr. If colorName is <em>@compound</em>, then rgb data for every component of a compound shape will be returned (in that case make sure to have enough space in <em>rgbData</em>, e.g. via simGetObjectInt32Param(shapeHandle,sim.shapeintparam_component_cnt))<br>
 </div>
 <div><strong>colorComponent</strong>: a <a href="../apiConstants.htm#colorComponents">color component</a>.</div>
 <div><strong>rgbData</strong> (output): red, green and blue components of the color (3 values), or the transparency value (1 value)<br>
@@ -56,7 +56,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result,table_3 rgbData=sim.getShapeColor(number shapeHandle,string colorName,number colorComponent)<br></td> 
+<td class=apiTableRightLSyn>int result,table[3] rgbData=sim.getShapeColor(int shapeHandle,string colorName,int colorComponent)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -74,9 +74,7 @@ Lua return values
 </tr> 
 </table> 
 
-<br>
-<p><a href="../apiFunctions.htm">All regular API functions on one page</a></p>
-<br>
+
 <br>
 </td>
 </tr>

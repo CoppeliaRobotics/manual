@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>Command line</title>
+<title>commands/settings</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 
@@ -17,18 +17,30 @@
 
 
 
-<h1>Command line</h1>
+<h1>Commands/settings</h1>
+
+<p>You can adjust the way CoppeliaSim operates via a <a href="plugins.htm">plugin</a> or an <a href="addOns.htm">add-on</a>, but you can also modify its behaviour via:</p>
+<li><a href="#commandLine">command line</a> arguments</li>
+<li>the <a href="#settingsFile">overall settings file</a></li>
+<p>Additionally, you can also interact with CoppeliaSim via script functions and the <a href="#commander">Lua commander</a>.</p>
+
+<br>
+<br>
+
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="commandLine"></a>Command line
+</td></tr></table> 
 
 <p>When you start CoppeliaSim via the command line, you have following command line options that are supported: </p>
 
-<li><strong>-vXXX</strong>: sets the verbosity level, in the console. Default is <strong>loadinfos</strong>. Other accepted values for <strong>XXX</strong> are <strong>none</strong>, <strong>errors</strong>, <strong>warnings</strong>, loadinfos,<strong> scripterrors</strong>,<strong> scriptwarnings</strong>,<strong> scriptinfos</strong>,<strong> infos</strong>,  <strong>debug</strong> , <strong>trace</strong>, <strong>tracelua</strong> and <strong>traceall</strong>. Plugins should output messages via <a href="regularApi/simAddLog.htm">simAddLog</a> , scripts via <a href="regularApi/simAddLog.htm">sim.addLog</a>. Verbosity can change during runtime: from within CoppeliaSim, global verbosity can be adjusted with <a href="regularApi/simSetInt32Parameter.htm">sim.setInt32Parameter</a>(sim.intparam_globalverbosity,verbosity), and plugin verbosity with <a href="regularApi/simSetModuleInfo.htm">sim.setModuleInfo</a>(pluginName,sim.moduleinfo_verbosity,verbosity). By default, plugin verbosity follows global verbosity. Command line verbosity setting can be overridden via the <em>verbosity</em> value in <em>system/usrset.txt</em>. Additionally, console log messages can be filtered via the <em>consoleLogFilter</em> value in <em>system/usrset.txt</em>., or via <a href="regularApi/simSetStringParameter.htm">sim.setStringParameter</a>(<a href="apiConstants.htm#stringParameters">sim.stringparam_consolelogfilter</a>,filter).</li>
+<li><strong>-vXXX</strong>: sets the verbosity level, in the console. Default is <strong>loadinfos</strong>. Other accepted values for <strong>XXX</strong> are <strong>none</strong>, <strong>errors</strong>, <strong>warnings</strong>, loadinfos,<strong> scripterrors</strong>,<strong> scriptwarnings</strong>,<strong> scriptinfos</strong>,<strong> infos</strong>,  <strong>debug</strong> , <strong>trace</strong>, <strong>tracelua</strong> and <strong>traceall</strong>. Plugins should output messages via <a href="regularApi/simAddLog.htm">simAddLog</a> , scripts via <a href="regularApi/simAddLog.htm">sim.addLog</a>. Verbosity can change during runtime: from within CoppeliaSim, global verbosity can be adjusted with <a href="regularApi/simSetInt32Param.htm">sim.setInt32Param</a>(sim.intparam_globalverbosity,verbosity), and plugin verbosity with <a href="regularApi/simSetModuleInfo.htm">sim.setModuleInfo</a>(pluginName,sim.moduleinfo_verbosity,verbosity). By default, plugin verbosity follows global verbosity. Command line verbosity setting can be overridden via the <em>verbosity</em> value in <em>system/usrset.txt</em>. Additionally, console log messages can be filtered via the <em>consoleLogFilter</em> value in <em>system/usrset.txt</em>., or via <a href="regularApi/simSetStringParam.htm">sim.setStringParam</a>(<a href="apiConstants.htm#stringParameters">sim.stringparam_consolelogfilter</a>,filter).</li>
 <li><strong>-wXXX</strong>: similar to the <strong>-v</strong> setting above, but for the verbosity level in the <a href="userInterface.htm#statusBar">status bar</a>. Default is <strong>scriptinfos</strong>. Status bar verbosity setting can be overridden via the <em>statusbarVerbosity</em> value in <em>system/usrset.txt</em>.</li>
 <li><strong>-xXXX</strong>: similar to the -<strong>v</strong> or <strong>-w</strong> setting above, but for the verbosity level for simple dialogs. Default is <strong>infos</strong>. Other accepted values for <strong>XXX</strong> are <strong>none</strong>, <strong>errors</strong>, <strong>warnings</strong> and <strong>questions</strong>. Dialog verbosity setting can be overridden via the <em>dialogVerbosity</em> value in <em>system/usrset.txt</em>.</li>
 <li><strong>-c"XXX"</strong>: executes the script string XXX as soon as the sandbox script is initialized.</li>
 <li><strong>-h</strong>: runs CoppeliaSim in headless mode (i.e. without any GUI). This option simply suppresses all GUI elements, but otherwise runs normally. For a true headless operation, use the headless library (i.e. rename <em>coppeliaSimLibHeadless.dll</em> (or similar) to <em>coppeliaSimLib.dll</em>). In that case keep in mind that <a href="visionSensors.htm">vision sensors</a> won't operate, unless they use the Pov-Ray rendering mode (and the <a href="https://github.com/CoppeliaRobotics/simExtPovRay" target="_blank">Pov-Ray plugin</a> is installed, binaries available <a href="https://github.com/CoppeliaRobotics/simExtPovRay/tree/master/binaries" target="_blank">here</a>), and that their rendering will be drastically slower.</li>
 <li><strong>-sXXX</strong>: automatically start the simulation. <strong>XXX</strong> represents an optional simulation time in milliseconds after which simulation should stop again.</li>
 <li><strong>-q</strong>: automatically quits CoppeliaSim after the first simulation run ended.</li>
-<li><strong>-aXXX </strong>and/or<strong> -bXXX</strong>: loads and runs an additional <a href="addOns.htm">add-on script</a> specified via its filename (where <strong>XXX</strong> should contain the filename extension, e.g. <em>myAddonScript.lua</em>).</li>
+<li><strong>-aXXX </strong>and/or<strong> -bXXX</strong>: loads and runs an additional <a href="addOns.htm">add-on</a> specified via its filename (where <strong>XXX</strong> should contain the filename extension, e.g. <em>myAddon.lua</em>).</li>
 <li><strong>-GYYY=XXX</strong>: named parameter: <strong>YYY</strong> represents the key, <strong>XXX</strong> the value, that can be queried within CoppeliaSim with the <a href="regularApi/simGetStringNamedParam.htm">simGetStringNamedParam</a>.</li>
 <li><strong>-gXXX</strong>: <strong>XXX</strong> represents an optional argument that can be queried within CoppeliaSim with the <em><a href="apiConstants.htm#stringParameters">sim.stringparam_app_arg1</a></em>... sim.stringparam_app_arg9 parameters. The argument can be used for various custom purposes.</li>
 
@@ -55,6 +67,37 @@
 
 <pre class=lightGreyBox>
 <strong>Linux:</strong> ./coppeliaSim.sh -h -s5000 -q myScene.ttt</pre>
+
+<br>
+<br>
+
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="settingsFile"></a>Overall settings file
+</td></tr></table> 
+
+<p>When CoppeliaSim starts, the file<em> system/usrset.txt</em> is read and values applied. Settings apply to various areas, such as:</p>
+<li>debugging</li>
+<li>rendering/display</li>
+<li>directories</li>
+<li>serialization</li>
+<li>messaging</li>
+<li>compatibility</li>
+<li>floating licence</li>
+<li>etc.</li>
+ 
+ 
+<br>
+<br>
+
+<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<a name="commander"></a>Lua commander
+</td></tr></table> 
+
+<p>The Lua commander, implemented via the <a href="https://github.com/CoppeliaRobotics/simExtLuaCmd" target="_blank">simExtLuaCmd plugin</a>, is a read-eval-print loop, that adds a text input to the CoppeliaSim status bar, which allows entering and executing Lua code on the fly, like in a terminal. The code can be run in the <a href="sandboxScript.htm">sandbox script</a>, or any other active script in CoppeliaSim. The behavior of the plugin can be controlled via [Menu bar --&gt; Plugins --&gt; Lua commander]. It also offers its own <a href="simLuaCmd.htm?view=alphabetical">API functions</a>. Additionally, <em>help()</em> will display usage tips.</p>
+
+<p align=center><img src="images/luaCommander.jpg"></p>
+<p class=imageLabel>[Lua commander]</p>
+
  
  
  <br> 

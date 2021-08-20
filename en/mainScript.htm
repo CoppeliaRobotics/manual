@@ -24,16 +24,16 @@
 <p>The main script contains a collection of <a href="callbackFunctions.htm">callbacks functions</a> that are appropriately called by the system. Except for the initialization callback, all other callbacks are optional. The default main script is typically segmented in 4  callback functions: </p>
 
 
-<li><strong>the initialization function</strong>: <strong>sysCall_init</strong>. This callback function is not optional. It will be executed one time just at the beginning of a simulation. The code is in charge of preparing a simulation, etc.<br>
+<li>the initialization function: <strong>sysCall_init</strong>. This callback function is not optional. It will be executed one time just at the beginning of a simulation. The code is in charge of preparing a simulation, etc.<br>
 </li>
 
-<li><strong>the actuation function</strong>: <strong>sysCall_actuation</strong>. This callback function will be executed in each simulation pass. The code is in charge of handling all the actuation functionality of the simulation. One command is of particular interest: <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, which calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_actuation</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
+<li>the actuation function: <strong>sysCall_actuation</strong>. This callback function will be executed in each simulation pass. The code is in charge of handling all the actuation functionality of the simulation. One command is of particular interest: <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, which calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_actuation</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
 </li>
 
-<li><strong>the sensing function</strong>: <strong>sysCall_sensing</strong>. This callback function will be executed in each simulation pass. The code is in charge of handling all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One command is of particular interest:<a href="regularApi/simHandleChildScripts.htm"> sim.handleChildScripts</a>, which  calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_sensing</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
+<li>the sensing function: <strong>sysCall_sensing</strong>. This callback function will be executed in each simulation pass. The code is in charge of handling all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One command is of particular interest:<a href="regularApi/simHandleChildScripts.htm"> sim.handleChildScripts</a>, which  calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_sensing</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
 </li>
 
-<li><strong>the restoration function</strong>: <strong>sysCall_cleanup</strong>. This function will be executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">object's</a> initial configuration, clearing sensor states, etc.<br>
+<li>the restoration function: <strong>sysCall_cleanup</strong>. This function will be executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">object's</a> initial configuration, clearing sensor states, etc.<br>
 </li>
 
 <p>
@@ -43,9 +43,6 @@ Following is the typical main script, slightly simplified:
 <pre class=lightRedBox>
 function <strong>sysCall_init</strong>()
     -- Initialization part:
-    sim.handleSimulationStart()
-    sim.openModule(sim.handle_all)
-    sim.handleGraph(sim.handle_all_except_explicit,0)
 end
 
 function <strong>sysCall_actuation</strong>()
@@ -54,7 +51,6 @@ function <strong>sysCall_actuation</strong>()
     sim.handleCustomizationScripts(sim.syscb_actuation)
     sim.handleAddOnScripts(sim.syscb_actuation)
     sim.handleSandboxScript(sim.syscb_actuation)
-    sim.handleModule(sim.handle_all,false)
     sim.handleDynamics(sim.getSimulationTimeStep())
 end
 
@@ -67,15 +63,13 @@ function <strong>sysCall_sensing</strong>()
     sim.handleCustomizationScripts(sim.syscb_sensing)
     sim.handleAddOnScripts(sim.syscb_sensing)
     sim.handleSandboxScript(sim.syscb_sensing)
-    sim.handleModule(sim.handle_all,true)
-    sim.handleGraph(sim.handle_all_except_explicit,sim.getSimulationTime()+sim.getSimulationTimeStep())
 end
 
 function <strong>sysCall_cleanup</strong>()
     -- Clean-up part:
+    sim.handleChildScripts(sim.syscb_cleanup)
     sim.resetProximitySensor(sim.handle_all_except_explicit)
     sim.resetVisionSensor(sim.handle_all_except_explicit)
-    sim.closeModule(sim.handle_all)
 end
 
 function <strong>sysCall_suspend</strong>()
@@ -113,9 +107,6 @@ end</pre>
 <p align=center><img src="images/mainScript1.jpg"></p>
 <p class=imageLabel>[Main script icon]</p>
 <br>
-
-<p>From the moment when you opened the main script, it will be marked as customized and won't be automatically updated anymore.</p>
-
 
 <p>Most of child script's system callback functions are called from the main script, via the <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a> function, which <a href="scriptExecution.htm">operates in a cascading fashion</a> upon the scene hierarchy and the child scripts attached to  individual scene object. </p>
 <p>If you look at the default main script, you can notice that the actuation function allows actuating or modifying the scene content (e.g. sim.handleDynamics, etc.), while the sensing function allows sensing and probing the scene content (e.g. sim.handleProximitySensor, etc.). Following illustrates what happens in the default main script when a mobile robot equipped with a <a href="proximitySensors.htm">proximity sensor</a> is simulated:<br>
