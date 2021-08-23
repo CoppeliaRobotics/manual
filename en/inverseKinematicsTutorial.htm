@@ -215,7 +215,7 @@ function sysCall_actuation()
         end
     else
         if ikFailedReportHandle then
-        	-- We close any report message about IK failure:
+            -- We close any report message about IK failure:
             sim.endDialog(ikFailedReportHandle) 
             ikFailedReportHandle=nil
         end
@@ -225,7 +225,7 @@ function sysCall_actuation()
     --[[
     -- reflect the pose of the target dummy to its counterpart in the IK environment:
     simIK.setObjectMatrix(ikEnv,ikTarget,ikBase,sim.getObjectMatrix(simTarget,simBase)) 
-	-- try to solve with the undamped method:
+    -- try to solve with the undamped method:
     if simIK.handleIkGroup(ikEnv,ikGroup_undamped)==simIK.result_fail then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
@@ -237,7 +237,7 @@ function sysCall_actuation()
         end
     else
         if ikFailedReportHandle then
-        	-- We close any report message about IK failure:
+            -- We close any report message about IK failure:
             sim.endDialog(ikFailedReportHandle) 
             ikFailedReportHandle=nil
         end
@@ -250,7 +250,7 @@ function sysCall_actuation()
 end 
 
 function sysCall_cleanup()
-	-- erase the IK environment: 
+    -- erase the IK environment: 
     simIK.eraseEnvironment(ikEnv) 
 end </pre>
 
