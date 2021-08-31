@@ -19,82 +19,78 @@
 
 <h1>Messaging/interfaces/connectivity</h1>
 
-<p>There are several ways messages or data can be exchanged/transmitted/received in and around CoppeliaSim. One can exchange data within CoppeliaSim, via:</p>
+<p>There are several ways messages or data can be exchanged/transmitted/received in and around CoppeliaSim.</p>
+<p> One can exchange data within CoppeliaSim, via:</p>
 <li><a href="#signals">signals</a></li>
 <li><a href="#customDataBlocks">custom data blocks</a></li>
 <li><a href="#pluginFunctions">calling plugin functions</a></li>
-
-<p>Data can also be exchanged with an external application, other computer, machine, etc., via:</p>
 <li><a href="#simCallScriptFunction">calling script functions</a></li>
-<li><a href="#zmq">ZMQ</a></li>
-<li><a href="#ros">ROS</a></li>
-<li><a href="#remoteApi">the remote API</a></li>
-<li><a href="#b0">BlueZero</a></li>
+
+<p><a name="external"></a>Data can also be exchanged with an external application, other computer, machine, etc., via:</p>
+<li><a href="#simCallScriptFunction">calling script functions</a></li>
+<li><a href="remoteApiOverview.htm">Remote API</a></li>
+<li><a href="rosInterfaces.htm">ROS</a></li>
+<li><a href="#zmq">ZeroMQ</a></li>
+<li><a href="blueZeroPlugin.htm">BlueZero</a></li>
 <li><a href="#serialPort">serial port</a></li>
 <li><a href="#sockets">sockets</a></li>
 
 <br>
 <br>
 
-
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
-<a name="signals"></a>Signals
-</td></tr></table> 
+<h2><a name="signals"></a>Signals</h2>
 
 
 <p><a href="apiFunctions.htm#signals">Signals</a> can be seen as global variables. They can be defined, redefined, read and cleared. For example:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 -- script 1 writes the data to string signal <em>mySignalName</em>:
 
 local myData={1,2,{&quot;Hello&quot;,&quot;world&quot;,true,{value1=63,value2=&quot;aString&quot;}}}
-sim.setStringSignal(&quot;mySignalName&quot;,sim.packTable(myData))</pre>
+sim.setStringSignal(&quot;mySignalName&quot;,sim.packTable(myData))</code>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 -- script 2 reads the data from string signal <em>mySignalName</em>:
 
 local myData=sim.getStringSignal(&quot;mySignalName&quot;)
 if myData then
     myData=sim.unpackTable(myData)
-end</pre>
+end</code>
 
 <br>
 
-<table class=subsectionTable><tr class=subsectionTd>
-  <td class=subsectionTd>
-<a name="customDataBlocks"></a>Custom data blocks
-</td></tr></table> 
+<h2><a name="customDataBlocks"></a>Custom data blocks</h2>
 
 
 <p><a href="apiFunctions.htm#customDataBlocks">Custom data blocks</a> is data that is stored inside of a <a href="objects.htm">scene object</a>, or inside a <a href="scenes.htm">scene</a>. It can be used to store custom data to be saved together with a <a href="models.htm">model</a> or scene, but also as a means of communication. For example:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 -- script 1 writes the data to the scene:
 
 local myData={1,2,{&quot;Hello&quot;,&quot;world&quot;,true,{value1=63,value2=&quot;aString&quot;}}}
-sim.writeCustomDataBlock(sim.handle_scene,&quot;myTag&quot;,sim.packTable(myData))</pre>
+sim.writeCustomDataBlock(sim.handle_scene,&quot;myTag&quot;,sim.packTable(myData))</code>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 -- script 2 reads the data from the scene:
 
 local myData=sim.readCustomDataBlock(sim.handle_scene,&quot;myTag&quot;)
 if myData then
     myData=sim.unpackTable(myData)
-end</pre>
+end</code>
 
 
 <br>
 
 
 
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="callingPluginFunctions"></a><a name="pluginFunctions"></a>Calling plugin functions
-</td></tr></table> 
+</h2>
 
 
 <p><a href="scripts.htm">Scripts</a> can call specific <a href="plugins.htm">plugin</a> functions, so-called callback functions: in order to be able to do this, the plugin must  first register its callback functions via <a href="apiFunctions.htm#customScriptFunctions">simRegisterScriptFunction</a>. This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. Following illustrates a very simple plugin function and its registration:</p>
 
-<pre class=lightBlueBox>void myCallbackFunc(SScriptCallBack* p)
+<code class="hljs language-c++ coppelia-coppeliasim-plugin">void myCallbackFunc(SScriptCallBack* p)
 {
     int stack=p-&gt;stackID;
     CStackArray inArguments;
@@ -115,17 +111,15 @@ end</pre>
 }
 
 // Somewhere in the plugin's initialization code:
-simRegisterScriptCallbackFunction(&quot;simABC.func@ABC&quot;,&quot;string reply=simABC.func(string inputStr)&quot;,myCallbackFunc);</pre>
+simRegisterScriptCallbackFunction(&quot;simABC.func@ABC&quot;,&quot;string reply=simABC.func(string inputStr)&quot;,myCallbackFunc);</code>
 
 
 
 <br>
 
 
-<table class=subsectionTable><tr class=subsectionTd>
-  <td class=subsectionTd>
-<a name="simCallScriptFunction"></a><a name="simCallScriptFunctionEx"></a>Calling script functions
-</td></tr></table> 
+<h2><a name="simCallScriptFunction"></a><a name="simCallScriptFunctionEx"></a>Calling script functions
+</h2>
 
 
 <p>A <a href="scripts.htm">script</a> function can obviously be called from within the same script, but also:</p>
@@ -139,15 +133,14 @@ simRegisterScriptCallbackFunction(&quot;simABC.func@ABC&quot;,&quot;string reply
 
 
 
-<table class=subsectionTable><tr class=subsectionTd>
-  <td class=subsectionTd>
-<a name="zmq"></a>ZMQ
-</td></tr></table> 
+<h2><a name="zmq"></a>ZMQ
+</h2>
 
 
 <p>The <a href="http://api.zeromq.org/" target="_blank">ZeroMQ library</a>, wrapped inside the <a href="https://github.com/CoppeliaRobotics/simExtZMQ" target="_blank">ZMQ plugin</a>, offers several <a href="simZMQ.htm">API functions related to ZeroMQ messaging</a>. Following illustrates a simple requester:</p>
 
-<pre class=lightRedBox>function sysCall_init()
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_init()
     corout=coroutine.create(coroutineMain)
 end
 
@@ -179,11 +172,12 @@ end
 function sysCall_cleanup()
     simZMQ.close(requester)
     simZMQ.ctx_term(context)
-end</pre>
+end</code>
 
 <p>And following would be the corresponding responder:</p>
 
-<pre class=lightRedBox>function sysCall_init()
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_init()
     corout=coroutine.create(coroutineMain)
 end
 
@@ -214,185 +208,30 @@ end
 function sysCall_cleanup()
     simZMQ.close(responder)
     simZMQ.ctx_term(context)
-end</pre>
+end</code>
 <br>
 
 
-<table class=subsectionTable><tr class=subsectionTd>
-  <td class=subsectionTd>
-<a name="ros"></a>ROS
-</td></tr></table> 
-
-
-<p>Using <a href="rosInterf.htm">ROS</a> or <a href="ros2Interface.htm">ROS2</a>, one can communicate with the outside world, but also within CoppeliaSim. For example, a <a href="visionSensors.htm">vision sensor</a> ROS2 publisher could look like:</p>
-
-<pre class=lightRedBox>function sysCall_init()
-    visionSensor=sim.getObjectHandle('/Vision_sensor')
-
-    -- Enable an image publisher:
-    pub=simROS2.createPublisher('/image', 'sensor_msgs/msg/Image')
-    simROS2.publisherTreatUInt8ArrayAsString(pub)
-end
-
-function sysCall_sensing()
-    -- Publish the image of the vision sensor:
-    local img,w,h=sim.getVisionSensorCharImage(visionSensor)
-    data={}
-    data.header={stamp=simROS2.getTime(), frame_id='a'}
-    data.height=h
-    data.width=w
-    data.encoding='rgb8'
-    data.is_bigendian=1
-    data.step=w*3
-    data.data=img
-    simROS2.publish(pub,data)
-end
-
-function sysCall_cleanup()
-    simROS2.shutdownPublisher(pub)
-end</pre>
-
-<p>The subscriber on the other hand could look like:</p>
-
-<pre class=lightRedBox>function sysCall_init()
-    -- Enable an image subscriber:
-    sub=simROS2.createSubscription('/image', 'sensor_msgs/msg/Image', 'image_callback')
-    simROS2.subscriptionTreatUInt8ArrayAsString(sub)
-end
-
-function image_callback(msg)
-    -- Here we have received an image
-end
-
-function sysCall_cleanup()
-    simROS2.shutdownSubscription(sub)
-end</pre>
-<br>
-
-
-<table class=subsectionTable><tr class=subsectionTd>
-  <td class=subsectionTd>
-<a name="remoteApi"></a>Remote API</td></tr></table> 
-
-<p>Using the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, or the <a href="b0RemoteApiOverview.htm">B0-based remote API</a>, one can communicate with the outside world, but also within CoppeliaSim. For example, a Python legacy remote API client receiving and applying back a <a href="visionSensors.htm">vision sensor</a> image could look like:</p>
-
-<pre class=lightPurpleBox>import sim
-from time import sleep
-clientID=sim.simxStart('127.0.0.1',19997,True,True,5000,5)
-if clientID!=-1:
-    res,sensor1Handle=sim.simxGetObjectHandle(clientID,'VisionSensor1',sim.simx_opmode_oneshot_wait)
-    res,sensor2Handle=sim.simxGetObjectHandle(clientID,'VisionSensor2',sim.simx_opmode_oneshot_wait)
-
-    res,resolution,image=sim.simxGetVisionSensorImage(clientID,sensor1Handle,0,sim.simx_opmode_streaming)
-    sim.simxStartSimulation(clientID,sim.simx_opmode_oneshot)
-    while (sim.simxGetConnectionId(clientID)!=-1):
-        res,resolution,image=sim.simxGetVisionSensorImage(clientID,sensor1Handle,0,sim.simx_opmode_buffer)
-        if res==sim.simx_return_ok:
-            res=sim.simxSetVisionSensorImage(clientID,sensor2Handle,image,0,sim.simx_opmode_oneshot)
-        sleep(0.01)
-    sim.simxFinish(clientID)</pre>
-<br>
-<p>The same example as above, but for a B0-based remote API client:</p>
-
-<pre class=lightPurpleBox>import b0RemoteApi
-from time import sleep
-with b0RemoteApi.RemoteApiClient('b0RemoteApi_pythonClient','b0RemoteApi') as client:    
-        
-    def imageCallback(msg):
-        client.simxSetVisionSensorImage(sensor2Handle[1],False,msg[2],client.simxDefaultPublisher())
-    
-    sensor1Handle=client.simxGetObjectHandle('VisionSensor1',client.simxServiceCall())
-    sensor2Handle=client.simxGetObjectHandle('VisionSensor2',client.simxServiceCall())
-    client.simxGetVisionSensorImage(sensor1Handle[1],False,client.simxDefaultSubscriber(imageCallback))
-    client.simxStartSimulation(client.simxDefaultPublisher())
-    while True: 
-        client.simxSpinOnce()
-        sleep(0.01)
-    client.simxStopSimulation(client.simxDefaultPublisher())</pre>
-
-
-
-<br>
-
-
-
-<table class=subsectionTable><tr class=subsectionTd>
-  <td class=subsectionTd>
-<a name="b0"></a>BlueZero
-</td></tr></table> 
-
-
-<p>Using <a href="blueZeroPlugin.htm">BlueZero</a>, one can communicate with the outside world, but also within CoppeliaSim. For example, a <a href="visionSensors.htm">vision sensor</a> publisher could look like:</p>
-
-<pre class=lightRedBox>function sysCall_init()
-    visionSensor=sim.getObjectHandle('/Vision_sensor')
-
-    -- Enable an image publisher:
-    b0Node=simB0.nodeCreate('b0Node')
-    pub=simB0.publisherCreate(b0Node,'image')
-    simB0.nodeInit(b0Node)
-end
-
-function sysCall_sensing()
-    -- Publish the image of the vision sensor:
-    local msg=sim.getVisionSensorCharImage(visionSensor)
-    simB0.publisherPublish(pub,msg)
-end
-
-function sysCall_cleanup()
-    if b0Node then
-        simB0.nodeCleanup(b0Node)
-        simB0.publisherDestroy(pub)
-        simB0.nodeDestroy(b0Node)
-    end
-end</pre>
-
-<p>The subscriber on the other hand could look like:</p>
-
-<pre class=lightRedBox>function sysCall_init()
-    -- Enable an image subscriber:
-    b0Node=simB0.nodeCreate('b0Node')
-    sub=simB0.subscriberCreate(b0Node,'image','image_callback')
-    simB0.nodeInit(b0Node)
-end
-
-function image_callback(msg)
-    -- Here we have received an image
-end
-
-function sysCall_sensing()
-    simB0.nodeSpinOnce(b0Node)
-end
-
-function sysCall_cleanup()
-    if b0Node then
-        simB0.nodeCleanup(b0Node)
-        simB0.subscriberDestroy(sub)
-        simB0.nodeDestroy(b0Node)
-    end
-end</pre>
-<br>
-
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="serialPort"></a>Serial port</a>
-</td></tr></table> 
+</h2>
 
 
 <p>CoppeliaSim implements several <a href="apiFunctions.htm#serialPort">serial port API functions</a>. <br>
 </p>
 <br>
 
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="sockets"></a>LuaSocket
-</td></tr></table> 
+</h2>
 
 
 <p>CoppeliaSim ships with the <a href="http://w3.impa.br/~diego/software/luasocket/home.html" target="_blank">LuaSocket</a> extension library. Following illustrates how to fetch a webpage:<br>
 </p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 http=require('socket.http')
-page=http.request('http://www.google.com')</pre>
+page=http.request('http://www.google.com')</code>
 
 <br>
 <br>

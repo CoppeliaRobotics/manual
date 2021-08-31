@@ -25,7 +25,7 @@
 <p>Following represents an empty  vision callback function:<br>
 </p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function <strong>sysCall_vision</strong>(inData)
     -- We have:
     -- inData.handle : the handle of the vision sensor.
@@ -40,14 +40,14 @@ function <strong>sysCall_vision</strong>(inData)
     outData.packedPackets={} -- a table of packed packets. Can be accessed via e.g. sim.readVisionSensor
     return outData
 end
-</pre>
+</code>
 
 <br>
 <p>Image processing can be performed by using various API functions. The <a href="visionPlugin.htm">vision plugin</a> exports a few very simple image processing functions. Many more image processing functions are supported via the <a href="simIM.htm?view=alphabetical">image plugin</a> (OpenCV wrapper).</p>
 <p>Following represents a simple edge detection vision callback function, that triggers and returns a packet of data  (based on the vision plugin functions):<br>
 </p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function <strong>sysCall_vision</strong>(inData)
     simVision.sensorImgToWorkImg(inData.handle)
     simVision.edgeDetectionOnWorkImg(inData.handle,0.1)
@@ -59,14 +59,14 @@ function <strong>sysCall_vision</strong>(inData)
     outData.packedPackets={sim.packFloatTable(packetData)}
     return outData
 end
-</pre>
+</code>
 
 
 <br>
 <p>Following represents a vision callback function, that draws a circle onto the acquired image (based on the image plugin functions):<br>
 </p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function <strong>sysCall_vision</strong>(inData)
     local imgHandle=simIM.readFromVisionSensor(inData.handle)
     local center={inData.resolution[1]/2,inData.resolution[2]/2}
@@ -74,7 +74,7 @@ function <strong>sysCall_vision</strong>(inData)
     simIM.circle(imgHandle,center,radius,{255,0,255},4)
     simIM.writeToVisionSensor(imgHandle,inData.handle)
     simIM.destroy(imgHandle)
-end</pre>
+end</code>
 
 <br>
 <br>

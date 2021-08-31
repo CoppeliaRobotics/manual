@@ -30,7 +30,7 @@
 <br>
 <p>Using the API function <a href="regularApi/simCheckDistance.htm">sim.checkDistance</a>, one can easily calculate the minimum distance between entities, for instance between a robot and its environment, from within a <a href="childScripts.htm">child script</a>, in each simulation step:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function sysCall_init()
     local robotBase=sim.getObjectHandle('/robotModelAlias')
     robotCollection=sim.createCollection(0)
@@ -44,11 +44,11 @@ function sysCall_sensing()
         txt=txt..'m, minimum distance object pair is '..getAsString(objectPair)
         print(txt)
     end
-end</pre>
+end</code>
 
 <p>One can also display the measured minimum distance, as a colored segment in the scene:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function sysCall_init()
     local robotBase=sim.getObjectHandle('/robotModelAlias')
     robotCollection=sim.createCollection(0)
@@ -62,7 +62,7 @@ function sysCall_sensing()
         sim.addDrawingObjectItem(distanceSegment,nil)
         sim.addDrawingObjectItem(distanceSegment,distData)
     end
-end</pre>
+end</code>
 
 
 <p>CoppeliaSim's distance calculation functionality is also available as stand-alone routines via the <a href="coppeliaGeometricRoutines.htm">Coppelia geometric routines</a>.</p>

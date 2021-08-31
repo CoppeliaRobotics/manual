@@ -94,7 +94,7 @@
 <p>We attach a child script to the vision sensor by clicking [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded]. We double-click the icon that appeared next to the vision sensor in the scene hierarchy: this opens the child script that we just added. We copy and paste following code into the <a href="scriptEditor.htm">script editor</a>, then close it:<br>
 </p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function sysCall_vision(inData)
     simVision.sensorImgToWorkImg(inData.handle) -- copy the vision sensor image to the work image
     simVision.edgeDetectionOnWorkImg(inData.handle,0.2) -- perform edge detection on the work image
@@ -103,7 +103,7 @@ end
 
 function sysCall_init()
 end
-</pre>
+</code>
 
 <p>
 To be able to see the vision sensor's image, we start the simulation, then stop it again.<br>
@@ -111,7 +111,7 @@ To be able to see the vision sensor's image, we start the simulation, then stop 
 
 <p>The last thing that we need for our scene is a small <a href="childScripts.htm">child script</a> that will control <em>BubbleRob's</em> behavior. We select <em>bubbleRob</em> and click [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded]. We double-click the script icon that appeared next to <em>bubbleRob's</em> alias in the scene hierarchy and copy and paste following code into the <a href="scriptEditor.htm">script editor</a>, then close it:<br>
 </p>
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function speedChange_callback(ui,id,newVal)
     speed=minMaxSpeed[1]+(minMaxSpeed[2]-minMaxSpeed[1])*newVal/100
 end
@@ -170,7 +170,7 @@ end
 
 function sysCall_cleanup()
     simUI.destroy(ui)
-end</pre>
+end</code>
 
 <p>We run the simulation. <em>BubbleRob</em> now moves forward while trying to avoid obstacles (in a very basic fashion). While the simulation is still running, change <em>BubbleRob's</em> velocity, and copy/paste it a few times. Also try to scale a few of them while the simulation is still running. Be aware that the minimum distance calculation functionality might be heavily slowing down the simulation, depending on the environment.</p>
 <p>Using a script to control a robot or model is only one way of doing. CoppeliaSim offers many different ways (also combined), have a look at the <a href="externalControllerTutorial.htm">external controller tutorial</a>.</p>

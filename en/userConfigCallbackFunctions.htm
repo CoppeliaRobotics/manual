@@ -31,7 +31,7 @@
 <p class=imageLabel>[Custom configuration dialog]</p>
 <br>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function sysCall_init()
     modelHandle=sim.getObjectHandle('.')
 end
@@ -57,10 +57,10 @@ function velocityChanged(ui,id,val)
     local data=readData()
     val=tonumber(val)
     if val then
-        if val<0.1 then
+        if val&lt;0.1 then
             val=0.1
         end
-        if val>0.5 then
+        if val&gt;0.5 then
             val=0.5 
         end
         data.maxVel=val
@@ -73,10 +73,10 @@ function accelerationChanged(ui,id,val)
     local data=readData()
     val=tonumber(val)
     if val then
-        if val<0.01 then
+        if val&lt;0.01 then
             val=0.01
         end
-        if val>0.2 then
+        if val&gt;0.2 then
             val=0.2 
         end
         data.maxAccel=val
@@ -99,7 +99,7 @@ end
 
 function writeData(data)
     sim.writeCustomDataBlock(modelHandle,'RobotParams',sim.packTable(data))
-end</pre>
+end</code>
 
 
 <br>

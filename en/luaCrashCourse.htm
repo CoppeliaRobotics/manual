@@ -23,9 +23,9 @@
 </p>
 
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="lexicalConventions"></a>Lexical conventions
-</td></tr></table> 
+</h2>
 
 
 <li>
@@ -33,19 +33,19 @@ Lua is a case sensitive language. &quot;and&quot;, &quot;And&quot; or &quot;AND&
 
 <li>
 Following are Lua keywords:</li>
-  <pre class=lightRedBox>
+  <code class="hljs language-lua coppelia-coppeliasim-script">
 and       break     do        else      elseif
 end       false     for       function  if
 in        local     nil       not       or
-repeat    return    then      true      until     while</pre>
+repeat    return    then      true      until     while</code>
 
 <li>
 Following strings denote other tokens:</li>
-  <pre class=lightRedBox>
+  <code class="hljs language-lua coppelia-coppeliasim-script">
 +     -     *     /     %     ^     #
 ==    ~=    <=    >=    <     >     =
 (     )     {     }     [     ]
-;     :     ,     .     ..    ...</pre>
+;     :     ,     .     ..    ...</code>
 
 <li>
 Literal strings can be delimited by matching single or double quotes (e.g. 'hello' or &quot;hello&quot;) </li>
@@ -53,14 +53,14 @@ Literal strings can be delimited by matching single or double quotes (e.g. 'hell
 
 <li>
 A comment starts with a double hyphen (--) anywhere outside of a string. e.g.:</li>
-<pre class=lightRedBox>
-a=4 -- variable a is now 4!</pre>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+a=4 -- variable a is now 4!</code>
 
 
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="valuesAndTypes"></a><a name="typesAndValues"></a>Types and values
-</td></tr></table> 
+</h2>
 
 <li>
 Lua is a dynamically typed language which means that variables do not have types; only values do.
@@ -68,7 +68,7 @@ Lua is a dynamically typed language which means that variables do not have types
 
 <li>
 There are 8 basic types in Lua:</li>
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 <strong>nil</strong>       type of the value nil whose main property is to be different from any other value.
           It usually represents the absence of a useful value
 <strong>boolean</strong>   values false and true (both nil and false make a condition false;
@@ -80,14 +80,14 @@ There are 8 basic types in Lua:</li>
 <strong>function</strong>  Lua functions
 <strong>userdata</strong>  can hold arbitrary C data (corresponds to a block of raw memory)
 <strong>thread</strong>    independent threads of execution used to implement coroutines
-<strong>table</strong>     arrays that can hold values of any type except nil</pre>
+<strong>table</strong>     arrays that can hold values of any type except nil</code>
 
 
 
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="variables"></a>Variables
-</td></tr></table> 
+</h2>
 
 <li>There are 3 kinds of variables: global variables, local variables and table fields. Any variable is assumed to be global unless explicitely declared as local</li>
 
@@ -99,84 +99,90 @@ Before the first assignment to a variable, its value is nil</li>
 
 <br>
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="statements"></a>Statements
-</td></tr></table> 
+</h2>
 
 <li>Lua allows multiple assignments. The syntax for assignments defines a list of variables on the left side and a list of expressions on the right side. The elements in both lists are separated by commas:</li>
-<pre class=lightRedBox>
-x,y,z = myTable[1],myTable[2],myTable[3]</pre>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+x,y,z = myTable[1],myTable[2],myTable[3]</code>
 
 <li>
 Relational operators (always result in <strong>false</strong> or <strong>true</strong>)</li>
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 <strong>==</strong>     equality
 <strong>~=</strong>     negation of equality
 <strong><</strong>      smaller than
 <strong>></strong>      bigger than
 <strong><=</strong>     smaller or equal than
-<strong>>=</strong>     bigger or equal than</pre>
+<strong>>=</strong>     bigger or equal than</code>
 
 <li>
 <strong>If</strong> control structure (by example):</li>
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 if value1==value2 then
     print('value1 and value2 are same!')
-end</pre>
+end</code>
 
 <li>
 <strong>For</strong> control structure (by example):</li>
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 for i=1,4,1 do -- count from 1 to 4 with increments of 1
     print(i)
-end</pre>
+end</code>
 
 <li>
 <strong>While</strong> control structure (by example):</li>
-<pre class=lightRedBox>i=0<br>while i~=4 do<br>    i=i+1<br>end</pre>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+i=0<br>while i~=4 do<br>    i=i+1<br>end</code>
 
 <li>
 <strong>Repeat</strong> control structure (by example):</li>
-<pre class=lightRedBox>i=0<br>repeat<br>    i=i+1<br>until i==4</pre>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+i=0<br>repeat<br>    i=i+1<br>until i==4</code>
 
 <li>
 <strong>Table</strong> operations (by example):</li>
-<pre class=lightRedBox>myTable={'firstValue',2,3} -- builds a table with 3 values<br>print(myTable[1]) -- prints the first element in the table<br>table.insert(myTable,4) -- appends the number 4 to the table</pre>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+myTable={'firstValue',2,3} -- builds a table with 3 values<br>print(myTable[1]) -- prints the first element in the table<br>table.insert(myTable,4) -- appends the number 4 to the table</code>
 
 <li>
 Concatenation (by example):</li>
-<pre class=lightRedBox>a=' hello'<br>b=' world'<br>c=a..b -- c contains 'hello world'</pre>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+a=' hello'<br>b=' world'<br>c=a..b -- c contains 'hello world'</code>
 
 <li>
 Length operator #:</li>
-<pre class=lightRedBox>stringLength=#'hello world'<br>tableSize=#{1,2,3,4,5}</pre>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+stringLength=#'hello world'<br>tableSize=#{1,2,3,4,5}
+</code>
 
 
 
 <br>
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="bitwiseOperators"></a>Bitwise operators
-</td></tr></table> 
+</h2>
 
 <li>Lua supports the following bitwise operators:</li>
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 &amp;: bitwise AND
 |: bitwise OR
 ~: bitwise exclusive OR
 &gt;&gt;: right shift
 &lt;&lt;: unary bitwise NOT
-~: unary bitwise NOT</pre>
+~: unary bitwise NOT</code>
 
 
 <br>
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="coroutines"></a><a name="threads"></a>Coroutines or threads
-</td></tr></table> 
+</h2>
 
 <li>Coroutines are easily created and resumed with:</li>
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 -- Create a coroutine:
 corout=coroutine.create(coroutineMain)
 
@@ -193,7 +199,7 @@ function coroutineMain()
     while true do
         -- some code
     end
-end</pre>
+end</code>
 
 <br>
 <br>

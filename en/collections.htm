@@ -70,7 +70,7 @@
 
 <p>Above collection could be defined as a combination of 4 items, resulting in following code:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 -- Collection defined as: &lt;object2&gt; + &lt;object4&gt; + &lt;object6&gt; + &lt;object7&gt;
 
 local object2=sim.getObjectHandle('/object2')
@@ -81,18 +81,19 @@ collectionHandle=sim.createCollection(0)
 sim.addItemToCollection(collectionHandle,sim.handle_single,object2,0)
 sim.addItemToCollection(collectionHandle,sim.handle_single,object4,0)
 sim.addItemToCollection(collectionHandle,sim.handle_single,object6,0)
-sim.addItemToCollection(collectionHandle,sim.handle_single,object7,0)</pre>
+sim.addItemToCollection(collectionHandle,sim.handle_single,object7,0)</code>
 
 <p>But a similar collection could also be defined as a combination of following 3 items too:</p>
 
-<pre class=lightRedBox>-- Collection defined as: &lt;all objects&gt; - &lt;tree starting at object1&gt; + &lt;object6&gt;
+<code class="hljs language-lua coppelia-coppeliasim-script">
+-- Collection defined as: &lt;all objects&gt; - &lt;tree starting at object1&gt; + &lt;object6&gt;
 
 local object1=sim.getObjectHandle('/object1')
 local object6=sim.getObjectHandle('/object6')
 collectionHandle=sim.createCollection(0)
 sim.addItemToCollection(collectionHandle,sim.handle_all,-1,0)
 sim.addItemToCollection(collectionHandle,sim.handle_tree,object1,1)
-sim.addItemToCollection(collectionHandle,sim.handle_single,object6,0)</pre>
+sim.addItemToCollection(collectionHandle,sim.handle_single,object6,0)</code>
 
 <p>See also the <a href="apiFunctions.htm#collections">API functions related to collections</a>.</p>
 

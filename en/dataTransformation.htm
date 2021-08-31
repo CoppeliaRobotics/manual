@@ -29,7 +29,8 @@
 <li>other <a href="apiFunctions.htm#coordinatesAndTransformations">matrix/transformation related functions</a></li>
 <p>Following example illustrates how to pack/unpack data:</p>
   
-<pre class=lightRedBox>-- Packing/unpacking specific type of data, e.g. doubles:
+<code class="hljs language-lua coppelia-coppeliasim-script">
+-- Packing/unpacking specific type of data, e.g. doubles:
 local data={1,2,3}
 local packedData=sim.packDoubleTable(data) -- packing
 data=sim.unpackDoubleTable(dpackedData) -- unpacking
@@ -38,12 +39,12 @@ data=sim.unpackDoubleTable(dpackedData) -- unpacking
 local data={1,'hello',{value='world'},{1,{2,3}}}
 local packedData=sim.packTable(data) -- packing
 data=sim.unpackTable(dpackedData) -- unpacking
-</pre>  
+</code>  
 
 <br>
 <p>Following example illustrates usage of the linear algebra functionality:</p>
   
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 -- Get the absolute transformation matrices of an object and its parent:
 local absObj=Matrix4x4:frompose(sim.getObjectPose(objectHandle,-1))
 local absParentObj=Matrix4x4:frompose(sim.getObjectPose(parentHandle,-1))
@@ -55,14 +56,14 @@ local relObj=Matrix4x4:inv(absParentObj)*absObj
 local relObj2=Matrix4x4:frompose(sim.getObjectPose(objectHandle,parentHandle))
 
 -- Check that both matrices are same:
-print(relObj:sub(relObj2):abs():max())</pre>
+print(relObj:sub(relObj2):abs():max())</code>
   
 <br>
 <p>Following example illustrates how to convert to/from base64:</p>
   
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 local base64Buffer=sim.transformBuffer(buffer,sim.buffer_uint8,1,0,sim.buffer_base64)
-local originalBuffer=sim.transformBuffer(base64Buffer,sim.buffer_base64,1,0,sim.buffer_uint8)</pre>
+local originalBuffer=sim.transformBuffer(base64Buffer,sim.buffer_base64,1,0,sim.buffer_uint8)</code>
 
 <br>
 <br>

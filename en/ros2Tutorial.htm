@@ -35,32 +35,34 @@
 <p>Above packages should be copied to your <em>ros2_ws/src</em><em> </em>folder. </p>
 <p>In order to build the packages, navigate to the <em>ros2_ws</em> folder and type:</p>
 
-<pre class=lightGreyBox>
+<code class="hljs coppelia-terminal">
 $ export COPPELIASIM_ROOT_DIR=~/path/to/coppeliaSim/folder
 $ ulimit -s unlimited #otherwise compilation might freeze/crash
 $ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
-</pre>
+</code>
 
 <p>That's it! The packages should have been generated and compiled to a library, which is automatically copied to the CoppeliaSim installation folder. The plugin is now ready to be used.</p>
 
 <p>Now open a terminal, move to the CoppeliaSim installation folder and start CoppeliaSim. This is what you should have (or similar):</p>
 
-<pre class=lightGreyBox>
+<code class="hljs coppelia-terminal">
 $ ./coppeliaSim.sh
 ...
 Plugin 'ROS2Interface': loading...
 Plugin 'ROS2Interface': load succeeded.
-...</pre>
+...
+</code>
 
 
 <p>Upon succesful ROS 2 Interface load, checking the available nodes gives this:</p>
-<pre class=lightGreyBox>
+<code class="hljs coppelia-terminal">
 $ ros2 node list
-/sim_ros2_interface</pre>
+/sim_ros2_interface
+</code>
 
 <p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="childScripts.htm">child script</a> to it with [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function subscriber_callback(msg)
     -- This is the subscriber callback function
     sim.addLog(sim.verbosity_scriptinfos,'subscriber receiver following Float32: '..msg.data)
@@ -111,7 +113,7 @@ function sysCall_cleanup()
         simROS.shutdownPublisher(publisher)
         simROS.shutdownSubscriber(subscriber)
     end
-end</pre>
+end</code>
 
 
 
@@ -120,13 +122,15 @@ end</pre>
 
 <p>Above script will publish the simulation time, and subscribe to it at the same time. It will also publish the transform of the object the script is attached to. You should be able to see the simulation time topic with:</p>
 
-<pre class=lightGreyBox>
-$ ros2 topic list</pre>
+<code class="hljs coppelia-terminal">
+$ ros2 topic list
+</code>
 
 <p>To see the message content, you can type:</p>
 
-<pre class=lightGreyBox>
-$ ros2 topic echo /simulationTime</pre>
+<code class="hljs coppelia-terminal">
+$ ros2 topic echo /simulationTime
+</code>
 
 
 <p>Now load the demo scene <em>ros2InterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="childScripts.htm">child script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
@@ -139,14 +143,16 @@ $ ros2 topic echo /simulationTime</pre>
 
 <p>Try experimenting a little bit with the code. You can also visualize the image that CoppeliaSim streams with following command:</p>
 
-<pre class=lightGreyBox>
-$ ros2 run image_tools showimage --ros-args --remap image:=/visionSensorData</pre>
+<code class="hljs coppelia-terminal">
+$ ros2 run image_tools showimage --ros-args --remap image:=/visionSensorData
+</code>
 
 
 <p>Had you been streaming simpler data, then you could also have visualized it with:</p>
 
-<pre class=lightGreyBox>
-$ ros2 topic echo /visionSensorData</pre>
+<code class="hljs coppelia-terminal">
+$ ros2 topic echo /visionSensorData
+</code>
 
 
 <p>Now stop the simulation and load the demo scene <em>controlTypeExamples/controlledViaRos2.ttt</em>, and run the simulation. The robot is simplistic, and also behaving in a simplistic way for simplification purposes. It is controlled via the <a href="rosInterf.htm">ROS 2 Interface</a>:</p>
@@ -180,7 +186,7 @@ $ ros2 topic echo /visionSensorData</pre>
 
 <p>Have a look at the content of the customization script, that can be fully customized for various purposes. Try generating topic messages from the command line, for instance:</p> 
 
-<pre class=lightGreyBox>
+<code class="hljs coppelia-terminal">
 $ ros2 topic pub /startSimulation std_msgs/msg/Bool '{data: true}' --once
 $ ros2 topic pub /pauseSimulation std_msgs/msg/Bool '{data: true}' --once
 $ ros2 topic pub /stopSimulation std_msgs/msg/Bool '{data: true}' --once
@@ -189,12 +195,14 @@ $ ros2 topic pub /startSimulation std_msgs/msg/Bool '{data: true}' --once
 $ ros2 topic pub /triggerNextStep std_msgs/msg/Bool '{data: true}' --once
 $ ros2 topic pub /triggerNextStep std_msgs/msg/Bool '{data: true}' --once
 $ ros2 topic pub /triggerNextStep std_msgs/msg/Bool '{data: true}' --once
-$ ros2 topic pub /stopSimulation std_msgs/msg/Bool '{data: true}' --once</pre>
+$ ros2 topic pub /stopSimulation std_msgs/msg/Bool '{data: true}' --once
+</code>
 
 <p>In order to display the current simulation time, you could type:</p>
 
-<pre class=lightGreyBox>
-$ ros2 topic echo /simulationTime</pre>
+<code class="hljs coppelia-terminal">
+$ ros2 topic echo /simulationTime
+</code>
 
 <p>Finally, make sure to have a look at the <a href="remoteApiOverview.htm">remote API functionality</a> and the <a href="blueZeroPlugin.htm">BlueZero framework</a> in CoppeliaSim: similarly to ROS, it allows for remote function execution, fast data streaming back and forth, is quite simple to use, leightweight and  cross-platform. The remote API functionality is available for 7 different languages. Both, the remote APi and the BlueZero framework  can be interesting alternatives to ROS in some cases.</p>
 

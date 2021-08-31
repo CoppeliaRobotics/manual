@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>B0-based remote API</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>ZeroMQ-based remote API</h1>
+
+<p>The ZeroMQ-based remote API is one of <a href="meansOfCommunication.htm">several ways an application can connect with CoppeliaSim</a>.</p>
+
+<p>The ZeroMQ-based remote API allows to control a simulation (or the simulator itself) from an external application or a remote hardware (e.g. real robot, remote computer, etc.). It offers all API functions also available via a CoppeliaSim script: this includes all <a href="apiFunctions.htm">regular API functions</a> (i.e. sim.* -type functions), but also all API functions provided by <a href="plugins.htm">plugins</a> (e.g. simOMPL.*, simUI.*, simIK.*, etc.). The ZeroMQ-based remoteAPI represents a very thin Python wrapper around mentioned API functions, and can be used in the exact same way as from within a CoppeliaSim script.</p>
+<p>The ZeroMQ-based remote API functions are interacting with CoppeliaSim via <a href="http://api.zeromq.org/" target="_blank">ZeroMQ</a> and its <a href="simZMQ.htm">interface plugin</a> to CoppeliaSim and the ZMQ remote API <a href="addOns.htm">add-on</a>. All this happens in a hidden fashion to the user. The remote API can let one or several external applications interact with CoppeliaSim in a synchronous* or asynchronous* way (asynchronous by default), and even remote control of the simulator is supported (e.g. remotely loading a scene, starting, pausing or stopping a simulation for instance).</p>
+
+<p class="warningBox">Note: the word <em><strong>Synchronous</strong></em> is used in the sense that each simulation pass runs synchronously with the remote API application (i.e. the simulator will wait for a trigger signal from a client to start next simulation pass at a time t+dt). This is different from synchronous/asynchronous in the sense of <em>blocking/non-blocking operation</em>. The remote API also supports blocking and non-blocking operations.<br>
+</p>
+
+
+<p>See programming/zmqRemoteApi folder or its <a href="https://github.com/CoppeliaRobotics/zmqRemoteApi">related repository</a> for examples. Here a simple ZeroMQ-based remote API client:</p>
+<code class="hljs language-python coppelia-zmq-remote-api-client"># Make sure to have the add-on &quot;ZMQ remote API&quot;
+# running in CoppeliaSim
+#
+# All CoppeliaSim commands will run in blocking mode (block
+# until a reply from CoppeliaSim is received). For a non-
+# blocking example, see simpleTest-nonBlocking.py
+
+import time
+from zmqRemoteApi import RemoteAPIClient
+
+client = RemoteAPIClient('localhost',23000)
+sim = client.getobject('sim')
+
+# Create a few dummies and set their positions:
+handles = [sim.createDummy(0.01, 12 * [0]) for _ in range(50)]
+for i, h in enumerate(handles):
+    sim.setObjectPosition(h, -1, [0.01 * i, 0.01 * i, 0.01 * i])
+
+# Run a simulation in asynchronous mode:
+sim.startSimulation()
+while (t := sim.getSimulationTime()) &lt; 3:
+    s=f'Simulation time: {t:.2f} [s] (simulation running asynchronously to client)'
+    print(s)
+    sim.addLog(sim.verbosity_scriptinfos,s)
+sim.stopSimulation()
+# If you need to make sure we really stopped:
+while sim.getSimulationState()!=sim.simulation_stopped:
+    time.sleep(0.1)
+
+# Run a simulation in synchronous mode:
+client.setsynchronous(True)
+sim.startSimulation()
+while (t := sim.getSimulationTime()) &lt; 3:
+    print(f'Simulation time: {t:.2f} [s] (synchronous simulation)')
+    sim.addLog(sim.verbosity_scriptinfos,f'Simulation time: {t:.2f} [s] (synchronous simulation)')
+    client.step() # triggers next simulation step
+sim.stopSimulation()
+
+# Remove the dummies created earlier:
+for h in handles:
+    sim.removeObject(h)</code>
+
+
+<br>
+<br>
+ </tr>
+ <tr>
+   <td > 
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

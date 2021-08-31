@@ -28,16 +28,18 @@
 <p>Each plugin is required to have following 3 entry point procedures:<br>
 </p>
 
-<pre class=lightBlueBox>extern &quot;C&quot; __declspec(dllexport) unsigned char simStart(void* reserved,int reservedInt);<br>extern &quot;C&quot; __declspec(dllexport) void simEnd();<br>extern &quot;C&quot; __declspec(dllexport) void* simMessage(int message,int* auxiliaryData,void* customData,int* replyData);</pre>
+<code class="hljs language-c++ coppelia-coppeliasim-plugin">
+extern &quot;C&quot; __declspec(dllexport) unsigned char simStart(void* reserved,int reservedInt);<br>extern &quot;C&quot; __declspec(dllexport) void simEnd();<br>extern &quot;C&quot; __declspec(dllexport) void* simMessage(int message,int* auxiliaryData,void* customData,int* replyData);
+</code>
 
 <p>If one procedure is missing then the plugin will be unloaded and won't be operational. Refer to the <a href="userInterface.htm#ConsoleWindow">console window</a> at start-up for the loading status of plugins. Following briefly describes above three entry point purpose:<br>
 </p>
 <br>
 
 
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="simStart"></a>simStart
-</td></tr></table> 
+</h2>
 
 
 <p>This procedure will be called one time just after the main client application loaded the plugin. The procedure should:<br>
@@ -59,18 +61,18 @@ register custom script variables (if required) .
 <br>
 
 
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="simEnd"></a>simEnd
-</td></tr></table> 
+</h2>
 
 
 <p>This procedure will be called one time just before the simulation loop exits. The procedure should release all resources reserved since <strong>simStart</strong> was called.<br>
 </p>
 <br>
 
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="simMessage"></a>simMessage
-</td></tr></table> 
+</h2>
 
 
 <p>This procedure will be called very often while the simulator is running. The procedure is in charge of monitoring messages of interest and reacting to them. It is important to react to following events (best by intercepting the <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_instancepass</a> message) depending on your plugin's task:</p>

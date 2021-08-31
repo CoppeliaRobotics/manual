@@ -28,6 +28,59 @@
 
 <p>All ROS interfaces can normally operate side-by-side, but we highly recommend you to first try your hands on the <a href="rosInterf.htm">ROS Interface</a>, since this is the most flexible and natural approach. The packages to the first two above listed ROS interfaces are located <a href="https://github.com/CoppeliaRobotics/simExtROS" target="_blank">here</a> and <a href="https://github.com/CoppeliaRobotics/sim_plugin_skeleton" target="_blank">here</a>. Use the <a href="http://catkin-tools.readthedocs.io/en/latest/">catkin tools</a> to build those packages, otherwise you might run into difficulties.</p>
 
+<p>As an example, a <a href="visionSensors.htm">vision sensor</a> ROS2 publisher could look like:</p>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_init()
+    visionSensor=sim.getObjectHandle('/Vision_sensor')
+
+    -- Enable an image publisher:
+    pub=simROS2.createPublisher('/image', 'sensor_msgs/msg/Image')
+    simROS2.publisherTreatUInt8ArrayAsString(pub)
+end
+
+function sysCall_sensing()
+    -- Publish the image of the vision sensor:
+    local img,w,h=sim.getVisionSensorCharImage(visionSensor)
+    data={}
+    data.header={stamp=simROS2.getTime(), frame_id='a'}
+    data.height=h
+    data.width=w
+    data.encoding='rgb8'
+    data.is_bigendian=1
+    data.step=w*3
+    data.data=img
+    simROS2.publish(pub,data)
+end
+
+function sysCall_cleanup()
+    simROS2.shutdownPublisher(pub)
+end</code>
+
+<p>The subscriber on the other hand could look like:</p>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_init()
+    -- Enable an image subscriber:
+    sub=simROS2.createSubscription('/image', 'sensor_msgs/msg/Image', 'image_callback')
+    simROS2.subscriptionTreatUInt8ArrayAsString(sub)
+end
+
+function image_callback(msg)
+    -- Here we have received an image
+end
+
+function sysCall_cleanup()
+    simROS2.shutdownSubscription(sub)
+end</code>
+<br>
+
+
+
+
+
+
+
 <p>Also have a look at the <a href="rosTutorial.htm">ROS tutorial</a> and the <a href="externalControllerTutorial.htm">external controller tutorial</a>.</p>
 
 <br>

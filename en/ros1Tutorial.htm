@@ -33,44 +33,49 @@
 
 
 <p>Above packages should be copied to your <em>catkin_ws/src</em><em> </em>folder. Make sure that ROS is aware of those packages, i.e. that you can switch to above package folders with:</p>
-<pre class=lightGreyBox>
+<code class="hljs coppelia-terminal">
 $ roscd sim_ros_interface
-$ roscd ros_bubble_rob</pre>
+$ roscd ros_bubble_rob
+</code>
 
 <p>In order to build the packages, navigate to the <em>catkin_ws</em> folder and type:</p>
 
-<pre class=lightGreyBox>
+<code class="hljs coppelia-terminal">
 $ export COPPELIASIM_ROOT_DIR=~/path/to/coppeliaSim/folder
-$ catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release</pre>
+$ catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release
+</code>
 
 <p>Note for Ubuntu 20.04: due to a bug in python-catkin-tools you need to use catkin_make instead of catkin build.</p>
 
 <p>That's it! The packages should have been generated and compiled to a library. Copy the devel/lib/libsimExtROS.so file to the CoppeliaSim installation folder. The plugin is now ready to be used!</p>
 
 <p>Now open a terminal and start the ROS master with:</p>
-<pre class=lightGreyBox>
-$ roscore</pre>
+<code class="hljs coppelia-terminal">
+$ roscore
+</code>
 
 
 <p>Open another terminal, move to the CoppeliaSim installation folder and start CoppeliaSim. This is what you should have (or similar):</p>
 
-<pre class=lightGreyBox>
+<code class="hljs coppelia-terminal">
 $ ./coppeliaSim.sh
 ...
 Plugin 'ROSInterface': loading...
 Plugin 'ROSInterface': load succeeded.
-...</pre>
+...
+</code>
 
 
 <p>Upon succesful ROS Interface load, checking the available nodes gives this:</p>
-<pre class=lightGreyBox>
+<code class="hljs coppelia-terminal">
 $ rosnode list
 /rosout
-/sim_ros_interface</pre>
+/sim_ros_interface
+</code>
 
 <p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="childScripts.htm">child script</a> to it with [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function subscriber_callback(msg)
     -- This is the subscriber callback function
     sim.addLog(sim.verbosity_scriptinfos,'subscriber receiver following Float32: '..msg.data)
@@ -121,7 +126,7 @@ function sysCall_cleanup()
         simROS.shutdownPublisher(publisher)
         simROS.shutdownSubscriber(subscriber)
     end
-end</pre>
+end</code>
 
 
 
@@ -130,13 +135,15 @@ end</pre>
 
 <p>Above script will publish the simulation time, and subscribe to it at the same time. It will also publish the transform of the object the script is attached to. You should be able to see the simulation time topic with:</p>
 
-<pre class=lightGreyBox>
-$ rostopic list</pre>
+<code class="hljs coppelia-terminal">
+$ rostopic list
+</code>
 
 <p>To see the message content, you can type:</p>
 
-<pre class=lightGreyBox>
-$ rostopic echo /simulationTime</pre>
+<code class="hljs coppelia-terminal">
+$ rostopic echo /simulationTime
+</code>
 
 
 <p>Now load the demo scene <em>rosInterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="childScripts.htm">child script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
@@ -149,14 +156,16 @@ $ rostopic echo /simulationTime</pre>
 
 <p>Try experimenting a little bit with the code. You can also visualize the image that CoppeliaSim streams with following command:</p>
 
-<pre class=lightGreyBox>
-$ rosrun image_view image_view image:=/visionSensorData</pre>
+<code class="hljs coppelia-terminal">
+$ rosrun image_view image_view image:=/visionSensorData
+</code>
 
 
 <p>Had you been streaming simpler data, then you could also have visualized it with:</p>
 
-<pre class=lightGreyBox>
-$ rostopic echo /visionSensorData</pre>
+<code class="hljs coppelia-terminal">
+$ rostopic echo /visionSensorData
+</code>
 
 
 <p>Now stop the simulation and load the demo scene <em>controlTypeExamples/controlledViaRos.ttt</em>, and run the simulation. The robot is simplistic, and also behaving in a simplistic way for simplification purposes. It is controlled via the <a href="rosInterf.htm">ROS Interface</a>:</p>
@@ -190,7 +199,7 @@ $ rostopic echo /visionSensorData</pre>
 
 <p>Have a look at the content of the customization script, that can be fully customized for various purposes. Try generating topic messages from the command line, for instance:</p> 
 
-<pre class=lightGreyBox>
+<code class="hljs coppelia-terminal">
 $ rostopic pub /startSimulation std_msgs/Bool true --once
 $ rostopic pub /pauseSimulation std_msgs/Bool true --once
 $ rostopic pub /stopSimulation std_msgs/Bool true --once
@@ -199,12 +208,14 @@ $ rostopic pub /startSimulation std_msgs/Bool true --once
 $ rostopic pub /triggerNextStep std_msgs/Bool true --once
 $ rostopic pub /triggerNextStep std_msgs/Bool true --once
 $ rostopic pub /triggerNextStep std_msgs/Bool true --once
-$ rostopic pub /stopSimulation std_msgs/Bool true --once</pre>
+$ rostopic pub /stopSimulation std_msgs/Bool true --once
+</code>
 
 <p>In order to display the current simulation time, you could type:</p>
 
-<pre class=lightGreyBox>
-$ rostopic echo /simulationTime</pre>
+<code class="hljs coppelia-terminal">
+$ rostopic echo /simulationTime
+</code>
 
 <p>Finally, make sure to have a look at the <a href="remoteApiOverview.htm">remote API functionality</a> and the <a href="blueZeroPlugin.htm">BlueZero framework</a> in CoppeliaSim: similarly to ROS, it allows for remote function execution, fast data streaming back and forth, is quite simple to use, leightweight and  cross-platform. The remote API functionality is available for 7 different languages. Both, the remote APi and the BlueZero framework  can be interesting alternatives to ROS in some cases.</p>
 

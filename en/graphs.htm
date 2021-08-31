@@ -30,7 +30,8 @@
 <p>A graph is added to the scene with [Menu bar --&gt; Add --&gt; Graph]. Its basic properties are accessed and adjusted in the <a href="graphPropertiesDialog.htm">graph dialog</a>.</p>
 <p>The user is in charge of defining data streams, curves, and feeding them with appropriate data on a regular basis (usually once per simulation step). Following illustrates how to record and visualize 2 data streams (the velocity of two joints over time):</p>
 
-<pre class=lightRedBox>function sysCall_init()
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_init()
     graph=sim.getObjectHandle('/Graph')
     joint1Vel=sim.addGraphStream(graph,'joint 1 velocity','deg/s',0,{1,0,0})
     joint2Vel=sim.addGraphStream(graph,'joint 2 velocity','deg/s',0,{0,1,0})
@@ -39,11 +40,12 @@ end
 function sysCall_sensing()
     sim.setGraphStreamValue(graph,joint1Vel,180*sim.getJointVelocity(joint1Handle)/math.pi)
     sim.setGraphStreamValue(graph,joint1Vel,180*sim.getJointVelocity(joint1Handle)/math.pi)
-end</pre>
+end</code>
 
 <p>Next example shows how to record and visualize an x/y position curve of an object:</p>
 
-<pre class=lightRedBox>function sysCall_init()
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_init()
     graph=sim.getObjectHandle('/Graph')
     objectPosX=sim.addGraphStream(graph,'object pos x','m',1)
     objectPosY=sim.addGraphStream(graph,'object pos y','m',1)
@@ -54,7 +56,7 @@ function sysCall_sensing()
     local pos=sim.getObjectPosition(objectHandle,-1)
     sim.setGraphStreamValue(graph,objectPosX,pos[1])
     sim.setGraphStreamValue(graph,objectPosY,pos[2])
-end</pre>
+end</code>
 
 <p>See also the <a href="apiFunctions.htm#graphs">API functions related to graphs</a>.</p>
 

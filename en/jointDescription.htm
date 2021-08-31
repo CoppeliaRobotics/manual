@@ -23,9 +23,9 @@
 <p>Compared to another <a href="objects.htm">object</a>, a <a href="joints.htm">joint</a> has two reference frames (visible only if the joint is selected). The first one is the regular reference frame that is fixed and that other objects also have. The second reference frame is not fixed, and will move relative to the first reference frame depending on the joint position (or joint value) that defines its configuration.</p>
 
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="types"></a>Joint types
-</td></tr></table>
+</h2>
 
 <p>4 types of joints are supported:</p>
 
@@ -57,9 +57,9 @@
 </p>
 
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="modes"></a>Joint modes
-</td></tr></table>
+</h2>
 
 <p>A joint can be in one of following modes:
 </p>
@@ -97,9 +97,9 @@
 
 
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="controller"></a>Joint controllers
-</td></tr></table>
+</h2>
 
 <p>There are many different ways a joint can be controlled. In following section, we differentiate betwen a <em><strong>loose</strong></em> controller and a <em><strong>precise</strong></em> controller: a <em><strong>loose</strong></em> joint controller will not be able to provide new control values in each possible regulation step (e.g. some regulation steps might/will be skipped, but control is still possible). A <em><strong>precise</strong></em> joint controller on the other hand, will be able to provide control values in each possible regulation step.</p>
 
@@ -114,7 +114,8 @@
 
 <p>In following threaded <a href="childScripts.htm">child script</a> example, the joint is controlled <em><strong>loosely</strong></em>  in position, and there is no synchronization with the simulation loop:</p>
 
-<pre class=lightRedBox>-- Following script should run threaded:
+<code class="hljs language-lua coppelia-coppeliasim-script">
+-- Following script should run threaded:
 
 jointHandle=sim.getObjectHandle('/Revolute_joint')
 
@@ -123,11 +124,12 @@ sim.wait(2) -- wait 2 seconds (in simulation time)
 sim.setJointPosition(jointHandle,180*math.pi/180) -- set the position to 180 degrees
 sim.wait(1) -- wait 1 second (in simulation time)
 sim.setJointPosition(jointHandle,0*math.pi/180) -- set the position to 0 degrees
-etc.</pre>
+etc.</code>
 
 <p>In following threaded <a href="childScripts.htm">child script</a> example, the joint is controlled <strong>precisely</strong> in position in each simulation step, i.e. the thread is synchronized with the simulation loop:</p>
 
-<pre class=lightRedBox>-- Following script should run threaded:
+<code class="hljs language-lua coppelia-coppeliasim-script">
+-- Following script should run threaded:
 
 local initialForbidLevel=sim.setThreadAutomaticSwitch(false) -- Automatic thread switching disabled
 jointHandle=sim.getObjectHandle('/Revolute_joint')
@@ -142,12 +144,38 @@ sim.switchThread() -- the thread resumes in next simulation step
 sim.setThreadAutomaticSwitch(initialForbidLevel) -- Restore the automatic thread switching
 
 -- In above code, a new joint position is applied in each simulation step
-</pre>
+</code>
 
 <p>When you try to control a joint that is not in force/torque mode from an external application (e.g. via the <a href="remoteApiOverview.htm">remote API</a>, <a href="rosInterfaces.htm">ROS</a> or <a href="blueZeroPlugin.htm">BlueZero</a>), then the external controller will run asynchronously to CoppeliaSim (i.e. similar to the non-synchronized code of a threaded <a href="childScripts.htm">child script</a>). This is fine most of the time for <strong><em>loose</em></strong> control, but if you wish to control the position of the joint <strong><em>precisely</em></strong> in each simulation loop, you will have to run CoppeliaSim in synchronous mode, and the external controller (e.g. the remote API client) will have to trigger each simulation step explicitely. </p>
-<p>Following illustrates a C++ <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client that does this:</p>
+<p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client that does this:</p>
 
-<pre class=lightBlueBox>bool doNextStep=false;
+<code class="hljs language-python coppelia-zmq-remote-api-client">
+client.setsynchronous(True) # enable the synchronous mode.
+sim.startSimulation() # start the simulation
+sim.setJointPosition(jointHandle,90*3.1415/180) # set the joint to 90 degrees
+client.step() # trigger next simulation step. Above commands will be applied
+sim.setJointPosition(jointHandle,180*3.1415/180) # set the joint to 180 degrees
+client.step() # next simulation step executes. Above commands will be applied
+sim.setJointPosition(jointHandle,0) # set the joint to 0 degrees
+</code>
+
+<p>Following does the same, however with a C++ <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client:</p>
+
+<code class="hljs language-c++ coppelia-legacy-remote-api-client">
+simxSynchronous(clientId,1); // enable the synchronous mode.
+simxStartSimulation(clientId,simx_opmode_oneshot); // start the simulation
+simxSetJointPosition(clientId,jointHandle,90.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the joint to 90 degrees
+simxSynchronousTrigger(clientId); // trigger next simulation step. Above commands will be applied
+simxSetJointPosition(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the joint to 180 degrees
+simxSynchronousTrigger(clientId); // next simulation step executes. Above commands will be applied
+simxSetJointPosition(clientId,jointHandle,0.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the joint to 0 degrees
+</code>
+
+
+<p>Following does the same, however with a <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client:</p>
+
+<code class="hljs language-c++ coppelia-b0-remote-api-client">
+bool doNextStep=false;
 
 void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
 {
@@ -158,42 +186,32 @@ int main(int argc,char* argv[])
 {
     ...
     client.simxSynchronous(true); // enable the synchronous mode
-    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB)); // callback when step finished
+     // callback when step finished:
+    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB));
     client.simxStartSimulation(client.simxDefaultPublisher()); // start the simulation
 
-    client.simxSetJointPosition(jointHandle,90.0f*3.1415f/180.0f,client.simxDefaultPublisher()); // set the joint to 90 degrees
+    // set the joint to 90 degrees:
+    client.simxSetJointPosition(jointHandle,90.0f*3.1415f/180.0f,client.simxDefaultPublisher());
     client.simxSynchronousTrigger(); // start one simulation step
     while (!doNextStep) // wait until simulation step finished
         client.simxSpinOnce();
         
     doNextStep=false;
-    client.simxSetJointPosition(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher()); // set the joint to 180 degrees
+    // set the joint to 180 degrees:
+    client.simxSetJointPosition(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
     client.simxSynchronousTrigger(); // start one simulation step
     while (!doNextStep) // wait until simulation step finished
         client.simxSpinOnce();
         
     doNextStep=false;
-    client.simxSetJointPosition(jointHandle,0.0f*3.1415f/180.0f,client.simxDefaultPublisher()); // set the joint to 0 degrees
+    // set the joint to 0 degrees:
+    client.simxSetJointPosition(jointHandle,0.0f*3.1415f/180.0f,client.simxDefaultPublisher());
     client.simxSynchronousTrigger(); // start one simulation step
     while (!doNextStep) // wait until simulation step finished
         client.simxSpinOnce();
     ...
-}</pre>
+}</code>
 
-<p>Refer to <a href="b0RemoteApiModusOperandi.htm#synchronous">this page</a> for details on how the B0-based remote API synchronous mode operates exactly. The approach is similar with ROS or BlueZero.</p>
-<p>Following does the same, however with a <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client:</p>
-
-<pre class=lightBlueBox>...
-simxSynchronous(clientId,1); // enable the synchronous mode (client side). The server side (i.e. CoppeliaSim) also needs to be enabled.
-simxStartSimulation(clientId,simx_opmode_oneshot); // start the simulation
-simxSetJointPosition(clientId,jointHandle,90.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the joint to 90 degrees
-simxSynchronousTrigger(clientId); // trigger next simulation step. Above commands will be applied
-simxSetJointPosition(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the joint to 180 degrees
-simxSynchronousTrigger(clientId); // next simulation step executes. Above commands will be applied
-simxSetJointPosition(clientId,jointHandle,0.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the joint to 0 degrees
-...</pre>
-
-<p>Refer to <a href="remoteApiModusOperandi.htm#synchronous">this page</a> for details on how the legacy remote API synchronous mode operates exactly. The approach is similar with ROS or BlueZero.</p>
 
 
 <p><strong><a name="forceTorqueMode"></a>If the joint is in force/torque mode</strong>: if the joint operates in force/torque mode and is <a href="designingDynamicSimulations.htm#dynamicallyEnabledJoints">dynamically enabled</a>, then it will be indirectly handled by the physics engine. If your joint's motor is not enabled, then your joint is not controlled (i.e. it will be free). Otherwise, your joint can be in following two dynamic modes:</p>
@@ -206,9 +224,42 @@ simxSetJointPosition(clientId,jointHandle,0.0f*3.1415f/180.0f,simx_opmode_onesho
 <p>By default, the simulation loop runs with a time step of 50ms (in simulation time). But the physics engine will run with a time step of 5ms, i.e. 10 times more often. A child script will be called in each simulation step, but not in each physics engine calculation step. This means that if you control a joint from a child script in a <em>regular way</em>, you will only be able to provide new control values once for 10 physics engine calculation steps: you will be missing 9 steps. One way to overcome this would be to change the default <a href="simulationPropertiesDialog.htm">simulation settings</a> and to specify a simulation <strong>time step</strong> of 5ms, instead of 50ms. This works fine, but remember that all other calculations (e.g. <a href="visionSensors.htm">vision sensors</a>, <a href="proximitySensors.htm">proximity sensors</a>, <a href="distanceCalculation.htm">distance calculations</a>, <a href="kinematics.htm">IK</a>, etc.) will also run 10 times more often, and finally slow down your simulation (most of the time you won't need such a high refresh rate for the other calculation modules. But the physics engine requires such a high refresh rate). Another, much better option, would be to use a <a href="jointCallbackFunctions.htm">joint callback function</a> (or a <a href="dynCallbackFunctions.htm">dynamics callback function</a>) as will be explained further down.</p>
 
 <p>If, one the other hand, you want to run a <em><strong>precise</strong></em> and regular joint controller externally (e.g. from a <a href="remoteApiOverview.htm">remote API</a> client,  a <a href="rosInterfaces.htm">ROS</a> node or a <a href="blueZeroPlugin.htm">BlueZero</a> node), then you have no other option than to set the simulation loop to the same rate as the physics engine rate, then run CoppeliaSim in synchronous mode, and the external controller (e.g. the remote API client) will have to trigger each simulation step explicitely. </p>
-<p>Following illustrates a C++ <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client that does this:</p>
 
-<pre class=lightBlueBox>bool doNextStep=false;
+<p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client that does this:</p>
+
+<code class="hljs language-python coppelia-zmq-remote-api-client">
+client.setsynchronous(True)
+sim.startSimulation()
+sim.setJointMaxForce(jointHandle,1.0)
+sim.setJointTargetVelocity(jointHandle,180*3.1415/180)
+client.step()
+sim.setJointMaxForce(jointHandle,0.5)
+sim.setJointTargetVelocity(jointHandle,180*3.1415/180)
+client.step()
+sim.setJointMaxForce(jointHandle,2.0)
+sim.setJointTargetVelocity(jointHandle,180*3.1415/180) # set the joint target velocity
+</code>
+
+<p>Following does the same, however with a C++ <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client:</p>
+
+<code class="hljs language-c++ coppelia-legacy-remote-api-client">
+simxSynchronous(clientId,1);
+simxStartSimulation(clientId,simx_opmode_oneshot);
+simxSetJointMaxForce(clientId,jointHandle,1.0f,simx_opmode_oneshot);
+simxSetJointTargetVelocity(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot);
+simxSynchronousTrigger(clientId);
+simxSetJointMaxForce(clientId,jointHandle,0.5f,simx_opmode_oneshot);
+simxSetJointTargetVelocity(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot);
+simxSynchronousTrigger(clientId);
+simxSetJointMaxForce(clientId,jointHandle,2.0f,simx_opmode_oneshot);
+simxSetJointTargetVelocity(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot);
+</code>
+
+
+<p>Following does the same, however with a <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client:</p>
+
+<code class="hljs language-c++ coppelia-b0-remote-api-client">
+bool doNextStep=false;
 
 void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
 {
@@ -218,61 +269,66 @@ void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
 int main(int argc,char* argv[])
 {
     ...
-    client.simxSynchronous(true); // enable the synchronous mode
-    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB)); // callback when step finished
-    client.simxStartSimulation(client.simxDefaultPublisher()); // start the simulation
+    client.simxSynchronous(true);
+    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB));
+    client.simxStartSimulation(client.simxDefaultPublisher());
 
-    // set the desired force and target velocity:
     client.simxSetJointMaxForce(jointHandle,1.0f,client.simxDefaultPublisher());
     client.simxSetJointTargetVelocity(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step
-    while (!doNextStep) // wait until simulation step finished
+    client.simxSynchronousTrigger();
+    while (!doNextStep)
         client.simxSpinOnce();
         
     doNextStep=false;
-    // set the desired force and target velocity:
     client.simxSetJointMaxForce(jointHandle,0.5f,client.simxDefaultPublisher());
     client.simxSetJointTargetVelocity(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step 
-    while (!doNextStep) // wait until simulation step finished
+    client.simxSynchronousTrigger();
+    while (!doNextStep)
         client.simxSpinOnce();
         
     doNextStep=false;
-    // set the desired force and target velocity:
     client.simxSetJointMaxForce(jointHandle,2.0f,client.simxDefaultPublisher());
     client.simxSetJointTargetVelocity(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step
-    while (!doNextStep) // wait until simulation step finished
+    client.simxSynchronousTrigger();
+    while (!doNextStep)
         client.simxSpinOnce();
     ...
-}</pre>
+}</code>
 
-<p>Refer to <a href="b0RemoteApiModusOperandi.htm#synchronous">this page</a> for details on how the B0-based remote API synchronous mode operates exactly. The approach is similar with ROS or BlueZero.</p>
 
-<p>Following does the same, however with a <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client:</p>
-
-<pre class=lightBlueBox>...
-simxSynchronous(clientId,1); -- enable the synchronous mode (client side). The server side (i.e. CoppeliaSim) also needs to be enabled.
-simxStartSimulation(clientId,simx_opmode_oneshot); // start the simulation
-simxSetJointMaxForce(clientId,jointHandle,1.0f,simx_opmode_oneshot); // set the joint force/torque
-simxSetJointTargetVelocity(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the joint target velocity
-simxSynchronousTrigger(clientId); // trigger next simulation step. Above commands will be applied
-simxSetJointMaxForce(clientId,jointHandle,0.5f,simx_opmode_oneshot); // set the joint force/torque
-simxSetJointTargetVelocity(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the joint target velocity
-simxSynchronousTrigger(clientId); // next simulation step executes. Above commands will be applied
-simxSetJointMaxForce(clientId,jointHandle,2.0f,simx_opmode_oneshot); // set the joint force/torque
-simxSetJointTargetVelocity(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the joint target velocity
-...</pre>
-
-<p>Refer to <a href="remoteApiModusOperandi.htm#synchronous">this page</a> for details on how the legacy remote API synchronous mode operates exactly. The approach is similar with ROS or BlueZero.</p>
 
 
 <p><a name="controlLoopEnabled"></a>If your <strong>joint's motor is enabled, and the control loop is also enabled</strong>, then the physics engine will handle the joint according to the setting: your joint can operate in position control (i.e. PID control), in a spring/damper mode, or in custom control. PID and spring/damper parameters can be updated from a <a href="childScripts.htm">child script</a>, from a <a href="remoteApiOverview.htm">remote API</a> client,  from a <a href="rosInterfaces.htm">ROS</a> or <a href="blueZeroPlugin.htm">BlueZero</a> node. Refer to <a href="objectParameterIDs.htm">object parameter IDs</a> 2002-2004, and 2018-2019. Desired target positions can be set with <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a> (or, for example, from a B0-based remote API client: <a href="b0RemoteApi-cpp.htm#simxSetJointTargetPosition">simxSetJointTargetPosition</a>, or from a legacy remote API client: <a href="remoteApiFunctions.htm#simxSetJointTargetPosition">simxSetJointTargetPosition</a>). When you need a <em><strong>precise</strong></em> custom controller, then you should use a <a href="jointCallbackFunctions.htm">joint callback function</a> instead (or a <a href="dynCallbackFunctions.htm">dynamics callback function</a>).</p>
 
 <p>Finally, if you need a precise PID or custom controller that is implemented in an external application, you need to make sure that the simulation step is the same as the physics engine calculation step: by default, CoppeliaSim's simulation loop runs at 20Hz (in simulation time), while the physics engine runs at 200Hz. You can adjust the simulation step size in the <a href="simulationPropertiesDialog.htm">simulation setting</a>. You also need to make sure you run CoppeliaSim in synchronous mode. </p>
-<p>Following illustrates a C++ <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client that does this:</p>
+<p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client that does this:</p>
 
-<pre class=lightBlueBox>bool doNextStep=false;
+<code class="hljs language-python coppelia-zmq-remote-api-client">
+client.setsynchronous(True)
+sim.startSimulation()
+sim.setJointTargetPosition(jointHandle,90*3.1415/180)
+client.step()
+sim.setJointTargetPosition(jointHandle,180*3.1415/180)
+client.step()
+sim.setJointTargetPosition(jointHandle,0)
+</code>
+
+<p>Following does the same, however with a C++ <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client:</p>
+
+<code class="hljs language-c++ coppelia-legacy-remote-api-client">
+simxSynchronous(clientId,1);
+simxStartSimulation(clientId,simx_opmode_oneshot);
+simxSetJointTargetPosition(clientId,jointHandle,90.0f*3.1415f/180.0f,simx_opmode_oneshot);
+simxSynchronousTrigger(clientId);
+simxSetJointTargetPosition(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot);
+simxSynchronousTrigger(clientId);
+simxSetJointTargetPosition(clientId,jointHandle,0.0f*3.1415f/180.0f,simx_opmode_oneshot);
+</code>
+
+<p>Following does the same, however with a <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client:</p>
+
+<code class="hljs language-c++ coppelia-b0-remote-api-client">
+bool doNextStep=false;
 
 void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
 {
@@ -282,47 +338,54 @@ void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
 int main(int argc,char* argv[])
 {
     ...
-    client.simxSynchronous(true); // enable the synchronous mode
-    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB)); // callback when step finished
-    client.simxStartSimulation(client.simxDefaultPublisher()); // start the simulation
+    client.simxSynchronous(true);
+    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB));
+    client.simxStartSimulation(client.simxDefaultPublisher());
 
-    // set the desired target position:
     client.simxSetJointTargetPosition(jointHandle,90.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step
-    while (!doNextStep) // wait until simulation step finished
+    client.simxSynchronousTrigger();
+    while (!doNextStep)
         client.simxSpinOnce();
         
     doNextStep=false;
-    // set the desired target position:
     client.simxSetJointTargetPosition(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step
-    while (!doNextStep) // wait until simulation step finished
+    client.simxSynchronousTrigger();
+    while (!doNextStep)
         client.simxSpinOnce();
         
     doNextStep=false;
-    // set the desired target position:
     client.simxSetJointTargetPosition(jointHandle,0.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step
-    while (!doNextStep) // wait until simulation step finished
+    client.simxSynchronousTrigger();
+    while (!doNextStep)
         client.simxSpinOnce();
     ...
-}</pre>
+}</code>
 
-<p>Following does the same, however with a <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client:</p>
 
-<pre class=lightBlueBox>...
-simxSynchronous(clientId,1); -- enable the synchronous mode (client side). The server side (i.e. CoppeliaSim) also needs to be enabled.
-simxStartSimulation(clientId,simx_opmode_oneshot); // start the simulation
-simxSetJointTargetPosition(clientId,jointHandle,90.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the desired joint position
-simxSynchronousTrigger(clientId); // trigger next simulation step. Above commands will be applied
-simxSetJointTargetPosition(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the desired joint position
-simxSynchronousTrigger(clientId); // next simulation step executes. Above commands will be applied
-simxSetJointTargetPosition(clientId,jointHandle,0.0f*3.1415f/180.0f,simx_opmode_oneshot); // set the desired joint position
-...</pre>
+<p>You can also have a remote API client provide control values for a custom joint controller implemented in a joint callback function, by providing values, for instance via signals, to that joint callback function. For example, from a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client:</p>
 
-<p>You can also have a remote API client provide control values for a custom joint controller implemented in a joint callback function, by providing values, for instance via signals, to that joint callback function. For example, from a C++ <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client:</p>
+<code class="hljs language-python coppelia-zmq-remote-api-client">
+client.setsynchronous(True) # enable the synchronous mode.
+sim.startSimulation()
+sim.setFloatSignal("myDesiredTorque",1.0)
+sim.setFloatSignal("myDesiredTarget",90.0*3.1415/180.0)
+client.step()
+</code>
 
-<pre class=lightBlueBox>bool doNextStep=false;
+<p>Following does the same, however with a C++ <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client:</p>
+
+<code class="hljs language-c++ coppelia-legacy-remote-api-client">
+simxSynchronous(clientId,1);
+simxStartSimulation(clientId,simx_opmode_oneshot);
+simxSetFloatSignal(clientId,"myDesiredTorque",1.0f,simx_opmode_oneshot);
+simxSetFloatSignal(clientId,"myDesiredTarget",90.0f*3.1415/180.0f,simx_opmode_oneshot);
+simxSynchronousTrigger(clientId);
+</code>
+
+<p>Following does the same, however with a <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client:</p>
+
+<code class="hljs language-c++ coppelia-b0-remote-api-client">
+bool doNextStep=false;
 
 void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
 {
@@ -332,30 +395,20 @@ void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
 int main(int argc,char* argv[])
 {
     ...
-    client.simxSynchronous(true); // enable the synchronous mode
-    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB)); // callback when step finished
-    client.simxStartSimulation(client.simxDefaultPublisher()); // start the simulation
+    client.simxSynchronous(true);
+    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB));
+    client.simxStartSimulation(client.simxDefaultPublisher());
 
-    // set the desired target position:
     simxSetFloatSignal("myDesiredTorque",1.0f,client.simxDefaultPublisher());
     simxSetFloatSignal("myDesiredTarget",90.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step
-    while (!doNextStep) // wait until simulation step finished
+    client.simxSynchronousTrigger();
+    while (!doNextStep)
         client.simxSpinOnce();
     ...
-}</pre>
+}</code>
 
-<p>In above example, your joint callback function could fetch those two signals (with <a href="regularApi/simGetDoubleSignal.htm">sim.getDoubleSignal</a>) before doing the control.</p>
+<p>In above example, your joint callback function could fetch those two signals (with <a href="regularApi/simGetFloatSignal.htm">sim.getFloatSignal</a>) before doing the control.</p>
 
-<p>Following does the same, however with a <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client:</p>
-
-<pre class=lightBlueBox>...
-simxSynchronous(clientId,1); -- enable the synchronous mode (client side). The server side (i.e. CoppeliaSim) also needs to be enabled.
-simxStartSimulation(clientId,simx_opmode_oneshot); // start the simulation
-simxSetFloatSignal(clientId,"myDesiredTorque",1.0f,simx_opmode_oneshot); // set the signal value
-simxSetFloatSignal(clientId,"myDesiredTarget",90.0f*3.1415/180.0f,simx_opmode_oneshot); // set the signal value
-simxSynchronousTrigger(clientId); // trigger next simulation step. Above commands will be applied
-...</pre>
 
 <br>
 <br>

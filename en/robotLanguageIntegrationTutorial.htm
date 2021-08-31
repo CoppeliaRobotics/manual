@@ -149,15 +149,15 @@ Checking whether the plugin was loaded. If not, an error message is output.</li>
 <p>Following 3 custom Lua functions are of main interest (others are exported by the plugin): <br>
 </p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 number mtbServerHandle,string message=simMTB.startServer(string mtbServerExecutable,
-    number portNumber,charBuffer program,table[4] jointPositions, table[2] velocities)</pre>
+    number portNumber,charBuffer program,table[4] jointPositions, table[2] velocities)</code>
 
-<pre class=lightRedBox>
-number result,string message=simMTB.step(number mtbServerHandle,number timeStep)</pre>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+number result,string message=simMTB.step(number mtbServerHandle,number timeStep)</code>
 
-<pre class=lightRedBox>
-table[4] jointValues=simMTB.getJoints(number mtbServerHandle)</pre>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+table[4] jointValues=simMTB.getJoints(number mtbServerHandle)</code>
 
 
 <li><strong>simMTB.startServer</strong>: launches the server application (e.g. <em>mtbServer</em>) on the specified port, connects to it, and sends it the robot language code, the initial joint positions, and the initial velocities. In return, the function returns a server handle (if successful), and a message (usually a compilation error message).</li>
@@ -170,7 +170,8 @@ table[4] jointValues=simMTB.getJoints(number mtbServerHandle)</pre>
 <p>You could also imagine slightly modifying the step function, and add one additional function, in order to be able to handle intermediate events triggered by the robot language program execution. In that case, each simulation step would have to execute following script code (in a child script):<br>
 </p>
 
-<pre class=lightRedBox>local dt=sim.getSimulationTimeStep()
+<code class="hljs language-lua coppelia-coppeliasim-script">
+local dt=sim.getSimulationTimeStep()
 while (dt&gt;0) do
     result,dt,cmdMessage=simMTB.step(mtbServerHandle,dt) -- where the returned dt is the remaining dt
     local event=simMTB.getEvent()
@@ -178,7 +179,7 @@ while (dt&gt;0) do
         -- handle events here
         event=simMTB.getEvent()
     end
-end</pre>
+end</code>
 
 
 

@@ -55,7 +55,7 @@
 
 <p>Once you are satisfied with the geometry of the path (you can always modify it at a later stage), open the<a href="customizationScripts.htm"> customization script</a> attached to it and replace its content with:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 path=require('path_customization')
 
 function path.shaping(path,pathIsClosed,upVector)
@@ -68,7 +68,7 @@ function path.shaping(path,pathIsClosed,upVector)
     local shape=sim.generateShapeFromPath(path,section,options,upVector)
     sim.setShapeColor(shape,nil,sim.colorcomponent_ambient_diffuse,color)
     return shape
-end</pre>
+end</code>
 
 
 
@@ -78,7 +78,7 @@ end</pre>
 <p>The last step is to adjust the controller of BubbleRob, so that it will also follow the black path. Open the <a href="childScripts.htm">child script</a> attached to <em>bubbleRob</em>, and replace it with following code:</p>
 
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function speedChange_callback(ui,id,newVal)
     speed=minMaxSpeed[1]+(minMaxSpeed[2]-minMaxSpeed[1])*newVal/100
 end
@@ -146,7 +146,7 @@ end
 
 function sysCall_cleanup()
     simUI.destroy(ui)
-end</pre>
+end</code>
 
 
 <p>You can easily debug your line following vision sensors: select one, then in the scene view select [Right-click --> Add --> Floating view], then in the newly added floating view select [Right click --> View --> Associate view with selected vision sensor].

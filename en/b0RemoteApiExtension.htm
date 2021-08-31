@@ -31,7 +31,7 @@
 
 <p><a name="genericFunction" id="genericFunction"></a><strong>Using the generic function simxCallScriptFunction</strong>: instead of extending the functions that the B0-based remote API offers, one can  use the generic B0-based remote API function <a href="b0RemoteApi-cpp.htm#simxCallScriptFunction">simxCallScriptFunction</a>: this will call a CoppeliaSim script function, which can then execute any type of operation locally, then return data. For instance:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function myFunctionName(args)
     for i=1,#args,1 do
         print('Argument '..i..' is :')
@@ -39,19 +39,19 @@ function myFunctionName(args)
         print('')
     end
     return 'Hello to you too!',42 -- return a string and a number
-end</pre>
+end</code>
 
 <br>
 
 <p>The B0-based remote API client application would then call above script function in following manner (e.g. via a Python script):</p>
 
-<pre class=lightPurpleBox>
+<code class="hljs language-python coppelia-b0-remote-api-client">
 import b0RemoteApi
 
 with b0RemoteApi.RemoteApiClient('b0RemoteApi_pythonClient','b0RemoteApi') as client:    
     args=['Hello World!',[1,2,3],59]
     ret=client.simxCallScriptFunction('myFunctionName@objectPath','sim.scripttype_childscript',args,client.simxServiceCall())
-    print(ret)</pre>
+    print(ret)</code>
 
 <br>
 

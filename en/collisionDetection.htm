@@ -29,7 +29,7 @@
 
 <p>Using the API function <a href="regularApi/simCheckCollision.htm">sim.checkCollision</a>, one can easily detect collision between entities, for instance collision detection between a robot and its environment, from within a <a href="childScripts.htm">child script</a>, in each simulation step:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function sysCall_init()
     local robotBase=sim.getObjectHandle('/robotModelAlias')
     robotCollection=sim.createCollection(0)
@@ -41,11 +41,11 @@ function sysCall_sensing()
     if result&gt;0 then
         print('Robot is colliding. Colliding pair is '..getAsString(pairHandles))
     end
-end</pre>
+end</code>
 
 <p>One can also temporarily modify the color of <a href="objects.htm">objects</a> or whole <a href="collections.htm">collections</a>, in order to visually indicate a collision:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function changePairColor(entityPair,colorPair)
     originalColorData={}
     originalColorData[1]=sim.changeEntityColor(entityPair[1],colorPair[1])
@@ -80,7 +80,7 @@ end
 
 function sysCall_cleanup()
     restorePairColor()
-end</pre>
+end</code>
 
 
 

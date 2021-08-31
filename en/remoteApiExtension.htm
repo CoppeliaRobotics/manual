@@ -23,7 +23,7 @@
 
 <p>Instead of extending the functions that the remote API offers, one can  use the generic remote API function <a href="remoteApiFunctions.htm#simxCallScriptFunction">simxCallScriptFunction</a>: this will call a CoppeliaSim script function, which can then execute any type of operation locally, then return data. The called script function should always have following input/output form:</p>
 
-<pre class=lightRedBox>
+<code class="hljs language-lua coppelia-coppeliasim-script">
 function myFunctionName(inInts,inFloats,inStrings,inBuffer)
     -- inInts, inFloats and inStrings are tables
     -- inBuffer is a string
@@ -32,26 +32,27 @@ function myFunctionName(inInts,inFloats,inStrings,inBuffer)
 
     -- Always return 3 tables and a string, e.g.:
     return {},{},{},''
-end</pre>
+end</code>
 
 <br>
 
 <p>The remote API client application would then call above script function in following manner (e.g. via a Python script):</p>
 
-<pre class=lightPurpleBox>
+<code class="hljs language-python coppelia-legacy-remote-api-client">
 inputInts=[1,2,3]
 inputFloats=[53.21,17.39]
 inputStrings=['Hello','world!']
 inputBuffer=bytearray()
 inputBuffer.append(78)
 inputBuffer.append(42)
-res,retInts,retFloats,retStrings,retBuffer=sim.simxCallScriptFunction(clientID,'/path/to/object',sim.sim_scripttype_childscript,
-                'myFunctionName',inputInts,inputFloats,inputStrings,inputBuffer,sim.simx_opmode_blocking)
+res,retInts,retFloats,retStrings,retBuffer=sim.simxCallScriptFunction(clientID,'/path/to/object',
+    sim.sim_scripttype_childscript,'myFunctionName',inputInts,inputFloats,inputStrings,
+    inputBuffer,sim.simx_opmode_blocking)
 if res==sim.simx_return_ok:
     print (retInts)
     print (retFloats)
     print (retStrings)
-    print (retBuffer)</pre>
+    print (retBuffer)</code>
 
 <br>
 

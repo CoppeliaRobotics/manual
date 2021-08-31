@@ -27,7 +27,8 @@ background. Add-ons can run <a href="threadedAndNonThreadedCode.htm">threaded or
   same folder as the main application, with following naming convention: <em>simAddOnXXXX.lua</em>. Add-ons that do not follow above naming convention can still be loaded and run via <a href="commandLine.htm">command line options</a>.</p>
 <p>By default, add-ons will automatically start when CoppeliaSim starts, e.g.:</p>
 
-<pre class=lightRedBox>function sysCall_init()
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_init()
     print(&quot;Executing the initialization section. Starting together with CoppeliaSim&quot;)
 end
 
@@ -36,12 +37,13 @@ function sysCall_addOnScriptSuspend()<br>    print(&quot;Ending... (triggered by
 
 function sysCall_cleanup()
     print(&quot;Executing the clean-up section&quot;)
-end</pre>  
+end</code>  
 
 <br>
 <p>An add-on can also be manually started and stopped from the add-on menu, e.g.:</p>
 
-<pre class=lightRedBox>function sysCall_info()<br>    return {autoStart=false}<br>end
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_info()<br>    return {autoStart=false}<br>end
 
 function sysCall_init()
     print(&quot;Executing the initialization section. Start triggered by the user&quot;)
@@ -49,11 +51,11 @@ end
 
 function sysCall_addOnScriptSuspend()<br>    print(&quot;Ending... (triggered by the user)&quot;)
     return {cmd='cleanup'} -- end this add-on.<br>end
-</pre>
+</code>
 <br>
 <p>An add-on can also be suspended/resumed from the add-on menu, e.g.:</p>
 
-<pre class=lightRedBox>...
+<code class="hljs language-lua coppelia-coppeliasim-script">...
 
 function sysCall_addOnScriptSuspend()<br>    print(&quot;Suspending the add-on... (triggered by the user)&quot;)
 end
@@ -61,17 +63,18 @@ end
 function sysCall_addOnScriptResume()<br>    print(&quot;Resuming the add-on... (triggered by the user)&quot;)
 end
 
-...</pre>
+...</code>
 <br>
 <p>An add-on can also act as a simple function triggered by the user, e.g.:</p>
 
-<pre class=lightRedBox>function sysCall_info()<br>    return {autoStart=false}<br>end
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_info()<br>    return {autoStart=false}<br>end
 
 function sysCall_init()
     print(&quot;Executing the initialization section. Start triggered by the user&quot;)
     -- execute some functions here, e.g. import something
     return {cmd='cleanup'} -- end this add-on.
-end</pre>
+end</code>
 <br>
 <p>For more information about add-ons, have a look at the add-ons located in the installation folder.</p>
 <br>

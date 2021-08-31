@@ -29,9 +29,9 @@
 
 
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="visibleShapes"></a>Building the visible shapes
-</td></tr></table> 
+</h2>
 
 <p>When building a new model, first, we handle only the visual aspect of it: the dynamic aspect (its undelying even more simplified/optimized model), joints, sensors, etc. will be handled at a later stage.</p>
 
@@ -120,9 +120,9 @@
 
 <br>
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="joints"></a>Building the joints
-</td></tr></table> 
+</h2>
 
 
 <p>Now we will take care of the joints/motors. Most of the time, we know the exact position and orientation of each of the joints. In that case, we simply add the joints with [Menu bar --&gt; Add --&gt; Joints --&gt; ...], then we can change their position and orientation with the <a href="positionDialog.htm">position dialog</a> and <a href="orientationDialog.htm">orientation dialog</a>. In other situations, we only have the Denavit-Hartenberg (i.e. D-H) parameters. In that case, we can build our joints via the tool model located in <em>Models/tools/Denavit-Hartenberg joint creator.ttm</em>, in the model browser. Othertimes, we have no information about the joint locations and orientations. Then, we need to extract them from the imported mesh. Let's suppose this is our case. Instead of working on the modified, more approximate mesh, we open a new scene, and import the original CAD data again. Most of the time, we can extract meshes or primitive shapes from the original mesh. The first step is to subdivide the original mesh. If that does not work, we do it via the <a href="triangleEditMode.htm">triangle edit mode</a>. Let's suppose that we could divide the original mesh. We now have smaller objects that we can inspect. We are looking for revolute shapes, that could be used as reference to create joints at their locations, with the same orientation. First, remove all objects that are not needed. It is sometimes also useful to work across several opened scenes, for easier visualization/manipulation. In our case, we focus first on the base of the robot: it contains a cylinder that has the correct position for the first joint. In the triangle edit mode, we have:</p>
@@ -153,9 +153,9 @@
 
 <br>
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="dynamicShapes"></a>Building the dynamic shapes
-</td></tr></table> 
+</h2>
 
 <p>If we want our robot to be <a href="designingDynamicSimulations.htm">dynamically enabled</a>, i.e. react to collisions, fall, etc., then we need to create/configure the shapes appropriately: a shape can be:</p>
 
@@ -207,9 +207,9 @@
 
 <br>
 <br>
-<table class=subsectionTable><tr class=subsectionTd><td class=subsectionTd>
+<h2>
 <a name="modelDefinition"></a>Model definition
-</td></tr></table> 
+</h2>
 
 <p>Now we are ready to define our model. We start by building the model herarchy: we attach the last dynamic robot link (<em>robot_link_dyn6</em>) to its corresponding joint (<em>robot_joint6</em>) by selecting <em>robot_link_dyn6</em>, then control-selecting <em>robot_joint6</em>, then [Menu bar --&gt; Edit --&gt; Make last selected object parent]. We could also have done this step by simply dragging object <em>robot_link_dyn6</em> onto <em>robot_link6</em> in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>. We go on by now attaching <em>robot_joint6</em> to <em>robot_link_dyn5</em>, and so on, until arrived at the base of the robot. We now have following scene hierarchy:</p>
 

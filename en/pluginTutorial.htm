@@ -165,7 +165,8 @@
 <p>Now open the threaded <a href="childScripts.htm">child script</a> attached to the BubbleRob model in the scene (e.g. double-click the script icon next to object <em>bubbleRob</em> in the scene hierarchy). Inspect the code:<br>
 </p>
 
-<pre class=lightRedBox>function sysCall_init()
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_init()
     corout=coroutine.create(coroutineMain)
 end
 
@@ -206,7 +207,7 @@ function coroutineMain()
             simBubble.destroy(robHandle)
         end
     end
-end</pre>
+end</code>
 
 <p>The first part of the code is in charge of checking whether the plugin required to run this script (i.e. <em>simExtBubbleRob.dll</em>) is available (i.e. was found and successfully loaded). If not, an error message is displayed. Otherwise, joint and sensor handles are retrieved and given to the custom Lua function that creates a controller instance of our BubbleRob in the plugin. If the call was successfull, then we can call <em>simBubble.start</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles. Run the simulation: BubbleRob moves for 20 seconds then stops, as expected. Now leave CoppeliaSim. Temporarily rename the plugin to <em>TEMP_simExtBubbleRob.dll</em> so that CoppeliaSim won't load it anymore, then start CoppeliaSim again. Load the previous scene and run the simulation: an error message now appears, indicating that the required plugin could not be found. Leave CoppeliaSim again, rename back the plugin to <em>simExtBubbleRob.dll</em> and start CoppeliaSim again.<br>
 </p>
