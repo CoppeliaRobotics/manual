@@ -32,7 +32,7 @@ The need for an <a href="remoteApiConstants.htm#operationModes">operation mode</
 <li><a href="#nonBlocking">Non-blocking function calls</a></li>
 <li><a href="#streaming">Data streaming</a></li>
 <li><a href="#nonBlockingDataRetrieval">Non-blocking, non-streaming data query</a></li>
-<li><a href="#synchronous">Synchronous operation</a></li>
+<li><a href="#stepping">Stepping mode</a> (previously <em>synchronous mode</em>)</li>
 <br>
 <br>
 
@@ -134,10 +134,10 @@ if (simx_return_ok==simxGetVisionSensorImage(clientID,sensorHandle,res,&amp;img,
 }</code>
 <br>
 
-<p><a name="synchronous" id="synchronous"></a><strong>Synchronous operation</strong>: from above function calls you might have noticed that a simulation will advance or progress without taking into account the progress of the remote API client. Remote API function calls will be executed asynchronously by default. There are however situations where the remote API client needs to be synchronized with the simulation progress, by controlling the simulation advance from the remote API client side. This can be achieved by using the remote API synchronous mode. The remote API server service needs in that case to be pre-enabled for synchronous operation (this can be achieved via the <a href="remoteApiServerSide.htm#simRemoteApi.start">simRemoteApi.start</a> function, or via the <a href="remoteApiServerSide.htm#continuousRemoteApiService">continuous remote API server service configuration file <em>remoteApiConnections.txt</em></a>). Following is an example of the synchronous mode:</p>
+<p><a name="stepping" id="stepping"></a><a name="synchronous" id="synchronous"></a><strong>Stepping (or synchronous) mode</strong>: from above function calls you might have noticed that a simulation will advance or progress without taking into account the progress of the remote API client. Remote API function calls will be executed asynchronously by default. There are however situations where the remote API client needs to be synchronized with the simulation progress, by controlling the simulation advance from the remote API client side. This can be achieved by using the stepping mode. The remote API server service needs in that case to be pre-enabled for stepping operation (this can be achieved via the <a href="remoteApiServerSide.htm#simRemoteApi.start">simRemoteApi.start</a> function, or via the <a href="remoteApiServerSide.htm#continuousRemoteApiService">continuous remote API server service configuration file <em>remoteApiConnections.txt</em></a>). Following is an example of the stepping mode:</p>
 
 <code class="hljs language-c++ coppelia-legacy-remote-api-client">
-simxSynchronous(clientID,true); // Enable the synchronous mode (<strong>Blocking</strong> function call)
+simxSynchronous(clientID,true); // Enable the stepping mode (<strong>Blocking</strong> function call)
 simxStartSimulation(clientID,simx_opmode_oneshot);
 
 // The first simulation step waits for a trigger before being executed
@@ -152,9 +152,9 @@ simxSynchronousTrigger(clientID); // Trigger next simulation step (<strong>Block
 
 ...</code>
 
-<p>Following diagram illustrates the synchronous mode:</p>
+<p>Following diagram illustrates the stepping mode:</p>
 <p align=center><img src="images/remoteApiSynchronous.jpg"></p>
-<p class=imageLabel>[Synchronous mode]</p>
+<p class=imageLabel>[Stepping mode]</p>
 <br>
 
 
@@ -162,7 +162,7 @@ simxSynchronousTrigger(clientID); // Trigger next simulation step (<strong>Block
 <p><a name="synchronousDataUpdate" id="synchronousDataUpdate"></a>When calling simxSynchronousTrigger, the next simulation step will start computing. This doesn't mean that when the function call returns, the next simulation step will have finished computing.  For that reason you have to make sure to read the correct data. If no special measure is taken, you might read data from previous simulation step, or from current simulation step, as illustrated in following diagram:</p>
 
 <p align=center><img src="images/remoteApiSynchronousUpdate1.jpg"></p>
-<p class=imageLabel>[Synchronous mode, uncertain data update]</p>
+<p class=imageLabel>[Stepping mode, uncertain data update]</p>
 <br>
 
 
@@ -172,7 +172,7 @@ simxSynchronousTrigger(clientID); // Trigger next simulation step (<strong>Block
 <p>You have several possibilities to overcome above problematic situation. The simplest is to call a function in a blocking fashion directly after calling simxSynchronousTrigger:</p>
 
 <code class="hljs language-c++ coppelia-legacy-remote-api-client">
-simxSynchronous(clientID,true); // Enable the synchronous mode (<strong>Blocking</strong> function call)
+simxSynchronous(clientID,true); // Enable the stepping mode (<strong>Blocking</strong> function call)
 simxStartSimulation(clientID,simx_opmode_oneshot);
 
 // The first simulation step waits for a trigger before being executed
@@ -187,67 +187,8 @@ simxGetPingTime(clientID); // After this call, the first simulation step is fini
 
 <p>Following diagram illustrates above procedure:</p>
 <p align=center><img src="images/remoteApiSynchronousUpdate2.jpg"></p>
-<p class=imageLabel>[Synchronous mode, correct data update]</p>
+<p class=imageLabel>[Stepping mode, correct data update]</p>
 <br>
-
-
-<p>When you have several remote API clients that each need to send their trigger for next simulation step to start, then you should place following code inside of a <a href="childScripts.htm">child script</a> in your scene:</p>
-
-<code class="hljs language-lua coppelia-coppeliasim-script">
-function sysCall_init()
-   iteration=1
-end
-
-function sysCall_sensing()
-   simSetInt32Signal('iteration',iteration)
-   iteration=iteration+1
-end
-
-function sysCall_cleanup()
-   simClearInt32Signal('iteration')
-end</code>
-
-<p>and following code in each one of your remote API clients:</p>
-
-<code class="hljs language-c++ coppelia-legacy-remote-api-client">
-// enable the synchronous mode on the client:
-simxSynchronous(clientID,1);
-
-// start the simulation:
-simxStartSimulation(clientID,simx_opmode_blocking);
-
-// enable streaming of a value:
-int anyValue;
-simxGetInt32Signal(clientID,&quot;anyValue&quot;,&amp;anyValue,simx_opmode_streaming);
-
-// enable streaming of the iteration counter:
-int iteration1;
-simxGetInt32Signal(clientID,&quot;iteration&quot;,&amp;iteration,simx_opmode_streaming);
-
-// Now step a few times:
-for (int i=0;i&lt;30;i++)
-{
-    int res=simxGetInt32Signal(clientID,&quot;iteration&quot;,&amp;iteration1,simx_opmode_buffer);
-    if (res!=simx_return_ok)
-        iteration1=-1;
-    simxSynchronousTrigger(clientID);
-    int iteration2=iteration1;
-    while (iteration2==iteration1)
-    { // wait until the iteration counter has changed
-        res=simxGetInt32Signal(clientID,&quot;iteration&quot;,&amp;iteration2,simx_opmode_buffer);
-        if (res!=simx_return_ok)
-            iteration2=-1;
-    }
-
-    // Now fetch other values:
-    simxGetInt32Signal(clientID,&quot;anyValue&quot;,&amp;anyValue,simx_opmode_buffer);
-    printf(&quot;Streamed value: %i\n&quot;,anyValue) // this is the freshest value
-}</code>
-
-
-<p>In above code just make sure that the last streaming command that you enabled is for signal <em>iteration</em>, otherwise <em>iteration</em> will not be the last updated value.</p>
-
-
 
 
 
