@@ -79,12 +79,7 @@ end</code>
 
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
-function speedChange_callback(ui,id,newVal)
-    speed=minMaxSpeed[1]+(minMaxSpeed[2]-minMaxSpeed[1])*newVal/100
-end
-
 function sysCall_init()
-    -- This is executed exactly once, the first time this script is executed
     bubbleRobBase=sim.getObjectHandle('.')
     leftMotor=sim.getObjectHandle("./leftMotor")
     rightMotor=sim.getObjectHandle("./rightMotor")
@@ -95,31 +90,41 @@ function sysCall_init()
     floorSensorHandles[1]=sim.getObjectHandle("./leftSensor")
     floorSensorHandles[2]=sim.getObjectHandle("./middleSensor")
     floorSensorHandles[3]=sim.getObjectHandle("./rightSensor")
+    robotTrace=sim.addDrawingObject(sim.drawing_linestrip+sim.drawing_cyclic,2,0,-1,200,{1,1,0},nil,nil,{1,1,0})
     -- Create the custom UI:
-        xml = '&lt;ui title=&quot;'..sim.getObjectAlias(bubbleRobBase,1)..' speed&quot; closeable=&quot;false&quot; resizeable=&quot;false&quot; activate=&quot;false&quot;&gt;'..[[
-        &lt;hslider minimum=&quot;0&quot; maximum=&quot;100&quot; onchange=&quot;speedChange_callback&quot; id=&quot;1&quot;/&gt;
-        &lt;label text=&quot;&quot; style=&quot;* {margin-left: 300px;}&quot;/&gt;
+    xml = '&lt;ui title="'..sim.getObjectAlias(bubbleRobBase,1)..' speed" closeable="false" resizeable="false" activate="false"&gt;'..[[
+                &lt;hslider minimum="0" maximum="100" on-change="speedChange_callback" id="1"/&gt;
+            &lt;label text="" style="* {margin-left: 300px;}"/&gt;
         &lt;/ui&gt;
         ]]
     ui=simUI.create(xml)
     speed=(minMaxSpeed[1]+minMaxSpeed[2])*0.5
     simUI.setSliderValue(ui,1,100*(speed-minMaxSpeed[1])/(minMaxSpeed[2]-minMaxSpeed[1]))
+    
 end
 
-function sysCall_actuation()
-    result=sim.readProximitySensor(noseSensor)
-    if (result>0) then backUntilTime=sim.getSimulationTime()+4 end
+function sysCall_sensing()
+    local p=sim.getObjectPosition(bubbleRobBase,-1)
+    sim.addDrawingObjectItem(robotTrace,p)
+end 
 
+function speedChange_callback(ui,id,newVal)
+    speed=minMaxSpeed[1]+(minMaxSpeed[2]-minMaxSpeed[1])*newVal/100
+end
+
+function sysCall_actuation() 
+    result=sim.readProximitySensor(noseSensor)
+    if (result&gt;0) then backUntilTime=sim.getSimulationTime()+4 end
+    
     -- read the line detection sensors:
     sensorReading={false,false,false}
     for i=1,3,1 do
         result,data=sim.readVisionSensor(floorSensorHandles[i])
-        if (result>=0) then
-            sensorReading[i]=(data[11]&#60;0.3) -- data[11] is the average of intensity of the image
+        if (result&gt;=0) then
+            sensorReading[i]=(data[11]&lt;0.5) -- data[11] is the average of intensity of the image
         end
-        print(sensorReading[i])
     end
-
+    
     -- compute left and right velocities to follow the detected line:
     rightV=speed
     leftV=speed
@@ -132,8 +137,8 @@ function sysCall_actuation()
     if sensorReading[1] and sensorReading[3] then
         backUntilTime=sim.getSimulationTime()+2
     end
-
-    if (backUntilTime&#60;sim.getSimulationTime()) then
+    
+    if (backUntilTime&lt;sim.getSimulationTime()) then
         -- When in forward mode, we simply move forward at the desired speed
         sim.setJointTargetVelocity(leftMotor,leftV)
         sim.setJointTargetVelocity(rightMotor,rightV)
@@ -142,11 +147,13 @@ function sysCall_actuation()
         sim.setJointTargetVelocity(leftMotor,-speed/2)
         sim.setJointTargetVelocity(rightMotor,-speed/8)
     end
-end
+end 
 
-function sysCall_cleanup()
+function sysCall_cleanup() 
     simUI.destroy(ui)
-end</code>
+end 
+
+</code>
 
 
 <p>You can easily debug your line following vision sensors: select one, then in the scene view select [Right-click --> Add --> Floating view], then in the newly added floating view select [Right click --> View --> Associate view with selected vision sensor].

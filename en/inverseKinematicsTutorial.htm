@@ -209,17 +209,8 @@ function sysCall_actuation()
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
         simIK.applyIkEnvironmentToScene(ikEnv,ikGroup_damped)
-        -- We display a IK failure report message: 
-        if not ikFailedReportHandle then 
-            ikFailedReportHandle=sim.displayDialog("IK failure report","IK solver failed.",
-                sim.dlgstyle_message,false,"",nil,{1,0.7,0,0,0,0})
-        end
-    else
-        if ikFailedReportHandle then
-            -- We close any report message about IK failure:
-            sim.endDialog(ikFailedReportHandle) 
-            ikFailedReportHandle=nil
-        end
+        -- We display a IK failure report message:
+        sim.addLog(sim.verbosity_scriptwarnings,"IK solver failed.") 
     end
     
     -- Elaborate way:
@@ -232,16 +223,7 @@ function sysCall_actuation()
         -- try to solve with the damped method:
         simIK.handleIkGroup(ikEnv,ikGroup_damped)
         -- We display a IK failure report message: 
-        if not ikFailedReportHandle then 
-            ikFailedReportHandle=sim.displayDialog("IK failure report","IK solver failed.",
-                sim.dlgstyle_message,false,"",nil,{1,0.7,0,0,0,0})
-        end
-    else
-        if ikFailedReportHandle then
-            -- We close any report message about IK failure:
-            sim.endDialog(ikFailedReportHandle) 
-            ikFailedReportHandle=nil
-        end
+        sim.addLog(sim.verbosity_scriptwarnings,"IK solver failed.") 
     end
     -- apply the joint values computed in the IK environment to their CoppeliaSim joint counterparts:
     for i=1,#simJoints,1 do
