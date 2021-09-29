@@ -63,7 +63,7 @@ $ sudo apt install libzmq3-dev
 <strong>macOSX</strong>, e.g. via brew:
 $ brew install zeromq</code>
 
-<p>A simple example can be found in programming/zmqRemoteApi/clients/cpp/. Build it with:</p>
+<p>Some examples can be found in programming/zmqRemoteApi/clients/cpp/. Build them with:</p>
 <code class="hljs coppelia-terminal">$ mkdir build
 $ cd build
 $ cmake ..
@@ -75,44 +75,29 @@ $ cmake --build . --config Release</code>
 
 
 
-<p>Here a simple ZeroMQ-based remote API client:</p>
-<code class="hljs language-python coppelia-zmq-remote-api-client"># Make sure to have the add-on &quot;ZMQ remote API&quot;
-# running in CoppeliaSim
+<p>Here another very simple C++ ZeroMQ-based remote API client:</p>
+<code class="hljs language-cpp coppelia-zmq-remote-api-client">#include &quot;RemoteAPIClient.h&quot;
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
 
-from zmqRemoteApi import RemoteAPIClient
-import time
+int main()
+{
+    RemoteAPIClient client;
+    client.setStepping(true);
+    client.call(&quot;sim.startSimulation&quot;, nullptr);
+    float simTime=0.0f;
+    while (simTime&lt;3.0f)
+    {
+        std::cout &lt;&lt; &quot;Simulation time: &quot; &lt;&lt; std::setprecision(3) &lt;&lt; simTime &lt;&lt; &quot; [s]&quot; &lt;&lt; std::endl;
+        client.step();
+        simTime=client.call(&quot;sim.getSimulationTime&quot;)[0].as
+        <float>
+        ();
+    }    
+    client.call(&quot;sim.stopSimulation&quot;, nullptr);
 
-client = RemoteAPIClient('localhost',23000)
-
-# Support default functionality:
-sim = client.getobject('sim')
-
-# Support additional functionality, e.g.:
-simIK = client.getobject('simIK')
-simOMPL = client.getobject('simOMPL')
-simUI = client.getobject('simUI')
-
-# Run a simulation in non-stepping mode:
-sim.startSimulation()
-while (t := sim.getSimulationTime()) &lt; 3:
-    s=f'Simulation time: {t:.2f} [s] (simulation running asynchronously to client)'
-    print(s)
-    sim.addLog(sim.verbosity_scriptinfos,s)
-sim.stopSimulation()
-
-# If you need to make sure we really stopped:
-while sim.getSimulationState()!=sim.simulation_stopped:
-    time.sleep(0.1)
-
-# Run a simulation in stepping mode:
-client.setstepping(True)
-sim.startSimulation()
-while (t := sim.getSimulationTime()) &lt; 3:
-    s=f'Simulation time: {t:.2f} [s] (simulation running synchronously to client)'
-    print(s)
-    sim.addLog(sim.verbosity_scriptinfos,s)
-    client.step() # triggers next simulation step
-sim.stopSimulation()
+    return 0;
+}
 </code>
 
 

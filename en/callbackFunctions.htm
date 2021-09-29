@@ -37,7 +37,7 @@
 <code class="hljs language-lua coppelia-coppeliasim-script">
 function <strong>sysCall_info</strong>()
     -- Can be used to specify initial configuration data. E.g. in case of an add-on: 
-    return {autoStart=false}
+    return {autoStart=false,menu='menu1//menu2//add-on name',menuEnabled=true}
 end
 
 function <strong>sysCall_init</strong>()
@@ -180,6 +180,12 @@ end
 function <strong>sysCall_userConfig</strong>()
     -- See the <a href="userConfigCallbackFunctions.htm">user config callback function</a> section for details.
     -- Only for <a href="customizationScripts.htm">customization scripts</a>.
+end
+
+<a name="sysCall_moduleEntry"></a>function <strong>sysCall_moduleEntry</strong>(inData)
+    -- Called when a user module menu entry is selected, e.g.
+    print('Following module menu entry was selected: '..inData.handle)
+    -- See the <a href="regularApi/simModuleEntry.htm">sim.moduleEntry</a> for details.
 end</code>
 
 
