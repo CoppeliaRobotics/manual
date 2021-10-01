@@ -1,0 +1,543 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>WS Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>WS Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">WebSockets plugin.</p></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#send">simWS.send</a>
+<a href="?#setCloseHandler">simWS.setCloseHandler</a>
+<a href="?#setFailHandler">simWS.setFailHandler</a>
+<a href="?#setHTTPHandler">simWS.setHTTPHandler</a>
+<a href="?#setMessageHandler">simWS.setMessageHandler</a>
+<a href="?#setOpenHandler">simWS.setOpenHandler</a>
+<a href="?#start">simWS.start</a>
+<a href="?#stop">simWS.stop</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="send" id="send"></a>simWS.send</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            Send data over the socket.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.send(string serverHandle, string connectionHandle, string data, int opcode=sim_ws_opcode_text)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>connectionHandle</strong> (string): </div>
+<div>
+<strong>data</strong> (string): </div>
+<div>
+<strong>opcode</strong> (int, default: sim_ws_opcode_text): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setCloseHandler" id="setCloseHandler"></a>simWS.setCloseHandler</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            The close handler is called once for every successfully established connection after it is no longer capable of sending or receiving new messages.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.setCloseHandler(string serverHandle, string callbackFn)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>callbackFn</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setFailHandler" id="setFailHandler"></a>simWS.setFailHandler</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            The fail handler is called once for every unsuccessful WebSocket connection attempt. Either the fail handler or the open handler will be called for each WebSocket connection attempt. HTTP Connections that did not attempt to upgrade the connection to the WebSocket protocol will trigger the http handler instead of fail/open.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.setFailHandler(string serverHandle, string callbackFn)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>callbackFn</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setHTTPHandler" id="setHTTPHandler"></a>simWS.setHTTPHandler</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            The http handler is called when an HTTP connection is made that does not attempt to upgrade the connection to the WebSocket protocol. This allows to deliver error pages and static files such as the base HTML and JavaScript for an otherwise single page WebSocket application. Note: The HTTP handler is appropriate only for low volume HTTP traffic. If you expect to serve high volumes of HTTP traffic a dedicated HTTP web server is strongly recommended.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.setHTTPHandler(string serverHandle, string callbackFn)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>callbackFn</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setMessageHandler" id="setMessageHandler"></a>simWS.setMessageHandler</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            The message handler is called after a new message has been received.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.setMessageHandler(string serverHandle, string callbackFn)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>callbackFn</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setOpenHandler" id="setOpenHandler"></a>simWS.setOpenHandler</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            The open handler is called once for every successful WebSocket connection attempt. Either the fail handler or the open handler will be called for each WebSocket connection attempt. HTTP Connections that did not attempt to upgrade the connection to the WebSocket protocol will trigger the http handler instead of fail/open.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.setOpenHandler(string serverHandle, string callbackFn)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>callbackFn</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="start" id="start"></a>simWS.start</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            Set up endpoint for listening on a port, and starts the server's async connection acceptance loop.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string serverHandle=simWS.start(int listenPort)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>listenPort</strong> (int): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>serverHandle</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="stop" id="stop"></a>simWS.stop</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            Stop and destroy the server.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.stop(string serverHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>serverHandle</strong> (string): </div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section">
+<br><br><h1>Constants</h1>
+<p>Constants used in the various functions. Refer to each constant using <i>enumName.constantName</i>, i.e. <b>simUI.curve_type.xy</b> for <b>xy</b> constant in <b>simUI.curve_type</b> enum.</p>
+<h3 class="subsectionBar">
+<a name="enum:opcode" id="enum:opcode"></a>simWS.opcode</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>continuation</strong></div>
+<div><strong>text</strong></div>
+<div><strong>binary</strong></div>
+</td></tr></tbody></table>
+</td></tr>
+<tr><td id="structs" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section">
+<br><br><h1>Script functions</h1>
+<p>Script functions are used to call some lua code from the plugin side (tipically used for event handlers).</p>
+<h3 class="subsectionBar">
+<a name="scriptfun:openCallback" id="scriptfun:openCallback"></a>openCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.openCallback(string serverHandle, string connectionHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>connectionHandle</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:failCallback" id="scriptfun:failCallback"></a>failCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.failCallback(string serverHandle, string connectionHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>connectionHandle</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:closeCallback" id="scriptfun:closeCallback"></a>closeCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.closeCallback(string serverHandle, string connectionHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>connectionHandle</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:messageCallback" id="scriptfun:messageCallback"></a>messageCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.messageCallback(string serverHandle, string connectionHandle, string data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>connectionHandle</strong> (string): </div>
+<div>
+<strong>data</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:httpCallback" id="scriptfun:httpCallback"></a>httpCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int status, string data=simWS.httpCallback(string serverHandle, string connectionHandle, string resource, string data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>serverHandle</strong> (string): </div>
+<div>
+<strong>connectionHandle</strong> (string): </div>
+<div>
+<strong>resource</strong> (string): </div>
+<div>
+<strong>data</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>status</strong> (int): </div>
+<div>
+<strong>data</strong> (string): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script><script type="text/javascript">
+//
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('code.hljs').forEach((block) => {
+        hljs.highlightBlock(block);
+    });
+});
+//
+                </script>
+</body>
+</html>
