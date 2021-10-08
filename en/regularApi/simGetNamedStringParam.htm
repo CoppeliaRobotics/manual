@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>sim.getFloatParam</title>
+<title>sim.getNamedStringParam</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,46 +16,45 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simGetFloatParam" id="simGetFloatParam"></a>simGetFloatParam / sim.getFloatParam</p>
+<p class=subsectionBar><a name="simGetNamedStringParam" id="simGetNamedStringParam"></a>simGetNamedStringParam / sim.getNamedStringParam</p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves a floating point parameter. See the <a href="../apiConstants.htm#floatingParameters">floating-point parameter identifiers</a>. See also the other <a href="../apiFunctions.htm#params">simulator parameter related functions</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves a named string or buffer parameter. See also the other <a href="../apiFunctions.htm#namedParams">simulator named parameter related functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simGetFloatParam(simInt parameter,simFloat* floatState)<br></td> 
+<td class=apiTableRightCSyn>simChar* simGetNamedStringParam(const simChar* paramName,simInt* paramLength)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>parameter</strong>: <a href="../apiConstants.htm#floatingParameters">floating parameter identifier</a></div>
-<div><strong>floatState</strong>: value of the parameter</div>
-<div></div></td> 
+<div><strong>paramName</strong>: the key or name of the parameter</div>
+<div><strong>paramLength</strong>: the size of the parameter</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful<br>
-</div>
+<div>nullptr if operation was not successful or if such a parameter does not exist. Otherwise the parameter. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>float parameterValue=sim.getFloatParam(int parameter)<br></td> 
+<td class=apiTableRightLSyn>string stringParam=sim.getNamedStringParam(string paramName)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>parameter</strong>: parameter identifier (sim_floatparam_...)</div>
+<div>Similar to the C-function counterpart</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -63,18 +62,16 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>parameterValue</strong>: value of the parameter</div>
+<div>Similar to the C-function counterpart</div>
 </td> 
 </tr> 
-
- 
 
 </table> 
 
 
 <br>
 </td>
-
+</tr>
 </table>
 </div>
 </body>

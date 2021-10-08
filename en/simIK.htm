@@ -67,6 +67,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.getObjectHandle">simIK.getObjectHandle</a>
 <a href="?#simIK.getObjectMatrix">simIK.getObjectMatrix</a>
 <a href="?#simIK.getObjectParent">simIK.getObjectParent</a>
+<a href="?#simIK.getObjectPose">simIK.getObjectPose</a>
 <a href="?#simIK.getObjects">simIK.getObjects</a>
 <a href="?#simIK.getObjectTransformation">simIK.getObjectTransformation</a>
 <a href="?#simIK.handleIkGroup">simIK.handleIkGroup</a>
@@ -89,6 +90,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.setLinkedDummy">simIK.setLinkedDummy</a>
 <a href="?#simIK.setObjectMatrix">simIK.setObjectMatrix</a>
 <a href="?#simIK.setObjectParent">simIK.setObjectParent</a>
+<a href="?#simIK.setObjectPose">simIK.setObjectPose</a>
 <a href="?#simIK.setObjectTransformation">simIK.setObjectTransformation</a>
 <a href="?#simIK.setSphericalJointMatrix">simIK.setSphericalJointMatrix</a>
 <a href="?#simIK.setSphericalJointRotation">simIK.setSphericalJointRotation</a></pre></td></tr>
@@ -116,6 +118,8 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.eraseObject">simIK.eraseObject</a>
 <a href="?#simIK.getObjectParent">simIK.getObjectParent</a>
 <a href="?#simIK.setObjectParent">simIK.setObjectParent</a>
+<a href="?#simIK.getObjectPose">simIK.getObjectPose</a>
+<a href="?#simIK.setObjectPose">simIK.setObjectPose</a>
 <a href="?#simIK.getObjectTransformation">simIK.getObjectTransformation</a>
 <a href="?#simIK.setObjectTransformation">simIK.setObjectTransformation</a>
 <a href="?#simIK.getObjectMatrix">simIK.getObjectMatrix</a>
@@ -1468,7 +1472,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.setObjectMatrix">simIK.setObjectMatrix</a>, <a href="#simIK.getObjectTransformation">simIK.getObjectTransformation</a>, <a href="#simIK.getJointTransformation">simIK.getJointTransformation</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.setObjectMatrix">simIK.setObjectMatrix</a>, <a href="#simIK.getObjectPose">simIK.getObjectPose</a>,<a href="#simIK.getObjectTransformation">simIK.getObjectTransformation</a>, <a href="#simIK.getJointTransformation">simIK.getJointTransformation</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
 </tr>
 </table>
 <br>
@@ -1503,6 +1507,41 @@ td.section { margin: 0; padding: 0; }
 </tr>
 </table>
 <br>
+
+
+<p class="subsectionBar">
+<a name="simIK.getObjectPose" id="simIK.getObjectPose"></a>simIK.getObjectPose</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Retrieves the pose (position and quaternion) of an object. If the object is a joint object, the pose does not include the joint's intrinsic transformation.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">table_7 pose=simIK.getObjectPose(number environmentHandle,number objectHandle,number relativeToObjectHandle)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment.</div>
+<div><strong>objectHandle</strong>: the handle of the object.</div>
+<div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which we want the pose expressed. Otherwise, specify -1 if you want the absolute pose, or simIK.handle_parent if you want the pose relative to the parent object.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+<div><strong>pose</strong>: the position and quaternion of the object (x,y,z,qx,qy,qz,qw).</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.setObjectPose">simIK.setObjectPose</a>, <a href="#simIK.getObjectTransformation">simIK.getObjectTransformation</a>, <a href="#simIK.getObjectMatrix">simIK.getObjectMatrix</a>, <a href="#simIK.getJointTransformation">simIK.getJointTransformation</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+</tr>
+</table>
+<br>
+
+
 
 <p class="subsectionBar">
 <a name="simIK.getObjects" id="simIK.getObjects"></a>simIK.getObjects</p>
@@ -1567,10 +1606,11 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.setObjectTransformation">simIK.setObjectTransformation</a>, <a href="#simIK.getObjectMatrix">simIK.getObjectMatrix</a>, <a href="#simIK.getJointTransformation">simIK.getJointTransformation</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.setObjectTransformation">simIK.setObjectTransformation</a>, <a href="#simIK.getObjectPose">simIK.getObjectPose</a>, <a href="#simIK.getObjectMatrix">simIK.getObjectMatrix</a>, <a href="#simIK.getJointTransformation">simIK.getJointTransformation</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
 </tr>
 </table>
 <br>
+
 
 <p class="subsectionBar">
 <a name="simIK.handleIkGroup" id="simIK.handleIkGroup"></a>simIK.handleIkGroup</p>
@@ -2167,7 +2207,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getObjectMatrix">simIK.getObjectMatrix</a>, <a href="#simIK.setObjectTransformation">simIK.setObjectTransformation</a>, <a href="#simIK.setJointPosition">simIK.setJointPosition</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getObjectMatrix">simIK.getObjectMatrix</a>, <a href="#simIK.setObjectPose">simIK.setObjectPose</a>, <a href="#simIK.setObjectTransformation">simIK.setObjectTransformation</a>, <a href="#simIK.setJointPosition">simIK.setJointPosition</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
 </tr>
 </table>
 <br>
@@ -2205,6 +2245,39 @@ td.section { margin: 0; padding: 0; }
 <br>
 
 <p class="subsectionBar">
+<a name="simIK.setObjectPose" id="simIK.setObjectPose"></a>simIK.setObjectPose</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Sets the pose (position and quaternion) of an object. If the object is a joint object, the pose does not include the joint's intrinsic transformation.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">simIK.setObjectPose(number environmentHandle,number objectHandle,number relativeToObjectHandle,table_7 pose)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment.</div>
+<div><strong>objectHandle</strong>: the handle of the object.</div>
+<div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which the pose is expressed. Otherwise, specify -1 if you specify the absolute pose, or simIK.handle_parent if you specify the pose relative to the parent object.</div>
+<div><strong>pose</strong>: the position and quaternion (x,y,z,qx,qy,qz,qw).</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getObjectPose">simIK.getObjectPose</a>, <a href="#simIK.setObjectTransformation">simIK.setObjectTransformation</a>, <a href="#simIK.setObjectMatrix">simIK.setObjectMatrix</a>, <a href="#simIK.setJointPosition">simIK.setJointPosition</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+</tr>
+</table>
+<br>
+
+
+<p class="subsectionBar">
 <a name="simIK.setObjectTransformation" id="simIK.setObjectTransformation"></a>simIK.setObjectTransformation</p>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2232,10 +2305,11 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getObjectTransformation">simIK.getObjectTransformation</a>, <a href="#simIK.setObjectMatrix">simIK.setObjectMatrix</a>, <a href="#simIK.setJointPosition">simIK.setJointPosition</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getObjectTransformation">simIK.getObjectTransformation</a>, <a href="#simIK.setObjectPose">simIK.setObjectPose</a>, <a href="#simIK.setObjectMatrix">simIK.setObjectMatrix</a>, <a href="#simIK.setJointPosition">simIK.setJointPosition</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
 </tr>
 </table>
 <br>
+
 
 <p class="subsectionBar">
 <a name="simIK.setSphericalJointMatrix" id="simIK.setSphericalJointMatrix"></a>simIK.setSphericalJointMatrix</p>
