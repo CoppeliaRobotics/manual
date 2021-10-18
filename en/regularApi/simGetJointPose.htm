@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>sim.getJointMatrix</title>
+<title>sim.getJointPose</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,29 +16,25 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simGetJointMatrix" id="simGetJointMatrix"></a>simGetJointMatrix / sim.getJointMatrix</p>
+<p class=subsectionBar><a name="simGetJointPose" id="simGetJointPose"></a>simGetJointPose / sim.getJointPose</p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the intrinsic transformation matrix of a joint (the transformation caused by the joint movement). See also <a href="simSetSphericalJointMatrix.htm">sim.setSphericalJointMatrix</a> and <a href="simGetJointPose.htm">sim.getJointPose</a>.<br></td>
+<td class=apiTableRightDescr>Retrieves the intrinsic pose of a joint (the transformation caused by the joint movement). See also <a href="simSetJointPose.htm">sim.setJointPose</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simGetJointMatrix(simInt objectHandle,simFloat* matrix)<br></td> 
+<td class=apiTableRightCSyn>simInt simGetJointPose(simInt objectHandle,simFloat* pose)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>objectHandle</strong>: handle of the joint</div>
-<div><strong>matrix</strong>: pointer to 12 simFloat values (the last row of the 4x4 matrix (0,0,0,1) is not needed)</div>
-<div class=tab>The x-axis of the orientation component is (matrix[0],matrix[4],matrix[8])</div>
-<div class=tab>The y-axis of the orientation component is (matrix[1],matrix[5],matrix[9])</div>
-<div class=tab>The z-axis of the orientation component is (matrix[2],matrix[6],matrix[10])</div>
-<div class=tab>The translation component is (matrix[3],matrix[7],matrix[11])</div>
+<div><strong>pose</strong>: pointer to the pose (x,y,z,qx,qy,qz,qw)</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -53,7 +49,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table[12] matrix=sim.getJointMatrix(int objectHandle)</td> 
+<td class=apiTableRightLSyn>table[7] pose=sim.getJointPose(int objectHandle)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -65,7 +61,7 @@ Lua synopsis
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>matrix</strong>: table of 12 numbers (the last row of the 4x4 matrix (0,0,0,1) is not returned)</div></td> 
+<div><strong>pose</strong>: the pose (x,y,z,qx,qy,qz)</div></td> 
 </tr> 
 
  

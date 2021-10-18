@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>sim.setSphericalJointMatrix</title>
+<title>sim.setJointPose</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,33 +16,25 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simSetSphericalJointMatrix" id="simSetSphericalJointMatrix"></a>simSetSphericalJointMatrix / sim.setSphericalJointMatrix</p>
+<p class=subsectionBar><a name="simSetJointPose" id="simSetJointPose"></a>simSetJointPose / sim.setJointPose</p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the intrinsic orientation matrix of a spherical joint object. This function cannot be used with non-spherical joints (use <a href="simSetJointPosition.htm">sim.setJointPosition</a> instead). See also <a href="simGetJointMatrix.htm">sim.getJointMatrix</a> and <a href="simSetJointPose.htm">sim.setJointPose</a>.<br></td>
+<td class=apiTableRightDescr>Sets the intrinsic orientation of a spherical joint object. This function should not be used with non-spherical joints (use <a href="simSetJointPosition.htm">sim.setJointPosition</a> instead). See also <a href="simGetJointPose.htm">sim.getJointPose</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simSetSphericalJointMatrix(simInt objectHandle,const simFloat* matrix)<br></td> 
+<td class=apiTableRightCSyn>simInt simSetJointPose(simInt objectHandle,const simFloat* pose)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>objectHandle</strong>: handle of the joint object</div>
-<div><strong>matrix</strong>: pointer to 12 simFloat values (the last row of the 4x4 matrix (0,0,0,1) is not needed)</div>
-<div class=tab>The x-axis of the orientation component is (matrix[0],matrix[4],matrix[8])<br>
-</div>
-<div class=tab>The y-axis of the orientation component is (matrix[1],matrix[5],matrix[9])<br>
-</div>
-<div class=tab>The z-axis of the orientation component is (matrix[2],matrix[6],matrix[10])<br>
-</div>
-<div class=tab>The translation component is (matrix[3],matrix[7],matrix[11]) (the translational components will be ignored)<br>
-</div>
+<div><strong>pose</strong>: pointer to the pose (x,y,z,qx,qy,qz). Only the quaternion part is taken into account</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -58,7 +50,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>sim.setSphericalJointMatrix(int objectHandle,table[12] matrix)<br></td> 
+<td class=apiTableRightLSyn>sim.setJointPose(int objectHandle,table[7] pose)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
