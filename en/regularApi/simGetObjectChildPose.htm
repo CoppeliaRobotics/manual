@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>sim.getJointPose</title>
+<title>sim.getObjectChildPose</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,24 +16,24 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simGetJointPose" id="simGetJointPose"></a>simGetJointPose / sim.getJointPose</p>
+<p class=subsectionBar><a name="simGetObjectChildPose" id="simGetObjectChildPose"></a>simGetObjectChildPose / sim.getObjectChildPose</p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves the intrinsic pose of a joint (the transformation caused by the joint movement). See also <a href="simSetJointPose.htm">sim.setJointPose</a>.</td>
+<td class=apiTableRightDescr>Retrieves the intrinsic or internal transformation of an object. For a joint, this is the transformation caused by the joint movement, mainly. For joints and force sensors, this will also include a possible error transformation caused by the physics engine (a physics engine can cause joints and force sensors to come apart, when constraints can't be perfectly resolved). See also <a href="simSetObjectChildPose.htm">sim.setObjectChildPose</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simGetJointPose(simInt objectHandle,simFloat* pose)</td> 
+<td class=apiTableRightCSyn>simInt simGetObjectChildPose(simInt objectHandle,simFloat* pose)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the joint</div>
+<div><strong>objectHandle</strong>: handle of the object</div>
 <div><strong>pose</strong>: pointer to the pose (x,y,z,qx,qy,qz,qw)</div>
 </td> 
 </tr> 
@@ -49,7 +49,7 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table[7] pose=sim.getJointPose(int objectHandle)</td> 
+<td class=apiTableRightLSyn>table[7] pose=sim.getObjectChildPose(int objectHandle)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 

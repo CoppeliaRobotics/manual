@@ -542,60 +542,28 @@ See also the <a href="#scriptAttributes">script attributes</a>.
 <div>Drawing object type (combine with drawing object attributes):</div>
 <br>
 <div class="sim.drawing_points">sim.drawing_points</div
-><div class=tab>items are pixel-sized points (3 values per item (x;y;z) + auxiliary values)</div>
+><div class=tab>items are pixel-sized points (3 values per item (x;y;z))</div>
 <div class="sim.drawing_lines">sim.drawing_lines</div
-><div class=tab>items are pixel-sized lines (6 values per item (x0;y0;z0;x1;y1;z1) + auxiliary values)</div>
+><div class=tab>items are pixel-sized lines (6 values per item (x0;y0;z0;x1;y1;z1))</div>
+<div class="sim.drawing_linestrip">sim.drawing_linestrip</div
+><div class=tab>items are pixel-sized lines (3 values per line strip corner or end-point)</div>
 <div class="sim.drawing_triangles">sim.drawing_triangles</div
-><div class=tab>items are triangles (9 values per item (x0;y0;z0;x1;y1;z1;x2;y2;z2) + auxiliary values)</div>
+><div class=tab>items are triangles (9 values per item (x0;y0;z0;x1;y1;z1;x2;y2;z2))</div>
 <div class="sim.drawing_trianglepoints">sim.drawing_trianglepoints</div
-><div class=tab>items are "triangle points" (6 values per item (x;y;z;Nx;Ny;Nz) (N=normal vector)) + auxiliary values)</div>
+><div class=tab>items are "triangle points" (6 values per item (x;y;z;Nx;Ny;Nz) (N=normal vector)))</div>
 <div class="sim.drawing_quadpoints">sim.drawing_quadpoints</div
-><div class=tab>items are "rectangle points" (6 values per item (x;y;z;Nx;Ny;Nz) (N=normal vector)) + auxiliary values)</div>
+><div class=tab>items are "rectangle points" (6 values per item (x;y;z;Nx;Ny;Nz) (N=normal vector)))</div>
 <div class="sim.drawing_discpoints">sim.drawing_discpoints</div
-><div class=tab>items are "disc points" (6 values per item (x;y;z;Nx;Ny;Nz) (N=normal vector)) + auxiliary values)</div>
+><div class=tab>items are "disc points" (6 values per item (x;y;z;Nx;Ny;Nz) (N=normal vector)))</div>
 <div class="sim.drawing_cubepoints">sim.drawing_cubepoints</div
-><div class=tab>items are "cube points" (6 values per item (x;y;z;Nx;Ny;Nz) (N=normal vector)) + auxiliary values)</div>
+><div class=tab>items are "cube points" (6 values per item (x;y;z;Nx;Ny;Nz) (N=normal vector)))</div>
 <div class="sim.drawing_spherepoints">sim.drawing_spherepoints</div
-><div class=tab>items are "sphere points" (3 values per item (x;y;z) + auxiliary values)</div>
+><div class=tab>items are "sphere points" (3 values per item (x;y;z))</div>
 <br>
 <div>Drawing object attributes:</div>
 <br>
-<div class="sim.drawing_itemcolors">sim.drawing_itemcolors</div
-><div class=tab>each item has individual ambient_diffuse colors (+3 auxiliary values (red, green and blue)). Mutually exclusive with sim.drawing_vertexcolors </div
-><div class="sim.drawing_vertexcolors">sim.drawing_vertexcolors</div
-><div class=tab>each item vertex has individual colors (+3 auxiliary values per vertex). Only for sim.drawing_lines or sim.drawing_triangles. Mutually exclusive with sim.drawing_itemcolors</div>
-<div class="sim.drawing_itemsizes">sim.drawing_itemsizes</div
-><div class=tab>each item has individual sizes (+1 auxiliary value). Not for sim.drawing_triangles </div
-><div class="sim.drawing_backfaceculling">sim.drawing_backfaceculling</div
-><div class=tab>items are back-face culled</div>
-<div class="sim.drawing_wireframe">sim.drawing_wireframe</div
-><div class=tab>items are displayed in wire frame</div>
-<div class="sim.drawing_painttag">sim.drawing_painttag</div
-><div class=tab>items have a "paint"-tag, which means that items are renderable.</div>
-<div class="sim.drawing_followparentvisibility">sim.drawing_followparentvisibility</div
-><div class=tab>items attached to a scene object follow its visibility property</div>
 <div class="sim.drawing_cyclic">sim.drawing_cyclic</div
 ><div class=tab>if the drawing object is full, then the first items are overwritten</div>
-<div class="sim.drawing_50percenttransparency">sim.drawing_50percenttransparency</div
-><div class=tab>the drawing object will be 50 transparent</div>
-<div class="sim.drawing_25percenttransparency">sim.drawing_25percenttransparency</div
-><div class=tab>the drawing object will be 25 transparent</div>
-<div class="sim.drawing_12percenttransparency">sim.drawing_12percenttransparency</div
-><div class=tab>the drawing object will be 12.5 transparent</div>
-<div class="sim.drawing_emissioncolor">sim.drawing_emissioncolor</div
-><div class=tab>when used in combination with sim.drawing_itemcolors or sim.drawing_vertexcolors, then the specified colors will be for the emissive component</div>
-<div class="sim.drawing_facingcamera">sim.drawing_facingcamera</div
-><div class=tab>if specified, then sim.drawing_trianglepoints, sim.drawing_quadpoints, sim.drawing_discpoints and sim.drawing_cubepoints will be drawn to always face the cameras. In that case, the normal vector is not required anymore and should not be specified anymore (3 values instead of 6 values)</div>
-<div class="sim.drawing_overlay">sim.drawing_overlay</div
-><div class=tab>if specified, then items are drawn on top of other objects and are (almost) always visible</div>
-<div class="sim.drawing_itemtransparency">sim.drawing_itemtransparency</div
-><div class=tab>each item has individual transparency values (+1 auxiliary value per item). Not compatible with sim.drawing_vertexcolors </div
-><div class="sim.drawing_persistent">sim.drawing_persistent</div
-><div class=tab>the object is not automatically removed when created via a <a href="simulationScripts.htm">simulation script</a>. With <a href="regularApi/simRemoveDrawingObject.htm">sim.removeDrawingObject</a>(sim.handle_all), all objects marked as persistent will also be removed.</div>
-<div class="sim.drawing_auxchannelcolor1">sim.drawing_auxchannelcolor1</div
-><div class=tab>when specifying the emission color component in the sim.addDrawingObject function, 6 values should be specified instead of 3: 3 for the emission component, and 3 for the aux channel component</div>
-<div class="sim.drawing_auxchannelcolor2">sim.drawing_auxchannelcolor2</div
-><div class=tab>When used in combination with sim.drawing_itemcolors or sim.drawing_vertexcolors, then the specified colors will be for the aux channel component</div>
 <br>
 See also the <a href="regularApi/simAddDrawingObject.htm">sim.addDrawingObject</a> function.
 </div>

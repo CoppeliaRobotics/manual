@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simCreateDummy</title>
+<title>sim.getObjectColor</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,27 +16,29 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simCreateDummy" id="simCreateDummy"></a>simCreateDummy / sim.createDummy </p>
+<p class=subsectionBar><a name="simGetObjectColor" id="simGetObjectColor"></a>simGetObjectColor / sim.getObjectColor </p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Creates a <a href="../dummies.htm">dummy</a>. <br></td>
+<td class=apiTableRightDescr>
+Retrieves the color of a scene object. See also other <a href="../apiFunctions.htm#rendering">rendering related functions</a>. </td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simCreateDummy(simFloat size,const simFloat* reserved)<br></td> 
+<td class=apiTableRightCSyn>simInt simGetObjectColor(simInt objectHandle,simInt index,simInt colorComponent,simFloat* rgbData)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>size</strong>: the dummy size<br>
+<div><strong>objectHandle</strong>: handle of the object<br>
 </div>
-<div><strong>reserved</strong>: set to nullptr<br>
-</div>
+<div><strong>index</strong>: the zero-based index of the color, if the object has several colors</div>
+<div><strong>colorComponent</strong>: a <a href="../apiConstants.htm#colorComponents">color component</a>.</div>
+<div><strong>rgbData</strong> (output): red, green and blue components of the color (3 values)</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -44,14 +46,15 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful, otherwise the handle of the dummy</div>
+<div>-1 if operation was not successful. 0 if the color index was not found in the object. 1 otherwise.<br>
+</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int dummyHandle=sim.createDummy(float size)<br></td> 
+<td class=apiTableRightLSyn>int result,table[3] rgbData=sim.getObjectColor(int objectHandle,int index,int colorComponent)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -65,18 +68,14 @@ Lua return values
 </td> 
 <td class=apiTableRightLRet>
 <div>Similar to the C-function counterpart</div>
-<div></div>
-</td> 
+<div></div></td> 
 </tr> 
-
- 
-
 </table> 
 
 
 <br>
 </td>
-
+</tr>
 </table>
 </div>
 </body>
