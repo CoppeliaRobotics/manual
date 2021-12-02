@@ -41,8 +41,8 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.eraseEnvironment">simIK.eraseEnvironment</a>
 <a href="?#simIK.eraseObject">simIK.eraseObject</a>
 <a href="?#simIK.generatePath">simIK.generatePath</a>
+<a href="?#simIK.findConfig">simIK.findConfig</a>
 <a href="?#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>
-<a href="?#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>
 <a href="?#simIK.getIkElementBase">simIK.getIkElementBase</a>
 <a href="?#simIK.getIkElementConstraints">simIK.getIkElementConstraints</a>
 <a href="?#simIK.getIkElementFlags">simIK.getIkElementFlags</a>
@@ -195,7 +195,7 @@ td.section { margin: 0; padding: 0; }
 <pre class="apiList">
 <a href="?#simIK.handleIkGroup">simIK.handleIkGroup</a>
 <a href="?#simIK.applyIkEnvironmentToScene">simIK.applyIkEnvironmentToScene</a>
-<a href="?#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>
+<a href="?#simIK.findConfig">simIK.findConfig</a>
 <a href="?#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>
 <a href="?#simIK.computeJacobian">simIK.computeJacobian</a>
 <a href="?#simIK.getJacobian">simIK.getJacobian</a>
@@ -641,6 +641,44 @@ td.section { margin: 0; padding: 0; }
 <br>
 
 <p class="subsectionBar">
+<a name="simIK.findConfig" id="simIK.findConfig"></a>simIK.findConfig</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Searches for a manipulator configuration that matches the target dummy/dummies position/orientation in space. Search is randomized. One should call <a href="#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a> for each returned configuration, if some revolute joints of the manipulator have a range of more than 360 degrees, in order to generate some equivalent poses but alternate configurations. The IK environment remains unchanged.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Synopsis</td>
+<td class="apiTableRightLSyn">table jointPositions=simIK.findConfig(number environmentHandle,number ikGroupHandle,table jointHandles,number thresholdDist=0.1,number maxTime=0.5,table_4 metric={1,1,1,0.1},function validationCallback=nil,auxData=nil)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment.</div>
+<div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
+<div><strong>jointHandles</strong>: a table that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
+<div><strong>thresholdDist</strong>: a distance indicating when IK should be computed in order to try to bring the tip onto the target: since the search algorithm proceeds by generating random configurations, many of them produce a tip pose that is too far from the target pose to run IK successfully. Choosing a large value will result in slow calculations, choosing a small value might produce a smaller subset of solutions. Distance between two poses is calculated using a metric (see metric argument below).</div>
+<div><strong>maxTime</strong>: the upper time limit, in seconds, after which the function returns.</div>
+<div><strong>metric</strong>: a table to 4 values indicating a metric used to compute pose-pose distances: distance=sqrt((dx*metric[1])^2+(dy*metric[2])^2+(dz*metric[3])^2+(angle*metric[4])^2).</div>
+<div><strong>validationCallback</strong>: an optional callback function. The callback function takes as input arguments the proposed joint values (i.e. a configuration) and  <strong>auxData</strong>, and as return value whether the configuration is valid (e.g. is not colliding).</div>
+<div><strong>auxData</strong>: auxiliary data that will be handed to the validation callback.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Return values</td>
+<td class="apiTableRightLRet">
+<div><strong>jointPositions</strong>: a table that contains the IK calculated joint values, as specified by the jointHandles table, if a valid configuration was found.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.duplicateEnvironment">simIK.duplicateEnvironment</a>, <a href="#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.getJacobian">simIK.getJacobian</a></td>
+</tr>
+</table>
+<br>
+
+
+<p class="subsectionBar">
 <a name="simIK.generatePath" id="simIK.generatePath"></a>simIK.generatePath</p>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -681,7 +719,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Useful when called after <a href="#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>: generates alternative manipulator configurations, for a same end-effector pose, for a manipulator that has revolute joints with a range larger than 360 degrees. The original submitted configuration will be part of the returned configurations. The IK environment remains unchanged.</td>
+<td class="apiTableRightDescr">Useful when called after <a href="#simIK.findConfig">simIK.findConfig</a>: generates alternative manipulator configurations, for a same end-effector pose, for a manipulator that has revolute joints with a range larger than 360 degrees. The original submitted configuration will be part of the returned configurations. The IK environment remains unchanged.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
@@ -704,7 +742,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.findConfig">simIK.findConfig</a></td>
 </tr>
 </table>
 <br>
@@ -714,7 +752,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Searches for a manipulator configuration that matches the target dummy position/orientation in space. Search is randomized. One should call <a href="#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a> for each returned configuration, if some revolute joints of the manipulator have a range of more than 360 degrees, in order to generate some equivalent poses but alternate configurations. The IK environment remains unchanged.</td>
+<td class="apiTableRightDescr">Deprecated. Use simIK.findConfig instead.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Synopsis</td>
@@ -1638,7 +1676,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.findConfig">simIK.findConfig</a></td>
 </tr>
 </table>
 <br>
