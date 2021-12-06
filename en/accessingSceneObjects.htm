@@ -19,9 +19,9 @@
 
 <h1>Accessing scene objects programmatically</h1>
 
-<p>When programming in and around CoppeliaSim, you will always need to reference <a href="objects.htm">scene objects</a>. You do this with handles, that you obtain via <a href="regularApi/simGetObjectHandle.htm">sim.getObjectHandle</a>, which expects an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner in case of <a href="#fromAssociatedCode">associated code</a>.</p>
+<p>When programming in and around CoppeliaSim, you will always need to reference <a href="objects.htm">scene objects</a>. You do this with handles, that you obtain via <a href="regularApi/simGetObject.htm">sim.getObject</a>, which expects an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner in case of <a href="#fromAssociatedCode">associated code</a>.</p>
 <p>In both cases, the path to the object can often be simplified. You may also use wildcards, and optionally specify the object sequence or order in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path/alias.</p>
-<p class="warningBox"><strong>Note</strong>: until CoppeliaSim V4.2.0, object access was based on <em>object names</em>, which are now deprecated (but still functional for backward compatibility). We however highly recommend to use object paths as described below, to retrieve object handles. Object paths can easily be identified since they start with one of following characters: <strong>/</strong>, <strong>.</strong> or <strong>:</strong></p>
+<p class="warningBox"><strong>Note</strong>: until CoppeliaSim V4.2.0, object access was based on <em>object names </em>(with <em>sim.getObjectHandle</em>), which are now deprecated (but still functional for backward compatibility). We however highly recommend to use object paths as described below, to retrieve object handles. Object paths can easily be identified since they start with one of following characters: <strong>/</strong>, <strong>.</strong> or <strong>:</strong></p>
 
 
 <br>
@@ -30,7 +30,7 @@
 
 <h2><a name="fromUnassociatedCode"></a>Access from <em>unassociated</em> code</h2>
 
-<p><em>Unassociated</em> code is code that is not attached to any scene object. This includes all the code written for <a href="plugins.htm">plugins</a>, <a href="addOns.htm">add-ons</a>, <a href="remoteApiOverview.htm">remote API</a> clients, external <a href="rosInterfaces.htm">ROS</a> nodes, external <a href="blueZeroPlugin.htm">BlueZero</a> nodes, and <a href="mainScript.htm">the main script</a>.</p>
+<p><em>Unassociated</em> code is code that is not attached to any scene object. This includes all the code written for <a href="plugins.htm">plugins</a>, <a href="addOns.htm">add-ons</a>, <a href="remoteApiOverview.htm">remote API</a> clients, external <a href="rosInterfaces.htm">ROS</a> nodes, and <a href="mainScript.htm">the main script</a>.</p>
 
 <p>In that case, you simply specify the object's absolute path, in order to retrieve its handle. If the object alias is unique, the path to the object can be simplified. You may also use wildcards, and optionally specify the object sequence in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path:</p>
 
@@ -38,22 +38,22 @@
 // e.g. inside of a c/c++ plugin:
 
 // using the full <em>Object</em> path:
-int objectHandle=simGetObjectHandleEx(&quot;/Path/to/Object&quot;,-1,-1,0);
+int objectHandle=simGetObject(&quot;/Path/to/Object&quot;,-1,-1,0);
 
 // if object with alias <em>Object</em> is unique:
-int objectHandle=simGetObjectHandleEx(&quot;/Object&quot;,-1,-1,0); 
+int objectHandle=simGetObject(&quot;/Object&quot;,-1,-1,0); 
 
 // handle of the first <em>Robot</em>, in a given tree:
-int robotHandle=simGetObjectHandleEx(&quot;/Robot[0]&quot;,-1,-1,0);
+int robotHandle=simGetObject(&quot;/Robot[0]&quot;,-1,-1,0);
  
 // handle of the second <em>Robot</em>, in a given tree:
-int robotHandle=simGetObjectHandleEx(&quot;/Robot[1]&quot;,-1,-1,0);
+int robotHandle=simGetObject(&quot;/Robot[1]&quot;,-1,-1,0);
 
 // find all objects starting with prefix <em>Mobile</em>:
 int i=0
 while (true)
 {
-    int objectHandle=simGetObjectHandleEx(&quot;/Mobile*&quot;,i++,-1,1);
+    int objectHandle=simGetObject(&quot;/Mobile*&quot;,i++,-1,1);
     if (objectHandle&lt;0)
         break;
 } </code>
@@ -80,16 +80,16 @@ res,robotHandle=sim.simxGetObjectHandle(clientId,&quot;/Robot[1]&quot;,opMode)
 # e.g. inside of a Python ZeroMQ-based remote API client:
 
 # using the full <em>Object</em> path:
-objectHandle=sim.getObjectHandle(&quot;/Path/to/Object&quot;)
+objectHandle=sim.getObject(&quot;/Path/to/Object&quot;)
 
 # if object with alias <em>Object</em> is unique:
-objectHandle=sim.getObjectHandle(&quot;/Object&quot;)
+objectHandle=sim.getObject(&quot;/Object&quot;)
 
 # handle of the first <em>Robot</em>, in a given tree:
-robotHandle=sim.getObjectHandle(&quot;/Robot[0]&quot;) 
+robotHandle=sim.getObject(&quot;/Robot[0]&quot;) 
 
 # handle of the second <em>Robot</em>, in a given tree:
-robotHandle=sim.getObjectHandle(&quot;/Robot[1]&quot;) 
+robotHandle=sim.getObject(&quot;/Robot[1]&quot;) 
 </code>
 
 <br>
@@ -109,30 +109,30 @@ robotHandle=sim.getObjectHandle(&quot;/Robot[1]&quot;)
 // e.g. inside of child or customization script:
 
 -- returns the object this script is attached to:
-local objectHandle=sim.getObjectHandle(&quot;.&quot;) 
+local objectHandle=sim.getObject(&quot;.&quot;) 
 
 -- returns the parent object this script is attached to:
-local parentHandle=sim.getObjectHandle(&quot;..&quot;) 
+local parentHandle=sim.getObject(&quot;..&quot;) 
 
 -- returns the model this script is contained in:
-local modelHandle=sim.getObjectHandle(&quot;:&quot;) 
+local modelHandle=sim.getObject(&quot;:&quot;) 
 
 -- returns the parent model this script is contained in:
-local parentModelHandle=sim.getObjectHandle(&quot;::&quot;) 
+local parentModelHandle=sim.getObject(&quot;::&quot;) 
 
 -- returns the first object in the current tree, that starts with <em>Object</em>:
-local objectHandle=sim.getObjectHandle(&quot;./Object*&quot;) 
+local objectHandle=sim.getObject(&quot;./Object*&quot;) 
 
 -- returns the first <em>Object</em> in the current model tree:
-local objectHandle=sim.getObjectHandle(&quot;:/Object&quot;) 
+local objectHandle=sim.getObject(&quot;:/Object&quot;) 
 
 -- returns the 4th <em>Leg</em> in the current model tree:
-legHandle=sim.getObjectHandle(&quot;:/Leg[3]&quot;) 
+legHandle=sim.getObject(&quot;:/Leg[3]&quot;) 
 
 -- parse through all <em>Leg</em> objects the current model tree:
 local i=0
 while true do
-    local legHandle=sim.getObjectHandle(&quot;:/Leg&quot;,{index=i,noError=true})
+    local legHandle=sim.getObject(&quot;:/Leg&quot;,{index=i,noError=true})
     if legHandle&lt;0 then
         break
     end
@@ -140,7 +140,7 @@ while true do
 end
 
 -- returns the first <em>Object</em> in the tree of <em>AnotherObject</em>:
-local objectHandle=sim.getObjectHandle(&quot;./Object&quot;,{proxy=AnotherObject}) </code>
+local objectHandle=sim.getObject(&quot;./Object&quot;,{proxy=AnotherObject}) </code>
 
 
 

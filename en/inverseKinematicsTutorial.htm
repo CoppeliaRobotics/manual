@@ -112,9 +112,9 @@ function sysCall_init()
     -- There is a simple way, and a more elaborate way (but which gives you more options/flexibility):
 
     -- Simple way:
-    local simBase=sim.getObjectHandle('.')
-    local simTip=sim.getObjectHandle('./redundantRob_tip')
-    local simTarget=sim.getObjectHandle('./redundantRob_target')
+    local simBase=sim.getObject('.')
+    local simTip=sim.getObject('./redundantRob_tip')
+    local simTarget=sim.getObject('./redundantRob_target')
     -- create an IK environment:
     ikEnv=simIK.createEnvironment()
     -- create an IK group: 
@@ -132,12 +132,12 @@ function sysCall_init()
     
     -- Elaborate way:
     --[[
-    simBase=sim.getObjectHandle('.')
-    simTip=sim.getObjectHandle('./redundantRob_tip')
-    simTarget=sim.getObjectHandle('./redundantRob_target')
+    simBase=sim.getObject('.')
+    simTip=sim.getObject('./redundantRob_tip')
+    simTarget=sim.getObject('./redundantRob_target')
     simJoints={}
     for i=1,7,1 do
-        simJoints[i]=sim.getObjectHandle('./redundantRob_joint'..i)
+        simJoints[i]=sim.getObject('./redundantRob_joint'..i)
     end
     ikJoints={}
     -- create an IK environment:

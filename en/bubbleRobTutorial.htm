@@ -118,17 +118,17 @@ end
 
 function sysCall_init()
     -- This is executed exactly once, the first time this script is executed
-    bubbleRobBase=sim.getObjectHandle('.') -- this is bubbleRob's handle
-    leftMotor=sim.getObjectHandle("./leftMotor") -- Handle of the left motor
-    rightMotor=sim.getObjectHandle("./rightMotor") -- Handle of the right motor
-    noseSensor=sim.getObjectHandle("./sensingNose") -- Handle of the proximity sensor
+    bubbleRobBase=sim.getObject('.') -- this is bubbleRob's handle
+    leftMotor=sim.getObject("./leftMotor") -- Handle of the left motor
+    rightMotor=sim.getObject("./rightMotor") -- Handle of the right motor
+    noseSensor=sim.getObject("./sensingNose") -- Handle of the proximity sensor
     minMaxSpeed={50*math.pi/180,300*math.pi/180} -- Min and max speeds for each motor
     backUntilTime=-1 -- Tells whether bubbleRob is in forward or backward mode
     robotCollection=sim.createCollection(0)
     sim.addItemToCollection(robotCollection,sim.handle_tree,bubbleRobBase,0)
     distanceSegment=sim.addDrawingObject(sim.drawing_lines,4,0,-1,1,{0,1,0})
     robotTrace=sim.addDrawingObject(sim.drawing_linestrip+sim.drawing_cyclic,2,0,-1,200,{1,1,0},nil,nil,{1,1,0})
-    graph=sim.getObjectHandle('./graph')
+    graph=sim.getObject('./graph')
     distStream=sim.addGraphStream(graph,'bubbleRob clearance','m',0,{1,0,0})
     -- Create the custom UI:
         xml = '&lt;ui title=&quot;'..sim.getObjectAlias(bubbleRobBase,1)..' speed&quot; closeable=&quot;false&quot; resizeable=&quot;false&quot; activate=&quot;false&quot;&gt;'..[[

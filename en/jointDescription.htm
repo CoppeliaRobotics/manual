@@ -110,14 +110,14 @@
 
 <p>The differentiation comes from the fact that a joint that operates in force/torque mode will be handled by the physics engine. And the physics engine will perform by default 10 times more calculation steps than the simulation loop: the simulation loop runs at 20Hz (in simulation time), while the physics engine runs at 200Hz (also in simulation time). That default behaviour can entirely be configured if required.</p>
 
-<p><strong><a name="nonForceTorqueMode"></a>If the joint is not in force/torque mode</strong>: if the joint is not in force/torque mode, then you can directly (and instantaneously) set its position via the <a href="regularApi/simSetJointPosition.htm">sim.setJointPosition</a> API function (or similar, e.g. <a href="b0RemoteApi-cpp.htm#simxSetJointPosition">simxSetJointPosition</a> for the B0-based remote API, or <a href="remoteApiFunctions.htm#simxSetJointPosition">simxSetJointPosition</a> for the legacy remote API). You can do this from a <a href="childScripts.htm">child script</a>, from a <a href="plugins.htm">plugin</a>, from a <a href="rosInterfaces.htm">ROS</a> node, from a <a href="blueZeroPlugin.htm">BlueZero</a> node, or from a <a href="remoteApiOverview.htm">remote API</a> client. If you do this from a child script, then it should be done inside of the <em>actuation section</em> of the <a href="childScripts.htm">child script</a>.</p>
+<p><strong><a name="nonForceTorqueMode"></a>If the joint is not in force/torque mode</strong>: if the joint is not in force/torque mode, then you can directly (and instantaneously) set its position via the <a href="regularApi/simSetJointPosition.htm">sim.setJointPosition</a> API function (or similar, e.g. <a href="remoteApiFunctions.htm#simxSetJointPosition">simxSetJointPosition</a> for the legacy remote API). You can do this from a <a href="childScripts.htm">child script</a>, from a <a href="plugins.htm">plugin</a>, from a <a href="rosInterfaces.htm">ROS</a> node, or from a <a href="remoteApiOverview.htm">remote API</a> client. If you do this from a child script, then it should be done inside of the <em>actuation section</em> of the <a href="childScripts.htm">child script</a>.</p>
 
 <p>In following threaded <a href="childScripts.htm">child script</a> example, the joint is controlled <em><strong>loosely</strong></em>  in position, and there is no synchronization with the simulation loop:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
 -- Following script should run threaded:
 
-jointHandle=sim.getObjectHandle('/Revolute_joint')
+jointHandle=sim.getObject('/Revolute_joint')
 
 sim.setJointPosition(jointHandle,90*math.pi/180) -- set the position to 90 degrees
 sim.wait(2) -- wait 2 seconds (in simulation time)
@@ -132,7 +132,7 @@ etc.</code>
 -- Following script should run threaded:
 
 local initialForbidLevel=sim.setThreadAutomaticSwitch(false) -- Automatic thread switching disabled
-jointHandle=sim.getObjectHandle('/Revolute_joint')
+jointHandle=sim.getObject('/Revolute_joint')
 
 sim.setJointPosition(jointHandle,90*math.pi/180) -- set the position to 90 degrees
 sim.switchThread() -- the thread resumes in next simulation step (i.e. when t becomes t+dt)
@@ -146,7 +146,7 @@ sim.setThreadAutomaticSwitch(initialForbidLevel) -- Restore the automatic thread
 -- In above code, a new joint position is applied in each simulation step
 </code>
 
-<p>When you try to control a joint that is not in force/torque mode from an external application (e.g. via the <a href="remoteApiOverview.htm">remote API</a>, <a href="rosInterfaces.htm">ROS</a> or <a href="blueZeroPlugin.htm">BlueZero</a>), then the external controller will run asynchronously to CoppeliaSim (i.e. similar to the non-synchronized code of a threaded <a href="childScripts.htm">child script</a>). This is fine most of the time for <strong><em>loose</em></strong> control, but if you wish to control the position of the joint <strong><em>precisely</em></strong> in each simulation loop, you will have to run CoppeliaSim in stepping mode, and the external controller (e.g. the remote API client) will have to trigger each simulation step explicitely. </p>
+<p>When you try to control a joint that is not in force/torque mode from an external application (e.g. via the <a href="remoteApiOverview.htm">remote API</a> or <a href="rosInterfaces.htm">ROS</a>), then the external controller will run asynchronously to CoppeliaSim (i.e. similar to the non-synchronized code of a threaded <a href="childScripts.htm">child script</a>). This is fine most of the time for <strong><em>loose</em></strong> control, but if you wish to control the position of the joint <strong><em>precisely</em></strong> in each simulation loop, you will have to run CoppeliaSim in stepping mode, and the external controller (e.g. the remote API client) will have to trigger each simulation step explicitely. </p>
 <p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client that does this:</p>
 
 <code class="hljs language-python coppelia-zmq-remote-api-client">
@@ -172,58 +172,16 @@ simxSetJointPosition(clientId,jointHandle,0.0f*3.1415f/180.0f,simx_opmode_onesho
 </code>
 
 
-<p>Following does the same, however with a <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client:</p>
-
-<code class="hljs language-c++ coppelia-b0-remote-api-client">
-bool doNextStep=false;
-
-void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
-{
-    doNextStep=true;
-}
-
-int main(int argc,char* argv[])
-{
-    ...
-    client.simxSynchronous(true); // enable the stepping mode
-     // callback when step finished:
-    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB));
-    client.simxStartSimulation(client.simxDefaultPublisher()); // start the simulation
-
-    // set the joint to 90 degrees:
-    client.simxSetJointPosition(jointHandle,90.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step
-    while (!doNextStep) // wait until simulation step finished
-        client.simxSpinOnce();
-        
-    doNextStep=false;
-    // set the joint to 180 degrees:
-    client.simxSetJointPosition(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step
-    while (!doNextStep) // wait until simulation step finished
-        client.simxSpinOnce();
-        
-    doNextStep=false;
-    // set the joint to 0 degrees:
-    client.simxSetJointPosition(jointHandle,0.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger(); // start one simulation step
-    while (!doNextStep) // wait until simulation step finished
-        client.simxSpinOnce();
-    ...
-}</code>
-
-
-
 <p><strong><a name="forceTorqueMode"></a>If the joint is in force/torque mode</strong>: if the joint operates in force/torque mode and is <a href="designingDynamicSimulations.htm#dynamicallyEnabledJoints">dynamically enabled</a>, then it will be indirectly handled by the physics engine. If your joint's motor is not enabled, then your joint is not controlled (i.e. it will be free). Otherwise, your joint can be in following two dynamic modes:</p>
 
 <li><a href="#controlLoopDisabled">The joint's motor is enabled, but the control loop is disabled</a>. Use this mode when you want to <strong><em>precisely</em></strong> custom control your joint from an external application (e.g. force/torque control, PID, etc.). Use this mode also, when you want to <em><strong>loosely</strong></em>  control your joint in force/torque mode, or for velocity control (e.g. robot wheel motors).</li>
 <li><a href="#controlLoopEnabled">The joint's motor is enabled, and the control loop is enabled</a>. Use this mode when your joint needs to act as a spring/damper, or if you want to <strong><em>precisely</em></strong> custom control your joint from within CoppeliaSim, or if you want to <em><strong>loosely</strong></em>  control your joint in position control from an external application.</li>
 
-<p><a name="controlLoopDisabled"></a>If your <strong>joint's motor is enabled, but the control loop is disabled</strong>, then the physics engine will apply the specified <strong>Maximum force/torque</strong>, and accelerate the joint until the <strong>target velocity</strong> is reached. If the load is small and/or the maximum force/torque high, that target velocity will be reached quickly. Otherwise, it will take some time, or, if the force/torque is not large enough, the target velocity will never be reached. You can programmatically adjust the target velocity with <a href="regularApi/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a> (or for example, in case of the B0-based remote API: <a href="b0RemoteApi-cpp.htm#simxSetJointTargetVelocity">simxSetJointTargetVelocity</a>, or, in case of the legacy remote API: <a href="remoteApiFunctions.htm#simxSetJointTargetVelocity">simxSetJointTargetVelocity</a>), and the maximum force/torque with <a href="regularApi/simSetJointMaxForce.htm">sim.setJointMaxForce</a> (or for example, in case of the B0-based remote API: <a href="b0RemoteApi-cpp.htm#simxSetJointMaxForce">simxSetJointMaxForce</a>, or in case of the the legacy remote API: <a href="remoteApiFunctions.htm#simxSetJointMaxForce">simxSetJointMaxForce</a>). You should be very careful before writing  a <strong><em>precise</em></strong> joint controller for a joint in force/torque mode from a <a href="childScripts.htm">child script</a> for following reason:</p>
+<p><a name="controlLoopDisabled"></a>If your <strong>joint's motor is enabled, but the control loop is disabled</strong>, then the physics engine will apply the specified <strong>Maximum force/torque</strong>, and accelerate the joint until the <strong>target velocity</strong> is reached. If the load is small and/or the maximum force/torque high, that target velocity will be reached quickly. Otherwise, it will take some time, or, if the force/torque is not large enough, the target velocity will never be reached. You can programmatically adjust the target velocity with <a href="regularApi/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a> (or for example, in case of the legacy remote API: <a href="remoteApiFunctions.htm#simxSetJointTargetVelocity">simxSetJointTargetVelocity</a>), and the maximum force/torque with <a href="regularApi/simSetJointMaxForce.htm">sim.setJointMaxForce</a> (or for example, in case of the the legacy remote API: <a href="remoteApiFunctions.htm#simxSetJointMaxForce">simxSetJointMaxForce</a>). You should be very careful before writing  a <strong><em>precise</em></strong> joint controller for a joint in force/torque mode from a <a href="childScripts.htm">child script</a> for following reason:</p>
 
 <p>By default, the simulation loop runs with a time step of 50ms (in simulation time). But the physics engine will run with a time step of 5ms, i.e. 10 times more often. A child script will be called in each simulation step, but not in each physics engine calculation step. This means that if you control a joint from a child script in a <em>regular way</em>, you will only be able to provide new control values once for 10 physics engine calculation steps: you will be missing 9 steps. One way to overcome this would be to change the default <a href="simulationPropertiesDialog.htm">simulation settings</a> and to specify a simulation <strong>time step</strong> of 5ms, instead of 50ms. This works fine, but remember that all other calculations (e.g. <a href="visionSensors.htm">vision sensors</a>, <a href="proximitySensors.htm">proximity sensors</a>, <a href="distanceCalculation.htm">distance calculations</a>, <a href="kinematics.htm">IK</a>, etc.) will also run 10 times more often, and finally slow down your simulation (most of the time you won't need such a high refresh rate for the other calculation modules. But the physics engine requires such a high refresh rate). Another, much better option, would be to use a <a href="jointCallbackFunctions.htm">joint callback function</a> (or a <a href="dynCallbackFunctions.htm">dynamics callback function</a>) as will be explained further down.</p>
 
-<p>If, one the other hand, you want to run a <em><strong>precise</strong></em> and regular joint controller externally (e.g. from a <a href="remoteApiOverview.htm">remote API</a> client,  a <a href="rosInterfaces.htm">ROS</a> node or a <a href="blueZeroPlugin.htm">BlueZero</a> node), then you have no other option than to set the simulation loop to the same rate as the physics engine rate, then run CoppeliaSim in stepping mode, and the external controller (e.g. the remote API client) will have to trigger each simulation step explicitely. </p>
+<p>If, one the other hand, you want to run a <em><strong>precise</strong></em> and regular joint controller externally (e.g. from a <a href="remoteApiOverview.htm">remote API</a> client or a <a href="rosInterfaces.htm">ROS</a> node), then you have no other option than to set the simulation loop to the same rate as the physics engine rate, then run CoppeliaSim in stepping mode, and the external controller (e.g. the remote API client) will have to trigger each simulation step explicitely. </p>
 
 <p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client that does this:</p>
 
@@ -256,49 +214,7 @@ simxSetJointTargetVelocity(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmod
 </code>
 
 
-<p>Following does the same, however with a <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client:</p>
-
-<code class="hljs language-c++ coppelia-b0-remote-api-client">
-bool doNextStep=false;
-
-void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
-{
-    doNextStep=true;
-}
-
-int main(int argc,char* argv[])
-{
-    ...
-    client.simxSynchronous(true);
-    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB));
-    client.simxStartSimulation(client.simxDefaultPublisher());
-
-    client.simxSetJointMaxForce(jointHandle,1.0f,client.simxDefaultPublisher());
-    client.simxSetJointTargetVelocity(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger();
-    while (!doNextStep)
-        client.simxSpinOnce();
-        
-    doNextStep=false;
-    client.simxSetJointMaxForce(jointHandle,0.5f,client.simxDefaultPublisher());
-    client.simxSetJointTargetVelocity(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger();
-    while (!doNextStep)
-        client.simxSpinOnce();
-        
-    doNextStep=false;
-    client.simxSetJointMaxForce(jointHandle,2.0f,client.simxDefaultPublisher());
-    client.simxSetJointTargetVelocity(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger();
-    while (!doNextStep)
-        client.simxSpinOnce();
-    ...
-}</code>
-
-
-
-
-<p><a name="controlLoopEnabled"></a>If your <strong>joint's motor is enabled, and the control loop is also enabled</strong>, then the physics engine will handle the joint according to the setting: your joint can operate in position control (i.e. PID control), in a spring/damper mode, or in custom control. PID and spring/damper parameters can be updated from a <a href="childScripts.htm">child script</a>, from a <a href="remoteApiOverview.htm">remote API</a> client,  from a <a href="rosInterfaces.htm">ROS</a> or <a href="blueZeroPlugin.htm">BlueZero</a> node. Refer to <a href="objectParameterIDs.htm">object parameter IDs</a> 2002-2004, and 2018-2019. Desired target positions can be set with <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a> (or, for example, from a B0-based remote API client: <a href="b0RemoteApi-cpp.htm#simxSetJointTargetPosition">simxSetJointTargetPosition</a>, or from a legacy remote API client: <a href="remoteApiFunctions.htm#simxSetJointTargetPosition">simxSetJointTargetPosition</a>). When you need a <em><strong>precise</strong></em> custom controller, then you should use a <a href="jointCallbackFunctions.htm">joint callback function</a> instead (or a <a href="dynCallbackFunctions.htm">dynamics callback function</a>).</p>
+<p><a name="controlLoopEnabled"></a>If your <strong>joint's motor is enabled, and the control loop is also enabled</strong>, then the physics engine will handle the joint according to the setting: your joint can operate in position control (i.e. PID control), in a spring/damper mode, or in custom control. PID and spring/damper parameters can be updated from a <a href="childScripts.htm">child script</a>, from a <a href="remoteApiOverview.htm">remote API</a> client or from a <a href="rosInterfaces.htm">ROS</a> node. Refer to <a href="objectParameterIDs.htm">object parameter IDs</a> 2002-2004, and 2018-2019. Desired target positions can be set with <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a> (or, for example, from a legacy remote API client: <a href="remoteApiFunctions.htm#simxSetJointTargetPosition">simxSetJointTargetPosition</a>). When you need a <em><strong>precise</strong></em> custom controller, then you should use a <a href="jointCallbackFunctions.htm">joint callback function</a> instead (or a <a href="dynCallbackFunctions.htm">dynamics callback function</a>).</p>
 
 <p>Finally, if you need a precise PID or custom controller that is implemented in an external application, you need to make sure that the simulation step is the same as the physics engine calculation step: by default, CoppeliaSim's simulation loop runs at 20Hz (in simulation time), while the physics engine runs at 200Hz. You can adjust the simulation step size in the <a href="simulationPropertiesDialog.htm">simulation setting</a>. You also need to make sure you run CoppeliaSim in stepping mode. </p>
 <p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client that does this:</p>
@@ -325,43 +241,6 @@ simxSynchronousTrigger(clientId);
 simxSetJointTargetPosition(clientId,jointHandle,0.0f*3.1415f/180.0f,simx_opmode_oneshot);
 </code>
 
-<p>Following does the same, however with a <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client:</p>
-
-<code class="hljs language-c++ coppelia-b0-remote-api-client">
-bool doNextStep=false;
-
-void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
-{
-    doNextStep=true;
-}
-
-int main(int argc,char* argv[])
-{
-    ...
-    client.simxSynchronous(true);
-    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB));
-    client.simxStartSimulation(client.simxDefaultPublisher());
-
-    client.simxSetJointTargetPosition(jointHandle,90.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger();
-    while (!doNextStep)
-        client.simxSpinOnce();
-        
-    doNextStep=false;
-    client.simxSetJointTargetPosition(jointHandle,180.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger();
-    while (!doNextStep)
-        client.simxSpinOnce();
-        
-    doNextStep=false;
-    client.simxSetJointTargetPosition(jointHandle,0.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger();
-    while (!doNextStep)
-        client.simxSpinOnce();
-    ...
-}</code>
-
-
 <p>You can also have a remote API client provide control values for a custom joint controller implemented in a joint callback function, by providing values, for instance via signals, to that joint callback function. For example, from a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client:</p>
 
 <code class="hljs language-python coppelia-zmq-remote-api-client">
@@ -381,31 +260,6 @@ simxSetFloatSignal(clientId,"myDesiredTorque",1.0f,simx_opmode_oneshot);
 simxSetFloatSignal(clientId,"myDesiredTarget",90.0f*3.1415/180.0f,simx_opmode_oneshot);
 simxSynchronousTrigger(clientId);
 </code>
-
-<p>Following does the same, however with a <a href="b0RemoteApiOverview.htm">B0-based remote API</a> client:</p>
-
-<code class="hljs language-c++ coppelia-b0-remote-api-client">
-bool doNextStep=false;
-
-void simulationStepDone_CB(std::vector&lt;msgpack::object&gt;* msg)
-{
-    doNextStep=true;
-}
-
-int main(int argc,char* argv[])
-{
-    ...
-    client.simxSynchronous(true);
-    client.simxGetSimulationStepDone(client.simxDefaultSubscriber(simulationStepDone_CB));
-    client.simxStartSimulation(client.simxDefaultPublisher());
-
-    simxSetFloatSignal("myDesiredTorque",1.0f,client.simxDefaultPublisher());
-    simxSetFloatSignal("myDesiredTarget",90.0f*3.1415f/180.0f,client.simxDefaultPublisher());
-    client.simxSynchronousTrigger();
-    while (!doNextStep)
-        client.simxSpinOnce();
-    ...
-}</code>
 
 <p>In above example, your joint callback function could fetch those two signals (with <a href="regularApi/simGetFloatSignal.htm">sim.getFloatSignal</a>) before doing the control.</p>
 

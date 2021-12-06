@@ -195,8 +195,8 @@ function coroutineMain()
     if bubbleRobModuleNotFound then
         sim.addLog(sim.verbosity_scripterrors,'BubbleRob plugin was not found. Simulation will not run properly.')
     else
-        local jointHandles={sim.getObjectHandle('./leftMotor'),sim.getObjectHandle('./rightMotor')}
-        local sensorHandle=sim.getObjectHandle('./sensingNose')
+        local jointHandles={sim.getObject('./leftMotor'),sim.getObject('./rightMotor')}
+        local sensorHandle=sim.getObject('./sensingNose')
         local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25})
         if robHandle>=0 then
             simBubble.start(robHandle) -- start the robot

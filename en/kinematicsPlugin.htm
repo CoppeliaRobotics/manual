@@ -25,9 +25,9 @@
 <code class="hljs language-lua coppelia-coppeliasim-script">
 -- set-up:
 function sysCall_init()
-    simBase=sim.getObjectHandle('/base')
-    simTip=sim.getObjectHandle('/tip')
-    simTarget=sim.getObjectHandle('/target')
+    simBase=sim.getObject('/base')
+    simTip=sim.getObject('/tip')
+    simTarget=sim.getObject('/target')
     ikEnv=simIK.createEnvironment()
     ikGroup=simIK.createIkGroup(ikEnv)
     local ikElement=simIK.addIkElementFromScene(ikEnv,ikGroup,simBase,simTip,simTarget,desiredConstraints)
@@ -44,7 +44,7 @@ end</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">
 -- set-up:
 function sysCall_init()
-    simJoints={sim.getObjectHandle('/j1'),sim.getObjectHandle('/j2')}
+    simJoints={sim.getObject('/j1'),sim.getObject('/j2')}
     ikJoints={}
     ikBase=simIK.createDummy(ikEnv) -- create a dummy in the IK environemnt
     -- set that dummy into the same pose as its CoppeliaSim counterpart:

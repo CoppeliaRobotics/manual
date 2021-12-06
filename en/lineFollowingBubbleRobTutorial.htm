@@ -80,16 +80,16 @@ end</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
 function sysCall_init()
-    bubbleRobBase=sim.getObjectHandle('.')
-    leftMotor=sim.getObjectHandle("./leftMotor")
-    rightMotor=sim.getObjectHandle("./rightMotor")
-    noseSensor=sim.getObjectHandle("./sensingNose")
+    bubbleRobBase=sim.getObject('.')
+    leftMotor=sim.getObject("./leftMotor")
+    rightMotor=sim.getObject("./rightMotor")
+    noseSensor=sim.getObject("./sensingNose")
     minMaxSpeed={50*math.pi/180,300*math.pi/180}
     backUntilTime=-1 -- Tells whether bubbleRob is in forward or backward mode
     floorSensorHandles={-1,-1,-1}
-    floorSensorHandles[1]=sim.getObjectHandle("./leftSensor")
-    floorSensorHandles[2]=sim.getObjectHandle("./middleSensor")
-    floorSensorHandles[3]=sim.getObjectHandle("./rightSensor")
+    floorSensorHandles[1]=sim.getObject("./leftSensor")
+    floorSensorHandles[2]=sim.getObject("./middleSensor")
+    floorSensorHandles[3]=sim.getObject("./rightSensor")
     robotTrace=sim.addDrawingObject(sim.drawing_linestrip+sim.drawing_cyclic,2,0,-1,200,{1,1,0},nil,nil,{1,1,0})
     -- Create the custom UI:
     xml = '&lt;ui title="'..sim.getObjectAlias(bubbleRobBase,1)..' speed" closeable="false" resizeable="false" activate="false"&gt;'..[[
