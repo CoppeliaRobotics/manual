@@ -37,7 +37,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#ikDuplicateEnvironment">ikDuplicateEnvironment</a>
 <a href="?#ikEraseEnvironment">ikEraseEnvironment</a>
 <a href="?#ikEraseObject">ikEraseObject</a>
-<a href="?#ikGetConfigForTipPose">ikGetConfigForTipPose</a>
+<a href="?#ikFindConfig">ikFindConfig</a>
 <a href="?#ikGetIkElementBase">ikGetIkElementBase</a>
 <a href="?#ikGetIkElementConstraints">ikGetIkElementConstraints</a>
 <a href="?#ikGetIkElementFlags">ikGetIkElementFlags</a>
@@ -187,7 +187,7 @@ td.section { margin: 0; padding: 0; }
 <h2><a name="ikCalculation"></a>IK calculation</h2>
 <pre class=lightGreyBox>
 <a href="?#ikHandleIkGroup">ikHandleIkGroup</a>
-<a href="?#ikGetConfigForTipPose">ikGetConfigForTipPose</a>
+<a href="?#ikFindConfig">ikFindConfig</a>
 <a href="?#ikComputeJacobian">ikComputeJacobian</a>
 <a href="?#ikGetJacobian">ikGetJacobian</a>
 <a href="?#ikGetManipulability">ikGetManipulability</a>
@@ -513,11 +513,46 @@ td.section { margin: 0; padding: 0; }
 <br>
 
 <p class="subsectionBar">
-<a name="ikGetConfigForTipPose" id="ikGetConfigForTipPose"></a>ikGetConfigForTipPose</p>
+<a name="ikFindConfig" id="ikFindConfig"></a>ikFindConfig</p>
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
 <td class="apiTableRightDescr">Searches for a manipulator configuration that matches a given end-effector position/orientation in space. Search is randomized.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftCSyn">Synopsis</td>
+<td class="apiTableRightCSyn">int ikFindConfig(int ikGroupHandle,size_t jointCnt,const int* jointHandles,simReal thresholdDist,int maxSearchTimeInMs,simReal* retConfig,const simReal* metric=nullptr,bool(*validationCallback)(simReal*)=nullptr)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftCParam">Arguments</td>
+<td class="apiTableRightCParam">
+<div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
+<div><strong>jointCnt</strong>: the number of joint handles provided in the jointHandles array.</div>
+<div><strong>jointHandles</strong>: an array with jointCnt entries, that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
+<div><strong>thresholdDist</strong>: a distance indicating when IK should be computed in order to try to bring the tip onto the target: since the search algorithm proceeds by generating random configurations, many of them produce a tip pose that is too far from the target pose to run IK successfully. Choosing a large value will result in slow calculations, choosing a small value might produce a smaller subset of solutions. Distance between two poses is calculated using a metric (see metric argument below).</div>
+<div><strong>maxSearchTimeInMs</strong>: the maximum time in milliseconds before this function returns.</div>
+<div><strong>retConfig</strong>: an array with jointCnt entries, that will receive the IK calculated joint values, as specified by the jointHandles array.</div>
+<div><strong>metric</strong>: an array to 4 values indicating a metric used to compute pose-pose distances: distance=sqrt((dx*metric[0])^2+(dy*metric[1])^2+(dz*metric[2])^2+(angle*metric[3])^2).</div>
+<div><strong>validationCallback</strong>: a callback function taking as input argument the proposed joint values (i.e. a configuration), and as return value whether the configuration is valid (e.g. is not colliding).</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftCRet">Return value</td>
+<td class="apiTableRightCRet">-1 in case of an error, 0 if no valid configuration was found, 1 otherwise.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#ikComputeJacobian">ikComputeJacobian</a>, <a href="#ikGetJacobian">ikGetJacobian</a>, <a href="#ikDuplicateEnvironment">ikDuplicateEnvironment</a></td>
+</tr>
+</table>
+<br>
+
+<p class="subsectionBar">
+<a name="ikGetConfigForTipPose" id="ikGetConfigForTipPose"></a>ikGetConfigForTipPose</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Deprecated. Use ikFindConfig instead.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -1375,7 +1410,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#ikComputeJacobian">ikComputeJacobian</a>, <a href="#ikGetConfigForTipPose">ikGetConfigForTipPose</a></td>
+<td class="apiTableRightDescr"><a href="#ikComputeJacobian">ikComputeJacobian</a>, <a href="#ikFindConfig">ikFindConfig</a></td>
 </tr>
 </table>
 <br>
