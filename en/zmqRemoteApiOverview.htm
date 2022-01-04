@@ -33,8 +33,8 @@
 
 <h2>Python</h2>
 <p>ZeroMQ and CBOR are required packages:</p>
-<code class="hljs coppelia-terminal">$ pip install pyzmq
-$ pip install cbor</code>
+<code class="hljs coppelia-terminal">$ /path/to/python -m pip install pyzmq
+$ /path/to/python -m pip install cbor</code>
 <p>Here a very simple example ZeroMQ-based remote API client code (run it in programming/zmqRemoteApi/clients/python/)</p>
 <code class="hljs language-python coppelia-zmq-remote-api-client">import time
 from zmqRemoteApi import RemoteAPIClient
@@ -90,9 +90,7 @@ int main()
     {
         std::cout &lt;&lt; &quot;Simulation time: &quot; &lt;&lt; std::setprecision(3) &lt;&lt; simTime &lt;&lt; &quot; [s]&quot; &lt;&lt; std::endl;
         client.step();
-        simTime=client.call(&quot;sim.getSimulationTime&quot;)[0].as
-        <float>
-        ();
+        simTime=client.call(&quot;sim.getSimulationTime&quot;)[0].as&lt;float&gt;();
     }    
     client.call(&quot;sim.stopSimulation&quot;, nullptr);
 
