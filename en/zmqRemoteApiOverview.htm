@@ -98,6 +98,31 @@ int main()
 }
 </code>
 
+<br>
+
+<h2>Lua</h2>
+<p>Connecting 2 or more CoppeliaSim instances can easily be achieved with following simple example of a child script:</p>
+<code class="hljs language-lua coppelia-zmq-remote-api-client">function sysCall_init()
+    remoteApiClient=require'luaZmqRemoteApi'
+    remoteApiClient.init('127.0.0.1',23002)
+    simx=remoteApiClient.getObject('sim')
+    
+    remoteApiClient.setStepping(true)
+    simx.startSimulation()
+end
+
+function sysCall_sensing()
+    remoteApiClient.step()
+end
+
+function sysCall_cleanup()
+    simx.stopSimulation()
+    remoteApiClient.cleanup()
+end</code>
+
+
+<br>
+
 
 <br>
 <br>

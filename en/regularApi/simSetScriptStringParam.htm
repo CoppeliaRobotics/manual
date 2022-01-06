@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>sim.getObjectInt32Param</title>
+<title>sim.setScriptStringParam</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,27 +16,27 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simGetObjectInt32Param" id="simGetObjectInt32Param"></a>simGetObjectInt32Param / simGetObjectInt32Param</p>
+<p class=subsectionBar><a name="simSetScriptStringParam" id="simSetScriptStringParam"></a>simSetScriptStringParam / sim.setScriptStringParam </p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves an int32 parameter of a <a href="../objects.htm">scene object</a>. See also the other <a href="../apiFunctions.htm#objectParameters">object parameter related functions</a><br></td>
+<td class=apiTableRightDescr>Sets a string parameter of a script.  See also the <a href="../apiFunctions.htm#scriptParameters">other functions related to script parameters</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simGetObjectInt32Param(simInt objectHandle,simInt parameterID,simInt* parameter)<br></td> 
+<td class=apiTableRightCSyn>simInt simSetScriptStringParam(simInt scriptHandle,simInt parameterID,simChar* parameter,simInt parameterLength)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the object</div>
-<div><strong>parameterID</strong>: identifier of the parameter to retrieve. See the <a href="../objectParameterIDs.htm">list of all possible object parameters</a><br>
-</div>
-<div><strong>parameter</strong>: retrieved parameter</div>
+<div><strong>scriptHandle</strong>: handle of the script</div>
+<div><strong>parameterID</strong>: identifier of the parameter to set. See the <a href="../apiConstants.htm#scriptParameters">list of all possible script parameters</a></div>
+<div><strong>parameter</strong>: parameter value (can contain embedded zeros)</div>
+<div><strong>parameterLength</strong>: the length of the parameter value</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -44,7 +44,7 @@ C synopsis
 C return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 in case of an error, 0 if the parameter could not be retrieved, or 1 if operation was successful <br>
+<div>-1 in case of an error, 0 if the parameter could not be set, or 1 if  operation was successful <br>
 </div>
 </td> 
 </tr> 
@@ -52,21 +52,20 @@ C return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int parameter=simGetObjectInt32Param(int objectHandle,int parameterID)</td> 
+<td class=apiTableRightLSyn>sim.setScriptStringParam(int scriptHandle,int parameterID,string parameter)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
 <div>Similar to the C-function counterpart</div>
-<div></div></td> 
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>parameter</strong>: retrieved parameter. </div>
-</td> 
+<div>none</div></td> 
 </tr> 
 
  
