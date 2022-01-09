@@ -40,17 +40,23 @@
 <li>inspection/edition of included files</li>
 <li>open of the documentation for the API function/constant under the mouse pointer, via the context menu</li>
 
-<p>The API functions can easily be accessed by typing the first 3 letters (usually <em>sim</em>). When a script was modified, there is no need to explicitly save the changes: closing the script editor, saving the scene or starting a <a href="simulation.htm">simulation</a> will automatically apply the changes to the script. When a simulation is running, modifications to a given script will only take effect once a new simulation run is started, except for <a href="customizationScripts.htm">customization scripts</a> that will always apply changes once the editor was closed. The user can also explicitely restart/reset a given script, for changes to take immediately effect.</p>
+<p>The API functions can easily be accessed by typing the first 3 letters (usually <em>sim</em>). When a script was modified, there is no need to explicitly save the changes: closing the script editor, saving the scene or starting a <a href="simulation.htm">simulation</a> will automatically apply the changes to the script. When a simulation is running, modifications to a given script will only take effect once a new simulation run is started. The user can also explicitely restart/reset a given script, for changes to take immediately effect.</p>
 
-<p>If you have recurring functions you wish to access from a given script, or if you simply wish to run code from an external file, you can do this with following:</p>
+<p>If you have recurring functions you wish to access from a given script, or if you simply wish to run code from an external file, you can do this with following for a Lua script:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
 require "myExternalLuaFile"
 </code>
 
-<p>In that case, make sure the file is named <em>myExternalLuaFile.lua</em>, and do not forget to distribute it together with your scene or model, since that code will not be part of a CoppeliaSim file anymore. Searched path are usually following:</p>
+<p>and for a Python script:</p>
+<code class="hljs language-python coppelia-coppeliasim-script">
+#pythonWrapper(myExternalLuaFile)  
+</code>
+
+<p>In that case, make sure the file is named <em>myExternalLuaFile.lua</em> or <em>myExternalLuaFile.py</em>, and do not forget to distribute it together with your scene or model, since that code will not be part of a CoppeliaSim file anymore. Searched path are usually following:</p>
 <li><em>&lt;CoppeliaSim executable&gt;/</em></li>
 <li><em>&lt;CoppeliaSim executable&gt;/lua/</em></li>
+<li><em>&lt;CoppeliaSim executable&gt;/python/</em></li>
 <li><em>&lt;current scene path&gt;/</em></li>
 <li><em>&lt;additional search path&gt;/</em> (this path can be specified with variable <em>additionalLuaPath</em> in file <em>system/usrset.txt</em>)</li>
 <p>Files included via the <em>require</em> directive can be opened in the same script editor by opening the popup menu over the file name.</p>
