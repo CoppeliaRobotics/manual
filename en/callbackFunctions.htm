@@ -19,10 +19,10 @@
 
 <h1>Callback functions</h1>
 
-<p>Callbacks or callback functions are script functions that are triggered by a specific event. They represent the only entrance into a script code. They can be categorized into user callbacks, and system callbacks:</p>
+<p>Callbacks or callback functions are script functions that are triggered by a specific event. They represent the only entrance into script code. They can be categorized into user callbacks, and system callbacks:</p>
 
 <li>user callback functions are directly triggered by user code, or a plugin. This happens for instance when the user calls a script function in a different script via <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a>, or when the user clicks a <a href="customUserInterfaces.htm">custom UI</a> button, which triggers a custom event. User callback functions can usually run in <a href="scripts.htm">any type of script</a>.</li>
-<li>system callback functions on the other hand are triggered by CoppeliaSim when a certain event happens, for instance when a script is initialized, or before the switch to another scene. System callback functions have fixed function names, such as <em>sysCall_init</em> or <em>sysCall_beforeInstanceSwitch</em>. Not all system callback functions can be handled by all types of scripts, e.g. some can only run in an <a href="addOns.htm">add-on</a>. (e.g. <em>sysCall_addOnScriptSuspend</em>)</li>
+<li>system callback functions on the other hand are triggered by CoppeliaSim when a certain event happens, for instance when a script is initialized, or before switching to another scene. System callback functions have fixed function names, such as <em>sysCall_init</em> or <em>sysCall_beforeInstanceSwitch</em>. Not all system callback functions can be handled by all types of scripts, e.g. some can only run in an <a href="addOns.htm">add-on</a> (e.g. <em>sysCall_addOnScriptSuspend</em>).</li>
 <p>While most system callback functions operate in a relatively straight-forward manner and are easy to understand (see further down for a complete list of system callback functions), some require a little bit more explanations:</p>
 <li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a> are called by the physics engine  before and after each dynamics simulation step.</li>
 <li>The <a href="contactCallbackFunction.htm">contact callback function</a> is called by the physics engine for each contact pair.</li>
@@ -36,13 +36,18 @@
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
 function <strong>sysCall_info</strong>()
-    -- Can be used to specify initial configuration data. E.g. in case of an add-on: 
+    -- Lua only. Can be used to specify initial configuration data. E.g. in case of an add-on: 
     return {autoStart=false,menu='menu1\nmenu2\nadd-on name',menuEnabled=true}
 end
 
 function <strong>sysCall_init</strong>()
     -- Do some initialization here. 
-    -- <strong>Required</strong> for every type of script.
+    -- Either sysCall_init or sysCall_thread is required with Python scripts.
+end
+
+function <strong>sysCall_thread</strong>()
+    -- Python only. Entry point for threaded scripts.
+    -- Either sysCall_thread or sysCall_init is required.
 end
 
 function <strong>sysCall_cleanup</strong>()
@@ -95,28 +100,28 @@ function <strong>sysCall_afterInstanceSwitch</strong>()
 end
 
 function <strong>sysCall_beforeCopy</strong>(inData)
-    -- Before one or several objects will be copied.
+    -- Before one or several objects will be copied. Can be reentrant. Disabled by default for Python.
     for key,value in pairs(inData.objectHandles) do
         print("Object with handle "..key.." will be copied")
     end
 end
 
 function <strong>sysCall_afterCopy</strong>(inData)
-    -- After one or several objects were copied.
+    -- After one or several objects were copied. Can be reentrant. Disabled by default for Python.
     for key,value in pairs(inData.objectHandles) do
         print("Object with handle "..key.." was copied")
     end
 end
 
 function <strong>sysCall_afterCreate</strong>(inData)
-    -- After one or several objects were created.
+    -- After one or several objects were created. Can be reentrant. Disabled by default for Python.
     for i,#inData.objectHandles,1 do
         print("Object with handle "..inData.objectHandles[i].." was created")
     end
 end
 
 function <strong>sysCall_beforeDelete</strong>(inData)
-    -- Before one or several objects will be deleted.
+    -- Before one or several objects will be deleted. Can be reentrant. Disabled by default for Python.
     for key,value in pairs(inData.objectHandles) do
         print("Object with handle "..key.." will be deleted")
     end
@@ -124,7 +129,7 @@ function <strong>sysCall_beforeDelete</strong>(inData)
 end
 
 function <strong>sysCall_afterDelete</strong>(inData)
-    -- After one or several objects were deleted.
+    -- After one or several objects were deleted. Can be reentrant. Disabled by default for Python.
     for key,value in pairs(inData.objectHandles) do
         print("Object with handle "..key.." was deleted")
     end
@@ -132,7 +137,7 @@ function <strong>sysCall_afterDelete</strong>(inData)
 end
 
 <a name="sysCall_beforeMainScript"></a>function <strong>sysCall_beforeMainScript</strong>()
-    -- Can be used to step a simulation in a custom manner.
+    -- Lua only. Can be used to step a simulation in a custom manner.
     local outData={doNotRunMainScript=false} -- when true, then the main script won't be executed
     return outData
 end
@@ -148,30 +153,30 @@ function <strong>sysCall_addOnScriptResume</strong>()
 end
 
 function <strong>sysCall_dynCallback</strong>(inData)
-    -- See the <a href="dynCallbackFunctions.htm">dynamics callback function</a> section for details.
+    -- See the <a href="dynCallbackFunctions.htm">dynamics callback function</a> section for details. Disabled by default for Python.
     -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
 end
 
 function <strong>sysCall_jointCallback</strong>(inData)
-    -- See the <a href="jointCallbackFunctions.htm">joint callback function</a> section for details.
+    -- See the <a href="jointCallbackFunctions.htm">joint callback function</a> section for details. Disabled by default for Python.
     -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
     return outData
 end
 
 function <strong>sysCall_contactCallback</strong>(inData)
-    -- See the <a href="contactCallbackFunction.htm">contact callback function</a> section for details.
+    -- See the <a href="contactCallbackFunction.htm">contact callback function</a> section for details. Disabled by default for Python.
     -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
     return outData
 end
 
 function <strong>sysCall_vision</strong>(inData)
-    -- See the <a href="visionCallbackFunctions.htm">vision callback function</a> section for details.
+    -- See the <a href="visionCallbackFunctions.htm">vision callback function</a> section for details. Disabled by default for Python.
     -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
     return outData
 end
 
 function <strong>sysCall_trigger</strong>(inData)
-    -- See the <a href="triggerCallbackFunctions.htm">trigger callback function</a> section for details.
+    -- See the <a href="triggerCallbackFunctions.htm">trigger callback function</a> section for details. Disabled by default for Python.
     -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
     return outData
 end
@@ -188,7 +193,7 @@ end
 end
 
 <a name="sysCall_event"></a>function <strong>sysCall_event</strong>(inData)
-    -- Called when something (mainly visual) changes. 
+    -- Called when something (mainly visual for now) changes. Can be reentrant. Disabled by default for Python. 
     -- Mainly used to synchronize an external viewer/renderer with CoppeliaSim.
     -- See also <a href="regularApi/simGetGenesisEvents.htm">sim.getGenesisEvents</a>
 end</code>

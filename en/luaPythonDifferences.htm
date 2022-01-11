@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Threaded and non-threaded script code</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Lua vs Python scripts</h1>
+
+<p>The way Lua and Python scripts are handled in CoppeliaSim displays small differences, which are discussed here:</p>
+<li>Lua code always executes in the same thread as CoppeliaSim and is thus quite fast. Python code on the other hand is launched in a new process, which connects to CoppeliaSim via socket communication. This implies that Python code will usually start and run slower than Lua code.
+<li>Threaded Lua code, since implemented via coroutines, will always block while executing (i.e. CoppeliaSim won't handle any other task during that time). This is most of the time not noticeable, except when calling blocking functions that are foreign to CoppeliaSim. Threaded Python code on the other hand, will never block when executing, also with functions that are foreign to CoppeliaSim.
+<li>Python threaded scripts will need to call a message pump in order to have user callback function to be serviced: sim.handleExtCalls
+<li>Lua callback functions are always reentrant, while Python callback functions are usually non-reentrant.
+<li>Some rare API functions will only be availabe in Lua, while other only in Python.
+<li>Requires the #python header tag<br>
+  
+  
+  
+  <h2>
+    <a name="threaded"></a>Threaded code
+  </h2>
+  
+  
+  <p>In a Lua script, threading is achieved via <a href="https://en.wikipedia.org/wiki/Coroutine" target="_blank">coroutines</a>, that CoppeliaSim will preemptively interrupt (i.e. yield, or switch) at regular intervals, and resume at a later point. </p>
+  <p>On the other hand, CoppeliaSim will handle threading of a Python script by launching a new process which will connect to CoppeliaSim via socket communication, which happens <em>under the hood</em>, the main difference is however that Python code will start slower than Lua code. See also the other <a href="luaPythonDifferences.htm">differences between Lua and Python scripts</a>.</p>
+  <p>In the context of threaded code, we will refer to <em>threads</em> and <em>coroutines</em>, <em>interrupt</em>, <em>yield</em> and <em>switch</em>, in an interchangeable manner.</p>
+  <p>&nbsp;</p>
+  
+  
+  <p><strong>Lua specific</strong></p>
+  
+  <p>Lua threaded code has several weaknesses compared to Lua non-threaded code if not programmed appropriately: it can waste some processing time. Following shows a typical threaded function in a Lua script (i.e. <em>coroutineMain</em>), which however is not perfect since <strong>it is wasting precious computation time</strong> in the loop:<br>
+  </p>
+  <code class="hljs language-lua coppelia-coppeliasim-script">
+    function sysCall_init()
+    corout=coroutine.create(coroutineMain) -- create the coroutine
+    end
+    
+    function sysCall_actuation()
+    if coroutine.status(corout)~='dead' then
+    local ok,errorMsg=coroutine.resume(corout) -- resume the coroutine
+    if errorMsg then
+    error(debug.traceback(corout,errorMsg),2)
+    end
+    end
+    end
+    
+    function coroutineMain()
+    while true do
+    print('simulation time: ',sim.getSimulationTime())
+    end
+    end</code>
+  
+  <p>By default a Lua threaded code section will execute for about 1-2 milliseconds before automatically interrupting or <em>switching</em> and giving control back to the caller. This default behavior can be changed with the <a href="regularApi/simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a> or <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>. Once the current thread was switched, it will resume next time the coroutine is resumed (which often is in next simulation step. The thread switching is automatic and is handled by CoppeliaSim (occurs after the specified time), but the <a href="regularApi/simSwitchThread.htm">sim.switchThread</a> command allows to explicitely switch when needed. Using above three commands, a perfect synchronization with the main simulation loop can be achieved. Following Lua code shows code synchronization with the main simulation loop:<br>
+  </p>
+  <code class="hljs language-lua coppelia-coppeliasim-script">
+    function sysCall_init()
+    sim.setThreadAutomaticSwitch(false) -- forbid automatic switches
+    corout=coroutine.create(coroutineMain)
+    end
+    
+    function sysCall_actuation()
+    if coroutine.status(corout)~='dead' then
+    local ok,errorMsg=coroutine.resume(corout)
+    if errorMsg then
+    error(debug.traceback(corout,errorMsg),2)
+    end
+    end
+    end
+    
+    function coroutineMain()
+    while true do
+    print('simulation time: ',sim.getSimulationTime())
+    sim.switchThread() -- resume in next simulation step
+    end
+    end</code>
+  
+  <p>Above while loop will now execute exactly once for each main simulation step and not waste time reading and printing the simulation time over and over for same the simulation step.
+  </p>
+  
+  <p>&nbsp;</p>
+  
+  
+  <p><strong>Python specific</strong></p>
+  
+  <p>Python threaded code shares similar properties as Lua threaded code, regarding synchronization with CoppeliaSim's simulation loop. Following shows a typical threaded function in a Python script (i.e. <em>threadMain</em>), which is not synchronized:</p>
+  <code class="hljs language-python coppelia-coppeliasim-script">
+    #python
+    
+    def sysCall_thread():
+    sim.setThreadAutomaticSwitch(True) # allow automatic switches
+    while True:
+    print('simulation time: '+str(sim.getSimulationTime()))
+    </code>
+  
+  <p>By default, a Python threaded code section will not operate synchronously, but this can be changed with <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>(False) and <a href="regularApi/simSwitchThread.htm">sim.switchThread</a>. Once the current thread was switched, it will resume in next simulation step. Following Python code shows code synchronization with the main simulation loop:</p>
+  
+  <code class="hljs language-python coppelia-coppeliasim-script">
+    #python
+    
+    def sysCall_thread():
+    sim.setThreadAutomaticSwitch(False) # forbid automatic switches
+    while True:
+    print('simulation time: '+str(sim.getSimulationTime()))
+    sim.switchThread() # resume in next simulation step
+    </code>
+  
+  <p>Above while loop will now execute exactly once for each main simulation step and not waste time reading and printing the simulation time over and over for the same simulation step.
+  </p>
+  <p>&nbsp;</p>
+  
+  <p>With threads in general, some operation should not be interrupted in order to execute correctly (imagine moving several objects in a loop). In that case, you can temporarily forbid thread switches with the <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a> function.</p>
+  <p>Finally, several <a href="apiFunctions.htm#blockingFunctions">blocking functions</a> are specifically meant to be running from within threaded code, e.g. <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a>: those functions will handle thread switching for you, at the appropriate time, in order to operate synchronously with the simulation loop.</p>
+  <br>
+  <br>
+         </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>
