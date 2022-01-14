@@ -26,12 +26,12 @@ Description
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
-C synopsis
+C/C++<br>synopsis
 </td> 
 <td class=apiTableRightCSyn>simVoid* simBroadcastMessage(simInt* auxiliaryData,simVoid* customData,simInt* replyData)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
-<td class=apiTableLeftCParam>C parameters</td> 
+<td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>auxiliaryData</strong>: pointer to 4 integers. auxiliaryData[0] should be a unique identifier different from 0. Use a large, random identifier, or better, your CoppeliaSim's serial number if the message is yours. Otherwise, use the identifier of some other module. auxiliaryData[1] could be the messageID of the message you wish to send to another module. auxiliaryData[2] and auxiliaryData[3] can be any values specific to your application.<br>
 </div>
@@ -46,7 +46,7 @@ C synopsis
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
-C return value
+C/C++<br>return value
 </td> 
 <td class=apiTableRightCRet>
 <div>Pointer to custom reply data that can be used by a module to reply to a broadcasted message. The module that replies is in charge of allocating the data with <a href="simCreateBuffer.htm">simCreateBuffer</a> and the original broadcaster is in charge of releasing that data with <a href="simReleaseBuffer.htm">simReleaseBuffer</a>. A reply to a broadcasted message is triggered by a module that writes a value different from -1 into auxiliaryData[0]-auxiliaryData[3], thus aborting further broadcast of the original message and returning to the broadcaster. If the return value is different from nullptr, the broadcast is also interrupted.<br>
