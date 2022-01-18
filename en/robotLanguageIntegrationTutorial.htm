@@ -21,7 +21,6 @@
 
 <p>This tutorial will try to explain how to integrate or embed a robot language interpreter into CoppeliaSim. The procedure is very similar in case you want to integrate an emulator (e.g. a specific microcontroller emulator) into CoppeliaSim. Extending CoppeliaSim's functionality requires most of the time the development of a <a href="plugins.htm">plugin</a>. Make sure you have read the <a href="pluginTutorial.htm">tutorial on plugins</a> , and the <a href="externalControllerTutorial.htm">tutorial on external controllers</a> before proceeding with this tutorial.<br>
 </p>
-
 <p>The CoppeliaSim <a href="scenes.htm">scene</a> file related to this tutorial is located in CoppeliaSim's installation folder  <em>scenes\robotLanguageControl.ttt</em>. You can find the  plugin project files <a href="https://github.com/CoppeliaRobotics/simExtMTB" target="_blank">here</a>, and the server application project files <a href="https://github.com/CoppeliaRobotics/mtbServer" target="_blank">here</a>.</p>
 
 <p>First, let's start by loading the related scene file <em>scenes\robotLanguageControl.ttt</em>:<br>
@@ -98,7 +97,7 @@
 the actual robot language program is compiled and executed by the &quot;mtbServer&quot; application. That application also holds the MTB robot's state variables. For each MTB robot in the simulation scene, there will be an instance of the <em>mtbServer</em> application launched by the <em>simExtMTB</em> plugin.
 </li>
 <li>
-the <em>simExtMTB</em> plugin is in charge of providing custom Lua functions, and  also  launches the <em>mtbServer</em> application when needed, and communicates with it via socket communication.</li>
+the <em>simExtMTB</em> plugin is in charge of providing custom script functions, and  also  launches the <em>mtbServer</em> application when needed, and communicates with it via socket communication.</li>
 <li>
 the child scripts attached to <em>MTB_Robot</em> and <em>MTB_Robot#0</em> check whether the <em>simExtMTB</em> plugin is loaded and handle the communication with the plugin. </li>
 
@@ -135,7 +134,7 @@ the child scripts attached to <em>MTB_Robot</em> and <em>MTB_Robot#0</em> check 
 <li>
 Checking whether the plugin was loaded. If not, an error message is output.</li>
 
-<li>Communicating with the plugin. This means that information is sent to and received from the MTB plugin with custom Lua functions.<br>
+<li>Communicating with the plugin. This means that information is sent to and received from the MTB plugin with custom script functions.<br>
 </li>
 
 <li>Applying the newly calculated joint values to the MTB robot model. This could also be handled in the MTB's plugin.<br>
@@ -146,18 +145,18 @@ Checking whether the plugin was loaded. If not, an error message is output.</li>
 <li>Updating the state of the custom dialogs.<br>
 </li>
 
-<p>Following 3 custom Lua functions are of main interest (others are exported by the plugin): <br>
+<p>Following 3 custom script functions are of main interest (others are exported by the plugin): <br>
 </p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
-number mtbServerHandle,string message=simMTB.startServer(string mtbServerExecutable,
-    number portNumber,charBuffer program,table[4] jointPositions, table[2] velocities)</code>
+int mtbServerHandle,string message=simMTB.startServer(string mtbServerExecutable,
+    int portNumber,charBuffer program,table[4] jointPositions, table[2] velocities)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
-number result,string message=simMTB.step(number mtbServerHandle,number timeStep)</code>
+int result,string message=simMTB.step(int mtbServerHandle,float timeStep)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
-table[4] jointValues=simMTB.getJoints(number mtbServerHandle)</code>
+table[4] jointValues=simMTB.getJoints(int mtbServerHandle)</code>
 
 
 <li><strong>simMTB.startServer</strong>: launches the server application (e.g. <em>mtbServer</em>) on the specified port, connects to it, and sends it the robot language code, the initial joint positions, and the initial velocities. In return, the function returns a server handle (if successful), and a message (usually a compilation error message).</li>

@@ -24,7 +24,7 @@ The remote API server side is implemented via a <a href="plugins.htm">CoppeliaSi
 <p>To enable the remote API on the server side (i.e. on CoppeliaSim's side), make sure the remote API plugin was successfully loaded at CoppeliaSim start-up (simExtRemoteApi.dll, libsimExtRemoteApi.dylib or libsimExtRemoteApi.so) (you can inspect the console window for information related to plugin loading). The remote API plugin can start as many server services as needed (each service will be listening/communicating on a different port). A server service can be started in two different ways:</p>
 
 <li><a name="continuousRemoteApiService" id="continuousRemoteApiService"></a>At CoppeliaSim start-up (<strong>continuous remote API server service</strong>). The remote API plugin will try reading a configuration file named <em>remoteApiConnections.txt</em> and according to its content, start appropriate server services. Have a look at the  configuration file for details. Use this method for remote control of the simulator itself. With this method remote API functions will always be executed on the server side, even if simulation is not running (which is not always the case with next method here below). There is another method to start a continuous remote API server service, via the <a href="commandLine.htm">command line</a>.</li>
-<li><a name="temporaryRemoteApiService" id="temporaryRemoteApiService"></a>From within a <a href="scripts.htm">script</a> (<strong>temporary remote API server service</strong>). This is most of the time the preferred method of starting a remote API server service. The user is in control when the service is started or stopped. When a temporary remote API server service is started from a <a href="simulationScripts.htm">simulation script</a> however, the service will automatically be stopped at simulation end. A temporary remote API server service can be started or stopped with following 2 custom Lua functions (the 2 functions are exported by the plugin): </li>
+<li><a name="temporaryRemoteApiService" id="temporaryRemoteApiService"></a>From within a <a href="scripts.htm">script</a> (<strong>temporary remote API server service</strong>). This is most of the time the preferred method of starting a remote API server service. The user is in control when the service is started or stopped. When a temporary remote API server service is started from a <a href="simulationScripts.htm">simulation script</a> however, the service will automatically be stopped at simulation end. A temporary remote API server service can be started or stopped with following 2 custom script functions (the 2 functions are exported by the plugin): </li>
 
 
 <p class=subsectionBarTab><a name="simExtRemoteApiStart" id="simExtRemoteApiStart"></a><a name="simRemoteApi.start" id="simRemoteApi.start"></a>simRemoteApi.start</p>
@@ -40,7 +40,7 @@ Starts a temporary remote API server service on the specified port. When started
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result=simRemoteApi.start(number portNumber,number maxPacketSize=1300,boolean debug=false,boolean preEnableTrigger=false)<br></td> 
+<td class=apiTableRightLSyn>int result=simRemoteApi.start(int portNumber,int maxPacketSize=1300,bool debug=false,bool preEnableTrigger=false)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -58,6 +58,12 @@ Lua return values
 <td class=apiTableRightLRet>
 <div>-1 if operation was not successful</div>
 <div></div></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftPSyn>
+Python synopsis
+</td> 
+<td class=apiTableRightPSyn>int result=simRemoteApi.start(int portNumber,int maxPacketSize=1300,bool debug=false,bool preEnableTrigger=false)<br></td> 
 </tr> 
 </table> 
 <br>
@@ -85,7 +91,7 @@ Stops a temporary remote API server service on the specified port</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result=simRemoteApi.stop(number portNumber)</td> 
+<td class=apiTableRightLSyn>int result=simRemoteApi.stop(int portNumber)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -101,13 +107,19 @@ Lua return values
 <div>-1 if operation was not successful</div>
 <div></div></td> 
 </tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftPSyn>
+Python synopsis
+</td> 
+<td class=apiTableRightPSyn>int result=simRemoteApi.stop(int portNumber)</td> 
+</tr> 
 </table> 
 <br>
 
 
 <br>
 <p>
-You can gather information about any remote API server service with following custom Lua function (the function is exported by the plugin):
+You can gather information about any remote API server service with following custom script function (the function is exported by the plugin):
 </p>
 
 
@@ -128,7 +140,7 @@ Fetches information about a server service. Use this function to enumerate all s
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number status, table[5] info, number serverVersion, number clientVersion, string clientIp=simRemoteApi.status(number portNumber)</td> 
+<td class=apiTableRightLSyn>int status, table[5] info, int serverVersion, int clientVersion, string clientIp=simRemoteApi.status(int portNumber)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -155,6 +167,12 @@ Lua return values
 <div><strong>clientIp</strong>: the IP address of the connected client</div>
 </td> 
 </tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftPSyn>
+Python synopsis
+</td> 
+<td class=apiTableRightPSyn>int status, list info, int serverVersion, int clientVersion, string clientIp=simRemoteApi.status(int portNumber)</td> 
+</tr> 
 </table> 
 <br>
 
@@ -164,7 +182,7 @@ Lua return values
 
 
 <p>
-You can reset (i.e. destroy and recreate) any remote API server service with following custom Lua function (the function is exported by the plugin):
+You can reset (i.e. destroy and recreate) any remote API server service with following custom script function (the function is exported by the plugin):
 </p>
 
 
@@ -184,7 +202,7 @@ Description
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>number result=simRemoteApi.reset(number portNumber)</td> 
+<td class=apiTableRightLSyn>int result=simRemoteApi.reset(int portNumber)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -199,6 +217,12 @@ Lua return values
 <td class=apiTableRightLRet>
 <div>-1 if operation was not successful</div>
 </td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftPSyn>
+Python synopsis
+</td> 
+<td class=apiTableRightPSyn>int result=simRemoteApi.reset(int portNumber)</td> 
 </tr> 
 </table> 
 <br>
