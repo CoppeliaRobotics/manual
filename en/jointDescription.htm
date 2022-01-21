@@ -147,7 +147,7 @@ sim.setThreadAutomaticSwitch(initialForbidLevel) -- Restore the automatic thread
 </code>
 
 <p>When you try to control a joint that is not in force/torque mode from an external application (e.g. via the <a href="remoteApiOverview.htm">remote API</a> or <a href="rosInterfaces.htm">ROS</a>), then the external controller will run asynchronously to CoppeliaSim (i.e. similar to the non-synchronized code of a threaded <a href="childScripts.htm">child script</a>). This is fine most of the time for <strong><em>loose</em></strong> control, but if you wish to control the position of the joint <strong><em>precisely</em></strong> in each simulation loop, you will have to run CoppeliaSim in stepping mode, and the external controller (e.g. the remote API client) will have to trigger each simulation step explicitely. </p>
-<p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client that does this:</p>
+<p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a> client that does this:</p>
 
 <code class="hljs language-python coppelia-zmq-remote-api-client">
 client.setstepping(True) # enable the stepping mode.
@@ -183,7 +183,7 @@ simxSetJointPosition(clientId,jointHandle,0.0f*3.1415f/180.0f,simx_opmode_onesho
 
 <p>If, one the other hand, you want to run a <em><strong>precise</strong></em> and regular joint controller externally (e.g. from a <a href="remoteApiOverview.htm">remote API</a> client or a <a href="rosInterfaces.htm">ROS</a> node), then you have no other option than to set the simulation loop to the same rate as the physics engine rate, then run CoppeliaSim in stepping mode, and the external controller (e.g. the remote API client) will have to trigger each simulation step explicitely. </p>
 
-<p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client that does this:</p>
+<p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a> client that does this:</p>
 
 <code class="hljs language-python coppelia-zmq-remote-api-client">
 client.setstepping(True)
@@ -217,7 +217,7 @@ simxSetJointTargetVelocity(clientId,jointHandle,180.0f*3.1415f/180.0f,simx_opmod
 <p><a name="controlLoopEnabled"></a>If your <strong>joint's motor is enabled, and the control loop is also enabled</strong>, then the physics engine will handle the joint according to the setting: your joint can operate in position control (i.e. PID control), in a spring/damper mode, or in custom control. PID and spring/damper parameters can be updated from a <a href="childScripts.htm">child script</a>, from a <a href="remoteApiOverview.htm">remote API</a> client or from a <a href="rosInterfaces.htm">ROS</a> node. Refer to <a href="objectParameterIDs.htm">object parameter IDs</a> 2002-2004, and 2018-2019. Desired target positions can be set with <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a> (or, for example, from a legacy remote API client: <a href="remoteApiFunctions.htm#simxSetJointTargetPosition">simxSetJointTargetPosition</a>). When you need a <em><strong>precise</strong></em> custom controller, then you should use a <a href="jointCallbackFunctions.htm">joint callback function</a> instead (or a <a href="dynCallbackFunctions.htm">dynamics callback function</a>).</p>
 
 <p>Finally, if you need a precise PID or custom controller that is implemented in an external application, you need to make sure that the simulation step is the same as the physics engine calculation step: by default, CoppeliaSim's simulation loop runs at 20Hz (in simulation time), while the physics engine runs at 200Hz. You can adjust the simulation step size in the <a href="simulationPropertiesDialog.htm">simulation setting</a>. You also need to make sure you run CoppeliaSim in stepping mode. </p>
-<p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client that does this:</p>
+<p>Following illustrates a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a> client that does this:</p>
 
 <code class="hljs language-python coppelia-zmq-remote-api-client">
 client.setstepping(True)
@@ -241,7 +241,7 @@ simxSynchronousTrigger(clientId);
 simxSetJointTargetPosition(clientId,jointHandle,0.0f*3.1415f/180.0f,simx_opmode_oneshot);
 </code>
 
-<p>You can also have a remote API client provide control values for a custom joint controller implemented in a joint callback function, by providing values, for instance via signals, to that joint callback function. For example, from a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ-based remote API</a> client:</p>
+<p>You can also have a remote API client provide control values for a custom joint controller implemented in a joint callback function, by providing values, for instance via signals, to that joint callback function. For example, from a Python <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a> client:</p>
 
 <code class="hljs language-python coppelia-zmq-remote-api-client">
 client.setstepping(True)

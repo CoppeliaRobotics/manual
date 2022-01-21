@@ -31,6 +31,7 @@
 <li><a href="remoteApiOverview.htm">Remote API</a></li>
 <li><a href="rosInterfaces.htm">ROS</a></li>
 <li><a href="#zmq">ZeroMQ</a></li>
+<li><a href="#ws">WebSockets</a></li>
 <li><a href="#serialPort">serial port</a></li>
 <li><a href="#sockets">sockets</a></li>
 <li><a href="#other">other</a></li>
@@ -211,6 +212,47 @@ function sysCall_cleanup()
 end</code>
 <br>
 
+<h2><a name="ws"></a>WebSockets
+</h2>
+<p>The <a href="https://github.com/CoppeliaRobotics/simExtWS" target="_blank">WebSockets plugin</a>, offers several <a href="simWS.htm">API functions allowing to interact with a web browser</a>. Following is a simple echo server:</p>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function onMessage(server,connection,data)
+    simWS.send(server,connection,data)
+end
+
+function sysCall_init()
+    server=simWS.start(9000)
+    simWS.setMessageHandler(server,'onMessage')
+end</code>
+
+<p>And following is a simple broadcaster:</p>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function onOpen(server,connection)
+    clients[server]=clients[server] or {}
+    clients[server][connection]=1
+end
+
+function onClose(server,connection)
+    clients[server][connection]=nil
+end
+
+function broadcast(server,data)
+    for connection,_ in pairs(clients[server] or {}) do
+        simWS.send(server,connection,data)
+    end
+end
+
+function sysCall_init()
+    clients={}
+    server=simWS.start(9000)
+    simWS.setOpenHandler(server,'onOpen')
+    simWS.setCloseHandler(server,'onClose')
+end</code>
+
+
+<br>
 
 <h2>
 <a name="serialPort"></a>Serial port</a>
