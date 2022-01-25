@@ -19,15 +19,15 @@
 
 <h1>WebSocket remote API</h1>
 
-<p>The webSocket remote API is one of <a href="meansOfCommunication.htm">several ways an application can connect with CoppeliaSim</a>.</p>
+<p>The WebSocket remote API is one of <a href="meansOfCommunication.htm">several ways an application can connect with CoppeliaSim</a>.</p>
 
-<p>The webSocket remote API allows to control a simulation (or the simulator itself) from an external JavaScript application or remote client/server, via webSockets. It offers all API functions also available via a CoppeliaSim script: this includes all <a href="apiFunctions.htm">regular API functions</a> (i.e. sim.* -type functions), but also all API functions provided by <a href="plugins.htm">plugins</a> (e.g. simOMPL.*, simUI.*, simIK.*, etc.). The webSocket remoteAPI represents a very thin wrapper around mentioned API functions, and can be used in a very similar way as from within a CoppeliaSim script.</p>
-<p>The webSocket remote API functions are interacting with CoppeliaSim via webSockets and its <a href="simWS.htm">interface plugin</a> to CoppeliaSim and the WS remote API <a href="addOns.htm">add-on</a>. All this happens in a hidden fashion to the user. The remote API can let one or several external applications interact with CoppeliaSim in a synchronous* or asynchronous* way (asynchronous by default), and even remote control of the simulator is supported (e.g. remotely loading a scene, starting, pausing or stopping a simulation for instance).</p>
+<p>The WebSocket remote API allows to control a simulation (or the simulator itself) from an external JavaScript application or remote client/server, via WebSocket. It offers all API functions also available via a CoppeliaSim script: this includes all <a href="apiFunctions.htm">regular API functions</a> (i.e. sim.* -type functions), but also all API functions provided by <a href="plugins.htm">plugins</a> (e.g. simOMPL.*, simUI.*, simIK.*, etc.). The WebSocket remoteAPI represents a very thin wrapper around mentioned API functions, and can be used in a very similar way as from within a CoppeliaSim script.</p>
+<p>The WebSocket remote API functions are interacting with CoppeliaSim via WebSocket and its <a href="simWS.htm">interface plugin</a> to CoppeliaSim and the WS remote API <a href="addOns.htm">add-on</a>. All this happens in a hidden fashion to the user. The remote API can let one or several external applications interact with CoppeliaSim in a synchronous* or asynchronous* way (asynchronous by default), and even remote control of the simulator is supported (e.g. remotely loading a scene, starting, pausing or stopping a simulation for instance).</p>
 
 <p class="warningBox">Note: the word <em><strong>Synchronous</strong></em> is used in the sense that each simulation pass runs synchronously with the remote API application (the simulator will wait for a trigger signal from a client to step the simulation, i.e. start next simulation pass). This is different from synchronous/asynchronous in the sense of <em>blocking/non-blocking operation</em>. The remote API also supports blocking and non-blocking operations.</p>
 
 
-<p>Here a very simple webSocket remote API example:</p>
+<p>Here a very simple WebSocket remote API example:</p>
 <code class="hljs language-javaScript coppelia-ws-remote-api-client">const log = (what) =&gt; $('#log').append(`${what}\n`);
 (async () =&gt; {
     var client = new RemoteAPIClient('localhost', 23050, 'json');
