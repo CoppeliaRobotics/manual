@@ -109,7 +109,7 @@ def sysCall_thread():
         print('simulation time: '+str(sim.getSimulationTime()))
 </code>
 
-<p>By default, a Python threaded code section will not operate synchronously, but this can be changed with <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>(False) and <a href="regularApi/simSwitchThread.htm">sim.switchThread</a>. Once the current thread was switched, it will resume in next simulation step. Following Python code shows code synchronization with the main simulation loop:</p>
+<p>By default, a Python threaded code section will operate in a stepped fashion, but this can be changed with <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>(True) and <a href="regularApi/simSwitchThread.htm">sim.switchThread</a>. Once the current thread was switched, it will resume in next simulation step. Following Python code shows code synchronization with the main simulation loop:</p>
 
 <code class="hljs language-python coppelia-coppeliasim-script">
 #python
@@ -126,7 +126,7 @@ def sysCall_thread():
 <p>&nbsp;</p>
 
 <p>With threads in general, some operation should not be interrupted in order to execute correctly (imagine moving several objects in a loop). In that case, you can temporarily forbid thread switches with the <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a> function.</p>
-<p>Finally, several <a href="apiFunctions.htm#blockingFunctions">blocking functions</a> are specifically meant to be running from within threaded code, e.g. <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a>: those functions will handle thread switching for you, at the appropriate time, in order to operate synchronously with the simulation loop.</p>
+<p>Finally, several <a href="apiFunctions.htm#blockingFunctions">blocking functions</a> are specifically meant to be running from within threaded code, e.g. <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a>: those functions will handle thread switching for you, at the appropriate time, in order to operate hand-in-hand, stepped,  with the simulation loop.</p>
 <br>
 <br>
  </tr>
