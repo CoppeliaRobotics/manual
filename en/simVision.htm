@@ -147,7 +147,7 @@ Creates a handle for generating data similar to a Velodyne HDL64E. See also <a h
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int handle=simVision.createVelodyneHDL64E(table[4] visionSensorHandles,float frequency,int options=0,int pointSize=2,table[2] coloring_closeFarDist={1,5},float displayScalingFactor=1,int pointCloudHandle=-1)</td> 
+<td class=apiTableRightLSyn>int handle=simVision.createVelodyneHDL64E(int[4] visionSensorHandles,float frequency,int options=0,int pointSize=2,float[2] coloring_closeFarDist={1,5},float displayScalingFactor=1,int pointCloudHandle=-1)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -201,7 +201,7 @@ Creates a handle for generating data similar to a Velodyne VPL16. See also <a hr
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int handle=simVision.createVelodyneVPL16(table[4] visionSensorHandles,float frequency,int options=0,int pointSize=2,table[2] coloring_closeFarDist={1,5},float displayScalingFactor=1,int pointCloudHandle=-1)</td> 
+<td class=apiTableRightLSyn>int handle=simVision.createVelodyneVPL16(int[4] visionSensorHandles,float frequency,int options=0,int pointSize=2,float[2] coloring_closeFarDist={1,5},float displayScalingFactor=1,int pointCloudHandle=-1)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -341,7 +341,7 @@ Transforms (distorts) a vision sensor image via pixel remapping.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.distort(int visionSensorHandle,table[] pixelMap=nil,table[] depthScalings=nil)</td> 
+<td class=apiTableRightLSyn>simVision.distort(int visionSensorHandle,int[] pixelMap=nil,float[] depthScalings=nil)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -388,7 +388,7 @@ Allows to generate an anaglyph stereo image from two individual vision sensors (
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.handleAnaglyphStereo(int rgbVisionSensorHandle,table[2] handlesOfTwoVisionSensors,table[6] leftAndRightColors=nil)</td> 
+<td class=apiTableRightLSyn>simVision.handleAnaglyphStereo(int rgbVisionSensorHandle,int[2] handlesOfTwoVisionSensors,float[6] leftAndRightColors=nil)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -433,7 +433,7 @@ Allows to generate an RGB and/or depth image that covers all directions, i.e. sp
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.handleSpherical(int rgbVisionSensorHandle,table[6] handlesOfSixVisionSensors,float horizontalAngle,float verticalAngle,int depthVisionSensorHandle=-1)</td> 
+<td class=apiTableRightLSyn>simVision.handleSpherical(int rgbVisionSensorHandle,int[6] handlesOfSixVisionSensors,float horizontalAngle,float verticalAngle,int depthVisionSensorHandle=-1)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -480,7 +480,7 @@ Handles a velodyne HDL64E sensor (i.e. generates and displays detection points. 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table[]/string points,string colors=simVision.handleVelodyneHDL64E(int velodyneHandle,float dt)</td> 
+<td class=apiTableRightLSyn>float[]/buffer points,buffer colors=simVision.handleVelodyneHDL64E(int velodyneHandle,float dt)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -503,7 +503,7 @@ Lua return values
 <td class=apiTableLeftPSyn>
 Python synopsis
 </td> 
-<td class=apiTableRightPSyn>list/string points,string colors=simVision.handleVelodyneHDL64E(int velodyneHandle,float dt)</td> 
+<td class=apiTableRightPSyn>list/bytes points,bytes colors=simVision.handleVelodyneHDL64E(int velodyneHandle,float dt)</td> 
 </tr>
 
 </table> 
@@ -526,7 +526,7 @@ Handles a velodyne VPL16 sensor (i.e. generates and displays detection points. S
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>table[]/string points,string colors=simVision.handleVelodyneVPL16(int velodyneHandle,float dt)</td> 
+<td class=apiTableRightLSyn>float[]/buffer points,buffer colors=simVision.handleVelodyneVPL16(int velodyneHandle,float dt)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -549,7 +549,7 @@ Lua return values
 <td class=apiTableLeftPSyn>
 Python synopsis
 </td> 
-<td class=apiTableRightPSyn>list/string points,string colors=simVision.handleVelodyneVPL16(int velodyneHandle,float dt)</td> 
+<td class=apiTableRightPSyn>list/bytes points,bytes colors=simVision.handleVelodyneVPL16(int velodyneHandle,float dt)</td> 
 </tr>
 
 </table> 
@@ -655,7 +655,7 @@ Transforms the <em>work image</em> into a binary image, with optional triggering
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int trigger,string packedPacket=simVision.binaryWorkImg(int handle,float threshold,float oneProportion,float oneTol,float xCenter,float xCenterTol,float yCenter,float yCenterTol,float orient,float orientTol,float roundness,bool enableTrigger,table[3] overlayColor={1.0,0.0,1.0}))</td> 
+<td class=apiTableRightLSyn>int trigger,buffer packedPacket=simVision.binaryWorkImg(int handle,float threshold,float oneProportion,float oneTol,float xCenter,float xCenterTol,float yCenter,float yCenterTol,float orient,float orientTol,float roundness,bool enableTrigger,float[3] overlayColor={1.0,0.0,1.0}))</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -694,7 +694,7 @@ Lua return values
 <td class=apiTableLeftPSyn>
 Python synopsis
 </td> 
-<td class=apiTableRightPSyn>int trigger,string packedPacket=simVision.binaryWorkImg(int handle,float threshold,float oneProportion,float oneTol,float xCenter,float xCenterTol,float yCenter,float yCenterTol,float orient,float orientTol,float roundness,bool enableTrigger,list overlayColor=[1.0,0.0,1.0]))</td> 
+<td class=apiTableRightPSyn>int trigger,bytes packedPacket=simVision.binaryWorkImg(int handle,float threshold,float oneProportion,float oneTol,float xCenter,float xCenterTol,float yCenter,float yCenterTol,float orient,float orientTol,float roundness,bool enableTrigger,list overlayColor=[1.0,0.0,1.0]))</td> 
 </tr>
 
 </table> 
@@ -717,7 +717,7 @@ Performs blob detection on the <em>work image</em>.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int trigger,string packedPacket=simVision.blobDetectionOnWorkImg(int handle,float threshold,float minBlobSize,bool diffColor,table[3] overlayColor={1.0,0.0,1.0}))</td> 
+<td class=apiTableRightLSyn>int trigger,buffer packedPacket=simVision.blobDetectionOnWorkImg(int handle,float threshold,float minBlobSize,bool diffColor,float[3] overlayColor={1.0,0.0,1.0}))</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -752,7 +752,7 @@ Lua return values
 <td class=apiTableLeftPSyn>
 Python synopsis
 </td> 
-<td class=apiTableRightPSyn>int trigger,string packedPacket=simVision.blobDetectionOnWorkImg(int handle,float threshold,float minBlobSize,bool diffColor,list overlayColor=[1.0,0.0,1.0]))</td> 
+<td class=apiTableRightPSyn>int trigger,bytes packedPacket=simVision.blobDetectionOnWorkImg(int handle,float threshold,float minBlobSize,bool diffColor,list overlayColor=[1.0,0.0,1.0]))</td> 
 </tr>
 
 </table> 
@@ -861,7 +861,7 @@ Returns the pixels that changed the <em>work image</em>, from one frame to the n
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int trigger,string packedPacket=simVision.changedPixelsOnWorkImg(int handle,float threshold)</td> 
+<td class=apiTableRightLSyn>int trigger,buffer packedPacket=simVision.changedPixelsOnWorkImg(int handle,float threshold)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -887,7 +887,7 @@ Lua return values
 <td class=apiTableLeftPSyn>
 Python synopsis
 </td> 
-<td class=apiTableRightPSyn>int trigger,string packedPacket=simVision.changedPixelsOnWorkImg(int handle,float threshold)</td> 
+<td class=apiTableRightPSyn>int trigger,bytes packedPacket=simVision.changedPixelsOnWorkImg(int handle,float threshold)</td> 
 </tr>
 
 </table> 
@@ -999,7 +999,7 @@ Extracts coordinates from the <em>work image</em> (based on the view field of a 
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int trigger,string packedPacket,string colorData=simVision.coordinatesFromWorkImg(int handle,table[2] pointCount,bool angularSpace,bool returnColorData)</td> 
+<td class=apiTableRightLSyn>int trigger,buffer packedPacket,buffer colorData=simVision.coordinatesFromWorkImg(int handle,int[2] pointCount,bool angularSpace,bool returnColorData)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1032,7 +1032,7 @@ Lua return values
 <td class=apiTableLeftPSyn>
 Python synopsis
 </td> 
-<td class=apiTableRightPSyn>int trigger,string packedPacket,string colorData=simVision.coordinatesFromWorkImg(int handle,list pointCount,bool angularSpace,bool returnColorData)</td> 
+<td class=apiTableRightPSyn>int trigger,bytes packedPacket,bytes colorData=simVision.coordinatesFromWorkImg(int handle,list pointCount,bool angularSpace,bool returnColorData)</td> 
 </tr>
 
 </table> 
@@ -1188,7 +1188,7 @@ Applies a 3X3 matrix filter to the <em>work image</em>.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.matrix3x3OnWorkImg(int handle,int passes,float multiplier,table[9] matrix)</td> 
+<td class=apiTableRightLSyn>simVision.matrix3x3OnWorkImg(int handle,int passes,float multiplier,float[9] matrix)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1234,7 +1234,7 @@ Applies a 5X5 matrix filter to the <em>work image</em>.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.matrix5x5OnWorkImg(int handle,int passes,float multiplier,table[25] matrix)</td> 
+<td class=apiTableRightLSyn>simVision.matrix5x5OnWorkImg(int handle,int passes,float multiplier,float[25] matrix)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1366,7 +1366,7 @@ Performs a rectangular cut on the <em>work image</em>.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.rectangularCutWorkImg(int handle,table[2] rectangle,bool toBuffer1)</td> 
+<td class=apiTableRightLSyn>simVision.rectangularCutWorkImg(int handle,float[2] rectangle,bool toBuffer1)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1411,7 +1411,7 @@ Scales the <em>work image</em>. The resolution remains same.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.resizeWorkImg(int handle,table[2] scaling)</td> 
+<td class=apiTableRightLSyn>simVision.resizeWorkImg(int handle,float[2] scaling)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1499,7 +1499,7 @@ Shifts and scales colors of the <em>work image</em>, in the RGB or HSL space: co
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.scaleAndOffsetWorkImg(int handle,table[3] colorPreOffset,table[3] colorScaling,table[3] colorPostOffset,bool rgbSpace)</td> 
+<td class=apiTableRightLSyn>simVision.scaleAndOffsetWorkImg(int handle,float[3] colorPreOffset,float[3] colorScaling,float[3] colorPostOffset,bool rgbSpace)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1546,7 +1546,7 @@ Selects a specific color in the RGB or HSL space of the <em>work image</em>.</td
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.selectiveColorOnWorkImg(int handle,table[3] nominalColor,table[3] colorTolerance,bool rgbSpace,bool keepColor,bool toBuffer1)</td> 
+<td class=apiTableRightLSyn>simVision.selectiveColorOnWorkImg(int handle,float[3] nominalColor,float[3] colorTolerance,bool rgbSpace,bool keepColor,bool toBuffer1)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1723,7 +1723,7 @@ Shifts the <em>work image</em>.</td>
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.shiftWorkImg(int handle,table[2] shift,bool wrap)</td> 
+<td class=apiTableRightLSyn>simVision.shiftWorkImg(int handle,float[2] shift,bool wrap)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1940,7 +1940,7 @@ Applies a uniform color to the <em>work image</em> (buffer used for image proces
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>simVision.uniformImgToWorkImg(int handle,table[3] color)</td> 
+<td class=apiTableRightLSyn>simVision.uniformImgToWorkImg(int handle,float[3] color)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -1984,7 +1984,7 @@ Extracts Velodyne coordinates from the <em>work image</em> (based on the view fi
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>int trigger,string packedPacket,string colorData=simVision.velodyneDataFromWorkImg(int handle,table[2] pointCount,float verticalScanAngle,bool returnColorData=false)</td> 
+<td class=apiTableRightLSyn>int trigger,buffer packedPacket,buffer colorData=simVision.velodyneDataFromWorkImg(int handle,int[2] pointCount,float verticalScanAngle,bool returnColorData=false)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
@@ -2017,7 +2017,7 @@ Lua return values
 <td class=apiTableLeftPSyn>
 Python synopsis
 </td> 
-<td class=apiTableRightPSyn>int trigger,string packedPacket,string colorData=simVision.velodyneDataFromWorkImg(int handle,list pointCount,float verticalScanAngle,bool returnColorData=False)</td> 
+<td class=apiTableRightPSyn>int trigger,bytes packedPacket,bytes colorData=simVision.velodyneDataFromWorkImg(int handle,list pointCount,float verticalScanAngle,bool returnColorData=False)</td> 
 </tr>
 
 </table> 
