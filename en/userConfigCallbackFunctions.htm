@@ -101,6 +101,121 @@ function writeData(data)
     sim.writeCustomDataBlock(modelHandle,'RobotParams',sim.packTable(data))
 end</code>
 
+<br>
+
+<p>You may also use the <em>configUI</em> module for quicker set-up of custom configuration dialog, that will also automatically write data to custom data blocks:</p>
+
+<p align=center><img src="images/userConfigCallback2.jpg"></p>
+<p class=imageLabel>[Custom configuration dialog based on <em>configUI</em> module]</p>
+<br>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">
+require 'configUi'
+
+function sysCall_init()
+    local schema={
+        floatInput={
+            default=0.1,
+            maximum=4,
+            minimum=0.05,
+            name="float input",
+            type="float",
+            ui={
+                control="spinbox",
+                tab="Tab 1",order=1,col=1
+            },
+        },
+        intInput={
+            default=1,
+            maximum=10,
+            minimum=0,
+            name="int input",
+            type="int",
+            ui={
+                control="spinbox",
+                tab="Tab 1",order=2,col=2
+            },
+        },
+        checkbox1={
+            type='bool',
+            name='checkbox1',
+            default=true,
+            ui={tab="Tab 1",order=3,col=1},
+        },
+        checkbox2={
+            type='bool',
+            name='checkbox2',
+            default=false,
+            ui={tab="Tab 1",order=4,col=2},
+        },
+        colorselect={
+            type='color',
+            name='color select',
+            default={1,0,1},
+            ui={tab="Tab 2",order=5,col=1,},
+        },
+        stringInput={
+            default="Hello",
+            name="string input",
+            type="string",
+            ui={
+                tab="Tab 2",order=6,col=2
+            },
+        },
+        floatSlider={
+            default=0.5,
+            maximum=1,
+            minimum=0,
+            name="float slider",
+            type="float",
+            ui={
+                control="slider",
+                tab="Tab 2",order=7,col=1
+            },
+        },
+        intSlider={
+            default=1,
+            maximum=10,
+            minimum=0,
+            name="int slider",
+            type="int",
+            ui={
+                control="slider",
+                tab="Tab 2",order=8,col=2
+            },
+        },
+        choices1={
+            default=2,
+            choices={"option 1","option 2","option 3"},
+            name="combo choices",
+            type="choices",
+            ui={
+                control="combo",
+                tab="Tab 3",order=9,col=1
+            },
+        },
+        choices2={
+            default=1,
+            choices={"option 1","option 2","option 3"},
+            name="radio choices",
+            type="choices",
+            ui={
+                control="radio",
+                tab="Tab 3",order=10,col=1
+            },
+        },
+    }
+    sim.writeCustomDataBlock(sim.getObject('.'),'__schema__',sim.packTable(schema))
+    configUi=ConfigUI('myModelType',nil,modificationCallback)
+end
+
+function modificationCallback(config)
+    local objectHandle=sim.getObject('.')
+    local txt="Object '"..sim.getObjectAlias(objectHandle,5).."' just changed.\nNew parameters are:"
+    print(txt)
+    print(config)
+end</code>
+
 
 <br>
 <br>

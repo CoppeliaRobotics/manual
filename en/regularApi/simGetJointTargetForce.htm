@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>sim.setJointMaxForce</title>
+<title>sim.getJointTargetForce</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,25 +16,26 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simSetJointMaxForce" id="simSetJointMaxForce"></a>simSetJointMaxForce / sim.setJointMaxForce</p>
+<p class=subsectionBar><a name="simGetJointTargetForce" id="simGetJointTargetForce"></a>simGetJointTargetForce / sim.getJointTargetForce</p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Deprecated. See <a href="simSetJointTargetForce.htm">sim.setJointTargetForce</a> instead.</td>
+<td class=apiTableRightDescr>Retrieves the maximum force or torque that a joint can exert. See also <a href="simSetJointTargetForce.htm">sim.setJointTargetForce</a> and <a href="simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simSetJointMaxForce(simInt objectHandle,simFloat forceOrTorque)<br></td> 
+<td class=apiTableRightCSyn>simInt simGetJointTargetForce(simInt jointHandle,simFloat* forceOrTorque)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the joint object</div>
-<div><strong>forceOrTorque</strong>: the maximum force or torque that the joint can exert. This cannot be a negative value.</div>
+<div><strong>jointHandle</strong>: handle of the joint.</div>
+<div><strong>forceOrTorque</strong>: the maximum force or torque the joint can apply. The sign indicates the desired movement direction.
+</div>
 <div></div></td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -42,7 +43,7 @@ C/C++<br>synopsis
 C/C++<br>return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful<br>
+<div>-1 if operation was not successful. .<br>
 </div>
 </td> 
 </tr> 
@@ -50,20 +51,19 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua synopsis
 </td> 
-<td class=apiTableRightLSyn>sim.setJointMaxForce(int objectHandle,float forceOrTorque)<br></td> 
+<td class=apiTableRightLSyn>float forceOrTorque=sim.getJointTargetForce(int jointHandle)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar to the C-function counterpart</div>
-<div></div></td> 
+<div>Similar to the C-function counterpart</div></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua return values
 </td> 
 <td class=apiTableRightLRet>
-<div></div></td> 
+<div>Similar to the C-function counterpart</div></td> 
 </tr> 
 
  
@@ -72,7 +72,7 @@ Lua return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python synopsis</td>
-<td class=apiTableRightPSyn>sim.setJointMaxForce(int objectHandle,float forceOrTorque)</td>
+<td class=apiTableRightPSyn>float forceOrTorque=sim.getJointTargetForce(int jointHandle)</td>
 </tr>
 
 </table> 
