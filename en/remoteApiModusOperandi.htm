@@ -17,14 +17,14 @@
 
 
 
-<h1>Remote API modus operandi</h1>
+<h1>Legacy remote API modus operandi</h1>
 
-<p>A remote API function is called in a similar fashion as a <a href="apiFunctions.htm">regular API</a> function, however with 2 major differences:</p>
-<li>most remote API functions return a similar value: a <a href="remoteApiConstants.htm#returnCodes">return code</a>. Always remember that the return code is bit-coded (so you will have to test the individual bits in order to correctly interpret it).</li>
-<li>most remote API functions require two additional argument:  <a href="remoteApiConstants.htm#operationModes">the operation mode</a>, and the clientID (identifier returned by the <a href="remoteApiFunctions.htm#simxStart">simxStart</a> function)</li>
+<p>A legacy remote API function is called in a similar fashion as a <a href="apiFunctions.htm">regular API</a> function, however with 2 major differences:</p>
+<li>most legacy remote API functions return a similar value: a <a href="remoteApiConstants.htm#returnCodes">return code</a>. Always remember that the return code is bit-coded (so you will have to test the individual bits in order to correctly interpret it).</li>
+<li>most legacy remote API functions require two additional argument:  <a href="remoteApiConstants.htm#operationModes">the operation mode</a>, and the clientID (identifier returned by the <a href="remoteApiFunctions.htm#simxStart">simxStart</a> function)</li>
 
 <p>
-The need for an <a href="remoteApiConstants.htm#operationModes">operation mode</a> and a specific <a href="remoteApiConstants.htm#functionErrorCodes">return code</a> comes from the fact that the remote API function has to travel via socket communication to the server (CoppeliaSim), execute a task, then return to the caller (the client). A naive (or <em>regular</em>) approach would be to have the client send a request, and wait until the server processed the request and replied: in most situations this would take too much time and the lag would penalize the client application. Instead, the remote API lets the user chose the type of operation mode and the way simulation advances by providing four main mechanisms to execute function calls or to control the simulation progress:</p>
+The need for an <a href="remoteApiConstants.htm#operationModes">operation mode</a> and a specific <a href="remoteApiConstants.htm#functionErrorCodes">return code</a> comes from the fact that the legacy remote API function has to travel via socket communication to the server (CoppeliaSim), execute a task, then return to the caller (the client). A naive (or <em>regular</em>) approach would be to have the client send a request, and wait until the server processed the request and replied: in most situations this would take too much time and the lag would penalize the client application. Instead, the legacy remote API lets the user chose the type of operation mode and the way simulation advances by providing four main mechanisms to execute function calls or to control the simulation progress:</p>
 
 <li><a href="#blocking">Blocking function calls</a></li>
 <li><a href="#nonBlocking">Non-blocking function calls</a></li>
@@ -115,7 +115,7 @@ simxGetPingTime(clientID,&pingTime); // needed to insure that above reaches Copp
 <p class=imageLabel>[Data streaming]</p>
 <br>
 
-<p>Once you are done streaming the data, the remote API client should always inform the server (i.e. CoppeliaSim) to stop streaming that data, otherwise the server will continue to stream unnecessary data and eventually slow down. Use the <em>simx_opmode_discontinue</em> operation mode for that. Also, if you have enabled data streaming for a specific command (e.g. <a href="remoteApiFunctionsPython.htm#simxGetJointPosition">simxGetJointPosition</a>), then you shouldn't use any other operation mode with that specific command than <em>simx_opmode_buffer</em> or <em>simx_opmode_discontinue</em>, otherwise streaming will be interrupted on the client side (but data still sent on the server side).</p>
+<p>Once you are done streaming the data, the legacy remote API client should always inform the server (i.e. CoppeliaSim) to stop streaming that data, otherwise the server will continue to stream unnecessary data and eventually slow down. Use the <em>simx_opmode_discontinue</em> operation mode for that. Also, if you have enabled data streaming for a specific command (e.g. <a href="remoteApiFunctionsPython.htm#simxGetJointPosition">simxGetJointPosition</a>), then you shouldn't use any other operation mode with that specific command than <em>simx_opmode_buffer</em> or <em>simx_opmode_discontinue</em>, otherwise streaming will be interrupted on the client side (but data still sent on the server side).</p>
 <br>
 
 <p><a name="nonBlockingDataRetrieval" id="nonBlockingDataRetrieval"></a><strong>Non-blocking, non-streaming data query</strong>: if data needs to be queried in a non-blocking fashion, but not constantly as would data streaming do, one can use following:
@@ -132,7 +132,7 @@ if (simx_return_ok==simxGetVisionSensorImage(clientID,sensorHandle,res,&amp;img,
 }</code>
 <br>
 
-<p><a name="stepping" id="stepping"></a><a name="synchronous" id="synchronous"></a><strong>stepped (or synchronous) mode</strong>: from above function calls you might have noticed that a simulation will advance or progress without taking into account the progress of the remote API client. Remote API function calls will be executed asynchronously by default. There are however situations where the remote API client needs to be synchronized with the simulation progress, by controlling the simulation advance from the remote API client side. This can be achieved by using the stepped mode. The remote API server service needs in that case to be pre-enabled for stepped operation (this can be achieved via the <a href="remoteApiServerSide.htm#simRemoteApi.start">simRemoteApi.start</a> function, or via the <a href="remoteApiServerSide.htm#continuousRemoteApiService">continuous remote API server service configuration file <em>remoteApiConnections.txt</em></a>). Following is an example of the stepped mode:</p>
+<p><a name="stepping" id="stepping"></a><a name="synchronous" id="synchronous"></a><strong>stepped (or synchronous) mode</strong>: from above function calls you might have noticed that a simulation will advance or progress without taking into account the progress of the legacy remote API client. Legacy remote API function calls will be executed asynchronously by default. There are however situations where the legacy remote API client needs to be synchronized with the simulation progress, by controlling the simulation advance from the legacy remote API client side. This can be achieved by using the stepped mode. The legacy remote API server service needs in that case to be pre-enabled for stepped operation (this can be achieved via the <a href="remoteApiServerSide.htm#simRemoteApi.start">simRemoteApi.start</a> function, or via the <a href="remoteApiServerSide.htm#continuousRemoteApiService">continuous remote API server service configuration file <em>remoteApiConnections.txt</em></a>). Following is an example of the stepped mode:</p>
 
 <code class="hljs language-c++ coppelia-legacy-remote-api-client">
 simxSynchronous(clientID,true); // Enable the stepped mode (<strong>Blocking</strong> function call)
@@ -196,7 +196,7 @@ simxGetPingTime(clientID); // After this call, the first simulation step is fini
 <br>
 
 
-<p><a name="serverSideCommandHandling" id="serverSideCommandHandling"></a>Following diagram illustrates how incoming remote API commands are handled on the server side (i.e. on the CoppeliaSim remote API plugin side):</p>
+<p><a name="serverSideCommandHandling" id="serverSideCommandHandling"></a>Following diagram illustrates how incoming legacy remote API commands are handled on the server side (i.e. on the CoppeliaSim legacy remote API plugin side):</p>
 
 <p align=center><img src="images/remoteApi2.jpg"></p>
 <p class=imageLabel>[Remote API command handling, server side]</p>
@@ -211,7 +211,7 @@ simxGetPingTime(clientID); // After this call, the first simulation step is fini
 
 
 <p>
-On the client side (i.e. your application), at least 2 threads will be running: the main thread (the one from which you will be calling remote API functions), and the communication thread (the one that will be handling data transfers behind the scenes). There can be as many communication threads (i.e. communication lines) as needed on the client side: make sure to call <a href="remoteApiFunctions.htm#simxStart">simxStart</a> for each one of them. The server side, which is implemented with a <a href="plugins.htm">CoppeliaSim plugin</a>, operates in a similar way. Following figure illustrates the remote API modus operandi: </p>
+On the client side (i.e. your application), at least 2 threads will be running: the main thread (the one from which you will be calling legacy remote API functions), and the communication thread (the one that will be handling data transfers behind the scenes). There can be as many communication threads (i.e. communication lines) as needed on the client side: make sure to call <a href="remoteApiFunctions.htm#simxStart">simxStart</a> for each one of them. The server side, which is implemented with a <a href="plugins.htm">CoppeliaSim plugin</a>, operates in a similar way. Following figure illustrates the legacy remote API modus operandi: </p>
 
 <p align=center><img src="images/remoteApi1.jpg"></p>
 <p class=imageLabel>[Remote API functionality overview]</p>

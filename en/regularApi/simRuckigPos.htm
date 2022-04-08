@@ -33,14 +33,14 @@ C/C++<br>synopsis
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>dofs</strong>: the number of degrees of freedom (N).</div>
+<div><strong>dofs</strong>: the number of degrees of freedom (n).</div>
 <div><strong>smallestTimeStep</strong>: the smallest expected cycle time. Use a value of 0.0001 (0.1ms).</div>
 <div><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</div>
 <div><strong>currentPos</strong>: the current position (one value for each DoF)</div>
 <div><strong>currentVel</strong>: the current velocity (one value for each DoF)</div>
 <div><strong>currentAccel</strong>: the current acceleration (one value for each DoF)</div>
-<div><strong>maxVel</strong>: the maximum allowed velocity (one value for each DoF)</div>
-<div><strong>maxAccel</strong>: the maximum allowed acceleration (one value for each DoF)</div>
+<div><strong>maxVel</strong>: the maximum allowed velocity (one value for each DoF, i.e. [maxV_1, ..., maxV_n]). If sim.ruckig_minvel is specified in flags, then maxVel should contain [maxV_1, ..., maxV_n,minV_1, ..., minV_n]</div>
+<div><strong>maxAccel</strong>: the maximum allowed acceleration (one value for each DoF, i.e. [maxA_1, ..., maxA_n]). If sim.ruckig_minaccel is specified in flags, then maxAccel should contain [maxA_1, ..., maxA_n, minA_1, ..., minA_n]</div>
 <div><strong>maxJerk</strong>: the maximum allowed jerk (one value for each DoF)</div>
 <div><strong>selection</strong>: the selection vector (one value for each DoF). For a default behaviour, fill the vector with non-zero values.</div>
 <div><strong>targetPos</strong>: the  target position (one value for each DoF)</div>
@@ -59,7 +59,7 @@ C/C++<br>return value
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
-Lua synopsis
+Lua<br>synopsis
 </td> 
 <td class=apiTableRightLSyn>int handle=sim.ruckigPos(int dofs,float smallestTimeStep,int flags,float[] currentPosVelAccel,float[] maxVelAccelJerk,int[] selection,float[] targetPosVel)
 <br>
@@ -69,23 +69,29 @@ Lua synopsis
 </td> 
 </tr> 
 <tr class=apiTableTr> 
-<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar to the C-function counterpart</div>
+<div><strong>dofs</strong>: the number of degrees of freedom (n).</div>
+<div><strong>smallestTimeStep</strong>: the smallest expected cycle time. Use a value of 0.0001 (0.1ms).</div>
+<div><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</div>
+<div><strong>currentPosVelAccel</strong>: the current position, velocity and acceleration: {pos_1, ..., pos_n, vel_1, ..., vel_n, accel_1, ..., accel_n} (one value for each DoF)</div>
+<div><strong>maxVelAccelJerk</strong>: the maximum allowed velocity, acceleration and jerk: {maxV_1, ..., maxV_n, maxA_1, ..., maxA_n, maxJ_1, ..., maxJ_n}. If sim.ruckig_minvel is specified in flags, then maxVelAccelJerk should contain following additional values: {minV_1, ..., minV_n}. If sim.ruckig_minaccel is specified in flags, then maxVelAccelJerk should contain following additional values: {minA_1, ..., minA_n}</div>
+<div><strong>selection</strong>: the selection vector (one value for each DoF). For a default behaviour, fill the vector with non-zero values.</div>
+<div><strong>targetPosVel</strong>: the  target position and velocity: {tPos_1, ..., tPos_n, tVel_1, ..., tVel_n}</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
-Lua return values
+Lua<br>return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Similar to the C-function counterpart</div>
+<div><strong>handle</strong>: the handle to the created object</div>
 </td> 
 </tr> 
 
 
 <tr class=apiTableTr>
-<td class=apiTableLeftPSyn>Python synopsis</td>
+<td class=apiTableLeftPSyn>Python<br>synopsis</td>
 <td class=apiTableRightPSyn>int handle=sim.ruckigPos(int dofs,float smallestTimeStep,int flags,list currentPosVelAccel,list maxVelAccelJerk,list selection,list targetPosVel)</td>
 </tr>
 

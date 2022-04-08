@@ -45,22 +45,22 @@ C/C++<br>return value
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
-Lua synopsis
+Lua<br>synopsis
 </td> 
 <td class=apiTableRightLSyn>float[] endPos,float[] endVel,float[] endAccel,float timeLeft=sim.moveToConfig(int flags,float[] currentPos,float[] currentVel,float[] currentAccel,float[] maxVel,float[] maxAccel,float[] maxJerk,float[] targetPos,float[] targetVel,func/string callback,auxData,bool[] cyclicJoints=nil,float timeStep=0)</td> 
 </tr> 
 <tr class=apiTableTr> 
-<td class=apiTableLeftLParam>Lua parameters</td> 
+<td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
 <div><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</div>
-<div><strong>currentPos</strong>: the current configuration, i.e. the current joint positions/angles.</div>
-<div><strong>currentVel</strong>: the current velocity. Can be nil in which case a velocity vector of 0 is used.</div>
-<div><strong>currentAccel</strong>: the current acceleration. Can be nil in which case an acceleration vector of 0 is used.</div>
-<div><strong>maxVel</strong>: the maximum allowed velocity.</div>
-<div><strong>maxAccel</strong>: the maximum allowed acceleration.</div>
-<div><strong>maxJerk</strong>: the maximum allowed jerk.</div>
-<div><strong>targetPos</strong>: the desired target configuration.</div>
-<div><strong>targetVel</strong>: the desired target point velocity. Can be nil in which case a velocity vector of 0 is used.</div>
+<div><strong>currentPos</strong>: the current configuration, i.e. the current joint positions/angles, one value for each  DoF.</div>
+<div><strong>currentVel</strong>: the current velocity, one value for each  DoF. Can be nil in which case a velocity vector of 0 is used.</div>
+<div><strong>currentAccel</strong>: the current acceleration, one value for each  DoF. Can be nil in which case an acceleration vector of 0 is used.</div>
+<div><strong>maxVel</strong>: the maximum allowed velocity, one value for each  DoF. If sim.ruckig_minvel is specified in flags, then maxVel should contain following values: {maxV_1, ..., maxV_n, minV_1, ..., minV_n}, i.e. 2x DoF values.</div>
+<div><strong>maxAccel</strong>: the maximum allowed acceleration, one value for each  DoF. If sim.ruckig_minaccel is specified in flags, then maxAccel should contain following values: {maxA_1, ..., maxA_n, minA_1, ..., minA_n}, i.e. 2x DoF values.</div>
+<div><strong>maxJerk</strong>: the maximum allowed jerk, one value for each  DoF.</div>
+<div><strong>targetPos</strong>: the desired target configuration, one value for each  DoF.</div>
+<div><strong>targetVel</strong>: the desired target point velocity, one value for each  DoF. Can be nil in which case a velocity vector of 0 is used.</div>
 <div><strong>callback</strong>: a callback function that will be called for each movement step. The arguments provided to the callback function are: currentConfig, currentVel, currentAccel, auxData.</div>
 <div><strong>auxData</strong>: random data that will be forwarded to the callback function.</div>
 <div><strong>cyclicJoints</strong>: a table of booleans indicating which joint is cyclic (for cyclic joints, the movement will always go in the direction that represents the shortest distance to the goal). Can be nil or omitted.</div>
@@ -69,7 +69,7 @@ Lua synopsis
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
-Lua return values
+Lua<br>return values
 </td> 
 <td class=apiTableRightLRet>
 <div><strong>endPos</strong>: the configuration at the end of the movement.</div>
@@ -81,7 +81,7 @@ Lua return values
 
 
 <tr class=apiTableTr>
-<td class=apiTableLeftPSyn>Python synopsis</td>
+<td class=apiTableLeftPSyn>Python<br>synopsis</td>
 <td class=apiTableRightPSyn>list endPos,list endVel,list endAccel,float timeLeft=sim.moveToConfig(int flags,list currentPos,list currentVel,list currentAccel,list maxVel,list maxAccel,list maxJerk,list targetPos,list targetVel,func callback,auxData,list cyclicJoints=None,float timeStep=0)</td>
 </tr>
 
