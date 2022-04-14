@@ -41,14 +41,14 @@ end
 
 function sysCall_sensing()
     -- Publish the image of the vision sensor:
-    local img,w,h=sim.getVisionSensorCharImage(visionSensor)
+    local img,resolution=sim.getVisionSensorImg(visionSensor)
     data={}
     data.header={stamp=simROS2.getTime(), frame_id='a'}
-    data.height=h
-    data.width=w
+    data.height=resolution[2]
+    data.width=resolution[1]
     data.encoding='rgb8'
     data.is_bigendian=1
-    data.step=w*3
+    data.step=resolution[1]*3
     data.data=img
     simROS2.publish(pub,data)
 end

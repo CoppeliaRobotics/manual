@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.setVisionSensorImg</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<h1>Regular API function</h1>
+<p class=subsectionBar><a name="simSetVisionSensorImg" id="simSetVisionSensorImg"></a>simSetVisionSensorImg / sim.setVisionSensorImg</p>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Writes the image of a vision sensor (and applies any image processing via the <a href="../visionCallbackFunctions.htm">vision callback functions</a>). Make sure the vision sensor is flagged as <strong>external input</strong>. See also the other <a href="../apiFunctions.htm#visionSensor">vision sensor related API functions</a></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C/C++<br>synopsis
+</td> 
+<td class=apiTableRightCSyn>simInt simSetVisionSensorImg(simInt sensorHandle,const simUChar* img,simInt options,const simInt* pos,const simInt* size)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C/C++<br>parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>sensorHandle</strong>: handle of the vision sensor object</div>
+<div><strong>img</strong>: a buffer containing the image</div>
+<div><strong>options</strong>: options, bit-coded:</div>
+<div class=tab>bit0 set (1): the provided image is a greyscale image (1 byte per pixel), otherwise an RGB image (3 bytes per pixel)</div>
+<div class=tab>bit1 set (2): the provided image has one additional byte per pixel, as alpha channel (RGBA or greyscale+A)</div>
+<div><strong>pos</strong>: position of the image portion to write. Can be nullptr, which defaults to {0,0}</div>
+<div><strong>size</strong>: size of the image portion to write. Can be nullptr which defaults to {0,0}, which corresponds to {resolutionX,resolutionY}</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C/C++<br>return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 if operation was not successful</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua<br>synopsis
+</td> 
+<td class=apiTableRightLSyn>sim.setVisionSensorImg(int sensorHandle,buffer image,int options,int[2] pos={0,0},int[2] size={0,0})</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua<br>parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>sensorHandle</strong>: handle of the vision sensor object</div>
+<div><strong>img</strong>: a buffer containing the image</div>
+<div><strong>options</strong>: options, bit-coded:</div>
+<div class=tab>bit0 set (1): the provided image is a greyscale image (1 byte per pixel), otherwise an RGB image (3 bytes per pixel)</div>
+<div class=tab>bit1 set (2): the provided image has one additional byte per pixel, as alpha channel (RGBA or greyscale+A)</div>
+<div><strong>pos</strong>: position of the image portion to write, defaults to {0,0}</div>
+<div><strong>size</strong>: size of the image portion to write, defaults to {0,0}, which corresponds to {resolutionX,resolutionY}</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua<br>return values
+</td> 
+<td class=apiTableRightLRet>
+</td> 
+</tr> 
+
+ 
+
+
+
+<tr class=apiTableTr>
+<td class=apiTableLeftPSyn>Python<br>synopsis</td>
+<td class=apiTableRightPSyn>sim.setVisionSensorImg(int sensorHandle,bytes image,int options=0,list pos=[0,0],list size=[0,0])</td>
+</tr>
+
+</table> 
+
+<br>
+</td>
+
+</table>
+</div>
+</body>
+</html>

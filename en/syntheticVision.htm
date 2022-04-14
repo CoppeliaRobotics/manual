@@ -55,10 +55,10 @@ function sysCall_vision(inData)
     end
 
     -- Or you can directly operate on the image buffer:
-    local image=sim.getVisionSensorCharImage(inData.handle)
+    local image=sim.getVisionSensorImg(inData.handle)
     sim.transformImage(image,inData.resolution,4)
     image=sim.transformBuffer(image,sim.buffer_uint8rgb,1,0,sim.buffer_uint8bgr)
-    sim.setVisionSensorCharImage(inData.handle,image)
+    sim.setVisionSensorImg(inData.handle,image)
     
     outData={}
     outData.trigger=true -- whether the sensor should trigger

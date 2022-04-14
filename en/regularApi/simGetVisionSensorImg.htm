@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.getVisionSensorImg</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<h1>Regular API function</h1>
+<p class=subsectionBar><a name="simGetVisionSensorImg" id="simGetVisionSensorImg"></a>simGetVisionSensorImg / sim.getVisionSensorImg</p>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Reads the image of a vision sensor. The returned data doesn't make sense if <a href="simHandleVisionSensor.htm">sim.handleVisionSensor</a> wasn't called previously  (sim.handleVisionSensor is called by default in the main script if the vision sensor is not tagged as <em>explicit handling</em>). See also  <a href="simSaveImage.htm">sim.saveImage</a> and other <a href="../apiFunctions.htm#visionSensor">vision sensor related API functions</a></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C/C++<br>synopsis
+</td> 
+<td class=apiTableRightCSyn>simUChar* simGetVisionSensorImg(simInt sensorHandle,simInt options,simFloat rgbaCutOff,const simInt* pos,const simInt* size,simInt* resolution)</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C/C++<br>parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>sensorHandle</strong>: handle of the vision sensor</div>
+<div><strong>options</strong>: options, bit-coded:</div>
+<div class=tab>bit0 set (1): the returned image will by a greyscale image (1 byte per pixel), otherwise an RGB image</div>
+<div class=tab>bit1 set (2): the returned image will have one additional byte per pixel, as alpha channel (RGBA or greyscale+A)</div>
+<div><strong>rgbaCutOff</strong>: when an RGBA image is returned, the alpha component will be 255 for all depth values below <em>rgbaCutOff</em>, and 0 for all depth values above <em>rgbaCutOff</em>. 0 corresponds to the near clipping plane, 1 to the far clipping plane</div>
+<div><strong>pos</strong>: position of the image portion to retrieve. Can be nullptr, which defaults to {0,0}</div>
+<div><strong>size</strong>: size of the image portion to retrieve. Can be nullptr which defaults to {0,0}, which corresponds to {resolutionX,resolutionY}</div>
+<div><strong>resolution</strong>: the returned vision sensor resolution. Can be nullptr</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C/C++<br>return value
+</td> 
+<td class=apiTableRightCRet>
+<div>the image buffer or nullptr in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a></div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua<br>synopsis
+</td> 
+<td class=apiTableRightLSyn>buffer image,int[2] resolution=sim.getVisionSensorImg(int sensorHandle,int options=0,float rgbaCutOff=0.0,pos={0,0},size={0,0})</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua<br>parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>sensorHandle</strong>: handle of the vision sensor</div>
+<div><strong>options</strong>: options, bit-coded:</div>
+<div class=tab>bit0 set (1): the returned image will by a greyscale image (1 byte per pixel), otherwise an RGB image</div>
+<div class=tab>bit1 set (2): the returned image will have one additional byte per pixel, as alpha channel (RGBA or greyscale+A)</div>
+<div><strong>rgbaCutOff</strong>: when an RGBA image is returned, the alpha component will be 255 for all depth values below <em>rgbaCutOff</em>, and 0 for all depth values above <em>rgbaCutOff</em>. 0 corresponds to the near clipping plane, 1 to the far clipping plane</div>
+<div><strong>pos</strong>: position of the image portion to retrieve. Default is {0,0}</div>
+<div><strong>size</strong>: size of the image portion to retrieve. Default is {0,0}, which corresponds to {resolutionX,resolutionY}</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua<br>return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>image</strong>:the image buffer. Use <a href="simUnpackUInt8Table.htm">sim.unpackUInt8Table</a> to obtain a table of integer values.</div>
+<div><strong>resolution</strong>: the vision sensor resolution</div>
+</tr> 
+
+ 
+
+
+
+<tr class=apiTableTr>
+<td class=apiTableLeftPSyn>Python<br>synopsis</td>
+<td class=apiTableRightPSyn>bytes image,list resolution=sim.getVisionSensorImg(int sensorHandle,int options=0,float rgbaCutOff=0.0,list pos=[0,0],list size=[0,0])</td>
+</tr>
+
+</table> 
+
+<br>
+</td>
+
+</table>
+</div>
+</body>
+</html>

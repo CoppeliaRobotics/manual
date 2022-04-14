@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.getVisionSensorDepth</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<h1>Regular API function</h1>
+<p class=subsectionBar><a name="simGetVisionSensorDepth" id="simGetVisionSensorDepth"></a>simGetVisionSensorDepth / sim.getVisionSensorDepth</p>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Reads the depth buffer of a vision sensor. The returned data doesn't make sense if <a href="simHandleVisionSensor.htm">sim.handleVisionSensor</a> wasn't called previously  (sim.handleVisionSensor is called by default in the main script if the vision sensor is not tagged as <em>explicit handling</em>). See also other <a href="../apiFunctions.htm#visionSensor">vision sensor related API functions</a><br></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C/C++<br>synopsis
+</td> 
+<td class=apiTableRightCSyn>simFloat* simGetVisionSensorDepth(simInt sensorHandle,simInt options,const simInt* pos,const simInt* size,simInt* resolution)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C/C++<br>parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>sensorHandle</strong>: handle of the vision sensor</div>
+<div><strong>options</strong>: options, bit-coded:</div>
+<div class=tab>bit0 set (1): the returned values indicate distances in meters, otherwise return values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane))</div>
+<div><strong>pos</strong>: position of the depth buffer portion to retrieve. Can be nullptr, which defaults to {0,0}</div>
+<div><strong>size</strong>: size of the depth buffer portion to retrieve. Can be nullptr, which defaults to {0,0}, which corresponds to {resolutionX,resolutionY}</div>
+<div><strong>resolution</strong>: the returned vision sensor resolution. Can be nullptr</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C/C++<br>return value
+</td> 
+<td class=apiTableRightCRet>
+<div>the depth buffer or nullptr in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer.htm">simReleaseBuffer</a><br>
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua<br>synopsis
+</td> 
+<td class=apiTableRightLSyn>buffer depth,int[2] resolution=sim.getVisionSensorDepth(int sensorHandle,int options=0,int[2] pos={0,0},int[2] size={0,0})</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua<br>parameters</td> 
+<td class=apiTableRightLParam>
+<div><strong>sensorHandle</strong>: handle of the vision sensor</div>
+<div><strong>options</strong>: options, bit-coded:</div>
+<div class=tab>bit0 set (1): the returned values indicate distances in meters, otherwise return values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane))</div>
+<div><strong>pos</strong>: position of the depth buffer portion to retrieve. Defaults to {0,0}</div>
+<div><strong>size</strong>: size of the depth buffer portion to retrieve. Defaults to {0,0}, which corresponds to {resolutionX,resolutionY}</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua<br>return values
+</td> 
+<td class=apiTableRightLRet>
+<div><strong>depth</strong>: the depth buffer. Use <a href="simUnpackFloatTable.htm">sim.unpackFloatTable</a> to obtain a table of float values</div></td> 
+</tr> 
+
+ 
+
+
+
+<tr class=apiTableTr>
+<td class=apiTableLeftPSyn>Python<br>synopsis</td>
+<td class=apiTableRightPSyn>bytes depth=sim.getVisionSensorDepth(int sensorHandle,int options=0,list pos=[0,0],list size=[0,0])</td>
+</tr>
+
+</table> 
+
+<br>
+</td>
+
+</table>
+</div>
+</body>
+</html>
