@@ -49,7 +49,9 @@ Version history:
  
 <li>Fixed several bugs. Thanks to Pranav A. Bhounsule, Amirhossein Afkhami Ardekani, Roman Horshkov and Davide Scorza for noticing them or helping to resolve them.</li>
 <li><a href="regularApi/simRuckigPos.htm">sim.ruckigPos</a>, <a href="regularApi/simRuckigVel.htm">sim.ruckigVel</a>, <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a> can now also be used for non-symmetric velocity/acceleration profiles, via the <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minvel</a> and <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minaccel</a> flags.</li>
+<li>The <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a> is now supported in following languages: Python, c++, Matlab, Octave, Lua and Java</li>
 <li>Added a model of the ABB YuMi: <em>Models/robots/non-mobile/ABB YuMi.ttm</em>.</li>
+<li>Added a model of the Mirobot: <em>Models/robots/non-mobile/Mirobot.ttm</em>.</li>
 <li>Added a model of a generic tray: <em>Models/equipment/generic tray.ttm</em>.</li>
 
 <br>
@@ -154,8 +156,8 @@ Version history:
 <li>Added an example scene illustrating simple motor controllers: <em>scenes/motorControllerExamples.ttt</em></li>
 <li>Added an example scene illustrating how to apply inverse kinematics to dynamically enabled models/manipulators: <em>scenes/kinematics/10-applyingIkToDynamicallyEnabledModels.ttt</em></li>
 <li>Added an example scene illustrating simple usage of the Reflexxes Motion Library: <em>scenes/reflexxesMotionLibraryExamples.ttt</em></li>
-<li>Added example scenes related to the usage of the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, illustrating how to send movement sequences, or how to synchronously receive and send images: <em>scenes/movementViaRemoteApi.ttt</em>, <em>scenes/pControllerViaRemoteApi.ttt</em> and <em>scenes/synchronousImageTransmissionViaRemoteApi.ttt</em>. Related Python scripts can be found in <em>programming/remoteApiBindings/python/python/</em></li>
-<li>Added <a href="regularApi/simSetJointTargetForce.htm">sim.setJointTargetForce</a> and <a href="regularApi/simGetJointTargetForce.htm">sim.getJointTargetForce</a>, including remote API equivalents. <em>sim.setJointForce</em> is now deprecated.</li>
+scenes/movementViaRemoteApi.ttt</em>, <em>scenes/pControllerViaRemoteApi.ttt</em> and <em>scenes/synchronousImageTransmissionViaRemoteApi.ttt</em>. Related Python scripts can be found in <em>programming/remoteApiBindings/python/python/</em></li>
+<li>Added <a href="regularApi/simSetJointTargetForce.htm">sim.setJointTargetForce</a> and <a href="regularApi/simGetJointTargetForce.htm">sim.getJointTargetForce</a>. <em>sim.setJointForce</em> is now deprecated.</li>
 <li>Added <a href="regularApi/simYawPitchRollToAlphaBetaGamma.htm">sim.yawPitchRollToAlphaBetaGamma</a> and <a href="regularApi/simAlphaBetaGammaToYawPitchRoll.htm">sim.alphaBetaGammaToYawPitchRoll</a>, to convert between those two different <a href="eulerAngles.htm">Euler angle representations</a>.</li>
 <li>The true headless CoppeliaSim library is also shipped (i.e. <em>coppeliaSimLibHeadless.dll</em> or similar). This is in addition to the headless mode supported via the <em>-h</em> <a href="commandLine.htm">command line</a> option, which simply suppresses all GUI elements of the regular CoppeliaSim library.</li>
 <li>Fixed a few shape export problems (i.e. normals and/or textures)</li>
@@ -296,7 +298,6 @@ Version history:
 <li>Added following two API functions: <a href="regularApi/simSetReferencedHandles.htm">sim.setReferencedHandles</a> and <a href="regularApi/simGetReferencedHandles.htm">sim.getReferencedHandles</a>.</li>
 <li>Added a model of <em>Marty the Robot</em> (in <em>Models/robots/mobile/</em> ), courtesy of <em>Sandy Enoch</em> of <a href="http://robotical.io/">Robotical Ltd.</a> and <em>Alejandro Bordallo</em>. <em>Marty</em> is designed to work with the official ROS Marty stack.</li>
 <li>A swarm controller for the teleoperation of robot swarms in a V-REP based simulation environment, courtesy of the robotics and control systems laboratory of the Sapientia Hungarian University of Transylvania, is available <a href="https://github.com/TARC-Sapientia/SwarmController" target="_blank">here</a>.</li>
-<li>A C# version of the legacy remote API is available <a href="https://github.com/wbadry/V-REP-Remote-API-for-Dot-NET" target="_blank">here</a>, courtesy of Waleed El-Badry.</li>
 <li>Added a <a href="http://www.json.org/">JSON</a> module for Lua: <a href="http://dkolf.de/src/dkjson-lua.fsl/home">dkjson</a>, courtesy of David Heiko Kolf.</li>
 <br>
 <br>
@@ -353,7 +354,6 @@ Version history:
  
 <li>Fixed several bugs. Thanks to Federico Ferri, Tiago Malheiro, Raimund Krenmueller, Ahmed Yacine, Matthias Ploner, Indranil Sur, Sung Kyun Kim, Andrew Hundt, Rik Timmers, Matthew Veres and Graeme Neff Wilson for noticing them or helping to resolve them.</li>
 <li>Added <a href="pathAndMotionPlanningModules.htm">a first version of a plugin that wraps OMPL</a>, the <a href="http://ompl.kavrakilab.org/">Open Motion Planning Library</a>. The plugin is courtesy of Federico Ferri. The source code of the plugin is located <a href="https://github.com/CoppeliaRobotics/simExtOMPL" target="_blank">here</a>. Following demo scenes are now using the OMPL plugin functionality: <em>motionPlanningDemo1.ttt</em>, <em>motionPlanningAndGraspingDemo.ttt</em>, <em>3DoFHolonomicPathPlanning.ttt</em> and <em>6DoFHolonomicPathPlanning.ttt</em>, <em>motionPlanningServerDemo.ttt</em>.</li>
-<li>Added a new legacy remote API function that allows to call script functions: <a href="remoteApiFunctions.htm#simxCallScriptFunction">simxCallScriptFunction</a>: this function is very useful when a <a href="apiFunctions.htm">regular API</a> function is not available in the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, or when a succession of complex commands need to be executed locally. The demo scene <em>remoteApiCommandServerExample.ttt</em> was updated, as well as the related <em>complexCommandTest.*</em> files in <em>programming/remoteApiBindings</em>. </li>
 <li>Added a new ROS service, ROS publisher type, and ROS subscriber type: simRosCallScriptFunction, simros_strmcmd_receive_data_from_script_function and simros_strmcmd_send_data_to_script_function. These are very useful when a <a href="apiFunctions.htm">regular API</a> function is not immediately available in the RosPlugin, or when a succession of complex commands need to be executed locally. Have a look at the demo scene <em>rosTopicPublisherAndSubscriber2.ttt</em>, which illustrates the new functionality.</li>
 <li>Improved and corrected the <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a> API function.</li>
 <li><a href="regularApi/simLoadModule.htm">sim.loadModule</a> and <a href="regularApi/simUnloadModule.htm">sim.unloadModule</a> can now also be used from a script, in order to dynamically load/unload a plugin. Certain restrictions apply: in particular, if the plugin registered custom lua functions via simRegisterCustomLuaFunction without specifying the function name as <em>functionName@pluginName</em>, a crash might occure during the dynamic plugin unload operation.</li>
@@ -403,7 +403,6 @@ Version history:
 <li>Added a plugin that performs the rendering instead of a vision sensor or a camera. The plugin is meant as an example, and its source can be found <a href="https://github.com/CoppeliaRobotics/simExtExternalRenderer" target="_blank">here</a>.</li>
 <li>Added a scene that demonstrates the various rendering modes available in V-REP: <em>scenes/rendererDemo.ttt</em>.</li>
 <li>Modified the way how V-REP interacts with the physics plugin: it is now possible to compile the Bullet, ODE, Vortex or Newton plugins separately. This will greatly simplify adding additional physics engines.</li>
-<li>Added a demo scene that illustrates how to handle complex commands coming from a legacy remote API client: <em>scenes/remoteApiCommandServerExample.ttt</em>. Have also a look at the correcponding legacy remote API client code (e.g. in <em>programming/remoteApiBindings/matlab/matlab/complexCommandTest.m</em>)</li>
 <li>Modified the legacy remote API Python bindings, including the Python example programs. They should work fine on Python 2.x, Python 3.x and IronPython.</li>
 <li>The <a href="https://en.wikipedia.org/wiki/OpenRTM-aist">OpenRTM-aist</a> is now supported thanks to Yuki Suga. Installation instructions are given <a href="http://ogata-lab.jp/ja/technology_ja/動力学シミュレータ-vrepの使い方.html">here</a>.</li>
 <li>Moved the Qhull functionality out of V-REP's main library, into a plugin (<em>simExtQhull</em>). The source code can be found <a href="https://github.com/CoppeliaRobotics/simExtQhull" target="_blank">here</a>.</li>
@@ -432,17 +431,14 @@ Version history:
 <li>V-REP now supports the <a href="http://www.realistic-robot-simulation.org/">RRS-1 specifications</a> via a plugin (<em>simExtRRS1</em>). It allows to connect and interact with all RCS modules and robots that supports the RRS-1 specifications. For an example have a look at the demo file <em>scenes/RRS-1 demo.ttt</em>.</li>
 <li>Rewrote the <a href="pluginTutorial.htm">plugin tutorial</a>, which has become much simpler.</li>
 <li>Rewrote the <a href="robotLanguageIntegrationTutorial.htm">robot language integration tutorial</a>, which has become much simpler.</li>
-<li>Modified the legacy remote API <em>simpleTest</em> programs to include an example of blocking call, non-blocking call, and data streaming.</li>
 <li>The CHAI3D plugin (for interfacing a haptic device) has been completely rewritten and greatly improved, courtesy of Sébastien Granges. Visit <a href="http://www.chai3d.org">www.chai3d.org</a> or <a href="http://www.forcedimension.com">www.forcedimension.com</a> for the source code of that plugin. In case it is not yet available on those websites, please contact us.</li>
 <li>Added a demon scene that illustrates navigation of a mobile robot via a haptic device (<em>Scenes/hapticRobot.ttm</em>). The device will let the user <em>feel</em> the obstacles.</li>
 <li>Added an interface plugin to the <a href="http://www.openmesh.org">OpenMesh</a> library. The plugin source code is located <a href="https://github.com/CoppeliaRobotics/simExtOpenMesh" target="_blank">here</a>.</li>
 <li>Added a tool model that allows to simplify high-poly shapes: <em>Models/tools/mesh decimation tool.ttm</em>. The tool relies on the new OpenMesh plugin for V-REP.</li>
 <li>Added a tool model that allows to separate the inside/outside parts of shapes: <em>Models/tools/mesh inside outside separation tool.ttm</em>.</li>
-<li>The <a href="legacyRemoteApiOverview.htm">legacy remote API</a> now also offers a <a href="remoteApiClientSide.htm#lua">Lua binding</a>. It can be called from an external Lua script, or from within V-REP (for example to connect and interact with another V-REP instance (e.g. running in headless mode)).</li>
 <li>Added a demo scene (<em>Scenes/headlessModeDebug.ttt</em>) that illustrates how to launch a headless instance of V-REP, connect to it, and stream back the view of the scene.</li>
 <li>Added a model that allows to extract Denavit-Hartenberg parameters in a kinematic chain (<em>Models/tools/Denavit Hartenberg parameter extractor.ttm</em>).</li>
 <li>Added a model that allows to create joints in poses defined by Denavit-Hartenberg parameters (<em>Models/tools/Denavit Hartenberg joint creator.ttm</em>).</li>
-<li><a href="remoteApiServerSide.htm#continuousRemoteApiService">Continuous legacy remote API server services</a> can now also be started via the <a href="commandLine.htm">command line</a>, when launching V-REP.</li>
 <li>Added an API function that allows saving images: <a href="regularApi/simSaveImage.htm">sim.saveImage</a></li>
 <li>Added a model, courtesy of Ulrich Schwesinger, allowing to take high-resolution screenshots of the scene: <em>Models/tools/high-res screenshot tool</em>.</li>
 <li>Added a model that allows to modify shape colors that are named: <em>Models/tools/color change tool from color names.ttm</em>.</li>
@@ -551,11 +547,9 @@ Version history:
 <li>The <a href="jointDynamicsProperties.htm">joint dynamics properties</a> have been reorganized in order to facilitate the creation of spring-damper systems, by allowing to directly specify the spring constant <em>K</em> and its damping coefficient <em>C</em>.</li> 
 <li>Matlab versions previous to 2008a might be supported via the files located <a href="http://coppeliarobotics.com/contributions/matlabOlderThan2008a.zip">here</a>, courtesy of Gerold Huber.</li>
 <li>The RosPlugin was catkinized, courtesy of Arne Hitzmann and Sergi Foix.</li>
-<li>The legacy remote API (client and server) was modified and transports large data (e.g. images) much faster now. Make sure to use up-to-date and matching client-server pairs.</li>
 <li>V-REP now also supports 3D OpenGL stereo mode (for dedicated hardware, i.e. specific stereo-enabled graphic cards with corresponding monitor/device). To enable it, set a value different from 0 for  <em>stereoDist</em> in file <em>system/usrset.txt</em>. The console should indicate at start-up if the mode was successfully enabled. Make sure to correctly configure your graphic card (i.e. 3D OpenGL stereo &amp; correct stereo display mode).</li>
 <li>Added a simulation model of the Baxter robot, including its vacuum cup and gripper tools: <em>models/robots/non-mobile/Baxter.ttm</em>, <em>models/components/grippers/Baxter vacuum cup.ttm</em> and <em>models/components/grippers/Baxter gripper.ttm</em>. The original CAD data is courtesy of Rethink Robotics.</li>
 <li>Added a simulation model of the Phantom X Pincher: <em>models/robots/non-mobilePhantomXPincher.ttm</em>. The original CAD data is courtesy of Trossen Robotics.</li>
-<li>Added two new <a href="legacyRemoteApiOverview.htm">legacy remote API</a> functions to easily handle data exchanges between client and server: <a href="remoteApiFunctions.htm#simxReadStringStream">simxReadStringStream</a> and <a href="remoteApiFunctions.htm#simxWriteStringStream">simxWriteStringStream</a>.</li>
 <li>Added models of a generic revolute motor, a generic revolute servo (with and without backslash), a generic revolute spring-damper, and a generic prismatic motor. They are located in the <em>models/components/actuators/</em> folder.</li>
 <li>Improved the OBJ file format importer.</li>
 <li>Switched to an updated Vortex library (V6.1.2) that offers an improved contact generation.</li>
@@ -616,11 +610,8 @@ Version history:
 <li>Added a laserscan and odometry publisher to the RosPlugin, together with a laser scanner model prepared for ROS: models/components/sensors/Hokuyo_URG_04LX_UG01_ROS.ttm. The code modification and the model are both courtesy of George Moustris.</li>
 <li>Added following <a href="apiFunctions.htm">regular API</a> functions: <a href="regularApi/simQuitSimulator.htm">sim.quitSimulator</a>.</li>
 <li>Added the option to run V-REP headless (without any graphical user interface (i.e. in the command line only)), as well as other <a href="commandLine.htm">command line options</a>. The graphics libraries are still needed. A binary that doesn't rely of graphics libraries is planned.</li>
-<li>Redefined most <em>simxChar</em> types to <em>simxUChar</em> types in the legacy remote API, in order to avoid confusions (a <em>char</em> can be signed or unsigned, depending on the implementation). When recompiling older projects, you might have to cast between types.</li>
 <li>Added a bridge to <a href="http://opencv.org/">OpenCV</a> via a plugin, courtesy of Marco Bellaccini. The files are located <a href="http://opencv.org/">here</a>.</li>
-<li>Added a first version of a C# wrapper for the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, courtesy of Hendrik Wiese. The files are located <a href="http://coppeliarobotics.com/contributions/cSharp.zip">here</a>.</li>
-<li>Added a first version of a Labview interface for the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>, courtesy of Peter Mačička. The files are located <a href="http://coppeliarobotics.com/contributions/labview.zip">here</a>.</li>
-<li>Added a legacy remote API binding for the <a href="http://www.gnu.org/software/octave/">Octave framework</a> (i.e. the open-source equivalent of Matlab). All required files are located in <em>programming/remoteApiBindings/octave</em>. Refer also to the <a href="remoteApiFunctionsOctave.htm">Octave legacy remote API functions</a>.</li>
+<li>Added a first version of a Labview interface for the legacy remote API, courtesy of Peter Mačička.</li>
  <br>
 
 
@@ -639,12 +630,10 @@ Version history:
 <li>Added a ROS publisher for <a href="visionSensors.htm">vision sensor</a> depth data as RGBD point cloud, courtesy of Cedric Pradalier.</li>
 <li>Added a <a href="primitiveShapes.htm">possibility to create negative volumes</a> (i.e. holes) in pure shapes, for efficient dynamic simulation of tubes or pipes for instance.</li>
 <li>Fixed a bug affecting the <a href="apiFunctions.htm">regular API</a> function <a href="regularApi/simGetObjectVelocity.htm">sim.getObjectVelocity</a>.</li>
-<li>Added a new <a href="legacyRemoteApiOverview.htm">legacy remote API</a> function: <a href="remoteApiFunctions.htm#simxGetObjectVelocity">simxGetObjectVelocity</a>.</li>
 <li>Added more predefined <a href="pagesAndViews.htm#pageConfigurations">page configurations</a>.</li>
 <li>Added a gamepad interface to the RosPlugin. The code is courtesy of Roberto Marino.</li>
 <li>Added a model of a buggy with suspension and differential: <em>models/vehicles/manta with differential.ttm</em>. The model is courtesy of Qi Wang.</li>
 <li>Added a <a href="simulationPropertiesDialog.htm">full screen mode</a>.</li>
-<li>The shared library of the <a href="remoteApiClientSide.htm">legacy remote API client</a>  is now available in 32/64 bit (remoteApi.dll, remoteApi.so, remoteApi.dylib, remoteApiJava.dll, libremoteApiJava.so, libremoteApi.dylib).</li>
 
 <br>
 
@@ -657,10 +646,6 @@ Version history:
 <li>Added the possibility for <a href="visionSensors.htm">vision sensors</a> to ignore their RGB or depth information. When used, this allows to accelerate vision sensor operation. Refer to the <a href="visionSensorPropertiesDialog.htm">vision sensor properties</a>.</li>
 
 <li>Added two new vision sensor filters. The first allows to extract coordinates from a vision sensor depth map. This allows to create fast laser scanner models, such as <em>models/components/sensors/Hokuyo URG 04LX UG01_Fast.ttm</em> or <em>models/components/sensors/3D laser scanner Fast.ttm</em>. The second added vision sensor filter allows to track individual pixel changes, such as in the model <em>models/components/sensors/DVS128.ttm</em>, courtesy of <a href="http://www.inilabs.com/">IniLabs</a>.</li>
-
-<li>Added 4<a href="legacyRemoteApiOverview.htm"> legacy legacy remote API helper function</a>s: <a href="remoteApiFunctionsPython.htm#simxPackFloats">simxPackFloats</a>, <a href="remoteApiFunctionsPython.htm#simxUnpackFloats">simxUnpackFloats</a>, <a href="remoteApiFunctionsPython.htm#simxPackInts">simxPackInts</a> and <a href="remoteApiFunctionsPython.htm#simxUnpackInts">simxUnpackInts</a>.</li>
-
-<li>Added new functions for easier data retrieval of several objects from a <a href="legacyRemoteApiOverview.htm">legacy remote API</a> client or a ROS node: <a href="remoteApiFunctions.htm#simxGetObjectGroupData">simxGetObjectGroupData</a> and simRosGetObjectGroupData.</li>
 
 <li>Added new <a href="apiConstants.htm#simulatorMessages">messages</a> that allow to track shape picking (based on rendering or geometric calculations): sim.message_pick_select_down, sim.message_prox_sensor_select_down, sim.message_prox_sensor_select_up, sim_message_eventcallback_pickselectdown, sim_message_eventcallback_proxsensorselectdown and sim_message_eventcallback_proxsensorselectup</li>
 
@@ -700,10 +685,6 @@ Version history:
 
 <li>Added a new model: <em>models/robots/mobile/NAO.ttm</em>. The model is courtesy of Marco Cognetti, the mesh  and movement data is courtesy of Aldebaran. The model is a first example model of NAO, an improved version should follow in next release.</li>
 
-<li>The <a href="legacyRemoteApiOverview.htm">legacy remote API</a> on the client side can now be instanciated as many times as needed, allowing to create several parallel communication lines from a same client (i.e. process). One can for instance now chose to send heavy data via a different communication line than lightweight data (<a href="remoteApiFunctions.htm#simxStart">simxStart</a> will have to be called twice in that case).</li>
-
-<li>Added following new <a href="legacyRemoteApiOverview.htm">legacy remote API</a> functions: <a href="remoteApiFunctions.htm#simxQuery">simxQuery</a>, <a href="remoteApiFunctions.htm#simxGetAndClearStringSignal">simxGetAndClearStringSignal</a> and <a href="remoteApiFunctions.htm#simxCreateDummy">simxCreateDummy</a>.</li>
-
 <li>Added following new RosPlugin services/publishers: simRosGetAndClearStringSignal and simRosCreateDummy.</li>
 
 <br>
@@ -716,7 +697,6 @@ Version history:
 <li>Corrected a bug related to convex shapes</li>
 <li>Improved the <a href="urdfPlugin.htm">URDF importer</a> (scaling is now taken into account and rpy mix-up  (different rotation multiplication order) was also fixed). Thanks to Barrett Ames and Luca Marchionni for pointing that out.</li>
 <li>Added a new <a href="apiFunctions.htm">regular API</a> function: <a href="regularApi/simGetObjectVelocity.htm">sim.getObjectVelocity</a> (slightly different from the already existing <a href="regularApi/simGetVelocity.htm">sim.getVelocity</a> function).</li>
-<li>Added a new <a href="legacyRemoteApiOverview.htm">legacy remote API</a> function: <a href="remoteApiFunctions.htm#simxAppendStringSignal">simxAppendStringSignal</a>. This allows to easily send data that is automatically buffered on V-REP.</li>
 <li>Added a new RosPlugin service: simrosAppendStringSignal. This allows to easily send data that is automatically buffered on V-REP.</li>
 <li>Added some testing / adjustment mechanisms to improve rendering performance on certain graphic cards / platform combinations. Thanks to Cedric Pradalier for intensive testing. Refer to the system/usrset.txt file.</li>
 <li>Corrected various bugs. Thanks to Arnaud Leleve, Geerten Doornenbal, Pouya Mohammadi, Nikolaus Wittenstein, Ayberk Ozgur.</li>
@@ -773,7 +753,6 @@ Version history:
 
 
 <br><h2>V-REP V2.6.7 (September 20th 2012)</h2> 
-<li>Added a new <a href="legacyRemoteApiOverview.htm">legacy remote API</a> function: <a href="remoteApiFunctions.htm#simxPauseCommunication">simxPauseCommunication</a>. This allows to set several value on the server side (i.e. V-REP) at the exact same time.</li>
 <li>Added a new ROS service, and ROS subscriber type: simRosSetJointState and simros_strmcmd_set_joint_state. They allow to set several joints' states at the same time.</li>
 <li>Added following ROS publisher/subscriber types (courtesy of Cedric Pradalier): simros_strmcmd_get_range_finder_data, simros_strmcmd_get_transform, simros_strmcmd_get_twist_status, simros_strmcmd_get_vision_sensor_info, and simros_strmcmd_set_twist_command.</li>
 <li>Converted the simExtMTB plugin to a Qt project. Source files are located <a href="https://github.com/CoppeliaRobotics/simExtMTB" target="_blank">here</a>. Refer to the <a href="plugins.htm">section on plugins</a> for details how to compile this plugin. The plugin binary is in the main directory.</li>
@@ -795,7 +774,6 @@ Version history:
 <li>Integrated the <a href="http://www.reflexxes.com">Reflexxes Motion Library</a> type IV via a plugin. Have a look at the related demo scene: &quot;reflexxesMotionLibraryType4Demo.ttt&quot;</li>
 <li>Added 4 new API functions: <a href="regularApi/simGetObjectQuaternion.htm">sim.getObjectQuaternion</a>, <a href="regularApi/simSetObjectQuaternion.htm">sim.setObjectQuaternion</a>, <a href="regularApi/simBuildMatrixQ.htm">sim.buildMatrixQ</a> and <a href="regularApi/simGetQuaternionFromMatrix.htm">sim.getQuaternionFromMatrix</a> (internally V-REP used quaternions since always, but only <a href="eulerAngles.htm">Euler angles</a> could be accessed)</li>
 <li>Added an option to colorize items in the scene hierarchy, for quicker identification</li>
-<li>Simplified the way the <a href="legacyRemoteApiOverview.htm">legacy remote API</a> function <a href="remoteApiFunctions.htm#simxGetUIEventButton">simxGetUIEventButton</a> operates</li>
 <li>New scene: &quot;reflexxesMotionLibraryType4Demo.ttt&quot;</li>
 <li>New model: &quot;kinect - closest point calculation.ttm&quot;</li>
 <li>Added a new tutorial: <a href="rosTutorial.htm">ROS tutorial</a>.</li>
@@ -804,20 +782,14 @@ Version history:
 
 
 <br><h2>V-REP V2.6.5 (July 7th 2012)</h2> 
-<li>Renamed following legacy remote API functions/constants to avoid confusion: <a href="remoteApiFunctions.htm#simxGetInMessageInfo">simxGetInMessageInfo</a>, <a href="remoteApiFunctions.htm#simxGetOutMessageInfo">simxGetOutMessageInfo</a>, <a href="remoteApiConstants.htm#inboxMessageInfoType">simx_headeroffset_message_id</a>.</li>
-<li>Added a user manual section about <a href="remoteApiExtension.htm">how to extend the legacy remote API</a></li>
 <li>Fixed a few bugs related to the Linux/Mac version of the legacy remote API</li>
 <li>Added a new <a href="userInterface.htm#toolbars">toolbar button</a> to handle object assembling/disassembling. The way two objects assemble via this toolbar button can be adjusted in the <a href="commonPropertiesDialog.htm">object common properties </a> (Assembling button)</li>
-<li>Added a <a href="remoteApiFunctionsPython.htm">Python binding</a> for the <a href="legacyRemoteApiOverview.htm">legacy remote API</a></li>
-<li>Added a <a href="remoteApiFunctionsJava.htm">Java binding</a> for the <a href="legacyRemoteApiOverview.htm">legacy remote API</a></li>
-<li>Added a <a href="remoteApiFunctionsMatlab.htm">Matlab binding</a> for the <a href="legacyRemoteApiOverview.htm">legacy remote API</a></li>
 <li>Added a first interface to ROS. This version is temporary and will be updated in next release</li>
 <br>
 
 
 
 <br><h2>V-REP V2.6.4 (May 23rd 2012)</h2> 
-<li>A new powerful mechanism was developed to allow easy access to V-REP API functions from external applications (e.g. robots): the <a href="legacyRemoteApiOverview.htm">legacy remote API</a>. Now V-REP supports <a href="writingCode.htm">4 different programming approaches</a>.</li>
 <li>Serial port functions: <a href="regularApi/simSerialOpen.htm">sim.serialOpen</a>, <a href="regularApi/simSerialClose.htm">sim.serialClose</a>, <a href="regularApi/simSerialSend.htm">sim.serialSend</a>, <a href="regularApi/simSerialRead.htm">sim.serialRead</a> and <a href="regularApi/simSerialCheck.htm">sim.serialCheck</a>.</li>
 <li>The serial port functionality is now also operational on the Mac and Linux platforms</li>
 <li>Fixed a bug where icons would not appear on systems with an old or non-accelerated graphic card</li>
