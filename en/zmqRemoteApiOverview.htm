@@ -21,23 +21,30 @@
 
 <p>The ZeroMQ remote API is one of <a href="meansOfCommunication.htm">several ways an application can connect with CoppeliaSim</a>.</p>
 
-<p>The ZeroMQ remote API allows to control a simulation (or the simulator itself) from an external application or a remote hardware (e.g. real robot, remote computer, etc.). It offers all API functions also available via a CoppeliaSim script: this includes all <a href="apiFunctions.htm">regular API functions</a> (i.e. sim.* -type functions), but also all API functions provided by <a href="plugins.htm">plugins</a> (e.g. simOMPL.*, simUI.*, simIK.*, etc.). The ZeroMQ remoteAPI represents a very thin Python wrapper around mentioned API functions, and can be used in the exact same way as from within a CoppeliaSim script.</p>
+<p>The ZeroMQ remote API allows to control a simulation (or the simulator itself) from an external application or a remote hardware (e.g. real robot, remote computer, etc.). It offers all API functions also available via a CoppeliaSim script: this includes all <a href="apiFunctions.htm">regular API functions</a> (i.e. sim.* -type functions), but also all API functions provided by <a href="plugins.htm">plugins</a> (e.g. simOMPL.*, simUI.*, simIK.*, etc.), if enabled.</p>
 <p>The ZeroMQ remote API functions are interacting with CoppeliaSim via <a href="http://api.zeromq.org/" target="_blank">ZeroMQ</a> and its <a href="simZMQ.htm">interface plugin</a> to CoppeliaSim and the ZMQ remote API <a href="addOns.htm">add-on</a>. All this happens in a hidden fashion to the user. The remote API can let one or several external applications interact with CoppeliaSim in a stepped  (i.e. <em>synchronized</em> with each simulation step) or non-stepped way (i.e. the normal operation mode), and even remote control of the simulator is supported (e.g. remotely loading a scene, starting, pausing or stopping a simulation for instance).</p>
 
-<p class="warningBox">Note: the ZeroMQ remote API also runs on CoppeliaSim V4.2, if you follow this procedure: clone the <a href="https://github.com/CoppeliaRobotics/zmqRemoteApi.git" target="_blank">ZeroMQ remote API repository</a> into your <em>CoppeliaSim/programming</em> folder. Then use the <a href="https://coppeliaRobotics.com/files/tmp/simAddOnZMQ remote API.lua" target="_blank">simAddOnZMQ remote API.lua</a>  compatibility add-on and the <a href="https://coppeliaRobotics.com/files/tmp/cbor.lua" target="_blank">cbor.lua</a> script, and place them into your<em> CoppeliaSim/</em> and <em>CoppeliaSim/Lua</em> folders respectively.</p>
+<p class="warningBox">Note: the Python ZeroMQ remote API also runs on CoppeliaSim V4.2, if you follow this procedure: clone the <a href="https://github.com/CoppeliaRobotics/zmqRemoteApi.git" target="_blank">ZeroMQ remote API repository</a> into your <em>CoppeliaSim/programming</em> folder. Then use the <a href="https://coppeliaRobotics.com/files/tmp/simAddOnZMQ remote API.lua" target="_blank">simAddOnZMQ remote API.lua</a>  compatibility add-on and the <a href="https://coppeliaRobotics.com/files/tmp/cbor.lua" target="_blank">cbor.lua</a> script, and place them into your<em> CoppeliaSim/</em> and <em>CoppeliaSim/Lua</em> folders respectively.</p>
 
 <p>See programming/zmqRemoteApi folder or <a href="https://github.com/CoppeliaRobotics/zmqRemoteApi" target="_blank">its related repository</a> for examples.</p>
 <br>
 
-<h2>Python</h2>
+<h2>Python client</h2>
 <p>ZeroMQ and CBOR are required packages:</p>
 <code class="hljs coppelia-terminal">$ /path/to/python -m pip install pyzmq
 $ /path/to/python -m pip install cbor</code>
-<p>Here a very simple example ZeroMQ remote API client code (run it in programming/zmqRemoteApi/clients/python/)</p>
+
+<p>It is also helpful to have the location of the Python remote API items in either Python's sys.path, or in the PYTHONPATH environment variable:</p>
+
+<code class="hljs coppelia-terminal">$ export PYTHONPATH=/path/to/zmqRemoteApi/clients/python</code>
+
+<p>Following is a very simple example ZeroMQ remote API client code, which starts then runs a stepped simulation for 3 seconds:</p>
 <code class="hljs language-python coppelia-zmq-remote-api-client">import time
 from zmqRemoteApi import RemoteAPIClient
+
 client = RemoteAPIClient()
 sim = client.getObject('sim')
+
 client.setStepping(True)
 
 sim.startSimulation()
@@ -50,21 +57,12 @@ sim.stopSimulation()</code>
 
 <br>
 
-<h2>C++</h2>
-<p>ZeroMQ is a required package:</p>
-<code class="hljs coppelia-terminal"><strong>Windows</strong>, e.g. via vcpkg:
-$ vcpkg install zeromq
-
-<strong>Ubuntu:</strong>
-$ sudo apt install libzmq3-dev
-
-<strong>macOSX</strong>, e.g. via brew:
-$ brew install zeromq</code>
-
-<p>Some examples can be found in programming/zmqRemoteApi/clients/cpp/. Build them with:</p>
+<h2>C++ client</h2>
+<p>Any C++ client requires the <a href="https://github.com/danielaparker/jsoncons" target="_blank">jsoncons</a> and <a href="https://github.com/zeromq/cppzmq" target="_blank">cppzmq</a> package: those are automatically downloaded and used when compiling via cmake. For details see <em>programming/zmqRemoteApi/clients/cpp/</em>, which contains several examples.</p>
+<p> Build them with:</p>
 <code class="hljs coppelia-terminal">$ mkdir build
 $ cd build
-$ cmake ..
+$ cmake -DGENERATE=OFF ..
 $ cmake --build . --config Release</code>
 
 
@@ -73,33 +71,61 @@ $ cmake --build . --config Release</code>
 
 
 
-<p>Here another very simple C++ ZeroMQ remote API client:</p>
-<code class="hljs language-cpp coppelia-zmq-remote-api-client">#include &quot;RemoteAPIClient.h&quot;
-#include &lt;iostream&gt;
-#include &lt;iomanip&gt;
+<p>Following is a very simple C++ ZeroMQ remote API client code, which starts then runs a stepped simulation for 3 seconds:</p>
+<code class="hljs language-cpp coppelia-zmq-remote-api-client">#include "RemoteAPIClient.h"
 
-int main()
+int main(int argc,char* argv[])
 {
     RemoteAPIClient client;
+    auto sim = client.getObject().sim();
+    
     client.setStepping(true);
-    client.call(&quot;sim.startSimulation&quot;, nullptr);
-    float simTime=0.0f;
-    while (simTime&lt;3.0f)
-    {
-        std::cout &lt;&lt; &quot;Simulation time: &quot; &lt;&lt; std::setprecision(3) &lt;&lt; simTime &lt;&lt; &quot; [s]&quot; &lt;&lt; std::endl;
-        client.step();
-        simTime=client.call(&quot;sim.getSimulationTime&quot;)[0].as&lt;float&gt;();
-    }    
-    client.call(&quot;sim.stopSimulation&quot;, nullptr);
 
-    return 0;
-}
-</code>
+    sim.startSimulation();
+    double t=0.0;
+    do
+    {
+        t=sim.getSimulationTime();
+        printf("Simulation time: %.2f [s]\n",t);
+        client.step();
+    } while (t&lt;3.0);
+    sim.stopSimulation();
+    return(0);
+}</code>
+
 
 <br>
 
-<h2>Lua</h2>
-<p>Connecting 2 or more CoppeliaSim instances can easily be achieved with following simple example of a child script:</p>
+<h2>Matlab &amp; Octave clients</h2>
+<p>Matlab clients require the bundled <a href="https://github.com/zeromq/jeromq" target="_blank">JeroMQ</a>, which installs automatically if not yet present.</p>
+<p>Octave clients require Octave 6.4+, the octave communications and zeromq packages. Those can be installed with:</p>
+<code class="hljs coppelia-terminal">pkg install -forge communications
+pkg install -forge zeromq</code>
+
+
+<br>
+
+<p>Following is a very simple Matlab/Octave ZeroMQ remote API client code, which starts then runs a stepped simulation for 3 seconds:</p>
+<code class="hljs language-matlab coppelia-zmq-remote-api-client">client = RemoteAPIClient();
+sim = client.getObject('sim');
+
+client.setStepping(true);
+
+sim.startSimulation();
+while true
+    t = sim.getSimulationTime();
+    if t &gt;= 3; break; end
+    fprintf('Simulation time: %.2f [s]\n', t);
+    client.step();
+end
+sim.stopSimulation();</code>
+
+
+<br>
+
+<h2>Lua client</h2>
+<p>Currently, a Lua client is only supported from within a CoppeliaSim script, e.g. in order to connect 2 or more CoppeliaSim instances.</p>
+<p>Following is a very simple Lua ZeroMQ remote API client code, which synchronizes the simulation steps with another CoppeliaSim instance:</p>
 <code class="hljs language-lua coppelia-zmq-remote-api-client">function sysCall_init()
     remoteApiClient=require'luaZmqRemoteApi'
     remoteApiClient.init('127.0.0.1',23002)
