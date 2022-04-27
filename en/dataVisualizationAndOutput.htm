@@ -66,13 +66,13 @@ function sysCall_init()
     end
 end</code>
 
-<p>More complex items, such as random meshes can be created on the fly via <a href="regularApi/simLoadModel.htm">sim.loadModel</a>, <a href="simAssimp.htm">simAssimp.importShapes</a>, <a href="regularApi/simCreatePureShape.htm">sim.createPureShape</a>, <a href="regularApi/simCreateMeshShape.htm">sim.createMeshShape</a> and/or <a href="regularApi/simCopyPasteObjects.htm">sim.copyPasteObjects</a>. To avoid surcharching the scene with too many additional objects, make sure to group them with <a href="regularApi/simGroupShapes.htm">sim.groupShapes</a>. For example:</p>
+<p>More complex items, such as random meshes can be created on the fly via <a href="regularApi/simLoadModel.htm">sim.loadModel</a>, <a href="simAssimp.htm">simAssimp.importShapes</a>, <a href="regularApi/simCreatePrimitiveShape.htm">sim.createPrimitiveShape</a>, <a href="regularApi/simCreateMeshShape.htm">sim.createMeshShape</a> and/or <a href="regularApi/simCopyPasteObjects.htm">sim.copyPasteObjects</a>. To avoid surcharching the scene with too many additional objects, make sure to group them with <a href="regularApi/simGroupShapes.htm">sim.groupShapes</a>. For example:</p>
   
 <code class="hljs language-lua coppelia-coppeliasim-script">
 function sysCall_init()
     local individualShapes={}
     for i=0,359,1 do
-        local shape=sim.createPureShape(2,4|16,{0.005,0.005,0.02},0.1)
+        local shape=sim.createPrimitiveShape(sim.primitiveshape_cylinder,{0.005,0.005,0.02})
         local coord={math.cos(i*math.pi/180),math.sin(i*math.pi/180),0.01}
         sim.setObjectPosition(shape,-1,coord)
         sim.setShapeColor(shape,nil,sim.colorcomponent_ambient_diffuse,{1,0,0})
