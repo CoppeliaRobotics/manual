@@ -103,6 +103,14 @@ function <strong>sysCall_afterInstanceSwitch</strong>()
     -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
 end
 
+function <strong>sysCall_beforeSave</strong>()
+    -- About to save the scene, or about to set an undo/redo point
+end
+
+function <strong>sysCall_afterSave</strong>()
+    -- After the scene was saved , or after an undo/redo point was set
+end
+
 function <strong>sysCall_beforeCopy</strong>(inData)
     -- Before one or several objects will be copied. Can be reentrant. Disabled by default for Python.
     for key,value in pairs(inData.objectHandles) do
@@ -194,6 +202,10 @@ end
     -- Called when a user module menu entry is selected, e.g.
     print('Following module menu entry was selected: '..inData.handle)
     -- See the <a href="regularApi/simModuleEntry.htm">sim.moduleEntry</a> for details.
+end
+
+<a name="sysCall_msg"></a>function <strong>sysCall_msg</strong>(message,origin)
+    -- Synchronously called when <a href="regularApi/simBroadcastMsg.htm">sim.broadcastMsg</a> is called. Can be reentrant. Disabled by default for Python. 
 end
 
 <a name="sysCall_event"></a>function <strong>sysCall_event</strong>(inData)

@@ -47,12 +47,17 @@ Version history:
 <a name="coppeliaSim4.4.0" id="coppeliaSim4.4.0"></a>CoppeliaSim V4.4.0 (not yet released)
 </h2>
  
-<li>Fixed several bugs. Thanks to Pranav A. Bhounsule, Amirhossein Afkhami Ardekani, Roman Horshkov and Davide Scorza for noticing them or helping to resolve them.</li>
-<li><a href="regularApi/simRuckigPos.htm">sim.ruckigPos</a>, <a href="regularApi/simRuckigVel.htm">sim.ruckigVel</a>, <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a> can now also be used for non-symmetric velocity/acceleration profiles, via the <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minvel</a> and <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minaccel</a> flags.</li>
+<li>Fixed several bugs. Thanks to Pranav A. Bhounsule, Amirhossein Afkhami Ardekani, Roman Horshkov, Volker Kühn and Davide Scorza for noticing them or helping to resolve them</li>
+<li><a href="regularApi/simRuckigPos.htm">sim.ruckigPos</a>, <a href="regularApi/simRuckigVel.htm">sim.ruckigVel</a>, <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a> can now also be used for non-symmetric velocity/acceleration profiles, via the <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minvel</a> and <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minaccel</a> flags</li>
 <li>The <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a> is now supported in following languages: Python, c++, Matlab, Octave, Lua and Java</li>
-<li>Added a model of the ABB YuMi: <em>Models/robots/non-mobile/ABB YuMi.ttm</em>.</li>
-<li>Added a model of the Mirobot: <em>Models/robots/non-mobile/Mirobot.ttm</em>.</li>
-<li>Added a model of a generic tray: <em>Models/equipment/generic tray.ttm</em>.</li>
+<li>Capsule primitives are now also supported</li>
+<li>Added <a href="regularApi/simBroadcastMsg.htm">sim.broadcastMsg</a>, which allows to easily broadcast a message to all scripts</li>
+<li>Added a point sampler add-on, that allows to extract 3D poisitions and normal vectors from the mouse cursor</li>
+<li>Added a scene demonstrating texture modification to simulate a vehicle's trace: scenes/mobileRobotVisualTraces.ttt</li>
+<li>Added a model of the ABB YuMi: <em>Models/robots/non-mobile/ABB YuMi.ttm</em></li>
+<li>Added a model of the Mirobot: <em>Models/robots/non-mobile/Mirobot.ttm</em></li>
+<li>Added a model of a generic tray: <em>Models/equipment/generic tray.ttm</em></li>
+<li>Added a model of a generic external wall: <em>Models/infrastructure/walls/external wall.ttm</em></li>
 
 <br>
 <br>
@@ -839,7 +844,7 @@ scenes/movementViaRemoteApi.ttt</em>, <em>scenes/pControllerViaRemoteApi.ttt</em
 <br><h2>V-REP V2.6.0 (January 27th 2012)</h2> 
 <li>This release too underwent heavy internal changes in preparation for support of other platforms (Mac and Linux). Please inform us as soon as possible in case of unexpected behaviour with this release. Thanks!</li>
 <li>All dialogs and user interfaces have been completely rewritten/redesigned/reorganized. They now all rely on the <a href="http://www.qt.nokia.com">Qt framework</a></li>
-<li>The application main loop (i.e. the default <a href="mainClientApplication.htm">main client application</a>) has been simplified and prepared for separate GUI thread functionality. The rendering of the scene is now handled internally. Following functions were added: <a href="regularApi/simRunSimulator.htm">simRunSimulator</a>, <a href="regularApi/simGetMainWindow.htm">simGetMainWindow</a>, <a href="regularApi/simLoadModule.htm">sim.loadModule</a>, <a href="regularApi/simSendModuleMessage.htm">simSendModuleMessage</a>, <a href="regularApi/simUnloadModule.htm">sim.unloadModule</a>. Following functions were removed: simLaunchSimulator, simEndSimulator, simRenderScene, simHandleWindowMessages, simGetInstanceIndex, simGetVisibleInstanceIndex, simSwitchToInstance, simEmptyScene, simRegisterModuleName and simRegisterEventCallback.</li>
+<li>The application main loop (i.e. the default <a href="mainClientApplication.htm">main client application</a>) has been simplified and prepared for separate GUI thread functionality. The rendering of the scene is now handled internally. Following functions were added: <a href="regularApi/simRunSimulator.htm">simRunSimulator</a>, <a href="regularApi/simGetMainWindow.htm">simGetMainWindow</a>, <a href="regularApi/simLoadModule.htm">sim.loadModule</a>, <a href="regularApi/simUnloadModule.htm">sim.unloadModule</a>. Following functions were removed: simLaunchSimulator, simEndSimulator, simRenderScene, simHandleWindowMessages, simGetInstanceIndex, simGetVisibleInstanceIndex, simSwitchToInstance, simEmptyScene, simRegisterModuleName and simRegisterEventCallback.</li>
 <li>Added following values: <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_guipass</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_simulation_start_resume_request</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_simulation_pause_request</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_simulation_stop_request</a>, <a href="apiConstants.htm#integerParameters">sim.intparam_qt_version</a>, <a href="apiConstants.htm#floatingParameters">sim.floatparam_rand</a>. Following value is now also writable: <a href="apiConstants.htm#booleanParameters">sim.boolparam_console_visible</a></li>
 <li>Adjusted/adapted all V-REP plugins: since this release, <a href="plugins.htm">plugins</a> should dynamically bind to the V-REP library. The task is simplified with two files distributed with V-REP: &quot;simLib.h&quot; and &quot;simLib.cpp&quot;. This reduces compatibility problems linked to working with various compilers. Old plugins should be slightly modified: it is recommended to adjust old plugins in a similar way as was done for the "BubbleRob" plugin project, located in the "c_examples" directory of V-REP's installation directory. If you are having difficulties adjusting your plugin code, please contact us for assistance.</li>
 <li>Fixed a bug linked to the click-and-select functionality.</li>

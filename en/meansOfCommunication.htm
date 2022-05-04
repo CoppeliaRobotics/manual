@@ -25,9 +25,11 @@
 <li><a href="#customDataBlocks">custom data blocks</a></li>
 <li><a href="#pluginFunctions">calling plugin functions</a></li>
 <li><a href="#simCallScriptFunction">calling script functions</a></li>
+<li><a href="#simBroadcastMsg">broadcasting a message</a></li>
 
 <p><a name="external"></a>Data can also be exchanged with an external application, other computer, machine, etc., via:</p>
 <li><a href="#simCallScriptFunction">calling script functions</a></li>
+<li><a href="#simBroadcastMsg">broadcasting a message</a></li>
 <li><a href="remoteApiOverview.htm">Remote API</a></li>
 <li><a href="rosInterfaces.htm">ROS</a></li>
 <li><a href="#zmq">ZeroMQ</a></li>
@@ -129,6 +131,34 @@ simRegisterScriptCallbackFunction(&quot;simABC.func@ABC&quot;,&quot;string reply
 <li>from a <a href="#ros">ROS</a> client (via a callback mechanism)
 <li>or from a <a href="remoteApiOverview.htm">remote API</a> client</li>
 <p>The called script function can perform various tasks, then send back data to the caller. This is also a simple way to extend the functionality of an external application in a quick manner. It is however important that the called script doesn't perform lengthly tasks, otherwise everything will come to a halt (lengthly tasks should rather be triggered externally, and processed at an appropriate moment by the script itself when called from the regular <a href="file:///D:/coppeliaRobotics/helpFiles/en/callbackFunctions.htm">system callbacks</a>).</p>
+
+
+
+
+<br>
+
+
+<h2><a name="simBroadcastMsg"></a>Broadcasting messages
+</h2>
+
+
+<p>A <a href="scripts.htm">script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all scripts at once, via the <a href="regularApi/simBroadcastMsg.htm">sim.broadcastMsg</a> function. For instance, following will constantly broadcast a message to all scripts, including to itself:</p>
+<code class="hljs language-lua coppelia-coppeliasim-script">
+function sysCall_init()
+    scriptHandle=sim.getScriptInt32Param(sim.handle_self,sim.scriptintparam_handle)
+end
+
+function sysCall_sensing()
+    local message={id='greetingMessage',data={msg='Hello!'}}
+    sim.broadcastMsg(message)
+end
+
+function sysCall_msg(msg,origin)
+    if origin~=scriptHandle and msg.id=='greetingMessage' then
+        print(string.format("Received following message from script %i:",origin))
+        print(msg.data.msg)
+    end
+end</code>
 <br>
 
 
