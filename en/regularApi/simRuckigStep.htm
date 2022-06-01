@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simRuckigStep</title>
+<title>sim.ruckigStep</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -28,13 +28,13 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simRuckigStep(simInt handle,simDouble timeStep,simDouble* newPos,simDouble* newVel,simDouble* newAccel,simDouble* syncTime,simDouble* reserved1,simInt* reserved2)</td> 
+<td class=apiTableRightCSyn>simInt simRuckigStep(simInt handle,simDouble cycleTime,simDouble* newPos,simDouble* newVel,simDouble* newAccel,simDouble* syncTime,simDouble* reserved1,simInt* reserved2)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>handle</strong>: the handle of the object created via <a href="simRuckigPos.htm">simRuckigPos</a> or <a href="simRuckigVel.htm">simRuckigVel</a>.</div>
-<div><strong>timeStep</strong>: the cycle time</div>
+<div><strong>cycleTime</strong>: the cycle time or simulation step. Should always be a multiple of the base cycle time</div>
 <div><strong>newPos</strong>: the new position</div>
 <div><strong>newVel</strong>: the new velocity</div>
 <div><strong>newAccel</strong>: the new acceleration</div>
@@ -61,7 +61,7 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>int result,float[] newPosVelAccel,float synchronizationTime=sim.ruckigStep(int handle,float timeStep)
+<td class=apiTableRightLSyn>int result,float[] newPosVelAccel,float synchronizationTime=sim.ruckigStep(int handle,float cycleTime)
 <br>
 <br>
 
@@ -86,7 +86,7 @@ Lua<br>return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>int result,list newPosVelAccel,float synchronizationTime=sim.ruckigStep(int handle,float timeStep)</td>
+<td class=apiTableRightPSyn>int result,list newPosVelAccel,float synchronizationTime=sim.ruckigStep(int handle,float cycleTime)</td>
 </tr>
 
 </table> 

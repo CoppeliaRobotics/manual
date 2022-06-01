@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simRuckigVel</title>
+<title>sim.ruckigVel</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -28,13 +28,13 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simRuckigVel(simInt dofs,simDouble smallestTimeStep,simInt flags,const simDouble* currentPos,const simDouble* currentVel,const simDouble* currentAccel,const simDouble* maxAccel,const simDouble* maxJerk,const simBool* selection,const simDouble* targetVel,simDouble* reserved1,simInt* reserved2)</td> 
+<td class=apiTableRightCSyn>simInt simRuckigVel(simInt dofs,simDouble baseCycleTime,simInt flags,const simDouble* currentPos,const simDouble* currentVel,const simDouble* currentAccel,const simDouble* maxAccel,const simDouble* maxJerk,const simBool* selection,const simDouble* targetVel,simDouble* reserved1,simInt* reserved2)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>dofs</strong>: the number of degrees of freedom (n).</div>
-<div><strong>smallestTimeStep</strong>: the smallest expected cycle time. Use a value of 0.0001 (0.1ms).</div>
+<div><strong>baseCycleTime</strong>: the smallest expected cycle time. The cycle time should always be a multiple of baseCycleTime. Use a value of 0.0001 (0.1ms).</div>
 <div><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</div>
 <div><strong>currentPos</strong>: the current position (one value for each DoF)</div>
 <div><strong>currentVel</strong>: the current velocity (one value for each DoF)</div>
@@ -59,14 +59,14 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>int handle=sim.ruckigVel(int dofs,float smallestTimeStep,int flags,float[] currentPosVelAccel,float[] maxAccelJerk,int[] selection,float[] targetVel)
+<td class=apiTableRightLSyn>int handle=sim.ruckigVel(int dofs,float baseCycleTime,int flags,float[] currentPosVelAccel,float[] maxAccelJerk,int[] selection,float[] targetVel)
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
 <div><strong>dofs</strong>: the number of degrees of freedom (n).</div>
-<div><strong>smallestTimeStep</strong>: the smallest expected cycle time. Use a value of 0.0001 (0.1ms).</div>
+<div><strong>baseCycleTime</strong>: the smallest expected cycle time. The cycle time should always be a multiple of baseCycleTime. Use a value of 0.0001 (0.1ms).</div>
 <div><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</div>
 <div><strong>currentPosVelAccel</strong>: the current position, velocity and acceleration: {pos_1, ..., pos_n, vel_1, ..., vel_n, accel_1, ..., accel_n} (one value for each DoF)</div>
 <div><strong>maxAccelJerk</strong>: the maximum allowed acceleration and jerk: {maxA_1, ..., maxA_n, maxJ_1, ..., maxJ_n}. If sim.ruckig_minaccel is specified in flags, then maxAccelJerk should contain following additional values: {minA_1, ..., minA_n}</div>
@@ -86,7 +86,7 @@ Lua<br>return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>int handle=sim.ruckigVel(int dofs,float smallestTimeStep,int flags,list currentPosVelAccel,list maxAccelJerk,list selection,list targetVel)</td>
+<td class=apiTableRightPSyn>int handle=sim.ruckigVel(int dofs,float baseCycleTime,int flags,list currentPosVelAccel,list maxAccelJerk,list selection,list targetVel)</td>
 </tr>
 
 </table> 

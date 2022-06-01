@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Joint types and operation</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Joint modes</h1>
+
+
+<p>A joint can be in one of following 3 modes:
+</p>
+
+<li><strong>Kinematic mode</strong>: the joint operates in kinematic mode and is not handled by the <a href="dynamicsModule.htm">dynamics module</a>. It can instantaneously change its linear/angular position (via <a href="regularApi/simSetJointPosition.htm">sim.setJointPosition</a>), display a specific motion profile (via <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a> or <a href="regularApi/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a>), or be handled in a customized manner via a <a href="jointCallbackFunctions.htm">joint callback function</a></li>
+
+<li><strong>Dependent mode</strong>: the joint is directly dependent of another joint via a linear equation. The joint is not handled by the <a href="dynamicsModule.htm">dynamics module</a></li>
+
+<li><strong>Dynamic mode</strong>: the joint is handled by the <a href="dynamicsModule.htm">dynamics module</a>, if it forms with its connecting items a valid configuration, i.e. is <a href="designingDynamicSimulations.htm#dynamicallyEnabled">dynamically enabled</a>. In that case, it can be <a href="jointDynamicsProperties.htm">controlled in various modes</a></li>
+
+<br>
+
+<p>There are many different ways a joint can be controlled, depending on its joint mode and control mode, but one can differentiate between <a href="#high">high-level control</a> and <a href="#low">low-level control</a>: </p>
+<p><a name="high"></a><strong>High-level control</strong> is achieved mainly via specific API functions, such as <a href="regularApi/simSetJointPosition.htm">sim.setJointPosition</a>, <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a>, <a href="regularApi/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a> or <a href="regularApi/simSetJointTargetForce.htm">sim.setJointTargetForce</a>. Depending on the joint mode and control mode, not all functions make sense, e.g. calling sim.setJointTargetForce on a kinematic joint, or calling sim.setJointTargetPosition on a dynamic joint in velocity control</p>
+
+<p><a name="low"></a><strong>Low-level control</strong> is best implemented via a <a href="jointCallbackFunctions.htm">joint callback function</a> from within CoppeliaSim. In that case the joint should be in kinematic mode, or in dynamic mode and CoppeliaSim. The callback function will then constantly called by CoppeliaSim, in order to fetch new regulation values</p>
+
+
+<p><a href="jointCallbackFunctions.htm">Joint callback functions</a> are ideal for low-level control of a joint, since the controller will <em>regulate</em> the joint in each time step, i.e. skipping a regulation step for a low-level controller is not an option. For joints in kinematic mode the regulation time step is the same as the simulation time step (50 ms by default). Joints in dynamic mode on the other hand will use a much fined regulation time step as defined by the dynamics module (5 ms by default). </p>
+<p>In case of an external application wanting to perform low-level control of a joint, joint callback functions are not available, and so the external application should make sure that it will run synchronously with CoppeliaSim. This happens via the stepped mode, where the external application is in charge of explicitly triggerring each simulation step. Additionally, for a fine-grained control, the simulation time step should be the same as the dynamics module time step.</p>
+
+
+<br>
+<br>
+
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

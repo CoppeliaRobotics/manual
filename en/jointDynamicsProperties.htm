@@ -19,7 +19,7 @@
 
 <h1>Joint dynamics properties</h1>
 
-<p>The joint dynamics properties are part of the <a href="jointProperties.htm">joint properties</a>. Its dialog displays the dynamics settings and parameters of the last selected <a href="joints.htm">joint</a>. If no object is selected, the dialog is inactive. If more than one joint is selected, then some parameters can be copied from the last selected joint to the other selected joints (<strong>Apply to selection</strong>-buttons. Be aware that this however only has an effect between joints of same type or mode):<br>
+<p>The joint dynamics properties are part of the <a href="jointProperties.htm">joint properties</a>. Its dialog displays the dynamics settings and parameters of the last selected <a href="joints.htm">joint</a>. If no joint is selected, or the joint is not dynamic, then the dialog is inactive. If more than one joint is selected, then some parameters can be copied from the last selected joint to the other selected joints:<br>
 </p>
 <p align=center><img src="images/jointDynamicsProperties1.jpg"></p>
 <p class=imageLabel>[Joint dynamics dialog]</p>
@@ -29,39 +29,22 @@
 
 
 
+<p>Several control modes are supported:</p>
+
+<li><strong>Free</strong> <strong>(no control)</strong>: the joint is free, i.e. non-motorized</li>
+
+<li><strong>Force/torque control</strong>: the joint is controlled in force/torque, i.e. a constant force/torque is applied. Can be modulated with <a href="regularApi/simSetJointTargetForce.htm">sim.setJointTargetForce</a></li>
+
+<li><strong>Velocity control</strong>: the joint is controlled in velocity: the specified force/torque is applied until the desired velocity is reached. Can be modulated with <a href="regularApi/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a> and <a href="regularApi/simSetJointTargetForce.htm">sim.setJointTargetForce</a></li>
+
+<li><strong>Position control</strong>: the joint is controlled in position: the specified force/torque is applied and the velocity is modulated via a simple PID controller, until the target position/angle is reached. An upper velocity limit can be applied. Parameters can be adjusted with <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a>, <a href="regularApi/simSetJointTargetForce.htm">sim.setJointTargetForce</a> and <a href="regularApi/simSetObjectFloatParam.htm">sim.setObjectFloatParam</a></li>
+<p align=center><img src="images/jointDescription5.jpg"></p>
+
+<li><strong>Spring-damper control</strong>: the joint is controlled in position by modulating the exerted force/torque via a simple KC controller, trying to reach the zero displacement position/angle. Parameters can be adjusted with <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a>, <a href="regularApi/simSetJointTargetForce.htm">sim.setJointTargetForce</a> and <a href="regularApi/simSetObjectFloatParam.htm">sim.setObjectFloatParam</a></li>
+<p align=center><img src="images/jointDescription6.jpg"></p>
 
 
-<li><strong>Motor enabled</strong>: enables or disables the motor of the joint. If disabled, the joint is free. Available only if the joint is in torque/force mode.<br>
-</li>
-
-<li><strong>Target velocity</strong>: the target velocity for the joint motor. The target velocity will be instantaneously reached if the maximum torque/force is high enough; otherwise the target velocity is gradually approached.</li>
-<li><strong>Max. torque/force</strong>: the maximum torque or force at which the joint motor operates.</li>
-<li><strong>Lock motor when target velocity is zero</strong>: when the joint has its motor enabled and the control loop is disabled, then it acts in velocity control. When the target velocity is zero, then it may drift, since the torque/force will only act as internal friction. To avoid this, you can enable this item, which will lock the joint in position when its target velocity is set to zero.</li>
-
-<li><strong>Engine specific  properties</strong>: allows adjusting engine-specific parameters. Refer to the <a href="jointDynamicEngineProperties.htm">dynamics engines properties dialog related to joints</a>.<br>
-</li>
-
-
-
-
-<li><strong>Control loop enabled</strong>: enables or disables the joint control loop. By default, a built-in PID controller is used (see further down).
-</li>
-
-
-<li><strong>Target position</strong>: the desired joint target position.</li>
-
-<li><strong>Upper velocity limit</strong>: allows limiting the regulation velocity to a maximum value.</li>
-
-<li><strong>Position control (PID)</strong>: if enabled, then the joint will be controlled in position by modulating the joint velocity via the built-in PID controller.</li>
-
-<li><strong>Proportional / Integral / Derivative parameter</strong>: the PID position control parameters.</li>
-
-
-<li><strong>Spring-damper mode</strong>: if enabled, then the joint will be controlled in position by modulating the joint force/torque via the built-in spring-damper controller.</li>
-
-<li><strong>Spring constant K / Damping coefficient C</strong>: the spring-damper parameters.</li>
-
-
+<li><strong>Custom control</strong>: the joint calls a <a href="jointCallbackFunctions.htm">joint callback function</a> for control, where the user can decide of a force/torque and target velocity in a flexible way</li>
 <br>
 <br>
 

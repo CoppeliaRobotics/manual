@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the intrinsic target velocity of a non-spherical joint. This command makes only sense when the joint mode is torque/force mode: the dynamics functionality and the joint motor have to be enabled (position control should however be disabled). See also <a href="simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.<br></td>
+<td class=apiTableRightDescr>Sets the target linear/angular velocity of a non-spherical joint. When in kinematic mode, the joint will move according to a motion profile that respects maximum  acceleration and jerk values. In dynamic and velocity/custom control mode, the controller is instructed about the desired velocity. See also <a href="simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -34,8 +34,8 @@ C/C++<br>synopsis
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>objectHandle</strong>: handle of the joint object</div>
-<div><strong>targetVelocity</strong>: target velocity of the joint (linear or angular velocity depending on the joint-type). </div>
-<div></div></td> 
+<div><strong>targetVelocity</strong>: target velocity of the joint</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
@@ -49,13 +49,16 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>sim.setJointTargetVelocity(int objectHandle,float targetVelocity)</td> 
+<td class=apiTableRightLSyn>sim.setJointTargetVelocity(int objectHandle,float targetVelocity,float[2] maxAccelJerk={},float initVelocity=nil)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar to the C-function counterpart</div>
-<div></div></td> 
+<div><strong>objectHandle</strong>: handle of the joint object</div>
+<div><strong>targetVelocity</strong>: target velocity of the joint</div>
+<div><strong>maxAccelJerk</strong>: the maximum allowed acceleration and jerk, when in kinematic mode. Can be nil for default values. See also <a href="simGetObjectFloatParam.htm">sim.getObjectFloatParam</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxvel</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxjerk</a></div>
+<div><strong>initVelocity</strong>: an optional initial velocity, when in kinematic mode</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
@@ -71,7 +74,7 @@ Lua<br>return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>sim.setJointTargetVelocity(int objectHandle,float targetVelocity)</td>
+<td class=apiTableRightPSyn>sim.setJointTargetVelocity(int objectHandle,float targetVelocity,float[2] maxAccelJerk=[],float initVelocity=None)</td>
 </tr>
 
 </table> 

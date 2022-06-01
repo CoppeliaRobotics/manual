@@ -20,14 +20,40 @@
 <h1>Joints <img src="images/joints1.jpg"></h1>
 
 
-<p>A joint is an <a href="objects.htm">object</a> that has at least one intrinsic Degree of Freedom (DoF). Joints are used to build mechanisms and to move objects as can be seen in following figures:
+<p>A joint is an <a href="objects.htm">object</a> that allows for a relative movement between its parent and its child/children. When a parent-child relationship is built between a joint and an object, the object is attached to the joint's second reference frame, thus, a change of the joint's linear/angular position will directly be reflected onto its children. Joints can operate in different <a href="jointModes.htm">modes</a>. New joints can be added to a <a href="scenes.htm">scene</a> with [Menu bar --&gt; Add --&gt; Joints].
 </p>
 
 <p align=center><img src="images/joints2.jpg"></p>
-<p class=imageLabel>[Robotic manipulator (left) and visible joints/motor (right)]</p>
+<p class=imageLabel>[Robotic manipulator with highlighted joints]</p>
+
+
 <br>
 
-<p>Joints are added to the <a href="scenes.htm">scene</a> with [menu bar --&gt; Add --&gt; Joint]. Refer to the <a href="buildingAModelTutorial.htm#joints">joint section in the model creation tutorial</a>. </p>
+<p>4 types of joints are supported:</p>
+
+<p align=center><img src="images/jointDescription1.jpg"></p>
+<p class=imageLabel>[Revolute joint, prismatic joint, screw and spherical joint]</p>
+<br>
+
+<li><strong>Revolute joint</strong>: a revolute joint has one DoF and is used to describe a rotational movement between objects. The rotation happens about its reference frame's z-axis<br>
+</li>
+
+<li><strong>Prismatic joint</strong>: a prismatic joint has one DoF and is used to describe a translational movement between objects. The translation happens along its reference frame's z-axis<br>
+</li>
+
+<li><strong>Screw</strong>: a screw, which can be seen as a combination of a revolute and prismatic joint with linked values, has one DoF and is used to describe a movement similar to a screw. A pitch parameter defines the amount of translation for a given amount of rotation. The translation/rotation happens along/about its reference frame's z-axis<br>
+</li>
+
+<li><strong>Spherical joint</strong>: a spherical joint has three DoFs and is used to describe a rotational movement between objects. In some situations, a spherical joint can be thought of as 3 concurrent and orthogonal joints, that are parented in a hierarchy-chain. The analogy is however only valid while all revolute joints keep an orientation distinct from any of the other two: indeed, should two joints come close to coincide, a singular situation might appear and the mechanism will lose one DoF. This does never happen with spherical joints, which are internally handled to avoid this kind of situation: </li>
+
+<p align=center><img src="images/jointDescription2.jpg"></p>
+<p class=imageLabel>[Two equivalent mechanisms (in this configuration): spherical joint (left) and 3 revolute joints (right)]</p>
+<br>
+
+
+<p align=center><img src="images/jointDescription3.jpg"></p>
+<p class=imageLabel>[Two non-equivalent mechanisms: the right configuration is close to a singularity]</p>
+<br>
 
 
 <br>
