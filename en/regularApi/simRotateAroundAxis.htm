@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simRotateAroundAxis</title>
+<title>sim.rotateAroundAxis</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Rotates a transformation matrix around a random axis in space. This function, when used in combination with <a href="simGetRotationAxis.htm">sim.getRotationAxis</a>, can be used to build interpolations between transformation matrices. See also <a href="simGetObjectMatrix.htm">sim.getObjectMatrix</a>, <a href="simSetObjectMatrix.htm">sim.setObjectMatrix</a> and the other <a href="../apiFunctions.htm#coordinatesAndTransformations">matrix/transformation functions</a>.</td>
+<td class=apiTableRightDescr>Rotates a pose or transformation matrix around a random axis in space. This function, when used in combination with <a href="simGetRotationAxis.htm">sim.getRotationAxis</a>, can be used to build interpolations between poses or transformation matrices. See also the other <a href="../apiFunctions.htm#coordinatesAndTransformations">matrix/transformation functions</a></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -38,7 +38,7 @@ C/C++<br>synopsis
 <div><strong>axisPos</strong>: the position of the rotation axis in absolute coordinates</div>
 <div><strong>angle</strong>: the amount of rotation to perform</div>
 <div><strong>matrixOut</strong>: the returned transformed (rotated) matrix</div>
-<div></div></td> 
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
@@ -53,12 +53,15 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>float[12] matrixOut=sim.rotateAroundAxis(float[12] matrixIn,float[3] axis,float[3] axisPos,float angle)<br></td> 
+<td class=apiTableRightLSyn>float[7]/float[12] poseOut/matrixOut=sim.rotateAroundAxis(float[7]/float[12] poseIn/matrixIn,float[3] axis,float[3] axisPos,float angle)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar to the C-function counterpart</div>
+<div><strong>poseIn/matrixIn</strong>: the pose or transformation matrix to rotate</div>
+<div><strong>axis</strong>: the axis vector in absolute coordinates to rotate around</div>
+<div><strong>axisPos</strong>: the position of the rotation axis in absolute coordinates</div>
+<div><strong>angle</strong>: the amount of rotation to perform</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -66,14 +69,14 @@ Lua<br>synopsis
 Lua<br>return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>matrixOut</strong>: the transformed (rotated) matrix, or nil in case of an error</div>
+<div><strong>poseOut/matrixOut</strong>: the transformed (rotated) pose/matrix</div>
 </td> 
 </tr> 
 
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>list matrixOut=sim.rotateAroundAxis(list matrixIn,list axis,list axisPos,float angle)</td>
+<td class=apiTableRightPSyn>list poseOut/matrixOut=sim.rotateAroundAxis(list poseIn/matrixIn,list axis,list axisPos,float angle)</td>
 </tr>
 
 </table> 

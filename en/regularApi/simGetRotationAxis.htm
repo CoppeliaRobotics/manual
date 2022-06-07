@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simGetRotationAxis</title>
+<title>sim.getRotationAxis</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Retrieves an axis and rotation angle that brings one transformation matrix onto another one. The translation part of the transformation matrices is ignored. This function, when used in combination with <a href="simRotateAroundAxis.htm">sim.rotateAroundAxis</a>, can be used to build interpolations between transformation matrices. See also <a href="simGetObjectMatrix.htm">sim.getObjectMatrix</a>, <a href="simSetObjectMatrix.htm">sim.setObjectMatrix</a> and the other <a href="../apiFunctions.htm#coordinatesAndTransformations">matrix/transformation functions</a>.</td>
+<td class=apiTableRightDescr>Retrieves an axis and rotation angle that brings one pose or transformation matrix onto another one. The translation part of the poses/matrices is ignored. This function, when used in combination with <a href="simRotateAroundAxis.htm">sim.rotateAroundAxis</a>, can be used to build interpolations between transformation matrices. See also the other <a href="../apiFunctions.htm#coordinatesAndTransformations">matrix/transformation functions</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -52,12 +52,13 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>float[3] axis,float angle=sim.getRotationAxis(float[12] matrixStart,float[12] matrixGoal)<br></td> 
+<td class=apiTableRightLSyn>float[3] axis,float angle=sim.getRotationAxis(float[7]/float[12] poseStart/matrixStart,float[7]/float[12] poseGoal/matrixGoal)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
-<div>Similar to the C-function counterpart</div>
+<div><strong>poseStart/matrixStart</strong>: the <em>start</em> pose or transformation matrix</div>
+<div><strong>poseGoal/matrixGoal</strong>: the <em>goal</em> pose or transformation matrix</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -73,7 +74,7 @@ Lua<br>return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>list axis,float angle=sim.getRotationAxis(list matrixStart,list matrixGoal)</td>
+<td class=apiTableRightPSyn>list axis,float angle=sim.getRotationAxis(list poseStart/matrixStart,list poseGoal/matrixGoal)</td>
 </tr>
 
 </table> 
