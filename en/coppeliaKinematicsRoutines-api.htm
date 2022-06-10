@@ -571,7 +571,7 @@ td.section { margin: 0; padding: 0; }
 <div><strong>validationCallback</strong>: a callback function taking as input argument the proposed joint values (i.e. a configuration), and as return value whether the configuration is valid (e.g. is not colliding).</div>
 <div><strong>jointOptions</strong>: a bit-coded value corresponding to each specified joint handle. Bit 0 (i.e. 1) indicates the corresponding joint is dependent of another joint.</div>
 <div><strong>lowLimits</strong>: an optional array pointing to different low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
-<div><strong>ranges</strong>: an optional array pointing to different range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals. If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current joint position, with an extent of (-range).</div>
+<div><strong>ranges</strong>: an optional array pointing to different range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals. If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current joint linear/angular position, with an extent of (-range).</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -872,8 +872,8 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>jointHandle</strong>: the handle of the joint.</div>
 <div><strong>dependencyJointHandle</strong>: the handle of the dependency joint, in return.</div>
-<div><strong>offset</strong>: the offset, in return. We have joint position = dependency joint position * mult + offset.</div>
-<div><strong>mult</strong>: the multiplication factor, in return. We have joint position = dependency joint position * mult + offset.</div>
+<div><strong>offset</strong>: the offset, in return. We have joint linear/angular position = dependency joint linear/angular position * mult + offset.</div>
+<div><strong>mult</strong>: the multiplication factor, in return. We have joint linear/angular position = dependency joint linear/angular position * mult + offset.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1019,7 +1019,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>jointHandle</strong>: the handle of the joint.</div>
-<div><strong>mode</strong>: the joint mode, in return. Possible values are: ik_jointmode_passive, ik_jointmode_ik, ik_jointmode_dependent, ik_jointmode_force</div>
+<div><strong>mode</strong>: the joint mode, in return. Possible values are: ik_jointmode_passive, ik_jointmode_ik, ik_jointmode_dependent</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1729,8 +1729,8 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>jointHandle</strong>: the handle of the joint.</div>
 <div><strong>dependencyJointHandle</strong>: the handle of the joint, this joint is dependent of. -1 to disable.</div>
-<div><strong>offset</strong>: the offset. We have joint position = dependency joint position * mult + offset</div>
-<div><strong>mult</strong>: the multiplication factor. We have joint position = dependency joint position * mult + offset</div>
+<div><strong>offset</strong>: the offset. We have joint linear/angular position = dependency joint linear/angular position * mult + offset</div>
+<div><strong>mult</strong>: the multiplication factor. We have joint linear/angular position = dependency joint linear/angular position * mult + offset</div>
 </td>
 </tr>
 <tr class="apiTableTr">
