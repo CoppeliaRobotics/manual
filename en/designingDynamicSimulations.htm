@@ -34,7 +34,6 @@
 <p align=center><img src="images/dynamicsDesign2.jpg"></p>
 <p class=imageLabel>[Warning icon when an object cannot be dynamically simulated]</p>
 <br>
-<br>
 
 
 <h2>
@@ -42,7 +41,7 @@
 </h2>
 
 <p>
-<a href="shapes.htm">Shapes</a> can be classified into 4 groups depending on their behavior during dynamic simulation: </p>
+<a href="shapes.htm">Shapes</a> can be classified into 4 types depending on their behavior during dynamic simulation: </p>
 
 
 <p align=center><img src="images/dynamicsDesign3.jpg"></p>
@@ -61,73 +60,42 @@
 </p>
 
 <br>
-<br>
 
 <h2>
-<a name="dynamicallyEnabled"></a>Dynamically enabled joints/force sensors
+<a name="dynamicallyEnabled"></a><a name="constraints"></a>Simple constraints between shapes or force sensors
 </h2>
 
 
-<p>Non-static shapes will fall (i.e. be influenced by gravity) if they are not otherwise constrained. Dynamic constraints between shapes can be set-up by attaching two shapes together with a <em>dynamically enabled</em> <a href="joints.htm">joint</a> or with a <em>dynamically enabled</em> <a href="forceSensors.htm">force sensor</a>. <br>
-</p>
-
-<li><strong><a name="dynamicallyEnabledJoints"></a>Dynamically enabled joints</strong> are joints that are in force or torque mode, and that have a shape as parent object and exactly one child object which must be a non-static shape.  In addition, it is possible to involve a joint in a <em>loop closure configuration</em>. In that case the joint has to connect to the two shapes through a <a href="dummies.htm">dummy</a>-dummy link (where the link type has to be <strong>Dynamics, overlap constraint</strong>). For dummy-dummy links, refer to the <a href="dummyPropertiesDialog.htm">dummy properties</a>.<br>
-</li>
-
-<li><strong><a name="dynamicallyEnabledForceSensors"></a>Dynamically enabled force sensors</strong> are force sensors that have a shape as parent object and exactly one child object which must be a non-static shape.  In addition, it is possible to involve a force sensor in a <em>loop closure configuration</em>. In that case the force sensor has to connect to the two shapes through a <a href="dummies.htm">dummy</a>-dummy link (where the link type has to be <strong>Dynamics, overlap constraint</strong>). For dummy-dummy links, refer to the <a href="dummyPropertiesDialog.htm">dummy properties</a>.<br>
-</li>
-
-<p>Following figure shows the valid situations where a joint or force sensor is considered to be dynamically enabled (given that the joint/force sensor and the two shapes are located in a <a href="models.htm">model</a> that is dynamically simulated, which is the default case):<br>
-</p>
+<p>Non-static shapes will fall (i.e. be influenced by gravity) if they are not otherwise constrained. Dynamic constraints between shapes can be set-up by attaching two shapes together via a <em>dynamically enabled</em> <a href="joints.htm">joint</a>, a <em>dynamically enabled</em> <a href="forceSensors.htm">force sensor</a>, or via a <a href="dummies.htm">dummy</a>-dummy <a href="#overlap">dynamic overlap constraint</a>. </p>
+<p>Following represent a simple constraint between two shapes:</p>
 
 <p align=center><img src="images/dynamicsDesign5.jpg"></p>
-<p class=imageLabel>[Valid <em>dynamically enabled joint</em> or <em>dynamically enabled force sensor</em> situations]</p>
+<p class=imageLabel>[Dynamically enabled joint or force sensor]</p>
 <br>
+
+<p>Above joint is considered to be dynamically enabled.</p>
+<br>
+
+<h2>
+<a name="loop"></a><a name="overlap"></a>Loop closures and other constraints
+</h2>
+
+
+<p>Sometimes a mechanism displays loops, e.g. in parallel machines, and other times additional rigid constraints between shapes are required. In those situations, special dummy-dummy <em>dynamic overlap constraints</em> can be introduced: </p>
 
 <p align=center><img src="images/dynamicsDesign6.jpg"></p>
-<p class=imageLabel>[Example of valid <em>dynamically enabled joint</em> situations]</p>
+<p class=imageLabel>[Dynamic overlap constraint involving a joint or force sensor]</p>
 <br>
 
-<p>It is very important that you follow above guidelines in order to obtain dynamically enabled joints or force sensors. During simulation, if CoppeliaSim discovers force sensors that are not dynamically enabled, it will display a small warning icon next to its alias in the scene <a href="userInterface.htm#SceneHierarchy">hierarchy view</a>. The same happens to joints in dynamic mode, and that are not dynamically enabled.<br>
-</p>
-
-<p>Following are a few example situations where a joint won't be dynamically enabled:<br>
-</p>
-
-<li>
-the joint is not in force or torque mode.
-</li>
-
-<li>
-the joint's parent is not a shape.
-</li>
-
-<li>
-the joint has more than one child object.
-</li>
-
-<li>
-the joint directly connects to another joint.
-</li>
-
-<li>the joint (or one of the two shapes it connects) is located in a <a href="models.htm">model</a> (hierarchy tree) that is not dynamically simulated (refer to the <a href="modelDialog.htm">model dialog</a> to learn more about how to disable dynamic simulation for a specific model).</li>
-
-<p>Following are a few example situations where a force sensor won't be dynamically enabled:<br>
-</p>
-
-
-<li>
-the force sensor's parent is not a shape.
-</li>
-
-<li>
-the force sensor has more than one child object.
-</li>
-
-<li>the force sensor (or one of the two shapes it connects) is located in a <a href="models.htm">model</a> (hierarchy tree) that is not dynamically simulated (refer to the <a href="modelDialog.htm">model dialog</a> to learn more about how to disable dynamic simulation for a specific model).</li>
-
+<p>Above joint is also considered to be dynamically enabled. </p>
+<p>Following represents a rigid constraint between two shapes, that do not have to be in the same hierarchy tree/branch:</p>
 <br>
+
+<p align=center><img src="images/dynamicsDesign8.jpg"></p>
+<p class=imageLabel>[Dynamic overlap constraint, that rigidly binds two shapes]</p>
 <br>
+
+
 <h2>
 <a name="rigidCompounds"></a>Rigid compounds
 </h2>
@@ -140,26 +108,8 @@ the force sensor has more than one child object.
 <p class=imageLabel>[Compound of several non-static shapes to obtain a single non-static shape]</p>
 <br>
 
-<p>Compound shapes will behave as a rigid entity and also share identical dynamic properties (e.g. friction coefficient). Sometimes a rigid entity with differentiated dynamic properties is needed. In that case, shapes will have to be rigidly linked via a force sensor. The rigidity of that construction is not as strong as a compound shape, but works well for most cases:</p>
+<p>Compound shapes will behave as a rigid entity and also share identical dynamic properties (e.g. friction coefficient). Sometimes a rigid entity with differentiated dynamic properties is needed. In that case, shapes can be rigidly linked via a force sensor.</p>
 
-<p align=center><img src="images/forceSensorRigidLink.jpg"></p>
-<p class=imageLabel>[Rigid link between two shapes]</p>
-<br>
-
-<p align=center><img src="images/forceSensorLinkExample.jpg"></p>
-<p class=imageLabel>[Example of a rigid link between two shapes]</p>
-<br>
-
-
-<p>A similar result can be obtained by having  two shapes  linked via two linked dummies. The link type of the two dummies has to be <strong>Dynamics, overlap constraint</strong> (refer to the <a href="dummyPropertiesDialog.htm">dummy properties</a>). During dynamic simulation, the two linked dummies will try to adopt an identical position and orientation. Following figure shows valid rigid loop closure constraints for dynamic simulation:<br>
-</p>
-
-<p align=center><img src="images/dynamicsDesign8.jpg"></p>
-<p class=imageLabel>[Valid rigid loop closure constraints]</p>
-<br>
-
-<p align=center><img src="images/dynamicsDesign9.jpg"></p>
-<p class=imageLabel>[Example of valid rigid loop closure constraint]</p>
 <br>
 
 

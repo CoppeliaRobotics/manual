@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Sets the target linear/angular velocity of a non-spherical joint. When in kinematic mode, the joint will move according to a motion profile that respects maximum  acceleration and jerk values. In dynamic and velocity/custom control mode, the controller is instructed about the desired velocity. See also <a href="simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.<br></td>
+<td class=apiTableRightDescr>Sets the target linear/angular velocity of a non-spherical joint. When in kinematic mode, the joint will move according to a motion profile that respects maximum  acceleration and jerk values. In dynamic and velocity control mode, the controller is instructed about the desired velocity. See also <a href="simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.<br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -49,15 +49,14 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>sim.setJointTargetVelocity(int objectHandle,float targetVelocity,float[2] maxAccelJerk={},float initVelocity=nil)</td> 
+<td class=apiTableRightLSyn>sim.setJointTargetVelocity(int objectHandle,float targetVelocity,float[] motionParams={})</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
 <div><strong>objectHandle</strong>: handle of the joint object</div>
 <div><strong>targetVelocity</strong>: target velocity of the joint</div>
-<div><strong>maxAccelJerk</strong>: the maximum allowed acceleration and jerk, when in kinematic mode. Can be nil for default values. See also <a href="simGetObjectFloatParam.htm">sim.getObjectFloatParam</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxvel</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxjerk</a></div>
-<div><strong>initVelocity</strong>: an optional initial velocity, when in kinematic mode</div>
+<div><strong>motionParams</strong>: when the joint is in kinematic mode: the maximum allowed acceleration and jerk. When in dynamic mode with motion profile control enabled: the maximum allowed acceleration and jerk. Can be nil for default values. See also <a href="simGetObjectFloatParam.htm">sim.getObjectFloatParam</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxvel</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxjerk</a></div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -74,7 +73,7 @@ Lua<br>return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>sim.setJointTargetVelocity(int objectHandle,float targetVelocity,float[2] maxAccelJerk=[],float initVelocity=None)</td>
+<td class=apiTableRightPSyn>sim.setJointTargetVelocity(int objectHandle,float targetVelocity,float[] motionParams=[])</td>
 </tr>
 
 </table> 
