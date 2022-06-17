@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Positions, orientations & transformations</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>On positions, orientations & transformations</h1>
+
+
+<p>In CoppeliaSim there are many different ways to <a href="apiFunctions.htm#transformations">get, set, or work with positions &amp; orientations</a>. Following nomenclature is used throughout this user manual:</p>
+<li>Position: three coordinates (x,y,z), representing a position in 3D space. The position can be absolute (i.e. relative to the world frame), or relative to a specific frame.</li>
+<li>Orientation: an orientation in 3D space, that can be specified as <em><a href="#euler">Euler angles</a></em>, a <em><a href="#quaternion">quaternion</a></em>, or a <em><a href="#rotation">rotation matrix</a></em>. The orientation can be absolute (i.e. relative to the world frame), or relative to a specific frame.</li>
+<li>Reference frame: also referred to as simply <em>transformation</em> or <em>frame</em>, it represents a position and orientation in 3D space. It can be specified as a <a href="#transformation">transformation matrix</a>, a <a href="#pose">pose</a>, or as a position and orientation. A reference frame can be absolute (i.e. relative to the world frame), or relative to another reference frame.</li>
+
+<br>
+<h2><a name="euler"></a>Euler angles</h2>
+<p> The <a href="http://en.wikipedia.org/wiki/Euler_angles" target="_blank">Euler angles</a> are three angles that describe a rotation, the orientation of a rigid body, or the orientation of a frame. There are twelve different conventions when talking about Euler angles. They can be grouped into <strong>Proper Euler angles</strong>, and <strong>Tait-Bryan angles</strong> where the latter represents rotations about three distinct axes. In CoppeliaSim, <strong>Tait-Bryan angles</strong> <em>alpha</em>, <em>beta</em> and <em>gamma</em> (or (a,b,g)) are used, describing a rotation composed by three elemental rotations:</p>
+<p align=center><img src="images/eulerAngles.jpg"></p>
+<p class=imageLabel>[Euler angles convention in CoppeliaSim]</p>
+<br>
+
+<p>where Rz, Ry and Rx represent elemental rotations about axes Z, Y and X respectively (in that order), of the <strong>absolute</strong> reference frame.</p>
+<p>For a rigid body, or <a href="objects.htm">scene object</a>, you can obtain the same transformation if you rotate it in following order about its <strong>own</strong> reference frame: rotation of <em>alpha</em> about own x, followed by a rotation of <em>beta</em> about own y, followed by a rotation of <em>gamma</em> about own z.</p>
+<p><strong>Yaw-Pitch-Roll</strong> are also <strong>Tait-Bryan angles</strong> describing a rotation composed by three elemental rotations:</p>
+
+<p align=center><img src="images/yawPitchRollAngles.jpg"></p>
+<p class=imageLabel>[Yaw-Pitch-Roll rotations]</p>
+<br>
+
+<p>where Rx, Ry and Rz represent elemental rotations about axes X, Y and Z respectively (in that order), of the <strong>absolute</strong> reference frame.</p>
+
+<p>Use following API functions to convert between <em>alpha-beta-gamma</em> angles and <em>yaw-pitch-roll</em> angles:</p>
+<li><a href="regularApi/simYawPitchRollToAlphaBetaGamma.htm">sim.yawPitchRollToAlphaBetaGamma</a></li>
+<li><a href="regularApi/simAlphaBetaGammaToYawPitchRoll.htm">sim.alphaBetaGammaToYawPitchRoll</a></li>
+
+
+<br>
+<h2><a name="quaternion"></a>Quaternions</h2>
+<p> <a href="https://en.wikipedia.org/wiki/Quaternion" target="_blank">Quaternions</a> are four values that uniquely describe a rotation, the orientation of a rigid body, or the orientation of a frame. They are superior to Euler angles in several ways (e.g. no gimbal lock), but are more difficult to understand and construct. For that reason they are never used in user interfaces, but preferred when working with orientations in code. In CoppeliaSim, quaternions are expressed as a 4-element table: (Qx,Qy,Qz,Qw). Following API functions can be used to convert between quaternions, Euler angles and matrices:</p>
+<li><a href="regularApi/simBuildPose.htm">sim.buildPose</a></li>
+<li><a href="regularApi/simBuildMatrixQ.htm">sim.buildMatrixQ</a></li>
+
+<br>
+<h2><a name="rotation"></a>Rotation matrices</h2>
+<p> A <a href="https://en.wikipedia.org/wiki/Rotation_matrix" target="_blank">rotation matrix</a> is a 3x3 matrix that describes a rotation, the orientation of a rigid body, or the orientation of a frame:</p>
+<p align=center><img src="images/matrix3x3.jpg"></p>
+<p class=imageLabel>[Rotation matrix in 3D space]</p>
+<br>
+
+<p>In above matrix, unit vectors (Xx,Xy,Xz), (Yx,Yy,Yz) and (Zx,Zy,Zz) represent the reference frame's axis X, Y and Z respectively. In CoppeliaSim, rotation matrices are expressed as a 9-element table in row-major order: (Xx,Yx,Zx,Xy,Yy,Zy,Xz,Yz,Zz). See also following API functions related to rotation matrices:</p>
+
+<li><a href="regularApi/simBuildMatrix.htm">sim.buildMatrix</a></li>
+<li><a href="regularApi/simBuildMatrixQ.htm">sim.buildMatrixQ</a></li>
+<li><a href="regularApi/simGetEulerAnglesFromMatrix.htm">sim.getEulerAnglesfromMatrix</a></li>
+<li><a href="regularApi/simGetQuaternionFromMatrix.htm">sim.getQuaternionFromMatrix</a></li>
+<li><a href="regularApi/simGetRotationAxis.htm">sim.getRotationAxis</a></li>
+<li><a href="regularApi/simRotateAroundAxis.htm">sim.rotateAroundAxis</a></li>
+
+
+<h2><a name="transformation"></a>Transformation matrices</h2>
+<p> A <a href="https://en.wikipedia.org/wiki/Transformation_matrix" target="_blank">transformation matrix</a> is a 4x4 matrix that describes a frame-frame transformation in 3D space. The first 3x3 elements of the matrix represent a <a href="#rotation">rotation matrix</a>:</p>
+<p align=center><img src="images/matrix4x4.jpg"></p>
+<p class=imageLabel>[Transformation matrix in 3D space]</p>
+<br>
+
+<p>In CoppeliaSim, transformation matrices are expressed as a 12-element table in row-major order (the last row is omitted): (Xx,Yx,Zx,X,Xy,Yy,Zy,Y,Xz,Yz,Zz,Z). See also following API functions related to rotation matrices:</p>
+
+<li><a href="regularApi/simBuildMatrix.htm">sim.buildMatrix</a></li>
+<li><a href="regularApi/simBuildMatrixQ.htm">sim.buildMatrixQ</a></li>
+<li><a href="regularApi/simGetEulerAnglesFromMatrix.htm">sim.getEulerAnglesfromMatrix</a></li>
+<li><a href="regularApi/simGetQuaternionFromMatrix.htm">sim.getQuaternionFromMatrix</a></li>
+<li><a href="regularApi/simGetRotationAxis.htm">sim.getRotationAxis</a></li>
+<li><a href="regularApi/simRotateAroundAxis.htm">sim.rotateAroundAxis</a></li>
+<li><a href="regularApi/simMultiplyMatrices.htm">sim.multiplyMatrices</a></li>
+<li><a href="regularApi/simMultiplyVector.htm">sim.multiplyVector</a></li>
+<li><a href="regularApi/simInterpolateMatrices.htm">sim.interpolateMatrices</a></li>
+<li><a href="regularApi/simInvertMatrix.htm">sim.invertMatrix</a></li>
+
+<br>
+<h2><a name="pose"></a>Poses</h2>
+<p> <a href="https://en.wikipedia.org/wiki/Pose_(computer_vision)" target="_blank">Poses</a> are values that describe a frame transformation in 3D space. In CoppeliaSim, poses are expressed as a 7-element table: (X,Y,Z,Qx,Qy,Qz,Qw), i.e. a position followed by a quaternion. See also following API functions related to poses:</p>
+<li><a href="regularApi/simGetQuaternionFromMatrix.htm">sim.getQuaternionFromMatrix</a></li>
+<li><a href="regularApi/simMultiplyMatrices.htm">sim.multiplyMatrices</a></li>
+<li><a href="regularApi/simMultiplyVector.htm">sim.multiplyVector</a></li>
+
+
+
+
+<br>
+<br>
+
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>
