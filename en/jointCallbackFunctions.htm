@@ -59,47 +59,51 @@ function <strong>sysCall_jointCallback</strong>(inData)
     -- inData.force : the joint force/torque, as set via sim.setJointTargetForce
     -- inData.velUpperLimit : the joint velocity upper limit
 
-    if inData.first then
-        PID_P=0.1
-        PID_I=0
-        PID_D=0
-        pidCumulativeErrorForIntegralParam=0
-    end
+    if inData.mode==sim.jointmode_dynamic then
+        -- Simple PID control example:
+        
+        if inData.first then
+            PID_P=0.1
+            PID_I=0
+            PID_D=0
+            pidCumulativeErrorForIntegralParam=0
+        end
+        
+        -- The control happens here:
+        -- 1. Proportional part:
+        local ctrl=inData.errorValue*PID_P
+        
+        -- 2. Integral part:
+        if PID_I~=0 then
+            pidCumulativeErrorForIntegralParam=pidCumulativeErrorForIntegralParam+inData.errorValue*inData.dynStepSize
+        else
+            pidCumulativeErrorForIntegralParam=0
+        end
+        ctrl=ctrl+pidCumulativeErrorForIntegralParam*PID_I
+        
+        -- 3. Derivative part:
+        if not inData.first then
+            ctrl=ctrl+(inData.errorValue-pidLastErrorForDerivativeParam)*PID_D/inData.dynStepSize
+        end
+        pidLastErrorForDerivativeParam=inData.errorValue
+        
+        -- 4. Calculate the velocity needed to reach the position in one dynamic time step:
+        local maxVelocity=ctrl/inData.dynStepSize -- max. velocity allowed.
+        if (maxVelocity&gt;inData.velUpperLimit) then
+            maxVelocity=inData.velUpperLimit
+        end
+        if (maxVelocity&lt;-inData.velUpperLimit) then
+            maxVelocity=-inData.velUpperLimit
+        end
+        local forceOrTorqueToApply=inData.maxForce -- the maximum force/torque that the joint will be able to exert
     
-    -- The control happens here:
-    -- 1. Proportional part:
-    local ctrl=inData.errorValue*PID_P
-    
-    -- 2. Integral part:
-    if PID_I~=0 then
-        pidCumulativeErrorForIntegralParam=pidCumulativeErrorForIntegralParam+inData.errorValue*inData.dynStepSize
-    else
-        pidCumulativeErrorForIntegralParam=0
+        -- 5. Following data must be returned to CoppeliaSim:
+        firstPass=false
+        local outData={}
+        outData.velocity=maxVelocity
+        outData.force=forceOrTorqueToApply
+        return outData
     end
-    ctrl=ctrl+pidCumulativeErrorForIntegralParam*PID_I
-    
-    -- 3. Derivative part:
-    if not inData.first then
-        ctrl=ctrl+(inData.errorValue-pidLastErrorForDerivativeParam)*PID_D/inData.dynStepSize
-    end
-    pidLastErrorForDerivativeParam=inData.errorValue
-    
-    -- 4. Calculate the velocity needed to reach the position in one dynamic time step:
-    local maxVelocity=ctrl/inData.dynStepSize -- max. velocity allowed.
-    if (maxVelocity&gt;inData.velUpperLimit) then
-        maxVelocity=inData.velUpperLimit
-    end
-    if (maxVelocity&lt;-inData.velUpperLimit) then
-        maxVelocity=-inData.velUpperLimit
-    end
-    local forceOrTorqueToApply=inData.maxForce -- the maximum force/torque that the joint will be able to exert
-
-    -- 5. Following data must be returned to CoppeliaSim:
-    firstPass=false
-    local outData={}
-    outData.velocity=maxVelocity
-    outData.force=forceOrTorqueToApply
-    return outData
     
     -- Expected return data:
     -- For kinematic joints:
