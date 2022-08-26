@@ -51,7 +51,8 @@
 <h2><a name="quaternion"></a>Quaternions</h2>
 <p> <a href="https://en.wikipedia.org/wiki/Quaternion" target="_blank">Quaternions</a> are four values that uniquely describe a rotation, the orientation of a rigid body, or the orientation of a frame. They are superior to Euler angles in several ways (e.g. no gimbal lock), but are more difficult to understand and construct. For that reason they are never used in user interfaces, but preferred when working with orientations in code. In CoppeliaSim, quaternions are expressed as a 4-element table: (Qx,Qy,Qz,Qw), where (Qx,Qy,Qz) is the rotation axis unit vector multiplied by sin(angle/2),  and Qw is cos(angle/2), where angle is the rotation angle. Following API functions can be used to convert between quaternions, Euler angles and matrices:</p>
 <li><a href="regularApi/simBuildPose.htm">sim.buildPose</a></li>
-<li><a href="regularApi/simBuildMatrixQ.htm">sim.buildMatrixQ</a></li>
+<li><a href="regularApi/simPoseToMatrix.htm">sim.poseToMatrix</a></li>
+<li><a href="regularApi/simMatrixToPose.htm">sim.matrixToPose</a></li>
 
 <br>
 <h2><a name="rotation"></a>Rotation matrices</h2>
@@ -63,9 +64,8 @@
 <p>In above matrix, unit vectors (Xx,Xy,Xz), (Yx,Yy,Yz) and (Zx,Zy,Zz) represent the reference frame's axis X, Y and Z respectively. In CoppeliaSim, rotation matrices are expressed as a 9-element table in row-major order: (Xx,Yx,Zx,Xy,Yy,Zy,Xz,Yz,Zz). See also following API functions related to rotation matrices:</p>
 
 <li><a href="regularApi/simBuildMatrix.htm">sim.buildMatrix</a></li>
-<li><a href="regularApi/simBuildMatrixQ.htm">sim.buildMatrixQ</a></li>
+<li><a href="regularApi/simPoseToMatrix.htm">sim.poseToMatrix</a></li>
 <li><a href="regularApi/simGetEulerAnglesFromMatrix.htm">sim.getEulerAnglesfromMatrix</a></li>
-<li><a href="regularApi/simGetQuaternionFromMatrix.htm">sim.getQuaternionFromMatrix</a></li>
 <li><a href="regularApi/simGetRotationAxis.htm">sim.getRotationAxis</a></li>
 <li><a href="regularApi/simRotateAroundAxis.htm">sim.rotateAroundAxis</a></li>
 
@@ -79,9 +79,9 @@
 <p>In CoppeliaSim, transformation matrices are expressed as a 12-element table in row-major order (the last row is omitted): (Xx,Yx,Zx,X,Xy,Yy,Zy,Y,Xz,Yz,Zz,Z). See also following API functions related to rotation matrices:</p>
 
 <li><a href="regularApi/simBuildMatrix.htm">sim.buildMatrix</a></li>
-<li><a href="regularApi/simBuildMatrixQ.htm">sim.buildMatrixQ</a></li>
+<li><a href="regularApi/simPoseToMatrix.htm">sim.poseToMatrix</a></li>
+<li><a href="regularApi/simMatrixToPose.htm">sim.matrixToPose</a></li>
 <li><a href="regularApi/simGetEulerAnglesFromMatrix.htm">sim.getEulerAnglesfromMatrix</a></li>
-<li><a href="regularApi/simGetQuaternionFromMatrix.htm">sim.getQuaternionFromMatrix</a></li>
 <li><a href="regularApi/simGetRotationAxis.htm">sim.getRotationAxis</a></li>
 <li><a href="regularApi/simRotateAroundAxis.htm">sim.rotateAroundAxis</a></li>
 <li><a href="regularApi/simMultiplyMatrices.htm">sim.multiplyMatrices</a></li>
@@ -92,11 +92,15 @@
 <br>
 <h2><a name="pose"></a>Poses</h2>
 <p> <a href="https://en.wikipedia.org/wiki/Pose_(computer_vision)" target="_blank">Poses</a> are values that describe a frame transformation in 3D space. In CoppeliaSim, poses are expressed as a 7-element table: (X,Y,Z,Qx,Qy,Qz,Qw), i.e. a position followed by a quaternion. See also following API functions related to poses:</p>
-<li><a href="regularApi/simGetQuaternionFromMatrix.htm">sim.getQuaternionFromMatrix</a></li>
-<li><a href="regularApi/simMultiplyMatrices.htm">sim.multiplyMatrices</a></li>
+<li><a href="regularApi/simBuildPose.htm">sim.buildPose</a></li>
+<li><a href="regularApi/simPoseToMatrix.htm">sim.poseToMatrix</a></li>
+<li><a href="regularApi/simMatrixToPose.htm">sim.matrixToPose</a></li>
+<li><a href="regularApi/simGetRotationAxis.htm">sim.getRotationAxis</a></li>
+<li><a href="regularApi/simRotateAroundAxis.htm">sim.rotateAroundAxis</a></li>
+<li><a href="regularApi/simMultiplyPoses.htm">sim.multiplyPoses</a></li>
 <li><a href="regularApi/simMultiplyVector.htm">sim.multiplyVector</a></li>
-
-
+<li><a href="regularApi/simInterpolatePoses.htm">sim.interpolatePoses</a></li>
+<li><a href="regularApi/simInvertPose.htm">sim.invertPose</a></li>
 
 
 <br>

@@ -464,7 +464,7 @@ See also the <a href="#scriptAttributes">script attributes</a>.
 <div class="sim.handleflag_resettorque">sim.handleflag_resettorque</div>
 <div class="sim.handleflag_absolutecoords">sim.handleflag_absolutecoords</div>
 <div class="sim.handleflag_relativecoords">sim.handleflag_relativecoords</div>
-<div class="sim.handleflag_wxyzquaternion">sim.handleflag_wxyzquaternion</div>
+<div class="sim.handleflag_wxyzquat">sim.handleflag_wxyzquat</div>
 <div class="sim.handleflag_reljointbaseframe">sim.handleflag_reljointbaseframe</div>
 <div class="sim.handleflag_setmultiple">sim.handleflag_setmultiple</div>
 </div>
@@ -555,7 +555,7 @@ See also the <a href="regularApi/simAddDrawingObject.htm">sim.addDrawingObject</
 
 <div class="constantsGroup"><h2><a name="particleObjects"></a>Particle objects</h2>
 <div class="constList">
-<div>Particle object type (combine with particle object attributes). Each item (particle) requires 6 values + auxiliary values, where the 6 values are: pt1x, pt1y, pt1z, pt2x, pt2y, pt2z (Pt1 is start position, pt2-pt1 is the initial velocity vector)</div>
+<div>Particle object type (combine with particle object attributes). Each item (particle) requires 6 values: pt1x, pt1y, pt1z, pt2x, pt2y, pt2z (Pt1 is start position, pt2-pt1 is the initial velocity vector)</div>
 <br>
 <div class="sim.particle_points1">sim.particle_points1</div>
 <div class=tab>items are displayed as 1 pixel-sized points (internally handled as a perfect sphere)</div>
@@ -584,14 +584,6 @@ See also the <a href="regularApi/simAddDrawingObject.htm">sim.addDrawingObject</
 <div class=tab>the particles are visible when seen from vision sensors. sim.particle_invisible must not be set</div>
 <div class="sim.particle_cyclic">sim.particle_cyclic</div>
 <div class=tab>if the max particle count was reached, then the first particles are overwritten</div>
-<div class="sim.particle_itemsizes">sim.particle_itemsizes</div>
-<div class=tab>+1 auxiliary value per particle (each particle can have a different size)</div>
-<div class="sim.particle_itemdensities">sim.particle_itemdensities</div>
-<div class=tab>+1 auxiliary value per particle (each particle can have a different density)</div>
-<div class="sim.particle_itemcolors">sim.particle_itemcolors</div>
-<div class=tab>+3 auxiliary values per particle (each particle can have a different ambient_diffuse color)</div>
-<div class="sim.particle_emissioncolor">sim.particle_emissioncolor</div>
-<div class=tab>when used in combination with sim.particle_itemcolors, then the specified colors will be for the emissive component</div>
 <div class="sim.particle_water">sim.particle_water</div>
 <div class=tab>particles are water particles (no weight in the water (i.e. when z&lt;0)). In addition to that, particles can have drag coefficients for the water and the air. Not compatible with sim.particle_ignoresgravity</div>
 <br>
@@ -797,8 +789,8 @@ See also the <a href="regularApi/simGetUInt64Parameter.htm">simGetUInt64Paramete
 <div class=tab>The simulation time step (i.e. dt). Can only be written when using a custom dt value (which can be set in the <a href="simulationPropertiesDialog.htm">simulation settings dialog</a>), and when simulation is stopped.</div>
 <div class="sim.floatparam_stereo_distance">sim.floatparam_stereo_distance</div>
 <div class=tab>The camera intra occular distance when in 3D OpenGl stereo mode.</div>
-<div class="sim.floatparam_dynamic_step_size">sim.floatparam_dynamic_step_size</div>
-<div class=tab>The step size of the currently selected physics engine. Can only be written when using a <a href="dynamicsEngineDialog.htm">customized configuration for the physics engine</a>, and when simulation is stopped.</div>
+<div class="sim.sim_floatparam_physicstimestep">sim.sim_floatparam_physicstimestep</div>
+<div class=tab>The step size of the physics engine. </div>
 
 
 
@@ -862,8 +854,8 @@ See also the <a href="regularApi/simGetFloatParam.htm">sim.getFloatParam</a> and
 <div class=tab>Can only be read.</div>
 <div class="sim.stringparam_addonpath">sim.stringparam_addonpath</div>
 <div class=tab>Can only be read.</div>
-
-sim_stringparam_addonpath
+<div class="sim.stringparam_mujocodir">sim.stringparam_mujocodir</div>
+<div class=tab>Can only be read.</div>
 
 <br>
 See also the <a href="regularApi/simGetStringParam.htm">sim.getStringParam</a> function.
@@ -1063,7 +1055,8 @@ See also the <a href="regularApi/simGetShapeGeomInfo.htm">sim.getShapeGeomInfo</
 
 <div class="constantsGroup"><h2><a name="dummyLinkTypes"></a>Dummy link types</h2>
 <div class="constList">
-<div class="sim.dummy_linktype_dynamics_loop_closure">sim.dummy_linktype_dynamics_loop_closure</div>
+<div class="sim.dummylink_dynloopclosure">sim.dummylink_dynloopclosure</div>
+<div class="sim.dummylink_dyntendon">sim.dummylink_dyntendon</div>
 </div>
 </div>
 
@@ -1182,13 +1175,13 @@ See also the <a href="regularApi/simSetGraphStreamTransformation.htm">sim.setGra
 
 <div class="constantsGroup"><h2><a name="engineParameters"></a>Physics engine properties</h2>
 <div class="constList">
-<div class="sim.bullet_global_stepsize">sim.bullet_global_stepsize (float parameter)</div>
 <div class="sim.bullet_global_internalscalingfactor">sim.bullet_global_internalscalingfactor (float parameter)</div>
 <div class="sim.bullet_global_collisionmarginfactor">sim.bullet_global_collisionmarginfactor (float parameter)</div>
 <div class="sim.bullet_global_constraintsolvingiterations">sim.bullet_global_constraintsolvingiterations (int parameter)</div>
 <div class="sim.bullet_global_constraintsolvertype">sim.bullet_global_constraintsolvertype (int parameter)</div>
 <div class=tabTab>See also <a href="#bulletSolverTypes">the Bullet solver types</a>.</div>
 <div class="sim.bullet_global_fullinternalscaling">sim.bullet_global_fullinternalscaling (bool parameter)</div>
+<div class="sim.bullet_global_computeinertias">sim.bullet_global_computeinertias (bool parameter)</div>
 <br>
 <div class="sim.bullet_joint_stoperp">sim.bullet_joint_stoperp (float parameter)</div>
 <div class="sim.bullet_joint_stopcfm">sim.bullet_joint_stopcfm (float parameter)</div>
@@ -1207,7 +1200,6 @@ See also the <a href="regularApi/simSetGraphStreamTransformation.htm">sim.setGra
 <div class="sim.bullet_body_autoshrinkconvex">sim.bullet_body_autoshrinkconvex (bool parameter)</div>
 <br>
 <br>
-<div class="sim.ode_global_stepsize">sim.ode_global_stepsize (float parameter)</div>
 <div class="sim.ode_global_internalscalingfactor">sim.ode_global_internalscalingfactor (float parameter)</div>
 <div class="sim.ode_global_cfm">sim.ode_global_cfm (float parameter)</div>
 <div class="sim.ode_global_erp">sim.ode_global_erp (float parameter)</div>
@@ -1215,6 +1207,7 @@ See also the <a href="regularApi/simSetGraphStreamTransformation.htm">sim.setGra
 <div class="sim.ode_global_randomseed">sim.ode_global_randomseed (int parameter)</div>
 <div class="sim.ode_global_fullinternalscaling">sim.ode_global_fullinternalscaling (bool parameter)</div>
 <div class="sim.ode_global_quickstep">sim.ode_global_quickstep (bool parameter)</div>
+<div class="sim.ode_global_computeinertias">sim.ode_global_computeinertias (bool parameter)</div>
 <br>
 <div class="sim.ode_joint_stoperp">sim.ode_joint_stoperp (float parameter)</div>
 <div class="sim.ode_joint_stopcfm">sim.ode_joint_stopcfm (float parameter)</div>
@@ -1230,7 +1223,6 @@ See also the <a href="regularApi/simSetGraphStreamTransformation.htm">sim.setGra
 <div class="sim.ode_body_maxcontacts">sim.ode_body_maxcontacts (int parameter)</div>
 <br>
 <br>
-<div class="sim.vortex_global_stepsize">sim.vortex_global_stepsize (float parameter)</div>
 <div class="sim.vortex_global_internalscalingfactor">sim.vortex_global_internalscalingfactor (float parameter)</div>
 <div class="sim.vortex_global_contacttolerance">sim.vortex_global_contacttolerance (float parameter)</div>
 <div class="sim.vortex_global_constraintlinearcompliance">sim.vortex_global_constraintlinearcompliance (float parameter)</div>
@@ -1241,6 +1233,7 @@ See also the <a href="regularApi/simSetGraphStreamTransformation.htm">sim.setGra
 <div class="sim.vortex_global_constraintangularkineticloss">sim.vortex_global_constraintangularkineticloss (float parameter)</div>
 <div class="sim.vortex_global_autosleep">sim.vortex_global_autosleep (bool parameter)</div>
 <div class="sim.vortex_global_multithreading">sim.vortex_global_multithreading (bool parameter)</div>
+<div class="sim.vortex_global_computeinertias">sim.vortex_global_computeinertias (bool parameter)</div>
 <br>
 <div class="sim.vortex_joint_lowerlimitdamping">sim.vortex_joint_lowerlimitdamping (float parameter)</div>
 <div class="sim.vortex_joint_upperlimitdamping">sim.vortex_joint_upperlimitdamping (float parameter)</div>
@@ -1344,9 +1337,9 @@ See also the <a href="regularApi/simSetGraphStreamTransformation.htm">sim.setGra
 <div class=tab>See also <a href="#vortexFrictionModels">the Vortex friction models</a>.</div>
 <div class="sim.vortex_body_primangulararaxisfrictionmodel">sim.vortex_body_primangulararaxisfrictionmodel (int parameter)</div>
 <div class=tab>See also <a href="#vortexFrictionModels">the Vortex friction models</a>.</div>
-<div class="sim.vortex_body_secmangulararaxisfrictionmodel">sim.vortex_body_secmangulararaxisfrictionmodel (int parameter)</div>
+<div class="sim.vortex_body_secangularaxisfrictionmodel">sim.vortex_body_secangularaxisfrictionmodel (int parameter)</div>
 <div class=tab>See also <a href="#vortexFrictionModels">the Vortex friction models</a>.</div>
-<div class="sim.vortex_body_normalmangulararaxisfrictionmodel">sim.vortex_body_normalmangulararaxisfrictionmodel (int parameter)</div>
+<div class="sim.vortex_body_normalangularaxisfrictionmodel">sim.vortex_body_normalangularaxisfrictionmodel (int parameter)</div>
 <div class=tab>See also <a href="#vortexFrictionModels">the Vortex friction models</a>.</div>
 <div class="sim.vortex_body_autosleepsteplivethreshold">sim.vortex_body_autosleepsteplivethreshold (int parameter)</div>
 <div class="sim.vortex_body_materialuniqueid">sim.vortex_body_materialuniqueid (int parameter)</div>
@@ -1361,12 +1354,12 @@ See also the <a href="regularApi/simSetGraphStreamTransformation.htm">sim.setGra
 <div class="sim.vortex_body_autoangulardamping">sim.vortex_body_autoangulardamping (bool parameter)</div>
 <br>
 <br>
-<div class="sim.newton_global_stepsize">sim.newton_global_stepsize (float parameter)</div>
 <div class="sim.newton_global_contactmergetolerance">sim.newton_global_contactmergetolerance (float parameter)</div>
 <div class="sim.newton_global_constraintsolvingiterations">sim.newton_global_constraintsolvingiterations (int parameter)</div>
 <div class="sim.newton_global_multithreading">sim.newton_global_multithreading (bool parameter)</div>
 <div class="sim.newton_global_exactsolver">sim.newton_global_exactsolver (bool parameter)</div>
 <div class="sim.newton_global_highjointaccuracy">sim.newton_global_highjointaccuracy (bool parameter)</div>
+<div class="sim.newton_global_computeinertias">sim.newton_global_computeinertias (bool parameter)</div>
 <br>
 <div class="sim.newton_joint_dependencyfactor">sim.newton_joint_dependencyfactor (float parameter)</div>
 <div class="sim.newton_joint_dependencyoffset">sim.newton_joint_dependencyoffset (float parameter)</div>
@@ -1379,6 +1372,99 @@ See also the <a href="regularApi/simSetGraphStreamTransformation.htm">sim.setGra
 <div class="sim.newton_body_lineardrag">sim.newton_body_lineardrag (float parameter)</div>
 <div class="sim.newton_body_angulardrag">sim.newton_body_angulardrag (float parameter)</div>
 <div class="sim.newton_body_fastmoving">sim.newton_body_fastmoving (bool parameter)</div>
+<br>
+<br>
+<div class="sim.mujoco_global_impratio">sim.mujoco_global_impratio (float parameter)</div>
+<div class="sim.mujoco_global_wind1">sim.mujoco_global_wind1 (float parameter)</div>
+<div class="sim.mujoco_global_wind2">sim.mujoco_global_wind2 (float parameter)</div>
+<div class="sim.mujoco_global_wind3">sim.mujoco_global_wind3 (float parameter)</div>
+<div class="sim.mujoco_global_density">sim.mujoco_global_density (float parameter)</div>
+<div class="sim.mujoco_global_viscosity">sim.mujoco_global_viscosity (float parameter)</div>
+<div class="sim.mujoco_global_boundmass">sim.mujoco_global_boundmass (float parameter)</div>
+<div class="sim.mujoco_global_boundinertia">sim.mujoco_global_boundinertia (float parameter)</div>
+<div class="sim.mujoco_global_overridemargin">sim.mujoco_global_overridemargin (float parameter)</div>
+<div class="sim.mujoco_global_overridesolref1">sim.mujoco_global_overridesolref1 (float parameter)</div>
+<div class="sim.mujoco_global_overridesolref2">sim.mujoco_global_overridesolref2 (float parameter)</div>
+<div class="sim.mujoco_global_overridesolimp1">sim.mujoco_global_overridesolimp1 (float parameter)</div>
+<div class="sim.mujoco_global_overridesolimp2">sim.mujoco_global_overridesolimp2 (float parameter)</div>
+<div class="sim.mujoco_global_overridesolimp3">sim.mujoco_global_overridesolimp3 (float parameter)</div>
+<div class="sim.mujoco_global_overridesolimp4">sim.mujoco_global_overridesolimp4 (float parameter)</div>
+<div class="sim.mujoco_global_overridesolimp5">sim.mujoco_global_overridesolimp5 (float parameter)</div>
+<div class="sim.mujoco_global_kinmass">sim.mujoco_global_kinmass (float parameter)</div>
+<div class="sim.mujoco_global_kininertia">sim.mujoco_global_kininertia (float parameter)</div>
+<div class="sim.mujoco_global_bitcoded">sim.mujoco_global_bitcoded (int parameter)</div>
+<div class="sim.mujoco_global_iterations">sim.mujoco_global_iterations (int parameter)</div>
+<div class="sim.mujoco_global_integrator">sim.mujoco_global_integrator (int parameter)</div>
+<div class="sim.mujoco_global_solver">sim.mujoco_global_solver (int parameter)</div>
+<div class="sim.mujoco_global_njmax">sim.mujoco_global_njmax (int parameter)</div>
+<div class="sim.mujoco_global_nstack">sim.mujoco_global_nstack (int parameter)</div>
+<div class="sim.mujoco_global_nconmax">sim.mujoco_global_nconmax (int parameter)</div>
+<div class="sim.mujoco_global_cone">sim.mujoco_global_cone (int parameter)</div>
+<div class="sim.mujoco_global_overridekin">sim.mujoco_global_overridekin (int parameter)</div>
+<div class="sim.mujoco_global_computeinertias">sim.mujoco_global_computeinertias (bool parameter)</div>
+<div class="sim.mujoco_global_multithreaded">sim.mujoco_global_multithreaded (bool parameter)</div>
+<div class="sim.mujoco_global_multiccd">sim.mujoco_global_multiccd (bool parameter)</div>
+<div class="sim.mujoco_global_balanceinertias">sim.mujoco_global_balanceinertias (bool parameter)</div>
+<div class="sim.mujoco_global_overridecontacts">sim.mujoco_global_overridecontacts (bool parameter)</div>
+<br>
+<div class="sim.mujoco_joint_solreflimit1">sim.mujoco_joint_solreflimit1 (float parameter)</div>
+<div class="sim.mujoco_joint_solreflimit2">sim.mujoco_joint_solreflimit2 (float parameter)</div>
+<div class="sim.mujoco_joint_solimplimit1">sim.mujoco_joint_solimplimit1 (float parameter)</div>
+<div class="sim.mujoco_joint_solimplimit2">sim.mujoco_joint_solimplimit2 (float parameter)</div>
+<div class="sim.mujoco_joint_solimplimit3">sim.mujoco_joint_solimplimit3 (float parameter)</div>
+<div class="sim.mujoco_joint_solimplimit4">sim.mujoco_joint_solimplimit4 (float parameter)</div>
+<div class="sim.mujoco_joint_solimplimit5">sim.mujoco_joint_solimplimit5 (float parameter)</div>
+<div class="sim.mujoco_joint_frictionloss">sim.mujoco_joint_frictionloss (float parameter)</div>
+<div class="sim.mujoco_joint_solreffriction1">sim.mujoco_joint_solreffriction1 (float parameter)</div>
+<div class="sim.mujoco_joint_solreffriction2">sim.mujoco_joint_solreffriction2 (float parameter)</div>
+<div class="sim.mujoco_joint_solimpfriction1">sim.mujoco_joint_solimpfriction1 (float parameter)</div>
+<div class="sim.mujoco_joint_solimpfriction2">sim.mujoco_joint_solimpfriction2 (float parameter)</div>
+<div class="sim.mujoco_joint_solimpfriction3">sim.mujoco_joint_solimpfriction3 (float parameter)</div>
+<div class="sim.mujoco_joint_solimpfriction4">sim.mujoco_joint_solimpfriction4 (float parameter)</div>
+<div class="sim.mujoco_joint_solimpfriction5">sim.mujoco_joint_solimpfriction5 (float parameter)</div>
+<div class="sim.mujoco_joint_stiffness">sim.mujoco_joint_stiffness (float parameter)</div>
+<div class="sim.mujoco_joint_damping">sim.mujoco_joint_damping (float parameter)</div>
+<div class="sim.mujoco_joint_springref">sim.mujoco_joint_springref (float parameter)</div>
+<div class="sim.mujoco_joint_springdamper1">sim.mujoco_joint_springdamper1 (float parameter)</div>
+<div class="sim.mujoco_joint_springdamper2">sim.mujoco_joint_springdamper2 (float parameter)</div>
+<div class="sim.mujoco_joint_armature">sim.mujoco_joint_armature (float parameter)</div>
+<div class="sim.mujoco_joint_margin">sim.mujoco_joint_margin (float parameter)</div>
+<div class="sim.mujoco_joint_polycoef1">sim.mujoco_joint_polycoef1 (float parameter)</div>
+<div class="sim.mujoco_joint_polycoef2">sim.mujoco_joint_polycoef2 (float parameter)</div>
+<div class="sim.mujoco_joint_polycoef3">sim.mujoco_joint_polycoef3 (float parameter)</div>
+<div class="sim.mujoco_joint_polycoef4">sim.mujoco_joint_polycoef4 (float parameter)</div>
+<div class="sim.mujoco_joint_polycoef5">sim.mujoco_joint_polycoef5 (float parameter)</div>
+<div class="sim.mujoco_joint_dependentobjectid">sim.mujoco_joint_dependentobjectid (int parameter)</div>
+<br>
+<div class="sim.mujoco_body_friction1">sim.mujoco_body_friction1 (float parameter)</div>
+<div class="sim.mujoco_body_friction2">sim.mujoco_body_friction2 (float parameter)</div>
+<div class="sim.mujoco_body_friction3">sim.mujoco_body_friction3 (float parameter)</div>
+<div class="sim.mujoco_body_solref1">sim.mujoco_body_solref1 (float parameter)</div>
+<div class="sim.mujoco_body_solref2">sim.mujoco_body_solref2 (float parameter)</div>
+<div class="sim.mujoco_body_solimp1">sim.mujoco_body_solimp1 (float parameter)</div>
+<div class="sim.mujoco_body_solimp2">sim.mujoco_body_solimp2 (float parameter)</div>
+<div class="sim.mujoco_body_solimp3">sim.mujoco_body_solimp3 (float parameter)</div>
+<div class="sim.mujoco_body_solimp4">sim.mujoco_body_solimp4 (float parameter)</div>
+<div class="sim.mujoco_body_solimp5">sim.mujoco_body_solimp5 (float parameter)</div>
+<div class="sim.mujoco_body_solmix">sim.mujoco_body_solmix (float parameter)</div>
+<div class="sim.mujoco_body_condim">sim.mujoco_body_condim (int parameter)</div>
+<br>
+<div class="sim.mujoco_dummy_range1">sim.mujoco_dummy_range1 (float parameter)</div>
+<div class="sim.mujoco_dummy_range2">sim.mujoco_dummy_range2 (float parameter)</div>
+<div class="sim.mujoco_dummy_solreflimit1">sim.mujoco_dummy_solreflimit1 (float parameter)</div>
+<div class="sim.mujoco_dummy_solreflimit2">sim.mujoco_dummy_solreflimit2 (float parameter)</div>
+<div class="sim.mujoco_dummy_solimplimit1">sim.mujoco_dummy_solimplimit1 (float parameter)</div>
+<div class="sim.mujoco_dummy_solimplimit2">sim.mujoco_dummy_solimplimit2 (float parameter)</div>
+<div class="sim.mujoco_dummy_solimplimit3">sim.mujoco_dummy_solimplimit3 (float parameter)</div>
+<div class="sim.mujoco_dummy_solimplimit4">sim.mujoco_dummy_solimplimit4 (float parameter)</div>
+<div class="sim.mujoco_dummy_solimplimit5">sim.mujoco_dummy_solimplimit5 (float parameter)</div>
+<div class="sim.mujoco_dummy_margin">sim.mujoco_dummy_margin (float parameter)</div>
+<div class="sim.mujoco_dummy_springlength">sim.mujoco_dummy_springlength (float parameter)</div>
+<div class="sim.mujoco_dummy_stiffness">sim.mujoco_dummy_stiffness (float parameter)</div>
+<div class="sim.mujoco_dummy_damping">sim.mujoco_dummy_damping (float parameter)</div>
+<div class="sim.mujoco_dummy_bitcoded">sim.mujoco_dummy_bitcoded (int parameter)</div>
+<div class="sim.mujoco_dummy_limited">sim.mujoco_dummy_limited (bool parameter)</div>
+
 <br>
 <br>
 See also <a href="apiFunctions.htm#engineParameters">the related setter and getter API functions</a>.
