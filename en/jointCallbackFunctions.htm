@@ -25,7 +25,7 @@
 <li>When the joint is in dynamic mode, is <a href="designingDynamicSimulations.htm#dynamicallyEnabled">dynamically enabled</a>, and is set to custom control: the physics engine will trigger the joint callback function for each dynamics simulation step, which is quite often, normally 10 times per simulation step for a given joint</li>
 
 <p> Joint callback functions enable the user to customize the control loop for specific joints in order to write low-level control algorithms.</p>
-<p>Following represents a simple PID joint callback function, for a joint in dynamic mode:<br>
+<p>Following represents a simple position control joint callback function, for a joint in dynamic mode:<br>
 </p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
@@ -43,65 +43,32 @@ function <strong>sysCall_jointCallback</strong>(inData)
     -- inData.initVel : the desired initial velocity (if joint is kinematic and when sim.setJointTargetVelocity
     --                  was called with a 4th argument)
     -- inData.errorValue : targetPos-currentPos (with revolute cyclic joints, the shortest cyclic distance)
-    -- inData.maxVel : a maximum velocity, taken from sim.setJointTargetPosition or 
-    --                 sim.setJointTargetVelocity's 3rd argument)
-    -- inData.maxAccel : a maximum acceleration, taken from sim.setJointTargetPosition or
-    --                   sim.setJointTargetVelocity's 3rd argument)
-    -- inData.maxJerk : a maximum jerk, taken from sim.setJointTargetPosition or
-    --                  sim.setJointTargetVelocity's 3rd argument)
+    -- inData.maxVel : a maximum velocity
+    -- inData.maxAccel : a maximum acceleration
+    -- inData.maxJerk : a maximum jerk
     -- inData.first : whether this is the first call from the physics engine, since the joint
     --                was initialized (or re-initialized) in it.
     -- inData.passCnt : the current dynamics calculation pass. 1-10 by default
     -- inData.totalPasses : the number of dynamics calculation passes for each "regular" simulation pass.
     -- inData.effort : the last force or torque that acted on this joint along/around its axis. With Bullet,
     --                 torques from joint limits are not taken into account
-    -- inData.dynStepSize : the step size used for the dynamics calculations (by default 5ms)
+    -- inData.dt : the step size used for the dynamics calculations (by default 5ms)
     -- inData.force : the joint force/torque, as set via sim.setJointTargetForce
-    -- inData.velUpperLimit : the joint velocity upper limit
 
     if inData.mode==sim.jointmode_dynamic then
-        -- Simple PID control example:
-        
-        if inData.first then
-            PID_P=0.1
-            PID_I=0
-            PID_D=0
-            pidCumulativeErrorForIntegralParam=0
+        -- Simplest position controller example:
+        local ctrl=inData.errorValue*0.1
+        local maxVelocity=ctrl/inData.dt
+        if (maxVelocity&gt;inData.maxVel) then
+            maxVelocity=inData.maxVel
         end
-        
-        -- The control happens here:
-        -- 1. Proportional part:
-        local ctrl=inData.errorValue*PID_P
-        
-        -- 2. Integral part:
-        if PID_I~=0 then
-            pidCumulativeErrorForIntegralParam=pidCumulativeErrorForIntegralParam+inData.errorValue*inData.dynStepSize
-        else
-            pidCumulativeErrorForIntegralParam=0
+        if (maxVelocity&lt;-inData.maxVel) then
+            maxVelocity=-inData.maxVel
         end
-        ctrl=ctrl+pidCumulativeErrorForIntegralParam*PID_I
-        
-        -- 3. Derivative part:
-        if not inData.first then
-            ctrl=ctrl+(inData.errorValue-pidLastErrorForDerivativeParam)*PID_D/inData.dynStepSize
-        end
-        pidLastErrorForDerivativeParam=inData.errorValue
-        
-        -- 4. Calculate the velocity needed to reach the position in one dynamic time step:
-        local maxVelocity=ctrl/inData.dynStepSize -- max. velocity allowed.
-        if (maxVelocity&gt;inData.velUpperLimit) then
-            maxVelocity=inData.velUpperLimit
-        end
-        if (maxVelocity&lt;-inData.velUpperLimit) then
-            maxVelocity=-inData.velUpperLimit
-        end
-        local forceOrTorqueToApply=inData.maxForce -- the maximum force/torque that the joint will be able to exert
+        local forceOrTorqueToApply=inData.maxForce
     
-        -- 5. Following data must be returned to CoppeliaSim:
-        firstPass=false
-        local outData={}
-        outData.velocity=maxVelocity
-        outData.force=forceOrTorqueToApply
+        -- Following data must be returned to CoppeliaSim:
+        local outData={velocity=maxVelocity,force=forceOrTorqueToApply}
         return outData
     end
     
