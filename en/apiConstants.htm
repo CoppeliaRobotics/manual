@@ -662,7 +662,7 @@ See also the <a href="regularApi/simGetBoolParam.htm">sim.getBoolParam</a> and <
 <div class="sim.intparam_dynamic_step_divider">sim.intparam_dynamic_step_divider</div>
 <div class=tab>Represents the number of calculation passes of the dynamics module for each simulation pass. This might be not constant during a simulation. Can be 0 when <a href="regularApi/simHandleDynamics.htm">sim.handleDynamics</a> wasn't yet called. Can only be read</div>
 <div class="sim.intparam_dynamic_engine">sim.intparam_dynamic_engine</div>
-<div class=tab>0=<a href="dynamicsModule.htm#bullet">Bullet</a>, 1=<a href="dynamicsModule.htm#ode">ODE</a>, 2=<a href="dynamicsModule.htm#vortex">Vortex</a>, 3=<a href="dynamicsModule.htm#newton">Newton</a>.</div>
+<div class=tab>0=<a href="dynamicsModule.htm#bullet">Bullet</a>, 1=<a href="dynamicsModule.htm#ode">ODE</a>, 2=<a href="dynamicsModule.htm#vortex">Vortex</a>, 3=<a href="dynamicsModule.htm#newton">Newton</a>, 4=<a href="dynamicsModule.htm#mujoco">MuJoCo</a>.</div>
 <div class="sim.intparam_server_port_start">sim.intparam_server_port_start</div>
 <div class=tab>together with sim.intparam_server_port_next and sim.intparam_server_port_range, indicates which local ports can be used. Can only be read</div>
 <div class="sim.intparam_server_port_range">sim.intparam_server_port_range</div>
@@ -723,11 +723,11 @@ See also the <a href="regularApi/simGetBoolParam.htm">sim.getBoolParam</a> and <
 <div class=tab>a counter that is incremented each time a stop simulation request arrives (e.g. via the toolbar button, menu, etc.)</div>
 <div class="sim.intparam_dynamic_warning_disabled_mask">sim.intparam_dynamic_warning_disabled_mask</div>
 <div class=tab>a bit-coded mask that allows to temporarily disable warning messages from the physics engine:</div>
-<div class=tabTab>bit 0 set (1): pure spheroids are not supported</div>
-<div class=tabTab>bit 1 set (2): pure cones are not supported</div>
-<div class=tabTab>bit 2 set (4): pure hollow shapes are not supported</div>
+<div class=tabTab>bit 0 set (1): primitive spheroids are not supported</div>
+<div class=tabTab>bit 1 set (2): primitive cones are not supported</div>
+<div class=tabTab>bit 2 set (4): primitive hollow shapes are not supported</div>
 <div class=tabTab>bit 3 set (8): physics engine is not supported supported</div>
-<div class=tabTab>bit 4 set (16): scene contains non-pure, non-convex shapes</div>
+<div class=tabTab>bit 4 set (16): scene contains non-primitive, non-convex shapes</div>
 <div class=tabTab>bit 5 set (32): scene contains static shapes on dynamic construction</div>
 <div class=tabTab>bit 6 set (64): non-default physics engine settings</div>
 <div class=tabTab>bit 7 set (128): Vortex plugin is demo version</div>
@@ -741,8 +741,6 @@ See also the <a href="regularApi/simGetBoolParam.htm">sim.getBoolParam</a> and <
 <div class=tab>Specify a value that initializes the random number generator for the motion planning functionality. Can only be written.</div>
 <div class="sim.intparam_speedmodifier">sim.intparam_speedmodifier</div>
 <div class=tab>Can only be read/written when simulation is not stopped.</div>
-<div class="sim.intparam_dynamic_iteration_count">sim.intparam_dynamic_iteration_count</div>
-<div class=tab>The number of calculation iterations of the currently selected physics engine. Can only be written when using a <a href="dynamicsEngineDialog.htm">customized configuration for the physics engine</a>, and when simulation is stopped.</div>
 <div class="sim.intparam_verbosity">sim.intparam_verbosity</div>
 <div class=tab>the console <a href="#verbosity">verbosity level</a>.</div>
 <div class="sim.intparam_statusbarverbosity">sim.intparam_statusbarverbosity</div>
@@ -753,6 +751,12 @@ See also the <a href="regularApi/simGetBoolParam.htm">sim.getBoolParam</a> and <
 <div class=tab>a simple mouse down counter, for mouse clicks. Cannot be written</div>
 <div class="sim.intparam_mouseclickcounterup">sim.intparam_mouseclickcounterup</div>
 <div class=tab>a simple mouse up counter, for mouse clicks. Cannot be written</div>
+<div class="sim.intparam_objectcreationcounter">sim.intparam_objectcreationcounter</div>
+<div class=tab>changes when an object is created. Cannot be written</div>
+<div class="sim.intparam_objectdestructioncounter">sim.intparam_objectdestructioncounter</div>
+<div class=tab>changes when an object is destroyed. Cannot be written</div>
+<div class="sim.intparam_hierarchychangecounter">sim.intparam_hierarchychangecounter</div>
+<div class=tab>changes when an object changes its parent. Cannot be written</div>
 
 
 <br>
@@ -767,10 +771,6 @@ See also the <a href="regularApi/simGetInt32Param.htm">sim.getInt32Param</a> and
 
 <div class="constantsGroup"><h2><a name="uinteger64Parameters"></a>uint64 parameters</h2>
 <div class="constList">
-<div>sim_uint64param_simulation_time_step_ns</div>
-<div class=tab>The simulation time step in nanoseconds. (for versions prior to CoppeliaSim V4.1.0 rev2 this would be the time step in microseconds, due to a bug)</div>
-<div>sim_uint64param_simulation_time_ns</div>
-<div class=tab>The simulation time in nanoseconds. (for versions prior to CoppeliaSim V4.1.0 rev2 this would be the time in microseconds, due to a bug)</div>
 
 
 <br>
@@ -790,7 +790,7 @@ See also the <a href="regularApi/simGetUInt64Parameter.htm">simGetUInt64Paramete
 <div class=tab>The simulation time step (i.e. dt). Can only be written when using a custom dt value (which can be set in the <a href="simulationPropertiesDialog.htm">simulation settings dialog</a>), and when simulation is stopped.</div>
 <div class="sim.floatparam_stereo_distance">sim.floatparam_stereo_distance</div>
 <div class=tab>The camera intra occular distance when in 3D OpenGl stereo mode.</div>
-<div class="sim.sim_floatparam_physicstimestep">sim.sim_floatparam_physicstimestep</div>
+<div class="sim.floatparam_physicstimestep">sim.floatparam_physicstimestep</div>
 <div class=tab>The step size of the physics engine. </div>
 
 
@@ -857,6 +857,13 @@ See also the <a href="regularApi/simGetFloatParam.htm">sim.getFloatParam</a> and
 <div class=tab>Can only be read.</div>
 <div class="sim.stringparam_mujocodir">sim.stringparam_mujocodir</div>
 <div class=tab>Can only be read.</div>
+<div class="sim.stringparam_usersettingsdir">sim.stringparam_usersettingsdir</div>
+<div class=tab>Can only be read.</div>
+<div class="sim.stringparam_systemdir">sim.stringparam_systemdir</div>
+<div class=tab>Can only be read.</div>
+<div class="sim.stringparam_resourcesdir">sim.stringparam_resourcesdir</div>
+<div class=tab>Can only be read.</div>
+
 
 <br>
 See also the <a href="regularApi/simGetStringParam.htm">sim.getStringParam</a> function.
@@ -1068,6 +1075,7 @@ See also the <a href="regularApi/simGetShapeGeomInfo.htm">sim.getShapeGeomInfo</
 <div><a href="dynamicsModule.htm#ode">sim.physics_ode</a></div>
 <div><a href="dynamicsModule.htm#newton">sim.physics_newton</a></div>
 <div><a href="dynamicsModule.htm#vortex">sim.physics_vortex</a></div>
+<div><a href="dynamicsModule.htm#mujoco">sim.physics_mujoco</a></div>
 </div>
 </div>
 
@@ -1402,6 +1410,7 @@ See also the <a href="regularApi/simSetGraphStreamTransformation.htm">sim.setGra
 <div class="sim.mujoco_global_nconmax">sim.mujoco_global_nconmax (int parameter)</div>
 <div class="sim.mujoco_global_cone">sim.mujoco_global_cone (int parameter)</div>
 <div class="sim.mujoco_global_overridekin">sim.mujoco_global_overridekin (int parameter)</div>
+<div class="sim.mujoco_global_rebuildcondition">sim.mujoco_global_rebuildcondition (int parameter)</div>
 <div class="sim.mujoco_global_computeinertias">sim.mujoco_global_computeinertias (bool parameter)</div>
 <div class="sim.mujoco_global_multithreaded">sim.mujoco_global_multithreaded (bool parameter)</div>
 <div class="sim.mujoco_global_multiccd">sim.mujoco_global_multiccd (bool parameter)</div>

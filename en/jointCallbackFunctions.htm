@@ -19,9 +19,9 @@
 
 <h1>Joint callback functions</h1>
 
-<p><a href="childScripts.htm">Child script</a>s, or <a href="customizationScripts.htm">customization scripts</a> can include a joint callback function, which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>. When present for a given joint, then it will be called by CoppeliaSim in various situations: </p>
+<p>Scripts can include a joint callback function, which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>. When present for a given joint, then it will be called by CoppeliaSim in various situations: </p>
 
-<li>When the joint is in kinematic mode: a call to <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a> or <a href="regularApi/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a> will trigger the joint callback function. If not present in a script attached to the given joint, then the call will be redirected to the <a href="mainScript.htm">main script</a> that offers a default behaviour, i.e. a specific motion profile will be applied</li>
+<li>When the joint is in kinematic mode: a call to <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a> or <a href="regularApi/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a> will trigger the joint callback function. The <a href="mainScript.htm">main script</a> contains such a joint callback function, that offers a default behaviour, i.e. a specific motion profile will be applied</li>
 <li>When the joint is in dynamic mode, is <a href="designingDynamicSimulations.htm#dynamicallyEnabled">dynamically enabled</a>, and is set to custom control: the physics engine will trigger the joint callback function for each dynamics simulation step, which is quite often, normally 10 times per simulation step for a given joint</li>
 
 <p> Joint callback functions enable the user to customize the control loop for specific joints in order to write low-level control algorithms.</p>
@@ -29,36 +29,38 @@
 </p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
-function <strong>sysCall_jointCallback</strong>(inData)
+function <strong>sysCall_joint</strong>(inData)
     -- inData.mode : sim.jointmode_kinematic or sim.jointmode_dynamic
     --
-    -- inData.handle : the handle of the joint associated with this script
-    -- inData.revolute : whether the joint associated with this script is revolute or prismatic
-    -- inData.cyclic : whether the joint associated with this script is cyclic or not
-    -- inData.lowLimit : the lower limit of the joint associated with this script (if the joint is not cyclic)
-    -- inData.highLimit : the higher limit of the joint associated with this script (if the joint is not cyclic)
-    -- inData.currentPos : the current position
+    -- inData.handle : the handle of the joint to control
+    -- inData.revolute : whether the joint is revolute or prismatic
+    -- inData.cyclic : whether the joint is cyclic or not
+    -- inData.lowLimit : the lower limit of the joint (if the joint is not cyclic)
+    -- inData.highLimit : the higher limit of the joint (if the joint is not cyclic)
+    -- inData.dt : the step size used for the calculations
+    -- inData.pos : the current position
+    -- inData.vel : the current velocity
     -- inData.targetPos : the desired position (if joint is dynamic, or when sim.setJointTargetPosition was called)
     -- inData.targetVel : the desired velocity (if joint is dynamic, or when sim.setJointTargetVelocity was called)
     -- inData.initVel : the desired initial velocity (if joint is kinematic and when sim.setJointTargetVelocity
     --                  was called with a 4th argument)
-    -- inData.errorValue : targetPos-currentPos (with revolute cyclic joints, the shortest cyclic distance)
+    -- inData.error : targetPos-currentPos (with revolute cyclic joints, the shortest cyclic distance)
     -- inData.maxVel : a maximum velocity
     -- inData.maxAccel : a maximum acceleration
     -- inData.maxJerk : a maximum jerk
     -- inData.first : whether this is the first call from the physics engine, since the joint
     --                was initialized (or re-initialized) in it.
     -- inData.passCnt : the current dynamics calculation pass. 1-10 by default
+    -- inData.rk4pass : if Runge-Kutta 4 solver is selected, will loop from 1 to 4 for each inData.passCnt
     -- inData.totalPasses : the number of dynamics calculation passes for each "regular" simulation pass.
     -- inData.effort : the last force or torque that acted on this joint along/around its axis. With Bullet,
     --                 torques from joint limits are not taken into account
-    -- inData.dt : the step size used for the dynamics calculations (by default 5ms)
     -- inData.force : the joint force/torque, as set via sim.setJointTargetForce
 
     if inData.mode==sim.jointmode_dynamic then
         -- Simplest position controller example:
-        local ctrl=inData.errorValue*0.1
-        local maxVelocity=ctrl/inData.dt
+        local ctrl=inData.error*20
+        local maxVelocity=ctrl
         if (maxVelocity&gt;inData.maxVel) then
             maxVelocity=inData.maxVel
         end
@@ -68,25 +70,32 @@ function <strong>sysCall_jointCallback</strong>(inData)
         local forceOrTorqueToApply=inData.maxForce
     
         -- Following data must be returned to CoppeliaSim:
-        local outData={velocity=maxVelocity,force=forceOrTorqueToApply}
+        local outData={vel=maxVelocity,force=forceOrTorqueToApply}
         return outData
     end
     
     -- Expected return data:
     -- For kinematic joints:
-    -- outData={position=pos, velocity=vel, immobile=false}
+    -- outData={pos=pos, vel=vel, immobile=false}
     -- 
     -- For dynamic joints:
-    -- outData={force=f, velocity=vel}
+    -- outData={force=f, vel=vel}
 end</code>
 
 <p>In Python, a joint callback function can only be implemented via a non-threaded script, and it should be explicitly activated with a luaExec command:</p>
 <code class="hljs language-python coppelia-coppeliasim-script">
 #python
-#luaExec additionalFuncs={'sysCall_jointCallback'}
+#luaExec additionalFuncs={'sysCall_joint'}
 
-def <strong>sysCall_jointCallback</strong>(inData):
+def <strong>sysCall_joint</strong>(inData):
     pass</code>
+<br>
+
+<p>A joint callback call is applied to all scripts located in the upward hierarchy of the joint, and interrupted as soon as a script handles the call, i.e. returns data:</p>
+
+<p align=center><img src="images/scriptTreeTraversal2.jpg"></p>
+<p class=imageLabel>[Script execution precedence with a joint callback]</p>
+
 
 
 <br>

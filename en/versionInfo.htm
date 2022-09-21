@@ -44,12 +44,15 @@ Version history:
 
  
 <h2>
-<a name="coppeliaSim4.4.0" id="coppeliaSim4.4.0"></a>CoppeliaSim V4.4.0 (not yet released)
+<a name="coppeliaSim4.4.0" id="coppeliaSim4.4.0"></a>CoppeliaSim V4.4.0 (September 22nd, 2022)
 </h2>
  
 <li>Fixed several bugs. Thanks to Pranav A. Bhounsule, Amirhossein Afkhami Ardekani, Roman Horshkov, Volker Kühn, Artem Shishkin, Mathias Thor and Davide Scorza for noticing them or helping to resolve them</li>
+<li>Added a new physics engine to CoppeliaSim: <a href="dynamicsModule.htm#mujoco">MuJoCo</a>. This adds a state-of-the-art physics engine to CoppeliaSim, enabling new features such as <a href="physicsEngineDifferences.htm#softBody">soft body simulation</a>.  Added a demo scene illustrating some of MuJoCo's features: <em>scenes/mujocoSpecific.ttt</em>
 <li><a href="regularApi/simRuckigPos.htm">sim.ruckigPos</a>, <a href="regularApi/simRuckigVel.htm">sim.ruckigVel</a>, <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a> can now also be used for non-symmetric velocity/acceleration profiles, via the <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minvel</a> and <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minaccel</a> flags</li>
 <li>The <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a> is now supported in following languages: Python, c++, Matlab, Octave, Lua and Java</li>
+<li>Merged the dynamics dialog with the <a href="simulationPropertiesDialog.htm">simulation dialog</a>, and simplified the way custom time steps can be specified</li>
+<li>Improved and simplified the <a href="scriptExecution.htm">script execution/call precedence</a></li>
 <li>Capsule primitives are now also supported</li>
 <li>Support for ROS2 Humble Hawksbill was added</li>
 <li>Kinematic joints can now also be directly driven via <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a> and <a href="regularApi/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a>, using maximum velocity, acceleration and jerk constraints, for a specific motion profile</li>
@@ -61,6 +64,8 @@ Version history:
 <li>Added a model of the Mirobot: <em>Models/robots/non-mobile/Mirobot.ttm</em></li>
 <li>Added a model of a generic tray: <em>Models/equipment/generic tray.ttm</em></li>
 <li>Added a model of a generic external wall: <em>Models/infrastructure/walls/external wall.ttm</em></li>
+<li>Added a model of a generic soft body: <em>Models/other/soft body.ttm</em></li>
+<li>Added a scene illustrating gears (or joint dependencies) with Mujoco and Vortex: <em>scenes/gears.ttt</em></li>
 
 <br>
 <br>
@@ -141,7 +146,6 @@ Version history:
 <li>Added following API functions: <a href="regularApi/simIsDynamicallyEnabled.htm">sim.isDynamicallyEnabled</a>, <a href="regularApi/simGetJointDependency.htm">sim.getJointDependency</a>, <a href="regularApi/simChangeEntityColor.htm">sim.changeEntityColor</a> and <a href="regularApi/simRestoreEntityColor.htm">sim.restoreEntityColor</a>.</li>
 <li>Following Docker image is available for running CoppeliaSim in a container: <a href="https://github.com/CoppeliaRobotics/docker-image-coppeliasim" target="_blank">docker-image-coppeliasim</a></li>
 <li>The default scene will now pause simulation when a script error is raised.</li>
-<li>Added an additional <a href="dynamicsEngineDialog.htm#configurationMode">dynamics configuration mode</a> that performs smaller dynamics steps and/or does more calculation iterations. Went from [<strong>very accurate</strong>, <strong>accurate (default)</strong>, <strong>fast</strong>, <strong>very fast</strong>, <strong>custom</strong>] to: [<strong>very accurate</strong>, <strong>accurate</strong>, <strong>balanced (default), fast</strong>, <strong>very fast</strong>, <strong>custom</strong>].</li>
 <li>The Windows installer/uninstaller can now silently operate by invoking it with following command-line arguments:<em> /silent /hide /[silent]=true</em></li>
 <br>
 <br>
@@ -282,7 +286,7 @@ Version history:
 <li>Fixed several bugs. Thanks to Sven Schweigler, Nicola Battilani, Mark Edmonds, Benno Timmermann, Cándido Otero Moreira, Graeme Neff Wilson, Justin Yim, Allen Zhu, Leo Koppel, Ravi Prakash Joshi, Sina Radmard, Sai Vemprala, James Barger, Gonzalo Casas, Metehan Doyran, Arif Rahman and Jason Cachrane for noticing them or helping to resolve them.</li>
 <li>For the Windows version of V-REP, switched to Qt 5.6.2, MSVC2015 and 64bit. Make sure to desinstall previous V-REP versions explicitely in folders <em>program files (x86)/V-REP3/V-REP_PRO</em>, <em>program files (x86)/V-REP3/V-REP_PRO_EDU</em> and <em>program files (x86)/V-REP3/V-REP_PLAYER</em>: execute <em>V-REP_*_Setup_*.exe</em> in those folders. Then remove folder <em>program files (x86)/V-REP3</em>. Prior to that you should backup an existing license key.</li>
 <li>The <a href="dynamicsModule.htm#vortex">Vortex plugin</a> is now based in the free version of the Vortex engine: <a href="https://www.cm-labs.com/vortex-studio/">Vortex Studio</a>. The user will however have to download/install Vortex Studio, and <a href="https://www.cm-labs.com/cm-labs-university/">register with CM Labs</a>, in order to enable the vortex plugin for V-REP.</li>
-<li>The Vortex plugin now has the multithreading option turned off by default, since this provides better stability and faster simulation speeds for typical V-REP scenes. This can however still be turned on in the <a href="dynamicsEngineDialog.htm">dynamics engines general properties</a>.</li>
+<li>The Vortex plugin now has the multithreading option turned off by default, since this provides better stability and faster simulation speeds for typical V-REP scenes.</li>
 <li>Reworked the <a href="positionDialog.htm">position dialog</a> and the <a href="orientationDialog.htm">orientation dialog</a>.</li>
 <li>Added various API functions: <a href="regularApi/simTransformBuffer.htm">sim.transformBuffer</a>.</li>
 <li>Added a reconfigurable model of the Ragnar robot: <em>Models/robots/non-mobile/ragnar.brm</em></li>
@@ -500,7 +504,7 @@ Version history:
 <li>Fixed several bugs. Thanks to Renaud Detry, Daniel Lechner, Ulrich Schwesinger, Sven Knüppel, Steve Nguyen, Jonas Sperling, James Besancon, Andrew Vardy, Rodrigo Moreno Garcia, Thomas Estier, Matthias Imle, Daniel Kuhner, José Rosado, Eric Rohmer and Soner Ulun for noticing them or helping to resolve them.</li>
 <li>Improved the embedded <a href="scriptEditor.htm">script editor</a> with following new features: highlighting of all occurrences of selected word, source folding/unfolding, simple word search via the &lt;ctrl+f&gt; key.</li>
 <li>External script editors can now be customized with the data in file <em>v-rep_notepad++.zip</em>: this allows for keyword highlighting, auto-completion and call tip display.</li>
-<li>Improved the shape serialization routines, effectively reducing generated file sizes, mainly if they contain duplicate geometric content. <strong>The generated file format cannot be read by previous V-REP versions (prior to V-REP 3.1.3), so make sure to make backup copies</strong>.</li>
+<li>Improved the shape serialization routines, effectively reducing generated file sizes, mainly if they contain duplicate geometric content. The generated file format cannot be read by previous V-REP versions (prior to V-REP 3.1.3), so make sure to make backup copies.</li>
 
 <li>Added a new type of <a href="scripts.htm">embedded script</a>: <a href="customizationScripts.htm">customization scripts</a>. They are associated with <a href="objects.htm">scene objects</a> (same as <a href="childScripts.htm">child scripts</a>) and can be used to customize a simulation scene to a great extent. The main difference with child scripts is that customization scripts are running all the time, also when simulation is not running.</li>
 
@@ -533,7 +537,6 @@ Version history:
 <li>Added a link to the <a href="http://robotics.itee.uq.edu.au/~hannakur/dokuwiki/doku.php?id=wiki:tapir" target="_blank">TAPIR implementation of the Adaptive Belief Tree (ABT) algorithm</a>, courtesy of Hanna Kurniawati, Dimitri Klimenko, Joshua Mun Song and Vinay Yadav.</li>
 <li>The middle mouse button can now be deactivated in order to not react to a press action. This can be done in the user settings file in <em>system/usrset.txt</em>.</li>
 <li>Added an interface model to the Arduino Esplora, located in <em>Models/other/Arduina Esplora.ttm</em>. The model is courtesy of Eric Rohmer.</li>
-<li>Added a function that allows to <a href="jointDynamicEngineProperties.htm#vortex">link two dynamic joints</a> (i.e. a force/torque applied to one will be transmitted to the other one, and vice-versa). This allows to simulate complex gear mechanisms, without the need to simulate the gear contacts. This feature is currently only supported via the <a href="dynamicsModule.htm#vortex">Vortex plugin</a>.</li>
 <li>Added a demo scene that illustrates how to simulate gear mechanisms with Vortex: <em>scenes/gearMechanism.ttt</em>.</li>
 <li>Changed the camera navigation method: camera rotations are now performed with the middle mouse button, instead of the right mouse button (which was, to many, confusing and not practical). The right mouse button is now exclusively reserved for pop-up menus. The previous navigation method can still be enabled via the variables <em>navigationBackwardCompatibility</em> and <em>middleMouseButtonSwitchesModes</em> in the <em>system/usrset.txt</em> file, but this is not recommended since this option will probably disappear in future.</li>
 <li>Added a play back tool, that allows you to manually step through a simulation. The model file is located in <em>Models/tools/playback tool.ttm</em>.</li>
@@ -634,7 +637,6 @@ Version history:
 <li>Following texture file formats are now supported: JPEG, PNG, TGA, BMP, TIFF &amp; GIF. Thanks to Sean Barrett for his image loading routines (used for GIF and TGA).</li>
 <li>Adjusted all default light intensities and default object colors (ambient component only) in order to be more compatible with other CAD applications. Older scenes and models will automatically adjust for that during a load operation (i.e. light intensities will be scaled by 0.675, colors by 1.5). If you do not wish for this automatic adjustment, turn variable <em>correctColorsAndLights</em> to false in <em>system/usrset.txt</em>.</li>
 <li>Added a ROS publisher for <a href="visionSensors.htm">vision sensor</a> depth data as RGBD point cloud, courtesy of Cedric Pradalier.</li>
-<li>Added a <a href="primitiveShapes.htm">possibility to create negative volumes</a> (i.e. holes) in pure shapes, for efficient dynamic simulation of tubes or pipes for instance.</li>
 <li>Fixed a bug affecting the <a href="apiFunctions.htm">regular API</a> function <a href="regularApi/simGetObjectVelocity.htm">sim.getObjectVelocity</a>.</li>
 <li>Added more predefined <a href="pagesAndViews.htm#pageConfigurations">page configurations</a>.</li>
 <li>Added a gamepad interface to the RosPlugin. The code is courtesy of Roberto Marino.</li>
@@ -672,7 +674,7 @@ Version history:
 
 
 <br><h2>V-REP V3.0.3 (April 29th 2013)</h2> 
-<li>Fixed a bug created in release 3.0.2: pure shapes would see their <em>Bullet custom collision margin scalings</em> set to a non-default value automatically. Thanks to Geerten Doornenbal and others for reporting this.</li>
+<li>Fixed a bug created in release 3.0.2: primitive shapes would see their <em>Bullet custom collision margin scalings</em> set to a non-default value automatically. Thanks to Geerten Doornenbal and others for reporting this.</li>
 <li>Fixed several minor bugs. Thanks to Qi Wang, Giordano and Karl Robillard.
 
 <li>Added also following new <a href="apiFunctions.htm">regular API</a> functions: <a href="regularApi/simGetJointMode.htm">sim.getJointMode</a>, <a href="regularApi/simGetJointTargetPosition.htm">sim.getJointTargetPosition</a> and <a href="regularApi/simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.</li>
@@ -714,7 +716,7 @@ Version history:
 
 
 <br><h2>V-REP V3.0.1 (January 20th 2013)</h2> 
-<li><a href="shapes.htm">Convex shapes</a> are now also directly supported in V-REP. We however still recommend using only pure shapes for dynamic simulations.</li>
+<li><a href="shapes.htm">Convex shapes</a> are now also directly supported in V-REP. We however still recommend using only primitive shapes for dynamic simulations.</li>
 <li>Added a <a href="convexDecomposition.htm">convex decomposition function</a> (routines courtesy of Khaled Mamou)</li>
 <li>Added one new <a href="apiFunctions.htm">regular API</a> function: <a href="regularApi/simConvexDecompose.htm">sim.convexDecompose</a>.</li>
 <li>The <a href="urdfPlugin.htm">URDF importer</a> is now in an advanced beta stage.</li>
@@ -743,7 +745,7 @@ Version history:
 <li><a href="addOns.htm">Add-ons</a> are now supported: they can run in the background, or be called as a function, when needed</li>
 <li>Added <a href="regularApi/simCreateDummy.htm">sim.createDummy</a>.</li>
 <li>Textured shapes can now also be grouped</li>
-<li>The bounding box of <a href="shapes.htm">pure compound shapes</a> can now also be reoriented</li>
+<li>The bounding box of <a href="shapes.htm">primitive compound shapes</a> can now also be reoriented</li>
 <li>The <a href="shapeDynamicsProperties.htm">shape dynamics properties</a> dialog allows now specifying non-diagonal inertia matrices relative to a specific reference frame.
 <li>Shape grouping will now correctly compute the combined inertia matrix for the group.</li>
 <li>Added 2 new <a href="apiFunctions.htm">regular API</a> functions: <a href="regularApi/simGroupShapes.htm">sim.groupShapes</a> and <a href="regularApi/simUngroupShape.htm">sim.ungroupShape</a>.</li>
@@ -1303,7 +1305,7 @@ New API commands: sim.setModelProperty and sim.getModelProperty </li>
 <li>
 New API command: sim.getStringParam </li>
 <li>
-Option to create pure shapes with selected triangles in the triangle edit mode </li>
+Option to create primitive shapes with selected triangles in the triangle edit mode </li>
 <li>
 Improved demo scene: Welding robot with flexible cable simulation </li>
 <li>

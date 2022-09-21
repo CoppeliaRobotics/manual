@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Physics engine differences</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>Physics engine differences</h1>
+
+<p>Each one of the <a href="dynamicsModule.htm">physics engine supported in coppeliaSim</a> operates in a different manner, and each one of them will generate slightly or completely different results. Results depend on the engine's specific algorithms and calculation routines, but also on the engine specific properties/parameters used. While it would be possible to very roughly abstract some individual properties (e.g. the coefficient of friction for a body), the result would often not be the one expected: there is rarely a one-to-one correspondency between engine properties/parameters, and for this reason, the user can adjust them on an engine-basis. The default engine properties/parameters have been selected to perform best in most situations, but depending on the task and application, one will often have to fine-tune them for stability or realism. This is done  for <a href="shapeDynamicsProperties.htm">shapes</a>, <a href="jointDynamicsProperties.htm">joints</a> and <a href="simulationPropertiesDialog.htm">global engine properties</a>, via a JSON editor:<a name="json" id="json"></a></p>
+
+<p align=center><img src="images/engineProperties.jpg"></p>
+<p class=imageLabel>[Engine properties editor, for a shape]</p>
+<br>
+
+<p>Apart from above 2 main engine differences (algorithms/calculation routines &amp; properties), there are features (or handicaps) only offered by some physics engines. Related to CoppeliaSim, those are described here below:</p>
+
+<li><strong>Realistic masses and inertias</strong>: while the <a href="dynamicsModule.htm#mujoco">MuJoCo</a>, <a href="dynamicsModule.htm#vortex">Vortex</a> and <a href="dynamicsModule.htm#newton">Newton</a> engines allow to use realistic values for masses and inertias, the <a href="dynamicsModule.htm#bullet">Bullet</a> and <a href="dynamicsModule.htm#ode">ODE</a> engines on the other hand often require <em>mass and inertia balancing</em> (i.e. keeping mass and inertia differences between connecting shapes relatively small).</li>
+
+<li><a name="armature" id="armature"></a><strong>Motorized joints</strong>: the <em>armature</em> parameter is maybe one of the more important <a href="dynamicsModule.htm#mujoco">MuJoCo</a> engine specific parameters, and it can have a big impact on how a motorized joint behaves: it adds a rotor inertia (or reflected inertia) to a joint, making the simulation more stable and often increasing physical realism. One should keep in mind that this often requires an increased max. force or torque that the joint can deliver.</li>
+
+<li><strong>Consecutive joints</strong>: consecutive joints that are dynamically enabled are only supported with the <a href="dynamicsModule.htm#mujoco">MuJoCo </a>engine. With the other engines, auxiliary masses should be inserted between consecutive joints.</li>
+
+<li><strong>Dynamic content modification</strong>: modifying the content of a scene during simulation, such as adding/removing an object, changing the scene hierarchy, or dynamically resetting an object, is handled seamlessly with all engines, except for the <a href="dynamicsModule.htm#mujoco">MuJoCo</a> engine that requires a full restart each time: that operation is relatively slow, but will preserve the state of the simulation at that time (e.g. object poses and velocities). One common and frequent situation where this happens are applications of omnidirectional wheel robots, where a dynamic object reset is required in each simulation step.</li>
+<li><strong>Non-convex shapes</strong>: non-convex meshes are difficult and slow to simulate in general, and often unstable. For that reason they should be avoided at all costs. Some engines however still support them, while others will revert to using their convex representation for simulation (the <a href="dynamicsModule.htm#newton">newton</a> and <a href="dynamicsModule.htm#mujoco">MuJoCo</a> engines)</li>
+<li><strong>Static shapes</strong>: static, respondable shapes that are programmatically moved will interact with dynamic, respondable  shapes. This interaction includes collision response and friction force transmission. The <a href="dynamicsModule.htm#mujoco">MuJoCo</a> engine however will not transmit friction forces from static shapes when moved, unless the shape is flagged as kinematic: sim.setObjectIntParam(shapeHandle,sim.shapeintparam_kinematic,1). In that case, the static shape is represented in MuJoCo as a <em>mocap</em> body linked to a dynamic body via a <em>weld</em> constraint.</li>
+<li><strong>Surface velocity</strong>: most engines support body surface velocities, which are often used to simulate a simple conveyor modeled as a cuboid with a surface velocity. This is not possible with the <a href="dynamicsModule.htm#mujoco">MuJoCo</a> engine, which only supports conveyor belts, where each belt element is static and kinematic, and programmatically moved.</li>
+
+<li><a name="softBody" id="softBody"></a><strong>Soft bodies</strong>: only the<a href="dynamicsModule.htm#mujoco"> MuJoCo</a> engine supports soft bodies, including clothes and ropes. Those are generated in CoppeliaSim by adding composite items via XML injection. Additional constraints and behaviour can be achieved also via XML injection, knowing that generated XML files have consistent object naming, based on CoppeliaSim object aliases and handles: sim.getObjectAlias(objectHandle,4). Generated MuJoCo files can be found and inspected in sim.getStringParam(sim.stringparam_mujocodir)</li>
+
+<p align=center><img src="images/softBody.jpg"></p>
+<p class=imageLabel>[Soft body simulation]</p>
+<br>
+
+<li><a name="tendon" id="tendon"></a><strong>Strings and elastics</strong>: only the <a href="dynamicsModule.htm#mujoco">MuJoCo</a> engine supports tendon-like constraints between two shapes. Those are realized via linked <a href="dummies.htm">dummies</a>, where the link type is <em>Dynamics, tendon constraint</em>. Those tendons can be motorized via a proxy prismatic joint. Other engines will have to revert in modeling a string via two spherical, and one prismatic joint, with appropriate auxiliary masses in-between.</li>
+
+<p align=center><img src="images/tendonConstraint.jpg"></p>
+<p class=imageLabel>[Strings/elastics]</p>
+<br>
+
+
+
+
+
+<br>
+<br>
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>

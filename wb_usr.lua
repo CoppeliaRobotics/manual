@@ -27,6 +27,13 @@ wb_usr.tree =
         {
             name={en="Main features"},
             link="coppeliaSimFeatures.htm",
+            folder=
+            {
+                {
+                    name={en="Overview in other languages"},
+                    link="overviewTranslations.htm",
+                },
+            }
         },
         {
             name={en="Version history"},
@@ -37,12 +44,8 @@ wb_usr.tree =
             link="licensing.htm",
         },
         {
-            name={en="Acknowledgments and credits"},
+            name={en="Acknowledgments"},
             link="acknowledgments.htm",
-        },
-        {
-            name={en="Overview in other languages"},
-            link="overviewTranslations.htm",
         },
         {
             name={en="User interface"},
@@ -218,14 +221,7 @@ wb_usr.tree =
                                     {
                                         {
                                             name={en="Shape dynamics properties"},
-                                            link="shapeDynamicsProperties.htm",
-                                            folder=
-                                            {
-                                                {
-                                                    name={en="Material properties"},
-                                                    link="shapeDynamicEngineProperties.htm"
-                                                },
-                                            }
+                                            link="shapeDynamicsProperties.htm"
                                         },
                                         {
                                             name={en="Shape geometry dialog"},
@@ -274,14 +270,7 @@ wb_usr.tree =
                                     {
                                         {
                                             name={en="Joint dynamics properties"},
-                                            link="jointDynamicsProperties.htm",
-                                            folder=
-                                            {
-                                                {
-                                                    name={en="Dynamics engines properties related to joints"},
-                                                    link="jointDynamicEngineProperties.htm"
-                                                },
-                                            }
+                                            link="jointDynamicsProperties.htm"
                                         },
                                     }
                                 },
@@ -484,15 +473,8 @@ wb_usr.tree =
                             link="designingDynamicSimulations.htm"
                         },
                         {
-                            name={en="General dynamics properties"},
-                            link="dynamicsDialog.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Dynamics engines general properties"},
-                                    link="dynamicsEngineDialog.htm"
-                                },
-                            }
+                            name={en="Physics engine differences"},
+                            link="physicsEngineDifferences.htm"
                         },
                     }
                 },
@@ -697,7 +679,7 @@ wb_usr.tree =
             }
         },
         {
-            name={en="Writing code in and around CoppeliaSim"},
+            name={en="Writing code"},
             link="writingCode.htm",
             folder=
             {

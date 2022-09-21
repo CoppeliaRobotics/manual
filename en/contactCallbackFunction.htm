@@ -19,13 +19,13 @@
 
 <h1>The contact callback function</h1>
 
-<p><a href="childScripts.htm">Child script</a>s, or <a href="customizationScripts.htm">customization scripts</a> can include  a contact callback function, which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>. When present, and the physics engine detected a collision between two <a href="designingDynamicSimulations.htm#staticAndRespondable">respondable</a> shapes, then the contact callback function will be called with appropriate arguments, allowing the user to customize the handling of contacts. The contact callback function might be called very often, sometimes more than several hundred  times per simulation step (remember also that by default, the physics engine will be called 10 times for one simulation step). For that reason, keep things simple, in order to avoid slowing down the simulation.</p>
+<p>Scripts can include  a contact callback function, which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>. When present, and the physics engine detected a collision between two <a href="designingDynamicSimulations.htm#staticAndRespondable">respondable</a> shapes, then the contact callback function will be called with appropriate arguments, allowing the user to customize the handling of contacts. The contact callback function might be called very often, sometimes more than several hundred  times per simulation step (remember also that by default, the physics engine will be called 10 times for one simulation step). For that reason, keep things simple, in order to avoid slowing down the simulation.</p>
 
 <p>Following represents a typical contact callback function:<br>
 </p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
-function <strong>sysCall_contactCallback</strong>(inData)
+function <strong>sysCall_contact</strong>(inData)
     -- Will objects with inData.handle1 and inData.handle2 respond to dynamic collision?
     local retData={}
     retData.ignoreContact=false -- handle contact here
@@ -68,6 +68,9 @@ function <strong>sysCall_contactCallback</strong>(inData)
         retData.ode.contactMode=mode
     end
 
+    if inData.engine==sim.physics_mujoco then
+    end
+    
     if inData.engine==sim.physics_vortex then
     end
 
@@ -84,9 +87,9 @@ end</code>
 <p>In Python, a contact callback function can only be implemented via a non-threaded script, and it should be explicitly activated with a luaExec command:</p>
 <code class="hljs language-python coppelia-coppeliasim-script">
 #python
-#luaExec additionalFuncs={'sysCall_contactCallback'}
+#luaExec additionalFuncs={'sysCall_contact'}
 
-def <strong>sysCall_contactCallback</strong>(inData):
+def <strong>sysCall_contact</strong>(inData):
     pass</code>
 
 

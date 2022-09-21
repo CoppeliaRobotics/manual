@@ -17,32 +17,18 @@
 
 
 
-<h1>Script execution order</h1>
+<h1>Script execution precedence</h1>
 
-<p><a href="scripts.htm">Scripts</a> are not executed in a random fashion: script type, script location and script settings can influence when (in relation to others) a script is being executed. A simple rule to remember is: the more <em>important</em> or <em>persistent</em> a script is, the later it will be called/executed. </p>
-<p>Execution order is first based on script type. We have following order, from first executed to last executed:</p>
-<li><a href="childScripts.htm">child scripts</a> are called</li>
-<li><a href="customizationScripts.htm">customization scripts</a> are called</li>
-<li><a href="addOns.htm">add-on scripts</a> are called</li>
-<li><a href="sandboxScript.htm">the sandbox script</a> is called</li>
-<p>Because child scripts are <a href="simulationScripts.htm">simulation scripts</a>, they will only run as long as the simulation is running (i.e. they are not <em>persistent</em>). This is not the case  with customization scripts, add-ons and the sandbox script, which run also after a simulation stop. Additionally, add-ons and the sandbox script also continue to run when switching to a different scene. Above sequence makes sense since <em>important</em> scripts can be designed to rely and operate on data produced by less <em>important</em> scripts.</p>
-<p> As an example, the callback <em>sysCall_sensing</em> will be called in following sequence: first in child scripts, then in customization scripts, in add-ons, and finally in the sandbox script.</p>
-<p>Within a script type, the execution order is a function of a script's position in the scene hierarchy, and its following 2 <a href="scriptProperties.htm">script settings</a>:</p>
+<p><a href="scripts.htm">Script callback functions</a> are not executed in a random order: script location and type have an influence on  when (in relation to others) a script is executed or called: </p>
 
-<li><strong>Execution priority</strong>: specifies the execution priority for a script. The execution priority relates only to same-type scripts, and only to scripts that are siblings in the scene hierarchy. </li>
+<p>Execution precedence is first and foremost based on location: a child object's script has always higher priority than its parent's script, and thus will be called before. In case of two sibling objects, precedence is given by the order they appear in the scene hierarchy, unless they have a different priority flag, in which case that flag decides the precedence. See the <a href="scriptProperties.htm">script dialog</a> for details.</p>
+
+<p>Execution precedence is next decided by the script type, from first to last executed: <a href="childScripts.htm">child script,</a><a href="customizationScripts.htm">customization script</a>, <a href="addOns.htm">add-on script</a>, and finally the <a href="sandboxScript.htm">sandbox script</a>.</p>
+
 <p align=center><img src="images/scriptTreeTraversal1.jpg"></p>
-<p class=imageLabel>[Script execution order based on <em>execution priority</em> setting]</p>
+<p class=imageLabel>[Example scene with script execution precedence]</p>
 
-
-<li><strong>Tree traveral</strong>: specifies when a script is executed, in relation to the scripts attached further down in the scene hierarchy (its <em>descendants scripts</em>). With <em>reverse</em>, the descendant scripts are first executed, with <em>forward</em>, the descendant scripts are executed last. <em>Same as parent</em> uses the same tree traversal as the first ancestor script. The tree traversal relates only to same-type scripts. Default is <em>reverse</em>.</li>
-<p align=center><img src="images/scriptTreeTraversal2.jpg"></p>
-<p class=imageLabel>[Script execution order based on <em>tree traversal</em> setting]</p>
-
-<p> Following diagram illustrates a concret example scene:</p>
-
-<p align=center><img src="images/scriptTreeTraversal3.jpg"></p>
-<p class=imageLabel>[Example scene and child script execution order]</p>
-
+<p>A simple rule to remember is: the <em>more important</em> or <em>persistent</em> a script is, the later it will be called. There are exceptions to this, depending on the callback type: e.g. the <a href="contactCallbackScript.htm">contact</a>- and the <a href="dynCallbackFunctions.htm">dynamics callback</a> are executed in reverse order. Additionally, when the caller expects a return value, the call chain is interrupted as soon as the first return value is received.</p>
 
 
 

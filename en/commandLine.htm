@@ -22,6 +22,9 @@
 <p>You can adjust the way CoppeliaSim operates via a <a href="plugins.htm">plugin</a> or an <a href="addOns.htm">add-on</a>, but you can also modify its behaviour via:</p>
 <li><a href="#commandLine">command line</a> arguments</li>
 <li>the <a href="#settingsFile">overall settings file</a></li>
+<li><a href="#environment">environment variables</a></li>
+<li>the <a href="#commander">status bar commander</a></li>
+
 <p>Additionally, you can also interact with CoppeliaSim via script functions and the <a href="#commander">Lua commander</a>.</p>
 
 <br>
@@ -87,10 +90,25 @@ $ ./coppeliaSim.app/Contents/MacOS/coppeliaSim -h -s5000 -q ../Resources/myScene
 <br>
 
 <h2>
-<a name="commander"></a>Lua commander
+<a name="environment"></a>Environment variables
 </h2>
 
-<p>The Lua commander, implemented via the <a href="https://github.com/CoppeliaRobotics/simExtLuaCmd" target="_blank">simExtLuaCmd plugin</a>, is a read-eval-print loop, that adds a text input to the CoppeliaSim status bar, which allows entering and executing Lua code on the fly, like in a terminal. The code can be run in the <a href="sandboxScript.htm">sandbox script</a>, or any other active script in CoppeliaSim. The behavior of the plugin can be controlled via [Menu bar --&gt; Modules --&gt; Lua commander]. It also offers its own <a href="simLuaCmd.htm?view=alphabetical">API functions</a>. Additionally, <em>help()</em> will display usage tips.</p>
+<p>Following environment variables allow to modify the behaviour of CoppeliaSim:</p>
+<li>COPPELIASIMPLUGIN_IGNORE_MISSING_SYMBOLS. If defined, then plugins will ignore missing symbols</li>
+<li>COPPELIASIM_USER_SETTINGS_FOLDER_SUFFIX. Will append a suffix to the user settings folder. This can be used to start several CoppeliaSim instances, with different user settings.</li>
+<li>COPPELIASIM_CONSOLE_LOG_FORMAT. The format of the console log, e.g. &quot;[{origin}:{verbosity}]   {message}&quot;</li>
+<li>COPPELIASIM_STATUSBAR_LOG_FORMAT. The format of the status bar log, e.g. &quot;&lt;font color='grey'&gt;[{origin}:{verbosity}]&lt;/font&gt;    &lt;font color='{color}'&gt;{message}&lt;/font&gt;&quot;</li>
+<li>COPPELIASIM_STATUSBAR_LOG_FORMAT_UNDECORATED. The format of the status bar log when <em>undecorated</em> is specified, e.g. &quot;&lt;font color='{color}'&gt;{message}&lt;/font&gt;&quot;</li>
+ 
+ 
+<br>
+<br>
+
+<h2>
+<a name="commander"></a>Status bar commander
+</h2>
+
+<p>The Lua commander, implemented via the <a href="https://github.com/CoppeliaRobotics/simExtLuaCmd" target="_blank">simExtLuaCmd plugin</a>, is a read-eval-print loop, that adds a text input to the CoppeliaSim status bar, which allows entering and executing Lua code on the fly, like in a terminal. The code can be run in the<a href="sandboxScript.htm"> sandbox script</a>, or any other active script in CoppeliaSim. The behavior of the plugin can be controlled via [Menu bar --&gt; Modules --&gt; Lua commander]. It also offers its own <a href="simLuaCmd.htm?view=alphabetical">API functions</a>. Additionally, <em>help()</em> will display usage tips.</p>
 
 <p align=center><img src="images/luaCommander.jpg"></p>
 <p class=imageLabel>[Lua commander]</p>
