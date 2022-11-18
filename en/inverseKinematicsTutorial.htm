@@ -205,10 +205,10 @@ function sysCall_actuation()
     
     -- Simple way:
     -- try to solve with the undamped method:
-    if simIK.applyIkEnvironmentToScene(ikEnv,ikGroup_undamped,true)==simIK.result_fail then 
+    if simIK.handleIkGroup(ikEnv,ikGroup_undamped,{syncWorlds=true})~=simIK.result_success then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
-        simIK.applyIkEnvironmentToScene(ikEnv,ikGroup_damped)
+        simIK.handleIkGroup(ikEnv,ikGroup_damped,{syncWorlds=true})
         -- We display a IK failure report message:
         sim.addLog(sim.verbosity_scriptwarnings,"IK solver failed.") 
     end
@@ -218,7 +218,7 @@ function sysCall_actuation()
     -- reflect the pose of the target dummy to its counterpart in the IK environment:
     simIK.setObjectMatrix(ikEnv,ikTarget,ikBase,sim.getObjectMatrix(simTarget,simBase)) 
     -- try to solve with the undamped method:
-    if simIK.handleIkGroup(ikEnv,ikGroup_undamped)==simIK.result_fail then 
+    if simIK.handleIkGroup(ikEnv,ikGroup_undamped)~=simIK.result_success then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
         simIK.handleIkGroup(ikEnv,ikGroup_damped)

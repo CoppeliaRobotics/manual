@@ -27,6 +27,7 @@ td.section { margin: 0; padding: 0; }
 <tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#addGoalState">simOMPL.addGoalState</a>
 <a href="?#compute">simOMPL.compute</a>
 <a href="?#createStateSpace">simOMPL.createStateSpace</a>
+<a href="?#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a>
 <a href="?#createTask">simOMPL.createTask</a>
 <a href="?#destroyStateSpace">simOMPL.destroyStateSpace</a>
 <a href="?#destroyTask">simOMPL.destroyTask</a>
@@ -62,6 +63,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a>
 <a href="?#setStartState">simOMPL.setStartState</a>
 <a href="?#setStateSpace">simOMPL.setStateSpace</a>
+<a href="?#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a>
 <a href="?#setStateValidationCallback">simOMPL.setStateValidationCallback</a>
 <a href="?#setStateValidityCheckingResolution">simOMPL.setStateValidityCheckingResolution</a>
 <a href="?#setValidStateSamplerCallback">simOMPL.setValidStateSamplerCallback</a>
@@ -227,6 +229,51 @@ end
                                                 See also
                                             </td>
 <td class="apiTableRightDescr"> <a href="#destroyStateSpace">simOMPL.destroyStateSpace</a> <a href="#getStateSpaceDimension">simOMPL.getStateSpaceDimension</a> <a href="#setDubinsParams">simOMPL.setDubinsParams</a> <a href="#setStateSpace">simOMPL.setStateSpace</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="createStateSpaceForJoint" id="createStateSpaceForJoint"></a>simOMPL.createStateSpaceForJoint</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convenience function that wraps simOMPL.createStateSpace</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int ssHandle=simOMPL.createStateSpaceForJoint(string name, int jointHandle, int useForProjection=0, float weight=1)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>name</strong> (string): name of the state space</div>
+<div>
+<strong>jointHandle</strong> (int): handle of the joint</div>
+<div>
+<strong>useForProjection</strong> (int, default: 0): use for projection</div>
+<div>
+<strong>weight</strong> (float, default: 1): weight</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>ssHandle</strong> (int): handle of the state space</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int ssHandle=simOMPL.createStateSpaceForJoint(string name, int jointHandle, int useForProjection=0, float weight=1)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
 </td>
 </tr>
 </table>
@@ -492,7 +539,7 @@ end
 <td class="apiTableLeftDescr">
                                                 See also
                                             </td>
-<td class="apiTableRightDescr"> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+<td class="apiTableRightDescr"> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
 </td>
 </tr>
 </table>
@@ -614,7 +661,7 @@ end
 <td class="apiTableLeftDescr">
                                                 See also
                                             </td>
-<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
 </td>
 </tr>
 </table>
@@ -655,7 +702,7 @@ end
 <td class="apiTableLeftDescr">
                                                 See also
                                             </td>
-<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+<td class="apiTableRightDescr"> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
 </td>
 </tr>
 </table>
@@ -1034,7 +1081,7 @@ end
 <td class="apiTableLeftDescr">
                                                 See also
                                             </td>
-<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+<td class="apiTableRightDescr"> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
 </td>
 </tr>
 </table>
@@ -1076,7 +1123,7 @@ end
 <td class="apiTableLeftDescr">
                                                 See also
                                             </td>
-<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+<td class="apiTableRightDescr"> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
 </td>
 </tr>
 </table>
@@ -1161,7 +1208,7 @@ end
 <td class="apiTableLeftDescr">
                                                 See also
                                             </td>
-<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#projectionSize">simOMPL.projectionSize</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a>
+<td class="apiTableRightDescr"> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#readState">simOMPL.readState</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#projectionSize">simOMPL.projectionSize</a> <a href="#setProjectionEvaluationCallback">simOMPL.setProjectionEvaluationCallback</a> <a href="#compute">simOMPL.compute</a> <a href="#drawPath">simOMPL.drawPath</a> <a href="#getPath">simOMPL.getPath</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#getProjectedPathLength">simOMPL.getProjectedPathLength</a> <a href="#getReversedPath">simOMPL.getReversedPath</a>
 </td>
 </tr>
 </table>
@@ -1236,7 +1283,7 @@ end
 <td class="apiTableLeftDescr">
                                                 See also
                                             </td>
-<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+<td class="apiTableRightDescr"> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
 </td>
 </tr>
 </table>
@@ -1712,6 +1759,50 @@ end
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="setStateSpaceForJoints" id="setStateSpaceForJoints"></a>simOMPL.setStateSpaceForJoints</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convenience function that wraps simOMPL.setStateSpace</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simOMPL.setStateSpaceForJoints(string taskHandle, int[] jointHandles, int[] useForProjection={}, float[] weight={})<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>taskHandle</strong> (string): the handle of the task</div>
+<div>
+<strong>jointHandles</strong> (table of int): handles of the joints</div>
+<div>
+<strong>useForProjection</strong> (table of int, default: {}): use for projection, same size as jointHandles</div>
+<div>
+<strong>weight</strong> (table of float, default: {}): weights, same size as jointHandles</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simOMPL.setStateSpaceForJoints(string taskHandle, list jointHandles, list useForProjection={}, list weight={})<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a> <a href="#writeState">simOMPL.writeState</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="setStateValidationCallback" id="setStateValidationCallback"></a>simOMPL.setStateValidationCallback</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2048,7 +2139,7 @@ end
 <td class="apiTableLeftDescr">
                                                 See also
                                             </td>
-<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#writeState">simOMPL.writeState</a>
+<td class="apiTableRightDescr"> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#writeState">simOMPL.writeState</a>
 </td>
 </tr>
 </table>
@@ -2089,7 +2180,7 @@ end
 <td class="apiTableLeftDescr">
                                                 See also
                                             </td>
-<td class="apiTableRightDescr"> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#stateDistance">simOMPL.stateDistance</a>
+<td class="apiTableRightDescr"> <a href="#createStateSpaceForJoint">simOMPL.createStateSpaceForJoint</a> <a href="#enforceBounds">simOMPL.enforceBounds</a> <a href="#getPathState">simOMPL.getPathState</a> <a href="#getPathStateCount">simOMPL.getPathStateCount</a> <a href="#isStateValid">simOMPL.isStateValid</a> <a href="#isStateWithinBounds">simOMPL.isStateWithinBounds</a> <a href="#projectStates">simOMPL.projectStates</a> <a href="#readState">simOMPL.readState</a> <a href="#setStateSpaceForJoints">simOMPL.setStateSpaceForJoints</a> <a href="#stateDistance">simOMPL.stateDistance</a>
 </td>
 </tr>
 </table>

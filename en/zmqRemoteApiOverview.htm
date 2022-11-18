@@ -144,7 +144,39 @@ function sysCall_cleanup()
     remoteApiClient.cleanup()
 end</code>
 
+<br>
 
+<h2>Rust client</h2>
+<p>The <a href="https://github.com/samuel-cavalcanti/rust_zmqRemoteApi" target="_blank">Rust ZeroMQ remote API</a> is courtesy of Samuel Cavalcanti. Following is a very simple example ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepped</a> simulation for 3 seconds:</p>
+<code class="hljs language-rust coppelia-zmq-remote-api-client">use zmq_remote_api::{sim, sim::Sim, RemoteAPIError, RemoteApiClientParams};
+
+fn main() -&gt; Result&lt;(), RemoteAPIError&gt; {
+    env_logger::init();
+
+    let client = zmq_remote_api::RemoteApiClient::new(RemoteApiClientParams {
+        host: "localhost".to_string(),
+        ..RemoteApiClientParams::default()
+    })?;
+
+    let sim = Sim::new(&client);
+
+    client.set_stepping(true)?;
+    sim.start_simulation()?;
+    let mut time = sim.get_simulation_time()?;
+    while time &lt; 3.0 {
+        time = sim.get_simulation_time()?;
+
+        let message = format!("Simulation time: {time:.2} [s]", time = time);
+        println!("{}", message);
+        client.step(true)?;
+    }
+    sim.stop_simulation()?;
+    
+    Ok(())
+}</code>
+
+
+<br>
 <br>
 
 

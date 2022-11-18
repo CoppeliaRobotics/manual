@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>sim.multiplyMatrices</title>
+<title>sim.setObjectFloatArrayParam</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,26 +16,27 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simMultiplyMatrices" id="simMultiplyMatrices"></a>simMultiplyMatrices / sim.multiplyMatrices </p>
+<p class=subsectionBar><a name="simSetObjectFloatArrayParam" id="simSetObjectFloatArrayParam"></a>simSetObjectFloatArrayParam / sim.setObjectFloatArrayParam</p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Multiplies two transformation matrices. See also the section about <a href="../positionOrientationTransformation.htm">positions, orientations and transformations</a></td>
+<td class=apiTableRightDescr>Sets a floating-point array parameter of a <a href="../objects.htm">scene object</a>. See also the other <a href="../apiFunctions.htm#objectParameters">object parameter related functions</a><br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simMultiplyMatrices(const simFloat* matrixIn1,const simFloat* matrixIn2,simFloat* matrixOut)</td> 
+<td class=apiTableRightCSyn>int simSetObjectFloatArrayParam(int objectHandle,int parameterID,const simFloat* params,int size)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>matrixIn1</strong>: the first input matrix</div>
-<div><strong>matrixIn2</strong>: the second input matrix</div>
-<div><strong>matrixOut</strong>: the output matrix (the result of the multiplication: matrixIn1*matrixIn2).</div>
+<div><strong>objectHandle</strong>: handle of the object</div>
+<div><strong>parameterID</strong>: identifier of the parameter to retrieve. See the <a href="../objectParameterIDs.htm">list of all possible object parameters</a></div>
+<div><strong>params</strong>: a pointer to the float array</div>
+<div><strong>size</strong>: the size of the float array</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -43,7 +44,7 @@ C/C++<br>synopsis
 C/C++<br>return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful<br>
+<div>-1 in case of an error, 0 if the parameter could not be set, or 1 if operation was successful <br>
 </div>
 </td> 
 </tr> 
@@ -51,34 +52,36 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>float[12] resultMatrix=sim.multiplyMatrices(float[12] matrixIn1,float[12] matrixIn2)</td> 
+<td class=apiTableRightLSyn>sim.setObjectFloatArrayParam(int objectHandle,int parameterID,float[] params)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
 <div>Similar to the C-function counterpart</div>
-<div></div></td> 
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua<br>return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>resultMatrix</strong>: the result matrix (a table containing 12 values)</div>
 </td> 
 </tr> 
+
+ 
+
 
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>list resultMatrix=sim.multiplyMatrices(list matrixIn1,list matrixIn2)</td>
+<td class=apiTableRightPSyn>sim.setObjectFloatArrayParam(int objectHandle,int parameterID,list params)</td>
 </tr>
 
 </table> 
 
 <br>
 </td>
-</tr>
+
 </table>
 </div>
 </body>

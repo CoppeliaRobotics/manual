@@ -28,7 +28,7 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simImportMesh(simInt fileformat,const simChar* pathAndFilename,simInt options,simFloat identicalVerticeTolerance,simFloat scalingFactor,simFloat*** vertices,simInt** verticesSizes,simInt*** indices,simInt** indicesSizes,simFloat*** reserved,simChar*** names)<br></td> 
+<td class=apiTableRightCSyn>int simImportMesh(int fileformat,const char* pathAndFilename,int options,simFloat identicalVerticeTolerance,simFloat scalingFactor,simFloat*** vertices,int** verticesSizes,int*** indices,int** indicesSizes,simFloat*** reserved,char*** names)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
@@ -59,26 +59,26 @@ C/C++<br>synopsis
 <div>USAGE EXAMPLE:</div>
 <code class="hljs language-c++ simple">
 simFloat** vertices;
-simInt* verticesSizes;
-simInt** indices;
-simInt* indicesSizes;
-simInt elementCount=simImportMesh(1,"d:\\example.dxf",0,0.0001f,1.0f,&vertices,
+int* verticesSizes;
+int** indices;
+int* indicesSizes;
+int elementCount=simImportMesh(1,"d:\\example.dxf",0,0.0001f,1.0f,&vertices,
                             &verticesSizes,&indices,&indicesSizes,nullptr,nullptr);
 if (elementCount>0)
 {
     const float grey[3]={0.5f,0.5f,0.5f};
     for (int i=0;i&#60;elementCount;i++)
     {
-        simInt shapeHandle=simCreateMeshShape(2,20.0f*3.1415f/180.0f,vertices[i],
+        int shapeHandle=simCreateMeshShape(2,20.0f*3.1415f/180.0f,vertices[i],
                                verticesSizes[i],indices[i],indicesSizes[i],nullptr);
         simSetShapeColor(shapeHandle,"",sim.colorcomponent_ambient,grey);
-        simReleaseBuffer((simChar*)indices[i]);
-        simReleaseBuffer((simChar*)vertices[i]);
+        simReleaseBuffer((char*)indices[i]);
+        simReleaseBuffer((char*)vertices[i]);
     }
-    simReleaseBuffer((simChar*)indicesSizes);
-    simReleaseBuffer((simChar*)indices);
-    simReleaseBuffer((simChar*)verticesSizes);
-    simReleaseBuffer((simChar*)vertices);
+    simReleaseBuffer((char*)indicesSizes);
+    simReleaseBuffer((char*)indices);
+    simReleaseBuffer((char*)verticesSizes);
+    simReleaseBuffer((char*)vertices);
 }</code>
 </td> 
 </tr> 

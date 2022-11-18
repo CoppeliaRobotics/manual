@@ -44,19 +44,31 @@ Version history:
 
  
 <h2>
+<a name="coppeliaSim4.5.0" id="coppeliaSim4.5.0"></a>CoppeliaSim V4.5.0 (not yet released)
+</h2>
+ 
+<li>Fixed several bugs. Thanks to Andrey Voronkov and Mathias Thor for noticing them or helping to resolve them</li>
+<li>Rust is now also supported with the <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a>. The binding is courtesy of Samuel Cavalcanti</li>
+<li>Reworked the <a href="kinematics.htm">kinematics functionality</a>, which now allows to handle kinematic tasks in a much more flexible manner. This includes a callback function to inspect/modify the Jacobian, or compute a resulting configuration with <a href="simIK.htm#simIK.handleIkGroup">simIK.handleIkGroup</a>, or <a href="simIK.htm#simIK.computeJacobian">simIK.computeJacobian</a> which allows to compute the Jacobian for any configuration of any kinematic chain</li> 
+<br>
+<br>
+
+
+<h2>
 <a name="coppeliaSim4.4.0" id="coppeliaSim4.4.0"></a>CoppeliaSim V4.4.0 (September 22nd, 2022)
 </h2>
  
 <li>Fixed several bugs. Thanks to Pranav A. Bhounsule, Amirhossein Afkhami Ardekani, Roman Horshkov, Volker Kühn, Artem Shishkin, Mathias Thor and Davide Scorza for noticing them or helping to resolve them</li>
 <li>Added a new physics engine to CoppeliaSim: <a href="dynamicsModule.htm#mujoco">MuJoCo</a>. This adds a state-of-the-art physics engine to CoppeliaSim, enabling new features such as cables, <a href="physicsEngineDifferences.htm#softBody">soft body simulation</a>, etc. Added a demo scene illustrating some of MuJoCo's features: <em>scenes/mujocoSpecific.ttt</em>
 <li><a href="regularApi/simRuckigPos.htm">sim.ruckigPos</a>, <a href="regularApi/simRuckigVel.htm">sim.ruckigVel</a>, <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a> can now also be used for non-symmetric velocity/acceleration profiles, via the <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minvel</a> and <a href="apiConstants.htm#ruckigFunctions">sim.ruckig_minaccel</a> flags</li>
-<li>The <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a> is now supported in following languages: Python, c++, Matlab, Octave, Lua and Java</li>
+<li>The <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a> is now supported in following languages: Python, c++, Matlab, Octave, Lua, Java and Rust</li>
 <li>Merged the dynamics dialog with the <a href="simulationPropertiesDialog.htm">simulation dialog</a>, and simplified the way custom time steps can be specified</li>
 <li>Improved and simplified the <a href="scriptExecution.htm">script execution/call precedence</a></li>
 <li>Capsule primitives are now also supported</li>
 <li>Support for ROS2 Humble Hawksbill was added</li>
 <li>Kinematic joints can now also be directly driven via <a href="regularApi/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a> and <a href="regularApi/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a>, using maximum velocity, acceleration and jerk constraints, for a specific motion profile</li>
 <li>Dynamic joints now have distinct and more clearly defined <a href="jointDynamicsProperties.htm">control modes</a>: <em>free</em>, <em>force/torque</em>, <em>velocity</em>, <em>position</em>, <em>spring</em> and <em>custom</em>.</li>
+<li>The Rust ZeroMQ remote API is courtesy of Samuel Cavalcanti</li>
 <li>Added <a href="regularApi/simBroadcastMsg.htm">sim.broadcastMsg</a>, which allows to easily broadcast a message to all scripts</li>
 <li>Added a point sampler add-on, that allows to extract 3D poisitions and normal vectors from the mouse cursor</li>
 <li>Added a scene demonstrating texture modification to simulate a vehicle's trace: scenes/mobileRobotVisualTraces.ttt</li>

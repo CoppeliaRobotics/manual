@@ -33,7 +33,7 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simRegisterScriptCallbackFunction(const simChar* funcNameAtPluginName,const simChar* callTips,simVoid(*callBack)(struct SScriptCallBack* cb))<br></td> 
+<td class=apiTableRightCSyn>int simRegisterScriptCallbackFunction(const char* funcNameAtPluginName,const char* callTips,void(*callBack)(struct SScriptCallBack* cb))<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
@@ -45,11 +45,11 @@ C/C++<br>synopsis
 <div><strong>callback</strong>: callback address that is called when the &quot;functName&quot; function is called from Lua. Can be nullptr, in which case the command will only register the function for call tips and syntax highlighting. See further down for a simple way to call above function, using a helper class. The callback's first argument is a SScriptCallBack structure that holds:<br>
 </div>
 <br>
-<div><strong>simInt objectID</strong>: handle of the object that the calling script is attached to, or -1 if the calling script is not a child script<br>
+<div><strong>int objectID</strong>: handle of the object that the calling script is attached to, or -1 if the calling script is not a child script<br>
 </div>
-<div><strong>simInt scriptID</strong>: handle of the calling script<br>
+<div><strong>int scriptID</strong>: handle of the calling script<br>
 </div>
-<div><strong>simInt stackID</strong>: a <a href="simCreateStack.htm">stack handle</a>. The stack is used to read arguments from the script, and to return data to the script.  See also the <a href="../apiFunctions.htm#stacks">available stack functions</a>.<br>
+<div><strong>int stackID</strong>: a <a href="simCreateStack.htm">stack handle</a>. The stack is used to read arguments from the script, and to return data to the script.  See also the <a href="../apiFunctions.htm#stacks">available stack functions</a>.<br>
 </div>
 <br>
 

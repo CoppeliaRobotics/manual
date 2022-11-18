@@ -23,25 +23,22 @@
 <p>An IK task is defined by an IK group, which contains one or more IK elements:<br>
 </p>
 
-<li><strong>IK group</strong>: an IK group contains one or more IK elements. To solve the kinematics of a simple kinematic chain, one IK group containing one IK element is needed. The IK group defines the overall solving properties (such as the  solver, the number of iterations, etc.). <br>
+<li><strong>IK group</strong>: an IK group contains one or more IK elements. To solve the kinematics of a simple kinematic chain, one IK group containing one IK element is needed. The IK group defines the overall solving properties (such as the  solver, the number of iterations, etc.). An IK group can be seen as the Jacobian obtained by stacking the Jacobians from its IK elements.<br>
 </li>
 
-<li><strong>IK element</strong>: an IK element represents a simple kinematic chain, which is a linkage containing at least one joint in IK mode. The chain is specified by a  tip, indicating the end-effector (usually the last object in the chain), and a base, indicating the base object (or first object) in the chain, and a target for the tip to follow. In short, an IK element is made up by:<br>
+<li><strong>IK element</strong>: an IK element represents a simple kinematic chain, which is a linkage containing at least one joint. The chain is specified by a  tip, indicating the end-effector (usually the last object in the chain), and a base, indicating the base object (or first object) in the chain, and a target for the tip to follow. An IK element can be seen as the Jacobian linked with the kinematic chain. In short, an IK element is made up by:<br>
 </li>
 
-<li class=tabTab>a<strong> base</strong>, which represents the start of the kinematic chain.<br>
+<li class=tabTab>a<strong> base</strong>, which represents the start of the kinematic chain<br>
 </li>
 
-<li class=tabTab>several<strong> links</strong> (any type of object except joints in IK mode). Joints which are not in <em>IK mode</em> are however also considered as links (in that case they behave as rigid joints (joints with a fixed linear/angular position)). <br>
-</li>
+<li class=tabTab>several<strong> links</strong> (any type of object except joints). Joints which are <em>passive</em> are however also considered as links (in that case they behave as rigid joints (joints with a fixed linear/angular position))</li>
 
-<li class=tabTab>several<strong> joints</strong>. which need to be in IK mode, otherwise they are considered as links (see above).</li>
+<li class=tabTab>several<strong> joints</strong></li>
 
-<li class=tabTab>a<strong> tip</strong>. The tip is usually the last object in the considered kinematic chain (when going from the base to the tip), and is often the end-effector. The tip object should be linked to a target object (see hereafter).<br>
-</li>
+<li class=tabTab>a<strong> tip</strong>. The tip is usually the last object in the considered kinematic chain (when going from the base to the tip), and is often the end-effector. The tip object should be linked to a target object (see hereafter)</li>
 
-<li class=tabTab>a<strong> target</strong>. The target represents the position and/or orientation the tip should adopt (or follow) when solving for IK. The target object should be linked to a tip object (see hereabove).<br>
-</li>
+<li class=tabTab>a<strong> target</strong>. The target represents the position and/or orientation the tip should adopt (or follow) when solving for IK. The target object should be linked to a tip object (see hereabove)</li>
 
 <p>Following figures show two kinematic chains as they are described via IK elements. The two IK elements perceive the two chains in a similar way (the very first joint of the second example is ignored by the IK element):<br>
 </p>

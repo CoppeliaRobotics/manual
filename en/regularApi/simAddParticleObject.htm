@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simAddParticleObject</title>
+<title>sim.addParticleObject</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,7 +16,7 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simAddParticleObject" id="simAddParticleObject"></a>simAddParticleObject / sim.addParticleObject </p>
+<p class=subsectionBar><a name="simAddParticleObject" id="simAddParticleObject"></a>sim.addParticleObject </p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
@@ -28,15 +28,33 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>simInt simAddParticleObject(simInt objectType,simFloat size,simFloat density,const simVoid* parameters,simFloat lifeTime,simInt maxItemCount,const simFloat* color,const simFloat* setToNULL,const simFloat* setToNULL,const simFloat* setToNULL)<br></td> 
+<td class=apiTableRightCSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C/C++<br>return value
+</td> 
+<td class=apiTableRightCRet>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua<br>synopsis
+</td> 
+<td class=apiTableRightLSyn>int particleObjectHandle=sim.addParticleObject(int objectType,float size,float density,float[] parameters,float lifeTime,int maxItemCount,float[3] color=nil)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua<br>parameters</td> 
+<td class=apiTableRightLParam>
 <div><strong>objectType</strong>: a <a href="../apiConstants.htm#particleObjects">particle object type combined with attributes</a></div>
 <div><strong>size</strong>: diameter of the particles (spheres)</div>
 <div><strong>density</strong>: density of the particles</div>
-<div><strong>parameters</strong>: points to an array of values, allowing to specify additional parameters. Can be nullptr. The first value (an integer) indicates how many parameters will be set. All following values come in pair (an integer indicating what parameter, and a float indicating the parameter value. Following indicates the parameters:
+<div><strong>parameters</strong>: an array of values, allowing to specify additional parameters. Can be nil. Values come in pair (an integer indicating what parameter, and a float indicating the parameter value. Following indicates the parameters:
 </div>
 <div class=tab>0: Bullet friction coefficient (default: 0.0)</div>
 <div class=tab>1: Bullet restitution coefficient (default: 0.0)</div>
@@ -56,32 +74,10 @@ C/C++<br>synopsis
 <div class=tab>15: Newton static friction (default: 0.0)</div>
 <div class=tab>16: Newton kinetic friction (default: 0.0)</div>
 <div class=tab>17: Newton restitution (default: 0.0)</div>
-<div class=tab>If a parameter is not set, then its default value is used. As an example, following array: [3,0,0.5,2,0.5,9,0.5] will set Bullet's,  ODE's and Vortex's friction coefficients to 0.5<br>
-</div>
+<div class=tab>If a parameter is not set, then its default value is used</div>
 <div><strong>lifeTime</strong>: simulation time after which the particles are destroyed. Set to 0.0 for an unlimited lifetime.</div>
 <div><strong>maxItemCount</strong>: the maximum number of particles that this object can hold</div>
-<div><strong>color</strong>: default ambient/diffuse color (pointer to 3 rgb values). Can be nullptr</div>
-</td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftCRet>
-C/C++<br>return value
-</td> 
-<td class=apiTableRightCRet>
-<div>handle of the particle object if successful, -1 otherwise</div>
-</td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftLSyn>
-Lua<br>synopsis
-</td> 
-<td class=apiTableRightLSyn>int particleObjectHandle=sim.addParticleObject(int objectType,float size,float density,float[] parameters,float lifeTime,int maxItemCount,float[3] color=nil)<br></td> 
-</tr> 
-<tr class=apiTableTr> 
-<td class=apiTableLeftLParam>Lua<br>parameters</td> 
-<td class=apiTableRightLParam>
-<div>Similar to the C-function counterpart</div>
-<div></div>
+<div><strong>color</strong>: default ambient/diffuse color (pointer to 3 rgb values). Can be nil</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -89,8 +85,8 @@ Lua<br>synopsis
 Lua<br>return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Similar to the C-function counterpart</div>
-<div></div></td> 
+<div>handle of the particle object</div>
+</td> 
 </tr> 
 
 

@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simRuckigRemove</title>
+<title>sim.getObjectFloatArrayParam</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,24 +16,26 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simRuckigRemove" id="simRuckigRemove"></a>simRuckigRemove / sim.ruckigRemove </p>
+<p class=subsectionBar><a name="simGetObjectFloatArrayParam" id="simGetObjectFloatArrayParam"></a>simGetObjectFloatArrayParam / sim.getObjectFloatArrayParam</p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Removes an object previously created via <a href="simRuckigPos.htm">sim.ruckigPos</a> or <a href="simRuckigVel.htm">sim.ruckigVel</a>.</td>
+<td class=apiTableRightDescr>Retrieves a floating-point array parameter of a <a href="../objects.htm">scene object</a>. See also the other <a href="../apiFunctions.htm#objectParameters">object parameter related functions</a></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simRuckigRemove(int handle)</td> 
+<td class=apiTableRightCSyn>simFloat* simGetObjectFloatArrayParam(int objectHandle,int parameterID,int* size)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>handle</strong>: the handle of the object created via <a href="simRuckigPos.htm">simRuckigPos</a> or <a href="simRuckigVel.htm">simRuckigVel</a>.</div>
+<div><strong>objectHandle</strong>: handle of the object</div>
+<div><strong>parameterID</strong>: identifier of the parameter to retrieve. See the <a href="../objectParameterIDs.htm">list of all possible object parameters</a></div>
+<div><strong>size</strong>: the size of the returned float array. Can be null</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -41,14 +43,14 @@ C/C++<br>synopsis
 C/C++<br>return value
 </td> 
 <td class=apiTableRightCRet>
-<div>1 in case of success</div>
+<div>null if the parameter could not be retrieved, or a pointer to the array. The user is in charge of releasing the array with <a href="simReleaseBuffer.htm">simReleaseBuffer</a></div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>sim.ruckigRemove(int handle)</td> 
+<td class=apiTableRightLSyn>float[] params=sim.getObjectFloatArrayParam(int objectHandle,int parameterID)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
@@ -61,21 +63,24 @@ Lua<br>synopsis
 Lua<br>return values
 </td> 
 <td class=apiTableRightLRet>
-<div></div>
+<div>Similar to the C-function counterpart</div>
 </td> 
 </tr> 
+
+ 
+
 
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>sim.ruckigRemove(int handle)</td>
+<td class=apiTableRightPSyn>list params=sim.getObjectFloatArrayParam(int objectHandle,int parameterID)</td>
 </tr>
 
 </table> 
 
 <br>
 </td>
-</tr>
+
 </table>
 </div>
 </body>
