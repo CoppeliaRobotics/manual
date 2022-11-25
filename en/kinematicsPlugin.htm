@@ -29,17 +29,17 @@ function sysCall_init()
     simTip=sim.getObject('/tip')
     simTarget=sim.getObject('/target')
     ikEnv=simIK.createEnvironment()
-    ikGroup=simIK.createIkGroup(ikEnv)
-    local ikElement=simIK.addIkElementFromScene(ikEnv,ikGroup,simBase,simTip,simTarget,desiredConstraints)
+    ikGroup=simIK.createGroup(ikEnv)
+    local ikElement=simIK.addElementFromScene(ikEnv,ikGroup,simBase,simTip,simTarget,desiredConstraints)
 end
 
 -- IK calculation, and application to the scene:
 function sysCall_actuation()
-    simIK.applyIkEnvironmentToScene(ikEnv,ikGroup)
+    simIK.handleGroup(ikEnv,ikGroup,{syncWorlds=true})
 end</code>
 
 
-<p><a href="simIK.htm#simIK.addIkElementFromScene">simIK.addIkElementFromScene</a> will parse the scene given a base, tip and target object, and generate an IK element appropriately, with the given constraints. <a href="simIK.htm#simIK.applyIkEnvironmentToScene">simIK.applyIkEnvironmentToScene</a> on the other hand will compute IK, then apply the calculation results to the corresponding scene joints. One can of course also manually build the kinematic environment, for full control, as in following example:</p>
+<p><a href="simIK.htm#simIK.addElementFromScene">simIK.addElementFromScene</a> will parse the scene given a base, tip and target object, and generate an IK element appropriately, with the given constraints. <a href="simIK.htm#simIK.handleGroup">simIK.handleGroup</a>(ikEnv,ikGroup,{syncWorlds=true}) on the other hand will synchronize the IK world with the sim world, compute IK, then synchronize the sim world with the IK world. One can of course also manually build the kinematic environment, for full control, as in following example:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
 -- set-up:
@@ -73,22 +73,22 @@ function sysCall_init()
     -- set that dummy into the same pose as its CoppeliaSim counterpart:
     simIK.setObjectMatrix(ikEnv,ikTarget,-1,sim.getObjectMatrix(simTip,-1)) 
     simIK.setLinkedDummy(ikEnv,ikTip,ikTarget) -- link the two dummies
-    ikGroup=simIK.createIkGroup(ikEnv) -- create an IK group
+    ikGroup=simIK.createGroup(ikEnv) -- create an IK group
     -- set its resolution method to undamped:
-    simIK.setIkGroupCalculation(ikEnv,ikGroup,simIK.method_pseudo_inverse,0,3)
+    simIK.setGroupCalculation(ikEnv,ikGroup,simIK.method_pseudo_inverse,0,3)
     -- add an IK element to that IK group: 
-    local ikElement=simIK.addIkElement(ikEnv,ikGroup,ikTip)
+    local ikElement=simIK.addElement(ikEnv,ikGroup,ikTip)
     -- specify the base of that IK element: 
-    simIK.setIkElementBase(ikEnv,ikGroup,ikElement,ikBase)
+    simIK.setElementBase(ikEnv,ikGroup,ikElement,ikBase)
     -- specify the constraints of that IK element: 
-    simIK.setIkElementConstraints(ikEnv,ikGroup,ikElement,simIK.constraint_x+simIK.constraint_y) 
+    simIK.setElementConstraints(ikEnv,ikGroup,ikElement,simIK.constraint_x+simIK.constraint_y) 
 end
 
 -- IK calculation, and application to the scene:
 function sysCall_actuation()
     -- reflect the pose of the target dummy in the IK environment:
     simIK.setObjectMatrix(ikEnv,ikTarget,ikBase,sim.getObjectMatrix(simTarget,simBase)) 
-    simIK.handleIkGroup(ikEnv,ikGroup) -- solve
+    simIK.handleGroup(ikEnv,ikGroup) -- solve
     -- apply the calculated joint values:
     sim.setJointPosition(simJoints[1],simIK.getJointPosition(ikEnv,ikJoints[1])) 
     sim.setJointPosition(simJoints[2],simIK.getJointPosition(ikEnv,ikJoints[2]))

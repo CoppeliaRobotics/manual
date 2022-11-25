@@ -118,17 +118,17 @@ function sysCall_init()
     -- create an IK environment:
     ikEnv=simIK.createEnvironment()
     -- create an IK group: 
-    ikGroup_undamped=simIK.createIkGroup(ikEnv)
+    ikGroup_undamped=simIK.createGroup(ikEnv)
     -- set its resolution method to undamped: 
-    simIK.setIkGroupCalculation(ikEnv,ikGroup_undamped,simIK.method_pseudo_inverse,0,6)
+    simIK.setGroupCalculation(ikEnv,ikGroup_undamped,simIK.method_pseudo_inverse,0,6)
     -- create an IK element based on the scene content: 
-    simIK.addIkElementFromScene(ikEnv,ikGroup_undamped,simBase,simTip,simTarget,simIK.constraint_pose)
+    simIK.addElementFromScene(ikEnv,ikGroup_undamped,simBase,simTip,simTarget,simIK.constraint_pose)
     -- create another IK group: 
-    ikGroup_damped=simIK.createIkGroup(ikEnv)
+    ikGroup_damped=simIK.createGroup(ikEnv)
     -- set its resolution method to damped: 
-    simIK.setIkGroupCalculation(ikEnv,ikGroup_damped,simIK.method_damped_least_squares,1,99)
+    simIK.setGroupCalculation(ikEnv,ikGroup_damped,simIK.method_damped_least_squares,1,99)
     -- create an IK element based on the scene content: 
-    simIK.addIkElementFromScene(ikEnv,ikGroup_damped,simBase,simTip,simTarget,simIK.constraint_pose) 
+    simIK.addElementFromScene(ikEnv,ikGroup_damped,simBase,simTip,simTarget,simIK.constraint_pose) 
     
     -- Elaborate way:
     --[[
@@ -176,27 +176,27 @@ function sysCall_init()
     -- link the two dummies: 
     simIK.setLinkedDummy(ikEnv,ikTip,ikTarget)
     -- create an IK group: 
-    ikGroup_undamped=simIK.createIkGroup(ikEnv)
+    ikGroup_undamped=simIK.createGroup(ikEnv)
     -- set its resolution method to undamped: 
-    simIK.setIkGroupCalculation(ikEnv,ikGroup_undamped,simIK.method_pseudo_inverse,0,6)
+    simIK.setGroupCalculation(ikEnv,ikGroup_undamped,simIK.method_pseudo_inverse,0,6)
     -- make sure the robot doesn't shake if the target position/orientation wasn't reached: 
-    simIK.setIkGroupFlags(ikEnv,ikGroup_undamped,1+2+4+8)
+    simIK.setGroupFlags(ikEnv,ikGroup_undamped,simIK.group_enabled|simIK.group_ignoremaxsteps|simIK.group_restoreonbadlintol|simIK.group_restoreonbadangtol)
     -- add an IK element to that IK group: 
-    local ikElementHandle=simIK.addIkElement(ikEnv,ikGroup_undamped,ikTip)
+    local ikElementHandle=simIK.addElement(ikEnv,ikGroup_undamped,ikTip)
     -- specify the base of that IK element: 
-    simIK.setIkElementBase(ikEnv,ikGroup_undamped,ikElementHandle,ikBase)
+    simIK.setElementBase(ikEnv,ikGroup_undamped,ikElementHandle,ikBase)
     -- specify the constraints of that IK element: 
-    simIK.setIkElementConstraints(ikEnv,ikGroup_undamped,ikElementHandle,simIK.constraint_pose)
+    simIK.setElementConstraints(ikEnv,ikGroup_undamped,ikElementHandle,simIK.constraint_pose)
     -- create another IK group: 
-    ikGroup_damped=simIK.createIkGroup(ikEnv)
+    ikGroup_damped=simIK.createGroup(ikEnv)
     -- set its resolution method to damped: 
-    simIK.setIkGroupCalculation(ikEnv,ikGroup_damped,simIK.method_damped_least_squares,1,99)
+    simIK.setGroupCalculation(ikEnv,ikGroup_damped,simIK.method_damped_least_squares,1,99)
     -- add an IK element to that IK group: 
-    local ikElementHandle=simIK.addIkElement(ikEnv,ikGroup_damped,ikTip)
+    local ikElementHandle=simIK.addElement(ikEnv,ikGroup_damped,ikTip)
     -- specify the base of that IK element: 
-    simIK.setIkElementBase(ikEnv,ikGroup_damped,ikElementHandle,ikBase)
+    simIK.setElementBase(ikEnv,ikGroup_damped,ikElementHandle,ikBase)
     -- specify the constraints of that IK element: 
-    simIK.setIkElementConstraints(ikEnv,ikGroup_damped,ikElementHandle,simIK.constraint_pose) 
+    simIK.setElementConstraints(ikEnv,ikGroup_damped,ikElementHandle,simIK.constraint_pose) 
     --]]
 end
 
@@ -205,10 +205,10 @@ function sysCall_actuation()
     
     -- Simple way:
     -- try to solve with the undamped method:
-    if simIK.handleIkGroup(ikEnv,ikGroup_undamped,{syncWorlds=true})~=simIK.result_success then 
+    if simIK.handleGroup(ikEnv,ikGroup_undamped,{syncWorlds=true})~=simIK.result_success then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
-        simIK.handleIkGroup(ikEnv,ikGroup_damped,{syncWorlds=true})
+        simIK.handleGroup(ikEnv,ikGroup_damped,{syncWorlds=true})
         -- We display a IK failure report message:
         sim.addLog(sim.verbosity_scriptwarnings,"IK solver failed.") 
     end
@@ -218,10 +218,10 @@ function sysCall_actuation()
     -- reflect the pose of the target dummy to its counterpart in the IK environment:
     simIK.setObjectMatrix(ikEnv,ikTarget,ikBase,sim.getObjectMatrix(simTarget,simBase)) 
     -- try to solve with the undamped method:
-    if simIK.handleIkGroup(ikEnv,ikGroup_undamped)~=simIK.result_success then 
+    if simIK.handleGroup(ikEnv,ikGroup_undamped)~=simIK.result_success then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
-        simIK.handleIkGroup(ikEnv,ikGroup_damped)
+        simIK.handleGroup(ikEnv,ikGroup_damped)
         -- We display a IK failure report message: 
         sim.addLog(sim.verbosity_scriptwarnings,"IK solver failed.") 
     end

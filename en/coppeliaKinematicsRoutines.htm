@@ -63,10 +63,10 @@ int main(int argc, char* argv[])
     // Create an IK group that constrains the chain tip to follow (in position)
     // the target dummy:
     int ikGroup;
-    ikCreateIkGroup(nullptr,&amp;ikGroup);
+    ikCreateGroup(nullptr,&amp;ikGroup);
     int ikElementIndex;
-    ikAddIkElement(ikGroup,tipHandle,&amp;ikElementIndex);
-    ikSetIkElementConstraints(ikGroup,ikElementIndex,ik_constraint_position);
+    ikAddElement(ikGroup,tipHandle,&amp;ikElementIndex);
+    ikSetElementConstraints(ikGroup,ikElementIndex,ik_constraint_position);
 
     ikGetObjectTransformation(targetHandle,-1,&amp;tr);
     while (true)
@@ -77,8 +77,8 @@ int main(int argc, char* argv[])
 
         // Solve IK:
         int result;
-        ikHandleIkGroup(ikGroup,&amp;result);
-        if (result==ik_result_fail)
+        ikHandleGroup(ikGroup,&amp;result);
+        if (result!=ik_result_success)
             break;
 
         // Read joint values:
