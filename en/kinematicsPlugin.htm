@@ -30,7 +30,8 @@ function sysCall_init()
     simTarget=sim.getObject('/target')
     ikEnv=simIK.createEnvironment()
     ikGroup=simIK.createGroup(ikEnv)
-    local ikElement=simIK.addElementFromScene(ikEnv,ikGroup,simBase,simTip,simTarget,desiredConstraints)
+    local ikElement,simToIkMap,ikToSimMap=simIK.addElementFromScene(
+        ikEnv,ikGroup,simBase,simTip,simTarget,desiredConstraints)
 end
 
 -- IK calculation, and application to the scene:
@@ -72,7 +73,7 @@ function sysCall_init()
     ikTarget=simIK.createDummy(ikEnv) -- create the target dummy in the IK environment
     -- set that dummy into the same pose as its CoppeliaSim counterpart:
     simIK.setObjectMatrix(ikEnv,ikTarget,-1,sim.getObjectMatrix(simTip,-1)) 
-    simIK.setLinkedDummy(ikEnv,ikTip,ikTarget) -- link the two dummies
+    simIK.setTargetDummy(ikEnv,ikTip,ikTarget) -- link the two dummies
     ikGroup=simIK.createGroup(ikEnv) -- create an IK group
     -- set its resolution method to undamped:
     simIK.setGroupCalculation(ikEnv,ikGroup,simIK.method_pseudo_inverse,0,3)

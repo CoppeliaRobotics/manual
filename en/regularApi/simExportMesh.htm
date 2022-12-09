@@ -28,7 +28,7 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simExportMesh(int fileformat,const char* pathAndFilename,int options,simFloat scalingFactor,int elementCount,simFloat** vertices,const int* verticesSizes,int** indices,const int* indicesSizes,simFloat** reserved,char** names)<br></td> 
+<td class=apiTableRightCSyn>int simExportMesh(int fileformat,const char* pathAndFilename,int options,double scalingFactor,int elementCount,double** vertices,const int* verticesSizes,int** indices,const int* indicesSizes,double** reserved,char** names)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
@@ -57,7 +57,7 @@ C/C++<br>synopsis
 int shapeCount=0;
 while (simGetObjects(shapeCount++,sim.object_shape_type)!=-1);
 shapeCount--;
-simFloat** vertices=new simFloat*[shapeCount];
+double** vertices=new double*[shapeCount];
 int* verticesSizes=new int[shapeCount];
 int** indices=new int*[shapeCount];
 int* indicesSizes=new int[shapeCount];
@@ -67,7 +67,7 @@ while (true)
     int shapeHandle=simGetObjects(index++,sim.object_shape_type);
     if (shapeHandle&#60;0)
         break;
-    simFloat* vert;
+    double* vert;
     int vertS;
     int* ind;
     int indS;
@@ -76,11 +76,11 @@ while (true)
     verticesSizes[index-1]=vertS;
     indices[index-1]=ind;
     indicesSizes[index-1]=indS;
-    simFloat m[12];
+    double m[12];
     simGetObjectMatrix(shapeHandle,-1,m);
     for (int i=0;i&#60;vertS/3;i++)
     {
-        simFloat v[3]={vert[3*i+0],vert[3*i+1],vert[3*i+2]};
+        double v[3]={vert[3*i+0],vert[3*i+1],vert[3*i+2]};
         simTransformVector(m,v);
         vert[3*i+0]=v[0];
         vert[3*i+1]=v[1];

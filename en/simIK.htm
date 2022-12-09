@@ -28,6 +28,7 @@ td.section { margin: 0; padding: 0; }
 <tr><td id="alphabetical" class="section"><pre class="apiList">
 <a href="?#simIK.addElement">simIK.addElement</a>
 <a href="?#simIK.addElementFromScene">simIK.addElementFromScene</a>
+<a href="?#simIK.computeGroupJacobian">simIK.computeGroupJacobian</a>
 <a href="?#simIK.computeJacobian">simIK.computeJacobian</a>
 <a href="?#simIK.createDummy">simIK.createDummy</a>
 <a href="?#simIK.createEnvironment">simIK.createEnvironment</a>
@@ -62,13 +63,13 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.getJointTransformation">simIK.getJointTransformation</a>
 <a href="?#simIK.getJointType">simIK.getJointType</a>
 <a href="?#simIK.getJointWeight">simIK.getJointWeight</a>
-<a href="?#simIK.getLinkedDummy">simIK.getLinkedDummy</a>
 <a href="?#simIK.getObjectHandle">simIK.getObjectHandle</a>
 <a href="?#simIK.getObjectMatrix">simIK.getObjectMatrix</a>
 <a href="?#simIK.getObjectParent">simIK.getObjectParent</a>
 <a href="?#simIK.getObjectPose">simIK.getObjectPose</a>
 <a href="?#simIK.getObjects">simIK.getObjects</a>
 <a href="?#simIK.getObjectTransformation">simIK.getObjectTransformation</a>
+<a href="?#simIK.getTargetDummy">simIK.getTargetDummy</a>
 <a href="?#simIK.handleGroup">simIK.handleGroup</a>
 <a href="?#simIK.load">simIK.load</a>
 <a href="?#simIK.save">simIK.save</a>
@@ -87,13 +88,13 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.setJointPosition">simIK.setJointPosition</a>
 <a href="?#simIK.setJointScrewPitch">simIK.setJointScrewPitch</a>
 <a href="?#simIK.setJointWeight">simIK.setJointWeight</a>
-<a href="?#simIK.setLinkedDummy">simIK.setLinkedDummy</a>
 <a href="?#simIK.setObjectMatrix">simIK.setObjectMatrix</a>
 <a href="?#simIK.setObjectParent">simIK.setObjectParent</a>
 <a href="?#simIK.setObjectPose">simIK.setObjectPose</a>
 <a href="?#simIK.setObjectTransformation">simIK.setObjectTransformation</a>
 <a href="?#simIK.setSphericalJointMatrix">simIK.setSphericalJointMatrix</a>
 <a href="?#simIK.setSphericalJointRotation">simIK.setSphericalJointRotation</a>
+<a href="?#simIK.setTargetDummy">simIK.setTargetDummy</a>
 <a href="?#simIK.syncFromIkWorld">simIK.syncFromIkWorld</a>
 <a href="?#simIK.syncToIkWorld">simIK.syncToIkWorld</a>
 </pre></td></tr>
@@ -134,8 +135,8 @@ td.section { margin: 0; padding: 0; }
 <pre class="apiList">
 <a href="?#simIK.createDummy">simIK.createDummy</a>
 <a href="?#simIK.eraseObject">simIK.eraseObject</a>
-<a href="?#simIK.getLinkedDummy">simIK.getLinkedDummy</a>
-<a href="?#simIK.setLinkedDummy">simIK.setLinkedDummy</a>
+<a href="?#simIK.getTargetDummy">simIK.getTargetDummy</a>
+<a href="?#simIK.setTargetDummy">simIK.setTargetDummy</a>
 </pre>
 
 
@@ -204,6 +205,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.handleGroup">simIK.handleGroup</a>
 <a href="?#simIK.findConfig">simIK.findConfig</a>
 <a href="?#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>
+<a href="?#simIK.computeGroupJacobian">simIK.computeGroupJacobian</a>
 <a href="?#simIK.computeJacobian">simIK.computeJacobian</a>
 <a href="?#simIK.generatePath">simIK.generatePath</a>
 <a href="?#simIK.syncFromIkWorld">simIK.syncFromIkWorld</a>
@@ -365,6 +367,46 @@ td.section { margin: 0; padding: 0; }
 <br>
 
 <p class="subsectionBar">
+<a name="simIK.computeGroupJacobian" id="simIK.computeGroupJacobian"></a>simIK.computeGroupJacobian</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Computes the Jacobian and error vector for an IK group</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] jacobian,float[] errorVector=simIK.computeGroupJacobian(int environmentHandle,int ikGroupHandle)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment</div>
+<div><strong>ikGroupHandle</strong>: the handle of an IK group</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div><strong>jacobian</strong>: the jacobian (row major order). Each row corresponds to one constraint in following order: x, y, z, alpha, beta, gamma. Each column corresponds to one joint, from base to tip</div>
+<div><strong>errorVector</strong>: the error vector between the target and the tip</div>
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list jacobian,list errorVector=simIK.computeGroupJacobian(<span class="apiTableRightLSyn">int environmentHandle,int ikGroupHandle)</span></td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.handleGroup">simIK.handleGroup</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a></td>
+</tr>
+</table>
+<br>
+
+
+
+<p class="subsectionBar">
 <a name="simIK.computeJacobian" id="simIK.computeJacobian"></a>simIK.computeJacobian</p>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -402,10 +444,12 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.handleGroup">simIK.handleGroup</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.handleGroup">simIK.handleGroup</a>, <a href="#simIK.computeGroupJacobian">simIK.computeGroupJacobian</a></td>
 </tr>
 </table>
 <br>
+
+
 
 <p class="subsectionBar">
 <a name="simIK.createDummy" id="simIK.createDummy"></a>simIK.createDummy</p>
@@ -1070,7 +1114,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">float[2] weights=simIK.getElementWeights(int environmentHandle,int ikGroupHandle,int elementHandle)</td>
+<td class="apiTableRightLSyn">float[3] weights=simIK.getElementWeights(int environmentHandle,int ikGroupHandle,int elementHandle)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
@@ -1083,7 +1127,7 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet">
-<div><strong>weights</strong>: a table with the linear and angular resolution weights.</div>
+<div><strong>weights</strong>: a table with the linear, angular and overall resolution weights.</div>
 </td>
 </tr>
 
@@ -1715,7 +1759,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Retrieves the handle of a dummy linked to this one.</td>
+<td class="apiTableRightDescr">Deprecated. Use <a href="#simIK.getTargetDummy">simIK.getTargetDummy</a> instead</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
@@ -1979,6 +2023,46 @@ td.section { margin: 0; padding: 0; }
 </tr>
 </table>
 <br>
+
+
+
+<p class="subsectionBar">
+<a name="simIK.getTargetDummy" id="simIK.getTargetDummy"></a>simIK.getTargetDummy</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Retrieves the handle of the target dummy associated with a tip dummy</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int targetDummyHandle=simIK.getTargetDummy(int environmentHandle,int tipDummyHandle)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment</div>
+<div><strong>tipDummyHandle</strong>: the handle of the tip dummy</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div><strong>targetDummyHandle</strong>: the handle of the target dummy. Is -1 if no target dummy is associated with the tip dummy</div>
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int targetDummyHandle=simIK.getTargetDummy(int environmentHandle,int tipDummyHandle)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.setTargetDummy">simIK.setTargetDummy</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+</tr>
+</table>
+<br>
+
 
 
 <p class="subsectionBar">
@@ -2262,7 +2346,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simIK.setElementWeights(int environmentHandle,int ikGroupHandle,int elementHandle,float[2] weights)</td>
+<td class="apiTableRightLSyn">simIK.setElementWeights(int environmentHandle,int ikGroupHandle,int elementHandle,float[3] weights)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
@@ -2270,7 +2354,7 @@ td.section { margin: 0; padding: 0; }
 <div><strong>environmentHandle</strong>: the handle of the environment.</div>
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
 <div><strong>elementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy+simIK.handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
-<div><strong>weights</strong>: a table with two values for the linear and angular resolution weight.</div>
+<div><strong>weights</strong>: a table with three values for the linear, angular and overall resolution weight.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2680,7 +2764,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Links this dummy object to another dummy object, or detaches it from another dummy object.</td>
+<td class="apiTableRightDescr">Deprecated. Use <a href="#simIK.setTargetDummy">simIK.setTargetDummy instead</a></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
@@ -2940,6 +3024,46 @@ td.section { margin: 0; padding: 0; }
 </tr>
 </table>
 <br>
+
+
+
+<p class="subsectionBar">
+<a name="simIK.setTargetDummy" id="simIK.setTargetDummy"></a>simIK.setTargetDummy</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Associates a tip dummy with a target dummy, or removes that association. If the tip dummy is already associated with another target dummy, then first remove that association before setting another one</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simIK.setTargetDummy(int environmentHandle,int tipDummyHandle,int targetDummyHandle)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment</div>
+<div><strong>tipDummyHandle</strong>: the handle of the tip dummy</div>
+<div><strong>targetdDummyHandle</strong>: the handle of the new target dummy, or -1 to remove a previous target dummy association from the tip dummy</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simIK.setTargetDummy(int environmentHandle,int tipDummyHandle,int targetDummyHandle)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.getTargetDummy">simIK.getTargetDummy</a>, <a href="#simIK.getObjectHandle">simIK.getObjectHandle</a></td>
+</tr>
+</table>
+<br>
+
 
 
 <p class="subsectionBar">

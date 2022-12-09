@@ -50,9 +50,11 @@ td.section { margin: 0; padding: 0; }
 <a href="?#createFromData">simIM.createFromData</a>
 <a href="?#dataURL">simIM.dataURL</a>
 <a href="?#destroy">simIM.destroy</a>
+<a href="?#detectMarkers">simIM.detectMarkers</a>
 <a href="?#distanceTransform">simIM.distanceTransform</a>
 <a href="?#divide">simIM.divide</a>
 <a href="?#divideK">simIM.divideK</a>
+<a href="?#drawMarker">simIM.drawMarker</a>
 <a href="?#ellipse">simIM.ellipse</a>
 <a href="?#encode">simIM.encode</a>
 <a href="?#exp">simIM.exp</a>
@@ -60,6 +62,9 @@ td.section { margin: 0; padding: 0; }
 <a href="?#fillPoly">simIM.fillPoly</a>
 <a href="?#flip">simIM.flip</a>
 <a href="?#get">simIM.get</a>
+<a href="?#getFormat">simIM.getFormat</a>
+<a href="?#getMarkerBitSize">simIM.getMarkerBitSize</a>
+<a href="?#getMarkerDictionary">simIM.getMarkerDictionary</a>
 <a href="?#gray2rgb">simIM.gray2rgb</a>
 <a href="?#hls2rgb">simIM.hls2rgb</a>
 <a href="?#hsv2rgb">simIM.hsv2rgb</a>
@@ -94,6 +99,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#text">simIM.text</a>
 <a href="?#textSize">simIM.textSize</a>
 <a href="?#write">simIM.write</a>
+<a href="?#writeToTexture">simIM.writeToTexture</a>
 <a href="?#writeToVisionSensor">simIM.writeToVisionSensor</a>
 </pre></td></tr>
 <tr><td id="commands" class="section">
@@ -1215,6 +1221,53 @@ td.section { margin: 0; padding: 0; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="detectMarkers" id="detectMarkers"></a>simIM.detectMarkers</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Detect markers in the specified image.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] corners, int[] markerIds, float[] rejectedCandidates=simIM.detectMarkers(string handle, string dictionaryHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string): handle to existing image</div>
+<div>
+<strong>dictionaryHandle</strong> (string): dictionary handle created with <a href="#getMarkerDictionary">simIM.getMarkerDictionary</a>
+</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>corners</strong> (table of float): corners of detected markers (4 xy pairs clockwise starting top-left)</div>
+<div>
+<strong>markerIds</strong> (table of int): ids of detected markers</div>
+<div>
+<strong>rejectedCandidates</strong> (table of float): corners of rejected candidates (4 xy pairs clockwise starting top-left)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list corners, list markerIds, list rejectedCandidates=simIM.detectMarkers(string handle, string dictionaryHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="distanceTransform" id="distanceTransform"></a>simIM.distanceTransform</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -1333,6 +1386,53 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">string handle=simIM.divideK(list k, string handle, bool inPlace=false)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="drawMarker" id="drawMarker"></a>simIM.drawMarker</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get the specified marker dictionary.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle=simIM.drawMarker(string dictionaryHandle, int markerId, int size, string handle="", int borderSize=1)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>dictionaryHandle</strong> (string): dictionary handle created with <a href="#getMarkerDictionary">simIM.getMarkerDictionary</a>
+</div>
+<div>
+<strong>markerId</strong> (int): marker identifier</div>
+<div>
+<strong>size</strong> (int): size in pixels</div>
+<div>
+<strong>handle</strong> (string, default: ""): handle to existing image, or "" to create and return a new image</div>
+<div>
+<strong>borderSize</strong> (int, default: 1): border size</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string): handle to new image (or existing image if given)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle=simIM.drawMarker(string dictionaryHandle, int markerId, int size, string handle="", int borderSize=1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1644,6 +1744,114 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">list value=simIM.get(string handle, list coord)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getFormat" id="getFormat"></a>simIM.getFormat</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get the format of the image.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int format=simIM.getFormat(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): handle to image</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>format</strong> (int): image format (see <a href="#enum:format">simIM.format</a>)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int format=simIM.getFormat(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getMarkerBitSize" id="getMarkerBitSize"></a>simIM.getMarkerBitSize</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get the bit size of the specified marker dictionary</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int size=simIM.getMarkerBitSize(int dictType)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>dictType</strong> (int): type of marker dictionary</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>size</strong> (int): The bit size of the markers</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int size=simIM.getMarkerBitSize(int dictType)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getMarkerDictionary" id="getMarkerDictionary"></a>simIM.getMarkerDictionary</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get the specified marker dictionary.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle=simIM.getMarkerDictionary(int type)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>type</strong> (int): dictionary type (see <a href="#enum:dict_type">simIM.dict_type</a>)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string): handle to the dictionary</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle=simIM.getMarkerDictionary(int type)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -3084,6 +3292,45 @@ td.section { margin: 0; padding: 0; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="writeToTexture" id="writeToTexture"></a>simIM.writeToTexture</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Write image to texture.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simIM.writeToTexture(string handle, int textureId)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string): handle to existing image</div>
+<div>
+<strong>textureId</strong> (int): texture id</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simIM.writeToTexture(string handle, int textureId)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="writeToVisionSensor" id="writeToVisionSensor"></a>simIM.writeToVisionSensor</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -3214,6 +3461,52 @@ td.section { margin: 0; padding: 0; }
 <div><strong>_3x3</strong></div>
 <div><strong>_5x5</strong></div>
 <div><strong>_precise</strong></div>
+</td></tr></tbody></table>
+<h3 class="subsectionBar">
+<a name="enum:dict_type" id="enum:dict_type"></a>simIM.dict_type</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div>
+<strong>_4X4_50</strong>: 4x4 bits, minimum hamming distance between any two codes = 4, 50 codes</div>
+<div>
+<strong>_4X4_100</strong>: 4x4 bits, minimum hamming distance between any two codes = 3, 100 codes</div>
+<div>
+<strong>_4X4_250</strong>: 4x4 bits, minimum hamming distance between any two codes = 3, 250 codes</div>
+<div>
+<strong>_4X4_1000</strong>: 4x4 bits, minimum hamming distance between any two codes = 2, 1000 codes</div>
+<div>
+<strong>_5X5_50</strong>: 5x5 bits, minimum hamming distance between any two codes = 8, 50 codes</div>
+<div>
+<strong>_5X5_100</strong>: 5x5 bits, minimum hamming distance between any two codes = 7, 100 codes</div>
+<div>
+<strong>_5X5_250</strong>: 5x5 bits, minimum hamming distance between any two codes = 6, 250 codes</div>
+<div>
+<strong>_5X5_1000</strong>: 5x5 bits, minimum hamming distance between any two codes = 5, 1000 codes</div>
+<div>
+<strong>_6X6_50</strong>: 6x6 bits, minimum hamming distance between any two codes = 13, 50 codes</div>
+<div>
+<strong>_6X6_100</strong>: 6x6 bits, minimum hamming distance between any two codes = 12, 100 codes</div>
+<div>
+<strong>_6X6_250</strong>: 6x6 bits, minimum hamming distance between any two codes = 11, 250 codes</div>
+<div>
+<strong>_6X6_1000</strong>: 6x6 bits, minimum hamming distance between any two codes = 9, 1000 codes</div>
+<div>
+<strong>_7X7_50</strong>: 7x7 bits, minimum hamming distance between any two codes = 19, 50 codes</div>
+<div>
+<strong>_7X7_100</strong>: 7x7 bits, minimum hamming distance between any two codes = 18, 100 codes</div>
+<div>
+<strong>_7X7_250</strong>: 7x7 bits, minimum hamming distance between any two codes = 17, 250 codes</div>
+<div>
+<strong>_7X7_1000</strong>: 7x7 bits, minimum hamming distance between any two codes = 14, 1000 codes</div>
+<div>
+<strong>_ARUCO_ORIGINAL</strong>: 6x6 bits, minimum hamming distance between any two codes = 3, 1024 codes</div>
+<div>
+<strong>_APRILTAG_16h5</strong>: 4x4 bits, minimum hamming distance between any two codes = 5, 30 codes</div>
+<div>
+<strong>_APRILTAG_25h9</strong>: 5x5 bits, minimum hamming distance between any two codes = 9, 35 codes</div>
+<div>
+<strong>_APRILTAG_36h10</strong>: 6x6 bits, minimum hamming distance between any two codes = 10, 2320 codes</div>
+<div>
+<strong>_APRILTAG_36h11</strong>: 6x6 bits, minimum hamming distance between any two codes = 11, 587 codes</div>
 </td></tr></tbody></table>
 </td></tr>
 <tr><td id="structs" class="section"></td></tr>

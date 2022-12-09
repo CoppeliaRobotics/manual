@@ -28,7 +28,7 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simImportMesh(int fileformat,const char* pathAndFilename,int options,simFloat identicalVerticeTolerance,simFloat scalingFactor,simFloat*** vertices,int** verticesSizes,int*** indices,int** indicesSizes,simFloat*** reserved,char*** names)<br></td> 
+<td class=apiTableRightCSyn>int simImportMesh(int fileformat,const char* pathAndFilename,int options,double identicalVerticeTolerance,double scalingFactor,double*** vertices,int** verticesSizes,int*** indices,int** indicesSizes,double*** reserved,char*** names)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
@@ -58,7 +58,7 @@ C/C++<br>synopsis
 <br>
 <div>USAGE EXAMPLE:</div>
 <code class="hljs language-c++ simple">
-simFloat** vertices;
+double** vertices;
 int* verticesSizes;
 int** indices;
 int* indicesSizes;
@@ -66,7 +66,7 @@ int elementCount=simImportMesh(1,"d:\\example.dxf",0,0.0001f,1.0f,&vertices,
                             &verticesSizes,&indices,&indicesSizes,nullptr,nullptr);
 if (elementCount>0)
 {
-    const float grey[3]={0.5f,0.5f,0.5f};
+    const double grey[3]={0.5f,0.5f,0.5f};
     for (int i=0;i&#60;elementCount;i++)
     {
         int shapeHandle=simCreateMeshShape(2,20.0f*3.1415f/180.0f,vertices[i],
