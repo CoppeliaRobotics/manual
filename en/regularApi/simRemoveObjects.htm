@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>simRemoveModel</title>
+<title>sim.removeObjects</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,13 +16,13 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simRemoveModel" id="simRemoveModel"></a>simRemoveModel / sim.removeModel</p>
+<p class=subsectionBar><a name="simRemoveObjects" id="simRemoveObjects"></a>simRemoveObjects / sim.removeObjects</p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr><div>Removes a model from the scene. See also <a href="simRemoveObjects.htm">sim.removeObjects</a>.</div>
+<td class=apiTableRightDescr><div>Removes one or several objects from the scene. See also <a href="simRemoveModel.htm">sim.removeModel</a>.</div>
 <div>Object destruction always tries to destroy attached scripts before destroying the object itself. If a script tries to destroy the object it is attached to, then the object will first be destroyed, and the script destruction will be delayed.</div>
 </td>
 </tr> 
@@ -30,20 +30,21 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simRemoveModel(int objectHandle)<br></td> 
+<td class=apiTableRightCSyn>int simRemoveObjects(const int* objectHandles,int count)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>objectHandle</strong>: handle of the model (i.e. object tagged as model) to remove.</div>
-<div></div></td> 
+<div><strong>objectHandles</strong>: the handles of the objects to remove</div>
+<div><strong>count</strong>: the number of objects to remove</div>
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCRet>
 C/C++<br>return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful, otherwise the number of removed objects (a model might contain several objects)<br>
+<div>-1 if operation was not successful<br>
 </div>
 </td> 
 </tr> 
@@ -51,21 +52,20 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>int removedCnt=sim.removeModel(int objectHandle)<br></td> 
+<td class=apiTableRightLSyn>sim.removeObjects(int[] objectHandles)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
 <div>Similar to the C-function counterpart</div>
-<div></div></td> 
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua<br>return values
 </td> 
 <td class=apiTableRightLRet>
-<div>Similar to the C-function counterpart</div>
-<div></div></td> 
+</td> 
 </tr> 
 
  
@@ -74,7 +74,7 @@ Lua<br>return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>int removedCnt=sim.removeModel(int objectHandle)</td>
+<td class=apiTableRightPSyn>sim.removeObjects(int[] objectHandles)</td>
 </tr>
 
 </table> 

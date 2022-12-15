@@ -71,6 +71,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.getObjectTransformation">simIK.getObjectTransformation</a>
 <a href="?#simIK.getTargetDummy">simIK.getTargetDummy</a>
 <a href="?#simIK.handleGroup">simIK.handleGroup</a>
+<a href="?#simIK.handleGroups">simIK.handleGroups</a>
 <a href="?#simIK.load">simIK.load</a>
 <a href="?#simIK.save">simIK.save</a>
 <a href="?#simIK.setElementBase">simIK.setElementBase</a>
@@ -203,6 +204,7 @@ td.section { margin: 0; padding: 0; }
 <h2><a name="ikCalculation"></a>IK calculation</h2>
 <pre class="apiList">
 <a href="?#simIK.handleGroup">simIK.handleGroup</a>
+<a href="?#simIK.handleGroups">simIK.handleGroups</a>
 <a href="?#simIK.findConfig">simIK.findConfig</a>
 <a href="?#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>
 <a href="?#simIK.computeGroupJacobian">simIK.computeGroupJacobian</a>
@@ -2070,7 +2072,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Handles (i.e. computes/resolves) an IK group.</td>
+<td class="apiTableRightDescr">Handles (i.e. computes/resolves) an IK group. Convenience function for simIK.handleIkGroups with a single IK group</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
@@ -2095,7 +2097,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet">
 <div><strong>result</strong>: simIK.result_success, if successful</div>
-<div><strong>reason</strong>: bit-coded flags: simIK.calc_notperformed, simIK.calc_cannotinvert, simIK.calc_notwithintolerance, simIK.calc_stepstoobig, simIK.calc_limithit, simIK.calc_movingaway</div>
+<div><strong>reason</strong>: bit-coded flags: simIK.calc_notperformed, simIK.calc_cannotinvert, simIK.calc_notwithintolerance, simIK.calc_stepstoobig, simIK.calc_limithit</div>
 <div><strong>precision</strong>: 2 values indicating the largest linear and angular distance between all tip-target pairs</div>
 </td>
 </tr>
@@ -2107,10 +2109,77 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.findConfig">simIK.findConfig</a></td>
+<td class="apiTableRightDescr"><a href="#simIK.handleGroups">simIK.handleGroups</a>,<a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.findConfig">simIK.findConfig</a></td>
 </tr>
 </table>
 <br>
+
+
+
+
+
+
+
+
+
+
+
+<p class="subsectionBar">
+<a name="simIK.handleGroups" id="simIK.handleGroups"></a>simIK.handleGroups</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Handles (i.e. computes/resolves) one or several IK groups</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result,int flags,float[2] precision=simIK.handleGroups(int environmentHandle,int[] ikGroupHandles,map options={})</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment</div>
+<div><strong>ikGroupHandles</strong>: the handles of the IK groups. If one handle is specified, then a simple IK calculation is performed. If more than one handle is specified, then a projected IK computation is performed, where each group calculation result is projected into the previous group's null space, i.e. dq=dq0+NP0*(dq1+NP1*(dq2+NP2*(...))), where dqi is the result of i-th task's IK (i.e. typically J#*e), and NPi is the i-th task's I-J#*J</div>
+<div><strong>options</strong>: options:</div>
+<div class=tabTab>options.syncWorlds: if true, then calculation will be preceeded by simIK.syncToIkWorld and followed by simIK.syncFromIkWorld</div>
+<div class=tabTab>options.allowError: if true, and options.syncWorlds is true too, then calculation result will be applied to the scene, even if tip/target pairs are not within tolerance</div>
+<div class=tabTab>options.callback: a callback function that allows to inspect and manipulate the generated Jacobians and error vectors:</div>
+<div class=tabTab>callbackFunction(data), with data containing the Jacobian and error vector</div>
+<div></div>
+<div class=tabTab>If the callback doesn't return a value, then the original Jacobian and error vector are used for computation. If the callback returns one table, then the table is interpreted as the computed joint errors. If the callback returns two tables, the first is interpreted as the modified Jacobian, the second is interpreted as the modified error vector</div>
+
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div><strong>result</strong>: simIK.result_success, if successful</div>
+<div><strong>reason</strong>: bit-coded flags: simIK.calc_notperformed, simIK.calc_cannotinvert, simIK.calc_notwithintolerance, simIK.calc_stepstoobig, simIK.calc_limithit</div>
+<div><strong>precision</strong>: 2 values indicating the largest linear and angular distance between all tip-target pairs</div>
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int result,int flags,list precision=simIK.handleGroups(int environmentHandle,int[] ikGroupHandles,map options=None)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.handleGroup">simIK.handleGroup</a>,<a href="#simIK.createEnvironment">simIK.createEnvironment</a>, <a href="#simIK.computeJacobian">simIK.computeJacobian</a>, <a href="#simIK.findConfig">simIK.findConfig</a></td>
+</tr>
+</table>
+<br>
+
+
+
+
+
+
+
+
+
+
 
 <p class="subsectionBar">
 <a name="simIK.load" id="simIK.load"></a>simIK.load</p>
@@ -3075,13 +3144,13 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simIK.syncFromIkWorld(int environmentHandle,int ikGroup)</td>
+<td class="apiTableRightLSyn">simIK.syncFromIkWorld(int environmentHandle,int[] ikGroups)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
 <td class="apiTableRightLParam">
-<div><strong>environmentHandle</strong>: the handle of the IK environment.</div>
-<div><strong>ikGroup</strong>: the handle of the IK group.</div>
+<div><strong>environmentHandle</strong>: the handle of the IK environment</div>
+<div><strong>ikGroups</strong>: the handles of one or several IK groups</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -3092,7 +3161,7 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simIK.syncFromIkWorld(int environmentHandle,int ikGroup)</td>
+<td class="apiTableRightPSyn">simIK.syncFromIkWorld(int environmentHandle,int[] ikGroups)</td>
 </tr>
 
 <tr class="apiTableTr">
@@ -3112,13 +3181,13 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simIK.syncToIkWorld(int environmentHandle,int ikGroup)</td>
+<td class="apiTableRightLSyn">simIK.syncToIkWorld(int environmentHandle,int[] ikGroups)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
 <td class="apiTableRightLParam">
-<div><strong>environmentHandle</strong>: the handle of the IK environment.</div>
-<div><strong>ikGroup</strong>: the handle of the IK group.</div>
+<div><strong>environmentHandle</strong>: the handle of the IK environment</div>
+<div><strong>ikGroups</strong>: the handle of one or several IK groups</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -3129,7 +3198,7 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simIK.syncToIkWorld(int environmentHandle,int ikGroup)</td>
+<td class="apiTableRightPSyn">simIK.syncToIkWorld(int environmentHandle,int[] ikGroups)</td>
 </tr>
 
 <tr class="apiTableTr">

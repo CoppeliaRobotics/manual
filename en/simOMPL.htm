@@ -86,7 +86,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simOMPL.addGoalState(string taskHandle, double[] state)<br>
+<td class="apiTableRightLSyn">simOMPL.addGoalState(string taskHandle, float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -96,7 +96,7 @@ td.section { margin: 0; padding: 0; }
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>state</strong> (table of double): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
+<strong>state</strong> (table of float): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -137,7 +137,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">bool solved, double[] states=simOMPL.compute(string taskHandle, float maxTime, float maxSimplificationTime=-1.0, int stateCnt=0)<br>
+<td class="apiTableRightLSyn">bool solved, float[] states=simOMPL.compute(string taskHandle, float maxTime, float maxSimplificationTime=-1.0, int stateCnt=0)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -160,7 +160,7 @@ end
 <div>
 <strong>solved</strong> (bool): true if a solution has been found.</div>
 <div>
-<strong>states</strong> (table of double): a table of states, representing the solution, from start to goal. States are specified linearly.</div>
+<strong>states</strong> (table of float): a table of states, representing the solution, from start to goal. States are specified linearly.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -190,7 +190,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string stateSpaceHandle=simOMPL.createStateSpace(string name, int type, int objectHandle, double[] boundsLow, double[] boundsHigh, int useForProjection, double weight=1.0, int refObjectHandle=-1)<br>
+<td class="apiTableRightLSyn">string stateSpaceHandle=simOMPL.createStateSpace(string name, int type, int objectHandle, float[] boundsLow, float[] boundsHigh, int useForProjection, float weight=1.0, int refObjectHandle=-1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -203,13 +203,13 @@ end
 <div>
 <strong>objectHandle</strong> (int): the object handle (a joint object if type is simOMPL.StateSpaceType.joint_position or .cyclic_joint_position, otherwise a shape)</div>
 <div>
-<strong>boundsLow</strong> (table of double): lower bounds (if type is pose, specify only the 3 position components)</div>
+<strong>boundsLow</strong> (table of float): lower bounds (if type is pose, specify only the 3 position components)</div>
 <div>
-<strong>boundsHigh</strong> (table of double): upper bounds (if type is pose, specify only the 3 position components)</div>
+<strong>boundsHigh</strong> (table of float): upper bounds (if type is pose, specify only the 3 position components)</div>
 <div>
 <strong>useForProjection</strong> (int): if true, this object position or joint value will be used for computing a default projection</div>
 <div>
-<strong>weight</strong> (double, default: 1.0): the weight of this state space component, used for computing distance between states. Default value is 1.0</div>
+<strong>weight</strong> (float, default: 1.0): the weight of this state space component, used for computing distance between states. Default value is 1.0</div>
 <div>
 <strong>refObjectHandle</strong> (int, default: -1): an object handle relative to which reference frame position/orientations will be evaluated. Default value is -1, for the absolute reference frame</div>
 </td>
@@ -221,7 +221,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string stateSpaceHandle=simOMPL.createStateSpace(string name, int type, int objectHandle, list boundsLow, list boundsHigh, int useForProjection, double weight=1.0, int refObjectHandle=-1)<br>
+<td class="apiTableRightPSyn">string stateSpaceHandle=simOMPL.createStateSpace(string name, int type, int objectHandle, list boundsLow, list boundsHigh, int useForProjection, float weight=1.0, int refObjectHandle=-1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -512,7 +512,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double[] state=simOMPL.enforceBounds(string taskHandle, double[] state)<br>
+<td class="apiTableRightLSyn">float[] state=simOMPL.enforceBounds(string taskHandle, float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -522,13 +522,13 @@ end
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>state</strong> (table of double): state vector</div>
+<strong>state</strong> (table of float): state vector</div>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>state</strong> (table of double): state vector</div></td>
+<strong>state</strong> (table of float): state vector</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
@@ -554,7 +554,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double distance=simOMPL.getGoalDistance(string taskHandle)<br>
+<td class="apiTableRightLSyn">float distance=simOMPL.getGoalDistance(string taskHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -566,11 +566,11 @@ end
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>distance</strong> (double): distance to the desired goal for the top solution, or -1.0 if there are no solutions available</div></td>
+<strong>distance</strong> (float): distance to the desired goal for the top solution, or -1.0 if there are no solutions available</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">double distance=simOMPL.getGoalDistance(string taskHandle)<br>
+<td class="apiTableRightPSyn">float distance=simOMPL.getGoalDistance(string taskHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -595,7 +595,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double[] states=simOMPL.getPath(string taskHandle)<br>
+<td class="apiTableRightLSyn">float[] states=simOMPL.getPath(string taskHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -607,7 +607,7 @@ end
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>states</strong> (table of double): a table of states, representing the solution, from start to goal. States are specified linearly.</div></td>
+<strong>states</strong> (table of float): a table of states, representing the solution, from start to goal. States are specified linearly.</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
@@ -720,7 +720,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double[] states, int[] tags, double[] tagsReal, int[] edges, double[] edgeWeights, int[] startVertices, int[] goalVertices=simOMPL.getPlannerData(string taskHandle)<br>
+<td class="apiTableRightLSyn">float[] states, int[] tags, float[] tagsReal, int[] edges, float[] edgeWeights, int[] startVertices, int[] goalVertices=simOMPL.getPlannerData(string taskHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -732,15 +732,15 @@ end
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet">
 <div>
-<strong>states</strong> (table of double): a table of states, representing the configurations in the constructed search graph. States are specified linearly.</div>
+<strong>states</strong> (table of float): a table of states, representing the configurations in the constructed search graph. States are specified linearly.</div>
 <div>
 <strong>tags</strong> (table of int): a table of tags (one integer for every vertex)</div>
 <div>
-<strong>tagsReal</strong> (table of double): a table of tags (one real value for every vertex)</div>
+<strong>tagsReal</strong> (table of float): a table of tags (one real value for every vertex)</div>
 <div>
 <strong>edges</strong> (table of int): the pairs of vertex indices describing vertex connectivity</div>
 <div>
-<strong>edgeWeights</strong> (table of double): the weight (cost) associated to each edge</div>
+<strong>edgeWeights</strong> (table of float): the weight (cost) associated to each edge</div>
 <div>
 <strong>startVertices</strong> (table of int): the indices of vertices marked 'start'</div>
 <div>
@@ -1054,7 +1054,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">bool valid=simOMPL.isStateValid(string taskHandle, double[] state)<br>
+<td class="apiTableRightLSyn">bool valid=simOMPL.isStateValid(string taskHandle, float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1064,7 +1064,7 @@ end
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>state</strong> (table of double): state vector</div>
+<strong>state</strong> (table of float): state vector</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1096,7 +1096,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">bool valid=simOMPL.isStateWithinBounds(string taskHandle, double[] state)<br>
+<td class="apiTableRightLSyn">bool valid=simOMPL.isStateWithinBounds(string taskHandle, float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1106,7 +1106,7 @@ end
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>state</strong> (table of double): state vector</div>
+<strong>state</strong> (table of float): state vector</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1181,7 +1181,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double[] projection=simOMPL.projectStates(string taskHandle, double[] state)<br>
+<td class="apiTableRightLSyn">float[] projection=simOMPL.projectStates(string taskHandle, float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1191,13 +1191,13 @@ end
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>state</strong> (table of double): state vector(s)</div>
+<strong>state</strong> (table of float): state vector(s)</div>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>projection</strong> (table of double): state projection vector(s)</div></td>
+<strong>projection</strong> (table of float): state projection vector(s)</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
@@ -1260,7 +1260,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double[] state=simOMPL.readState(string taskHandle)<br>
+<td class="apiTableRightLSyn">float[] state=simOMPL.readState(string taskHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1272,7 +1272,7 @@ end
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>state</strong> (table of double): state vector</div></td>
+<strong>state</strong> (table of float): state vector</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
@@ -1421,7 +1421,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simOMPL.setDubinsParams(string stateSpaceHandle, double turningRadius, bool isSymmetric)<br>
+<td class="apiTableRightLSyn">simOMPL.setDubinsParams(string stateSpaceHandle, float turningRadius, bool isSymmetric)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1430,7 +1430,7 @@ end
 <div>
 <strong>stateSpaceHandle</strong> (string): handle to state space component</div>
 <div>
-<strong>turningRadius</strong> (double): turning radius</div>
+<strong>turningRadius</strong> (float): turning radius</div>
 <div>
 <strong>isSymmetric</strong> (bool): true if it is symmetric, otherwise false</div>
 </td>
@@ -1441,7 +1441,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simOMPL.setDubinsParams(string stateSpaceHandle, double turningRadius, bool isSymmetric)<br>
+<td class="apiTableRightPSyn">simOMPL.setDubinsParams(string stateSpaceHandle, float turningRadius, bool isSymmetric)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1466,7 +1466,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simOMPL.setGoal(string taskHandle, int robotDummy, int goalDummy, double tolerance=0.001f, double[] metric={1.0, 1.0, 1.0, 0.1}, int refDummy=-1)<br>
+<td class="apiTableRightLSyn">simOMPL.setGoal(string taskHandle, int robotDummy, int goalDummy, float tolerance=0.001, float[] metric={1.0, 1.0, 1.0, 0.1}, int refDummy=-1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1480,9 +1480,9 @@ end
 <div>
 <strong>goalDummy</strong> (int): a dummy fixed in the environment, representing the goal pose/position</div>
 <div>
-<strong>tolerance</strong> (double, default: 0.001f): tolerated dummy-dummy distance</div>
+<strong>tolerance</strong> (float, default: 0.001): tolerated dummy-dummy distance</div>
 <div>
-<strong>metric</strong> (table of double, default: {1.0, 1.0, 1.0, 0.1}): a metric (x,y,z,angle) used to evaluate the dummy-dummy distance</div>
+<strong>metric</strong> (table of float, default: {1.0, 1.0, 1.0, 0.1}): a metric (x,y,z,angle) used to evaluate the dummy-dummy distance</div>
 <div>
 <strong>refDummy</strong> (int, default: -1): an reference dummy, relative to which the metric will be used</div>
 </td>
@@ -1493,7 +1493,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simOMPL.setGoal(string taskHandle, int robotDummy, int goalDummy, double tolerance=0.001f, list metric={1.0, 1.0, 1.0, 0.1}, int refDummy=-1)<br>
+<td class="apiTableRightPSyn">simOMPL.setGoal(string taskHandle, int robotDummy, int goalDummy, float tolerance=0.001, list metric={1.0, 1.0, 1.0, 0.1}, int refDummy=-1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1560,7 +1560,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simOMPL.setGoalState(string taskHandle, double[] state)<br>
+<td class="apiTableRightLSyn">simOMPL.setGoalState(string taskHandle, float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1570,7 +1570,7 @@ end
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>state</strong> (table of double): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
+<strong>state</strong> (table of float): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1686,7 +1686,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simOMPL.setStartState(string taskHandle, double[] state)<br>
+<td class="apiTableRightLSyn">simOMPL.setStartState(string taskHandle, float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1696,7 +1696,7 @@ end
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>state</strong> (table of double): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
+<strong>state</strong> (table of float): a table of numbers, whose size must be consistent with the robot's state space specified in this task object</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1861,7 +1861,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simOMPL.setStateValidityCheckingResolution(string taskHandle, double resolution)<br>
+<td class="apiTableRightLSyn">simOMPL.setStateValidityCheckingResolution(string taskHandle, float resolution)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1871,7 +1871,7 @@ end
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>resolution</strong> (double): resolution of state validity checking, expressed as fraction of state space's extent</div>
+<strong>resolution</strong> (float): resolution of state validity checking, expressed as fraction of state space's extent</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1880,7 +1880,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simOMPL.setStateValidityCheckingResolution(string taskHandle, double resolution)<br>
+<td class="apiTableRightPSyn">simOMPL.setStateValidityCheckingResolution(string taskHandle, float resolution)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2110,7 +2110,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double distance=simOMPL.stateDistance(string taskHandle, double[] a, double[] b)<br>
+<td class="apiTableRightLSyn">float distance=simOMPL.stateDistance(string taskHandle, float[] a, float[] b)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2120,19 +2120,19 @@ end
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>a</strong> (table of double): state vector</div>
+<strong>a</strong> (table of float): state vector</div>
 <div>
-<strong>b</strong> (table of double): state vector</div>
+<strong>b</strong> (table of float): state vector</div>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>distance</strong> (double): computed distance</div></td>
+<strong>distance</strong> (float): computed distance</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">double distance=simOMPL.stateDistance(string taskHandle, list a, list b)<br>
+<td class="apiTableRightPSyn">float distance=simOMPL.stateDistance(string taskHandle, list a, list b)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2154,7 +2154,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simOMPL.writeState(string taskHandle, double[] state)<br>
+<td class="apiTableRightLSyn">simOMPL.writeState(string taskHandle, float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2164,7 +2164,7 @@ end
 <strong>taskHandle</strong> (string): a handle to a task object created with <a href="#createTask">simOMPL.createTask</a>
 </div>
 <div>
-<strong>state</strong> (table of double): state vector</div>
+<strong>state</strong> (table of float): state vector</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2243,13 +2243,13 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">bool satisfied, double distance=simOMPL.goalCallback(double[] state)<br>
+<td class="apiTableRightLSyn">bool satisfied, float distance=simOMPL.goalCallback(float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam"><div>
-<strong>state</strong> (table of double): the state to test for goal satisfaction</div></td>
+<strong>state</strong> (table of float): the state to test for goal satisfaction</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -2257,12 +2257,12 @@ end
 <div>
 <strong>satisfied</strong> (bool): true if satisfied, false otherwise</div>
 <div>
-<strong>distance</strong> (double): distance to goal, if it is known. A constant value can be returned otherwise, but the performance of the algorithm will be worse.</div>
+<strong>distance</strong> (float): distance to goal, if it is known. A constant value can be returned otherwise, but the performance of the algorithm will be worse.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">bool satisfied, double distance=simOMPL.goalCallback(list state)<br>
+<td class="apiTableRightPSyn">bool satisfied, float distance=simOMPL.goalCallback(list state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2283,18 +2283,18 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double[] projection=simOMPL.projectionEvaluationCallback(double[] state)<br>
+<td class="apiTableRightLSyn">float[] projection=simOMPL.projectionEvaluationCallback(float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam"><div>
-<strong>state</strong> (table of double): the state to compute the projection for</div></td>
+<strong>state</strong> (table of float): the state to compute the projection for</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>projection</strong> (table of double): projected state, usualy of size 2 or 3, representing a point in plane or space.</div></td>
+<strong>projection</strong> (table of float): projected state, usualy of size 2 or 3, representing a point in plane or space.</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
@@ -2319,13 +2319,13 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">bool valid=simOMPL.stateValidationCallback(double[] state)<br>
+<td class="apiTableRightLSyn">bool valid=simOMPL.stateValidationCallback(float[] state)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam"><div>
-<strong>state</strong> (table of double): the state to compute the projection for</div></td>
+<strong>state</strong> (table of float): the state to compute the projection for</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -2355,7 +2355,7 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double[] sampledState=simOMPL.validStateSamplerCallback()<br>
+<td class="apiTableRightLSyn">float[] sampledState=simOMPL.validStateSamplerCallback()<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2365,7 +2365,7 @@ end
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>sampledState</strong> (table of double): a valid state</div></td>
+<strong>sampledState</strong> (table of float): a valid state</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
@@ -2390,26 +2390,26 @@ end
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">double[] sampledState=simOMPL.validStateSamplerCallbackNear(double[] state, double distance)<br>
+<td class="apiTableRightLSyn">float[] sampledState=simOMPL.validStateSamplerCallbackNear(float[] state, float distance)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>state</strong> (table of double): the center state</div>
+<strong>state</strong> (table of float): the center state</div>
 <div>
-<strong>distance</strong> (double): distance bound</div>
+<strong>distance</strong> (float): distance bound</div>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>sampledState</strong> (table of double): a valid state</div></td>
+<strong>sampledState</strong> (table of float): a valid state</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">list sampledState=simOMPL.validStateSamplerCallbackNear(list state, double distance)<br>
+<td class="apiTableRightPSyn">list sampledState=simOMPL.validStateSamplerCallbackNear(list state, float distance)<br>
 </td>
 </tr>
 <tr class="apiTableTr">

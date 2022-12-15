@@ -67,7 +67,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#ikGetObjects">ikGetObjects</a>
 <a href="?#ikGetObjectTransformation">ikGetObjectTransformation</a>
 <a href="?#ikGetTargetDummy">ikGetTargetDummy</a>
-<a href="?#ikHandleGroup">ikHandleGroup</a>
+<a href="?#ikHandleGroups">ikHandleGroups</a>
 <a href="?#ikLoad">ikLoad</a>
 <a href="?#ikReleaseBuffer">ikReleaseBuffer</a>
 <a href="?#ikSave">ikSave</a>
@@ -194,7 +194,7 @@ td.section { margin: 0; padding: 0; }
 
 <h2><a name="ikCalculation"></a>IK calculation</h2>
 <pre class=lightGreyBox>
-<a href="?#ikHandleGroup">ikHandleGroup</a>
+<a href="?#ikHandleGroups">ikHandleGroups</a>
 <a href="?#ikFindConfig">ikFindConfig</a>
 <a href="?#ikComputeGroupJacobian">ikComputeGroupJacobian</a>
 <a href="?#ikComputeJacobian">ikComputeJacobian</a>
@@ -257,7 +257,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#ikHandleGroup">ikComputeJacobian</a>, <a href="#ikHandleGroup">ikHandleGroup</a></td>
+<td class="apiTableRightDescr"><a href="#ikComputeJacobian">ikComputeJacobian</a>, <a href="#ikHandleGroups">ikHandleGroups</a></td>
 </tr>
 </table>
 <br>
@@ -294,7 +294,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">See also</td>
-<td class="apiTableRightDescr"><a href="#ikHandleGroup">ikComputeGroupJacobian</a>, <a href="#ikHandleGroup">ikHandleGroup</a></td>
+<td class="apiTableRightDescr"><a href="#ikComputeGroupJacobian">ikComputeGroupJacobian</a>, <a href="#ikHandleGroups">ikHandleGroups</a></td>
 </tr>
 </table>
 <br>
@@ -1500,21 +1500,21 @@ td.section { margin: 0; padding: 0; }
 <br>
 
 <p class="subsectionBar">
-<a name="ikHandleIkGroup" id="ikHandleIkGroup"></a><a name="ikHandleGroup" id="ikHandleGroup"></a>ikHandleGroup</p>
+<a name="ikHandleIkGroup" id="ikHandleIkGroup"></a><a name="ikHandleGroups" id="ikHandleGroups"></a>ikHandleGroups</p>
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Handles (i.e. computes/resolves) an IK group.</td>
+<td class="apiTableRightDescr">Handles (i.e. computes/resolves) one or several IK groups</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikHandleGroup(int ikGroupHandle,int* result=nullptr,double* precision,int(*cb)(const int*,std::vector&lt;double&gt;*,const int*,const int*,const int*,const int*,std::vector&lt;double&gt;*,double*)=nullptr)</td>
+<td class="apiTableRightCSyn">bool ikHandleGroups(const std::vector<int>* ikGroupHandles,int* result=nullptr,double* precision,int(*cb)(const int*,std::vector&lt;double&gt;*,const int*,const int*,const int*,const int*,std::vector&lt;double&gt;*,double*)=nullptr)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
-<div><strong>ikGroupHandle</strong>: the handle of the IK group</div>
-<div><strong>result</strong>: the bit-coded execution result, in return. Possible values are ik_calc_notperformed, ik_calc_cannotinvert, ik_calc_notwithintolerance, ik_calc_stepstoobig, ik_calc_limithit, ik_calc_movingaway. Can be nullptr</div>
+<div><strong>ikGroupHandles</strong>: the handles of the IK groups. If one handle is specified, then a simple IK calculation is performed. If more than one handle is specified, then a projected IK computation is performed, where each group calculation result is projected into the previous group's null space, i.e. dq=dq0+NP0*(dq1+NP1*(dq2+NP2*(...))), where dqi is the result of i-th task's IK (i.e. typically J#*e), and NPi is the i-th task's I-J#*J</div>
+<div><strong>result</strong>: the bit-coded execution result, in return. Possible values are ik_calc_notperformed, ik_calc_cannotinvert, ik_calc_notwithintolerance, ik_calc_stepstoobig, ik_calc_limithit. Can be nullptr</div>
 <div><strong>precision</strong>: a pointer to 2 values, receiving the largest linear and angular distance between all tip-target pairs. Can be nullptr</div>
 <div><strong>cb</strong>: an optional callback address that allows to inspect and manipulate the generated jacobians and error vector:</div>
 <div>bool jacobianCallback(const int jacobianSize[2],std::vector&lt;double&gt;* jacobian,const int* rowConstraints,const int* rowIkElements,const int* colHandles,const int* colStages,std::vector&lt;double&gt;* errorVector,double* qVector)</div>
