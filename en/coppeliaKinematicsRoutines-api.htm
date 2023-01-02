@@ -1508,7 +1508,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
-<td class="apiTableRightCSyn">bool ikHandleGroups(const std::vector<int>* ikGroupHandles,int* result=nullptr,double* precision,int(*cb)(const int*,std::vector&lt;double&gt;*,const int*,const int*,const int*,const int*,std::vector&lt;double&gt;*,double*)=nullptr)</td>
+<td class="apiTableRightCSyn">bool ikHandleGroups(const std::vector<int>* ikGroupHandles,int* result=nullptr,double* precision,int(*cb)(const int*,double*,const int*,const int*,const int*,const int*,double*,double*,double*)=nullptr)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
@@ -1517,9 +1517,9 @@ td.section { margin: 0; padding: 0; }
 <div><strong>result</strong>: the bit-coded execution result, in return. Possible values are ik_calc_notperformed, ik_calc_cannotinvert, ik_calc_notwithintolerance, ik_calc_stepstoobig, ik_calc_limithit. Can be nullptr</div>
 <div><strong>precision</strong>: a pointer to 2 values, receiving the largest linear and angular distance between all tip-target pairs. Can be nullptr</div>
 <div><strong>cb</strong>: an optional callback address that allows to inspect and manipulate the generated jacobians and error vector:</div>
-<div>bool jacobianCallback(const int jacobianSize[2],std::vector&lt;double&gt;* jacobian,const int* rowConstraints,const int* rowIkElements,const int* colHandles,const int* colStages,std::vector&lt;double&gt;* errorVector,double* qVector)</div>
+<div>int jacobianCallback(const int jacobianSize[2],double* jacobian,const int* rowConstraints,const int* rowIkElements,const int* colHandles,const int* colStages,double* errorVector,double* qVector,double* jacobianPseudoinverse)</div>
 <div></div>
-<div>The returned jacobian and errorVector can be modified, also in size, but must be consistent with each other and the joints involved. Returning true expects the computed joint errors in qVector. Otherwise, the jacobian and error vector will be used to compute the corresponding joint errors as usual.</div>
+<div>The return value is bit-coded: bit0=qVector is provided, bit1=jacobianPseudoinverse is provided. jacobian and errorVector can be modified, and qVector can be set (set also return bit0 in that case). If jacobianPseudoinverse is provided (set also return bit1 in that case), then if qVector is not provided, qVector will be computed simply like: qVector=jacobianPseudoinverse*errorVector. If qVector and jacobianPseudoinverse are not provided, then internal calculations are used.</div>
 </td>
 </tr>
 <tr class="apiTableTr">

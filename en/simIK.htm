@@ -2072,7 +2072,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Handles (i.e. computes/resolves) an IK group. Convenience function for simIK.handleIkGroups with a single IK group</td>
+<td class="apiTableRightDescr">Handles (i.e. computes/resolves) an IK group. Convenience function for simIK.handleIkGroups(ikEnv,{ikGroupHandle},..)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
@@ -2086,10 +2086,17 @@ td.section { margin: 0; padding: 0; }
 <div><strong>options</strong>: options:</div>
 <div class=tabTab>options.syncWorlds: if true, then calculation will be preceeded by simIK.syncToIkWorld and followed by simIK.syncFromIkWorld</div>
 <div class=tabTab>options.allowError: if true, and options.syncWorlds is true too, then calculation result will be applied to the scene, even if tip/target pairs are not within tolerance</div>
-<div class=tabTab>options.callback: a callback function that allows to inspect and manipulate the generated Jacobians and error vectors:</div>
-<div class=tabTab>callbackFunction(data), with data containing the Jacobian and error vector</div>
+<div class=tabTab>options.callback: a callback function that allows to inspect and manipulate the Jacobian. It also allows to directly perform joint valiation calculations while skipping internal computations:</div>
+<div class=tabTab>outData=callbackFunction(inData)</div>
+<div>inData.jacobian: a Matrix object representing the Jacobian</div>
+<div>inData.e: a Vector object representing the error vector</div>
+<div>inData.rows: a table describing the jacobian rows</div>
+<div>inData.cols: a table describing the jacobian cols</div>
 <div></div>
-<div class=tabTab>If the callback doesn't return a value, then the original Jacobian and error vector are used for computation. If the callback returns one table, then the table is interpreted as the computed joint errors. If the callback returns two tables, the first is interpreted as the modified Jacobian, the second is interpreted as the modified error vector</div>
+<div>outData.jacobian: an optional Matrix object representing the Jacobian to use in subsequent calculations. If not provided, then the original inData.jacobian is used</div>
+<div>outData.e: an optional Vector object representing the error vector to use in subsequent calculations. If not provided, then the original inData.e is used</div>
+<div>outData.dq: an optional Vector object representing the joint variation to apply. If provided, then internal Jacobian calculations (i.e. Jacobian pseudo-inverse) will be skipped)</div>
+<div>outData.jacobianPinv: an optional Matrix object representing the jacobian pseudo-inverse. If provided (and dq is not provided), then internal Jacobian calculations will be skipped and following executed instead: dq=outData.jacobianPinv*e)</div>
 
 </td>
 </tr>
@@ -2143,10 +2150,17 @@ td.section { margin: 0; padding: 0; }
 <div><strong>options</strong>: options:</div>
 <div class=tabTab>options.syncWorlds: if true, then calculation will be preceeded by simIK.syncToIkWorld and followed by simIK.syncFromIkWorld</div>
 <div class=tabTab>options.allowError: if true, and options.syncWorlds is true too, then calculation result will be applied to the scene, even if tip/target pairs are not within tolerance</div>
-<div class=tabTab>options.callback: a callback function that allows to inspect and manipulate the generated Jacobians and error vectors:</div>
-<div class=tabTab>callbackFunction(data), with data containing the Jacobian and error vector</div>
+<div class=tabTab>options.callback: a callback function that allows to inspect and manipulate the Jacobian. It also allows to directly perform joint valiation calculations while skipping internal computations:</div>
+<div class=tabTab>outData=callbackFunction(inData)</div>
+<div>inData.jacobian: a Matrix object representing the Jacobian</div>
+<div>inData.e: a Vector object representing the error vector</div>
+<div>inData.rows: a table describing the jacobian rows</div>
+<div>inData.cols: a table describing the jacobian cols</div>
 <div></div>
-<div class=tabTab>If the callback doesn't return a value, then the original Jacobian and error vector are used for computation. If the callback returns one table, then the table is interpreted as the computed joint errors. If the callback returns two tables, the first is interpreted as the modified Jacobian, the second is interpreted as the modified error vector</div>
+<div>outData.jacobian: an optional Matrix object representing the Jacobian to use in subsequent calculations. If not provided, then the original inData.jacobian is used</div>
+<div>outData.e: an optional Vector object representing the error vector to use in subsequent calculations. If not provided, then the original inData.e is used</div>
+<div>outData.dq: an optional Vector object representing the joint variation to apply. If provided, then internal Jacobian calculations (i.e. Jacobian pseudo-inverse) will be skipped)</div>
+<div>outData.jacobianPinv: an optional Matrix object representing the jacobian pseudo-inverse. If provided (and dq is not provided), then internal Jacobian calculations will be skipped and following executed instead: dq=outData.jacobianPinv*e)</div>
 
 </td>
 </tr>
