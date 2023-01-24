@@ -24,10 +24,59 @@ td.section { margin: 0; padding: 0; }
 <div align="center"><table class="allEncompassingTable">
 <tr><td id="title" class="section"><h1>IGL Plugin API reference</h1></td></tr>
 <tr><td id="info" class="section"><p class="infoBox">Wrapper for libigl</p></td></tr>
-<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#meshBoolean">simIGL.meshBoolean</a>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#exactGeodesic">simIGL.exactGeodesic</a>
+<a href="?#meshBoolean">simIGL.meshBoolean</a>
+<a href="?#randomPointsOnMesh">simIGL.randomPointsOnMesh</a>
+<a href="?#sweptVolume">simIGL.sweptVolume</a>
 </pre></td></tr>
 <tr><td id="commands" class="section">
 <h3 class="subsectionBar">
+<a name="exactGeodesic" id="exactGeodesic"></a>simIGL.exactGeodesic</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">The discrete geodesic distance between two points is the length of the shortest path between then restricted to the surface. For triangle meshes, such a path is made of a set of segments which can be either edges of the mesh or crossing a triangle.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] distances=simIGL.exactGeodesic(mesh m, int[] vs, int[] fs, int[] vt, int[] ft)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (mesh): mesh</div>
+<div>
+<strong>vs</strong> (table of int): indices of source vertices</div>
+<div>
+<strong>fs</strong> (table of int): indices of source faces</div>
+<div>
+<strong>vt</strong> (table of int): indices of target vertices</div>
+<div>
+<strong>ft</strong> (table of int): indices of target faces</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>distances</strong> (table of float): output vector which lists first the distances for the target vertices, and then for the target faces</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list distances=simIGL.exactGeodesic(mesh m, list vs, list fs, list vt, list ft)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="meshBoolean" id="meshBoolean"></a>simIGL.meshBoolean</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -61,6 +110,98 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">mesh result=simIGL.meshBoolean(mesh a, mesh b, int op)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="randomPointsOnMesh" id="randomPointsOnMesh"></a>simIGL.randomPointsOnMesh</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Randomly sample a mesh n times</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">grid b, grid fi=simIGL.randomPointsOnMesh(int n, mesh m, bool convertToWorldCoords=false)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>n</strong> (int): num samples</div>
+<div>
+<strong>m</strong> (mesh): mesh</div>
+<div>
+<strong>convertToWorldCoords</strong> (bool, default: false): if true, output will be in world coords and not in barycentric coords</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>b</strong> (grid): list of barycentric/world coordinates, ith row are coordinates of ith sampled point in face FI[i]</div>
+<div>
+<strong>fi</strong> (grid): list of indices into F</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">grid b, grid fi=simIGL.randomPointsOnMesh(int n, mesh m, bool convertToWorldCoords=false)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="sweptVolume" id="sweptVolume"></a>simIGL.sweptVolume</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Generate a volume-sweep mesh</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">mesh m=simIGL.sweptVolume(mesh m, string transformFunc, int timeSteps, int gridSize, float isoLevel=0)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (mesh): mesh</div>
+<div>
+<strong>transformFunc</strong> (string): rigid transform as a function of time (0..1); must return a 4x4 transform matrix as 12/16 values</div>
+<div>
+<strong>timeSteps</strong> (int): number of time steps</div>
+<div>
+<strong>gridSize</strong> (int): size of voxel grid internally used for mesh generation</div>
+<div>
+<strong>isoLevel</strong> (float, default: 0): can be set to zero to approximate the exact swept volume, greater than zero to approximate a positive offset of the swept volume or less than zero to approximate a negative offset</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (mesh): volume-sweep mesh</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">mesh m=simIGL.sweptVolume(mesh m, string transformFunc, int timeSteps, int gridSize, float isoLevel=0)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -117,7 +258,47 @@ td.section { margin: 0; padding: 0; }
 </table>
 <br>
 </td></tr>
-<tr><td id="scriptFunctions" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section">
+<br><br><h1>Script functions</h1>
+<p>Script functions are used to call some lua code from the plugin side (tipically used for event handlers).</p>
+<h3 class="subsectionBar">
+<a name="scriptfun:transformCallback" id="scriptfun:transformCallback"></a>transformCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback used by <a href="#sweptVolume">simIGL.sweptVolume</a>.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] transform=simIGL.transformCallback(float t)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>t</strong> (float): time parameter in 0..1 range</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>transform</strong> (table of float): a 4x4 transform matrix as 12/16 values</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list transform=simIGL.transformCallback(float t)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
 </table></div>
 <script type="text/javascript">
 //
