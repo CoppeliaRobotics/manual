@@ -474,7 +474,14 @@ wb_usr.tree =
                         },
                         {
                             name={en="Physics engine differences"},
-                            link="physicsEngineDifferences.htm"
+                            link="physicsEngineDifferences.htm",
+                            folder=
+                            {
+                                {
+                                    name={en="simMujoco API reference"},
+                                    link="simMujoco.htm"
+                                },
+                            }
                         },
                     }
                 },

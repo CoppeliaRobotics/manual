@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>simMujoco API</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style></head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+
+<tr><td id="title" class="section"><h1>MuJoCo plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="warningBox">API functions that mainly serve to inject MuJoCo XML code</p></td></tr>
+
+<tr><td id="alphabetical" class="section"><pre class="apiList">
+<a href="?#simMujoco.composite">simMujoco.composite</a>
+<a href="?#simMujoco.getCompositeInfo">simMujoco.getCompositeInfo</a>
+<a href="?#simMujoco.injectXML">simMujoco.injectXML</a>
+<a href="?#simMujoco.removeXML">simMujoco.removeXML</a>
+</pre></td></tr>
+
+
+<tr><td id="commands" class="section">
+<p class="subsectionBar">
+<a name="simMujoco.composite" id="simMujoco.composite"></a>simMujoco.composite</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Adds or injects a composite to the MuJoCo world</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int injectionId=simMujoco.composite(string xml,map info)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>xml</strong>: the xml code corresponding to a composite object</div>
+<div><strong>info</strong>: additional information about the composite:</div>
+<div class=tab><strong>element</strong>: the name of the XML element where the composite XML should be injected. Can be empty if shapeHandle is not empty</div>
+<div class=tab><strong>shapeHandle</strong>: the handle of the shape where the composite XML should be injected. Can be empty if element is not empty</div>
+<div class=tab><strong>prefix</strong>: the composite prefix string. Make sure the prefix is unique, and possible derived from the related shape</div>
+<div class=tab><strong>type</strong>: the composite type: grid, rope, loop, cloth, box, cylinder or ellipsoid</div>
+<div class=tab><strong>count</strong>: the size of the composite</div>
+<div class=tab><strong>respondableMask</strong>: the composite respondable mask</div>
+<div class=tab><strong>grow</strong>: the amount the composite nodes should grow for visuals</div>
+<div class=tab><strong>callback</strong>: a callback function that is called when the MuJoCo world gets regenerated. This allows to adjust the composite code on-the-fly</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div><strong>injectionId</strong>: the id of the injection</div></td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int injectionId=simMujoco.composite(string xml,dict info)</td>
+</tr>
+</table>
+<br>
+
+<p class="subsectionBar">
+<a name="simMujoco.getCompositeInfo" id="simMujoco.getCompositeInfo"></a>simMujoco.getCompositeInfo</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Retrieves data about a composite</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">map info=simMujoco.getCompositeInfo(int injectionId,int what)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>injectionId</strong>: the injection ID returned by simMujoco.composite</div>
+<div><strong>what</strong>: the type of requested data:</div>
+<div class=tab><strong>0</strong>: the positions of the composite nodes</div>
+<div class=tab><strong>1</strong>: the poses of the composite nodes</div>
+<div class=tab><strong>2</strong>: the triangles to render the composite</div>
+<div class=tab><strong>3</strong>: the grown triangles to render the composite</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div><strong>info</strong>: the requested data</div>
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">dict info=simMujoco.getCompositeInfo(int injectionId,int what)</td>
+</tr>
+</table>
+<br>
+
+<p class="subsectionBar">
+<a name="simMujoco.injectXML" id="simMujoco.injectXML"></a>simMujoco.injectXML</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Adds or injects XML data into a MuJoCo world</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int injectionId=simMujoco.injectXML(string xml,string element/int shapeHandle,map info=nil)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>xml</strong>: the xml code to inject</div>
+<div><strong>element/shapeHandle</strong>: the name of the XML element or the handle of the shape where the XML code should be injected</div>
+<div><strong>info</strong>: additional information about the XML code:</div>
+<div class=tab><strong>callback</strong>: a callback function that is called when the MuJoCo world gets regenerated. This allows to adjust the XML code on-the-fly</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div><strong>injectionId</strong>: the id of the injection</div>
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int injectionId=simMujoco.injectXML(string xml,string element/int shapeHandle,dict info=None)</td>
+</tr>
+
+</table>
+<br>
+
+<p class="subsectionBar">
+<a name="simMujoco.removeXML" id="simMujoco.removeXML"></a>simMujoco.removeXML</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Removes XML data from the MuJoCo world</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simMujoco.removeXML(int injectionId)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>injectionId</strong>: the injection ID returned by simMujoco.composite or simMujoco.injectXML</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simMujoco.removeXML(int injectionId)</td>
+</tr>
+</tr>
+</table>
+<br>
+
+
+
+</td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('category').style.display = view == 'category' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script>
+</body>
+</html>

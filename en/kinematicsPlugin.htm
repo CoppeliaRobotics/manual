@@ -19,7 +19,7 @@
 
 <h1>Kinematics Plugin</h1>
 
-<p>The kinematics plugin for CoppeliaSim (<em>simExtIK.dll</em> or similar) wraps the <a href="coppeliaKinematicsRoutines.htm">Coppelia Kinematics Routines</a>. It exports <a href="simIK.htm?view=category">several API functions</a> that can be recognized from their simIK-prefix; they allow to create, handle and solve forward/inverse kinematics tasks for any type of mechanism (redundant/non-redundant, containing nested loops, etc.) fully programmatically.</p>
+<p>The kinematics plugin for CoppeliaSim (<em>simExtIK.dll</em> or similar) wraps the <a href="coppeliaKinematicsRoutines.htm">Coppelia Kinematics Routines</a>. It exports <a href="simIK.htm?view=category">several API functions</a> that can be recognized from their simIK-prefix; they allow to create, handle and solve forward/inverse kinematics tasks via Jacobian for any type of mechanism (redundant/non-redundant, containing nested loops, etc.) fully programmatically.</p>
 <p>Kinematics tasks can very easily be set up from the scene's content like in following example:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
@@ -82,7 +82,7 @@ function sysCall_init()
     -- specify the base of that IK element: 
     simIK.setElementBase(ikEnv,ikGroup,ikElement,ikBase)
     -- specify the constraints of that IK element: 
-    simIK.setElementConstraints(ikEnv,ikGroup,ikElement,simIK.constraint_x+simIK.constraint_y) 
+    simIK.setElementConstraints(ikEnv,ikGroup,ikElement,simIK.constraint_x|simIK.constraint_y) 
 end
 
 -- IK calculation, and application to the scene:
