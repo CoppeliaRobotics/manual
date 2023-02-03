@@ -23,7 +23,7 @@
 Description 
 </td> 
 <td class=apiTableRightDescr>Executes some code in a specific script (from a <a href="../plugins.htm">plugin</a>, <a href="../mainClientApplication.htm">the main client application</a>, or from another script). The target script must be initialized for this call to succeed, e.g. when calling <a href="../simulationScripts.htm">simulation scripts</a>, then simulation must be running. See also <a href="simCallScriptFunction.htm">sim.callScriptFunction</a>. <br><br>
-<div>Data exchange between a plugin and a script happens via a <a href="../apiFunctions.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in <em>programming/common/stack</em> and <em>programming/include/stack</em>: they will greatly simplify the task. Have a look at the example plugins <a href="https://github.com/CoppeliaRobotics/simExtPluginSkeleton" target="_blank">simExtPluginSkeleton</a> and <a href="https://github.com/CoppeliaRobotics/simExtSkel" target="_blank">simExtSkel</a>.</div>
+<div>Data exchange between a plugin and a script happens via a <a href="../apiFunctions.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in <em>programming/</em><em>include/simStack</em>.</div>
 
 
 </td>
@@ -32,15 +32,13 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simExecuteScriptString(int scriptHandleOrType,const char* stringAtScriptName,int stackId)</td> 
+<td class=apiTableRightCSyn>int simExecuteScriptString(int scriptHandle,const char* stringToExecute,int stackId)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>scriptHandleOrType</strong>: the handle of the script, otherwise the <a href="../apiConstants.htm#scriptTypes">type of the script</a></div>
-<div><strong>stringAtScriptName</strong>: a string representing the  code to execute in the specified script.</div>
-<div class=tab>if <em>scriptHandleOrType</em> is sim.scripttype_childscript or sim.scripttype_customizationscript, then append to the string '@' and the path of the object the script is attached to, e.g. &quot;print('Hello')@/path/to/object&quot;</div>
-<div class=tab>if <em>scriptHandleOrType</em> is sim.scripttype_addonscript, then append to the string '@' and the name of the add-on, e.g. &quot;print('Hello')@Isometric scaling&quot;</div>
+<div><strong>scriptHandle</strong>: the handle of the script</div>
+<div><strong>stringToExecute</strong>: a string representing the  code to execute in the specified script</div>
 <div><strong>stackId</strong>: 0 (for no stack) or a <a href="simCreateStack.htm">stack handle</a>. The stack holds possible out values. See also the <a href="../apiFunctions.htm#stacks">available stack functions</a>.</div>
 </td> 
 </tr> 
@@ -56,7 +54,7 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>int result,executionResult=sim.executeScriptString(string stringAtScriptName,int scriptHandleOrType)</td> 
+<td class=apiTableRightLSyn>int result,executionResult=sim.executeScriptString(string stringToExecute,int scriptHandle)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
@@ -80,7 +78,7 @@ Lua<br>return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>int result,executionResult=sim.executeScriptString(string stringAtScriptName,int scriptHandleOrType)</td>
+<td class=apiTableRightPSyn>int result,executionResult=sim.executeScriptString(string stringToExecute,int scriptHandle)</td>
 </tr>
 
 </table> 
