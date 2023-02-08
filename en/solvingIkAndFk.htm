@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>Solving IK and FK for any type of mechanism</title>
+<title>Solving IK and FK</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 
@@ -17,86 +17,95 @@
 
 
 
-<h1>Solving IK and FK for any type of mechanism</h1>
+<h1>Solving IK and FK Tasks</h1>
 
-<p>The Inverse Kinematics (IK) or Forward Kinematics (FK) are solved for a mechanism by using IK Groups and IK Elements (see the section on <a href="basicsOnIkGroupsAndIkElements.htm">basics on IK groups and IK elements</a>). Keep following points in mind in order to successfully set up IK or FK calculations:<br>
+<p>CoppeliaSim uses <em>IK groups</em> and <em>IK elements</em> to solve inverse and forward kinematics tasks. It is important to understand how an IK task is solved in order to take full advantage of the kinematics functionality CoppeliaSim offers. Several example scenes related to IK and FK can also be found in  <em>scenes/kinematics</em>. </p>
+<p>An IK task is defined by an IK group, which contains one or more IK elements:<br>
 </p>
 
-<li>Specify individual kinematic chains by providing a base and a tip.
+<li><strong>IK element</strong>: an IK element represents a simple kinematic chain, which is a linkage containing at least one joint. The chain is specified by a  base, a tip indicating the end-effector, and a target for the tip to follow. An IK element describes a <em>naked</em> Jacobian, where the rows represent the constraints, and the columns represent the degrees of freedom. In short, an IK element is made up by:<br>
 </li>
 
-<li>Specify a target to follow.<br>
+<li class=tabTab>a base, which represents the start of the kinematic chain<br>
 </li>
 
-<li>Group IK elements in a single IK Group if they share common joints. </li>
+<li class=tabTab>several links (any type of object except joints). Joints which are <em>passive</em> are however also considered as links (in that case they behave as rigid joints (joints with a fixed linear/angular position))</li>
 
-<li>Sort individual IK Groups in order to obtain the wanted behavior.
+<li class=tabTab>several joints</li>
+
+<li class=tabTab>a tip, which is usually the last object in the considered kinematic chain (when going from base to tip), and is often the end-effector. The tip object should be linked to a target object (see hereafter)</li>
+
+<li class=tabTab>a target representing the desired tip position and/or orientation. The target object should be linked to a tip object (see hereabove)</li>
+
+<li><strong>IK group</strong>: an IK group contains one or more IK elements. To solve the kinematics of a simple kinematic chain, one IK group containing one IK element is needed. The IK group defines the overall solving properties (such as the  solver, the number of iterations, etc.). An IK group describes the Jacobian obtained by horizontalling stacking the Jacobians from its IK elements.<br>
 </li>
 
-<li>Verify that joints in a kinematic chain have the correct properties enabled or disabled.<br>
-</li>
-
-<li>Verify that individual IK Elements are not overconstrained. If this cannot be avoided, then select a damped resolution method.<br>
-</li>
 
 
-<p>The last point is quite important to understand: a kinematic chain's tip that has all constraints turned on, will follow its associated target in the x-, y-, z-directions, while trying to keep the same orientation as the target. This however only works well when the kinematic chain has at least 6 non-redundant Degrees of Freedom (DoFs). The tip should always be appropriately constrained (i.e. never indicate more constraints than there are DoFs in the mechanism). Positional constraints are most of the time specified relative to the base's orientation as can be seen from following figure:<br>
+
+<p>Following figures show two kinematic chains as they are described via IK elements. The two IK elements perceive the two chains in a similar way (the very first joint of the second example is ignored by the IK element):<br>
 </p>
 
+
+<p align=center><img src="images/ikBasics1.jpg"></p>
+<p class=imageLabel>[Two kinematic chains, each describing an IK element]</p>
+<br>
+
+
+<p>The goal of an IK element  (i.e. resolution of an IK element) is to have the target followed by the tip (i.e. having tip and target overlap, given certain constraints and tolerances), by computing the appropriate joint values for the kinematic chain:<br>
+</p>
+<p align=center><img src="images/ikBasics2.jpg"></p>
+<p class=imageLabel>[IK element and corresponding model of the IK solving task]</p>
+<br>
+
+<p>In above example (in 2D for simplicity), we can specify various constraints for the tip-target pair, e.g.:</p>
+<li> <strong>X positional constraint</strong>: the tip would follow the target only on the X-axis, and the kinematic chain would appear redundant for this task since the chain itself has 3 degrees of freedom.</li>
+<li> <strong>X/Y positional constraints</strong>: the tip would follow the target only in position, and the kinematic chain would still appear redundant for this task.</li>
+<li> <strong>X/Y positional + &Theta; orientational constraints</strong>: the tip would follow the target in position and orientation, and the kinematic chain would not appear as redundant anymore for this task.</li>
+<p>Note that even for the most basic IK task, an IK element is solved via the resolution of the encompassing  IK group.</p>
+<p>Two separate kinematic chains are handled in an identical fashion, however this time, two IK groups are needed (and each one of them should contain one IK element for each kinematic chain). Solving order of the two IK groups is not relevant, when both tasks are distinct:<br>
+</p>
+<p align=center><img src="images/ikBasics3.jpg"></p>
+<p class=imageLabel>[Two separate IK chains and corresponding model of the IK solving tasks]</p>
+<br>
+
+<p>In above example, should<em> target2</em> be attached to a mobile part of the first kinematic chain, then the solving order becomes relevant and  <em>IK group1</em> should be solved first (solving result will displace <em>target2</em> as can be seen from following figure):<br>
+</p>
+
+
+<p align=center><img src="images/ikBasics4.jpg"></p>
+<p class=imageLabel>[Two separate IK chains, where the target of the second chain is attached to the first chain, and corresponding model of the IK solving tasks]</p>
+<br>
+
+<p>A similar case can appear when one IK element is built on top of another IK element, without sharing any common joint as can be seen from following figure: the first kinematic chain is indicated in black, the second in light blue. <em>Base2</em>, indicated in purple, is the common object between the two chains. Solving  <em>IK element2</em> won't displace the purple link, however solving <em>IK element1</em> will displace it. For that reason <em> IK group1</em> has to be solved before <em>IK group2</em> as in above case (solving order is important):<br>
+</p>
+
+
+<p align=center><img src="images/ikBasics5.jpg"></p>
+<p class=imageLabel>[Two IK chains sharing one common link but no common joints and corresponding model of the IK solving tasks]</p>
+<br>
+
+<p>A more difficult case appears when two or more kinematic chains share common joints. In that case sequential solving doesn't work most of the time (in following example, the two IK elements tend to rotate the common joint into opposite directions) and a simultaneous solving method is needed. To simultaneously solve several IK elements, just group them into one common IK group. This case is illustrated in following figure:<br>
+</p>
+
+
+<p align=center><img src="images/ikBasics6.jpg"></p>
+<p class=imageLabel>[Two IK chains sharing one common joint and corresponding model of the IK solving task]</p>
+<br>
+
+
+<p> Positional constraints are specified by default relative to the base's reference frame as can be seen from following figure:</p>
 
 <p align=center><img src="images/ikSolving1.jpg"></p>
 <p class=imageLabel>[Positional constraints for a kinematic chain]</p>
 <br>
 
 
-<p>Sometimes it is however not possible to correctly specify the constraints for a tip, and in that case the IK group's calculation method should be a damped method (e.g. the damped least squares method) with an appropriately selected damping factor. A damped resolution method should also be selected when a target can't possibly be reached (out of reach, or close to a singular configuration). Damping can result in more stable calculations, but keep in mind that damping will always slow down calculations (more iterations will be needed to bring the tip into place).<br>
-</p>
+<p>It is however possible to select any reference frame for the positional constraints. Orientational contraints can be full (alpha-beta-gamma, with 3DoFs), partial 3D (alpha-beta, with 2DoFs, where only the z-axes of tip and target are overlapping), partial 2D (gamma, with 1DoF), or turned off completely.</p>
 
-<p>Turning Alpha-Beta constraint on, will match the tip's z-axis orientation with the target's z-axis orientation, while keeping a free rotation around the z-axis if Gamma constraint is off. When Alpha-Beta constraint AND Gamma constraint are turned on, then the tip will try to adopt exactly the same orientation as its  target.<br>
-</p>
+<p>Always verify that individual IK Elements are not overconstrained, in order to avoid a strange behaviour. If this cannot be avoided, or when operating close to a singularity, selecting a damped resolution method often helps (but will always slow down calculations).</p>
 
-<p>Solving the IK problem for simple kinematic chains is explained in the section on <a href="basicsOnIkGroupsAndIkElements.htm">basics on IK groups and IK elements</a>. Solving the FK problem of simple kinematic chains is trivial (just apply the desired joint values to all joints in the chain to obtain the position and orientation of the tip or end effector). It is less trivial to solve the IK and FK problem for closed mechanisms.<br>
-</p>
-
-<br>
-
-<h2>
-<a name="closedMechanisms"></a>Solving IK and FK for closed mechanisms
-</h2>
-
-
-<p>In following section, two general examples are discussed that should allow the user to understand the approach to solving general type closed mechanisms:<br>
-</p>
-
-<p>In the case of an FK problem, identify first the joints that you want to control (i.e. the joints that are driving the mechanism, the active joints). Those joints should be excluded from all kinematic calculation (select a joint mode different from <strong>inverse kinematics mode</strong>). Those joints will be considered as rigid by the kinematic calculations from now on. Then, identify which kinematic chain needs to be closed. Closing will be handled by loop closure constraints in the form of tip-target pairs as shown in following figure:<br>
-</p>
-
-<p align=center><img src="images/ikSolving2.jpg"></p>
-<p class=imageLabel>[Forward Kinematics solving method for closed mechanisms]</p>
-<br>
-
-<p>Then, set the desired joint values for the active joints and call the inverse kinematics functionality to handle loop closure constraints.<br>
-</p>
-
-<p>Following example shows some additional functionality that can be used to solve complicated kinematic problems:<br>
-</p>
-
-<p align=center><img src="images/ikSolving3.jpg"></p>
-<p class=imageLabel>[Inverse kinematics task]</p>
-<br>
-
-<p>As can be seen from the figure, there is one IK task desired by the user: bring the tip onto the target (or have the tip follow the target). This can be solved in the regular way, or the user can make usage of the joint dependency functionality. Following figure demonstrates this:<br>
-</p>
-
-<p align=center><img src="images/ikSolving4.jpg"></p>
-<p class=imageLabel>[Inverse kinematics task with joint overlap constraints]</p>
-<br>
-
-<p>The IK main task is in charge of reaching the target, the loop closure constraint is in charge of closing the mechanism, and the joint overlap constraints are in charge of keeping the base of the mechanism overlapped (as one single chain). The parameters of the joint dependency linear equation  have to be carefully chosen in order to reach a perfect overlap (e.g. if two corresponding joints (the ones linked through the overlap constraint) have the same orientation, then the coefficient in the equation needs to be set to -1 (since one joint is built bottom-up and the other one is built top-down)).<br>
-</p>
-
-<p>Most of the time there are several different ways of solving the IK or FK of a mechanism, and it is always worth considering various alternatives before implementing the most complicated one. <br>
-</p>
+<p>It is also possible to simultaneously solve IK elements while respecting a prioritization hierarchy (via the null-space projection method), or to link two or several joints via dependency constraints, in order to achieve a complex behaviour.</p>
 
 <br>
 <br>

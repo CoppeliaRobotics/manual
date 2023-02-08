@@ -432,11 +432,7 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="Basics on IK groups and IK elements"},
-                            link="basicsOnIkGroupsAndIkElements.htm"
-                        },
-                        {
-                            name={en="Solving IK and FK for any type of mechanism"},
+                            name={en="Solving IK and FK tasks"},
                             link="solvingIkAndFk.htm"
                         },
                         {
