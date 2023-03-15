@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>sim.reorientShapeBoundingBox</title>
+<title>sim.relocateShapeFrame</title>
 <link rel="stylesheet" type="text/css" href="../../style.css">
 </head>
 
@@ -16,26 +16,25 @@
 <p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
 
 <h1>Regular API function</h1>
-<p class=subsectionBar><a name="simReorientShapeBoundingBox" id="simReorientShapeBoundingBox"></a>simReorientShapeBoundingBox / sim.reorientShapeBoundingBox </p>
+<p class=subsectionBar><a name="simRelocateShapeFrame" id="simRelocateShapeFrame"></a>simRelocateShapeFrame / sim.relocateShapeFrame </p>
 <table class=apiTable>
 <tr class=apiTableTr> 
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Deprecated. Use <a href="simAlignShapeBB.htm">sim.alignShapeBB</a> and/or <a href="simRelocateShapeFrame.htm">sim.relocateShapeFrame</a> instead</td>
+<td class=apiTableRightDescr>Repositions and reorients the reference frame of a shape, while keeping the mesh in place. The shape's inertia properties are unaffected. See also <a href="simAlignShapeBB.htm">sim.alignShapeBB</a></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simReorientShapeBoundingBox(int shapeHandle,int relativeToHandle,int reservedSetToZero)</td> 
+<td class=apiTableRightCSyn>int simRelocateShapeFrame(int shapeHandle,const double* pose)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>shapeHandle</strong>: the handle of the shape that will be reoriented. See also <a href="simGetObject.htm">sim.getObject</a>.</div>
-<div><strong>relativeToHandle</strong>: the handle of an object relative to which the shape should be reoriented, or -1 to align the bounding box with the world, or sim.handle_self to build the smallest bounding box around the object.</div>
-<div><strong>reservedSetToZero</strong>: reserved for future extensions. Set to 0.</div>
+<div><strong>shapeHandle</strong>: the handle of the shape</div>
+<div><strong>pose</strong>: the pose for the shape's reference frame. The pose is expressed as (x,y,z,qx,qy,qz,qw)</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -43,14 +42,14 @@ C/C++<br>synopsis
 C/C++<br>return value
 </td> 
 <td class=apiTableRightCRet>
-<div>-1 if operation was not successful. 0 if the bounding box could not be reoriented (the bounding box of primitive shapes cannot be reoriented), otherwise 1.</div>
+<div>-1 if operation was not successful. 0 if the frame could not be relocated (the frame of primitive shapes cannot be relocated), otherwise 1.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>int result=sim.reorientShapeBoundingBox(int shapeHandle,int relativeToHandle)</td> 
+<td class=apiTableRightLSyn>bool result=sim.relocateShapeFrame(int shapeHandle,float[7] pose)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
@@ -70,7 +69,7 @@ Lua<br>return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>int result=sim.reorientShapeBoundingBox(int shapeHandle,int relativeToHandle)</td>
+<td class=apiTableRightPSyn>bool result=sim.relocateShapeframe(int shapeHandle,list pose)</td>
 </tr>
 
 </table> 

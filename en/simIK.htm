@@ -30,6 +30,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.addElementFromScene">simIK.addElementFromScene</a>
 <a href="?#simIK.computeGroupJacobian">simIK.computeGroupJacobian</a>
 <a href="?#simIK.computeJacobian">simIK.computeJacobian</a>
+<a href="?#simIK.createDebugOverlay">simIK.createDebugOverlay</a>
 <a href="?#simIK.createDummy">simIK.createDummy</a>
 <a href="?#simIK.createEnvironment">simIK.createEnvironment</a>
 <a href="?#simIK.createGroup">simIK.createGroup</a>
@@ -37,6 +38,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.doesGroupExist">simIK.doesGroupExist</a>
 <a href="?#simIK.doesObjectExist">simIK.doesObjectExist</a>
 <a href="?#simIK.duplicateEnvironment">simIK.duplicateEnvironment</a>
+<a href="?#simIK.eraseDebugOverlay">simIK.eraseDebugOverlay</a>
 <a href="?#simIK.eraseEnvironment">simIK.eraseEnvironment</a>
 <a href="?#simIK.eraseObject">simIK.eraseObject</a>
 <a href="?#simIK.generatePath">simIK.generatePath</a>
@@ -69,6 +71,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.getObjectPose">simIK.getObjectPose</a>
 <a href="?#simIK.getObjects">simIK.getObjects</a>
 <a href="?#simIK.getObjectTransformation">simIK.getObjectTransformation</a>
+<a href="?#simIK.getObjectType">simIK.getObjectType</a>
 <a href="?#simIK.getTargetDummy">simIK.getTargetDummy</a>
 <a href="?#simIK.handleGroup">simIK.handleGroup</a>
 <a href="?#simIK.handleGroups">simIK.handleGroups</a>
@@ -107,6 +110,8 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.createEnvironment">simIK.createEnvironment</a>
 <a href="?#simIK.eraseEnvironment">simIK.eraseEnvironment</a>
 <a href="?#simIK.duplicateEnvironment">simIK.duplicateEnvironment</a>
+<a href="?#simIK.createDebugOverlay">simIK.createDebugOverlay</a>
+<a href="?#simIK.eraseDebugOverlay">simIK.eraseDebugOverlay</a>
 <a href="?#simIK.save">simIK.save</a>
 <a href="?#simIK.load">simIK.load</a>
 <a href="?#simIK.addElementFromScene">simIK.addElementFromScene</a>
@@ -127,6 +132,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#simIK.setObjectPose">simIK.setObjectPose</a>
 <a href="?#simIK.getObjectTransformation">simIK.getObjectTransformation</a>
 <a href="?#simIK.setObjectTransformation">simIK.setObjectTransformation</a>
+<a href="?#simIK.getObjectType">simIK.getObjectType</a>
 <a href="?#simIK.getObjectMatrix">simIK.getObjectMatrix</a>
 <a href="?#simIK.setObjectMatrix">simIK.setObjectMatrix</a>
 </pre>
@@ -454,6 +460,46 @@ td.section { margin: 0; padding: 0; }
 
 
 <p class="subsectionBar">
+<a name="simIK.createDebugOverlay" id="simIK.createDebugOverlay"></a>simIK.createDebugOverlay</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Creates a visual representation of an IK chain.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int objectHandle=simIK.createDebugOverlay(int environmentHandle,int tipHandle,int baseHandle=-1)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment.</div>
+<div><strong>tipHandle</strong>: the handle of the tip dummy.</div>
+<div><strong>baseHandle</strong>: the handle of the base object.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div><strong>objectHandle</strong>: the handle of the visual overlay object.</div>
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int objectHandle=simIK.createDebugOverlay(int environmentHandle,int tipHandle,int baseHandle=-1)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.eraseDebugOverlay">simIK.eraseDebugOverlay</a></td>
+</tr>
+</table>
+<br>
+
+
+
+<p class="subsectionBar">
 <a name="simIK.createDummy" id="simIK.createDummy"></a>simIK.createDummy</p>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -711,6 +757,46 @@ td.section { margin: 0; padding: 0; }
 </tr>
 </table>
 <br>
+
+
+
+
+<p class="subsectionBar">
+<a name="simIK.eraseDebugOverlay" id="simIK.eraseDebugOverlay"></a>simIK.eraseDebugOverlay</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Removes the visual representation of an IK chain.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simIK.eraseDebugOverlay(int objectHandle)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>objectHandle</strong>: the handle of the visual overlay object.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simIK.eraseDebugOverlay(int objectHandle)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simIK.createDebugOverlay">simIK.createDebugOverlay</a></td>
+</tr>
+</table>
+<br>
+
+
 
 <p class="subsectionBar">
 <a name="simIK.eraseEnvironment" id="simIK.eraseEnvironment"></a>simIK.eraseEnvironment</p>
@@ -2029,6 +2115,44 @@ td.section { margin: 0; padding: 0; }
 
 
 <p class="subsectionBar">
+<a name="simIK.getObjectType" id="simIK.getObjectType"></a>simIK.getObjectType</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Retrieves the type of an object.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int objectType=simIK.getObjectType(int environmentHandle,int objectHandle)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>environmentHandle</strong>: the handle of the environment.</div>
+<div><strong>objectHandle</strong>: the handle of the object.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div><strong>objectType</strong>: the returned type of the object.</div>
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int objectType=simIK.getObjectType(int environmentHandle,int objectHandle)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+
+
+<p class="subsectionBar">
 <a name="simIK.getTargetDummy" id="simIK.getTargetDummy"></a>simIK.getTargetDummy</p>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2086,6 +2210,7 @@ td.section { margin: 0; padding: 0; }
 <div><strong>options</strong>: options:</div>
 <div class=tabTab>options.syncWorlds: if true, then calculation will be preceeded by simIK.syncToIkWorld and followed by simIK.syncFromIkWorld</div>
 <div class=tabTab>options.allowError: if true, and options.syncWorlds is true too, then calculation result will be applied to the scene, even if tip/target pairs are not within tolerance</div>
+<div class=tabTab>options.debug: bit0 is set, then a visual representation of the IK group will be made</div>
 <div class=tabTab>options.callback: a callback function that allows to inspect and manipulate the Jacobian. It also allows to directly perform joint valiation calculations while skipping internal computations:</div>
 <div class=tabTab>outData=callbackFunction(inData)</div>
 <div>inData.jacobian: a Matrix object representing the Jacobian</div>
@@ -2150,6 +2275,7 @@ td.section { margin: 0; padding: 0; }
 <div><strong>options</strong>: options:</div>
 <div class=tabTab>options.syncWorlds: if true, then calculation will be preceeded by simIK.syncToIkWorld and followed by simIK.syncFromIkWorld</div>
 <div class=tabTab>options.allowError: if true, and options.syncWorlds is true too, then calculation result will be applied to the scene, even if tip/target pairs are not within tolerance</div>
+<div class=tabTab>options.debug: if bit0 is set, then a visual representation of the IK groups will be made</div>
 <div class=tabTab>options.callback: a callback function that allows to inspect and manipulate the Jacobian. It also allows to directly perform joint valiation calculations while skipping internal computations:</div>
 <div class=tabTab>outData=callbackFunction(inData)</div>
 <div>inData.jacobian: a Matrix object representing the Jacobian</div>
