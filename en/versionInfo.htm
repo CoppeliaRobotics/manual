@@ -51,7 +51,7 @@ Version history:
 <li>Reworked the <a href="kinematics.htm">kinematics functionality</a>, which now allows to handle kinematic tasks in a much more flexible manner. This includes a callback function to inspect/modify/compute the Jacobian, when calling <a href="simIK.htm#simIK.handleGroup">simIK.handleGroup</a>, null-space projection support, or the new function <a href="simIK.htm#simIK.computeJacobian">simIK.computeJacobian</a> which allows to compute the Jacobian for any configuration of any kinematic chain</li>
 <li>Inverse kinematics worlds can now easily be debugged by adding a visual overlay [Menu bar --&gt; Tools --&gt; Visualize IK world]. Individual IK group debugging can also we enabled via  an optional <em>debug</em> flag in <a href="simIK.htm#simIK.handleGroup">simIK.handleGroup</a> and <a href="simIK.htm#simIK.handleGroups">simIK.handleGroups</a>. A demo scene illustrating this was added: <em>scenes/kinematics/simpleExamples/10-visuallyDebuggingIkGroups.ttt</em></li>
 <li>CoppeliaSim now uses systematically double precision floating point values for the core library, and most plugins. The C API interface is now also in double precision, but one can revert to single precision via the <em>SIM_INTERFACE_SINGLE</em> define.
-<li>A shape's reference frame can now be relocated while keeping the mesh in place. The reference frame of an imported shape will be always located at the origin by default. This can be changed via [Menu bar --> Edit --> shape reference frame], or programmatically via <a href="regularApi/simRelocateShapeFrame.htm">sim.relocateShapeFrame</a>
+<li>A <a href="shapeReferenceFrames.htm">shape's reference frame</a> can now be relocated while keeping the mesh in place. The reference frame of an imported shape will be always located at the world origin by default. Added  <a href="regularApi/simRelocateShapeFrame.htm">sim.relocateShapeFrame</a> and <a href="regularApi/simAlignShapeBB.htm">sim.aligneShapeBB</a>
 <li>Added an option to specify a callback function for <a href="simMujoco.htm#simMujoco.composite">simMujoco.composite</a> and <a href="simMujoco.htm#simMujoco.injectXML">simMujoco.injectXML</a>: this allows to dynamically react to a MuJoCo world rebuild event. This is demonstrated in the demo scene: <em>scenes/mujoco/compositeAndOtherCallbacks.ttt</em>
 <li>Better rendering of reference frames and bounding boxes</li>
 <li>Better rendering of numbers in the dialogs</li>
@@ -446,7 +446,7 @@ Version history:
 <li>Switched to Qt 5.5.0 for the Windows, the MacOS and the Linux versions.</li>
 <li>Reworked many dialogs by adapting the floating-point number display, the unit display, and removing some deprecated/rarely used items. The user interface units are now fixed to degrees, meters, seconds, kilograms, Newtons, etc. to avoid confusions.</li>
 <li>Added an <a href="groupedShapeEditMode.htm">edit mode for compound shapes</a>. This allows to edit the visual parameters of a compound shape without having to ungroup it.</li>
-<li>Added a possibility to automatically compute the mass and inertia tensor for convex shapes in the <a href="shapeDynamicsProperties.htm">shape dynamic properties</a>. The algorithm is courtesy of Chris Hecker.</li>
+<li>Added a possibility to automatically compute the mass and inertia matrix for convex shapes in the <a href="shapeDynamicsProperties.htm">shape dynamic properties</a>. The algorithm is courtesy of Chris Hecker.</li>
 <li>Added a plugin able to render ray-traced images (via vision sensors or via cameras). This will allow to perform more realistic image-based control. The plugin is based on <a href="http://www.povray.org/">POV-Ray</a> and allows rendering shadows (also soft) and focal blur. The ray-tracer plugin is courtesy of Andreu Vidal. The source can be found <a href="https://github.com/CoppeliaRobotics/simExtPovRay" target="_blank">here</a>.</li>
 <li>Added a plugin for support of the <a href="dynamicsModule.htm#newton">Newton Dynamics engine</a>. The plugin is currently a BETA version, and will be improved for next release. The plugin is courtesy of Julio Jerez and Alain Suero.</li>
 <li>Added a plugin that performs the rendering instead of a vision sensor or a camera. The plugin is meant as an example, and its source can be found <a href="https://github.com/CoppeliaRobotics/simExtExternalRenderer" target="_blank">here</a>.</li>
@@ -493,7 +493,7 @@ Version history:
 <li>Added a model that allows to modify shape colors that are named: <em>Models/tools/color change tool from color names.ttm</em>.</li>
 <li>Added a model that allows to find the intersection between a plane and a ray: <em>Models/tools/plane ray intersection finder tool.ttm</em>.</li>
 <li>An example of <a href="http://snap.berkeley.edu/">Snap!</a> controlled line follower in V-REP is available <a href="https://github.com/nemilya/snap-v-rep-example" target="_blank">here</a>, courtesy of Ilya Nemihin.</li>
-<li>A small Python programm that allows transferring a <a href="http://meshlab.sourceforge.net/">MeshLab</a> inertia tensor to V-REP is available <a href="http://coppeliarobotics.com/contributions/inertiaFromMeshlabToVrep.py">here</a>, courtesy of Michael Michalik.</li>
+<li>A small Python programm that allows transferring a <a href="http://meshlab.sourceforge.net/">MeshLab</a> inertia matrix to V-REP is available <a href="http://coppeliarobotics.com/contributions/inertiaFromMeshlabToVrep.py">here</a>, courtesy of Michael Michalik.</li>
 
 <br>
 
@@ -624,7 +624,7 @@ Version history:
 <li>Added a simulation model of the Jaco manipulator, courtesy of Eric Rohmer and Kinova Robotics for the CAD data: <em>models/robots/non-mobile/Jaco arm.ttm</em> and <em>models/components/grippers/Jaco hand.ttm</em>.</li>
 <li>Added a simulation model of the Mico manipulator, courtesy of Eric Rohmer and Kinova Robotics for the CAD data: <em>models/robots/non-mobile/Mico arm.ttm</em> and <em>models/components/grippers/Mico hand.ttm</em>.</li>
 <li>Added preliminary simulation models of the UR5 and UR10 robots, courtesy of Universal Robots for the CAD data: <em>models/robots/non-mobile/UR5.ttm</em> and <em>models/robots/non-mobile/UR10.ttm</em>.</li>
-<li>The simulation model of the Kuka LBR4+ was updated by Massimo Cefalo, in order to beahve more like the real one (adjusted masses and inertias).</li>
+<li>The simulation model of the Kuka LBR4+ was updated by Massimo Cefalo, in order to beahve more like the real one (adjusted masses and inertia matrices).</li>
 <li>Added new API functions to control the material of a shape: simGetMaterialId, simGetShapeMaterial and <a href="regularApi/simSetShapeMaterial.htm">sim.setShapeMaterial</a>.</li>
 <li>Added new API functions to create and modify textures: <a href="regularApi/simGetTextureId.htm">sim.getTextureId</a>, <a href="regularApi/simReadTexture.htm">sim.readTexture</a>, <a href="regularApi/simWriteTexture.htm">sim.writeTexture</a>, <a href="regularApi/simCreateTexture.htm">sim.createTexture</a>.</li>
 <li>Added new API functions related to motion planning: simSimplifyMpPath and simFindIkPath.</li>

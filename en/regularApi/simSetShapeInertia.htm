@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Applies a new inertia tensor to a shape. If simulation is running, the shape will be dynamically reset (similar to calling <a href="simResetDynamicObject.htm">sim.resetDynamicObject</a> right after). See also <a href="simGetShapeInertia.htm">sim.getShapeInertia</a>, <a href="simSetShapeMass.htm">sim.setShapeMass</a> and <a href="simComputeMassAndInertia.htm">sim.computeMassAndInertia</a>.</td>
+<td class=apiTableRightDescr>Applies a new inertia matrix to a shape. If simulation is running, the shape will be dynamically reset (similar to calling <a href="simResetDynamicObject.htm">sim.resetDynamicObject</a> right after). See also <a href="simGetShapeInertia.htm">sim.getShapeInertia</a>, <a href="simSetShapeMass.htm">sim.setShapeMass</a> and <a href="simComputeMassAndInertia.htm">sim.computeMassAndInertia</a>.</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -34,8 +34,8 @@ C/C++<br>synopsis
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>shapeHandle</strong>: handle of the <a href="../shapes.htm">shape object</a></div>
-<div><strong>inertiaMatrix</strong>: the new inertia matrix or tensor (9 values), expressed relative to <em>transformationMatrix</em> (which should coincide with the center of mass). The matrix should be symmetric.</div>
-<div><strong>transformationMatrix</strong>: a transformation matrix (12 values) expressed relative to the shape's reference frame. The matrix indicates the center of mass of the shape, and is the frame relative to which <em>inertiaMatrix</em> is expressed.</div>
+<div><strong>inertiaMatrix</strong>: the new inertia matrix (9 values), expressed relative to <em>transformationMatrix</em> (itself expressed relative to the shape's reference frame)</div>
+<div><strong>transformationMatrix</strong>: a transformation matrix (12 values) expressed relative to the shape's reference frame. The matrix indicates the center of mass of the shape, and is the frame relative to which <em>inertiaMatrix</em> is expressed</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 

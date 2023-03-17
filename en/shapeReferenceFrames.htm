@@ -20,26 +20,23 @@
 <h1>Shape reference frame and bounding box</h1>
 
 
-<p>A <a href="shapes.htm">shape</a> has a reference frame and a bounding box, as does every <a href="objects.htm">object</a>. The reference frame or coordinate frame is always located at the geometric center of the shape and indicates the point where the shape's position and orientation is calculated from. The coordinate frame has 3 axes: x-, y- and z-axis, corresponding to the red, green and blue arrows respectively. The shape's bounding box is centered around the shape's reference frame and has the same orientation as the reference frame (the x-, y- and z-axis have the same orientation as the bounding box's edges). The bounding box encompasses entirely the shape. The user can select from 4 different ways to define a shape's reference frame and bounding box orientation (<a href="shapes.htm">primitive shapes</a> and <a href="shapes.htm">heightfield shapes</a> cannot be reoriented):
-</p>
+<p>A <a href="shapes.htm">shape</a> has a reference frame and a bounding box, as does every <a href="objects.htm">object</a>. The shape reference frame however can be relocated, and its bounding box can be modified, without affecting the shape's other properties.</p>
+<p>The reference frame of selected shapes can be moved in two different ways, via [Menu bar --&gt; Edit --&gt; Shape reference frame]:</p>
 
-<li><strong>Align with reference frame of world</strong>: [Menu bar --&gt; Edit --&gt; reorient bounding box --&gt; with reference frame of world]. When this item is clicked (a shape must previously be selected), the coordinate frame will be computed in order to produce a bounding box with edges aligned with the world's reference frame axes (i.e. the absolute coordinate frame). <br>
-</li>
+<li><strong>relocate to world origin</strong>: the reference frame will move to the origin of the world </li>
+<li><strong>relocate to mesh center</strong>: the reference frame will move to the center of the bounding box</li>
 
-<li><strong>Align with main axes of random shape</strong>: [Menu bar --&gt; Edit --&gt; Reorient bounding box --&gt; with main axes of random shape]. When this item is clicked (a shape must previously be selected), the reference frame will be computed in order to produce the most compact bounding box around a random shape. This is the default calculation method.<br>
-</li>
+<p>The shape's inertia properties are unaffected when its reference frame moves, the inertia matrix and center of mass will however be expressed relative to the new reference frame.</p>
+<p>The bounding box of selected shapes can be modified in two different ways, via [Menu bar --&gt; Edit --&gt; Shape bounding box]:</p>
 
-<li><strong>Align with main axis of cylinder shape</strong>: [Menu bar --&gt; Edit --&gt; Reorient bounding box --&gt; with main axis of cylinder shape]. When this item is clicked (a shape must previously be selected), a precise reference frame will be computed on a cylinder shape, with its Z-axis coinciding with the cylinder's revolute axis. This is more precise than above item (<strong>align with main axes of random shape</strong>), but requires a precisely defined cylinder shape. The operation can fail if the shape appears to be too far from a regular and precise cylinder.<br>
-</li>
-
-<li><strong>Align with main axes of cuboid shape</strong>: [Menu bar --&gt; Edit --&gt; Reorient bounding box --&gt; with main axes of cuboid shape]. When this item is clicked (a shape must previously be selected), a precise reference frame will be computed on a cuboid shape, aligned with the cubid's faces. This is more precise than above item (<strong>align with main axes of random shape</strong>), but requires a precisely defined cuboid shape. The operation can fail if the shape appears to be too far from a regular and precise cuboid.<br>
-</li>
-
-<p>
-The bounding box orientation relative to its shape can also be modified in the <a href="geometryDialog.htm">geometry dialog</a> or via the <a href="regularApi/simReorientShapeBoundingBox.htm">API</a>. </p>
+<li><strong>align with world</strong>: the bounding box will align with the reference frame of the world </li>
+<li><strong>align with mesh</strong>: the bounding box will be chosen so as to minimize its volume</li>
 
 <p align=center><img src="images/shapeFrame1.jpg"></p>
-<p class=imageLabel>[Two same shapes. The top one's ref. frame is aligned with the world, the bottom one's ref. frame is aligned with the shape's main axes]</p>
+<p class=imageLabel>[Possible reference frame locations and bounding box orientations for a shape]</p>
+
+<p>Note that the orientation of the bounding box does not need to be the same as the orientation of the reference frame.</p>
+<p>See also <a href="regularApi/simRelocateShapeFrame.htm">sim.relocateShapeFrame</a>, <a href="regularApi/simAlignShapeBB.htm">sim.alignShapeBB</a>, <a href="regularApi/simSetShapeBB.htm">sim.setShapeBB</a> and <a href="regularApi/simScaleObject.htm">sim.scaleObject</a></p>
 
 <br>
 <br>

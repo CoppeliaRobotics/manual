@@ -28,14 +28,14 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simGetShapeInertia(int shapeHandle,double* inertiaMatrix,double* transformationMatrix)</td> 
+<td class=apiTableRightCSyn>int simGetShapeInertia(int shapeHandle,double* inertiaMatrix,double* com)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
 <div><strong>shapeHandle</strong>: handle of the <a href="../shapes.htm">shape object</a></div>
-<div><strong>inertiaMatrix</strong> (output): the inertia matrix or tensor (9 values), expressed relative to <em>transformationMatrix</em> (which coincides with the center of mass). The matrix is diagonal, i.e. contains the principal moments of inertia.</div>
-<div><strong>transformationMatrix</strong> (output): a transformation matrix (12 values) expressed relative to the shape's reference frame. The matrix indicates the center of mass of the shape, and is the frame relative to which <em>inertiaMatrix</em> is expressed.</div>
+<div><strong>inertiaMatrix</strong> (output): the inertia matrix (9 values), expressed relative to the shape's reference frame orientation. The matrix is symmetric</div>
+<div><strong>com</strong> (output): a transformation matrix (12 values) indicating the center of mass, expressed relative to the shape's reference frame. The matrix does not contain any rotational part (only the positional values are relevant).</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -50,7 +50,7 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>float[9] inertiaMatrix,float[12] transformationMatrix=sim.getShapeInertia(int shapeHandle)</td> 
+<td class=apiTableRightLSyn>float[9] inertiaMatrix,float[12] com=sim.getShapeInertia(int shapeHandle)</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
@@ -69,7 +69,7 @@ Lua<br>return values
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>list inertiaMatrix,list transformationMatrix=sim.getShapeInertia(int shapeHandle)</td>
+<td class=apiTableRightPSyn>list inertiaMatrix,list com=sim.getShapeInertia(int shapeHandle)</td>
 </tr>
 
 </table> 

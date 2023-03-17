@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.createShape</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<h1>Regular API function</h1>
+<p class=subsectionBar><a name="simCreateShape" id="simCreateShape"></a>simCreateShape / sim.createShape </p>
+<table class=apiTable>
+<tr class=apiTableTr> 
+<td class=apiTableLeftDescr>
+Description 
+</td> 
+<td class=apiTableRightDescr>Creates a mesh shape. See also <a href="simCreatePrimitiveShape.htm">sim.createPrimitiveShape</a>, <a href="simCreateHeightfieldShape.htm">sim.createHeightfieldShape</a> and <a href="simGetShapeMesh.htm">sim.getShapeMesh</a>, and see <a href="simImportMesh.htm">sim.importMesh</a> for a usage example.<br></td>
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCSyn>
+C/C++<br>synopsis
+</td> 
+<td class=apiTableRightCSyn>int simCreateShape(int options,double shadingAngle,const double* vertices,int verticesSize,const int* indices,int indicesSize,const double* normals,const double* textureCoordinates,const unsigned char* texture,const int* textureResolution)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCParam>C/C++<br>parameters</td> 
+<td class=apiTableRightCParam>
+<div><strong>options</strong>: Bit-coded: </div>
+<div class=tab>if bit0 is set (1), backfaces are culled</div>
+<div class=tab>If bit1 is set (2), edges are visible</div>
+<div class=tab>If bit2 is set (4), adjacent texture pixels are not interpolated</div>
+<div class=tab>If bit3 is set (8), texture is applied as a decal</div>
+<div class=tab>If bit4 is set (16), texture is RGBA, otherwise it is RGB</div>
+<div class=tab>If bit5 is set (32), texture is horizontally flipped</div>
+<div class=tab>If bit6 is set (64), texture is vertically flipped</div>
+<div><strong>shadingAngle</strong>: the shading angle</div>
+<div><strong>vertices</strong>: an array of vertices</div>
+<div><strong>verticesSize</strong>: the size of the vertice array</div>
+<div><strong>indices</strong>: an array of indices</div>
+<div><strong>indicesSize</strong>: the size of the indice array</div>
+<div><strong>normals</strong>: an optional array of normal vectors. Has to be 3*indicesSize in length</div>
+<div><strong>textureCoordinates</strong>: an optional array of texture coordinates. Has to be 2*indicesSize in length</div>
+<div><strong>texture</strong>: an optional texture, specified as RGB or RGBA</div>
+<div><strong>textureResolution</strong>: the resolution of the specified texture</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftCRet>
+C/C++<br>return value
+</td> 
+<td class=apiTableRightCRet>
+<div>-1 if operation was not successful, otherwise the handle of the newly created shape<br>
+</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLSyn>
+Lua<br>synopsis
+</td> 
+<td class=apiTableRightLSyn>int objectHandle=sim.createShape(int options,float shadingAngle,float[] vertices,int[] indices,float[] normals,float[] textureCoordinates,string/buffer texture,int[2] textureResolution)<br></td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLParam>Lua<br>parameters</td> 
+<td class=apiTableRightLParam>
+<div>Similar to the C-function counterpart</div>
+</td> 
+</tr> 
+<tr class=apiTableTr> 
+<td class=apiTableLeftLRet>
+Lua<br>return values
+</td> 
+<td class=apiTableRightLRet>
+<div>Similar to the C-function counterpart</div>
+</td> 
+</tr> 
+
+
+<tr class=apiTableTr>
+<td class=apiTableLeftPSyn>Python<br>synopsis</td>
+<td class=apiTableRightPSyn>int objectHandle=sim.createShape(int options,float shadingAngle,list vertices,list indices,list normals,list textureCoordinates,string/bytes texture,list textureResolution)</td>
+</tr>
+
+</table> 
+
+<br>
+</td>
+</tr>
+</table>
+</div>
+</body>
+</html>

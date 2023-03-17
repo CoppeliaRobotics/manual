@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Imports a mesh from a file. See also <a href="simExportMesh.htm">sim.exportMesh</a>, <a href="simImportShape.htm">sim.importShape</a> and <a href="simCreateMeshShape.htm">sim.createMeshShape</a><br></td>
+<td class=apiTableRightDescr>Imports a mesh from a file. See also <a href="simExportMesh.htm">sim.exportMesh</a>, <a href="simImportShape.htm">sim.importShape</a> and <a href="simCreateShape.htm">sim.createShape</a><br></td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -69,8 +69,9 @@ if (elementCount>0)
     const double grey[3]={0.5f,0.5f,0.5f};
     for (int i=0;i&#60;elementCount;i++)
     {
-        int shapeHandle=simCreateMeshShape(2,20.0f*3.1415f/180.0f,vertices[i],
-                               verticesSizes[i],indices[i],indicesSizes[i],nullptr);
+        int shapeHandle=simCreateShape(2,20.0f*3.1415f/180.0f,vertices[i],
+                               verticesSizes[i],indices[i],indicesSizes[i],nullptr,
+                               nullptr,nullptr,nullptr);
         simSetShapeColor(shapeHandle,"",sim.colorcomponent_ambient,grey);
         simReleaseBuffer((char*)indices[i]);
         simReleaseBuffer((char*)vertices[i]);
@@ -118,7 +119,7 @@ Lua<br>return values
 if (importButtonPressed) then
     vertices,indices,reserved,names=sim.importMesh(1,"d:\\example.dxf",0,0.0001,1)
     for i=1,#vertices,1 do
-        h=sim.createMeshShape(2,20*math.pi/180,vertices[i],indices[i])
+        h=sim.createShape(2,20*math.pi/180,vertices[i],indices[i])
         sim.setShapeColor(h,"",sim.colorcomponent_ambient,{0.5,0.5,0.5})
         sim.setObjectAlias(h,names[i])
     end
