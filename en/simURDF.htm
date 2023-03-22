@@ -25,49 +25,81 @@ td.section { margin: 0; padding: 0; }
 <tr><td id="title" class="section"><h1>URDF Plugin API reference</h1></td></tr>
 <tr><td id="info" class="section"><p class="infoBox">API functions for URDF input.</p></td></tr>
 <tr><td id="alphabetical" class="section"><pre class="lightGreyBox">
-<a href="?#import">simURDF.import</a>
+<a href="?#simURDF.export">simURDF.export</a>
+<a href="?#simURDF.import">simURDF.import</a>
 </pre></td></tr>
 <tr><td id="commands" class="section">
-<h3 class="subsectionBar">
-<a name="import" id="import"></a>simURDF.import</h3>
+
+
+<p class="subsectionBar">
+<a name="simURDF.export" id="simURDF.export"></a>simURDF.export</p>
 <table class="apiTable">
 <tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                    Description
-                                                </td>
-<td class="apiTableRightDescr">Import a URDF file into the current scene.</td>
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Exports a URDF file</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string robotName=simURDF.import(string fileName,int options=0)<br>
-</td>
+<td class="apiTableRightLSyn">simURDF.export(int modelHandle,string fileName,int options=0)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
-<div>
-<strong>fileName</strong> (string): URDF file path, or URDF string</div>
-<div>
-<strong>options</strong> (ImportOptions, default: 0),bit coded: bit0=show collision links, bit1=showJoints, bit2=do not convex decompose non convex collidables, bit3=do not create visual if none, bit4=show convex decomposition dlg, bit5=do not center above ground, bit6=do not make model, bit7=no seld collision, bit8=no position control</div>
+<div><strong>modelHandle</strong>: the handle of a model</div>
+<div><strong>fileName</strong>: the URDF file path</div>
+<div><strong>options</strong>: bit coded: bit0=transform dummies into red cubes, bit1=make visuals and collisions origin frame where parent joint is, if possible, bit2=do not reset joint positions to 0</div>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet">
-<div>
-<strong>robotName</strong> (string): name of the robot</div>
-<div>
 </td>
 </tr>
 <tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                    See also
-                                                </td>
-<td class="apiTableRightDescr"></td>
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simURDF.import">simURDF.import</a></td>
 </tr>
 </table>
+
+<br>
+
+<p class="subsectionBar">
+<a name="simURDF.import" id="simURDF.import"></a>simURDF.import</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Imports a URDF file</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string robotName=simURDF.import(string fileName,int options=0,string replacementString=nil)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div><strong>fileName</strong>: the URDF file path</div>
+<div><strong>options</strong>: bit coded: bit0=show collision links, bit1=showJoints, bit2=perform convex decompose on non convex collidables, bit3=create visual if none, bit5=do not center above ground, bit6=do not make model, bit7=do not alternate local respondable masks, bit8=no position control of dynamic joints, bit9=perform convex hull on non convex collidables, bit10=set shape origin at joint location where possible</div>
+<div><strong>replacementString</strong>: an optional string that replaces all occurences of "package://" in the XML file</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div><strong>robotName</strong>: name of the robot</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simURDF.export">simURDF.export</a></td>
+</tr>
+</table>
+
+
 <br>
 </td></tr>
+
+
 
 <tr><td id="scriptFunctions" class="section"></td></tr>
 </table></div>
