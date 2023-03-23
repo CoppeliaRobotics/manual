@@ -24,17 +24,105 @@ td.section { margin: 0; padding: 0; }
 <div align="center"><table class="allEncompassingTable">
 <tr><td id="title" class="section"><h1>IGL Plugin API reference</h1></td></tr>
 <tr><td id="info" class="section"><p class="infoBox">Wrapper for libigl</p></td></tr>
-<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#closestFacet">simIGL.closestFacet</a>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#barycenter">simIGL.barycenter</a>
+<a href="?#centroid">simIGL.centroid</a>
+<a href="?#closestFacet">simIGL.closestFacet</a>
+<a href="?#convexHull">simIGL.convexHull</a>
+<a href="?#convexHullShape">simIGL.convexHullShape</a>
 <a href="?#exactGeodesic">simIGL.exactGeodesic</a>
 <a href="?#getMesh">simIGL.getMesh</a>
+<a href="?#intersectWithHalfSpace">simIGL.intersectWithHalfSpace</a>
 <a href="?#meshBoolean">simIGL.meshBoolean</a>
+<a href="?#meshBooleanShape">simIGL.meshBooleanShape</a>
 <a href="?#randomPointsOnMesh">simIGL.randomPointsOnMesh</a>
 <a href="?#sweptVolume">simIGL.sweptVolume</a>
+<a href="?#tetrahedralize">simIGL.tetrahedralize</a>
 <a href="?#uniqueEdgeMap">simIGL.uniqueEdgeMap</a>
 <a href="?#upsample">simIGL.upsample</a>
+<a href="?#volume">simIGL.volume</a>
 </pre></td></tr>
 <tr><td id="commands" class="section">
 <h3 class="subsectionBar">
+<a name="barycenter" id="barycenter"></a>simIGL.barycenter</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Computes the barycenter of every simplex.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">grid bc=simIGL.barycenter(grid v, grid f)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>v</strong> (grid): vertex position list</div>
+<div>
+<strong>f</strong> (grid): indices of simplex corners into V</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>bc</strong> (grid): matrix of vertices</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">grid bc=simIGL.barycenter(grid v, grid f)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="centroid" id="centroid"></a>simIGL.centroid</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Computes the centroid of a closed mesh using a surface integral.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[3] c, float vol=simIGL.centroid(mesh m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (mesh): mesh</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>c</strong> (table of float, size 3): vector of centroid coordinates</div>
+<div>
+<strong>vol</strong> (float): total volume of solid</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list c, float vol=simIGL.centroid(mesh m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="closestFacet" id="closestFacet"></a>simIGL.closestFacet</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -77,6 +165,78 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">list r, list s=simIGL.closestFacet(mesh m, grid points, grid emap, grid uec, grid uee, list indices={})<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="convexHull" id="convexHull"></a>simIGL.convexHull</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Given a set of points, compute the convex hull as a triangle mesh.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">mesh m=simIGL.convexHull(float[] points)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>points</strong> (table of float): mesh</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (mesh): mesh</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">mesh m=simIGL.convexHull(list points)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="convexHullShape" id="convexHullShape"></a>simIGL.convexHullShape</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convenience wrapper for simIGL.convexHull to operate on shapes directly</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int handleResult=simIGL.convexHullShape(int[] handles)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handles</strong> (table of int): the handle of the input shapes</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handleResult</strong> (int): the handle of the resulting shape</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int handleResult=simIGL.convexHullShape(list handles)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -173,6 +333,52 @@ td.section { margin: 0; padding: 0; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="intersectWithHalfSpace" id="intersectWithHalfSpace"></a>simIGL.intersectWithHalfSpace</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Intersect a PWN mesh with a half-space. Point on plane, normal pointing outward.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">mesh m, int[] j=simIGL.intersectWithHalfSpace(mesh m, float[3] pt, float[3] n)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (mesh): mesh</div>
+<div>
+<strong>pt</strong> (table of float, size 3): point on plane</div>
+<div>
+<strong>n</strong> (table of float, size 3): normal of plane pointing away from inside</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>m</strong> (mesh): result mesh</div>
+<div>
+<strong>j</strong> (table of int): list of indices into [F;F.rows()+[1;2]] revealing "birth" facet</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">mesh m, list j=simIGL.intersectWithHalfSpace(mesh m, list pt, list n)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="meshBoolean" id="meshBoolean"></a>simIGL.meshBoolean</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -206,6 +412,46 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">mesh result=simIGL.meshBoolean(mesh a, mesh b, int op)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="meshBooleanShape" id="meshBooleanShape"></a>simIGL.meshBooleanShape</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convenience wrapper for simIGL.meshBoolean to operate on shapes directly</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int handleResult=simIGL.meshBooleanShape(int[] handles, int op)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handles</strong> (table of int): the handle of the input shapes</div>
+<div>
+<strong>op</strong> (int): the operation (see simIGL.boolean_op)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handleResult</strong> (int): the handle of the resulting shape</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int handleResult=simIGL.meshBooleanShape(list handles, int op)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -308,6 +554,54 @@ td.section { margin: 0; padding: 0; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="tetrahedralize" id="tetrahedralize"></a>simIGL.tetrahedralize</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Mesh the interior of a surface mesh using tetgen.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int result, grid tv, grid tt, grid tf=simIGL.tetrahedralize(mesh m, string switches="")<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (mesh): mesh</div>
+<div>
+<strong>switches</strong> (string, default: ""): string of tetgen options (See tetgen documentation) e.g. "pq1.414a0.01" tries to mesh the interior of a given surface with quality and area constraints; "" will mesh the convex hull constrained to pass through V (ignores F)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>result</strong> (int): Returns status: 0 success; 1 tetgen threw exception; 2 tetgen did not crash but could not create any tets (probably there are holes, duplicate faces etc.); -1 other error</div>
+<div>
+<strong>tv</strong> (grid): vertex position list</div>
+<div>
+<strong>tt</strong> (grid): list of tet face indices</div>
+<div>
+<strong>tf</strong> (grid): list of triangle face indices</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int result, grid tv, grid tt, grid tf=simIGL.tetrahedralize(mesh m, string switches="")<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="uniqueEdgeMap" id="uniqueEdgeMap"></a>simIGL.uniqueEdgeMap</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -393,6 +687,42 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightDescr"></td>
 </tr>
 </table>
+<br><h3 class="subsectionBar">
+<a name="volume" id="volume"></a>simIGL.volume</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute volume for all tets of a given tet mesh.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] vol=simIGL.volume(tetmesh m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (tetmesh): tet mesh</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>vol</strong> (table of float): list of tetrahedron volumes</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list vol=simIGL.volume(tetmesh m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
 <br>
 </td></tr>
 <tr><td id="enums" class="section">
@@ -429,6 +759,31 @@ td.section { margin: 0; padding: 0; }
 <strong>indices</strong> (table of int): triangle indices of the mesh (3 * m indices, zero-based)</div>
 <div>
 <strong>normals</strong> (table of float): per-vertex normals (3 * n values)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="struct:tetmesh" id="struct:tetmesh"></a>tetmesh</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                Description
+                                            </td>
+<td class="apiTableRightDescr"><br></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Fields</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>vertices</strong> (table of float): vertices of the mesh (3 * n values)</div>
+<div>
+<strong>indices</strong> (table of int): tetrahedra indices of the mesh (4 * m indices, zero-based)</div>
 </td>
 </tr>
 <tr class="apiTableTr">

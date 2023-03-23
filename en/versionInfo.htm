@@ -44,28 +44,27 @@ Version history:
 
  
 <h2>
-<a name="coppeliaSim4.5.0" id="coppeliaSim4.5.0"></a>CoppeliaSim V4.5.0 (not yet released)
+<a name="coppeliaSim4.5.0" id="coppeliaSim4.5.0"></a>CoppeliaSim V4.5.1 (March 29th 2023)
 </h2>
  
 <li>Fixed several bugs. Thanks to Andrey Voronkov, Vitalii Kudinov, Mathias Thor and Yong Jiang for noticing them or helping to resolve them</li>
 <li>Reworked the <a href="kinematics.htm">kinematics functionality</a>, which now allows to handle kinematic tasks in a much more flexible manner. This includes a callback function to inspect/modify/compute the Jacobian, when calling <a href="simIK.htm#simIK.handleGroup">simIK.handleGroup</a>, null-space projection support, or the new function <a href="simIK.htm#simIK.computeJacobian">simIK.computeJacobian</a> which allows to compute the Jacobian for any configuration of any kinematic chain</li>
 <li>Inverse kinematics worlds can now easily be debugged by adding a visual overlay [Menu bar --&gt; Tools --&gt; Visualize IK world]. Individual IK group debugging can also we enabled via  an optional <em>debug</em> flag in <a href="simIK.htm#simIK.handleGroup">simIK.handleGroup</a> and <a href="simIK.htm#simIK.handleGroups">simIK.handleGroups</a>. A demo scene illustrating this was added: <em>scenes/kinematics/simpleExamples/10-visuallyDebuggingIkGroups.ttt</em></li>
-<li>CoppeliaSim now uses systematically double precision floating point values for the core library, and most plugins. The C API interface is now also in double precision, but one can revert to single precision via the <em>SIM_INTERFACE_SINGLE</em> define.
+<li>Added a scene illustrating the null-space projection method with the kinematics functionality: <em>scenes/kinematics/simpleExamples/9-prioritizedGroupsAndNullSpaceProjection.ttt</em></li>
+<li>CoppeliaSim now uses systematically double precision floating point values for the core library, and most plugins. The C API interface is now also in double precision, but one can revert to single precision via the <em>SIM_INTERFACE_SINGLE</em> define
 <li>A <a href="shapeReferenceFrames.htm">shape's reference frame</a> can now be relocated while keeping the mesh in place. The reference frame of an imported shape will be always located at the world origin by default. Added  <a href="regularApi/simRelocateShapeFrame.htm">sim.relocateShapeFrame</a> and <a href="regularApi/simAlignShapeBB.htm">sim.aligneShapeBB</a>
-<li>Added an option to specify a callback function for <a href="simMujoco.htm#simMujoco.composite">simMujoco.composite</a> and <a href="simMujoco.htm#simMujoco.injectXML">simMujoco.injectXML</a>: this allows to dynamically react to a MuJoCo world rebuild event. This is demonstrated in the demo scene: <em>scenes/mujoco/compositeAndOtherCallbacks.ttt</em>
 <li>Better rendering of reference frames and bounding boxes</li>
 <li>Better rendering of manipulation overlays</li>
 <li>Better rendering of numbers in the dialogs</li>
 <li>Improved the <a href="importExport.htm#urdf">URDF importer and exporter</a>, making it more flexible and robust</li>
-<li>Added <a href="regularApi/simGetScriptFunctions.htm">sim.getScriptFunctions</a>, a wrapper function allowing to easily call functions of another script</li>
+<li>Added an option to specify a callback function for <a href="simMujoco.htm#simMujoco.composite">simMujoco.composite</a> and <a href="simMujoco.htm#simMujoco.injectXML">simMujoco.injectXML</a>: this allows to dynamically react to a MuJoCo world rebuild event. This is demonstrated in the demo scene: <em>scenes/mujoco/compositeAndOtherCallbacks.ttt</em>
 <li>Added <a href="simMujoco.htm#simMujoco.removeXML">simMujoco.removeXML</a>, that allows to remove any previous XML injection or composite.
-
+<li>Added <a href="regularApi/simGetScriptFunctions.htm">sim.getScriptFunctions</a>, a wrapper function allowing to easily call functions of another script</li>
 <li>Rust is now also supported with the <a href="zmqRemoteApiOverview.htm">ZeroMQ remote API</a>. The binding is courtesy of Samuel Cavalcanti</li>
 <li>Added a model for ArUco markers <em>Models/other/aruco marker.ttm</em> and a scene demonstrating detection of markers from a vision sensor: <em>scenes/otherScenes/arucoMarkerDetection.ttt</em></li>
 <li>Added a scene illustrating the IGL plugin: <em>scenes/iglDemo.ttt</em></li>
-<li>Added a scene illustrating the null-space projection method with the kinematics functionality: <em>scenes/kinematics/simpleExamples/9-prioritizedGroupsAndNullSpaceProjection.ttt</em></li>
-<li>New Lua API functions: sim.getLoadedPlugins, sim.getObjectAliasRelative, sim.getScriptFunctions, sim.addReferencedHandle, sim.removeReferencedObjects, sim.visitTree. Various improvements to the Lua standard library.</li>
-<li>Reorganized add-ons menu.</li>
+<li>New Lua API functions: sim.getLoadedPlugins, sim.getObjectAliasRelative, sim.getScriptFunctions, sim.addReferencedHandle, sim.removeReferencedObjects, sim.visitTree. Various improvements to the Lua standard library</li>
+<li>Reorganized the <em>Modules</em> menu (i.e. add-ons)</li>
 <li>New add-ons: Find midpoint, Measure distance/direction, Translate to align vertex, Mesh convex hull, Mesh intersection, Mesh union, Mesh difference, Mesh symmetric difference, Mesh subdivision, Joint tool, Event viewer, Broadcast message viewer.</li>
 <li>OMPL plugin new functions: simOMPL.createStateSpaceForJoint, simOMPL.setStateSpaceForJoints</li>
 <li>LuaCmd plugin: introduced some convenience automatic vars: H, SEL, SEL1, and a function ("apropos") to look up API functions/constants.</li>
@@ -76,7 +75,6 @@ Version history:
 <li>Some improvements and new functions in the CustomUI plugin.</li>
 <li>Minor improvements to the QML plugin.</li>
 <li>Code Editor: UI and usability improvements.</li>
-<li>URDF: improve names of exported links/joints; simplify exporter.</li>
 <li>URLDrop: new function simURLDrop.openURL.</li>
 <br>
 <br>
