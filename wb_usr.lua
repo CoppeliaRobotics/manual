@@ -647,6 +647,10 @@ wb_usr.tree =
                             name={en="simGLTF API reference"},
                             link="simGLTF.htm?view=alphabetical"
                         },
+                        {
+                            name={en="simLDraw API reference"},
+                            link="simLDraw.htm?view=alphabetical"
+                        },
                     }
                 },
                 {
