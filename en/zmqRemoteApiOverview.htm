@@ -28,17 +28,12 @@
 <br>
 
 <h2>Python client</h2>
-<p>ZeroMQ and CBOR are required packages:</p>
-<code class="hljs coppelia-terminal">$ /path/to/python -m pip install pyzmq
-$ /path/to/python -m pip install cbor</code>
-
-<p>It is also helpful to have the location of the Python remote API items in either Python's sys.path, or in the PYTHONPATH environment variable:</p>
-
-<code class="hljs coppelia-terminal">$ export PYTHONPATH=/path/to/zmqRemoteApi/clients/python</code>
+<p>Install client package:</p>
+<code class="hljs coppelia-terminal">$ python3 -m pip install coppeliasim-zmqremoteapi-client</code>
+<p>(the ZeroMQ and CBOR dependencies will be automatically installed with the above command).</p>
 
 <p>Following is a very simple example ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepped</a> simulation for 3 seconds:</p>
-<code class="hljs language-python coppelia-zmq-remote-api-client">import time
-from zmqRemoteApi import RemoteAPIClient
+<code class="hljs language-python coppelia-zmq-remote-api-client">from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 
 client = RemoteAPIClient()
 sim = client.getObject('sim')
@@ -47,8 +42,7 @@ client.setStepping(True)
 
 sim.startSimulation()
 while (t := sim.getSimulationTime()) &lt; 3:
-    s = f'Simulation time: {t:.2f} [s]'
-    print(s)
+    print(f'Simulation time: {t:.2f} [s]')
     client.step()
 sim.stopSimulation()</code>
 
@@ -60,7 +54,7 @@ sim.stopSimulation()</code>
 <p> Build them with:</p>
 <code class="hljs coppelia-terminal">$ mkdir build
 $ cd build
-$ cmake -DGENERATE=OFF ..
+$ cmake ..
 $ cmake --build . --config Release</code>
 
 
@@ -76,17 +70,17 @@ int main(int argc,char* argv[])
 {
     RemoteAPIClient client;
     auto sim = client.getObject().sim();
-    
+
     client.setStepping(true);
 
     sim.startSimulation();
-    double t=0.0;
+    double t = 0.0;
     do
     {
-        t=sim.getSimulationTime();
-        printf("Simulation time: %.2f [s]\n",t);
+        t = sim.getSimulationTime();
+        printf("Simulation time: %.2f [s]\n", t);
         client.step();
-    } while (t&lt;3.0);
+    } while (t &lt; 3.0);
     sim.stopSimulation();
     return(0);
 }</code>
@@ -128,7 +122,7 @@ sim.stopSimulation();</code>
     remoteApiClient=require'luaZmqRemoteApi'
     remoteApiClient.init('127.0.0.1',23002)
     simx=remoteApiClient.getObject('sim')
-    
+
     remoteApiClient.setStepping(true)
     simx.startSimulation()
 end
@@ -169,7 +163,7 @@ fn main() -&gt; Result&lt;(), RemoteAPIError&gt; {
         client.step(true)?;
     }
     sim.stop_simulation()?;
-    
+
     Ok(())
 }</code>
 
@@ -182,12 +176,12 @@ fn main() -&gt; Result&lt;(), RemoteAPIError&gt; {
 <br>
  </tr>
  <tr>
-   <td > 
+   <td>
  </tr>
-</table> 
-</div>  
-  
-  
+</table>
+</div>
+
+
 </body>
 
 </html>
