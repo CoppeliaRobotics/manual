@@ -41,6 +41,8 @@ Following is the typical main script, slightly simplified:
 </p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+
 function <strong>sysCall_init</strong>()
     -- Initialization part:
 end
@@ -115,7 +117,7 @@ end</code>
 
 
 <p>With above's sequence in mind, <a href="childScripts.htm">child scripts</a> will always read (with <a href="regularApi/simReadProximitySensor.htm">sim.readProximitySensor</a>) the proximity sensor's state from previous sensing (which happened at the end of previous simulation pass, inside of the main script, with <a href="regularApi/simHandleProximitySensor.htm">sim.handleProximitySensor</a>), then react to obstacles.</p>
-<p>If you need to explicitely handle a sensor, then make sure to always do it while in the sensing section, otherwise you might end-up with situations where the display appears wrong as illustrated in following figure:<br>
+<p>If you need to explicitly handle a sensor, then make sure to always do it while in the sensing section, otherwise you might end-up with situations where the display appears wrong as illustrated in following figure:<br>
 </p>
 <p align=center><img src="images/mainScript4.jpg"></p>
 <p class=imageLabel>[Sensing - actuation - display sequence]</p>

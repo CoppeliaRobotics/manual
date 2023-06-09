@@ -48,6 +48,8 @@
 <p>Lua threaded code has several weaknesses compared to Lua non-threaded code if not programmed appropriately: it can waste some processing time. Following shows a typical threaded function in a Lua script (i.e. <em>coroutineMain</em>), which however is not perfect since <strong>it is wasting precious computation time</strong> in the loop:<br>
 </p>
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+
 function sysCall_init()
     corout=coroutine.create(coroutineMain) -- create the coroutine
 end
@@ -67,9 +69,11 @@ function coroutineMain()
     end
 end</code>
 
-<p>By default a Lua threaded code section will execute for about 1-2 milliseconds before automatically interrupting or <em>switching</em> and giving control back to the caller. This default behavior can be changed with the <a href="regularApi/simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a> or <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>. Once the current thread was switched, it will resume next time the coroutine is resumed (which often is in next simulation step. The thread switching is automatic and is handled by CoppeliaSim (occurs after the specified time), but the <a href="regularApi/simSwitchThread.htm">sim.switchThread</a> command allows to explicitely switch when needed. Using above three commands, a perfect synchronization with the main simulation loop can be achieved. Following Lua code shows code synchronization with the main simulation loop:<br>
+<p>By default a Lua threaded code section will execute for about 1-2 milliseconds before automatically interrupting or <em>switching</em> and giving control back to the caller. This default behavior can be changed with the <a href="regularApi/simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a> or <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>. Once the current thread was switched, it will resume next time the coroutine is resumed (which often is in next simulation step. The thread switching is automatic and is handled by CoppeliaSim (occurs after the specified time), but the <a href="regularApi/simSwitchThread.htm">sim.switchThread</a> command allows to explicitly switch when needed. Using above three commands, a perfect synchronization with the main simulation loop can be achieved. Following Lua code shows code synchronization with the main simulation loop:<br>
 </p>
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+
 function sysCall_init()
     sim.setThreadAutomaticSwitch(false) -- forbid automatic switches
     corout=coroutine.create(coroutineMain)

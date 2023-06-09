@@ -31,6 +31,8 @@
 <p>The user is in charge of defining data streams, curves, and feeding them with appropriate data on a regular basis (usually once per simulation step). Following illustrates how to record and visualize 2 data streams (the velocity of two joints over time):</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+
 function sysCall_init()
     graph=sim.getObject('/Graph')
     joint1Vel=sim.addGraphStream(graph,'joint 1 velocity','deg/s',0,{1,0,0})
@@ -45,6 +47,8 @@ end</code>
 <p>Next example shows how to record and visualize an x/y position curve of an object:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+
 function sysCall_init()
     graph=sim.getObject('/Graph')
     objectPosX=sim.addGraphStream(graph,'object pos x','m',1)

@@ -22,24 +22,21 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr><div>Registers a script variable. Can also be used for more complex operations as in following example:</div>
-<div></div>
-<div>simRegisterScriptVariable(&quot;simUi&quot;,&quot;require('customUi')&quot;,0);</div>
-<div>which is equivalent with an implicit simUi=require('customUi') command in the initialization phase of every script.</div>
-<div>See also <a href="simRegisterScriptCallbackFunction.htm">simRegisterScriptCallbackFunction</a>.</div></td>
+<td class=apiTableRightDescr><div>Registers a script variable. Should be called inside of simInit entry point. See also <a href="simRegisterScriptCallbackFunction.htm">simRegisterScriptCallbackFunction</a>.</div>
+</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simRegisterScriptVariable(const char* varNameAtPluginName,const char* varValue,int stackhandle)<br></td> 
+<td class=apiTableRightCSyn>int simRegisterScriptVariable(const char* var,const char* val,int stackhandle)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>varNameAtPluginName</strong>: name of the variable, combined with the plugin name: variableName@pluginName</div>
-<div><strong>varValue</strong>: value of the variable. Can be nullptr, in which case the value of the variable will be the top item of the provided stack (or, if <em>stackHandle</em> is 0, <em>varName</em> will only be used for code auto-completion purpose).</div>
-<div><strong>stackHandle</strong>: a stack handle obtained with <a href="simCreateStack.htm">simCreateStack</a>. Set to 0 if <em>varValue</em> is not nullptr. Set to -1 if <em>varValue</em> is not nullptr and you do not want the variable to appear in the script editor auto-completion list. If a stack is provided, it will be released at a later point by CoppeliaSim.</div>
+<div><strong>var</strong>: name of the variable, without namespace</div>
+<div><strong>val</strong>: value of the variable. Can be nullptr, in which case the value of the variable will be the top item of the provided stack</div>
+<div><strong>stackHandle</strong>: a stack handle obtained with <a href="simCreateStack.htm">simCreateStack</a>. Set to 0 if <em>varValue</em> is not nullptr. If a stack is provided, it will be released at a later point by CoppeliaSim.</div>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -54,19 +51,19 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn><div>int result=sim.registerScriptVariable(string varName)</div></td> 
+<td class=apiTableRightLSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
-<div><strong>varName</strong>: name of the variable. The Lua version of this function will only be used for syntax highlighting and auto-completion purpose in the CoppeliaSim code editor</td> 
+</td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLRet>
 Lua<br>return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>result</strong>: 1 if the variable was registered, 0 if the variable was replaced because it already existed</div>
+
 </td> 
 </tr> 
 
@@ -74,7 +71,7 @@ Lua<br>return values
 <td class=apiTableLeftPSyn>
 Python<br>synopsis
 </td> 
-<td class=apiTableRightPSyn><div></div></td> 
+<td class=apiTableRightPSyn></td> 
 </tr> 
 
 </table> 

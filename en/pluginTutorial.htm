@@ -20,16 +20,13 @@
 <h1>Plugin tutorial</h1>
 
 
-<p>This tutorial describes how to write a <a href="plugins.htm">plugin</a> for CoppeliaSim. The CoppeliaSim scene file related to this tutorial is located in <em>scenes/tutorials/BubbleRobExt</em>. The plugin project files of this tutorial can be found <a href="https://github.com/CoppeliaRobotics/simExtBubbleRob" target="_blank">here</a>.<br>
+<p>This tutorial describes how to write a <a href="plugins.htm">plugin</a> for CoppeliaSim. The CoppeliaSim scene file related to this tutorial is located in <em>scenes/tutorials/BubbleRobExt</em>. The plugin project files of this tutorial can be found <a href="https://github.com/CoppeliaRobotics/simBubble" target="_blank">here</a>.<br>
 </p>
 
-<p>CoppeliaSim automatically loads all plugins that it can find in its folder (i.e. the installation folder, or the same folder as the one that contains <em>coppeliaSim.exe</em>) at program start-up. CoppeliaSim recognizes plugin files with following mask: &quot;simExt*.dll&quot; on Windows, &quot;libsimExt*.dylib&quot; on Mac OS and &quot;libsimExt*.so&quot; on Linux. Additionally a plugin's filename should not contain any underscore. The plugin file of this tutorial is <em>simExtBubbleRob.dll</em>. When testing it, make sure it was properly loaded at CoppeliaSim start-up: switch the <a href="userInterface.htm#ConsoleWindow">console window</a> to visible by unchecking the <strong>Hide console window</strong> item in the <a href="settings.htm">user settings dialog</a> ([Menu bar --&gt; Tools --&gt; Settings]). This option is only available in the Windows version. On Mac, have a look at the system's console, and on Linux try to start CoppeliaSim from within a console. The console window should display something similar to this:<br>
+<p>CoppeliaSim plugins are loaded on demand via the <a href="regularApi/loadPlugin.htm">loadPlugin</a> function. Most of the time the load procedure is wrapped inside of a simple Lua module tha can additionally provide pure Lua functions, under the same namespace.<br>
 </p>
 
-<p align=center><img src="images/pluginTut1.jpg"></p>
-<br>
-
-<p>As you already understood, this plugin was written for BubbleRob from the <a href="bubbleRobTutorial.htm">BubbleRob tutorial</a>. Load the related scene file (<em>scenes/tutorials/BubbleRobExt/BubbleRobExt.ttt</em>). The BubbleRob plugin adds 4 new script functions (custom script functions should follow the convention: &quot;simXXX.YYY&quot; for the name, e.g. simRob.start):<br>
+<p>The plugin was written for BubbleRob from the <a href="bubbleRobTutorial.htm">BubbleRob tutorial</a>. The BubbleRob plugin adds 4 new script functions:<br>
 </p>
 
 
@@ -186,10 +183,13 @@
 </table> 
 <br>
 
-<p>Now open the threaded <a href="childScripts.htm">child script</a> attached to the BubbleRob model in the scene (e.g. double-click the script icon next to object <em>bubbleRob</em> in the scene hierarchy). Inspect the code:<br>
+<p>Now open the threaded <a href="childScripts.htm">child script</a> attached to the BubbleRob model in the scene and inspect the code:<br>
 </p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+simBubble=require('simBubble')
+
 function sysCall_init()
     corout=coroutine.create(coroutineMain)
 end
@@ -204,60 +204,30 @@ function sysCall_actuation()
 end
 
 function coroutineMain()
-    -- Check if the required plugin is there:
-    moduleName=0
-    moduleVersion=0
-    index=0
-    bubbleRobModuleNotFound=true
-    while moduleName do
-        moduleName,moduleVersion=sim.getModuleName(index)
-        if (moduleName=='BubbleRob') then
-            bubbleRobModuleNotFound=false
-        end
-        index=index+1
-    end
-    if bubbleRobModuleNotFound then
-        sim.addLog(sim.verbosity_scripterrors,'BubbleRob plugin was not found. Simulation will not run properly.')
-    else
-        local jointHandles={sim.getObject('./leftMotor'),sim.getObject('./rightMotor')}
-        local sensorHandle=sim.getObject('./sensingNose')
-        local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25})
-        if robHandle>=0 then
-            simBubble.start(robHandle) -- start the robot
-            local st=sim.getSimulationTime()
-            sim.wait(20) -- run for 20 seconds
-            simBubble.stop(robHandle)
-            simBubble.destroy(robHandle)
-        end
+    local jointHandles={sim.getObject('./leftMotor'),sim.getObject('./rightMotor')}
+    local sensorHandle=sim.getObject('./sensingNose')
+    local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25})
+    if robHandle>=0 then
+        simBubble.start(robHandle) -- start the robot
+        local st=sim.getSimulationTime()
+        sim.wait(20) -- run for 20 seconds
+        simBubble.stop(robHandle)
+        simBubble.destroy(robHandle)
     end
 end</code>
 
-<p>The first part of the code is in charge of checking whether the plugin required to run this script (i.e. <em>simExtBubbleRob.dll</em>) is available (i.e. was found and successfully loaded). If not, an error message is displayed. Otherwise, joint and sensor handles are retrieved and given to the custom script function that creates a controller instance of our BubbleRob in the plugin. If the call was successfull, then we can call <em>simBubble.start</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles. Run the simulation: BubbleRob moves for 20 seconds then stops, as expected. Now leave CoppeliaSim. Temporarily rename the plugin to <em>TEMP_simExtBubbleRob.dll</em> so that CoppeliaSim won't load it anymore, then start CoppeliaSim again. Load the previous scene and run the simulation: an error message now appears, indicating that the required plugin could not be found. Leave CoppeliaSim again, rename back the plugin to <em>simExtBubbleRob.dll</em> and start CoppeliaSim again.<br>
+<p>After loading the required module, joint and sensor handles are retrieved and given to the custom script function that creates a controller instance of our BubbleRob in the plugin. If the call was successfull, then we can call <em>simBubble.start</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles. Run the simulation: BubbleRob moves for 20 seconds then stops, as expected.<br>
 </p>
 
-<p>Let's have a look at how the plugin registers and handles the above 4 custom Lua functions. Open the <a href="https://github.com/CoppeliaRobotics/simExtBubbleRob" target="_blank">BubbleRob plugin project</a>, and have a look at file <em>simExtBubbleRob.cpp</em>:</p>
+<p>Let's have a look at how the plugin registers and handles the above 4 custom Lua functions. Open the <a href="https://github.com/CoppeliaRobotics/simBubble" target="_blank">simBubble plugin project</a>, and have a look at file <em>simBubble.cpp</em>:</p>
 
-<p>Notice the 3 required plugin entry points: <em>simStart</em>, <em>simEnd</em>, and <em>simMessage</em>: <em>simStart</em> is called once when the plugin is loaded (initialization), <em>simEnd</em> is called once when the plugin is unloaded (clean-up), and <em>simMessage</em> is called on a regular basis with several type of messages.</p>
+<p>Notice the 3 plugin entry points: <em>simInit</em>, <em>simCleanup</em>, and <em>simMsg</em>: <em>simInit</em> is called once when the plugin is loaded (initialization), <em>simCleanup</em> is called once when the plugin is unloaded (clean-up), and <em>simMsg</em> is called on a regular basis with several type of messages.</p>
 
-<p>During the initialization phase, the plugin loads the CoppeliaSim library (in order to have access to all CoppeliaSim's API functions), then registers the 4 custom script functions. A custom script function is registered by specifying:</p>
-<li> a function name</li>
-<li> a calling tip string</li>
-<li> a callback address</li>
-
-<p>When a script calls the specified function name, then CoppeliaSim calls the callback address. The most difficult task inside of a callback function is to correctly read the input arguments, and correctly write the output values. To ease the task, two helper classes are used, that will be in charge of that: <em>CScriptFunctionData</em> and <em>CScriptFunctionDataItem</em>, located in <em>programming/</em><em>include</em>.</p>
-<p>When writing your own custom script functions, try to use the same code layout/skeleton as was done in file <em>simExtBubbleRob.cpp</em>.</p>
-
-
-
-
-
-
-<p>In general, callback routines should execute as fast as possible, and control should then be given back to CoppeliaSim, otherwise the whole simulator will halt.
-</p>
-
-
-
-
+<p>During the initialization phase, the plugin loads the CoppeliaSim library (in order to have access to all CoppeliaSim's API functions), then registers the 4 custom script functions. A custom script function is registered by specifying a function name (without prefix/namespace), and a callback address.</p>
+<p>When a script calls the specified function name, then CoppeliaSim calls the callback address. The most difficult task inside of a callback function is to correctly read the input arguments, and correctly write the output values. This happens via a stack. The user have two options to interact with the stack:</p>
+<li>the easiest is to use two helper classes (<em>CScriptFunctionData</em> and <em>CScriptFunctionDataItem</em>, located in <em>programming/</em><em>include/simLib</em>). This however only allows to exchange simple data types (i.e. Booleans, integers, floating point numbers, strings and arrays of any of those)</li>
+<li>the more flexible way, allowing to exchange any type of data, is to use stack functions (located in <em>programming/include/simStack</em>): the plugin <a href="https://github.com/CoppeliaRobotics/simSkeleton">simSkeleton</a> illustrates this.</li>
+<p>In general, callback routines should execute as fast as possible, and control should then be given back to CoppeliaSim, otherwise the whole simulator will halt.</p>
 <br>
 <br>
 

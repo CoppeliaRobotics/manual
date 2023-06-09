@@ -21,8 +21,8 @@
 
 <p>Synthetic vision is achieved in CoppeliaSim via <a href="visionSensors.htm">vision sensors</a>: they can perform offscreen rendering of the scene in different modes. The generated image can then be modified/processed in various ways, for instance from within a <a href="visionCallbackFunctions.htm">vision callback function</a>:</p>
 
-<li><a href="simIM.htm?view=alphabetical">image processing with OpenCV</a> (via the <a href="https://github.com/CoppeliaRobotics/simExtIM" target="_blank">image plugin</a>)</li>
-<li><a href="simVision.htm?view=category">simple image processing</a> via the <a href="https://github.com/CoppeliaRobotics/simExtVision" target="_blank">vision plugin</a></li>
+<li><a href="simIM.htm?view=alphabetical">image processing with OpenCV</a> (via the <a href="https://github.com/CoppeliaRobotics/simIM" target="_blank">image plugin</a>)</li>
+<li><a href="simVision.htm?view=category">simple image processing</a> via the <a href="https://github.com/CoppeliaRobotics/simVision" target="_blank">vision plugin</a></li>
 <li><a href="regularApi/simTransformImage.htm">sim.transformImage</a></li>
 <li><a href="regularApi/simTransformBuffer.htm">sim.transformBuffer</a></li>
 
@@ -36,7 +36,7 @@ function sysCall_vision(inData)
     -- inData.orthoSize: the size of the view if the vision sensor is in orthogonal operation
     -- inData.perspectiveOperation: whether the vision sensor is in perspective operation
 
-    -- e.g. use very simple functions from the vision plugin (simExtVision):
+    -- e.g. use very simple functions from the vision plugin (simVision):
     simVision.sensorImgToWorkImg(inData.handle)
     simVision.edgeDetectionOnWorkImg(inData.handle,0.2)
     simVision.swapWorkImgWithBuffer1(inData.handle)
@@ -44,7 +44,7 @@ function sysCall_vision(inData)
     simVision.addBuffer1ToWorkImg(inData.handle)
     simVision.workImgToSensorImg(inData.handle)
     
-    -- and/or, use more powerful functions from the image plugin (simExtImage):
+    -- and/or, use more powerful functions from the image plugin (simImage):
     if simIM then
         local imgHandle=simIM.readFromVisionSensor(inData.handle)
         local center={inData.resolution[1]/2,inData.resolution[2]/2}

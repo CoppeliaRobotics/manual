@@ -42,7 +42,7 @@
 </h2>
 
 
-<p>The mesh import/export functionality is handled via the <a href="https://github.com/CoppeliaRobotics/simExtAssimp" target="_blank">Assimp plugin for CoppeliaSim</a>. More formats can be supported if the Assimp library (and Assimp plugin) are recompiled with the required flags. The plugin's functionality is exposed to CoppeliaSim's GUI and can be reached at [Menu bar --&gt; File --&gt; Import --&gt; Meshes...] or [Menu bar --&gt; File --&gt; Export --&gt; Selected shapes...].</p>
+<p>The mesh import/export functionality is handled via the <a href="https://github.com/CoppeliaRobotics/simAssimp" target="_blank">Assimp plugin for CoppeliaSim</a>. More formats can be supported if the Assimp library (and Assimp plugin) are recompiled with the required flags. The plugin's functionality is exposed to CoppeliaSim's GUI and can be reached at [Menu bar --&gt; File --&gt; Import --&gt; Meshes...] or [Menu bar --&gt; File --&gt; Export --&gt; Selected shapes...].</p>
 <p>If after the import operation you can't see any shapes in the <a href="scenes.htm">scene</a>, but the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> indicates the presence of newly added shapes, then most probably your shapes are either too big or too small to be seen. You can then proceed to a scaling operation. Additionally, you can subdivide imported meshes via [Menu Bar --&gt; Edit --&gt; Shape grouping/merging --&gt; divide]. </p>
 <p>Make sure that imported meshes do not contain too many triangles (for a robot, typically between 10'000-20'000 triangles in total), otherwise CoppeliaSim could be slowed down. You can decimate an imported mesh via [Menu bar --&gt; Edit --&gt; Decimate shape(s)...]</p>
 <p>Heightfields in CoppeliaSim are also meshes, and can be imported via [Menu bar --&gt; File --&gt; Import --&gt; Heightfield...]. Supported formats are image formats (the color or grey tone components represent elevations), or csv or txt formats (comma-separated values (y rows with x values)).</p>
@@ -87,6 +87,8 @@
 <p>Following example illustrates how to log a joint angle to a file, as text data:</p>
   
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+
 function sysCall_init()
     jointHandle=sim.getObject('/Joint')
     file=io.open('jointAngles.txt','w+')
@@ -162,7 +164,7 @@ end</code>
 <a name="ldraw"></a>Importing LDR / MPD models
 </h2>
 
-<p>The <a href="http://www.ldraw.org/" target="_blank">LDraw</a> importer add-on is available via [Menu bar --&gt; Modules --&gt; Importers --&gt; LDraw importer...]. Make sure the LDraw parts library is installed. The simExtLDraw plugin uses the <a href="https://github.com/pixeljetstream/ldrawloader" target="_blank">ldrawloader</a> from Christoph Kubisch.</p>
+<p>The <a href="http://www.ldraw.org/" target="_blank">LDraw</a> importer add-on is available via [Menu bar --&gt; Modules --&gt; Importers --&gt; LDraw importer...]. Make sure the LDraw parts library is installed. The simLDraw plugin uses the <a href="https://github.com/pixeljetstream/ldrawloader" target="_blank">ldrawloader</a> from Christoph Kubisch.</p>
 <p>See also the <a href="simLDraw.htm?view=alphabetical">API functions related to LDR / MPD import</a>.</p>
 
 <br>

@@ -19,7 +19,7 @@
 
 <h1>BubbleRob tutorial</h1>
 
-<p>This tutorial will introduce quite many CoppeliaSim functionalities while designing the simple mobile robot <em>BubbleRob</em>. The CoppeliaSim scene file related to this tutorial is located in <em>scenes/tutorials/BubbleRob</em>. Following figure illustrates the simulation scene that we will design:<br>
+<p>This tutorial introduces various functionality while designing the simple mobile robot <em>BubbleRob</em>. The CoppeliaSim scene file related to this tutorial is located in <em>scenes/tutorials/BubbleRob</em>. Following figure illustrates the simulation scene that we will design:<br>
 </p>
 
 <p align=center><img src="images/bubbleRobTut1.jpg"></p>
@@ -95,6 +95,9 @@
 </p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+simVision=require('simVision')
+
 function sysCall_vision(inData)
     simVision.sensorImgToWorkImg(inData.handle) -- copy the vision sensor image to the work image
     simVision.edgeDetectionOnWorkImg(inData.handle,0.2) -- perform edge detection on the work image
@@ -112,6 +115,9 @@ To be able to see the vision sensor's image, we start the simulation, then stop 
 <p>The last thing that we need for our scene is a small <a href="childScripts.htm">child script</a> that will control <em>BubbleRob's</em> behavior. We select <em>bubbleRob</em> and click [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded]. We double-click the script icon that appeared next to <em>bubbleRob's</em> alias in the scene hierarchy and copy and paste following code into the <a href="scriptEditor.htm">script editor</a>, then close it:<br>
 </p>
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+simUI=require('simUI')
+
 function speedChange_callback(ui,id,newVal)
     speed=minMaxSpeed[1]+(minMaxSpeed[2]-minMaxSpeed[1])*newVal/100
 end

@@ -23,11 +23,15 @@
 
 <p>First of all you should make sure that you have gone through the <a href="http://www.ros.org/wiki/ROS/Tutorials">official ROS tutorials</a>, at least the beginner section, and that you have installed the <a href="http://catkin-tools.readthedocs.io/en/latest/installing.html">Catkin tools</a>. Then, we assume that you have the latest Ubuntu running, that ROS is installed, and that the workspace folders are set. Here also refer to the <a href="http://wiki.ros.org/melodic/Installation/Ubuntu">official documentation regarding the ROS installation</a>.</p>
 
-<p>The general ROS functionality in CoppeliaSim is supported via the <a href="rosInterf.htm">ROS Interface</a> (<em>libsimExtROS.so</em>). The Linux distribution should include that file already compiled in <em>CoppeliaSim/compiledROSPlugins</em>, but it first needs to be copied to <em>CoppeliaSim/</em>, otherwise it won't be loaded. You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of CoppeliaSim for details about plugin load operations. Plugins are loaded when CoppeliaSim is launched. The ROS plugin will only successfully load and initialize if <em>roscore</em> is running at that time (<em>roscore</em> is the ROS master). Also make sure to source the ROS environment prior to running CoppeliaSim.</p>
+<p>The general ROS functionality in CoppeliaSim is supported via the <a href="rosInterf.htm">ROS Interface</a> (<em>libsimROS.so</em>). The Linux distribution should include that file already compiled in <em>CoppeliaSim/compiledROSPlugins</em>, but it first needs to be copied to <em>CoppeliaSim/</em>, otherwise it won't be loaded. You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of CoppeliaSim for details about plugin load operations. The ROS plugin is loaded with:</p>
 
-<p>If the plugin cannot be loaded, then you should recompile it by yourself. It is open source and can be modified as much as needed in order to support a specific feature or to extend its functionality. If specific messages/services/etc. need to be supported, make sure to edit files located in <em>simExtROS/meta/</em>, prior to recompilation. There are 2 packages:</p>
+<code class="hljs language-lua coppelia-coppeliasim-script">simROS=require('simROS')</code>
 
-<li><a href="https://github.com/CoppeliaRobotics/simExtROS" target="_blank">simExtROS</a>: this package is the <a href="rosInterf.htm">ROS Interface</a> that will be compiled to a &quot;.so&quot; file, and that is used by CoppeliaSim.</li>
+<p>The load operation will only be successful if roscore was running at that time. Also make sure to source the ROS environment prior to running CoppeliaSim.</p>
+
+<p>If the plugin cannot be loaded, then you should recompile it by yourself. It is open source and can be modified as much as needed in order to support a specific feature or to extend its functionality. If specific messages/services/etc. need to be supported, make sure to edit files located in <em>simROS/meta/</em>, prior to recompilation. There are 2 packages:</p>
+
+<li><a href="https://github.com/CoppeliaRobotics/simROS" target="_blank">simROS</a>: this package is the <a href="rosInterf.htm">ROS Interface</a> that will be compiled to a &quot;.so&quot; file, and that is used by CoppeliaSim.</li>
 <li><a href="https://github.com/CoppeliaRobotics/ros_bubble_rob" target="_blank">ros_bubble_rob</a>: this is the package of a very simple robot controller that connects to CoppeliaSim via the <a href="rosInterf.htm">ROS Interface</a>. This node will be in charge of controlling the  red robot in the demo scene <em>controlTypeExamples/controlledViaRos.ttt</em></li>
 
 
@@ -47,7 +51,7 @@ $ catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 <p>Note for Ubuntu 20.04: due to a bug in python-catkin-tools you need to use catkin_make instead of catkin build.</p>
 
-<p>That's it! The packages should have been generated and compiled to a library. Copy the devel/lib/libsimExtROS.so file to the CoppeliaSim installation folder. The plugin is now ready to be used!</p>
+<p>That's it! The packages should have been generated and compiled to a library. Copy the devel/lib/libsimROS.so file to the CoppeliaSim installation folder. The plugin is now ready to be used!</p>
 
 <p>Now open a terminal and start the ROS master with:</p>
 <code class="hljs coppelia-terminal">
@@ -55,27 +59,19 @@ $ roscore
 </code>
 
 
-<p>Open another terminal, move to the CoppeliaSim installation folder and start CoppeliaSim. This is what you should have (or similar):</p>
-
-<code class="hljs coppelia-terminal">
-$ ./coppeliaSim.sh
-...
-Plugin 'ROSInterface': loading...
-Plugin 'ROSInterface': load succeeded.
-...
-</code>
-
-
-<p>Upon succesful ROS Interface load, checking the available nodes gives this:</p>
+<p>Open another terminal, move to the CoppeliaSim installation folder, start CoppeliaSim and load the ROS plugin with above's Lua code. Upon succesful ROS Interface load, checking the available nodes gives this:</p>
 <code class="hljs coppelia-terminal">
 $ rosnode list
 /rosout
 /sim_ros_interface
 </code>
 
-<p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="childScripts.htm">child script</a> to it with [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
+<p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="childScripts.htm">child script</a> to it with [Menu bar --&gt; Add --&gt; Associated child script --&gt; Non threaded --&gt; Lua]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+simROS=require('simROS')
+
 function subscriber_callback(msg)
     -- This is the subscriber callback function
     sim.addLog(sim.verbosity_scriptinfos,'subscriber receiver following Float32: '..msg.data)
@@ -105,27 +101,21 @@ function sysCall_init()
     objectAlias=sim.getObjectAlias(objectHandle,3)
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
-    if simROS then
-        publisher=simROS.advertise('/simulationTime','std_msgs/Float32')
-        subscriber=simROS.subscribe('/simulationTime','std_msgs/Float32','subscriber_callback')
-    end
+    publisher=simROS.advertise('/simulationTime','std_msgs/Float32')
+    subscriber=simROS.subscribe('/simulationTime','std_msgs/Float32','subscriber_callback')
 end
 
 function sysCall_actuation()
     -- Send an updated simulation time message, and send the transform of the object attached to this script:
-    if simROS then
-        simROS.publish(publisher,{data=sim.getSimulationTime()})
-        simROS.sendTransform(getTransformStamped(objectHandle,objectAlias,-1,'world'))
-        -- To send several transforms at once, use simROS.sendTransforms instead
-    end
+    simROS.publish(publisher,{data=sim.getSimulationTime()})
+    simROS.sendTransform(getTransformStamped(objectHandle,objectAlias,-1,'world'))
+    -- To send several transforms at once, use simROS.sendTransforms instead
 end
 
 function sysCall_cleanup()
     -- Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
-    if simROS then
-        simROS.shutdownPublisher(publisher)
-        simROS.shutdownSubscriber(subscriber)
-    end
+    simROS.shutdownPublisher(publisher)
+    simROS.shutdownSubscriber(subscriber)
 end</code>
 
 
@@ -146,7 +136,7 @@ $ rostopic echo /simulationTime
 </code>
 
 
-<p>Now load the demo scene <em>rosInterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="childScripts.htm">child script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
+<p>Now load the demo scene <em>messaging/rosInterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="childScripts.htm">child script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
 
 <p align=center><img src="images/rosTut1.jpg"></p>
 <p class=imageLabel>[Image publisher and image subscriber demo]</p>
@@ -179,7 +169,6 @@ $ rostopic echo /visionSensorData
 <p>The child script attached to the  robot, and running in a non-threaded fashion, is in charge of following:</p>
 
 <li>determine some object handles (e.g. motor joint handles and proximity sensor handle)</li>
-<li>verify if the ROS Interface is loaded</li>
 <li>Launch motor speed subscribers</li>
 <li>Launch a sensor publisher and a simulation time publisher</li>
 <li> and finally launch a client application. The application is called with some topic names as arguments, so that it will know which topics to listen to and to subscribe. The client application (<em>rosBubbleRob</em>) is then taking over the control of the  robot via ROS.</li>
@@ -217,7 +206,7 @@ $ rostopic pub /stopSimulation std_msgs/Bool true --once
 $ rostopic echo /simulationTime
 </code>
 
-<p>Finally, make sure to have a look at the <a href="remoteApiOverview.htm">remote API functionality</a> in CoppeliaSim: it allows for remote function execution, fast data streaming back and forth, is quite simple to use, leightweight and  cross-platform. The remote API functionality is available for 7 different languages and can be an interesting alternative to ROS in some cases.</p>
+<p>Finally, make sure to have a look at the <a href="remoteApiOverview.htm">remote API functionality</a> in CoppeliaSim: it allows for remote function execution, fast data streaming back and forth, is quite simple to use, lightweight and  cross-platform. The remote API functionality is available for 7 different languages and can be an interesting alternative to ROS in some cases.</p>
 
 <br>
 <br>

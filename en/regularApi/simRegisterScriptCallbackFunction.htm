@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Registers a custom script function, that calls back a c/c++ function. This function is useful for plugins that wish to provide their own or customized script functions. See also <a href="simRegisterScriptVariable.htm">simRegisterScriptVariable</a>.
+<td class=apiTableRightDescr>Registers a custom script function, that calls back a c/c++ function. This function is useful for plugins that wish to provide their own or customized script functions. Should be called inside of simInit entry point. See also <a href="simRegisterScriptVariable.htm">simRegisterScriptVariable</a>.
 <br><br>
 <div>Data exchange between a script and the plugin happens via a <a href="../apiFunctions.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious, if your data structures are anyway relatively simple. In that case you can use the helper classes <em>CScriptFunctionData</em> and <em>CScriptFunctionDataItem</em> located in <em>programming/</em><em>include</em>: they will greatly simplify the task.</div>
 <br>
@@ -33,16 +33,16 @@ Description
 <td class=apiTableLeftCSyn>
 C/C++<br>synopsis
 </td> 
-<td class=apiTableRightCSyn>int simRegisterScriptCallbackFunction(const char* funcNameAtPluginName,const char* callTips,void(*callBack)(struct SScriptCallBack* cb))<br></td> 
+<td class=apiTableRightCSyn>int simRegisterScriptCallbackFunction(const char* func,const char* reserved,void(*callBack)(struct SScriptCallBack* cb))<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCParam>C/C++<br>parameters</td> 
 <td class=apiTableRightCParam>
-<div><strong>functNameAtPluginName</strong>: name of the function, combined with the plugin name: functionName@pluginName. Avoid using too simple function names, otherwise they might clash with other plugins. Also, always use the <em>simXX.</em> prefix (e.g. <em>simMyPlugin.myCustomFunction</em>) for the function name. The plugin name should be the exact same name used while loading the plugin via <a href="simLoadModule.htm">simLoadModule</a> (if the plugin name is <em>simExtMyPlugin.dll</em>, this should be <em>MyPlugin</em>).<br>
+<div><strong>funct</strong>: name of the function, without namespace<br>
 </div>
-<div><strong>callTips</strong>: call tips: string (or several strings separated by '@') that indicates the input/output argument type/size. Call tips appear in the script editor when the function was typed followed by &quot;(&quot;. callTips Can be nullptr, in which case no call tips will be displayed, nor syntax highlighting used.<br>
+<div><strong>reserved</strong>: set to nullptr<br>
 </div>
-<div><strong>callback</strong>: callback address that is called when the &quot;functName&quot; function is called from Lua. Can be nullptr, in which case the command will only register the function for call tips and syntax highlighting. See further down for a simple way to call above function, using a helper class. The callback's first argument is a SScriptCallBack structure that holds:<br>
+<div><strong>callback</strong>: callback address that is called when the function is called from Lua. See further down for a simple way to call above function, using a helper class. The callback's first argument is a SScriptCallBack structure that holds:<br>
 </div>
 <br>
 <div><strong>int objectID</strong>: handle of the object that the calling script is attached to, or -1 if the calling script is not a child script<br>
@@ -68,7 +68,7 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>see <a href="simRegisterScriptFunction.htm">sim.registerScriptFunction</a> instead.</td> 
+<td class=apiTableRightLSyn></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 

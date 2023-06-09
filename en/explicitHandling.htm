@@ -19,7 +19,7 @@
 
 <h1>Explicit and non-explicit calls</h1>
 
-<p>Some objects, such as <a href="proximitySensors.htm">proximity sensors</a>, normally require <em>handling</em> or calculations to be performed once per simulation step, to reflect a possible change in the scene. This handling can be done implicitely or explicitely, and those objects have a special setting related to that: an <strong>explicit handling</strong> flag. By default that flag is unchecked, which means that the object will be implicitely handled via the <a href="mainScript.htm">main script</a>. Indeed the following main script code will be executed and handle said objects once per simulation step:</p>
+<p>Some objects, such as <a href="proximitySensors.htm">proximity sensors</a>, normally require <em>handling</em> or calculations to be performed once per simulation step, to reflect a possible change in the scene. This handling can be done implicitly or explicitly, and those objects have a special setting related to that: an <strong>explicit handling</strong> flag. By default that flag is unchecked, which means that the object will be implicitly handled via the <a href="mainScript.htm">main script</a>. Indeed the following main script code will be executed and handle said objects once per simulation step:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
 sim.handleProximitySensor(sim.handle_all_except_explicit)</code>
@@ -34,6 +34,8 @@ local calculationResult=sim.readProximitySensor(sensorHandle)</code>
 
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+
 function sysCall_init()
     sensorHandle=sim.getObject('/myProximitySensor')
 end
@@ -50,6 +52,8 @@ end</code>
 <p>If new calculations need to be performed several times within a same simulation step (e.g. because an object or the sensor itself is moved more frequently), one could write:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+
 function sysCall_init()
     sensorHandle=sim.getObject('/myProximitySensor')
 end

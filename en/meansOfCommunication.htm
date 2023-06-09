@@ -140,6 +140,8 @@ simRegisterScriptCallbackFunction(&quot;simABC.func@ABC&quot;,&quot;string reply
 
 <p>A <a href="scripts.htm">script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all scripts at once, via the <a href="regularApi/simBroadcastMsg.htm">sim.broadcastMsg</a> function. For instance, following will constantly broadcast a message to all scripts:</p>
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+
 function sysCall_init()
     scriptHandle=sim.getScriptInt32Param(sim.handle_self,sim.scriptintparam_handle)
 end
@@ -164,9 +166,12 @@ end</code>
 </h2>
 
 
-<p>The <a href="http://api.zeromq.org/" target="_blank">ZeroMQ library</a>, wrapped inside the <a href="https://github.com/CoppeliaRobotics/simExtZMQ" target="_blank">ZMQ plugin</a>, offers several <a href="simZMQ.htm">API functions related to ZeroMQ messaging</a>. Following illustrates a simple requester:</p>
+<p>The <a href="http://api.zeromq.org/" target="_blank">ZeroMQ library</a>, wrapped inside the <a href="https://github.com/CoppeliaRobotics/simZMQ" target="_blank">ZMQ plugin</a>, offers several <a href="simZMQ.htm">API functions related to ZeroMQ messaging</a>. Following illustrates a simple requester:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
+sim=require('sim')
+simZMQ=require('simZMQ')
+
 function sysCall_init()
     corout=coroutine.create(coroutineMain)
 end
@@ -240,7 +245,7 @@ end</code>
 
 <h2><a name="ws"></a>WebSocket
 </h2>
-<p>The <a href="https://github.com/CoppeliaRobotics/simExtWS" target="_blank">WebSocket plugin</a>, offers several <a href="simWS.htm">API functions allowing to interact with a web browser</a>. Following is a simple echo server:</p>
+<p>The <a href="https://github.com/CoppeliaRobotics/simWS" target="_blank">WebSocket plugin</a>, offers several <a href="simWS.htm">API functions allowing to interact with a web browser</a>. Following is a simple echo server:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
 function onMessage(server,connection,data)
