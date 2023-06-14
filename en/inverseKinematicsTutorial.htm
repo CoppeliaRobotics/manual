@@ -148,7 +148,7 @@ function sysCall_init()
     -- create a dummy in the IK environment: 
     ikBase=simIK.createDummy(ikEnv)
     -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectMatrix(ikEnv,ikBase,-1,sim.getObjectMatrix(simBase,-1)) 
+    simIK.setObjectMatrix(ikEnv,ikBase,-1,sim.getObjectMatrix(simBase)) 
     local parent=ikBase
     for i=1,#simJoints,1 do -- loop through all joints
         -- create a joint in the IK environment:
@@ -161,7 +161,7 @@ function sysCall_init()
         -- set the same joint lin./ang. position as its CoppeliaSim counterpart joint: 
         simIK.setJointPosition(ikEnv,ikJoints[i],sim.getJointPosition(simJoints[i]))
         -- set the same object pose as its CoppeliaSim counterpart joint: 
-        simIK.setObjectMatrix(ikEnv,ikJoints[i],-1,sim.getObjectMatrix(simJoints[i],-1))
+        simIK.setObjectMatrix(ikEnv,ikJoints[i],-1,sim.getObjectMatrix(simJoints[i]))
         -- set its corresponding parent: 
         simIK.setObjectParent(ikEnv,ikJoints[i],parent,true) 
         parent=ikJoints[i]
@@ -169,13 +169,13 @@ function sysCall_init()
     -- create the tip dummy in the IK environment:
     ikTip=simIK.createDummy(ikEnv)
     -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectMatrix(ikEnv,ikTip,-1,sim.getObjectMatrix(simTip,-1))
+    simIK.setObjectMatrix(ikEnv,ikTip,-1,sim.getObjectMatrix(simTip))
     -- attach it to the kinematic chain: 
     simIK.setObjectParent(ikEnv,ikTip,parent,true)
     -- create the target dummy in the IK environment: 
     ikTarget=simIK.createDummy(ikEnv)
     -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectMatrix(ikEnv,ikTarget,-1,sim.getObjectMatrix(simTarget,-1))
+    simIK.setObjectMatrix(ikEnv,ikTarget,-1,sim.getObjectMatrix(simTarget))
     -- link the two dummies: 
     simIK.setTargetDummy(ikEnv,ikTip,ikTarget)
     -- create an IK group: 
