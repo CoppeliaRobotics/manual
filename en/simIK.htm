@@ -1926,7 +1926,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">float[12] matrix=simIK.getObjectMatrix(int environmentHandle,int objectHandle,int relativeToObjectHandle)</td>
+<td class="apiTableRightLSyn">float[12] matrix=simIK.getObjectMatrix(int environmentHandle,int objectHandle,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
@@ -1945,7 +1945,7 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">list matrix=simIK.getObjectMatrix(int environmentHandle,int objectHandle,int relativeToObjectHandle)</td>
+<td class="apiTableRightPSyn">list matrix=simIK.getObjectMatrix(int environmentHandle,int objectHandle,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 
 <tr class="apiTableTr">
@@ -2002,7 +2002,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">float[7] pose=simIK.getObjectPose(int environmentHandle,int objectHandle,int relativeToObjectHandle)</td>
+<td class="apiTableRightLSyn">float[7] pose=simIK.getObjectPose(int environmentHandle,int objectHandle,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
@@ -2021,7 +2021,7 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">list pose=simIK.getObjectPose(int environmentHandle,int objectHandle,int relativeToObjectHandle)</td>
+<td class="apiTableRightPSyn">list pose=simIK.getObjectPose(int environmentHandle,int objectHandle,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 
 <tr class="apiTableTr">
@@ -2082,7 +2082,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">float[3] position,float[4] quaternion,float[3] euler=simIK.getObjectTransformation(int environmentHandle,int objectHandle,int relativeToObjectHandle)</td>
+<td class="apiTableRightLSyn">float[3] position,float[4] quaternion,float[3] euler=simIK.getObjectTransformation(int environmentHandle,int objectHandle,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
@@ -2103,7 +2103,7 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">list position,list quaternion,list euler=simIK.getObjectTransformation(int environmentHandle,int objectHandle,int relativeToObjectHandle)</td>
+<td class="apiTableRightPSyn">list position,list quaternion,list euler=simIK.getObjectTransformation(int environmentHandle,int objectHandle,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 
 <tr class="apiTableTr">
@@ -3015,15 +3015,15 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simIK.setObjectMatrix(int environmentHandle,int objectHandle,int relativeToObjectHandle,float[12] matrix)</td>
+<td class="apiTableRightLSyn">simIK.setObjectMatrix(int environmentHandle,int objectHandle,float[12] matrix,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
 <td class="apiTableRightLParam">
 <div><strong>environmentHandle</strong>: the handle of the environment.</div>
 <div><strong>objectHandle</strong>: the handle of the object.</div>
-<div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which the matrix is expressed. Otherwise, specify simIK.handle_world if you specify the absolute matrix, or simIK.handle_parent if you specify the matrix relative to the parent object.</div>
 <div><strong>matrix</strong>: a table of 12 values representing the transformation matrix (the last row of the 4x4 matrix (0,0,0,1) is omitted)</div>
+<div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which the matrix is expressed. Otherwise, specify simIK.handle_world if you specify the absolute matrix, or simIK.handle_parent if you specify the matrix relative to the parent object.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -3034,7 +3034,7 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simIK.setObjectMatrix(int environmentHandle,int objectHandle,int relativeToObjectHandle,list matrix)</td>
+<td class="apiTableRightPSyn">simIK.setObjectMatrix(int environmentHandle,int objectHandle,list matrix,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 
 <tr class="apiTableTr">
@@ -3091,15 +3091,15 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simIK.setObjectPose(int environmentHandle,int objectHandle,int relativeToObjectHandle,float[7] pose)</td>
+<td class="apiTableRightLSyn">simIK.setObjectPose(int environmentHandle,int objectHandle,float[7] pose,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
 <td class="apiTableRightLParam">
 <div><strong>environmentHandle</strong>: the handle of the environment.</div>
 <div><strong>objectHandle</strong>: the handle of the object.</div>
-<div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which the pose is expressed. Otherwise, specify simIK.handle_world if you specify the absolute pose, or simIK.handle_parent if you specify the pose relative to the parent object.</div>
 <div><strong>pose</strong>: the position and quaternion (x,y,z,qx,qy,qz,qw).</div>
+<div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which the pose is expressed. Otherwise, specify simIK.handle_world if you specify the absolute pose, or simIK.handle_parent if you specify the pose relative to the parent object.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -3110,7 +3110,7 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simIK.setObjectPose(int environmentHandle,int objectHandle,int relativeToObjectHandle,list pose)</td>
+<td class="apiTableRightPSyn">simIK.setObjectPose(int environmentHandle,int objectHandle,list pose,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 
 <tr class="apiTableTr">
@@ -3130,16 +3130,16 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simIK.setObjectTransformation(int environmentHandle,int objectHandle,int relativeToObjectHandle,float[3] position,float[] eulerOrQuaternion)</td>
+<td class="apiTableRightLSyn">simIK.setObjectTransformation(int environmentHandle,int objectHandle,float[3] position,float[] eulerOrQuaternion,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua arguments</td>
 <td class="apiTableRightLParam">
 <div><strong>environmentHandle</strong>: the handle of the environment.</div>
 <div><strong>objectHandle</strong>: the handle of the object.</div>
-<div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which the transformation is expressed. Otherwise, specify simIK.handle_world if you specify the absolute transformation, or simIK.handle_parent if you specify the transformation relative to the parent object.</div>
 <div><strong>position</strong>: the position component of the transformation.</div>
 <div><strong>eulerOrQuaternion</strong>: the orientation component of the transformation. If 3 values are specified, then they will be interpreted as Euler angles (alpha,beta,gamma). If 4 values are specified, they will be interpreted as quaternion values (x,y,z,w).</div>
+<div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which the transformation is expressed. Otherwise, specify simIK.handle_world if you specify the absolute transformation, or simIK.handle_parent if you specify the transformation relative to the parent object.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -3150,7 +3150,7 @@ td.section { margin: 0; padding: 0; }
 
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simIK.setObjectTransformation(int environmentHandle,int objectHandle,int relativeToObjectHandle,list position,list eulerOrQuaternion)</td>
+<td class="apiTableRightPSyn">simIK.setObjectTransformation(int environmentHandle,int objectHandle,list position,list eulerOrQuaternion,int relativeToObjectHandle=simIK.handle_world)</td>
 </tr>
 
 <tr class="apiTableTr">
