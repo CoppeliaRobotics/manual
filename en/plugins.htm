@@ -30,12 +30,13 @@
 
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">
 #include &lt;simLib/simExp.h&gt;
-SIM_DLLEXPORT int simInit(const char* pluginName);
-SIM_DLLEXPORT void simMsg(int message,int* auxData,void* pointerData);
+#include &lt;simLib/simTypes.h&gt;
+SIM_DLLEXPORT int simInit(SSimInit* info);
+SIM_DLLEXPORT void simMsg(SSimMsg* info);
 SIM_DLLEXPORT void simCleanup();
 
 SIM_DLLEXPORT void simInit_ui(); // called immediately after simInit
-SIM_DLLEXPORT void simMsg_ui(int message,int* auxData,void* pointerData);
+SIM_DLLEXPORT void simMsg_ui(SSimMsg_ui* info);
 SIM_DLLEXPORT void simCleanup_ui(); // called immediately before simCleanup
 </code>
 
