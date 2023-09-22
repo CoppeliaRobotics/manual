@@ -84,16 +84,16 @@ Real-time simulation is supported by trying to keep the simulation time synchron
 
 <br>
 <h2>
-<a name="stepped"></a>Stepped mode</h2>
+<a name="stepped"></a><a name="stepping"></a>stepping mode</h2>
 
 
-<p>By default, CoppeliaSim executes a simulation by running one simulation step after another, automatically. There are however many situations where it is important to be able to manually trigger each simulation step, e.g. in order to inspect each simulation step individually, or in order to synchronize CoppeliaSim with an external application. There is such a mechanism, which is the stepped mode (or synchronous mode):</p>
+<p>By default, CoppeliaSim executes a simulation by running one simulation step after another, automatically. There are however many situations where it is important to be able to manually trigger each simulation step, e.g. in order to inspect each simulation step individually, or in order to synchronize CoppeliaSim with an external application. There is such a mechanism, which is the stepping mode (or synchronous mode):</p>
 
 <p align=center><img src="images/stepped.jpg"></p>
-<p class=imageLabel>[Stepped simulation mode]</p>
+<p class=imageLabel>[stepping simulation mode]</p>
 <br>
 
-<p>From within CoppeliaSim, a stepped simulation can easily be implemented via the <em>sysCall_beforeMainScript</em> <a href="callbackFunctions.htm">callback function</a>. From an external application, there is usually a dedicated function to enable the stepped mode, and then to trigger each individual step. Following illustrates the stepped mode from a Python ZeroMQ remote API client:</p>
+<p>From within CoppeliaSim, a stepping simulation can easily be implemented via the <em>sysCall_beforeMainScript</em> <a href="callbackFunctions.htm">callback function</a>. From an external application, there is usually a dedicated function to enable the stepping mode, and then to trigger each individual step. Following illustrates the stepping mode from a Python ZeroMQ remote API client:</p>
 
 <code class="hljs language-python coppelia-zmq-remote-api-client">import time
 from coppeliasim_zmqremoteapi_client import RemoteAPIClient
@@ -101,13 +101,13 @@ from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 client = RemoteAPIClient()
 sim = client.getObject('sim')
 
-client.setStepping(True)
+sim.setStepping(True)
 
 sim.startSimulation()
 while (t := sim.getSimulationTime()) &lt; 3:
     s = f'Simulation time: {t:.2f} [s]'
     print(s)
-    client.step()
+    sim.step()
 sim.stopSimulation()</code>
 
 

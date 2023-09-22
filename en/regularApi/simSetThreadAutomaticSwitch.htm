@@ -22,7 +22,7 @@
 <td class=apiTableLeftDescr>
 Description 
 </td> 
-<td class=apiTableRightDescr>Allows to temporarily forbid automatic thread interruptions, i.e. preemptive threading. Explicit thread interruptions, i.e. switching, are still allowed. For complete control over thread switching, see also the other <a href="../apiFunctions.htm#threads">thread related functions</a>.</td>
+<td class=apiTableRightDescr>Deprecated. See <a href="simSetStepping.htm">sim.setStepping</a> instead</td>
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftCSyn>
@@ -48,19 +48,19 @@ C/C++<br>return value
 <td class=apiTableLeftLSyn>
 Lua<br>synopsis
 </td> 
-<td class=apiTableRightLSyn>int autoSwitchForbidLevel=sim.setThreadAutomaticSwitch(bool allowAutoSwitch / int forbidLevel)<br></td> 
+<td class=apiTableRightLSyn>int previousLockLevel=sim.setThreadAutomaticSwitch(bool allowAutoSwitch / int lockLevel)<br></td> 
 </tr> 
 <tr class=apiTableTr> 
 <td class=apiTableLeftLParam>Lua<br>parameters</td> 
 <td class=apiTableRightLParam>
 <div><strong>allowAutoSwitch</strong>: if false, then the thread will not be automatically interrupted anymore (i.e. automatic thread switching will be temporarily disabled). Calling n times sim.setThreadAutomaticSwitch(false) requires to call n times sim.setThreadAutomaticSwitch(true) to restore the initial behaviour.</div>
-<div><strong>forbidLevel</strong>: allows to set an auto switch forbid level: a level &gt; 0 indicates that automatic thread interruption is disabled.</div>
+<div><strong>lockLevel</strong>: allows to set an auto switch lock level: a level &gt; 0 indicates that automatic thread interruption is disabled.</div>
 <div></div>
-<div>Best is to always use following to temporarily forbid automatic thread interruptions:</div>
+<div>Best is to always use following to temporarily lock automatic thread interruptions:</div>
 <code class="hljs language-lua simple">
-local initialForbidLevel=sim.setThreadAutomaticSwitch(false) -- forbid automatic thread switches
+local initialLockLevel=sim.setThreadAutomaticSwitch(false) -- lock automatic thread switches
 ...
-sim.setThreadAutomaticSwitch(initialForbidLevel) -- restore to initial state</code>
+sim.setThreadAutomaticSwitch(initialLockLevel) -- restore to initial state</code>
 </td> 
 </tr> 
 <tr class=apiTableTr> 
@@ -68,13 +68,13 @@ sim.setThreadAutomaticSwitch(initialForbidLevel) -- restore to initial state</co
 Lua<br>return values
 </td> 
 <td class=apiTableRightLRet>
-<div><strong>autoSwitchForbidLevel</strong>: the forbid switch level before calling the function, i.e. the forbid switch level that should be restored later on.</div></td> 
+<div><strong>previousLockLevel</strong>: the lock level before calling the function, i.e. the lock level that should be restored later on.</div></td> 
 </tr> 
 
 
 <tr class=apiTableTr>
 <td class=apiTableLeftPSyn>Python<br>synopsis</td>
-<td class=apiTableRightPSyn>int autoSwitchForbidLevel=sim.setThreadAutomaticSwitch(bool allowAutoSwitch / int forbidLevel)</td>
+<td class=apiTableRightPSyn></td>
 </tr>
 
 </table> 

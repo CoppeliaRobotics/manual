@@ -107,7 +107,7 @@ function sysCall_actuation()
 end
 
 function coroutineMain()
-    sim.setThreadAutomaticSwitch(false)
+    sim.setStepping(true)
     while true do
         local t=sim.getSimulationTime()
         posAlongPath=posAlongPath+velocity*(t-previousSimulationTime)
@@ -118,7 +118,7 @@ function coroutineMain()
         sim.setObjectPosition(objectToFollowPath,pos,path)
         sim.setObjectQuaternion(objectToFollowPath,quat,path)
         previousSimulationTime=t
-        sim.switchThread()
+        sim.step()
     end
 end</code>
 

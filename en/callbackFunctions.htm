@@ -112,38 +112,38 @@ function <strong>sysCall_afterSave</strong>()
 end
 
 function <strong>sysCall_beforeCopy</strong>(inData)
-    -- Before one or several objects will be copied. Can be reentrant. Disabled by default for Python.
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..key.." will be copied")
+    -- Before one or several objects will be copied. Can be reentrant
+    for i=1,#inData.objects,1 do
+        print("Object with handle "..inData.objects[i].." will be copied")
     end
 end
 
 function <strong>sysCall_afterCopy</strong>(inData)
-    -- After one or several objects were copied. Can be reentrant. Disabled by default for Python.
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..key.." was copied")
+    -- After one or several objects were copied. Can be reentrant
+    for i=1,#inData.objects,1 do
+        print("Object with handle "..inData.objects[i].." was copied")
     end
 end
 
 function <strong>sysCall_afterCreate</strong>(inData)
-    -- After one or several objects were created. Can be reentrant. Disabled by default for Python.
-    for i,#inData.objectHandles,1 do
-        print("Object with handle "..inData.objectHandles[i].." was created")
+    -- After one or several objects were created. Can be reentrant
+    for i=1,#inData.objects,1 do
+        print("Object with handle "..inData.objects[i].." was created")
     end
 end
 
 function <strong>sysCall_beforeDelete</strong>(inData)
-    -- Before one or several objects will be deleted. Can be reentrant. Disabled by default for Python.
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..key.." will be deleted")
+    -- Before one or several objects will be deleted. Can be reentrant
+    for i=1,#inData.objects,1 do
+        print("Object with handle "..inData.objects[i].." will be deleted")
     end
     -- inData.allObjects indicates if all objects in the scene will be deleted
 end
 
 function <strong>sysCall_afterDelete</strong>(inData)
-    -- After one or several objects were deleted. Can be reentrant. Disabled by default for Python.
-    for key,value in pairs(inData.objectHandles) do
-        print("Object with handle "..key.." was deleted")
+    -- After one or several objects were deleted. Can be reentrant
+    for i=1,#inData.objects,1 do
+        print("Object with handle "..inData.objects[i].." was deleted")
     end
     -- inData.allObjects indicates if all objects in the scene were deleted
 end
@@ -165,27 +165,27 @@ function <strong>sysCall_addOnScriptResume</strong>()
 end
 
 function <strong>sysCall_dyn</strong>(inData)
-    -- See the <a href="dynCallbackFunctions.htm">dynamics callback function</a> section for details. Disabled by default for Python.
+    -- See the <a href="dynCallbackFunctions.htm">dynamics callback function</a> section for details
 end
 
 function <strong>sysCall_joint</strong>(inData)
-    -- See the <a href="jointCallbackFunctions.htm">joint callback function</a> section for details. Disabled by default for Python.
+    -- See the <a href="jointCallbackFunctions.htm">joint callback function</a> section for details
     return outData
 end
 
 function <strong>sysCall_contact</strong>(inData)
-    -- See the <a href="contactCallbackFunction.htm">contact callback function</a> section for details. Disabled by default for Python.
+    -- See the <a href="contactCallbackFunction.htm">contact callback function</a> section for details
     return outData
 end
 
 function <strong>sysCall_vision</strong>(inData)
-    -- See the <a href="visionCallbackFunctions.htm">vision callback function</a> section for details. Disabled by default for Python.
+    -- See the <a href="visionCallbackFunctions.htm">vision callback function</a> section for details
     -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
     return outData
 end
 
 function <strong>sysCall_trigger</strong>(inData)
-    -- See the <a href="triggerCallbackFunctions.htm">trigger callback function</a> section for details. Disabled by default for Python.
+    -- See the <a href="triggerCallbackFunctions.htm">trigger callback function</a> section for details
     -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
     return outData
 end
@@ -201,19 +201,19 @@ end
     -- See the <a href="regularApi/simModuleEntry.htm">sim.moduleEntry</a> for details.
 end
 
-<a name="sysCall_msg"></a>function <strong>sysCall_msg</strong>(message,origin)
+<a name="sysCall_msg"></a>function <strong>sysCall_msg</strong>(msg,origin)
     -- Synchronously called when <a href="regularApi/simBroadcastMsg.htm">sim.broadcastMsg</a> is called, or when sysCall_init, sysCall_cleanup,
-    -- sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant. Disabled by default for Python. 
+    -- sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant 
 end
 
 <a name="sysCall_event"></a>function <strong>sysCall_event</strong>(cborBuffer)
-    -- Called when something (mainly visual for now) changes. Can be reentrant. Disabled by default for Python. 
+    -- Called when something (mainly visual for now) changes. Can be reentrant 
     -- Mainly used to synchronize an external viewer/renderer with CoppeliaSim.
     -- See also <a href="regularApi/simGetGenesisEvents.htm">sim.getGenesisEvents</a>
 end
 
-<a name="sysCall_ext"></a>function <strong>sysCall_ext</strong>(string funcName,inData)
-    -- Lua only. When this function is present, then all external calls to a script function, i.e. user callbacks,
+<a name="sysCall_ext"></a>function <strong>sysCall_ext</strong>(funcName,inData)
+    -- When this function is present, then all external calls to a script function, i.e. user callbacks,
     -- will be intercepted (the original function will be shadowed). If only monitoring is desired,
     -- then one should use <a href="regularApi/simRegisterScriptFuncHook.htm">sim.registerScriptFuncHook</a> on this function.
 end</code>

@@ -22,7 +22,7 @@
 <p>The ZeroMQ remote API is one of <a href="meansOfCommunication.htm">several ways an application can connect with CoppeliaSim</a>.</p>
 
 <p>The ZeroMQ remote API allows to control a simulation (or the simulator itself) from an external application or a remote hardware (e.g. real robot, remote computer, etc.). It offers all API functions also available via a CoppeliaSim script: this includes all <a href="apiFunctions.htm">regular API functions</a> (i.e. sim.* -type functions), but also all API functions provided by <a href="plugins.htm">plugins</a> (e.g. simOMPL.*, simUI.*, simIK.*, etc.), if enabled.</p>
-<p>The ZeroMQ remote API functions are interacting with CoppeliaSim via <a href="http://api.zeromq.org/" target="_blank">ZeroMQ</a> and its <a href="simZMQ.htm">interface plugin</a> to CoppeliaSim and the ZMQ remote API <a href="addOns.htm">add-on</a>. All this happens in a hidden fashion to the user. The remote API can let one or several external applications interact with CoppeliaSim in a <a href="simulation.htm#stepped">stepped</a> (i.e. <em>synchronized</em> with each simulation step) or non-stepped way (i.e. the normal operation mode), and even remote control of the simulator is supported (e.g. remotely loading a scene, starting, pausing or stopping a simulation for instance).</p>
+<p>The ZeroMQ remote API functions are interacting with CoppeliaSim via <a href="http://api.zeromq.org/" target="_blank">ZeroMQ</a> and its <a href="simZMQ.htm">interface plugin</a> to CoppeliaSim and the ZMQ remote API <a href="addOns.htm">add-on</a>. All this happens in a hidden fashion to the user. The remote API can let one or several external applications interact with CoppeliaSim in a <a href="simulation.htm#stepped">stepping</a> (i.e. <em>synchronized</em> with each simulation step) or non-stepping way (i.e. the normal operation mode), and even remote control of the simulator is supported (e.g. remotely loading a scene, starting, pausing or stopping a simulation for instance).</p>
 
 <p>See programming/zmqRemoteApi folder or <a href="https://github.com/CoppeliaRobotics/zmqRemoteApi" target="_blank">its related repository</a> for examples.</p>
 <br>
@@ -32,18 +32,18 @@
 <code class="hljs coppelia-terminal">$ python3 -m pip install coppeliasim-zmqremoteapi-client</code>
 <p>(the ZeroMQ and CBOR dependencies will be automatically installed with the above command).</p>
 
-<p>Following is a very simple example ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepped</a> simulation for 3 seconds:</p>
+<p>Following is a very simple example ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepping</a> simulation for 3 seconds:</p>
 <code class="hljs language-python coppelia-zmq-remote-api-client">from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 
 client = RemoteAPIClient()
-sim = client.require('sim')
+sim = require('sim')
 
-client.setStepping(True)
+sim.setStepping(True)
 
 sim.startSimulation()
 while (t := sim.getSimulationTime()) &lt; 3:
     print(f'Simulation time: {t:.2f} [s]')
-    client.step()
+    sim.step()
 sim.stopSimulation()</code>
 
 
@@ -63,7 +63,7 @@ $ cmake --build . --config Release</code>
 
 
 
-<p>Following is a very simple C++ ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepped</a> simulation for 3 seconds:</p>
+<p>Following is a very simple C++ ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepping</a> simulation for 3 seconds:</p>
 <code class="hljs language-c++ coppelia-zmq-remote-api-client">#include "RemoteAPIClient.h"
 
 int main(int argc,char* argv[])
@@ -71,7 +71,7 @@ int main(int argc,char* argv[])
     RemoteAPIClient client;
     auto sim = client.getObject().sim();
 
-    client.setStepping(true);
+    sim.setStepping(true);
 
     sim.startSimulation();
     double t = 0.0;
@@ -79,7 +79,7 @@ int main(int argc,char* argv[])
     {
         t = sim.getSimulationTime();
         printf("Simulation time: %.2f [s]\n", t);
-        client.step();
+        sim.step();
     } while (t &lt; 3.0);
     sim.stopSimulation();
     return(0);
@@ -97,18 +97,18 @@ pkg install -forge zeromq</code>
 
 <br>
 
-<p>Following is a very simple Matlab/Octave ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepped</a> simulation for 3 seconds:</p>
+<p>Following is a very simple Matlab/Octave ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepping</a> simulation for 3 seconds:</p>
 <code class="hljs language-matlab coppelia-zmq-remote-api-client">client = RemoteAPIClient();
 sim = client.require('sim');
 
-client.setStepping(true);
+sim.setStepping(true);
 
 sim.startSimulation();
 while true
     t = sim.getSimulationTime();
     if t &gt;= 3; break; end
     fprintf('Simulation time: %.2f [s]\n', t);
-    client.step();
+    sim.step();
 end
 sim.stopSimulation();</code>
 
@@ -139,7 +139,7 @@ end</code>
 <br>
 
 <h2>Rust client</h2>
-<p>The <a href="https://github.com/samuel-cavalcanti/rust_zmqRemoteApi" target="_blank">Rust ZeroMQ remote API</a> is courtesy of Samuel Cavalcanti. Following is a very simple example ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepped</a> simulation for 3 seconds:</p>
+<p>The <a href="https://github.com/samuel-cavalcanti/rust_zmqRemoteApi" target="_blank">Rust ZeroMQ remote API</a> is courtesy of Samuel Cavalcanti. Following is a very simple example ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepping</a> simulation for 3 seconds:</p>
 <code class="hljs language-rust coppelia-zmq-remote-api-client">use std::rc::Rc;
 use zmq_remote_api::{sim::Sim, RemoteAPIError, RemoteApiClientParams};
 

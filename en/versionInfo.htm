@@ -49,8 +49,12 @@ Version history:
  
 <li>Fixed several bugs. Thanks to Samuel Cavalcanti, Elia Cereda, Keith Siilats, Pardeep Singh Panesar, Zichun Xu and github user mfrigerio17 for noticing them or helping to resolve them</li>
 <li>Switched to a new <a href="plugins.htm">plugin</a> architecture, opening the door to API versioning. New plugins now need to be loaded explicitly, via the <em>require</em> directive (e.g. as in simIK=require('simIK')), or via the <a href="regularApi/loadPlugin.htm">loadPlugin</a> API function. New plugins can be loaded and unloaded (<a href="regularApi/unloadPlugin.htm">unloadPlugin</a>) as often as required. Older scripts are supported via an implicit require mechanism. </li>
+<li>Support for Python has been greatly improved. Embedded scripts now use a new Python wrapper by default: pythonWrapperV2.lua, and the ZeroMQ remote API has been updated. This makes Python code more reactive, faster and easier to program. <a href="luaPythonDifferences.htm">Differences with Lua scripts</a> have been further reduced. Reentrancy is not a problem anymore.</li>
+<li>sim.setThreadAutomaticSwitch is deprecated in favor of <a href="regularApi/simSetStepping.htm">sim.setStepping</a></li>
+<li>sim.switchThread is deprecated in favor of <a href="regularApi/simStep.htm">sim.step</a></li>
 <li>The LuaCmd plugin now works also in headless mode, with line editing, history and TAB-completion, via the replxx library.</li>
 <li>Switched to Qt5.15.2 on Ubuntu</li>
+
 
 <br>
 <br>
@@ -542,7 +546,7 @@ Version history:
 <li>A V-REP ROS bridge is available <a href="http://wiki.ros.org/vrep_ros_bridge">here</a>, courtesy of Riccardo Spica and Giovanni Claudio.</li>
 <li><a href="http://wiki.ros.org/vrep_ros_bridge/Tutorials/Pioneer%203D-X%20controlling%20its%20pose%20via%20a%20visual%20servoing%20law">Pioneer 3D-X controlled via a visual servoing law</a> (courtesy of Riccardo Spica and Giovanni Claudio)</li> 
 <li>A first backend to integrate ros_control loop in V-REP is available <a href="https://github.com/arennuit/vrep_ros_control_example" target="_blank">here</a>, courtesy of Antoine Rennuit.</li>
-<li>Added following new API functions: <a href="regularApi/simSwitchThread.htm">sim.switchThread</a> (now also available from the C API), <a href="regularApi/simPackUInt8Table.htm">sim.packUInt8Table</a>, <a href="regularApi/simUnpackUInt8Table.htm">sim.unpackUInt8Table</a>, <a href="regularApi/simPackUInt16Table.htm">sim.packUInt16Table</a> and <a href="regularApi/simUnpackUInt16Table.htm">sim.unpackUInt16Table</a>.</li>
+<li>Added following new API functions: sim.switchThread (now also available from the C API), <a href="regularApi/simPackUInt8Table.htm">sim.packUInt8Table</a>, <a href="regularApi/simUnpackUInt8Table.htm">sim.unpackUInt8Table</a>, <a href="regularApi/simPackUInt16Table.htm">sim.packUInt16Table</a> and <a href="regularApi/simUnpackUInt16Table.htm">sim.unpackUInt16Table</a>.</li>
 <li>Added a model that allows to measure the distance between two clicked points in the scene: <em>models/tools/point-point distance tool.ttm</em>.</li>
 <li>Added a model that allows to measure the normal vector of a clicked surface in the scene: <em>models/tools/normal vector measurement tool.ttm</em>.</li>
 
@@ -900,7 +904,7 @@ Version history:
 <br><h2>V-REP V2.6.0 (January 27th 2012)</h2> 
 <li>This release too underwent heavy internal changes in preparation for support of other platforms (Mac and Linux). Please inform us as soon as possible in case of unexpected behaviour with this release. Thanks!</li>
 <li>All dialogs and user interfaces have been completely rewritten/redesigned/reorganized. They now all rely on the <a href="http://www.qt.nokia.com">Qt framework</a></li>
-<li>The application main loop (i.e. the default <a href="mainClientApplication.htm">main client application</a>) has been simplified and prepared for separate GUI thread functionality. The rendering of the scene is now handled internally. Following functions were added: <a href="regularApi/simRunSimulator.htm">simRunSimulator</a>, <a href="regularApi/simGetMainWindow.htm">simGetMainWindow</a>. Following functions were removed: simLaunchSimulator, simEndSimulator, simRenderScene, simHandleWindowMessages, simGetInstanceIndex, simGetVisibleInstanceIndex, simSwitchToInstance, simEmptyScene, simRegisterModuleName and simRegisterEventCallback.</li>
+<li>The application main loop (i.e. the default <a href="mainClientApplication.htm">main client application</a>) has been simplified and prepared for separate GUI thread functionality. The rendering of the scene is now handled internally. Following functions were added: <a href="regularApi/simGetMainWindow.htm">simGetMainWindow</a>. Following functions were removed: simLaunchSimulator, simEndSimulator, simRenderScene, simHandleWindowMessages, simGetInstanceIndex, simGetVisibleInstanceIndex, simSwitchToInstance, simEmptyScene, simRegisterModuleName and simRegisterEventCallback.</li>
 <li>Added following values: <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_guipass</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_simulation_start_resume_request</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_simulation_pause_request</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_simulation_stop_request</a>, <a href="apiConstants.htm#integerParameters">sim.intparam_qt_version</a>, <a href="apiConstants.htm#floatingParameters">sim.floatparam_rand</a>. Following value is now also writable: <a href="apiConstants.htm#booleanParameters">sim.boolparam_console_visible</a></li>
 <li>Adjusted/adapted all V-REP plugins: since this release, <a href="plugins.htm">plugins</a> should dynamically bind to the V-REP library. The task is simplified with two files distributed with V-REP: &quot;simLib.h&quot; and &quot;simLib.cpp&quot;. This reduces compatibility problems linked to working with various compilers. Old plugins should be slightly modified: it is recommended to adjust old plugins in a similar way as was done for the "BubbleRob" plugin project, located in the "c_examples" directory of V-REP's installation directory. If you are having difficulties adjusting your plugin code, please contact us for assistance.</li>
 <li>Fixed a bug linked to the click-and-select functionality.</li>
@@ -1059,7 +1063,7 @@ Multiple simultaneous script edition is now suppored </li>
 <li>
 New API command to apply non-central forces: <a href="regularApi/simAddForce.htm">sim.addForce</a></li>
 <li>
-New API command to temporarily forbid thread switches: <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a></li>
+New API command to temporarily forbid thread switches: sim.setThreadAutomaticSwitch</li>
 <li>
 2 API commands were removed: simGetInEditionScript and simCloseEditionScript </li>
 <li>

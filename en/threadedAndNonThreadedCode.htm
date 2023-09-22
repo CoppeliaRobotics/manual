@@ -69,13 +69,13 @@ function coroutineMain()
     end
 end</code>
 
-<p>By default a Lua threaded code section will execute for about 1-2 milliseconds before automatically interrupting or <em>switching</em> and giving control back to the caller. This default behavior can be changed with the <a href="regularApi/simSetThreadSwitchTiming.htm">sim.setThreadSwitchTiming</a> or <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>. Once the current thread was switched, it will resume next time the coroutine is resumed (which often is in next simulation step. The thread switching is automatic and is handled by CoppeliaSim (occurs after the specified time), but the <a href="regularApi/simSwitchThread.htm">sim.switchThread</a> command allows to explicitly switch when needed. Using above three commands, a perfect synchronization with the main simulation loop can be achieved. Following Lua code shows code synchronization with the main simulation loop:<br>
+<p>By default a Lua threaded code section will execute for about 1-2 milliseconds before automatically interrupting or <em>switching</em> and giving control back to the caller. This default behavior can be changed with the <a href="regularApi/simSetAutoYieldDelay.htm">sim.setAutoYieldDelay</a> or <a href="regularApi/simSetStepping.htm">sim.setStepping</a>. Once the current thread was switched, it will resume next time the coroutine is resumed (which often is in next simulation step. The thread switching is automatic and is handled by CoppeliaSim (occurs after the specified time), but the <a href="regularApi/simStep.htm">sim.step</a> command allows to explicitly switch when needed. Using above three commands, a perfect synchronization with the main simulation loop can be achieved. Following Lua code shows code synchronization with the main simulation loop:<br>
 </p>
 <code class="hljs language-lua coppelia-coppeliasim-script">
 sim=require('sim')
 
 function sysCall_init()
-    sim.setThreadAutomaticSwitch(false) -- forbid automatic switches
+    sim.setStepping(true) -- enable the stepping mode
     corout=coroutine.create(coroutineMain)
 end
 
@@ -91,7 +91,7 @@ end
 function coroutineMain()
     while true do
         print('simulation time: ',sim.getSimulationTime())
-        sim.switchThread() -- resume in next simulation step
+        sim.step() -- resume in next simulation step
     end
 end</code>
 
@@ -108,29 +108,29 @@ end</code>
 #python
 
 def sysCall_thread():
-    sim.setThreadAutomaticSwitch(True) # allow automatic switches
+    sim.setStepping(False) # disable the stepping mode
     while sim.getThreadExitRequest() == False:
         print('simulation time: '+str(sim.getSimulationTime()))
 </code>
 
-<p>By default, a Python threaded code section will operate in a <a href="simulation.htm#stepped">stepped fashion</a>, but this can be changed with <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a>(True) and <a href="regularApi/simSwitchThread.htm">sim.switchThread</a>. Once the current thread was switched, it will resume in next simulation step. Following Python code shows code synchronization with the main simulation loop:</p>
+<p>By default, a Python threaded code section will operate in a <a href="simulation.htm#stepped">stepping fashion</a>, but this can be changed with <a href="regularApi/simSetStepping.htm">sim.setStepping</a>(False) and <a href="regularApi/simStep.htm">sim.step</a>. Once the current thread was switched, it will resume in next simulation step. Following Python code shows code synchronization with the main simulation loop:</p>
 
 <code class="hljs language-python coppelia-coppeliasim-script">
 #python
 
 def sysCall_thread():
-    sim.setThreadAutomaticSwitch(False) # forbid automatic switches
+    sim.setStepping(True) # enable the stepping mode
     while sim.getThreadExitRequest() == False:
         print('simulation time: '+str(sim.getSimulationTime()))
-        sim.switchThread() # resume in next simulation step
+        sim.step() # resume in next simulation step
 </code>
 
 <p>Above while loop will now execute exactly once for each main simulation step and not waste time reading and printing the simulation time over and over for the same simulation step.
 </p>
 <p>&nbsp;</p>
 
-<p>With threads in general, some operation should not be interrupted in order to execute correctly (imagine moving several objects in a loop). In that case, you can temporarily forbid thread switches with the <a href="regularApi/simSetThreadAutomaticSwitch.htm">sim.setThreadAutomaticSwitch</a> function.</p>
-<p>Finally, several <a href="apiFunctions.htm#blockingFunctions">blocking functions</a> are specifically meant to be running from within threaded code, e.g. <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a>: those functions will handle thread switching for you, at the appropriate time, in order to operate hand-in-hand, <a href="simulation.htm#stepped">stepped</a>,  with the simulation loop.</p>
+<p>With threads in general, some operation should not be interrupted in order to execute correctly (imagine moving several objects in a loop). In that case, you can temporarily forbid thread switches with the <a href="regularApi/simSetStepping.htm">sim.setStepping</a> function.</p>
+<p>Finally, several <a href="apiFunctions.htm#blockingFunctions">blocking functions</a> are specifically meant to be running from within threaded code, e.g. <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a>: those functions will handle thread switching for you, at the appropriate time, in order to operate hand-in-hand, <a href="simulation.htm#stepped">stepping</a>,  with the simulation loop.</p>
 <br>
 <br>
  </tr>
