@@ -22,7 +22,7 @@
 <p>Callbacks or callback functions are script functions that are triggered by a specific event. They represent the only entrance into script code. They can be categorized into user callbacks, and system callbacks:</p>
 
 <li>user callback functions are directly triggered by user code, or a plugin. This happens for instance when the user calls a script function in a different script via <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a>, or when the user clicks a <a href="customUserInterfaces.htm">custom UI</a> button, which triggers a custom event. User callback functions can usually run in <a href="scripts.htm">any type of script</a>.</li>
-<li>system callback functions on the other hand are triggered by CoppeliaSim when a certain event happens, for instance when a script is initialized, or before switching to another scene. System callback functions have fixed function names, such as <em>sysCall_init</em> or <em>sysCall_beforeInstanceSwitch</em>. Not all system callback functions can be handled by all types of scripts, e.g. some can only run in an <a href="addOns.htm">add-on</a> (e.g. <em>sysCall_addOnScriptSuspend</em>).</li>
+<li>system callback functions on the other hand are triggered by CoppeliaSim when a certain event happens, for instance when a script is initialized, or before switching to another scene. System callback functions have fixed function names, such as <em>sysCall_init</em> or <em>sysCall_beforeInstanceSwitch</em>. Not all system callback functions are supported by all types of scripts, e.g. some can only run in an <a href="addOns.htm">add-on</a> (e.g. <em>sysCall_addOnScriptSuspend</em>).</li>
 <p>While most system callback functions operate in a relatively straight-forward manner and are easy to understand (see further down for a complete list of system callback functions), some require a little bit more explanations:</p>
 <li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a> are called by the physics engine  before and after each dynamics simulation step.</li>
 <li>The <a href="contactCallbackFunction.htm">contact callback function</a> is called by the physics engine for each contact pair.</li>
@@ -46,8 +46,7 @@ function <strong>sysCall_init</strong>()
 end
 
 function <strong>sysCall_thread</strong>()
-    -- Python only. Entry point for threaded scripts.
-    -- Either sysCall_thread or sysCall_init is required.
+    -- Entry point for threaded scripts.
 end
 
 function <strong>sysCall_cleanup</strong>()
@@ -56,17 +55,17 @@ end
 
 function <strong>sysCall_nonSimulation</strong>()
     -- Is executed when simulation is not running. 
-    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+    -- Not for simulation scripts.
 end
 
 function <strong>sysCall_beforeSimulation</strong>()
     -- Simulation is about to start. 
-    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+    -- Not for simulation scripts.
 end
 
 function <strong>sysCall_afterSimulation</strong>()
     -- Simulation has just ended. 
-    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+    -- Not for simulation scripts.
 end
 
 function <strong>sysCall_actuation</strong>()
@@ -95,12 +94,12 @@ end
 
 function <strong>sysCall_beforeInstanceSwitch</strong>()
     -- About to switch to another scene.
-    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+    -- Not for simulation scripts.
 end
 
 function <strong>sysCall_afterInstanceSwitch</strong>()
     -- Switched to another scene. 
-    -- Not for <a href="simulationScripts.htm">simulation scripts</a>.
+    -- Not for simulation scripts.
 end
 
 function <strong>sysCall_beforeSave</strong>()
@@ -109,6 +108,13 @@ end
 
 function <strong>sysCall_afterSave</strong>()
     -- After the scene was saved , or after an undo/redo point was set
+end
+
+function <strong>sysCall_selChange</strong>(inData)
+    -- After selection was changed
+    for i=1,#inData.sel,1 do
+        print("Object with handle "..inData.sel[i].." is selected")
+    end
 end
 
 function <strong>sysCall_beforeCopy</strong>(inData)
@@ -148,74 +154,74 @@ function <strong>sysCall_afterDelete</strong>(inData)
     -- inData.allObjects indicates if all objects in the scene were deleted
 end
 
-<a name="sysCall_beforeMainScript"></a>function <strong>sysCall_beforeMainScript</strong>()
-    -- Lua only. Can be used to step a simulation in a custom manner.
+function <strong>sysCall_beforeMainScript</strong>()
+    -- Can be used to step a simulation in a custom manner.
     local outData={doNotRunMainScript=false} -- when true, then the main script won't be executed
     return outData
 end
 
 function <strong>sysCall_addOnScriptSuspend</strong>()
     -- Add-on script execution is about to be suspended.
-    -- Only for <a href="addOns.htm">add-on scripts</a>.
+    -- Only for add-on scripts.
 end
 
 function <strong>sysCall_addOnScriptResume</strong>()
     -- Add-on script execution is about to be resumed.
-    -- Only for <a href="addOns.htm">add-on scripts</a>.
+    -- Only for add-on scripts.
 end
 
 function <strong>sysCall_dyn</strong>(inData)
-    -- See the <a href="dynCallbackFunctions.htm">dynamics callback function</a> section for details
+    -- See the dynamics callback function section for details
 end
 
 function <strong>sysCall_joint</strong>(inData)
-    -- See the <a href="jointCallbackFunctions.htm">joint callback function</a> section for details
+    -- See the joint callback function section for details
     return outData
 end
 
 function <strong>sysCall_contact</strong>(inData)
-    -- See the <a href="contactCallbackFunction.htm">contact callback function</a> section for details
+    -- See the contact callback function section for details
     return outData
 end
 
 function <strong>sysCall_vision</strong>(inData)
-    -- See the <a href="visionCallbackFunctions.htm">vision callback function</a> section for details
-    -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
+    -- See the vision callback function section for details
+    -- Only for customization scripts and child scripts.
     return outData
 end
 
 function <strong>sysCall_trigger</strong>(inData)
-    -- See the <a href="triggerCallbackFunctions.htm">trigger callback function</a> section for details
-    -- Only for <a href="customizationScripts.htm">customization scripts</a> and <a href="childScripts.htm">child scripts</a>.
+    -- See the trigger callback function section for details
+    -- Only for customization scripts and child scripts.
     return outData
 end
 
 function <strong>sysCall_userConfig</strong>()
-    -- See the <a href="userConfigCallbackFunctions.htm">user config callback function</a> section for details.
-    -- Only for <a href="customizationScripts.htm">customization scripts</a>.
+    -- See the user config callback function section for details.
+    -- Only for customization scripts.
 end
 
-<a name="sysCall_moduleEntry"></a>function <strong>sysCall_moduleEntry</strong>(inData)
+function <strong>sysCall_moduleEntry</strong>(inData)
     -- Called when a user module menu entry is selected, e.g.
     print('Following module menu entry was selected: '..inData.handle)
-    -- See the <a href="regularApi/simModuleEntry.htm">sim.moduleEntry</a> for details.
+    -- See sim.moduleEntry for details.
 end
 
-<a name="sysCall_msg"></a>function <strong>sysCall_msg</strong>(msg,origin)
-    -- Synchronously called when <a href="regularApi/simBroadcastMsg.htm">sim.broadcastMsg</a> is called, or when sysCall_init, sysCall_cleanup,
+function <strong>sysCall_msg</strong>(msg,origin)
+    -- Synchronously called when sim.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
     -- sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant 
 end
 
-<a name="sysCall_event"></a>function <strong>sysCall_event</strong>(cborBuffer)
+function <strong>sysCall_event</strong>(cborBuffer)
     -- Called when something (mainly visual for now) changes. Can be reentrant 
     -- Mainly used to synchronize an external viewer/renderer with CoppeliaSim.
-    -- See also <a href="regularApi/simGetGenesisEvents.htm">sim.getGenesisEvents</a>
+    -- See also sim.getGenesisEvents
 end
 
-<a name="sysCall_ext"></a>function <strong>sysCall_ext</strong>(funcName,inData)
+function <strong>sysCall_ext</strong>(funcName,inData)
     -- When this function is present, then all external calls to a script function, i.e. user callbacks,
     -- will be intercepted (the original function will be shadowed). If only monitoring is desired,
-    -- then one should use <a href="regularApi/simRegisterScriptFuncHook.htm">sim.registerScriptFuncHook</a> on this function.
+    -- then one should use sim.registerScriptFuncHook on this function.
 end</code>
 
 

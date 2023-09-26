@@ -172,20 +172,7 @@ end</code>
 sim=require('sim')
 simZMQ=require('simZMQ')
 
-function sysCall_init()
-    corout=coroutine.create(coroutineMain)
-end
-
-function sysCall_actuation()
-    if coroutine.status(corout)~='dead' then
-        local ok,errorMsg=coroutine.resume(corout)
-        if errorMsg then
-            error(debug.traceback(corout,errorMsg),2)
-        end
-    end
-end
-
-function coroutineMain()
+function sysCall_thread()
     printf('Connecting to hello world server...')
     context=simZMQ.ctx_new()
     requester=simZMQ.socket(context,simZMQ.REQ)
@@ -209,20 +196,7 @@ end</code>
 <p>And following would be the corresponding responder:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">
-function sysCall_init()
-    corout=coroutine.create(coroutineMain)
-end
-
-function sysCall_actuation()
-    if coroutine.status(corout)~='dead' then
-        local ok,errorMsg=coroutine.resume(corout)
-        if errorMsg then
-            error(debug.traceback(corout,errorMsg),2)
-        end
-    end
-end
-
-function coroutineMain()
+function sysCall_thread()
     context=simZMQ.ctx_new()
     responder=simZMQ.socket(context,simZMQ.REP)
     local rc=simZMQ.bind(responder,'tcp://*:5555')

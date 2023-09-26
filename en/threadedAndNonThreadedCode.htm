@@ -26,9 +26,14 @@
 </h2>
 
 <p>The entrance to a script is always originating from <a href="callbackFunctions.htm">callback functions</a> which are not running threaded, and should not be blocking. This means that every time they are called, they should perform some task and then return control. If control is not returned, then CoppeliaSim will halt. </p>
-<p>Non-threaded code is inherently synchronized  with the simulation loop.</p>
-<p>While non-threaded Lua code executes in the same thread as CoppeliaSim and is thus quite efficient, non-threaded Python code operates in a slightly different manner: CoppeliaSim will launch a new process which will connect to CoppeliaSim via socket communication. Everything happens <em>under the hood</em>, the main difference is however that Python code will start and run slower than Lua code. See also the other <a href="luaPythonDifferences.htm">differences between Lua and Python scripts</a>.</p>
-<br>
+<p>Non-threaded code is inherently synchronized  with the simulation loop:</p>
+<code class="hljs language-lua coppelia-coppeliasim-script">function sysCall_init()
+    sim=require('sim')
+end
+
+function sysCall_sensing()
+    print('simulation time: ',sim.getSimulationTime())
+end</code>
 
 
 
@@ -37,100 +42,39 @@
 </h2>
 
 
-<p>In a Lua script, threading is achieved via <a href="https://en.wikipedia.org/wiki/Coroutine" target="_blank">coroutines</a>, that CoppeliaSim will preemptively interrupt (i.e. yield, or switch) at regular intervals, and resume at a later point. </p>
-<p>On the other hand, CoppeliaSim will handle threading of a Python script by launching a new process which will connect to CoppeliaSim via socket communication, which happens <em>under the hood</em>, the main difference is however that Python code will start slower than Lua code. See also the other <a href="luaPythonDifferences.htm">differences between Lua and Python scripts</a>.</p>
-<p>In the context of threaded code, we will refer to <em>threads</em> and <em>coroutines</em>, <em>interrupt</em>, <em>yield</em> and <em>switch</em>, in an interchangeable manner.</p>
-<p>&nbsp;</p>
+<p>Threaded scripts on the other hand allow running blocking code, without halting CoppeliaSim: the code is in fact preemtively interrupted and later resumed on a regular basis by CoppeliaSim, by default.</p>
 
-
-<p><strong>Lua specific</strong></p>
-
-<p>Lua threaded code has several weaknesses compared to Lua non-threaded code if not programmed appropriately: it can waste some processing time. Following shows a typical threaded function in a Lua script (i.e. <em>coroutineMain</em>), which however is not perfect since <strong>it is wasting precious computation time</strong> in the loop:<br>
-</p>
-<code class="hljs language-lua coppelia-coppeliasim-script">
-sim=require('sim')
-
-function sysCall_init()
-    corout=coroutine.create(coroutineMain) -- create the coroutine
+<p>Threaded code runs non-blocking (or in non-stepping mode) by default:</p>
+<code class="hljs language-lua coppelia-coppeliasim-script">function sysCall_init()
+    sim=require('sim')
 end
 
-function sysCall_actuation()
-    if coroutine.status(corout)~='dead' then
-        local ok,errorMsg=coroutine.resume(corout) -- resume the coroutine
-        if errorMsg then
-            error(debug.traceback(corout,errorMsg),2)
-        end
-    end
-end
-
-function coroutineMain()
-    while true do
+function sysCall_thread()
+    while not sim.getExitRequest() do
         print('simulation time: ',sim.getSimulationTime())
     end
 end</code>
 
-<p>By default a Lua threaded code section will execute for about 1-2 milliseconds before automatically interrupting or <em>switching</em> and giving control back to the caller. This default behavior can be changed with the <a href="regularApi/simSetAutoYieldDelay.htm">sim.setAutoYieldDelay</a> or <a href="regularApi/simSetStepping.htm">sim.setStepping</a>. Once the current thread was switched, it will resume next time the coroutine is resumed (which often is in next simulation step. The thread switching is automatic and is handled by CoppeliaSim (occurs after the specified time), but the <a href="regularApi/simStep.htm">sim.step</a> command allows to explicitly switch when needed. Using above three commands, a perfect synchronization with the main simulation loop can be achieved. Following Lua code shows code synchronization with the main simulation loop:<br>
-</p>
-<code class="hljs language-lua coppelia-coppeliasim-script">
-sim=require('sim')
-
-function sysCall_init()
-    sim.setStepping(true) -- enable the stepping mode
-    corout=coroutine.create(coroutineMain)
+<p>This behaviour can be changed via <a href="regularApi/simSetStepping.htm">sim.setStepping</a>, which then requires explicit yielding via <a href="regularApi/simStep.htm">sim.step</a>:</p>
+<code class="hljs language-lua coppelia-coppeliasim-script">function sysCall_init()
+    sim=require('sim')
+    sim.setStepping(true) -- enable the stepping mode (no more preemtive yielding from CoppeliaSim) 
 end
 
-function sysCall_actuation()
-    if coroutine.status(corout)~='dead' then
-        local ok,errorMsg=coroutine.resume(corout)
-        if errorMsg then
-            error(debug.traceback(corout,errorMsg),2)
-        end
-    end
-end
-
-function coroutineMain()
-    while true do
+function sysCall_thread()
+    while not sim.getExitRequest() do
         print('simulation time: ',sim.getSimulationTime())
         sim.step() -- resume in next simulation step
     end
 end</code>
 
-<p>Above while loop will now execute exactly once for each main simulation step and not waste time reading and printing the simulation time over and over for same the simulation step.
-</p>
+<p>Above while loop will now execute exactly once for each main simulation step and not waste time reading and printing the simulation time over and over for same the simulation step: once the current thread has yielded control back to CoppeliaSim via sim.step(), it will resume next time the thread is resumed, which is in next simulation step.</p>
 
-<p>&nbsp;</p>
+<p>Several <a href="apiFunctions.htm#blockingFunctions">blocking functions</a> are specifically meant to be running from within threaded code, e.g. <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a>: those functions handle thread yielding for you, at the appropriate time.</p>
+
+<p>Refer also to the <a href="simulation.htm#stepping">stepping mode</a>, and to <a href="apiFunctions.htm#threads">the other thread-related API functions</a>.</p>
 
 
-<p><strong>Python specific</strong></p>
-
-<p>Python threaded code shares similar properties as Lua threaded code, regarding synchronization with CoppeliaSim's simulation loop. Following shows a typical threaded function in a Python script (i.e. <em>threadMain</em>), which is not synchronized:</p>
-<code class="hljs language-python coppelia-coppeliasim-script">
-#python
-
-def sysCall_thread():
-    sim.setStepping(False) # disable the stepping mode
-    while sim.getThreadExitRequest() == False:
-        print('simulation time: '+str(sim.getSimulationTime()))
-</code>
-
-<p>By default, a Python threaded code section will operate in a <a href="simulation.htm#stepped">stepping fashion</a>, but this can be changed with <a href="regularApi/simSetStepping.htm">sim.setStepping</a>(False) and <a href="regularApi/simStep.htm">sim.step</a>. Once the current thread was switched, it will resume in next simulation step. Following Python code shows code synchronization with the main simulation loop:</p>
-
-<code class="hljs language-python coppelia-coppeliasim-script">
-#python
-
-def sysCall_thread():
-    sim.setStepping(True) # enable the stepping mode
-    while sim.getThreadExitRequest() == False:
-        print('simulation time: '+str(sim.getSimulationTime()))
-        sim.step() # resume in next simulation step
-</code>
-
-<p>Above while loop will now execute exactly once for each main simulation step and not waste time reading and printing the simulation time over and over for the same simulation step.
-</p>
-<p>&nbsp;</p>
-
-<p>With threads in general, some operation should not be interrupted in order to execute correctly (imagine moving several objects in a loop). In that case, you can temporarily forbid thread switches with the <a href="regularApi/simSetStepping.htm">sim.setStepping</a> function.</p>
-<p>Finally, several <a href="apiFunctions.htm#blockingFunctions">blocking functions</a> are specifically meant to be running from within threaded code, e.g. <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a>: those functions will handle thread switching for you, at the appropriate time, in order to operate hand-in-hand, <a href="simulation.htm#stepped">stepping</a>,  with the simulation loop.</p>
 <br>
 <br>
  </tr>

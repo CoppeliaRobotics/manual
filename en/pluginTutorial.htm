@@ -190,20 +190,7 @@
 sim=require('sim')
 simBubble=require('simBubble')
 
-function sysCall_init()
-    corout=coroutine.create(coroutineMain)
-end
-
-function sysCall_actuation()
-    if coroutine.status(corout)~='dead' then
-        local ok,errorMsg=coroutine.resume(corout)
-        if errorMsg then
-            error(debug.traceback(corout,errorMsg),2)
-        end
-    end
-end
-
-function coroutineMain()
+function sysCall_thread()
     local jointHandles={sim.getObject('./leftMotor'),sim.getObject('./rightMotor')}
     local sensorHandle=sim.getObject('./sensingNose')
     local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25})

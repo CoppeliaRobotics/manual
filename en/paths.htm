@@ -94,20 +94,10 @@ function sysCall_init()
     velocity=0.04 -- m/s
     posAlongPath=0
     previousSimulationTime=0
-    corout=coroutine.create(coroutineMain)
-end
-
-function sysCall_actuation()
-    if coroutine.status(corout)~='dead' then
-        local ok,errorMsg=coroutine.resume(corout)
-        if errorMsg then
-            error(debug.traceback(corout,errorMsg),2)
-        end
-    end
-end
-
-function coroutineMain()
     sim.setStepping(true)
+end
+
+function sysCall_thread()
     while true do
         local t=sim.getSimulationTime()
         posAlongPath=posAlongPath+velocity*(t-previousSimulationTime)
