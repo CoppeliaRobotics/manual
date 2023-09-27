@@ -8,7 +8,6 @@ document.querySelectorAll('.multi-language-switcher').forEach(multiLanguageSwitc
 
     const tabsHeader = document.createElement('div');
     tabsHeader.className = 'tabs-header';
-    tabsHeader.style.marginLeft = '3em';
 
     multiLanguageSwitcher.insertBefore(tabsHeader, multiLanguageSwitcher.firstChild);
 
@@ -31,7 +30,6 @@ document.querySelectorAll('.multi-language-switcher').forEach(multiLanguageSwitc
                 languageClasses.push(className);
 
                 const button = document.createElement('button');
-                button.style.marginLeft = '1em';
                 button.innerText = languageName;
                 button.setAttribute('data-id', className);
                 button.addEventListener('click', e => {
