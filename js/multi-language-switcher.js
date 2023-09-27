@@ -15,11 +15,9 @@ document.querySelectorAll('.multi-language-switcher').forEach(multiLanguageSwitc
 
 
     const codeElements = tabsContent.querySelectorAll('code.hljs');
-    const languageClasses = [];
     var first = true;
     codeElements.forEach(function(codeElement) {
-        if(first) first = false;
-        else codeElement.style.display = 'none';
+        if(!first) codeElement.style.display = 'none';
 
         const classNames = codeElement.className.split(' ');
         classNames.forEach(function(className) {
@@ -27,17 +25,20 @@ document.querySelectorAll('.multi-language-switcher').forEach(multiLanguageSwitc
                 var languageName = className.replace(/^language-/, '');
                 languageName = languageName.charAt(0).toUpperCase() + languageName.slice(1).toLowerCase();
 
-                languageClasses.push(className);
-
                 const button = document.createElement('button');
                 button.innerText = languageName;
                 button.setAttribute('data-id', className);
+                if(first) button.classList.add('active');
                 button.addEventListener('click', e => {
+                    tabsHeader.querySelectorAll('button').forEach(e => e.classList.remove('active'));
+                    button.classList.add('active');
                     tabsContent.querySelectorAll('code.hljs').forEach(e => e.style.display = 'none');
                     tabsContent.querySelectorAll('code.hljs.' + className).forEach(e => e.style.display = 'block');
                 });
                 tabsHeader.appendChild(button);
             }
         });
+
+        first = false;
     });
 });
