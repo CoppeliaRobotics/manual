@@ -42,13 +42,15 @@
 
 <p><a href="apiFunctions.htm#signals">Signals</a> can be seen as global variables. They can be defined, redefined, read and cleared. For example:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 -- script 1 writes the data to string signal <em>mySignalName</em>:
 
 local myData={1,2,{&quot;Hello&quot;,&quot;world&quot;,true,{value1=63,value2=&quot;aString&quot;}}}
 sim.setStringSignal(&quot;mySignalName&quot;,sim.packTable(myData))</code>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 -- script 2 reads the data from string signal <em>mySignalName</em>:
 
 local myData=sim.getStringSignal(&quot;mySignalName&quot;)
@@ -63,13 +65,15 @@ end</code>
 
 <p><a href="apiFunctions.htm#customDataBlocks">Custom data blocks</a> is data that is stored inside of a <a href="objects.htm">scene object</a>, or inside a <a href="scenes.htm">scene</a>. It can be used to store custom data to be saved together with a <a href="models.htm">model</a> or scene, but also as a means of communication. For example:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 -- script 1 writes the data to the scene:
 
 local myData={1,2,{&quot;Hello&quot;,&quot;world&quot;,true,{value1=63,value2=&quot;aString&quot;}}}
 sim.writeCustomDataBlock(sim.handle_scene,&quot;myTag&quot;,sim.packTable(myData))</code>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 -- script 2 reads the data from the scene:
 
 local myData=sim.readCustomDataBlock(sim.handle_scene,&quot;myTag&quot;)
@@ -139,7 +143,8 @@ simRegisterScriptCallbackFunction(&quot;simABC.func@ABC&quot;,&quot;string reply
 
 
 <p>A <a href="scripts.htm">script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all scripts at once, via the <a href="regularApi/simBroadcastMsg.htm">sim.broadcastMsg</a> function. For instance, following will constantly broadcast a message to all scripts:</p>
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 sim=require('sim')
 
 function sysCall_init()
@@ -168,7 +173,8 @@ end</code>
 
 <p>The <a href="http://api.zeromq.org/" target="_blank">ZeroMQ library</a>, wrapped inside the <a href="https://github.com/CoppeliaRobotics/simZMQ" target="_blank">ZMQ plugin</a>, offers several <a href="simZMQ.htm">API functions related to ZeroMQ messaging</a>. Following illustrates a simple requester:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 sim=require('sim')
 simZMQ=require('simZMQ')
 
@@ -195,14 +201,15 @@ end</code>
 
 <p>And following would be the corresponding responder:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function sysCall_thread()
     context=simZMQ.ctx_new()
     responder=simZMQ.socket(context,simZMQ.REP)
     local rc=simZMQ.bind(responder,'tcp://*:5555')
     if rc~=0 then error('failed bind') end
     
-    while true do
+    while not sim.getSimulationStopping() do
         local rc,data=simZMQ.recv(responder,0)
         printf('[responder] Received &quot;%s&quot;',data)
         data='World'
@@ -221,7 +228,8 @@ end</code>
 </h2>
 <p>The <a href="https://github.com/CoppeliaRobotics/simWS" target="_blank">WebSocket plugin</a>, offers several <a href="simWS.htm">API functions allowing to interact with a web browser</a>. Following is a simple echo server:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function onMessage(server,connection,data)
     simWS.send(server,connection,data)
 end
@@ -233,7 +241,8 @@ end</code>
 
 <p>And following is a simple broadcaster:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function onOpen(server,connection)
     clients[server]=clients[server] or {}
     clients[server][connection]=1
@@ -274,12 +283,14 @@ end</code>
 
 <p>CoppeliaSim ships with the <a href="http://w3.impa.br/~diego/software/luasocket/home.html" target="_blank">LuaSocket</a> extension library for Lua. Following illustrates how to fetch a webpage:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 http=require('socket.http')
 page=http.request('http://www.google.com')</code>
 
 <p>With Python, use the socket module:</p>
-<code class="hljs language-python coppelia-coppeliasim-script">
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
 import socket</code>
 <br>
 

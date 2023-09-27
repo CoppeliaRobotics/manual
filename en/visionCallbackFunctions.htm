@@ -25,7 +25,8 @@
 <p>Following represents an empty  vision callback function:<br>
 </p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function <strong>sysCall_vision</strong>(inData)
     -- We have:
     -- inData.handle : the handle of the vision sensor.
@@ -39,15 +40,15 @@ function <strong>sysCall_vision</strong>(inData)
     outData.trigger=false -- true if the sensor should trigger
     outData.packedPackets={} -- a table of packed packets. Can be accessed via e.g. sim.readVisionSensor
     return outData
-end
-</code>
+end</code>
 
 <br>
 <p>Image processing can be performed by using various API functions. The <a href="visionPlugin.htm">vision plugin</a> exports a few very simple image processing functions. Many more image processing functions are supported via the <a href="simIM.htm?view=alphabetical">image plugin</a> (OpenCV wrapper).</p>
 <p>Following represents a simple edge detection vision callback function, that triggers and returns a packet of data  (based on the vision plugin functions):<br>
 </p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function <strong>sysCall_vision</strong>(inData)
     simVision.sensorImgToWorkImg(inData.handle)
     simVision.edgeDetectionOnWorkImg(inData.handle,0.1)
@@ -58,15 +59,15 @@ function <strong>sysCall_vision</strong>(inData)
     local packetData={1.0,42.123,129.3}
     outData.packedPackets={sim.packFloatTable(packetData)}
     return outData
-end
-</code>
+end</code>
 
 
 <br>
 <p>Following represents a vision callback function, that draws a circle onto the acquired image (based on the image plugin functions):<br>
 </p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function <strong>sysCall_vision</strong>(inData)
     local imgHandle=simIM.readFromVisionSensor(inData.handle)
     local center={inData.resolution[1]/2,inData.resolution[2]/2}
@@ -75,15 +76,6 @@ function <strong>sysCall_vision</strong>(inData)
     simIM.writeToVisionSensor(imgHandle,inData.handle)
     simIM.destroy(imgHandle)
 end</code>
-
-<p>In Python, a vision callback function can only be implemented via a non-threaded script, and it should be explicitly activated with a luaExec command:</p>
-<code class="hljs language-python coppelia-coppeliasim-script">
-#python
-#luaExec additionalFuncs={'sysCall_vision'}
-
-def <strong>sysCall_vision</strong>(inData):
-    pass</code>
-
 
 <br>
 <br>

@@ -21,19 +21,18 @@
 
 <p>Some objects, such as <a href="proximitySensors.htm">proximity sensors</a>, normally require <em>handling</em> or calculations to be performed once per simulation step, to reflect a possible change in the scene. This handling can be done implicitly or explicitly, and those objects have a special setting related to that: an <strong>explicit handling</strong> flag. By default that flag is unchecked, which means that the object will be implicitly handled via the <a href="mainScript.htm">main script</a>. Indeed the following main script code will be executed and handle said objects once per simulation step:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
-sim.handleProximitySensor(sim.handle_all_except_explicit)</code>
+<code class="hljs language-python-lua coppelia-coppeliasim-script">sim.handleProximitySensor(sim.handle_all_except_explicit)</code>
 
 
 <p>Above code will perform proximity sensor computations, and any other script can then read the up-to-date calculation results with:</p>
-<code class="hljs language-lua coppelia-coppeliasim-script">
-local calculationResult=sim.readProximitySensor(sensorHandle)</code>
+<code class="hljs language-python-lua coppelia-coppeliasim-script">calculationResult = sim.readProximitySensor(sensorHandle)</code>
 
 <p>Above code, unlike the previous, will not compute anything, but just read the calculation result. This is very convenient when calculation need to happen exactly once per simulation step and/or the calculation result is required by several scripts.</p>
 <p>If however, an object requires less or more frequent calculations (e.g. several calculations within a same simulation step), then above mechanism does not work. In that case, the object should be flagged as <strong>explicit handling</strong>: from that moment on, the main script will not handle that object anymore, and it is the responsibility of another script to do this. For instance if the proximity sensor should only be handled once every other simulation step, a <a href="childScripts.htm">child script</a> could include following code:</p>
 
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 sim=require('sim')
 
 function sysCall_init()
@@ -51,7 +50,8 @@ end</code>
 
 <p>If new calculations need to be performed several times within a same simulation step (e.g. because an object or the sensor itself is moved more frequently), one could write:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 sim=require('sim')
 
 function sysCall_init()

@@ -28,8 +28,7 @@
 <p>Each plugin is required to have at least the <em>simInit</em> entry point, other entry points are optional:<br>
 </p>
 
-<code class="hljs language-c++ coppelia-coppeliasim-plugin">
-#include &lt;simLib/simExp.h&gt;
+<code class="hljs language-c++ coppelia-coppeliasim-plugin">#include &lt;simLib/simExp.h&gt;
 #include &lt;simLib/simTypes.h&gt;
 SIM_DLLEXPORT int simInit(SSimInit* info);
 SIM_DLLEXPORT void simMsg(SSimMsg* info);
@@ -43,7 +42,8 @@ SIM_DLLEXPORT void simCleanup_ui(); // called immediately before simCleanup
 <p>*_ui entry points are exclusively served by the UI thread, while the other entry points are served by the simulation thread. </p>
 <p>A plugin shoud be named &quot;simXXX-YYY&quot;, where the -YYY part is the optional version information, e.g. &quot;simIK-2-1&quot; for the name and &quot;libsimIK-2-1.so&quot; for the file on Linux. The plugin should be placed in <em>&lt;coppeliaSim executable&gt;</em>. It can then be loaded via Lua with e.g.:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 simIK=loadPlugin('simIK-2-1')
 </code>
 
@@ -51,7 +51,8 @@ simIK=loadPlugin('simIK-2-1')
 
 <p> It is however good practice and more flexible to wrap the load procedure inside of a module of its own, e.g.:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 local simIK=loadPlugin('simIK-2-1')
 
 function simIK.anotherFunction()
@@ -62,7 +63,8 @@ return simIK</code>
 
 <p>Above module should have the same name as the plugin it is loading (e.g. "simIK-2-1.lua") and placed in <em>&lt;coppeliaSim executable&gt;/lua</em>. From a script, the desired functionality, including version, can then be loaded with e.g.:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 simIK=require('simIK-2-1')
 </code>
 

@@ -19,28 +19,29 @@
 
 <h1>The main script <img src="images/mainScript1.jpg"></h1>
 
-<p>A main script is a <a href="simulationScripts.htm">simulation script</a>. By default, each <a href="scenes.htm">scene</a> in CoppeliaSim will have one main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without main script, a running simulation won't do anything.</p>
+<p>A main script is a <a href="simulationScripts.htm">simulation script</a>. By default, each <a href="scenes.htm">scene</a> in CoppeliaSim has one main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without main script, a running simulation won't do anything significant.</p>
 
-<p>The main script contains a collection of <a href="callbackFunctions.htm">callbacks functions</a> that are appropriately called by the system. Except for the initialization callback, all other callbacks are optional. The default main script is typically segmented in 4  callback functions: </p>
+<p>The main script contains a collection of <a href="callbackFunctions.htm">callbacks functions</a> that are appropriately called by CoppeliaSim. The default main script is typically segmented in 4  callback functions: </p>
 
 
-<li>the initialization function: <strong>sysCall_init</strong>. This callback function is not optional. It will be executed one time just at the beginning of a simulation. The code is in charge of preparing a simulation, etc.<br>
+<li>the initialization function: <strong>sysCall_init</strong>. It is called one time, just at the beginning of a simulation<br>
 </li>
 
-<li>the actuation function: <strong>sysCall_actuation</strong>. This callback function will be executed in each simulation pass. The code is in charge of handling all the actuation functionality of the simulation. One command is of particular interest: <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, which calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_actuation</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
+<li>the actuation function: <strong>sysCall_actuation</strong>. It is called in each simulation pass. The code is in charge of handling all the actuation functionality of the simulation. One command is of particular interest: <a href="regularApi/simHandleChildScripts.htm">sim.handleChildScripts</a>, which calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_actuation</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
 </li>
 
-<li>the sensing function: <strong>sysCall_sensing</strong>. This callback function will be executed in each simulation pass. The code is in charge of handling all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One command is of particular interest:<a href="regularApi/simHandleChildScripts.htm"> sim.handleChildScripts</a>, which  calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_sensing</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
+<li>the sensing function: <strong>sysCall_sensing</strong>. It is called in each simulation pass. The code is in charge of handling all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One command is of particular interest:<a href="regularApi/simHandleChildScripts.htm"> sim.handleChildScripts</a>, which  calls <a href="childScripts.htm">child scripts'</a> <em>sysCall_sensing</em> callback functions. Without that commands, <a href="childScripts.htm">child scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
 </li>
 
-<li>the restoration function: <strong>sysCall_cleanup</strong>. This function will be executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">object's</a> initial configuration, clearing sensor states, etc.<br>
+<li>the restoration function: <strong>sysCall_cleanup</strong>. It is executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">object's</a> initial configuration, clearing sensor states, etc.<br>
 </li>
 
 <p>
 Following is the typical main script, slightly simplified:
 </p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 sim=require('sim')
 
 function <strong>sysCall_init</strong>()

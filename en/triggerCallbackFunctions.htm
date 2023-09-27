@@ -25,7 +25,8 @@
 <p>A vision sensor can generate the trigger signal inside of the <a href="visionCallbackFunctions.htm">vision callback function</a>. The trigger callback (if present) is then called as in following example:<br>
 </p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function <strong>sysCall_trigger</strong>(inData)
     -- We have:
     -- inData.handle : the handle of the vision sensor.
@@ -38,13 +39,13 @@ function <strong>sysCall_trigger</strong>(inData)
     local outData={}
     outData.trigger=true
     return outData
-end
-</code>
+end</code>
 
 <br>
 
 <p>A proximity sensor generates the trigger signal when an object is detected. The trigger callback (if present) is then called as in following example:</p>
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function <strong>sysCall_trigger</strong>(inData)
     -- We have:
     -- inData.handle : the handle of the proximity sensor.
@@ -55,19 +56,8 @@ function <strong>sysCall_trigger</strong>(inData)
     local outData={}
     outData.trigger=true
     return outData
-end
-</code>
+end</code>
 <br>
-
-<p>In Python, a trigger callback function can only be implemented via a non-threaded script, and it should be explicitly activated with a luaExec command:</p>
-<code class="hljs language-python coppelia-coppeliasim-script">
-#python
-#luaExec additionalFuncs={'sysCall_trigger'}
-
-def <strong>sysCall_trigger</strong>(inData):
-    pass</code>
-
-
 
 <br>
 <br>

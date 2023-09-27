@@ -26,7 +26,8 @@ background. Add-ons can run <a href="threadedAndNonThreadedCode.htm">threaded or
 <p>Add-ons should be written in a text file located in <em>&lt;CoppeliaSim folder&gt;/addOns/</em>  with following naming convention: <em>simAddOnXXXX.lua</em> (even add-ons containing Python code). Add-ons that do not follow above naming convention can still be loaded and run via <a href="commandLine.htm">command line options</a>.</p>
 <p>By default, add-ons will automatically start when CoppeliaSim starts, e.g.:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 sim=require('sim')
 
 function sysCall_init()
@@ -43,7 +44,8 @@ end</code>
 <br>
 <p>An add-on can also be manually started and stopped from the add-on menu (Lua only), e.g.:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 sim=require('sim')
 
 function sysCall_info()<br>    return {autoStart=false}<br>end
@@ -58,7 +60,9 @@ function sysCall_addOnScriptSuspend()<br>    print(&quot;Ending... (triggered by
 <br>
 <p>An add-on can also be suspended/resumed from the add-on menu, e.g.:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">...
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+...
 
 function sysCall_addOnScriptSuspend()<br>    print(&quot;Suspending the add-on... (triggered by the user)&quot;)
 end
@@ -70,7 +74,8 @@ end
 <br>
 <p>An add-on can also act as a simple function triggered by the user (Lua only), e.g.:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function sysCall_info()<br>    return {autoStart=false}<br>end
 
 function sysCall_init()
@@ -81,7 +86,8 @@ end</code>
 <br>
 <p>An add-on can also display a customized name in the Modules' menu (Lua only), e.g.:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function sysCall_info()<br>    return {menu='Exporters//My exporter'}<br>end
 </code>
 

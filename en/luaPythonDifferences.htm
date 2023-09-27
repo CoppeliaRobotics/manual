@@ -30,6 +30,7 @@ def sysCall_init():
 <li>Lua code always executes in the same thread as CoppeliaSim and is thus quite fast. Python code on the other hand is launched in a new process, which connects to CoppeliaSim via socket communication. This implies that Python code will usually start and run slower than Lua code. However, when Python is operating in non-stepping mode, and doesn't access CoppeliaSim API, it truely runs parallel to CoppeliaSim.</li>
 <li>Python scripts are handled via Lua wrapper code, which handles the launch and communication of each Python script. Auxiliary Lua code can be passed via the <em>luaExec</em> command, within a Python comment section. That code must come immediately after the <em>#python</em> header tag:</li>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+
 #luaExec wrapper='myWrapperCode' -- looks for myWrapperCode.lua in Lua's search path
 #luaExec additionalPaths={'c:/path1','c:/path2'} -- adds additional Python module search paths
 #luaExec additionalIncludePaths={'c:/Python38','c:/path2'} -- adds additional paths to search for the include file
@@ -44,6 +45,7 @@ def sysCall_init():
 </code>
 <li>The import directive does not work when importing the primary Python file, and following should be used instead:</li>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+
 include myExternalFile
 
 # myExternalFile is the pythonScript name or path (absolute or relative), without quotes nor the ending '.py'

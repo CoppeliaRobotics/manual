@@ -28,7 +28,8 @@
 <p>Following represents a simple position control joint callback function, for a joint in dynamic mode:<br>
 </p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function <strong>sysCall_joint</strong>(inData)
     -- inData.mode : sim.jointmode_kinematic or sim.jointmode_dynamic
     --
@@ -81,15 +82,6 @@ function <strong>sysCall_joint</strong>(inData)
     -- For dynamic joints:
     -- outData={force=f, vel=vel}
 end</code>
-
-<p>In Python, a joint callback function can only be implemented via a non-threaded script, and it should be explicitly activated with a luaExec command:</p>
-<code class="hljs language-python coppelia-coppeliasim-script">
-#python
-#luaExec additionalFuncs={'sysCall_joint'}
-
-def <strong>sysCall_joint</strong>(inData):
-    pass</code>
-<br>
 
 <p>A joint callback call is applied to all scripts located in the upward hierarchy of the joint, and interrupted as soon as a script handles the call, i.e. returns data:</p>
 

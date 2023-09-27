@@ -32,7 +32,8 @@
 <br>
 
 <p>A path can also automatically generate extruded <a href="shapes.htm">shapes</a>; this functionality is enabled via its user parameters, and the shape profile, color and other details can be adjusted in its <a href="customizationScripts.htm">customization script</a>, which uses the API function <a href="regularApi/simGenerateShapeFromPath.htm">sim.generateShapefromPath</a>: </p>
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 function path.shaping(path,pathIsClosed,upVector)
     -- following section generates a square extrusion shape:
     local section={0.02,-0.02,0.02,0.02,-0.02,0.02,-0.02,-0.02,0.02,-0.02}
@@ -51,7 +52,8 @@ end</code>
 
 
 <p>To generate an extruded circular shape, use following code to create the section data:</p>
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 local section={}
 local radius=0.02
 local sides=32
@@ -69,7 +71,8 @@ section[#section+1]=section[2]</code>
 
 <p>Path data is stored inside of the path object, as <a href="apiFunctions.htm#customDataBlocks">custom object data</a>. It can be accessed with:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 -- control point data (each one has x,y,z,qx,qy,qz,qw (position and quaternion)):
 local ctrlPts=sim.unpackDoubleTable(sim.readCustomDataBlock(pathHandle,'PATHCTRLPTS'))
 
@@ -80,7 +83,8 @@ local pathData=sim.unpackDoubleTable(sim.readCustomDataBlock(pathHandle,'PATH')<
 
 <p>Various <a href="apiFunctions.htm#paths">API functions related to paths</a> are available, e.g. in order to have an object follow a path in position and orientation, one could use following script:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
 sim=require('sim')
 
 function sysCall_init()
@@ -98,7 +102,7 @@ function sysCall_init()
 end
 
 function sysCall_thread()
-    while true do
+    while not sim.getSimulationStopping() do
         local t=sim.getSimulationTime()
         posAlongPath=posAlongPath+velocity*(t-previousSimulationTime)
         posAlongPath=posAlongPath % totalLength
