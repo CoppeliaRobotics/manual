@@ -26,70 +26,167 @@ background. Add-ons can run <a href="threadedAndNonThreadedCode.htm">threaded or
 <p>Add-ons should be written in a text file located in <em>&lt;CoppeliaSim folder&gt;/addOns/</em>  with following naming convention: <em>simAddOnXXXX.lua</em> (even add-ons containing Python code). Add-ons that do not follow above naming convention can still be loaded and run via <a href="commandLine.htm">command line options</a>.</p>
 <p>By default, add-ons will automatically start when CoppeliaSim starts, e.g.:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+<div class="multi-language-switcher">
 
-sim=require('sim')
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    print(&quot;Executing the initialization section. Starting together with CoppeliaSim&quot;)
+
+def sysCall_addOnScriptSuspend():
+    print(&quot;Ending... (triggered by the user)&quot;)
+    return {'cmd': 'cleanup'} # end this add-on. The cleanup section will be called
+
+def sysCall_cleanup():
+    print(&quot;Executing the clean-up section&quot;)</code>  
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
     print(&quot;Executing the initialization section. Starting together with CoppeliaSim&quot;)
 end
 
-function sysCall_addOnScriptSuspend()<br>    print(&quot;Ending... (triggered by the user)&quot;)
-    return {cmd='cleanup'} -- end this add-on. The cleanup section will be called<br>end
+function sysCall_addOnScriptSuspend()
+    print(&quot;Ending... (triggered by the user)&quot;)
+    return {cmd='cleanup'} -- end this add-on. The cleanup section will be called
+end
 
 function sysCall_cleanup()
     print(&quot;Executing the clean-up section&quot;)
 end</code>  
 
+</div>
 <br>
-<p>An add-on can also be manually started and stopped from the add-on menu (Lua only), e.g.:</p>
+<p>An add-on can also be manually started and stopped from the add-on menu, e.g.:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+'''luaExec
+-- Here we have a special Lua section:
+function sysCall_info()
+    return {autoStart = false}
+end
+'''
+
+def sysCall_init():
+    print(&quot;Executing the initialization section. Start triggered by the user&quot;)
+
+def sysCall_addOnScriptSuspend():
+    print(&quot;Ending... (triggered by the user)&quot;)
+    return {'cmd': 'cleanup'} # end this add-on.</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
-function sysCall_info()<br>    return {autoStart=false}<br>end
+function sysCall_info()
+    return {autoStart = false}
+end
 
 function sysCall_init()
     print(&quot;Executing the initialization section. Start triggered by the user&quot;)
 end
 
-function sysCall_addOnScriptSuspend()<br>    print(&quot;Ending... (triggered by the user)&quot;)
-    return {cmd='cleanup'} -- end this add-on.<br>end
-</code>
+function sysCall_addOnScriptSuspend()
+    print(&quot;Ending... (triggered by the user)&quot;)
+    return {cmd = 'cleanup'} -- end this add-on.
+end</code>
+</div>
+
 <br>
 <p>An add-on can also be suspended/resumed from the add-on menu, e.g.:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+...
+
+def sysCall_addOnScriptSuspend():
+    print(&quot;Suspending the add-on... (triggered by the user)&quot;)
+
+def sysCall_addOnScriptResume():
+    print(&quot;Resuming the add-on... (triggered by the user)&quot;)
+
+...</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 ...
 
-function sysCall_addOnScriptSuspend()<br>    print(&quot;Suspending the add-on... (triggered by the user)&quot;)
+function sysCall_addOnScriptSuspend()
+    print(&quot;Suspending the add-on... (triggered by the user)&quot;)
 end
 
-function sysCall_addOnScriptResume()<br>    print(&quot;Resuming the add-on... (triggered by the user)&quot;)
+function sysCall_addOnScriptResume()
+    print(&quot;Resuming the add-on... (triggered by the user)&quot;)
 end
 
 ...</code>
+
+</div>
+
+
 <br>
-<p>An add-on can also act as a simple function triggered by the user (Lua only), e.g.:</p>
+<p>An add-on can also act as a simple function triggered by the user, e.g.:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+'''luaExec
+-- Here we have a special Lua section:
+function sysCall_info()
+    return {autoStart = false}
+end
+'''
+
+def sysCall_init():
+    print(&quot;Executing the initialization section. Start triggered by the user&quot;)
+    # execute some functions here, e.g. import something
+    return {'cmd': 'cleanup'} # end this add-on.</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function sysCall_info()<br>    return {autoStart=false}<br>end
+function sysCall_info()
+    return {autoStart = false}
+end
 
 function sysCall_init()
     print(&quot;Executing the initialization section. Start triggered by the user&quot;)
     -- execute some functions here, e.g. import something
-    return {cmd='cleanup'} -- end this add-on.
+    return {cmd = 'cleanup'} -- end this add-on.
 end</code>
+
+</div>
 <br>
-<p>An add-on can also display a customized name in the Modules' menu (Lua only), e.g.:</p>
+<p>An add-on can also display a customized name in the Modules' menu, e.g.:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+'''luaExec
+-- Here we have a special Lua section:
+function sysCall_info()
+    return {menu: 'Exporters//My exporter'}
+end
+'''
+
+def sysCall_init():
+    ...</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function sysCall_info()<br>    return {menu='Exporters//My exporter'}<br>end
-</code>
+function sysCall_info()
+    return {menu = 'Exporters//My exporter'}
+end
+
+function sysCall_init()
+    ...
+end</code>
+
+</div>
 
 <br>
 <br>
@@ -98,16 +195,17 @@ function sysCall_info()<br>    return {menu='Exporters//My exporter'}<br>end
 </div>  
   
   
-<link rel="stylesheet" href="../hljs/11.8.0/styles/default.min.css" />
-<script src="../hljs/11.8.0/highlight.min.js"></script>
-<script src="../hljs/11.8.0/languages/cmake.min.js"></script>
-<script src="../hljs/11.8.0/languages/cpp.min.js"></script>
-<script src="../hljs/11.8.0/languages/java.min.js"></script>
-<script src="../hljs/11.8.0/languages/javascript.min.js"></script>
-<script src="../hljs/11.8.0/languages/lua.min.js"></script>
-<script src="../hljs/11.8.0/languages/matlab.min.js"></script>
-<script src="../hljs/11.8.0/languages/python.min.js"></script>
-<script src="../hljs/11.8.0/languages/rust.min.js"></script>
-<script src="../hljs/11.8.0/languages/xml.min.js"></script>
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body></html>

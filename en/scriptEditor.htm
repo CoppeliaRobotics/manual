@@ -40,18 +40,21 @@
 <li>inspection/edition of included files</li>
 <li>open of the documentation for the API function/constant under the mouse pointer, via the context menu</li>
 
-<p>The API functions can easily be accessed by typing the first 3 letters (usually <em>sim</em>). When a script was modified, there is no need to explicitly save the changes: closing the script editor, saving the scene or starting a <a href="simulation.htm">simulation</a> will automatically apply the changes to the script. When a simulation is running, modifications to a given script will only take effect once a new simulation run is started. The user can also explicitly restart/reset a given script, for changes to take immediately effect.</p>
+<p>The API functions can easily be accessed by typing the first 3 letters (usually <em>sim</em>). When a script was modified, there is no need to explicitly save the changes: closing the script editor, saving the scene or starting a <a href="simulation.htm">simulation</a> automatically applies the changes to the script. When a simulation is running, modifications to a given script only takes effect once a new simulation run is started. The user can also explicitly restart/reset a given script, for changes to take immediately effect.</p>
 
-<p>If you have recurring functions you wish to access from a given script, or if you simply wish to run code from an external file, you can do this with following for a Lua script:</p>
+<p>If you have recurring functions you wish to access from a given script, or if you simply wish to run code from an external file, you can do following:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+include myExternalPythonFile</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 require "myExternalLuaFile"</code>
 
-<p>and for a Python script:</p>
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-include myExternalPythonFile</code>
+</div>
 
 <p>In that case, make sure the file is named <em>myExternalLuaFile.lua</em> or <em>myExternalLuaFile.py</em>, and do not forget to distribute it together with your scene or model, since that code will not be part of a CoppeliaSim file anymore. Searched path are usually following:</p>
 <li><em>&lt;CoppeliaSim executable&gt;/</em></li>
@@ -60,6 +63,8 @@ include myExternalPythonFile</code>
 <li><em>&lt;current scene path&gt;/</em></li>
 <li><em>&lt;additional search path&gt;/</em> (this path can be specified with variable <em>additionalLuaPath</em> in file <em>system/usrset.txt</em>)</li>
 <p>Files included via the <em>require</em> directive can be opened in the same script editor by opening the popup menu over the file name.</p>
+
+<p>You can also set an external script editor by editing <em><a href="commandLine.htm#settingsFile">usrset.txt</a></em> and restarting CoppeliaSim: a double-click on the script icon now opens the script in the specified external editor. Restarting the script can now be achieved by selecting the object associated with the script, and right-clicking in the scene hierarchy for the pop-up menu. </p>
 <br>
 <br>
  </tr>
@@ -67,17 +72,18 @@ include myExternalPythonFile</code>
 </div>  
   
   
-<link rel="stylesheet" href="../hljs/11.8.0/styles/default.min.css" />
-<script src="../hljs/11.8.0/highlight.min.js"></script>
-<script src="../hljs/11.8.0/languages/cmake.min.js"></script>
-<script src="../hljs/11.8.0/languages/cpp.min.js"></script>
-<script src="../hljs/11.8.0/languages/java.min.js"></script>
-<script src="../hljs/11.8.0/languages/javascript.min.js"></script>
-<script src="../hljs/11.8.0/languages/lua.min.js"></script>
-<script src="../hljs/11.8.0/languages/matlab.min.js"></script>
-<script src="../hljs/11.8.0/languages/python.min.js"></script>
-<script src="../hljs/11.8.0/languages/rust.min.js"></script>
-<script src="../hljs/11.8.0/languages/xml.min.js"></script>
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

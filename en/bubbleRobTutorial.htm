@@ -94,20 +94,34 @@
 <p>We attach a child script to the vision sensor by clicking [Add &gt; Associated child script &gt; Non threaded]. We double-click the icon that appeared next to the vision sensor in the scene hierarchy: this opens the child script that we just added. We copy and paste following code into the <a href="scriptEditor.htm">script editor</a>, then close it:<br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    simVision = require('simVision')
+
+def sysCall_vision(inData):
+    simVision.sensorImgToWorkImg(inData['handle']) # copy the vision sensor image to the work image
+    simVision.edgeDetectionOnWorkImg(inData['handle'], 0.2) # perform edge detection on the work image
+    simVision.workImgToSensorImg(inData['handle']) # copy the work image to the vision sensor image buffer
+</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-simVision=require('simVision')
+function sysCall_init()
+    sim = require('sim')
+    simVision = require('simVision')
+end
 
 function sysCall_vision(inData)
     simVision.sensorImgToWorkImg(inData.handle) -- copy the vision sensor image to the work image
-    simVision.edgeDetectionOnWorkImg(inData.handle,0.2) -- perform edge detection on the work image
+    simVision.edgeDetectionOnWorkImg(inData.handle, 0.2) -- perform edge detection on the work image
     simVision.workImgToSensorImg(inData.handle) -- copy the work image to the vision sensor image buffer
-end
+end</code>
 
-function sysCall_init()
-end
-</code>
+</div>
 
 <p>
 To be able to see the vision sensor's image, we start the simulation, then stop it again.<br>
@@ -115,10 +129,70 @@ To be able to see the vision sensor's image, we start the simulation, then stop 
 
 <p>The last thing that we need for our scene is a small <a href="childScripts.htm">child script</a> that will control <em>BubbleRob's</em> behavior. We select <em>bubbleRob</em> and click [Add &gt; Associated child script &gt; Non threaded]. We double-click the script icon that appeared next to <em>bubbleRob's</em> alias in the scene hierarchy and copy and paste following code into the <a href="scriptEditor.htm">script editor</a>, then close it:<br>
 </p>
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-simUI=require('simUI')
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+import math
+
+def sysCall_init():
+    # This is executed exactly once, the first time this script is executed
+    sim = require('sim')
+    simUI = require('simUI')
+    self.bubbleRobBase = sim.getObject('.') # this is bubbleRob's handle
+    self.leftMotor = sim.getObject("./leftMotor") # Handle of the left motor
+    self.rightMotor = sim.getObject("./rightMotor") # Handle of the right motor
+    self.noseSensor = sim.getObject("./sensingNose") # Handle of the proximity sensor
+    self.minMaxSpeed = [50*math.pi/180, 300*math.pi/180] # Min and max speeds for each motor
+    self.backUntilTime = -1 # Tells whether bubbleRob is in forward or backward mode
+    self.robotCollection = sim.createCollection(0)
+    sim.addItemToCollection(self.robotCollection, sim.handle_tree, self.bubbleRobBase, 0)
+    self.distanceSegment = sim.addDrawingObject(sim.drawing_lines, 4, 0, -1, 1, [0, 1, 0])
+    self.robotTrace = sim.addDrawingObject(sim.drawing_linestrip + sim.drawing_cyclic, 2, 0, -1, 200, [1, 1, 0], None, None, [1, 1, 0])
+    self.graph = sim.getObject('./graph')
+    # sim.destroyGraphCurve(self.graph, -1)
+    self.distStream = sim.addGraphStream(self.graph, 'bubbleRob clearance', 'm', 0, [1, 0, 0])
+    # Create the custom UI:
+    xml = '&lt;ui title="' + sim.getObjectAlias(self.bubbleRobBase, 1) + ' speed" closeable="false" resizeable="false" activate="false"&gt;'
+    xml = xml + '&lt;hslider minimum="0" maximum="100" on-change="speedChange_callback" id="1"/&gt;'
+    xml = xml + '&lt;label text="" style="* {margin-left: 300px;}"&gt;&lt;/label&gt;&lt;/ui&gt;'
+    self.ui = simUI.create(xml)
+    self.speed = (self.minMaxSpeed[0] + self.minMaxSpeed[1]) * 0.5
+    simUI.setSliderValue(self.ui, 1, 100 * (self.speed - self.minMaxSpeed[0]) / (self.minMaxSpeed[1] - self.minMaxSpeed[0]))
+
+def sysCall_sensing():
+    result, distData, *_ = sim.checkDistance(self.robotCollection, sim.handle_all)
+    if result &gt; 0:
+        sim.addDrawingObjectItem(self.distanceSegment, None)
+        sim.addDrawingObjectItem(self.distanceSegment, distData)
+        sim.setGraphStreamValue(self.graph,self.distStream, distData[6])
+    p = sim.getObjectPosition(self.bubbleRobBase)
+    sim.addDrawingObjectItem(self.robotTrace, p)
+
+def speedChange_callback(ui, id, newVal):
+    self.speed = self.minMaxSpeed[0] + (self.minMaxSpeed[1] - self.minMaxSpeed[0]) * newVal / 100
+
+def sysCall_actuation(): 
+    result, *_ = sim.readProximitySensor(self.noseSensor) # Read the proximity sensor
+    # If we detected something, we set the backward mode:
+    if result &gt; 0:
+        self.backUntilTime = sim.getSimulationTime() + 4
+    if self.backUntilTime &lt; sim.getSimulationTime():
+        # When in forward mode, we simply move forward at the desired speed
+        sim.setJointTargetVelocity(self.leftMotor, self.speed)
+        sim.setJointTargetVelocity(self.rightMotor, self.speed)
+    else:
+        # When in backward mode, we simply backup in a curve at reduced speed
+        sim.setJointTargetVelocity(self.leftMotor, -self.speed / 2)
+        sim.setJointTargetVelocity(self.rightMotor, -self.speed / 8)
+
+def sysCall_cleanup(): 
+    simUI.destroy(self.ui)
+</code>
+
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function speedChange_callback(ui,id,newVal)
     speed=minMaxSpeed[1]+(minMaxSpeed[2]-minMaxSpeed[1])*newVal/100
@@ -126,6 +200,8 @@ end
 
 function sysCall_init()
     -- This is executed exactly once, the first time this script is executed
+    sim=require('sim')
+    simUI=require('simUI')
     bubbleRobBase=sim.getObject('.') -- this is bubbleRob's handle
     leftMotor=sim.getObject("./leftMotor") -- Handle of the left motor
     rightMotor=sim.getObject("./rightMotor") -- Handle of the right motor
@@ -180,6 +256,8 @@ function sysCall_cleanup()
     simUI.destroy(ui)
 end</code>
 
+</div>
+
 <p>We run the simulation. <em>BubbleRob</em> now moves forward while trying to avoid obstacles (in a very basic fashion). While the simulation is still running, change <em>BubbleRob's</em> velocity, and copy/paste it a few times. Also try to scale a few of them while the simulation is still running. Be aware that the minimum distance calculation functionality might be heavily slowing down the simulation, depending on the environment.</p>
 <p>Using a script to control a robot or model is only one way of doing. CoppeliaSim offers many different ways (also combined), have a look at the <a href="externalControllerTutorial.htm">external controller tutorial</a>.</p>
 
@@ -191,17 +269,18 @@ end</code>
 </div>  
   
   
-<link rel="stylesheet" href="../hljs/11.8.0/styles/default.min.css" />
-<script src="../hljs/11.8.0/highlight.min.js"></script>
-<script src="../hljs/11.8.0/languages/cmake.min.js"></script>
-<script src="../hljs/11.8.0/languages/cpp.min.js"></script>
-<script src="../hljs/11.8.0/languages/java.min.js"></script>
-<script src="../hljs/11.8.0/languages/javascript.min.js"></script>
-<script src="../hljs/11.8.0/languages/lua.min.js"></script>
-<script src="../hljs/11.8.0/languages/matlab.min.js"></script>
-<script src="../hljs/11.8.0/languages/python.min.js"></script>
-<script src="../hljs/11.8.0/languages/rust.min.js"></script>
-<script src="../hljs/11.8.0/languages/xml.min.js"></script>
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

@@ -28,9 +28,61 @@
 <p>Following represents a simple position control joint callback function, for a joint in dynamic mode:<br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_joint(inData):
+    # inData['mode'] : sim.jointmode_kinematic or sim.jointmode_dynamic
+    # inData['handle'] : the handle of the joint to control
+    # inData['revolute'] : whether the joint is revolute or prismatic
+    # inData['cyclic'] : whether the joint is cyclic or not
+    # inData['lowLimit'] : the lower limit of the joint (if the joint is not cyclic)
+    # inData['highLimit'] : the higher limit of the joint (if the joint is not cyclic)
+    # inData['dt'] : the step size used for the calculations
+    # inData['pos'] : the current position
+    # inData['vel'] : the current velocity
+    # inData['targetPos'] : the desired position (if joint is dynamic, or when sim.setJointTargetPosition was called)
+    # inData['targetVel'] : the desired velocity (if joint is dynamic, or when sim.setJointTargetVelocity was called)
+    # inData['initVel'] : the desired initial velocity (if joint is kinematic and when sim.setJointTargetVelocity
+    #                  was called with a 4th argument)
+    # inData['error'] : targetPos-currentPos (with revolute cyclic joints, the shortest cyclic distance)
+    # inData['maxVel'] : a maximum velocity
+    # inData['maxAccel'] : a maximum acceleration
+    # inData['maxJerk'] : a maximum jerk
+    # inData['first'] : whether this is the first call from the physics engine, since the joint
+    #                was initialized (or re-initialized) in it.
+    # inData['passCnt'] : the current dynamics calculation pass. 1-10 by default
+    # inData['rk4pass'] : if Runge-Kutta 4 solver is selected, will loop from 1 to 4 for each inData['passCnt']
+    # inData['totalPasses'] : the number of dynamics calculation passes for each "regular" simulation pass.
+    # inData['effort'] : the last force or torque that acted on this joint along/around its axis. With Bullet,
+    #                 torques from joint limits are not taken into account
+    # inData['force'] : the joint force/torque, as set via sim.setJointTargetForce
+
+    if inData['mode'] == sim.jointmode_dynamic:
+        # Simplest position controller example:
+        ctrl = inData['error'] * 20
+        max_velocity = ctrl
+        if max_velocity > inData['maxVel']:
+            max_velocity = inData['maxVel']
+        if max_velocity < -inData['maxVel']:
+            max_velocity = -inData['maxVel']
+        force_or_torque_to_apply = inData['maxForce']
+        
+        # Following data must be returned to CoppeliaSim:
+        outData = {'vel': max_velocity, 'force': force_or_torque_to_apply}
+        return outData
+    
+    # Expected return data:
+    # For kinematic joints:
+    # outData = {'pos': pos, 'vel': vel, 'immobile': False}
+    # 
+    # For dynamic joints:
+    # outData = {'force': f, 'vel': vel}</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function <strong>sysCall_joint</strong>(inData)
+function sysCall_joint(inData)
     -- inData.mode : sim.jointmode_kinematic or sim.jointmode_dynamic
     --
     -- inData.handle : the handle of the joint to control
@@ -83,6 +135,8 @@ function <strong>sysCall_joint</strong>(inData)
     -- outData={force=f, vel=vel}
 end</code>
 
+</div>
+
 <p>A joint callback call is applied to all scripts located in the upward hierarchy of the joint, and interrupted as soon as a script handles the call, i.e. returns data:</p>
 
 <p align=center><img src="images/scriptTreeTraversal2.jpg"></p>
@@ -100,17 +154,18 @@ end</code>
 </div>  
   
   
-<link rel="stylesheet" href="../hljs/11.8.0/styles/default.min.css" />
-<script src="../hljs/11.8.0/highlight.min.js"></script>
-<script src="../hljs/11.8.0/languages/cmake.min.js"></script>
-<script src="../hljs/11.8.0/languages/cpp.min.js"></script>
-<script src="../hljs/11.8.0/languages/java.min.js"></script>
-<script src="../hljs/11.8.0/languages/javascript.min.js"></script>
-<script src="../hljs/11.8.0/languages/lua.min.js"></script>
-<script src="../hljs/11.8.0/languages/matlab.min.js"></script>
-<script src="../hljs/11.8.0/languages/python.min.js"></script>
-<script src="../hljs/11.8.0/languages/rust.min.js"></script>
-<script src="../hljs/11.8.0/languages/xml.min.js"></script>
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

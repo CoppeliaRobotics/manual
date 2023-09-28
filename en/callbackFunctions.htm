@@ -34,111 +34,278 @@
 <br>
 <p><a name="systemCallbacks"></a>Following is a list of all supported system callback functions. Most support returning {cmd='cleanup'} or {cmd='restart'} to end or restart the script. Refer to the comments in the code below for details about individual functions:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    # Do some initialization here.
+    pass
+
+def sysCall_thread():
+    # Entry point for threaded scripts.
+    pass
+
+def sysCall_cleanup():
+    # Do some clean-up here.
+    pass
+
+def sysCall_nonSimulation():
+    # Is executed when simulation is not running.
+    # Not for simulation scripts.
+    pass
+
+def sysCall_beforeSimulation():
+    # Simulation is about to start.
+    # Not for simulation scripts.
+    pass
+
+def sysCall_afterSimulation():
+    # Simulation has just ended.
+    # Not for simulation scripts.
+    pass
+
+def sysCall_actuation():
+    # Put some actuation code here.
+    pass
+
+def sysCall_sensing():
+    # Put some sensing code here.
+    pass
+
+def sysCall_suspend():
+    # Simulation is about to be suspended.
+    pass
+
+def sysCall_suspended():
+    # Simulation is suspended.
+    pass
+
+def sysCall_resume():
+    # Simulation is about to resume.
+    pass
+
+def sysCall_realTimeIdle():
+    # Is executed when idle in real-time mode
+    pass
+
+def sysCall_beforeInstanceSwitch():
+    # About to switch to another scene.
+    # Not for simulation scripts.
+    pass
+
+def sysCall_afterInstanceSwitch():
+    # Switched to another scene.
+    # Not for simulation scripts.
+    pass
+
+def sysCall_beforeSave():
+    # About to save the scene, or about to set an undo/redo point
+    pass
+
+def sysCall_afterSave():
+    # After the scene was saved, or after an undo/redo point was set
+    pass
+
+def sysCall_selChange(inData):
+    # After selection was changed
+    for handle in inData['sel']:
+        print(f"Object with handle {handle} is selected")
+
+def sysCall_beforeCopy(inData):
+    # Before one or several objects will be copied. Can be reentrant
+    for handle in inData['objects']:
+        print(f"Object with handle {handle} will be copied")
+
+def sysCall_afterCopy(inData):
+    # After one or several objects were copied. Can be reentrant
+    for handle in inData['objects']:
+        print(f"Object with handle {handle} was copied")
+
+def sysCall_afterCreate(inData):
+    # After one or several objects were created. Can be reentrant
+    for handle in inData['objects']:
+        print(f"Object with handle {handle} was created")
+
+def sysCall_beforeDelete(inData):
+    # Before one or several objects will be deleted. Can be reentrant
+    for handle in inData['objects']:
+        print(f"Object with handle {handle} will be deleted")
+    # inData['allObjects'] indicates if all objects in the scene will be deleted
+
+def sysCall_afterDelete(inData):
+    # After one or several objects were deleted. Can be reentrant
+    for handle in inData['objects']:
+        print(f"Object with handle {handle} was deleted")
+    # inData['allObjects'] indicates if all objects in the scene were deleted
+
+def sysCall_beforeMainScript():
+    # Can be used to step a simulation in a custom manner.
+    outData = {"doNotRunMainScript": False}  # when true, then the main script won't be executed
+    return outData
+
+def sysCall_addOnScriptSuspend():
+    # Add-on script execution is about to be suspended.
+    # Only for add-on scripts.
+    pass
+
+def sysCall_addOnScriptResume():
+    # Add-on script execution is about to be resumed.
+    # Only for add-on scripts.
+    pass
+
+def sysCall_dyn(inData):
+    # See the dynamics callback function section for details
+    return {...}
+
+def sysCall_joint(inData):
+    # See the joint callback function section for details
+    # Return statement was missing in the original Lua code
+    return {...}
+
+def sysCall_contact(inData):
+    # See the contact callback function section for details
+    # Return statement was missing in the original Lua code
+    return {...}
+
+def sysCall_vision(inData):
+    # See the vision callback function section for details
+    # Only for customization scripts and child scripts.
+    # Return statement was missing in the original Lua code
+    return {...}
+
+def sysCall_trigger(inData):
+    # See the trigger callback function section for details
+    # Only for customization scripts and child scripts.
+    # Return statement was missing in the original Lua code
+    return {...}
+
+def sysCall_userConfig():
+    # See the user config callback function section for details.
+    # Only for customization scripts.
+    pass
+
+def sysCall_moduleEntry(inData):
+    # Called when a user module menu entry is selected, e.g.
+    print(f"Following module menu entry was selected: {inData['handle']}")
+    # See sim.moduleEntry for details.
+
+def sysCall_msg(msg, origin):
+    # Synchronously called when sim.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
+    # sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant
+    pass
+
+def sysCall_event(cborBuffer):
+    # Called when something (mainly visual for now) changes. Can be reentrant
+    # Mainly used to synchronize an external viewer/renderer with CoppeliaSim.
+    # See also sim.getGenesisEvents
+    pass</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function <strong>sysCall_info</strong>()
+function sysCall_info()
     -- Lua only. Can be used to specify initial configuration data. E.g. in case of an add-on: 
     return {autoStart=false,menu='menu1\nmenu2\nadd-on name',menuEnabled=true}
 end
 
-function <strong>sysCall_init</strong>()
+function sysCall_init()
     -- Do some initialization here. 
 end
 
-function <strong>sysCall_thread</strong>()
+function sysCall_thread()
     -- Entry point for threaded scripts.
 end
 
-function <strong>sysCall_cleanup</strong>()
+function sysCall_cleanup()
     -- Do some clean-up here.
 end
 
-function <strong>sysCall_nonSimulation</strong>()
+function sysCall_nonSimulation()
     -- Is executed when simulation is not running. 
     -- Not for simulation scripts.
 end
 
-function <strong>sysCall_beforeSimulation</strong>()
+function sysCall_beforeSimulation()
     -- Simulation is about to start. 
     -- Not for simulation scripts.
 end
 
-function <strong>sysCall_afterSimulation</strong>()
+function sysCall_afterSimulation()
     -- Simulation has just ended. 
     -- Not for simulation scripts.
 end
 
-function <strong>sysCall_actuation</strong>()
+function sysCall_actuation()
     -- Put some actuation code here.
 end
 
-function <strong>sysCall_sensing</strong>()
+function sysCall_sensing()
     -- Put some sensing code here.
 end
 
-function <strong>sysCall_suspend</strong>()
+function sysCall_suspend()
     -- Simulation is about to be suspended.
 end
 
-function <strong>sysCall_suspended</strong>()
+function sysCall_suspended()
     -- Simulation is suspended.
 end
 
-function <strong>sysCall_resume</strong>()
+function sysCall_resume()
     -- Simulation is about to resume.
 end
 
-function <strong>sysCall_realTimeIdle</strong>()
+function sysCall_realTimeIdle()
     -- Is executed when idle in real-time mode
 end
 
-function <strong>sysCall_beforeInstanceSwitch</strong>()
+function sysCall_beforeInstanceSwitch()
     -- About to switch to another scene.
     -- Not for simulation scripts.
 end
 
-function <strong>sysCall_afterInstanceSwitch</strong>()
+function sysCall_afterInstanceSwitch()
     -- Switched to another scene. 
     -- Not for simulation scripts.
 end
 
-function <strong>sysCall_beforeSave</strong>()
+function sysCall_beforeSave()
     -- About to save the scene, or about to set an undo/redo point
 end
 
-function <strong>sysCall_afterSave</strong>()
+function sysCall_afterSave()
     -- After the scene was saved , or after an undo/redo point was set
 end
 
-function <strong>sysCall_selChange</strong>(inData)
+function sysCall_selChange(inData)
     -- After selection was changed
     for i=1,#inData.sel,1 do
         print("Object with handle "..inData.sel[i].." is selected")
     end
 end
 
-function <strong>sysCall_beforeCopy</strong>(inData)
+function sysCall_beforeCopy(inData)
     -- Before one or several objects will be copied. Can be reentrant
     for i=1,#inData.objects,1 do
         print("Object with handle "..inData.objects[i].." will be copied")
     end
 end
 
-function <strong>sysCall_afterCopy</strong>(inData)
+function sysCall_afterCopy(inData)
     -- After one or several objects were copied. Can be reentrant
     for i=1,#inData.objects,1 do
         print("Object with handle "..inData.objects[i].." was copied")
     end
 end
 
-function <strong>sysCall_afterCreate</strong>(inData)
+function sysCall_afterCreate(inData)
     -- After one or several objects were created. Can be reentrant
     for i=1,#inData.objects,1 do
         print("Object with handle "..inData.objects[i].." was created")
     end
 end
 
-function <strong>sysCall_beforeDelete</strong>(inData)
+function sysCall_beforeDelete(inData)
     -- Before one or several objects will be deleted. Can be reentrant
     for i=1,#inData.objects,1 do
         print("Object with handle "..inData.objects[i].." will be deleted")
@@ -146,7 +313,7 @@ function <strong>sysCall_beforeDelete</strong>(inData)
     -- inData.allObjects indicates if all objects in the scene will be deleted
 end
 
-function <strong>sysCall_afterDelete</strong>(inData)
+function sysCall_afterDelete(inData)
     -- After one or several objects were deleted. Can be reentrant
     for i=1,#inData.objects,1 do
         print("Object with handle "..inData.objects[i].." was deleted")
@@ -154,76 +321,78 @@ function <strong>sysCall_afterDelete</strong>(inData)
     -- inData.allObjects indicates if all objects in the scene were deleted
 end
 
-function <strong>sysCall_beforeMainScript</strong>()
+function sysCall_beforeMainScript()
     -- Can be used to step a simulation in a custom manner.
     local outData={doNotRunMainScript=false} -- when true, then the main script won't be executed
     return outData
 end
 
-function <strong>sysCall_addOnScriptSuspend</strong>()
+function sysCall_addOnScriptSuspend()
     -- Add-on script execution is about to be suspended.
     -- Only for add-on scripts.
 end
 
-function <strong>sysCall_addOnScriptResume</strong>()
+function sysCall_addOnScriptResume()
     -- Add-on script execution is about to be resumed.
     -- Only for add-on scripts.
 end
 
-function <strong>sysCall_dyn</strong>(inData)
+function sysCall_dyn(inData)
     -- See the dynamics callback function section for details
+    return outData
 end
 
-function <strong>sysCall_joint</strong>(inData)
+function sysCall_joint(inData)
     -- See the joint callback function section for details
     return outData
 end
 
-function <strong>sysCall_contact</strong>(inData)
+function sysCall_contact(inData)
     -- See the contact callback function section for details
     return outData
 end
 
-function <strong>sysCall_vision</strong>(inData)
+function sysCall_vision(inData)
     -- See the vision callback function section for details
     -- Only for customization scripts and child scripts.
     return outData
 end
 
-function <strong>sysCall_trigger</strong>(inData)
+function sysCall_trigger(inData)
     -- See the trigger callback function section for details
     -- Only for customization scripts and child scripts.
     return outData
 end
 
-function <strong>sysCall_userConfig</strong>()
+function sysCall_userConfig()
     -- See the user config callback function section for details.
     -- Only for customization scripts.
 end
 
-function <strong>sysCall_moduleEntry</strong>(inData)
+function sysCall_moduleEntry(inData)
     -- Called when a user module menu entry is selected, e.g.
     print('Following module menu entry was selected: '..inData.handle)
     -- See sim.moduleEntry for details.
 end
 
-function <strong>sysCall_msg</strong>(msg,origin)
+function sysCall_msg(msg,origin)
     -- Synchronously called when sim.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
     -- sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant 
 end
 
-function <strong>sysCall_event</strong>(cborBuffer)
+function sysCall_event(cborBuffer)
     -- Called when something (mainly visual for now) changes. Can be reentrant 
     -- Mainly used to synchronize an external viewer/renderer with CoppeliaSim.
     -- See also sim.getGenesisEvents
 end
 
-function <strong>sysCall_ext</strong>(funcName,inData)
+function sysCall_ext(funcName,inData)
     -- When this function is present, then all external calls to a script function, i.e. user callbacks,
     -- will be intercepted (the original function will be shadowed). If only monitoring is desired,
     -- then one should use sim.registerScriptFuncHook on this function.
 end</code>
 
+</div>
 
 <br>
 <br>
@@ -232,17 +401,18 @@ end</code>
 </div>  
   
   
-<link rel="stylesheet" href="../hljs/11.8.0/styles/default.min.css" />
-<script src="../hljs/11.8.0/highlight.min.js"></script>
-<script src="../hljs/11.8.0/languages/cmake.min.js"></script>
-<script src="../hljs/11.8.0/languages/cpp.min.js"></script>
-<script src="../hljs/11.8.0/languages/java.min.js"></script>
-<script src="../hljs/11.8.0/languages/javascript.min.js"></script>
-<script src="../hljs/11.8.0/languages/lua.min.js"></script>
-<script src="../hljs/11.8.0/languages/matlab.min.js"></script>
-<script src="../hljs/11.8.0/languages/python.min.js"></script>
-<script src="../hljs/11.8.0/languages/rust.min.js"></script>
-<script src="../hljs/11.8.0/languages/xml.min.js"></script>
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

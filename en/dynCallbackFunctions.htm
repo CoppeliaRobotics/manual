@@ -23,9 +23,31 @@
 <p>Following represents a simple dynamics  callback function:<br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_dyn(inData):
+    # This function gets called often, so it might slow down the simulation
+    # This is called twice at each dynamic simulation step, by default 20x more often than a child script
+    # We have:
+    # inData["passCnt"] : the current dynamics calculation pass. 1-10 by default. See next item for details.
+    # inData["totalPasses"] : the number of dynamics calculation passes for each "regular" simulation pass.
+    #                        10 by default (i.e. 10*5ms=50ms which is the default simulation time step)
+    # inData["dt"] : the step size used for the dynamics calculations (by default 5ms)
+    # inData["afterStep"] : false when called before, and true after a dynamics step was computed.
+
+    txt = " the {}th dynamics calculation step (out of {} steps)".format(inData["passCnt"], inData["totalPasses"])
+    if inData["afterStep"]:
+        txt = "After" + txt
+    else:
+        txt = "Before" + txt
+    print(txt)
+</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function <strong>sysCall_dyn</strong>(inData)
+function sysCall_dyn(inData)
     -- This function gets called often, so it might slow down the simulation
     --     (this is called twice at each dynamic simulation step, by default 20x more often than a child script)
     -- We have:
@@ -33,7 +55,7 @@ function <strong>sysCall_dyn</strong>(inData)
     -- inData.totalPasses : the number of dynamics calculation passes for each "regular" simulation pass.
     --                      10 by default (i.e. 10*5ms=50ms which is the default simulation time step)
     -- inData.dt : the step size used for the dynamics calculations (by default 5ms)
-    -- inData.afterStep : <strong>false</strong> when called before, and <strong>true</strong> after a dynamics step was computed.
+    -- inData.afterStep : false when called before, and true after a dynamics step was computed.
 
     local txt=string.format(&quot; the %ith dynamics calculation step (out of %i steps)&quot;,inData.passCnt,inData.totalPasses)
     if inData.afterStep then
@@ -43,7 +65,7 @@ function <strong>sysCall_dyn</strong>(inData)
     end
     print(txt)
 end</code>
-
+</div>
 <br>
 <br>
  </tr>
@@ -51,17 +73,18 @@ end</code>
 </div>  
   
   
-<link rel="stylesheet" href="../hljs/11.8.0/styles/default.min.css" />
-<script src="../hljs/11.8.0/highlight.min.js"></script>
-<script src="../hljs/11.8.0/languages/cmake.min.js"></script>
-<script src="../hljs/11.8.0/languages/cpp.min.js"></script>
-<script src="../hljs/11.8.0/languages/java.min.js"></script>
-<script src="../hljs/11.8.0/languages/javascript.min.js"></script>
-<script src="../hljs/11.8.0/languages/lua.min.js"></script>
-<script src="../hljs/11.8.0/languages/matlab.min.js"></script>
-<script src="../hljs/11.8.0/languages/python.min.js"></script>
-<script src="../hljs/11.8.0/languages/rust.min.js"></script>
-<script src="../hljs/11.8.0/languages/xml.min.js"></script>
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

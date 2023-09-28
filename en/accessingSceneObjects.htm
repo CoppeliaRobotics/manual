@@ -40,47 +40,47 @@
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">// e.g. inside of a c/c++ plugin:
 
 // using the full <em>Object</em> path:
-int objectHandle=simGetObject(&quot;/Path/to/Object&quot;,-1,-1,0);
+int objectHandle = simGetObject(&quot;/Path/to/Object&quot;, -1, -1, 0);
 
 // if object has unique alias <em>Object</em>:
-int objectHandle=simGetObject(&quot;/Object&quot;,-1,-1,0); 
+int objectHandle = simGetObject(&quot;/Object&quot;, -1, -1, 0); 
 
 // handle of the first object with alias <em>Robot</em>, in a given hierarchy level:
-int robotHandle=simGetObject(&quot;/Robot[0]&quot;,-1,-1,0);
+int robotHandle = simGetObject(&quot;/Robot[0]&quot;, -1, -1, 0);
  
 // handle of the second object with alias <em>Robot</em>, in a given hierarchy level:
-int robotHandle=simGetObject(&quot;/Robot[1]&quot;,-1,-1,0);
+int robotHandle = simGetObject(&quot;/Robot[1]&quot;, -1, -1, 0);
 
 // handle of the fifth object with alias <em>Robot</em>, in the scene:
-int robotHandle=simGetObject(&quot;/Robot{4}&quot;,-1,-1,0);
+int robotHandle = simGetObject(&quot;/Robot{4}&quot;, -1, -1, 0);
 // or
-int robotHandle=simGetObject(&quot;/Robot&quot;,4,-1,0);
+int robotHandle = simGetObject(&quot;/Robot&quot;, 4, -1, 0);
 
 // find all objects starting with alias prefix <em>Mobile</em>:
-int i=0
+int i = 0;
 while (true)
 {
-    int objectHandle=simGetObject(&quot;/Mobile*&quot;,i++,-1,1);
-    if (objectHandle&lt;0)
+    int objectHandle = simGetObject(&quot;/Mobile*&quot;, i++, -1, 1);
+    if (objectHandle &lt; 0)
         break;
 } </code>
 
 <code class="hljs language-python coppelia-zmq-remote-api-client"># e.g. inside of a Python ZeroMQ remote API client:
 
 # using the full <em>Object</em> path:
-objectHandle=sim.getObject(&quot;/Path/to/Object&quot;)
+objectHandle = sim.getObject(&quot;/Path/to/Object&quot;)
 
 # if object has unique alias <em>Object</em>:
-objectHandle=sim.getObject(&quot;/Object&quot;)
+objectHandle = sim.getObject(&quot;/Object&quot;)
 
 # handle of the first object with alias <em>Robot</em>, in a given hierarchy level:
-robotHandle=sim.getObject(&quot;/Robot[0]&quot;) 
+robotHandle = sim.getObject(&quot;/Robot[0]&quot;) 
 
 # handle of the second object with alias <em>Robot</em>, in a given hierarchy level:
-robotHandle=sim.getObject(&quot;/Robot[1]&quot;) 
+robotHandle = sim.getObject(&quot;/Robot[1]&quot;) 
 
 # handle of the fifth object with alias <em>Robot</em>, in the scene:
-robotHandle=sim.getObject(&quot;/Robot{4}&quot;)</code>
+robotHandle = sim.getObject(&quot;/Robot{4}&quot;)</code>
 
 <br>
 <br>
@@ -95,47 +95,90 @@ robotHandle=sim.getObject(&quot;/Robot{4}&quot;)</code>
 
 
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# e.g. inside of child or customization script:
+
+# returns the object this script is attached to:
+objectHandle = sim.getObject(&quot;.&quot;) 
+
+# returns the parent object this script is attached to:
+parentHandle = sim.getObject(&quot;..&quot;) 
+
+# returns the model this script is contained in:
+modelHandle = sim.getObject(&quot;:&quot;) 
+
+# returns the parent model this script is contained in:
+parentModelHandle = sim.getObject(&quot;::&quot;) 
+
+# returns the first object in the current hierarchy, that starts with <em>Object</em>:
+objectHandle = sim.getObject(&quot;./Object*&quot;) 
+
+# returns the first object with alias <em>Object</em>, in the current model hierarchy:
+objectHandle = sim.getObject(&quot;:/Object&quot;) 
+
+# returns the 4th object with alias <em>Leg</em>, within a same hierarchy level, in the current model hierarchy:
+legHandle = sim.getObject(&quot;:/Leg[3]&quot;) 
+
+# returns the 5th object with alias <em>Leg</em>, in the current model hierarchy:
+legHandle = sim.getObject(&quot;:/Leg{4}&quot;) 
+
+# parse through all <em>Leg</em> objects in the current model hierarchy:
+i = 0
+while True:
+    legHandle = sim.getObject(&quot;:/Leg&quot;, {'index': i, 'noError': True})
+    if legHandle &lt; 0:
+        break
+    i = i + 1
+
+# returns the first object with alias <em>Object</em>, in the hierarchy of <em>AnotherObject</em>:
+local objectHandle = sim.getObject(&quot;./Object&quot;, {'proxy': AnotherObject}) </code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- e.g. inside of child or customization script:
 
 -- returns the object this script is attached to:
-local objectHandle=sim.getObject(&quot;.&quot;) 
+local objectHandle = sim.getObject(&quot;.&quot;) 
 
 -- returns the parent object this script is attached to:
-local parentHandle=sim.getObject(&quot;..&quot;) 
+local parentHandle = sim.getObject(&quot;..&quot;) 
 
 -- returns the model this script is contained in:
-local modelHandle=sim.getObject(&quot;:&quot;) 
+local modelHandle = sim.getObject(&quot;:&quot;) 
 
 -- returns the parent model this script is contained in:
-local parentModelHandle=sim.getObject(&quot;::&quot;) 
+local parentModelHandle = sim.getObject(&quot;::&quot;) 
 
 -- returns the first object in the current hierarchy, that starts with <em>Object</em>:
-local objectHandle=sim.getObject(&quot;./Object*&quot;) 
+local objectHandle = sim.getObject(&quot;./Object*&quot;) 
 
 -- returns the first object with alias <em>Object</em>, in the current model hierarchy:
-local objectHandle=sim.getObject(&quot;:/Object&quot;) 
+local objectHandle = sim.getObject(&quot;:/Object&quot;) 
 
 -- returns the 4th object with alias <em>Leg</em>, within a same hierarchy level, in the current model hierarchy:
-legHandle=sim.getObject(&quot;:/Leg[3]&quot;) 
+legHandle = sim.getObject(&quot;:/Leg[3]&quot;) 
 
 -- returns the 5th object with alias <em>Leg</em>, in the current model hierarchy:
-legHandle=sim.getObject(&quot;:/Leg{4}&quot;) 
+legHandle = sim.getObject(&quot;:/Leg{4}&quot;) 
 
 -- parse through all <em>Leg</em> objects in the current model hierarchy:
-local i=0
+local i = 0
 while true do
-    local legHandle=sim.getObject(&quot;:/Leg&quot;,{index=i,noError=true})
-    if legHandle&lt;0 then
+    local legHandle = sim.getObject(&quot;:/Leg&quot;, {index = i, noError = true})
+    if legHandle &lt; 0 then
         break
     end
-    i=i+1
+    i = i + 1
 end
 
 -- returns the first object with alias <em>Object</em>, in the hierarchy of <em>AnotherObject</em>:
-local objectHandle=sim.getObject(&quot;./Object&quot;,{proxy=AnotherObject}) </code>
+local objectHandle = sim.getObject(&quot;./Object&quot;, {proxy = AnotherObject}) </code>
 
+
+</div>
 
 
 <br>
@@ -148,17 +191,18 @@ local objectHandle=sim.getObject(&quot;./Object&quot;,{proxy=AnotherObject}) </c
 </div>  
   
   
-<link rel="stylesheet" href="../hljs/11.8.0/styles/default.min.css" />
-<script src="../hljs/11.8.0/highlight.min.js"></script>
-<script src="../hljs/11.8.0/languages/cmake.min.js"></script>
-<script src="../hljs/11.8.0/languages/cpp.min.js"></script>
-<script src="../hljs/11.8.0/languages/java.min.js"></script>
-<script src="../hljs/11.8.0/languages/javascript.min.js"></script>
-<script src="../hljs/11.8.0/languages/lua.min.js"></script>
-<script src="../hljs/11.8.0/languages/matlab.min.js"></script>
-<script src="../hljs/11.8.0/languages/python.min.js"></script>
-<script src="../hljs/11.8.0/languages/rust.min.js"></script>
-<script src="../hljs/11.8.0/languages/xml.min.js"></script>
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 
