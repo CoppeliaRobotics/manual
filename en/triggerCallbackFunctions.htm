@@ -25,9 +25,28 @@
 <p>A vision sensor can generate the trigger signal inside of the <a href="visionCallbackFunctions.htm">vision callback function</a>. The trigger callback (if present) is then called as in following example:<br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_trigger(inData):
+    """
+    We have:
+    inData['handle'] : the handle of the vision sensor.
+    inData['packedPackets'] : an array of data packets, packed (use sim.unpackFloatTable to unpack)
+       the first data packet always contains 15 auxiliary values about the acquired image:
+       - minimum of {intensity, red, green blue and depth value}
+       - maximum of {intensity, red, green blue and depth value}
+       - average of {intensity, red, green blue and depth value}
+    """
+
+    outData = {}
+    outData['trigger'] = True
+    return outData</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function <strong>sysCall_trigger</strong>(inData)
+function sysCall_trigger(inData)
     -- We have:
     -- inData.handle : the handle of the vision sensor.
     -- inData.packedPackets : an array of data packets, packed (use sim.unpackFloatTable to unpack)
@@ -36,27 +55,50 @@ function <strong>sysCall_trigger</strong>(inData)
     --    - maximum of {intensity, red, green blue and depth value}
     --    - average of {intensity, red, green blue and depth value}
 
-    local outData={}
-    outData.trigger=true
+    local outData = {}
+    outData.trigger = true
     return outData
 end</code>
+
+</div>
 
 <br>
 
 <p>A proximity sensor generates the trigger signal when an object is detected. The trigger callback (if present) is then called as in following example:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_trigger(inData):
+    """
+    We have:
+    inData['handle'] : the handle of the proximity sensor.
+    inData['detectedObjectHandle'] : handle of detected object
+    inData['detectedPoint'] : detected point, relative to sensor frame
+    inData['normalVector'] : normal vector at detected point, relative to sensor frame
+    """
+
+    outData = {}
+    outData['trigger'] = True
+    return outData</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function <strong>sysCall_trigger</strong>(inData)
+function sysCall_trigger(inData)
     -- We have:
     -- inData.handle : the handle of the proximity sensor.
     -- inData.detectedObjectHandle : handle of detected object
     -- inData.detectedPoint : detected point, relative to sensor frame
     -- inData.normalVector : normal vector at detected point, relative to sensor frame
 
-    local outData={}
-    outData.trigger=true
+    local outData = {}
+    outData.trigger = true
     return outData
 end</code>
+
+</div>
+
 <br>
 
 <br>
@@ -80,6 +122,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

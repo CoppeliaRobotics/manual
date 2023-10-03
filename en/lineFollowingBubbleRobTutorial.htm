@@ -57,20 +57,22 @@
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-path=require('path_customization')
+sim = require'sim'
+path = require('path_customization')
 
-function path.shaping(path,pathIsClosed,upVector)
-    local section={-0.02,0.001,0.02,0.001}
-    local color={0.3,0.3,0.3}
-    local options=0
+function path.shaping(path, pathIsClosed, upVector)
+    local section = {-0.02, 0.001, 0.02, 0.001}
+    local color = {0.3, 0.3, 0.3}
+    local options = 0
     if pathIsClosed then
-        options=options|4
+        options = options | 4
     end
-    local shape=sim.generateShapeFromPath(path,section,options,upVector)
-    sim.setShapeColor(shape,nil,sim.colorcomponent_ambient_diffuse,color)
+    local shape = sim.generateShapeFromPath(path, section, options, upVector)
+    sim.setShapeColor(shape, nil, sim.colorcomponent_ambient_diffuse, color)
     return shape
 end</code>
 
+</div>
 
 
 <p> Restart the customization script for the changes to take effect, then open the path's <a href="userConfigCallbackFunctions.htm">user configuration dialog</a> and check the <strong>Generate extruded shape</strong> checkbox.<br>
@@ -79,87 +81,174 @@ end</code>
 <p>The last step is to adjust the controller of BubbleRob, so that it will also follow the black path. Open the <a href="childScripts.htm">child script</a> attached to <em>bubbleRob</em>, and replace it with following code:</p>
 
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+import math
+
+# Initialization
+def sysCall_init():
+    sim = require('sim')
+    simUI = require('simUI')
+
+    self.bubbleRobBase = sim.getObject('.')
+    self.leftMotor = sim.getObject("./leftMotor")
+    self.rightMotor = sim.getObject("./rightMotor")
+    self.noseSensor = sim.getObject("./sensingNose")
+
+    self.minMaxSpeed = [50 * math.pi / 180, 300 * math.pi / 180]
+    self.backUntilTime = -1
+
+    self.floorSensorHandles = [-1, -1, -1]
+    self.floorSensorHandles[0] = sim.getObject("./leftSensor")
+    self.floorSensorHandles[1] = sim.getObject("./middleSensor")
+    self.floorSensorHandles[2] = sim.getObject("./rightSensor")
+
+    self.robotTrace = sim.addDrawingObject(
+        sim.drawing_linestrip + sim.drawing_cyclic, 2, 0, -1, 200,
+        [1, 1, 0], None, None, [1, 1, 0]
+    )
+
+    xml = f'&lt;ui title=&quot;{sim.getObjectAlias(self.bubbleRobBase, 1)} speed&quot; closeable=&quot;false&quot; ' + \
+      'resizeable=&quot;false&quot; activate=&quot;false&quot;&gt; &lt;hslider minimum=&quot;0&quot; ' + \
+      'maximum=&quot;100&quot; on-change=&quot;speedChange_callback&quot; id=&quot;1&quot;/&gt;' + \
+      '&lt;label text=&quot;&quot; style=&quot;* {{margin-left: 300px;}}&quot;/&gt;' + \
+      '&lt;/ui&gt;'
+
+    self.ui = simUI.create(xml)
+
+    self.speed = (self.minMaxSpeed[0] + self.minMaxSpeed[1]) * 0.5
+    simUI.setSliderValue(
+        self.ui, 1,
+        100 * (self.speed - self.minMaxSpeed[0]) / (self.minMaxSpeed[1] - self.minMaxSpeed[0])
+    )
+
+# Sensing callback
+def sysCall_sensing():
+    p = sim.getObjectPosition(self.bubbleRobBase)
+    sim.addDrawingObjectItem(self.robotTrace, p)
+
+# UI callback
+def speedChange_callback(ui, id, newVal):
+    self.speed = self.minMaxSpeed[0] + (self.minMaxSpeed[1] - self.minMaxSpeed[0]) * newVal / 100
+
+# Actuation callback
+def sysCall_actuation():
+    result, *_ = sim.readProximitySensor(self.noseSensor)
+    if result &gt; 0:
+        self.backUntilTime = sim.getSimulationTime() + 4
+
+    sensorReading = [False, False, False]
+    for i in range(3):
+        result = sim.readVisionSensor(self.floorSensorHandles[i])
+        if isinstance(result, tuple):
+            result, data, *_ = result
+        if result &gt;= 0:
+            sensorReading[i] = (data[10] &lt; 0.5)  # Indexing adjusted for 0-based Python
+
+    rightV = self.speed
+    leftV = self.speed
+    if sensorReading[0]:
+        leftV = 0.03 * self.speed
+    if sensorReading[2]:
+        rightV = 0.03 * self.speed
+    if sensorReading[0] and sensorReading[2]:
+        self.backUntilTime = sim.getSimulationTime() + 2
+
+    if self.backUntilTime < sim.getSimulationTime():
+        sim.setJointTargetVelocity(self.leftMotor, leftV)
+        sim.setJointTargetVelocity(self.rightMotor, rightV)
+    else:
+        sim.setJointTargetVelocity(self.leftMotor, -self.speed / 2)
+        sim.setJointTargetVelocity(self.rightMotor, -self.speed / 8)
+
+# Cleanup callback
+def sysCall_cleanup():
+    simUI.destroy(self.ui)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-simUI=require('simUI')
-
 function sysCall_init()
-    bubbleRobBase=sim.getObject('.')
-    leftMotor=sim.getObject("./leftMotor")
-    rightMotor=sim.getObject("./rightMotor")
-    noseSensor=sim.getObject("./sensingNose")
-    minMaxSpeed={50*math.pi/180,300*math.pi/180}
-    backUntilTime=-1 -- Tells whether bubbleRob is in forward or backward mode
-    floorSensorHandles={-1,-1,-1}
-    floorSensorHandles[1]=sim.getObject("./leftSensor")
-    floorSensorHandles[2]=sim.getObject("./middleSensor")
-    floorSensorHandles[3]=sim.getObject("./rightSensor")
-    robotTrace=sim.addDrawingObject(sim.drawing_linestrip+sim.drawing_cyclic,2,0,-1,200,{1,1,0})
+    sim = require('sim')
+    simUI = require('simUI')
+    bubbleRobBase = sim.getObject('.')
+    leftMotor = sim.getObject("./leftMotor")
+    rightMotor = sim.getObject("./rightMotor")
+    noseSensor = sim.getObject("./sensingNose")
+    minMaxSpeed = {50 * math.pi / 180,300 * math.pi / 180}
+    backUntilTime = -1 -- Tells whether bubbleRob is in forward or backward mode
+    floorSensorHandles = {-1, -1, -1}
+    floorSensorHandles[1] = sim.getObject("./leftSensor")
+    floorSensorHandles[2] = sim.getObject("./middleSensor")
+    floorSensorHandles[3] = sim.getObject("./rightSensor")
+    robotTrace = sim.addDrawingObject(sim.drawing_linestrip + sim.drawing_cyclic, 2, 0, -1,
+                 200, {1, 1, 0}, nil, nil, {1, 1, 0})
     -- Create the custom UI:
-    xml = '&lt;ui title="'..sim.getObjectAlias(bubbleRobBase,1)..' speed" closeable="false" resizeable="false" activate="false"&gt;'..[[
-                &lt;hslider minimum="0" maximum="100" on-change="speedChange_callback" id="1"/&gt;
-            &lt;label text="" style="* {margin-left: 300px;}"/&gt;
+        xml = '&lt;ui title="'..sim.getObjectAlias(bubbleRobBase,1)..' speed" closeable="false" '..[[
+               resizeable="false" activate="false"&gt; &lt;hslider minimum="0" maximum="100" 
+               on-change="speedChange_callback" id="1"/&gt;
+               &lt;label text="" style="* {margin-left: 300px;}"/&gt;
         &lt;/ui&gt;
         ]]
-    ui=simUI.create(xml)
-    speed=(minMaxSpeed[1]+minMaxSpeed[2])*0.5
-    simUI.setSliderValue(ui,1,100*(speed-minMaxSpeed[1])/(minMaxSpeed[2]-minMaxSpeed[1]))
-    
+    ui = simUI.create(xml)
+    speed = (minMaxSpeed[1] + minMaxSpeed[2]) * 0.5
+    simUI.setSliderValue(ui, 1, 100 * (speed - minMaxSpeed[1]) / (minMaxSpeed[2] - minMaxSpeed[1]))
 end
 
 function sysCall_sensing()
-    local p=sim.getObjectPosition(bubbleRobBase)
-    sim.addDrawingObjectItem(robotTrace,p)
+    local p = sim.getObjectPosition(bubbleRobBase)
+    sim.addDrawingObjectItem(robotTrace, p)
 end 
 
-function speedChange_callback(ui,id,newVal)
-    speed=minMaxSpeed[1]+(minMaxSpeed[2]-minMaxSpeed[1])*newVal/100
+function speedChange_callback(ui, id, newVal)
+    speed = minMaxSpeed[1] + (minMaxSpeed[2] - minMaxSpeed[1]) * newVal / 100
 end
 
 function sysCall_actuation() 
-    result=sim.readProximitySensor(noseSensor)
-    if (result&gt;0) then backUntilTime=sim.getSimulationTime()+4 end
+    local result = sim.readProximitySensor(noseSensor)
+    if result &gt; 0 then
+        backUntilTime = sim.getSimulationTime() + 4
+    end
     
     -- read the line detection sensors:
-    sensorReading={false,false,false}
-    for i=1,3,1 do
-        result,data=sim.readVisionSensor(floorSensorHandles[i])
-        if (result&gt;=0) then
-            sensorReading[i]=(data[11]&lt;0.5) -- data[11] is the average of intensity of the image
+    sensorReading = {false, false, false}
+    for i = 1, 3, 1 do
+        local result, data = sim.readVisionSensor(floorSensorHandles[i])
+        if result &gt;= 0 then
+            sensorReading[i] = (data[11] &lt; 0.5) -- data[11] is the average of intensity of the image
         end
     end
     
     -- compute left and right velocities to follow the detected line:
-    rightV=speed
-    leftV=speed
+    rightV = speed
+    leftV = speed
     if sensorReading[1] then
-        leftV=0.03*speed
+        leftV = 0.03 * speed
     end
     if sensorReading[3] then
-        rightV=0.03*speed
+        rightV = 0.03 * speed
     end
     if sensorReading[1] and sensorReading[3] then
-        backUntilTime=sim.getSimulationTime()+2
+        backUntilTime = sim.getSimulationTime() + 2
     end
     
-    if (backUntilTime&lt;sim.getSimulationTime()) then
+    if backUntilTime < sim.getSimulationTime() then
         -- When in forward mode, we simply move forward at the desired speed
-        sim.setJointTargetVelocity(leftMotor,leftV)
-        sim.setJointTargetVelocity(rightMotor,rightV)
+        sim.setJointTargetVelocity(leftMotor, leftV)
+        sim.setJointTargetVelocity(rightMotor, rightV)
     else
         -- When in backward mode, we simply backup in a curve at reduced speed
-        sim.setJointTargetVelocity(leftMotor,-speed/2)
-        sim.setJointTargetVelocity(rightMotor,-speed/8)
+        sim.setJointTargetVelocity(leftMotor, -speed / 2)
+        sim.setJointTargetVelocity(rightMotor, -speed / 8)
     end
 end 
 
 function sysCall_cleanup() 
     simUI.destroy(ui)
-end 
+end </code>
 
-</code>
-
+</div>
 
 <p>You can easily debug your line following vision sensors: select one, then in the scene view select [Right-click --> Add --> Floating view], then in the newly added floating view select [Right click --> View --> Associate view with selected vision sensor].
 </p>
@@ -184,6 +273,7 @@ end
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

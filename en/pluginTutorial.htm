@@ -186,24 +186,39 @@
 <p>Now open the threaded <a href="childScripts.htm">child script</a> attached to the BubbleRob model in the scene and inspect the code:<br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_thread():
+    sim = require('sim')
+    simBubble = require('simBubble')
+    jointHandles = [sim.getObject('./leftMotor'), sim.getObject('./rightMotor')]
+    sensorHandle = sim.getObject('./sensingNose')
+    robHandle = simBubble.create(jointHandles, sensorHandle, [0.5, 0.25])
+    if robHandle >= 0:
+        simBubble.start(robHandle) # start the robot
+        local st = sim.getSimulationTime()
+        sim.wait(20) # run for 20 seconds
+        simBubble.stop(robHandle)
+        simBubble.destroy(robHandle)</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-simBubble=require('simBubble')
-
 function sysCall_thread()
-    local jointHandles={sim.getObject('./leftMotor'),sim.getObject('./rightMotor')}
-    local sensorHandle=sim.getObject('./sensingNose')
-    local robHandle=simBubble.create(jointHandles,sensorHandle,{0.5,0.25})
-    if robHandle>=0 then
+    sim = require('sim')
+    simBubble = require('simBubble')
+    local jointHandles = {sim.getObject('./leftMotor'), sim.getObject('./rightMotor')}
+    local sensorHandle = sim.getObject('./sensingNose')
+    local robHandle = simBubble.create(jointHandles, sensorHandle, {0.5, 0.25})
+    if robHandle >= 0 then
         simBubble.start(robHandle) -- start the robot
-        local st=sim.getSimulationTime()
+        local st = sim.getSimulationTime()
         sim.wait(20) -- run for 20 seconds
         simBubble.stop(robHandle)
         simBubble.destroy(robHandle)
     end
 end</code>
-
+</div>
 <p>After loading the required module, joint and sensor handles are retrieved and given to the custom script function that creates a controller instance of our BubbleRob in the plugin. If the call was successfull, then we can call <em>simBubble.start</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles. Run the simulation: BubbleRob moves for 20 seconds then stops, as expected.<br>
 </p>
 
@@ -235,6 +250,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

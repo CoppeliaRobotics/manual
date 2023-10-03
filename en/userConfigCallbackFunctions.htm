@@ -31,79 +31,141 @@
 <p class=imageLabel>[Custom configuration dialog]</p>
 <br>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    simUI = require('simUI')
+    self.modelHandle = sim.getObject('.')
+
+def sysCall_userConfig():
+    xml = '''&lt;ui title="Robot" closeable="true" modal="true" layout="form" on-close="customUiClosed"&gt;
+            &lt;label text="Max. velocity:" /&gt;
+            &lt;edit id="1" value="-" on-editing-finished="velocityChanged"/&gt;
+            &lt;label text="Max. acceleration:" /&gt;
+            &lt;edit id="2" value="-" on-editing-finished="accelerationChanged"/&gt;
+            &lt;/ui&gt;'''
+    ui = simUI.create(xml)
+    data = readData()
+    simUI.setEditValue(ui, 1, str(data['maxVel']))
+    simUI.setEditValue(ui, 2, str(data['maxAccel']))
+
+def customUiClosed(ui):
+    simUI.destroy(ui)
+
+def velocityChanged(ui, id, val):
+    data = readData()
+    val = float(val)
+    if val:
+        if val < 0.1:
+            val = 0.1
+        if val > 0.5:
+            val = 0.5 
+        data['maxVel'] = val
+    simUI.setEditValue(ui, id, str(data['maxVel']))
+    writeData(data)
+
+def accelerationChanged(ui, id, val):
+    data = readData()
+    val = float(val)
+    if val:
+        if val < 0.01:
+            val = 0.01
+        if val > 0.2:
+            val = 0.2 
+        data['maxAccel'] = val
+    simUI.setEditValue(ui, id, str(data['maxAccel']))
+    writeData(data)
+
+def readData():
+    data = sim.readCustomDataBlock(self.modelHandle, 'RobotParams')
+    if data:
+        data = sim.unpackTable(data)
+    else:
+        data = {}
+        data['maxVel'] = 0.2
+        data['maxAccel'] = 0.05
+    return data
+
+def writeData(data):
+    sim.writeCustomDataBlock(self.modelHandle, 'RobotParams', sim.packTable(data))</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-simUI=require('simUI')
-
 function sysCall_init()
-    modelHandle=sim.getObject('.')
+    sim = require('sim')
+    simUI = require('simUI')
+    modelHandle = sim.getObject('.')
 end
 
 function sysCall_userConfig()
-    local xml =[[&lt;ui title="Robot" closeable="true" modal="true" layout="form" on-close="customUiClosed"&gt;
+    local xml = [[&lt;ui title="Robot" closeable="true" modal="true" layout="form" on-close="customUiClosed"&gt;
             &lt;label text="Max. velocity:" /&gt;
             &lt;edit id="1" value="-" on-editing-finished="velocityChanged"/&gt;
             &lt;label text="Max. acceleration:" /&gt;
             &lt;edit id="2" value="-" on-editing-finished="accelerationChanged"/&gt;
     &lt;/ui&gt;]]
-    local ui=simUI.create(xml)
-    local data=readData()
-    simUI.setEditValue(ui,1,tostring(data.maxVel))
-    simUI.setEditValue(ui,2,tostring(data.maxAccel))
+    local ui = simUI.create(xml)
+    local data = readData()
+    simUI.setEditValue(ui, 1, tostring(data.maxVel))
+    simUI.setEditValue(ui, 2, tostring(data.maxAccel))
 end
 
 function customUiClosed(ui)
     simUI.destroy(ui)
 end
 
-function velocityChanged(ui,id,val)
-    local data=readData()
-    val=tonumber(val)
+function velocityChanged(ui, id, val)
+    local data = readData()
+    val = tonumber(val)
     if val then
-        if val&lt;0.1 then
-            val=0.1
+        if val &lt; 0.1 then
+            val = 0.1
         end
-        if val&gt;0.5 then
-            val=0.5 
+        if val &gt; 0.5 then
+            val = 0.5 
         end
-        data.maxVel=val
+        data.maxVel = val
     end
-    simUI.setEditValue(ui,id,tostring(data.maxVel))
+    simUI.setEditValue(ui, id, tostring(data.maxVel))
     writeData(data)
 end
 
-function accelerationChanged(ui,id,val)
-    local data=readData()
-    val=tonumber(val)
+function accelerationChanged(ui, id, val)
+    local data = readData()
+    val = tonumber(val)
     if val then
-        if val&lt;0.01 then
-            val=0.01
+        if val &lt; 0.01 then
+            val = 0.01
         end
-        if val&gt;0.2 then
-            val=0.2 
+        if val &gt; 0.2 then
+            val = 0.2 
         end
-        data.maxAccel=val
+        data.maxAccel = val
     end
-    simUI.setEditValue(ui,id,tostring(data.maxAccel))
+    simUI.setEditValue(ui, id, tostring(data.maxAccel))
     writeData(data)
 end
 
 function readData()
-    local data=sim.readCustomDataBlock(modelHandle,'RobotParams')
+    local data = sim.readCustomDataBlock(modelHandle, 'RobotParams')
     if data then
-        data=sim.unpackTable(data)
+        data = sim.unpackTable(data)
     else
-        data={}
-        data.maxVel=0.2
-        data.maxAccel=0.05
+        data = {}
+        data.maxVel = 0.2
+        data.maxAccel = 0.05
     end
     return data
 end
 
 function writeData(data)
-    sim.writeCustomDataBlock(modelHandle,'RobotParams',sim.packTable(data))
+    sim.writeCustomDataBlock(modelHandle, 'RobotParams', sim.packTable(data))
 end</code>
+
+</div>
 
 <br>
 
@@ -118,105 +180,103 @@ end</code>
 require 'configUi'
 
 function sysCall_init()
-    local schema={
-        floatInput={
-            default=0.1,
-            maximum=4,
-            minimum=0.05,
-            name="float input",
-            type="float",
-            ui={
-                control="spinbox",
-                tab="Tab 1",order=1,col=1
+    local schema = {
+        floatInput = {
+            default = 0.1,
+            maximum = 4,
+            minimum = 0.05,
+            name = "float input",
+            type = "float",
+            ui = {
+                control = "spinbox",
+                tab = "Tab 1", order = 1, col = 1
             },
         },
-        intInput={
-            default=1,
-            maximum=10,
-            minimum=0,
-            name="int input",
-            type="int",
-            ui={
-                control="spinbox",
-                tab="Tab 1",order=2,col=2
+        intInput = {
+            default = 1,
+            maximum = 10,
+            minimum = 0,
+            name = "int input",
+            type = "int",
+            ui = {
+                control = "spinbox",
+                tab = "Tab 1", order = 2, col = 2
             },
         },
-        checkbox1={
-            type='bool',
-            name='checkbox1',
-            default=true,
-            ui={tab="Tab 1",order=3,col=1},
+        checkbox1 = {
+            type = 'bool',
+            name = 'checkbox1',
+            default = true,
+            ui = {tab = "Tab 1", order = 3, col = 1},
         },
-        checkbox2={
-            type='bool',
-            name='checkbox2',
-            default=false,
-            ui={tab="Tab 1",order=4,col=2},
+        checkbox2 = {
+            type = 'bool',
+            name = 'checkbox2',
+            default = false,
+            ui = {tab = "Tab 1", order = 4, col = 2},
         },
-        colorselect={
-            type='color',
-            name='color select',
-            default={1,0,1},
-            ui={tab="Tab 2",order=5,col=1,},
+        colorselect = {
+            type = 'color',
+            name = 'color select',
+            default = {1, 0, 1},
+            ui = {tab = "Tab 2", order = 5, col = 1},
         },
-        stringInput={
-            default="Hello",
-            name="string input",
-            type="string",
-            ui={
-                tab="Tab 2",order=6,col=2
+        stringInput = {
+            default = "Hello",
+            name = "string input",
+            type = "string",
+            ui = {tab = "Tab 2", order = 6, col = 2},
+        },
+        floatSlider = {
+            default = 0.5,
+            maximum = 1,
+            minimum = 0,
+            name = "float slider",
+            type = "float",
+            ui = {
+                control = "slider",
+                tab = "Tab 2", order = 7, col = 1
             },
         },
-        floatSlider={
-            default=0.5,
-            maximum=1,
-            minimum=0,
-            name="float slider",
-            type="float",
-            ui={
-                control="slider",
-                tab="Tab 2",order=7,col=1
+        intSlider = {
+            default = 1,
+            maximum = 10,
+            minimum = 0,
+            name = "int slider",
+            type = "int",
+            ui = {
+                control = "slider",
+                tab = "Tab 2", order = 8, col = 2
             },
         },
-        intSlider={
-            default=1,
-            maximum=10,
-            minimum=0,
-            name="int slider",
-            type="int",
-            ui={
-                control="slider",
-                tab="Tab 2",order=8,col=2
+        choices1 = {
+            default = 2,
+            choices = {"option 1", "option 2", "option 3"},
+            name = "combo choices",
+            type = "choices",
+            ui = {
+                control = "combo",
+                tab = "Tab 3", order = 9, col = 1
             },
         },
-        choices1={
-            default=2,
-            choices={"option 1","option 2","option 3"},
-            name="combo choices",
-            type="choices",
-            ui={
-                control="combo",
-                tab="Tab 3",order=9,col=1
-            },
-        },
-        choices2={
-            default=1,
-            choices={"option 1","option 2","option 3"},
-            name="radio choices",
-            type="choices",
-            ui={
-                control="radio",
-                tab="Tab 3",order=10,col=1
+        choices2 = {
+            default = 1,
+            choices = {"option 1", "option 2", "option 3"},
+            name = "radio choices",
+            type = "choices",
+            ui = {
+                control = "radio",
+                tab = "Tab 3", order = 10, col = 1
             },
         },
     }
-    sim.writeCustomDataBlock(sim.getObject('.'),'__schema__',sim.packTable(schema))
-    configUi=ConfigUI('myModelType',nil,modificationCallback)
+    sim.writeCustomDataBlock(sim.getObject('.'), '__schema__', sim.packTable(schema))
+    configUi = ConfigUI('myModelType', nil, modificationCallback)
 end
 
 function modificationCallback(config)
-    local objectHandle=sim.getObject('.')
-    local txt="Object '"..sim.getObjectAlias(objectHandle,5).."' just changed.\nNew parameters are:"
+    local objectHandle = sim.getObject('.')
+    local txt = "Object '"..sim.getObjectAlias(objectHandle,5).."' just changed.\nNew parameters are:"
     print(txt)
     print(config)
 end</code>
@@ -243,6 +303,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

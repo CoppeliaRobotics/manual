@@ -148,19 +148,39 @@ Checking whether the plugin was loaded. If not, an error message is output.</li>
 <p>Following 3 custom script functions are of main interest (others are exported by the plugin): <br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+int mtbServerHandle, string message = simMTB.startServer(string mtbServerExecutable,
+    int portNumber, bytes program, list jointPositions, list velocities)</code>
+    
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-int mtbServerHandle,string message=simMTB.startServer(string mtbServerExecutable,
-    int portNumber,charBuffer program,table[4] jointPositions, table[2] velocities)</code>
+int mtbServerHandle, string message = simMTB.startServer(string mtbServerExecutable,
+    int portNumber, buffer program, table[4] jointPositions, table[2] velocities)</code>
+</div>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+int result, string message = simMTB.step(int mtbServerHandle, float timeStep)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-int result,string message=simMTB.step(int mtbServerHandle,float timeStep)</code>
+int result, string message = simMTB.step(int mtbServerHandle, float timeStep)</code>
+</div>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+list jointValues = simMTB.getJoints(int mtbServerHandle)</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-table[4] jointValues=simMTB.getJoints(int mtbServerHandle)</code>
-
+table[4] jointValues = simMTB.getJoints(int mtbServerHandle)</code>
+</div>
 
 <li><strong>simMTB.startServer</strong>: launches the server application (e.g. <em>mtbServer</em>) on the specified port, connects to it, and sends it the robot language code, the initial linear/angular joint positions, and the initial velocities. In return, the function returns a server handle (if successful), and a message (usually a compilation error message).</li>
 
@@ -172,18 +192,29 @@ table[4] jointValues=simMTB.getJoints(int mtbServerHandle)</code>
 <p>You could also imagine slightly modifying the step function, and add one additional function, in order to be able to handle intermediate events triggered by the robot language program execution. In that case, each simulation step would have to execute following script code (in a child script):<br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+dt = sim.getSimulationTimeStep()
+while dt &gt; 0:
+    result, dt, cmdMessage = simMTB.step(mtbServerHandle, dt) # where the returned dt is the remaining dt
+    event = simMTB.getEvent()
+    while event != -1:
+        # handle events here
+        event = simMTB.getEvent()</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-local dt=sim.getSimulationTimeStep()
-while (dt&gt;0) do
-    result,dt,cmdMessage=simMTB.step(mtbServerHandle,dt) -- where the returned dt is the remaining dt
-    local event=simMTB.getEvent()
-    while event~=-1 do
+local dt = sim.getSimulationTimeStep()
+while dt &gt; 0 do
+    result, dt, cmdMessage = simMTB.step(mtbServerHandle, dt) -- where the returned dt is the remaining dt
+    local event = simMTB.getEvent()
+    while event ~= -1 do
         -- handle events here
-        event=simMTB.getEvent()
+        event = simMTB.getEvent()
     end
 end</code>
-
+</div>
 
 
 
@@ -207,6 +238,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

@@ -59,32 +59,65 @@
 
 <p>Above collection could be defined as a combination of 4 items, resulting in following code:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# Collection defined as: &lt;object2&gt; + &lt;object4&gt; + &lt;object6&gt; + &lt;object7&gt;
+
+object2 = sim.getObject('/object2')
+object4 = sim.getObject('/object4')
+object6 = sim.getObject('/object6')
+object7 = sim.getObject('/object7')
+collectionHandle = sim.createCollection(0)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object2, 0)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object4, 0)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object6, 0)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object7, 0)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- Collection defined as: &lt;object2&gt; + &lt;object4&gt; + &lt;object6&gt; + &lt;object7&gt;
 
-local object2=sim.getObject('/object2')
-local object4=sim.getObject('/object4')
-local object6=sim.getObject('/object6')
-local object7=sim.getObject('/object7')
-collectionHandle=sim.createCollection(0)
-sim.addItemToCollection(collectionHandle,sim.handle_single,object2,0)
-sim.addItemToCollection(collectionHandle,sim.handle_single,object4,0)
-sim.addItemToCollection(collectionHandle,sim.handle_single,object6,0)
-sim.addItemToCollection(collectionHandle,sim.handle_single,object7,0)</code>
+local object2 = sim.getObject('/object2')
+local object4 = sim.getObject('/object4')
+local object6 = sim.getObject('/object6')
+local object7 = sim.getObject('/object7')
+collectionHandle = sim.createCollection(0)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object2, 0)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object4, 0)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object6, 0)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object7, 0)</code>
+
+</div>
 
 <p>But a similar collection could also be defined as a combination of following 3 items too:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# Collection defined as: &lt;all objects&gt; - &lt;tree starting at object1&gt; + &lt;object6&gt;
+
+object1 = sim.getObject('/object1')
+object6 = sim.getObject('/object6')
+collectionHandle = sim.createCollection(0)
+sim.addItemToCollection(collectionHandle, sim.handle_all, -1, 0)
+sim.addItemToCollection(collectionHandle, sim.handle_tree, object1, 1)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object6, 0)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- Collection defined as: &lt;all objects&gt; - &lt;tree starting at object1&gt; + &lt;object6&gt;
 
-local object1=sim.getObject('/object1')
-local object6=sim.getObject('/object6')
-collectionHandle=sim.createCollection(0)
-sim.addItemToCollection(collectionHandle,sim.handle_all,-1,0)
-sim.addItemToCollection(collectionHandle,sim.handle_tree,object1,1)
-sim.addItemToCollection(collectionHandle,sim.handle_single,object6,0)</code>
+local object1 = sim.getObject('/object1')
+local object6 = sim.getObject('/object6')
+collectionHandle = sim.createCollection(0)
+sim.addItemToCollection(collectionHandle, sim.handle_all, -1, 0)
+sim.addItemToCollection(collectionHandle, sim.handle_tree, object1, 1)
+sim.addItemToCollection(collectionHandle, sim.handle_single, object6, 0)</code>
+
+</div>
 
 <p>See also the <a href="apiFunctions.htm#collections">API functions related to collections</a>.</p>
 
@@ -106,6 +139,7 @@ sim.addItemToCollection(collectionHandle,sim.handle_single,object6,0)</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

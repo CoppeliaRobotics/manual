@@ -30,56 +30,84 @@
 
 <p><a name="packing"></a>Following example illustrates how to pack/unpack data. Other functions can be found here:</p>
   
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# Refer to the various Python packages, e.g.:
+import struct
+import base64
+import cbor
+
+# One can also use some built-in functions:
+base64Buffer = sim.transformBuffer(binaryPackedData, sim.buffer_uint8, 1, 0, sim.buffer_base64)
+originalBuffer = sim.transformBuffer(base64Buffer, sim.buffer_base64, 1, 0, sim.buffer_uint8)
+
+# Packing/unpacking random data, in CoppeliaSim format:
+data = [1, 'hello', {'value': 'world'}, [1, [2, 3]]]
+binaryPackedData = sim.packTable(data)
+data = sim.unpackTable(binaryPackedData)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- Packing/unpacking specific type of data:
-local data={1,2,3}
-local binaryPackedData=sim.packDoubleTable(data) -- binary packing
-data=sim.unpackDoubleTable(binaryPackedData) -- binary unpacking
+local data = {1, 2, 3}
+local binaryPackedData = sim.packDoubleTable(data) -- binary packing
+data = sim.unpackDoubleTable(binaryPackedData) -- binary unpacking
 
-base16=require('base16')
-local base16PackedData=base16.encode(binaryPackedData) -- base16 encoding
-binaryPackedData=base16.decode(base16PackedData) -- base16 decoding
+base16 = require('base16')
+local base16PackedData = base16.encode(binaryPackedData) -- base16 encoding
+binaryPackedData = base16.decode(base16PackedData) -- base16 decoding
 
-base64=require('base64')
-local base64PackedData=base64.encode(binaryPackedData) -- base64 encoding
-binaryPackedData=base64.decode(base64PackedData) -- base64 decoding
+base64 = require('base64')
+local base64PackedData = base64.encode(binaryPackedData) -- base64 encoding
+binaryPackedData = base64.decode(base64PackedData) -- base64 decoding
 
-local base64Buffer=sim.transformBuffer(binaryPackedData,sim.buffer_uint8,1,0,sim.buffer_base64)
-local originalBuffer=sim.transformBuffer(base64Buffer,sim.buffer_base64,1,0,sim.buffer_uint8)
+local base64Buffer = sim.transformBuffer(binaryPackedData, sim.buffer_uint8, 1, 0, sim.buffer_base64)
+local originalBuffer = sim.transformBuffer(base64Buffer, sim.buffer_base64, 1, 0, sim.buffer_uint8)
 
 
 -- Packing/unpacking random data:
-local data={1,'hello',{value='world'},{1,{2,3}}}
-local binaryPackedData=sim.packTable(data) -- binary packing
-data=sim.unpackTable(binaryPackedData) -- binary unpacking
+local data = {1, 'hello', {value = 'world'}, {1, {2, 3}}}
+local binaryPackedData = sim.packTable(data) -- binary packing
+data = sim.unpackTable(binaryPackedData) -- binary unpacking
 
-cbor=require('cbor')
-local cborPackedData=cbor.encode(data) -- cbor encoding
-data=cbor.decode(cborPackedData) -- cbor decoding
+cbor = require('cbor')
+local cborPackedData = cbor.encode(data) -- cbor encoding
+data = cbor.decode(cborPackedData) -- cbor decoding</code>
 
-</code>  
+</div>
+  
 <p>More packing/unpacking functions can be found <a href="apiFunctions.htm#packing">here</a>.</p>
 
 <br>
-<p><a name="algebra"></a>Following example illustrates usage of the linear algebra functionality:</p>
+<p><a name="algebra"></a>Following example illustrates usage of linear algebra functionality:</p>
   
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# Refer to the numpy package for instance:
+import numpy</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- Get the absolute transformation matrices of an object and its parent:
-local absObj=Matrix4x4:frompose(sim.getObjectPose(objectHandle))
-local absParentObj=Matrix4x4:frompose(sim.getObjectPose(parentHandle))
+local absObj = Matrix4x4:frompose(sim.getObjectPose(objectHandle))
+local absParentObj = Matrix4x4:frompose(sim.getObjectPose(parentHandle))
 
 -- Compute the relative transformation matrix of the object:
-local relObj=Matrix4x4:inv(absParentObj)*absObj
+local relObj = Matrix4x4:inv(absParentObj) * absObj
 
 -- Get the relative transformation matrix of the object directly:
-local relObj2=Matrix4x4:frompose(sim.getObjectPose(objectHandle,parentHandle))
+local relObj2 = Matrix4x4:frompose(sim.getObjectPose(objectHandle, parentHandle))
 
 -- Check that both matrices are same:
 print(relObj:sub(relObj2):abs():max())</code>
 
-<p>The documentation for the linear algebra functionality can be found <a href="https://github.com/CoppeliaRobotics/lua/blob/master/matrix.md" target="_blank">here</a>.</p>
+</div>
+
+<p>The documentation for the linear algebra functionality for Lua can be found <a href="https://github.com/CoppeliaRobotics/lua/blob/master/matrix.md" target="_blank">here</a>.</p>
 
 
   
@@ -103,6 +131,7 @@ print(relObj:sub(relObj2):abs():max())</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

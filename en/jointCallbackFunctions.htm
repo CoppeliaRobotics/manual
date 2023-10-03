@@ -110,29 +110,29 @@ function sysCall_joint(inData)
     --                 torques from joint limits are not taken into account
     -- inData.force : the joint force/torque, as set via sim.setJointTargetForce
 
-    if inData.mode==sim.jointmode_dynamic then
+    if inData.mode == sim.jointmode_dynamic then
         -- Simplest position controller example:
-        local ctrl=inData.error*20
-        local maxVelocity=ctrl
-        if (maxVelocity&gt;inData.maxVel) then
-            maxVelocity=inData.maxVel
+        local ctrl = inData.error * 20
+        local maxVelocity = ctrl
+        if maxVelocity &gt; inData.maxVel then
+            maxVelocity = inData.maxVel
         end
-        if (maxVelocity&lt;-inData.maxVel) then
-            maxVelocity=-inData.maxVel
+        if maxVelocity &lt; -inData.maxVel then
+            maxVelocity = -inData.maxVel
         end
-        local forceOrTorqueToApply=inData.maxForce
+        local forceOrTorqueToApply = inData.maxForce
     
         -- Following data must be returned to CoppeliaSim:
-        local outData={vel=maxVelocity,force=forceOrTorqueToApply}
+        local outData = {vel = maxVelocity, force = forceOrTorqueToApply}
         return outData
     end
     
     -- Expected return data:
     -- For kinematic joints:
-    -- outData={pos=pos, vel=vel, immobile=false}
+    -- outData = {pos = pos, vel = vel, immobile = false}
     -- 
     -- For dynamic joints:
-    -- outData={force=f, vel=vel}
+    -- outData = {force = f, vel = vel}
 end</code>
 
 </div>

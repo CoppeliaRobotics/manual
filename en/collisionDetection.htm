@@ -29,56 +29,106 @@
 
 <p>Using the API function <a href="regularApi/simCheckCollision.htm">sim.checkCollision</a>, one can easily detect collision between entities, for instance collision detection between a robot and its environment, from within a <a href="childScripts.htm">child script</a>, in each simulation step:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    robotBase = sim.getObject('/robotModelAlias')
+    self.robotCollection = sim.createCollection(0)
+    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
+
+def sysCall_sensing():
+    result, pairHandles = sim.checkCollision(self.robotCollection, sim.handle_all)
+    if result &gt; 0:
+        print(f'Robot is colliding. Colliding pair is {getAsString(pairHandles)}')</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    local robotBase=sim.getObject('/robotModelAlias')
-    robotCollection=sim.createCollection(0)
-    sim.addItemToCollection(robotCollection,sim.handle_tree,robotBase,0)
+    sim = require('sim')
+    local robotBase = sim.getObject('/robotModelAlias')
+    robotCollection = sim.createCollection(0)
+    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
 end
 
 function sysCall_sensing()
-    local result,pairHandles=sim.checkCollision(robotCollection,sim.handle_all)
-    if result&gt;0 then
-        print('Robot is colliding. Colliding pair is '..getAsString(pairHandles))
+    local result, pairHandles = sim.checkCollision(robotCollection, sim.handle_all)
+    if result &gt; 0 then
+        print('Robot is colliding. Colliding pair is ' .. getAsString(pairHandles))
     end
 end</code>
 
+</div>
+
 <p>One can also temporarily modify the color of <a href="objects.htm">objects</a> or whole <a href="collections.htm">collections</a>, in order to visually indicate a collision:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def change_pair_color(entity_pair, color_pair):
+    self.original_color_data = []
+    self.original_color_data.append(sim.changeEntityColor(entity_pair[0], color_pair[0]))
+    self.original_color_data.append(sim.changeEntityColor(entity_pair[1], color_pair[1]))
+
+def restore_pair_color():
+    if hasattr(self,'original_color_data'):
+        sim.restoreEntityColor(self.original_color_data[0])
+        sim.restoreEntityColor(self.original_color_data[1])
+
+def sysCall_init():
+    sim = require('sim')
+    robot_base = sim.getObject('/irb360')
+    self.robot_collection = sim.createCollection(0)
+    sim.addItemToCollection(self.robot_collection, sim.handle_tree, robot_base, 0)
+    self.collision_colors = [[1, 0, 0], [1, 0, 1]]  # collider and collidee
+
+def sysCall_sensing():
+    result, pair_handles = sim.checkCollision(self.robot_collection, sim.handle_all)
+    restore_pair_color()
+    if result &gt; 0:
+        # Change color of the collection and the collidee:
+        change_pair_color([self.robot_collection, pair_handles[1]], self.collision_colors)
+        # Change color of the collider and collidee objects:
+        # change_pair_color([pair_handles[0], pair_handles[1]], self.collision_colors)
+
+def sysCall_cleanup():
+    restore_pair_color()</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function changePairColor(entityPair,colorPair)
-    originalColorData={}
-    originalColorData[1]=sim.changeEntityColor(entityPair[1],colorPair[1])
-    originalColorData[2]=sim.changeEntityColor(entityPair[2],colorPair[2])
+function changePairColor(entityPair, colorPair)
+    originalColorData = {}
+    originalColorData[1] = sim.changeEntityColor(entityPair[1], colorPair[1])
+    originalColorData[2] = sim.changeEntityColor(entityPair[2], colorPair[2])
 end
 
 function restorePairColor()
     if originalColorData then
         sim.restoreEntityColor(originalColorData[1])
         sim.restoreEntityColor(originalColorData[2])
-        originalColorData=nil
+        originalColorData = nil
     end
 end
 
 function sysCall_init()
-    local robotBase=sim.getObject('/irb360')
-    robotCollection=sim.createCollection(0)
-    sim.addItemToCollection(robotCollection,sim.handle_tree,robotBase,0)
-    collisionColors={{1,0,0},{1,0,1}} -- collider and collidee
+    sim = require('sim')
+    local robotBase = sim.getObject('/irb360')
+    robotCollection = sim.createCollection(0)
+    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
+    collisionColors = {{1, 0, 0}, {1, 0, 1}}  -- collider and collidee
 end
 
 function sysCall_sensing()
-    local result,pairHandles=sim.checkCollision(robotCollection,sim.handle_all)
+    local result, pairHandles = sim.checkCollision(robotCollection, sim.handle_all)
     restorePairColor()
-    if result&gt;0 then
+    if result &gt; 0 then
         -- Change color of the collection and the collidee:
-        changePairColor({robotCollection,pairHandles[2]},collisionColors)
+        changePairColor({robotCollection, pairHandles[2]}, collisionColors)
         -- Change color of the collider and collidee objects:
-        -- changePairColor({pairHandles[1],pairHandles[2]},collisionColors)
+        -- changePairColor({pairHandles[1], pairHandles[2]}, collisionColors)
     end
 end
 
@@ -86,7 +136,7 @@ function sysCall_cleanup()
     restorePairColor()
 end</code>
 
-
+</div>
 
 <p>CoppeliaSim's collision detection functionality is also available as stand-alone routines via the <a href="coppeliaGeometricRoutines.htm">Coppelia geometric routines</a>.</p>
 
@@ -112,6 +162,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

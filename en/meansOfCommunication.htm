@@ -42,22 +42,42 @@
 
 <p><a href="apiFunctions.htm#signals">Signals</a> can be seen as global variables. They can be defined, redefined, read and cleared. For example:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# script 1 writes the data to string signal mySignalName:
+
+myData = [1, 2, [&quot;Hello&quot;, &quot;world&quot;, True, [&quot;value1&quot;: 63, &quot;value2&quot;: &quot;aString&quot;]]]
+sim.setStringSignal(&quot;mySignalName&quot;, sim.packTable(myData))</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
--- script 1 writes the data to string signal <em>mySignalName</em>:
+-- script 1 writes the data to string signal mySignalName:
 
-local myData={1,2,{&quot;Hello&quot;,&quot;world&quot;,true,{value1=63,value2=&quot;aString&quot;}}}
-sim.setStringSignal(&quot;mySignalName&quot;,sim.packTable(myData))</code>
+local myData = {1, 2, {&quot;Hello&quot;, &quot;world&quot;, true, {value1 = 63, value2 = &quot;aString&quot;}}}
+sim.setStringSignal(&quot;mySignalName&quot;, sim.packTable(myData))</code>
 
+</div>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# script 2 reads the data from string signal mySignalName:
+
+myData = sim.getStringSignal(&quot;mySignalName&quot;)
+if myData != None:
+    myData = sim.unpackTable(myData)</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
--- script 2 reads the data from string signal <em>mySignalName</em>:
+-- script 2 reads the data from string signal mySignalName:
 
-local myData=sim.getStringSignal(&quot;mySignalName&quot;)
+local myData = sim.getStringSignal(&quot;mySignalName&quot;)
 if myData then
-    myData=sim.unpackTable(myData)
+    myData = sim.unpackTable(myData)
 end</code>
 
+</div>
 <br>
 
 <h2><a name="customDataBlocks"></a>Custom data blocks</h2>
@@ -65,22 +85,44 @@ end</code>
 
 <p><a href="apiFunctions.htm#customDataBlocks">Custom data blocks</a> is data that is stored inside of a <a href="objects.htm">scene object</a>, or inside a <a href="scenes.htm">scene</a>. It can be used to store custom data to be saved together with a <a href="models.htm">model</a> or scene, but also as a means of communication. For example:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# script 1 writes the data to the scene:
+
+myData = [1, 2, [&quot;Hello&quot;, &quot;world&quot;, True, [&quot;value1&quot;: 63, &quot;value2&quot;: &quot;aString&quot;]]]
+sim.writeCustomDataBlock(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myData))</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- script 1 writes the data to the scene:
 
-local myData={1,2,{&quot;Hello&quot;,&quot;world&quot;,true,{value1=63,value2=&quot;aString&quot;}}}
-sim.writeCustomDataBlock(sim.handle_scene,&quot;myTag&quot;,sim.packTable(myData))</code>
+local myData = {1, 2, {&quot;Hello&quot;, &quot;world&quot;, true, {value1 = 63, value2 = &quot;aString&quot;}}}
+sim.writeCustomDataBlock(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myData))</code>
+
+</div>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# script 2 reads the data from the scene:
+
+myData = sim.readCustomDataBlock(sim.handle_scene, &quot;myTag&quot;)
+if myData != None:
+    myData = sim.unpackTable(myData)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- script 2 reads the data from the scene:
 
-local myData=sim.readCustomDataBlock(sim.handle_scene,&quot;myTag&quot;)
+local myData = sim.readCustomDataBlock(sim.handle_scene, &quot;myTag&quot;)
 if myData then
-    myData=sim.unpackTable(myData)
+    myData = sim.unpackTable(myData)
 end</code>
 
+</div>
 
 <br>
 
@@ -95,26 +137,26 @@ end</code>
 
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">void myCallbackFunc(SScriptCallBack* p)
 {
-    int stack=p-&gt;stackID;
+    int stack = p -&gt; stackID;
     CStackArray inArguments;
     inArguments.buildFromStack(stack);
     
-    if ( (inArguments.getSize()>0)&amp;&amp;inArguments.isString(0) )
+    if ( (inArguments.getSize() > 0) &amp;&amp; inArguments.isString(0) )
     {
         std::string tmp(&quot;we received a string: &quot;);
-        tmp+=inArguments.getString(0);
-        simAddLog(&quot;ABC&quot;,sim_verbosity_msgs,tmp.c_str());
+        tmp += inArguments.getString(0);
+        simAddLog(&quot;ABC&quot;, sim_verbosity_msgs,tmp.c_str());
         
         CStackArray outArguments;
         outArguments.pushString(&quot;Hello to you too!&quot;);
         outArguments.buildOntoStack(stack);
     }
     else
-        simSetLastError(&quot;simABC.func&quot;,&quot;Not enough arguments or wrong arguments.&quot;);
+        simSetLastError(nullptr, &quot;Not enough arguments or wrong arguments.&quot;);
 }
 
 // Somewhere in the plugin's initialization code:
-simRegisterScriptCallbackFunction(&quot;simABC.func@ABC&quot;,&quot;string reply=simABC.func(string inputStr)&quot;,myCallbackFunc);</code>
+simRegisterScriptCallbackFunction(&quot;func&quot;, nullptr, myCallbackFunc);</code>
 
 
 
@@ -143,25 +185,42 @@ simRegisterScriptCallbackFunction(&quot;simABC.func@ABC&quot;,&quot;string reply
 
 
 <p>A <a href="scripts.htm">script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all scripts at once, via the <a href="regularApi/simBroadcastMsg.htm">sim.broadcastMsg</a> function. For instance, following will constantly broadcast a message to all scripts:</p>
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    self.scriptHandle = sim.getScriptInt32Param(sim.handle_self, sim.scriptintparam_handle)
+
+def sysCall_sensing():
+    message = {'id': 'greetingMessage', 'data': {'msg': 'Hello!'}}
+    sim.broadcastMsg(message)
+
+def sysCall_msg(msg, origin):
+    if origin != self.scriptHandle and msg.id == 'greetingMessage':
+        print("Received following message from script {}:".format(origin))
+        print(msg['data']['msg'])</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    scriptHandle=sim.getScriptInt32Param(sim.handle_self,sim.scriptintparam_handle)
+    sim = require('sim')
+    scriptHandle = sim.getScriptInt32Param(sim.handle_self, sim.scriptintparam_handle)
 end
 
 function sysCall_sensing()
-    local message={id='greetingMessage',data={msg='Hello!'}}
+    local message = {id = 'greetingMessage', data = {msg = 'Hello!'}}
     sim.broadcastMsg(message)
 end
 
-function sysCall_msg(msg,origin)
-    if origin~=scriptHandle and msg.id=='greetingMessage' then
-        print(string.format("Received following message from script %i:",origin))
+function sysCall_msg(msg, origin)
+    if origin ~= scriptHandle and msg.id == 'greetingMessage' then
+        print(string.format("Received following message from script %i:", origin))
         print(msg.data.msg)
     end
 end</code>
+
+</div>
 <br>
 
 
@@ -171,26 +230,49 @@ end</code>
 </h2>
 
 
-<p>The <a href="http://api.zeromq.org/" target="_blank">ZeroMQ library</a>, wrapped inside the <a href="https://github.com/CoppeliaRobotics/simZMQ" target="_blank">ZMQ plugin</a>, offers several <a href="simZMQ.htm">API functions related to ZeroMQ messaging</a>. Following illustrates a simple requester:</p>
+<p>The <a href="http://api.zeromq.org/" target="_blank">ZeroMQ library</a>, wrapped inside the <a href="https://github.com/CoppeliaRobotics/simZMQ" target="_blank">ZMQ plugin</a>, offers several <a href="simZMQ.htm">API functions related to ZeroMQ messaging</a>. When using Python, one is of course also free to using the pyzmq package for the ZeroMQ functionality. Following illustrates a simple requester:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_thread():
+    sim = require('sim')
+    simZMQ = require('simZMQ') # suppose we do not use the pyzmq package
+    print('Connecting to hello world server...')
+    self.context = simZMQ.ctx_new()
+    self.requester = simZMQ.socket(self.context, simZMQ.REQ)
+    simZMQ.connect(self.requester, 'tcp://localhost:5555')
+
+    for request_nbr in range(11):
+        print('-----------------------------------------')
+        data = 'Hello'
+        print(f'[requester] Sending "{data}"...')
+        simZMQ.send(self.requester, data, 0)
+        rc, data = simZMQ.recv(self.requester, 0)
+        print(f'[requester] Received "{data}"')
+
+def sysCall_cleanup():
+    simZMQ.close(self.requester)
+    simZMQ.ctx_term(self.context)</code>
+    
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-simZMQ=require('simZMQ')
-
 function sysCall_thread()
-    printf('Connecting to hello world server...')
-    context=simZMQ.ctx_new()
-    requester=simZMQ.socket(context,simZMQ.REQ)
-    simZMQ.connect(requester,'tcp://localhost:5555')
+    sim = require('sim')
+    simZMQ = require('simZMQ')
+    print('Connecting to hello world server...')
+    context = simZMQ.ctx_new()
+    requester = simZMQ.socket(context, simZMQ.REQ)
+    simZMQ.connect(requester, 'tcp://localhost:5555')
 
-    for request_nbr=0,10 do
+    for request_nbr = 0, 10 do
         print('-----------------------------------------')
-        local data='Hello'
-        printf('[requester] Sending &quot;%s&quot;...',data)
-        simZMQ.send(requester,data,0)
-        local rc,data=simZMQ.recv(requester,0)
-        printf('[requester] Received &quot;%s&quot;',data)
+        local data = 'Hello'
+        printf('[requester] Sending "%s"...', data)
+        simZMQ.send(requester, data, 0)
+        local rc, data = simZMQ.recv(requester, 0)
+        printf('[requester] Received "%s"', data)
     end
 end
 
@@ -198,23 +280,52 @@ function sysCall_cleanup()
     simZMQ.close(requester)
     simZMQ.ctx_term(context)
 end</code>
+</div>
 
 <p>And following would be the corresponding responder:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_thread():
+    sim = require('sim')
+    simZMQ = require('simZMQ') # suppose we do not use the pyzmq package
+    self.context = simZMQ.ctx_new()
+    self.responder = simZMQ.socket(self.context, simZMQ.REP)
+    rc = simZMQ.bind(self.responder, 'tcp://*:5555')
+    if rc != 0:
+        raise Exception('failed bind')
+    
+    while True:
+        rc, data = simZMQ.recv(self.responder, 0)
+        print(f'[responder] Received "{data}"')
+        data = 'World'
+        print(f'[responder] Sending "{data}"...')
+        simZMQ.send(self.responder, data, 0)
+
+def sysCall_cleanup():
+    simZMQ.close(self.responder)
+    simZMQ.ctx_term(self.context)</code>
+    
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_thread()
-    context=simZMQ.ctx_new()
-    responder=simZMQ.socket(context,simZMQ.REP)
-    local rc=simZMQ.bind(responder,'tcp://*:5555')
-    if rc~=0 then error('failed bind') end
+    sim = require('sim')
+    simZMQ = require('simZMQ')
+    context = simZMQ.ctx_new()
+    responder = simZMQ.socket(context, simZMQ.REP)
+    local rc = simZMQ.bind(responder, 'tcp://*:5555')
+    if rc ~= 0 then
+        error('failed bind')
+    end
     
-    while not sim.getSimulationStopping() do
-        local rc,data=simZMQ.recv(responder,0)
-        printf('[responder] Received &quot;%s&quot;',data)
-        data='World'
-        printf('[responder] Sending &quot;%s&quot;...',data)
-        simZMQ.send(responder,data,0)
+    while true do
+        local rc, data = simZMQ.recv(responder, 0)
+        printf('[responder] Received "%s"', data)
+        data = 'World'
+        printf('[responder] Sending "%s"...', data)
+        simZMQ.send(responder, data, 0)
     end
 end
 
@@ -222,49 +333,88 @@ function sysCall_cleanup()
     simZMQ.close(responder)
     simZMQ.ctx_term(context)
 end</code>
+
+</div>
 <br>
 
 <h2><a name="ws"></a>WebSocket
 </h2>
-<p>The <a href="https://github.com/CoppeliaRobotics/simWS" target="_blank">WebSocket plugin</a>, offers several <a href="simWS.htm">API functions allowing to interact with a web browser</a>. Following is a simple echo server:</p>
+<p>The <a href="https://github.com/CoppeliaRobotics/simWS" target="_blank">WebSocket plugin</a>, offers several <a href="simWS.htm">API functions allowing to interact with a web browser</a>. When using Python, one is of course also free to using a Python specific WS package. Following is a simple echo server:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def onMessage(server, connection, data):
+    simWS.send(server, connection, data)
+
+def sysCall_init():
+    simWS = require('simWS') # suppose one is not using any specific Python package related to WS
+    server = simWS.start(9000)
+    simWS.setMessageHandler(server, 'onMessage')</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function onMessage(server,connection,data)
-    simWS.send(server,connection,data)
+function onMessage(server, connection, data)
+    simWS.send(server, connection, data)
 end
 
 function sysCall_init()
-    server=simWS.start(9000)
-    simWS.setMessageHandler(server,'onMessage')
+    simWS = require('simWS')
+    server = simWS.start(9000)
+    simWS.setMessageHandler(server, 'onMessage')
 end</code>
-
+</div>
 <p>And following is a simple broadcaster:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def onOpen(server, connection):
+    if server not in clients:
+        clients[server] = {}
+    clients[server][connection] = 1
+
+def onClose(server, connection):
+    del clients[server][connection]
+
+def broadcast(server, data):
+    for connection in clients.get(server, {}):
+        simWS.send(server, connection, data)
+
+def sysCall_init():
+    simWS = require('simWS') # suppose one is not using any specific Python package related to WS
+    clients = {}
+    server = simWS.start(9000)
+    simWS.setOpenHandler(server, onOpen)
+    simWS.setCloseHandler(server, onClose)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function onOpen(server,connection)
-    clients[server]=clients[server] or {}
-    clients[server][connection]=1
+function onOpen(server, connection)
+    clients[server] = clients[server] or {}
+    clients[server][connection] = 1
 end
 
-function onClose(server,connection)
-    clients[server][connection]=nil
+function onClose(server, connection)
+    clients[server][connection] = nil
 end
 
-function broadcast(server,data)
-    for connection,_ in pairs(clients[server] or {}) do
-        simWS.send(server,connection,data)
+function broadcast(server, data)
+    for connection, _ in pairs(clients[server] or {}) do
+        simWS.send(server, connection, data)
     end
 end
 
 function sysCall_init()
-    clients={}
-    server=simWS.start(9000)
-    simWS.setOpenHandler(server,'onOpen')
-    simWS.setCloseHandler(server,'onClose')
+    simWS = require('simWS')
+    clients = {}
+    server = simWS.start(9000)
+    simWS.setOpenHandler(server, 'onOpen')
+    simWS.setCloseHandler(server, 'onClose')
 end</code>
-
+</div>
 
 <br>
 
@@ -281,17 +431,22 @@ end</code>
 </h2>
 
 
-<p>CoppeliaSim ships with the <a href="http://w3.impa.br/~diego/software/luasocket/home.html" target="_blank">LuaSocket</a> extension library for Lua. Following illustrates how to fetch a webpage:</p>
+<p>CoppeliaSim ships with the <a href="http://w3.impa.br/~diego/software/luasocket/home.html" target="_blank">LuaSocket</a> extension library for Lua, while several packages are available for Python. Following illustrates how to fetch a webpage:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+import requests
+response = requests.get('http://www.google.com')
+page = response.text</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-http=require('socket.http')
-page=http.request('http://www.google.com')</code>
+http = require('socket.http')
+page = http.request('http://www.google.com')</code>
+</div>
 
-<p>With Python, use the socket module:</p>
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-import socket</code>
 <br>
 
 
@@ -322,6 +477,7 @@ import socket</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

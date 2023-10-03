@@ -40,26 +40,67 @@
 Following is the typical main script, slightly simplified:
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    # Initialization part
+
+def sysCall_actuation():
+    # Actuation part:
+    sim.handleEmbeddedScripts(sim.syscb_actuation)
+    sim.handleAddOnScripts(sim.syscb_actuation)
+    sim.handleSandboxScript(sim.syscb_actuation)
+    sim.handleDynamics(sim.getSimulationTimeStep())
+
+def sysCall_sensing():
+    # Sensing part:
+    sim.handleProximitySensor(sim.handle_all_except_explicit)
+    sim.handleVisionSensor(sim.handle_all_except_explicit)
+    sim.handleEmbeddedScripts(sim.syscb_sensing)
+    sim.handleAddOnScripts(sim.syscb_sensing)
+    sim.handleSandboxScript(sim.syscb_sensing)
+
+def sysCall_cleanup():
+    # Clean-up part:
+    sim.handleChildScripts(sim.syscb_cleanup)
+    sim.resetProximitySensor(sim.handle_all_except_explicit)
+    sim.resetVisionSensor(sim.handle_all_except_explicit)
+
+def sysCall_suspend():
+    sim.handleEmbeddedScripts(sim.syscb_suspend)
+    sim.handleAddOnScripts(sim.syscb_suspend)
+    sim.handleSandboxScript(sim.syscb_suspend)
+
+def sysCall_suspended():
+    sim.handleEmbeddedScripts(sim.syscb_suspended)
+    sim.handleAddOnScripts(sim.syscb_suspended)
+    sim.handleSandboxScript(sim.syscb_suspended)
+
+def sysCall_resume():
+    sim.handleEmbeddedScripts(sim.syscb_resume)
+    sim.handleAddOnScripts(sim.syscb_resume)
+    sim.handleSandboxScript(sim.syscb_resume)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
-function <strong>sysCall_init</strong>()
-    -- Initialization part:
+function sysCall_init()
+    sim = require('sim')
+    -- Initialization part
 end
 
-function <strong>sysCall_actuation</strong>()
+function sysCall_actuation()
     -- Actuation part:
     sim.handleEmbeddedScripts(sim.syscb_actuation)
     sim.handleAddOnScripts(sim.syscb_actuation)
     sim.handleSandboxScript(sim.syscb_actuation)
-    sim.handleJointMotion()
     sim.handleDynamics(sim.getSimulationTimeStep())
 end
 
-function <strong>sysCall_sensing</strong>()
+function sysCall_sensing()
     -- Sensing part:
-    sim.handleSensingStart()
     sim.handleProximitySensor(sim.handle_all_except_explicit)
     sim.handleVisionSensor(sim.handle_all_except_explicit)
     sim.handleEmbeddedScripts(sim.syscb_sensing)
@@ -67,30 +108,31 @@ function <strong>sysCall_sensing</strong>()
     sim.handleSandboxScript(sim.syscb_sensing)
 end
 
-function <strong>sysCall_cleanup</strong>()
+function sysCall_cleanup()
     -- Clean-up part:
     sim.handleChildScripts(sim.syscb_cleanup)
     sim.resetProximitySensor(sim.handle_all_except_explicit)
     sim.resetVisionSensor(sim.handle_all_except_explicit)
 end
 
-function <strong>sysCall_suspend</strong>()
+function sysCall_suspend()
     sim.handleEmbeddedScripts(sim.syscb_suspend)
     sim.handleAddOnScripts(sim.syscb_suspend)
     sim.handleSandboxScript(sim.syscb_suspend)
 end
 
-function <strong>sysCall_suspended</strong>()
+function sysCall_suspended()
     sim.handleEmbeddedScripts(sim.syscb_suspended)
     sim.handleAddOnScripts(sim.syscb_suspended)
     sim.handleSandboxScript(sim.syscb_suspended)
 end
 
-function <strong>sysCall_resume</strong>()
+function sysCall_resume()
     sim.handleEmbeddedScripts(sim.syscb_resume)
     sim.handleAddOnScripts(sim.syscb_resume)
     sim.handleSandboxScript(sim.syscb_resume)
 end</code>
+</div>
 
 <p>There are however many more <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> the main script can use to react to various events.</p>
 
@@ -143,6 +185,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

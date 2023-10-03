@@ -30,46 +30,80 @@
 <br>
 <p>Using the API function <a href="regularApi/simCheckDistance.htm">sim.checkDistance</a>, one can easily calculate the minimum distance between entities, for instance between a robot and its environment, from within a <a href="childScripts.htm">child script</a>, in each simulation step:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    robotBase = sim.getObject('/robotModelAlias')
+    self.robotCollection = sim.createCollection(0)
+    sim.addItemToCollection(self.robotCollection, sim.handle_tree, robotBase, 0)
+
+def sysCall_sensing():
+    result, distData, objectPair = sim.checkDistance(self.robotCollection, sim.handle_all)
+    if result &gt; 0:
+        txt = 'Robot clearance is ' + str(distData[6]) + 'm, minimum distance object pair is ' + str(objectPair)
+        print(txt)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    local robotBase=sim.getObject('/robotModelAlias')
-    robotCollection=sim.createCollection(0)
-    sim.addItemToCollection(robotCollection,sim.handle_tree,robotBase,0)
+    sim = require('sim')
+    local robotBase = sim.getObject('/robotModelAlias')
+    robotCollection = sim.createCollection(0)
+    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
 end
 
 function sysCall_sensing()
-    local result,distData,objectPair=sim.checkDistance(robotCollection,sim.handle_all)
-    if result>0 then
-        local txt='Robot clearance is '..distData[7]
-        txt=txt..'m, minimum distance object pair is '..getAsString(objectPair)
+    local result, distData, objectPair = sim.checkDistance(robotCollection, sim.handle_all)
+    if result &gt; 0 then
+        local txt = 'Robot clearance is '..distData[7]
+        txt = txt..'m, minimum distance object pair is '..getAsString(objectPair)
         print(txt)
     end
 end</code>
 
+</div>
+
 <p>One can also display the measured minimum distance, as a colored segment in the scene:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    robotBase = sim.getObject('/robotModelAlias')
+    self.robotCollection = sim.createCollection(0)
+    sim.addItemToCollection(self.robotCollection, sim.handle_tree, robotBase, 0)
+    self.distanceSegment = sim.addDrawingObject(sim.drawing_lines, 4, 0, -1, 1, [0, 1, 0])
+
+def sysCall_sensing():
+    result, distData, objectPair = sim.checkDistance(self.robotCollection, sim.handle_all)
+    if result > 0:
+        sim.addDrawingObjectItem(self.distanceSegment, None)
+        sim.addDrawingObjectItem(self.distanceSegment, distData)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    local robotBase=sim.getObject('/robotModelAlias')
-    robotCollection=sim.createCollection(0)
-    sim.addItemToCollection(robotCollection,sim.handle_tree,robotBase,0)
-    distanceSegment=sim.addDrawingObject(sim.drawing_lines,4,0,-1,1,{0,1,0})
+    sim = require('sim')
+    local robotBase = sim.getObject('/robotModelAlias')
+    robotCollection = sim.createCollection(0)
+    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
+    distanceSegment = sim.addDrawingObject(sim.drawing_lines, 4, 0, -1, 1, {0, 1, 0})
 end
 
 function sysCall_sensing()
-    local result,distData,objectPair=sim.checkDistance(robotCollection,sim.handle_all)
-    if result>0 then
-        sim.addDrawingObjectItem(distanceSegment,nil)
-        sim.addDrawingObjectItem(distanceSegment,distData)
+    local result, distData, objectPair = sim.checkDistance(robotCollection, sim.handle_all)
+    if result &gt; 0 then
+        sim.addDrawingObjectItem(distanceSegment, nil)
+        sim.addDrawingObjectItem(distanceSegment, distData)
     end
 end</code>
 
+</div>
 
 <p>CoppeliaSim's distance calculation functionality is also available as stand-alone routines via the <a href="coppeliaGeometricRoutines.htm">Coppelia geometric routines</a>.</p>
 
@@ -91,6 +125,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

@@ -31,43 +31,70 @@
 <p>If however, an object requires less or more frequent calculations (e.g. several calculations within a same simulation step), then above mechanism does not work. In that case, the object should be flagged as <strong>explicit handling</strong>: from that moment on, the main script will not handle that object anymore, and it is the responsibility of another script to do this. For instance if the proximity sensor should only be handled once every other simulation step, a <a href="childScripts.htm">child script</a> could include following code:</p>
 
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    self.sensorHandle = sim.getObject('/myProximitySensor')
+    self.handleSensor = False
+
+def sysCall_sensing():
+    self.handleSensor = not self.handleSensor
+    if self.handleSensor:
+        sim.handleProximitySensor(self.sensorHandle)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    sensorHandle=sim.getObject('/myProximitySensor')
+    sim = require('sim')
+    sensorHandle = sim.getObject('/myProximitySensor')
 end
 
 function sysCall_sensing()
-    handleSensor=not handleSensor
+    handleSensor = not handleSensor
     if handleSensor then
         sim.handleProximitySensor(sensorHandle)
     end
 end</code>
 
-
+</div>
 
 <p>If new calculations need to be performed several times within a same simulation step (e.g. because an object or the sensor itself is moved more frequently), one could write:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    self.sensorHandle = sim.getObject('/myProximitySensor')
+
+def sysCall_sensing():
+    for i in range(1, 11):
+        pos = sim.getObjectPosition(self.sensorHandle)
+        pos[2] = i / 10.0
+        sim.setObjectPosition(self.sensorHandle, pos)
+        calculationResults = sim.handleProximitySensor(self.sensorHandle)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    sensorHandle=sim.getObject('/myProximitySensor')
+    sim = require('sim')
+    sensorHandle = sim.getObject('/myProximitySensor')
 end
 
 function sysCall_sensing()
-    for i=1,10,1 do
-        local pos=sim.getObjectPosition(sensorHandle)
-        pos[3]=i/10
-        sim.setObjectPosition(sensorHandle,pos) -- e.g. move the sensor
-        local calculationResults=sim.handleProximitySensor(sensorHandle)
+    for i = 1, 10, 1 do
+        local pos = sim.getObjectPosition(sensorHandle)
+        pos[3] = i / 10
+        sim.setObjectPosition(sensorHandle, pos) -- e.g. move the sensor
+        local calculationResults = sim.handleProximitySensor(sensorHandle)
     end
-end
-</code>
+end</code>
 
+</div>
 
 <br>
 <br>
@@ -87,6 +114,7 @@ end
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

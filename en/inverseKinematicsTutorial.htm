@@ -105,102 +105,195 @@
 <p>Inverse kinematics is entirely set up by having a script calling appropriate API commands: the idea is to build an equivalent kinematic model via the  functions provided by the <a href="kinematicsPlugin.htm">kinematics plugin</a>. The approach uses the concept and terminology of <a href="solvingIkAndFk.htm">IK groups and IK elements</a>.</p>
 <p>Select object <em>redundantRobot</em>, then [Add &gt; Associated child script &gt; Non-threaded] to attach a <a href="childScripts.htm">child script</a> to that object. Double-click the script icon that appeared next to the object alias, and replace the script content with following code:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+<div class="multi-language-switcher">
 
-sim=require('sim')
-simIK=require('simIK')
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+#python
+
+def sysCall_init():
+    sim = require('sim')
+    simIK = require('simIK')
+    
+    # Build a kinematic chain and 2 IK groups (undamped and damped) inside of the IK plugin environment,
+    # based on the kinematics of the robot in the scene:
+    
+    simBase = sim.getObject('.')
+    simTip = sim.getObject('./redundantRob_tip')
+    simTarget = sim.getObject('./redundantRob_target')
+
+    # Simple way:
+    self.ikEnv = simIK.createEnvironment()
+    self.ikGroup_undamped = simIK.createGroup(self.ikEnv)
+    simIK.setGroupCalculation(self.ikEnv, self.ikGroup_undamped, simIK.method_pseudo_inverse, 0, 6)
+    simIK.addElementFromScene(self.ikEnv, self.ikGroup_undamped, simBase, simTip, simTarget, simIK.constraint_pose)
+
+    self.ikGroup_damped = simIK.createGroup(self.ikEnv)
+    simIK.setGroupCalculation(self.ikEnv, self.ikGroup_damped, simIK.method_damped_least_squares, 1, 99)
+    simIK.addElementFromScene(self.ikEnv, self.ikGroup_damped, simBase, simTip, simTarget, simIK.constraint_pose)
+
+    # Elaborate way:
+    '''
+    simBase = sim.getObject('.')
+    simTip = sim.getObject('./redundantRob_tip')
+    simTarget = sim.getObject('./redundantRob_target')
+    simJoints = [sim.getObject(f'./redundantRob_joint{i}') for i in range(1, 8)]
+    ikJoints = []
+
+    self.ikEnv = simIK.createEnvironment()
+    ikBase = simIK.createDummy(self.ikEnv)
+    simIK.setObjectMatrix(self.ikEnv, ikBase, -1, sim.getObjectMatrix(simBase)) 
+    parent = ikBase
+    
+    for i in range(len(simJoints)):
+        ikJoints.append(simIK.createJoint(self.ikEnv, simIK.jointtype_revolute))
+        simIK.setJointMode(self.ikEnv, ikJoints[i], simIK.jointmode_ik)
+        cyclic, interv = sim.getJointInterval(simJoints[i])
+        simIK.setJointInterval(self.ikEnv, ikJoints[i], cyclic, interv)
+        simIK.setJointPosition(self.ikEnv, ikJoints[i], sim.getJointPosition(simJoints[i]))
+        simIK.setObjectMatrix(self.ikEnv, ikJoints[i], -1, sim.getObjectMatrix(simJoints[i]))
+        simIK.setObjectParent(self.ikEnv, ikJoints[i], parent, True) 
+        parent = ikJoints[i]
+        
+    ikTip = simIK.createDummy(self.ikEnv)
+    simIK.setObjectMatrix(self.ikEnv, ikTip, -1, sim.getObjectMatrix(simTip))
+    simIK.setObjectParent(self.ikEnv, ikTip, parent, True)
+    
+    ikTarget = simIK.createDummy(self.ikEnv)
+    simIK.setObjectMatrix(self.ikEnv, ikTarget, -1, sim.getObjectMatrix(simTarget))
+    simIK.setTargetDummy(self.ikEnv, ikTip, ikTarget)
+
+    self.ikGroup_undamped = simIK.createGroup(self.ikEnv)
+    simIK.setGroupCalculation(self.ikEnv, self.ikGroup_undamped, simIK.method_pseudo_inverse, 0, 6)
+    ikElementHandle = simIK.addElement(self.ikEnv, self.ikGroup_undamped, ikTip)
+    simIK.setElementBase(self.ikEnv, self.ikGroup_undamped, ikElementHandle, ikBase)
+    simIK.setElementConstraints(self.ikEnv, self.ikGroup_undamped, ikElementHandle, simIK.constraint_pose)
+    
+    self.ikGroup_damped = simIK.createGroup(self.ikEnv)
+    simIK.setGroupCalculation(self.ikEnv, self.ikGroup_damped, simIK.method_damped_least_squares, 1, 99)
+    ikElementHandle = simIK.addElement(self.ikEnv, self.ikGroup_damped, ikTip)
+    simIK.setElementBase(self.ikEnv, self.ikGroup_damped, ikElementHandle, ikBase)
+    simIK.setElementConstraints(self.ikEnv, self.ikGroup_damped, ikElementHandle, simIK.constraint_pose)
+    '''
+
+def sysCall_actuation():
+    # There is a simple way, and a more elaborate way (but which gives you more options/flexibility):
+    
+    # Simple way:
+    res, *_ = simIK.handleGroup(self.ikEnv, self.ikGroup_undamped, {'syncWorlds': True})
+    if res != simIK.result_success:
+        simIK.handleGroup(self.ikEnv, self.ikGroup_damped, {'syncWorlds': True})
+        sim.addLog(sim.verbosity_scriptwarnings, "IK solver failed.")
+
+    # Elaborate way:
+    '''
+    simIK.setObjectMatrix(self.ikEnv, ikTarget, ikBase, sim.getObjectMatrix(simTarget, simBase)) 
+    res, *_ = simIK.handleGroup(self.ikEnv, self.ikGroup_undamped)
+    if res != simIK.result_success:
+        simIK.handleGroup(self.ikEnv, self.ikGroup_damped)
+        sim.addLog(sim.verbosity_scriptwarnings, "IK solver failed.") 
+
+    for i in range(len(simJoints)):
+        sim.setJointPosition(simJoints[i], simIK.getJointPosition(self.ikEnv, ikJoints[i])) 
+    '''</code>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
     -- Build a kinematic chain and 2 IK groups (undamped and damped) inside of the IK plugin environment,
     -- based on the kinematics of the robot in the scene:
     -- There is a simple way, and a more elaborate way (but which gives you more options/flexibility):
 
+    sim = require('sim')
+    simIK = require('simIK')
+
     -- Simple way:
-    local simBase=sim.getObject('.')
-    local simTip=sim.getObject('./redundantRob_tip')
-    local simTarget=sim.getObject('./redundantRob_target')
+    local simBase = sim.getObject('.')
+    local simTip = sim.getObject('./redundantRob_tip')
+    local simTarget = sim.getObject('./redundantRob_target')
     -- create an IK environment:
-    ikEnv=simIK.createEnvironment()
+    ikEnv = simIK.createEnvironment()
     -- create an IK group: 
-    ikGroup_undamped=simIK.createGroup(ikEnv)
+    ikGroup_undamped = simIK.createGroup(ikEnv)
     -- set its resolution method to undamped: 
-    simIK.setGroupCalculation(ikEnv,ikGroup_undamped,simIK.method_pseudo_inverse,0,6)
+    simIK.setGroupCalculation(ikEnv, ikGroup_undamped, simIK.method_pseudo_inverse, 0, 6)
     -- create an IK element based on the scene content: 
-    simIK.addElementFromScene(ikEnv,ikGroup_undamped,simBase,simTip,simTarget,simIK.constraint_pose)
+    simIK.addElementFromScene(ikEnv, ikGroup_undamped, simBase, simTip, simTarget, simIK.constraint_pose)
     -- create another IK group: 
-    ikGroup_damped=simIK.createGroup(ikEnv)
+    ikGroup_damped = simIK.createGroup(ikEnv)
     -- set its resolution method to damped: 
-    simIK.setGroupCalculation(ikEnv,ikGroup_damped,simIK.method_damped_least_squares,1,99)
+    simIK.setGroupCalculation(ikEnv, ikGroup_damped, simIK.method_damped_least_squares, 1, 99)
     -- create an IK element based on the scene content: 
-    simIK.addElementFromScene(ikEnv,ikGroup_damped,simBase,simTip,simTarget,simIK.constraint_pose) 
+    simIK.addElementFromScene(ikEnv, ikGroup_damped, simBase, simTip, simTarget, simIK.constraint_pose) 
     
     -- Elaborate way:
     --[[
-    simBase=sim.getObject('.')
-    simTip=sim.getObject('./redundantRob_tip')
-    simTarget=sim.getObject('./redundantRob_target')
-    simJoints={}
-    for i=1,7,1 do
-        simJoints[i]=sim.getObject('./redundantRob_joint'..i)
+    simBase = sim.getObject('.')
+    simTip = sim.getObject('./redundantRob_tip')
+    simTarget = sim.getObject('./redundantRob_target')
+    simJoints = {}
+    for i = 1, 7, 1 do
+        simJoints[i] = sim.getObject('./redundantRob_joint'..i)
     end
-    ikJoints={}
+    ikJoints = {}
     -- create an IK environment:
-    ikEnv=simIK.createEnvironment()
+    ikEnv = simIK.createEnvironment()
     -- create a dummy in the IK environment: 
-    ikBase=simIK.createDummy(ikEnv)
+    ikBase = simIK.createDummy(ikEnv)
     -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectMatrix(ikEnv,ikBase,-1,sim.getObjectMatrix(simBase)) 
-    local parent=ikBase
-    for i=1,#simJoints,1 do -- loop through all joints
+    simIK.setObjectMatrix(ikEnv, ikBase, -1, sim.getObjectMatrix(simBase)) 
+    local parent = ikBase
+    for i = 1, #simJoints, 1 do -- loop through all joints
         -- create a joint in the IK environment:
-        ikJoints[i]=simIK.createJoint(ikEnv,simIK.jointtype_revolute)
+        ikJoints[i] = simIK.createJoint(ikEnv, simIK.jointtype_revolute)
         -- set it into IK mode: 
-        simIK.setJointMode(ikEnv,ikJoints[i],simIK.jointmode_ik)
+        simIK.setJointMode(ikEnv, ikJoints[i], simIK.jointmode_ik)
         -- set the same joint limits as its CoppeliaSim counterpart joint: 
-        local cyclic,interv=sim.getJointInterval(simJoints[i])
-        simIK.setJointInterval(ikEnv,ikJoints[i],cyclic,interv)
+        local cyclic, interv = sim.getJointInterval(simJoints[i])
+        simIK.setJointInterval(ikEnv, ikJoints[i], cyclic, interv)
         -- set the same joint lin./ang. position as its CoppeliaSim counterpart joint: 
-        simIK.setJointPosition(ikEnv,ikJoints[i],sim.getJointPosition(simJoints[i]))
+        simIK.setJointPosition(ikEnv, ikJoints[i], sim.getJointPosition(simJoints[i]))
         -- set the same object pose as its CoppeliaSim counterpart joint: 
-        simIK.setObjectMatrix(ikEnv,ikJoints[i],-1,sim.getObjectMatrix(simJoints[i]))
+        simIK.setObjectMatrix(ikEnv, ikJoints[i], -1, sim.getObjectMatrix(simJoints[i]))
         -- set its corresponding parent: 
-        simIK.setObjectParent(ikEnv,ikJoints[i],parent,true) 
-        parent=ikJoints[i]
+        simIK.setObjectParent(ikEnv, ikJoints[i], parent, true) 
+        parent = ikJoints[i]
     end
     -- create the tip dummy in the IK environment:
-    ikTip=simIK.createDummy(ikEnv)
+    ikTip = simIK.createDummy(ikEnv)
     -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectMatrix(ikEnv,ikTip,-1,sim.getObjectMatrix(simTip))
+    simIK.setObjectMatrix(ikEnv, ikTip, -1, sim.getObjectMatrix(simTip))
     -- attach it to the kinematic chain: 
-    simIK.setObjectParent(ikEnv,ikTip,parent,true)
+    simIK.setObjectParent(ikEnv, ikTip, parent, true)
     -- create the target dummy in the IK environment: 
-    ikTarget=simIK.createDummy(ikEnv)
+    ikTarget = simIK.createDummy(ikEnv)
     -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectMatrix(ikEnv,ikTarget,-1,sim.getObjectMatrix(simTarget))
+    simIK.setObjectMatrix(ikEnv, ikTarget, -1, sim.getObjectMatrix(simTarget))
     -- link the two dummies: 
-    simIK.setTargetDummy(ikEnv,ikTip,ikTarget)
+    simIK.setTargetDummy(ikEnv, ikTip, ikTarget)
     -- create an IK group: 
-    ikGroup_undamped=simIK.createGroup(ikEnv)
+    ikGroup_undamped = simIK.createGroup(ikEnv)
     -- set its resolution method to undamped: 
-    simIK.setGroupCalculation(ikEnv,ikGroup_undamped,simIK.method_pseudo_inverse,0,6)
+    simIK.setGroupCalculation(ikEnv, ikGroup_undamped, simIK.method_pseudo_inverse, 0, 6)
     -- make sure the robot doesn't shake if the target position/orientation wasn't reached: 
-    simIK.setGroupFlags(ikEnv,ikGroup_undamped,simIK.group_enabled|simIK.group_ignoremaxsteps|simIK.group_restoreonbadlintol|simIK.group_restoreonbadangtol)
+    simIK.setGroupFlags(ikEnv, ikGroup_undamped, simIK.group_enabled | 
+        simIK.group_ignoremaxsteps | simIK.group_restoreonbadlintol | simIK.group_restoreonbadangtol)
     -- add an IK element to that IK group: 
-    local ikElementHandle=simIK.addElement(ikEnv,ikGroup_undamped,ikTip)
+    local ikElementHandle = simIK.addElement(ikEnv, ikGroup_undamped, ikTip)
     -- specify the base of that IK element: 
-    simIK.setElementBase(ikEnv,ikGroup_undamped,ikElementHandle,ikBase)
+    simIK.setElementBase(ikEnv, ikGroup_undamped, ikElementHandle, ikBase)
     -- specify the constraints of that IK element: 
-    simIK.setElementConstraints(ikEnv,ikGroup_undamped,ikElementHandle,simIK.constraint_pose)
+    simIK.setElementConstraints(ikEnv, ikGroup_undamped, ikElementHandle, simIK.constraint_pose)
     -- create another IK group: 
-    ikGroup_damped=simIK.createGroup(ikEnv)
+    ikGroup_damped = simIK.createGroup(ikEnv)
     -- set its resolution method to damped: 
-    simIK.setGroupCalculation(ikEnv,ikGroup_damped,simIK.method_damped_least_squares,1,99)
+    simIK.setGroupCalculation(ikEnv, ikGroup_damped, simIK.method_damped_least_squares, 1, 99)
     -- add an IK element to that IK group: 
-    local ikElementHandle=simIK.addElement(ikEnv,ikGroup_damped,ikTip)
+    local ikElementHandle = simIK.addElement(ikEnv, ikGroup_damped, ikTip)
     -- specify the base of that IK element: 
-    simIK.setElementBase(ikEnv,ikGroup_damped,ikElementHandle,ikBase)
+    simIK.setElementBase(ikEnv, ikGroup_damped, ikElementHandle, ikBase)
     -- specify the constraints of that IK element: 
-    simIK.setElementConstraints(ikEnv,ikGroup_damped,ikElementHandle,simIK.constraint_pose) 
+    simIK.setElementConstraints(ikEnv, ikGroup_damped, ikElementHandle, simIK.constraint_pose) 
     --]]
 end
 
@@ -209,29 +302,29 @@ function sysCall_actuation()
     
     -- Simple way:
     -- try to solve with the undamped method:
-    if simIK.handleGroup(ikEnv,ikGroup_undamped,{syncWorlds=true})~=simIK.result_success then 
+    if simIK.handleGroup(ikEnv, ikGroup_undamped, {syncWorlds = true}) ~= simIK.result_success then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
-        simIK.handleGroup(ikEnv,ikGroup_damped,{syncWorlds=true})
+        simIK.handleGroup(ikEnv, ikGroup_damped, {syncWorlds = true})
         -- We display a IK failure report message:
-        sim.addLog(sim.verbosity_scriptwarnings,"IK solver failed.") 
+        sim.addLog(sim.verbosity_scriptwarnings, "IK solver failed.") 
     end
     
     -- Elaborate way:
     --[[
     -- reflect the pose of the target dummy to its counterpart in the IK environment:
-    simIK.setObjectMatrix(ikEnv,ikTarget,ikBase,sim.getObjectMatrix(simTarget,simBase)) 
+    simIK.setObjectMatrix(ikEnv, ikTarget, ikBase, sim.getObjectMatrix(simTarget, simBase)) 
     -- try to solve with the undamped method:
-    if simIK.handleGroup(ikEnv,ikGroup_undamped)~=simIK.result_success then 
+    if simIK.handleGroup(ikEnv, ikGroup_undamped) ~= simIK.result_success then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
-        simIK.handleGroup(ikEnv,ikGroup_damped)
+        simIK.handleGroup(ikEnv, ikGroup_damped)
         -- We display a IK failure report message: 
-        sim.addLog(sim.verbosity_scriptwarnings,"IK solver failed.") 
+        sim.addLog(sim.verbosity_scriptwarnings, "IK solver failed.") 
     end
     -- apply the joint values computed in the IK environment to their CoppeliaSim joint counterparts:
-    for i=1,#simJoints,1 do
-        sim.setJointPosition(simJoints[i],simIK.getJointPosition(ikEnv,ikJoints[i])) 
+    for i = 1, #simJoints, 1 do
+        sim.setJointPosition(simJoints[i], simIK.getJointPosition(ikEnv, ikJoints[i])) 
     end
     --]]
 end 
@@ -239,9 +332,9 @@ end
 function sysCall_cleanup()
     -- erase the IK environment: 
     simIK.eraseEnvironment(ikEnv) 
-end </code>
+end</code>
 
-
+</div>
 
 
 <p>Above script creates an equivalent kinematic model from the CoppeliaSim model, then in each simulation step, reads the position/orientation of the CoppeliaSim target, applies it to the target of the equivalent kinematic model, runs the IK solver, and finally reads the joint angles of the equivalent kinematic model, and applies them to the joints of the CoppeliaSim model. To handle singular configurations and situations where the target is out of reach, we first try with a non-damped solver, and if it fails, we revert to a damped solver (with a damped solver, when damping is large, resolution becomes more stable but convergence slower).</p>
@@ -286,6 +379,7 @@ end </code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

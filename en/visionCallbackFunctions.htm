@@ -25,9 +25,27 @@
 <p>Following represents an empty  vision callback function:<br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_vision(inData):
+    # We have:
+    # inData['handle'] : the handle of the vision sensor.
+    # inData['resolution'] : the x/y resolution of the vision sensor
+    # inData['clippingPlanes'] : the near and far clipping planes of the vision sensor
+    # inData['viewAngle'] : the view angle of the vision sensor (if in persp. proj. mode)
+    # inData['orthoSize'] : the ortho size of the vision sensor (if in orth. proj. mode)
+    # inData['perspectiveOperation'] : true if the sensor is in persp. proj. mode
+
+    outData = {}
+    outData['trigger'] = False  # True if the sensor should trigger
+    outData['packedPackets'] = []  # a list of packed packets. Can be accessed via e.g. sim.readVisionSensor
+    return outData</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function <strong>sysCall_vision</strong>(inData)
+function sysCall_vision(inData)
     -- We have:
     -- inData.handle : the handle of the vision sensor.
     -- inData.resolution : the x/y resolution of the vision sensor
@@ -36,46 +54,80 @@ function <strong>sysCall_vision</strong>(inData)
     -- inData.orthoSize : the ortho size of the vision sensor (if in orth. proj. mode)
     -- inData.perspectiveOperation : true if the sensor is in persp. proj. mode
 
-    local outData={}
-    outData.trigger=false -- true if the sensor should trigger
-    outData.packedPackets={} -- a table of packed packets. Can be accessed via e.g. sim.readVisionSensor
+    local outData = {}
+    outData.trigger = false -- true if the sensor should trigger
+    outData.packedPackets = {} -- a table of packed packets. Can be accessed via e.g. sim.readVisionSensor
     return outData
 end</code>
+
+</div>
 
 <br>
 <p>Image processing can be performed by using various API functions. The <a href="visionPlugin.htm">vision plugin</a> exports a few very simple image processing functions. Many more image processing functions are supported via the <a href="simIM.htm?view=alphabetical">image plugin</a> (OpenCV wrapper).</p>
 <p>Following represents a simple edge detection vision callback function, that triggers and returns a packet of data  (based on the vision plugin functions):<br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+import struct
+
+def sysCall_vision(inData):
+    simVision.sensorImgToWorkImg(inData['handle'])
+    simVision.edgeDetectionOnWorkImg(inData['handle'], 0.1)
+    simVision.workImgToSensorImg(inData['handle'])
+
+    outData = {}
+    outData['trigger'] = True
+    packetData = [1.0, 42.123, 129.3]
+    outData['packedPackets'] = [struct.pack('ff', *packetData)]
+    return outData</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function <strong>sysCall_vision</strong>(inData)
+function sysCall_vision(inData)
     simVision.sensorImgToWorkImg(inData.handle)
-    simVision.edgeDetectionOnWorkImg(inData.handle,0.1)
+    simVision.edgeDetectionOnWorkImg(inData.handle, 0.1)
     simVision.workImgToSensorImg(inData.handle)
 
-    local outData={}
-    outData.trigger=true
-    local packetData={1.0,42.123,129.3}
-    outData.packedPackets={sim.packFloatTable(packetData)}
+    local outData = {}
+    outData.trigger = true
+    local packetData = {1.0, 42.123, 129.3}
+    outData.packedPackets = {sim.packFloatTable(packetData)}
     return outData
 end</code>
 
+</div>
 
 <br>
 <p>Following represents a vision callback function, that draws a circle onto the acquired image (based on the image plugin functions):<br>
 </p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_vision(inData):
+    imgHandle = simIM.readFromVisionSensor(inData['handle'])
+    center = [inData['resolution'][0] / 2, inData['resolution'][1] / 2]
+    radius = (inData['resolution'][0] + inData['resolution'][1]) / 8
+    simIM.circle(imgHandle, center, radius, [255, 0, 255], 4)
+    simIM.writeToVisionSensor(imgHandle, inData['handle'])
+    simIM.destroy(imgHandle)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-function <strong>sysCall_vision</strong>(inData)
-    local imgHandle=simIM.readFromVisionSensor(inData.handle)
-    local center={inData.resolution[1]/2,inData.resolution[2]/2}
-    local radius=(inData.resolution[1]+inData.resolution[2])/8
-    simIM.circle(imgHandle,center,radius,{255,0,255},4)
-    simIM.writeToVisionSensor(imgHandle,inData.handle)
+function sysCall_vision(inData)
+    local imgHandle = simIM.readFromVisionSensor(inData.handle)
+    local center = {inData.resolution[1] / 2, inData.resolution[2] / 2}
+    local radius = (inData.resolution[1] + inData.resolution[2]) / 8
+    simIM.circle(imgHandle, center, radius, {255, 0, 255}, 4)
+    simIM.writeToVisionSensor(imgHandle, inData.handle)
     simIM.destroy(imgHandle)
 end</code>
+
+</div>
 
 <br>
 <br>
@@ -98,6 +150,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

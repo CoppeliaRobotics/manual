@@ -22,86 +22,180 @@
 <p>The kinematics plugin for CoppeliaSim (<em>simIK.dll</em> or similar) wraps the <a href="coppeliaKinematicsRoutines.htm">Coppelia Kinematics Routines</a>. It exports <a href="simIK.htm?view=category">several API functions</a> that can be recognized from their simIK-prefix; they allow to create, handle and solve forward/inverse kinematics tasks via Jacobian for any type of mechanism (redundant/non-redundant, containing nested loops, etc.) fully programmatically.</p>
 <p>Kinematics tasks can very easily be set up from the scene's content like in following example:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+<div class="multi-language-switcher">
 
-sim=require('sim')
-simIK=require('simIK')
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# set-up:
+def sysCall_init():
+    sim = require('sim')
+    simIK = require('simIK')
+
+    simBase = sim.getObject('/base')
+    simTip = sim.getObject('/tip')
+    simTarget = sim.getObject('/target')
+
+    ikEnv = simIK.createEnvironment()
+    ikGroup = simIK.createGroup(ikEnv)
+    
+    ikElement, simToIkMap, ikToSimMap = simIK.addElementFromScene(
+        ikEnv, ikGroup, simBase, simTip, simTarget, desiredConstraints
+    )
+
+# IK calculation, and application to the scene:
+def sysCall_actuation():
+    simIK.handleGroup(ikEnv, ikGroup, {'syncWorlds': True})</code>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- set-up:
 function sysCall_init()
-    simBase=sim.getObject('/base')
-    simTip=sim.getObject('/tip')
-    simTarget=sim.getObject('/target')
-    ikEnv=simIK.createEnvironment()
-    ikGroup=simIK.createGroup(ikEnv)
-    local ikElement,simToIkMap,ikToSimMap=simIK.addElementFromScene(
-        ikEnv,ikGroup,simBase,simTip,simTarget,desiredConstraints)
+    sim = require('sim')
+    simIK = require('simIK')
+    simBase = sim.getObject('/base')
+    simTip = sim.getObject('/tip')
+    simTarget = sim.getObject('/target')
+    ikEnv = simIK.createEnvironment()
+    ikGroup = simIK.createGroup(ikEnv)
+    local ikElement, simToIkMap, ikToSimMap = simIK.addElementFromScene(ikEnv, 
+                       ikGroup, simBase, simTip, simTarget, desiredConstraints)
 end
 
 -- IK calculation, and application to the scene:
 function sysCall_actuation()
-    simIK.handleGroup(ikEnv,ikGroup,{syncWorlds=true})
+    simIK.handleGroup(ikEnv, ikGroup, {syncWorlds = true})
 end</code>
 
+</div>
 
 <p><a href="simIK.htm#simIK.addElementFromScene">simIK.addElementFromScene</a> will parse the scene given a base, tip and target object, and generate an IK element appropriately, with the given constraints. <a href="simIK.htm#simIK.handleGroup">simIK.handleGroup</a>(ikEnv,ikGroup,{syncWorlds=true}) on the other hand will synchronize the IK world with the sim world, compute IK, then synchronize the sim world with the IK world. One can of course also manually build the kinematic environment, for full control, as in following example:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+<div class="multi-language-switcher">
 
-sim=require('sim')
-simIK=require('simIK')
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# set-up:
+def sysCall_init():
+    sim = require('sim')
+    simIK = require('simIK')
+
+    self.simJoints = [sim.getObject('/j1'), sim.getObject('/j2')]
+    self.ikJoints = []
+
+    self.simBase = sim.getObject('/base')
+    self.simTip = sim.getObject('/tip')
+    self.simTarget = sim.getObject('/target')
+    self.ikEnv = simIK.createEnvironment()
+
+    self.ikBase = simIK.createDummy(self.ikEnv)  # create a dummy in the IK environment
+    # set that dummy into the same pose as its CoppeliaSim counterpart:
+    simIK.setObjectMatrix(self.ikEnv, self.ikBase, -1, sim.getObjectMatrix(self.simBase))
+    parent = self.ikBase
+
+    # loop through all joints
+    for i in range(len(self.simJoints)):
+        # create a joint in the IK environment:
+        self.ikJoints.append(simIK.createJoint(self.ikEnv, simIK.jointtype_revolute))
+        # set it into IK mode:
+        simIK.setJointMode(self.ikEnv, self.ikJoints[i], simIK.jointmode_ik)
+        # set the same joint limits as its CoppeliaSim counterpart joint:
+        cyclic, interv = sim.getJointInterval(self.simJoints[i])
+        simIK.setJointInterval(self.ikEnv, self.ikJoints[i], cyclic, interv)
+        # set the same lin./ang. joint position as its CoppeliaSim counterpart joint:
+        simIK.setJointPosition(self.ikEnv, self.ikJoints[i], sim.getJointPosition(self.simJoints[i]))
+        # set the same object pose as its CoppeliaSim counterpart joint:
+        simIK.setObjectMatrix(self.ikEnv, self.ikJoints[i], -1, sim.getObjectMatrix(self.simJoints[i]))
+        simIK.setObjectParent(self.ikEnv, self.ikJoints[i], parent)  # set its corresponding parent
+        parent = self.ikJoints[i]
+
+    self.ikTip = simIK.createDummy(self.ikEnv)  # create the tip dummy in the IK environment
+    # set that dummy into the same pose as its CoppeliaSim counterpart:
+    simIK.setObjectMatrix(self.ikEnv, self.ikTip, -1, sim.getObjectMatrix(self.simTip))
+    simIK.setObjectParent(self.ikEnv, self.ikTip, parent)  # attach it to the kinematic chain
+    self.ikTarget = simIK.createDummy(self.ikEnv)  # create the target dummy in the IK environment
+    # set that dummy into the same pose as its CoppeliaSim counterpart:
+    simIK.setObjectMatrix(self.ikEnv, self.ikTarget, -1, sim.getObjectMatrix(self.simTarget))
+    simIK.setTargetDummy(self.ikEnv, self.ikTip, self.ikTarget)  # link the two dummies
+    self.ikGroup = simIK.createGroup(self.ikEnv)  # create an IK group
+    # set its resolution method to undamped:
+    simIK.setGroupCalculation(self.ikEnv, self.ikGroup, simIK.method_pseudo_inverse, 0, 3)
+    # add an IK element to that IK group:
+    ikElement = simIK.addElement(self.ikEnv, self.ikGroup, self.ikTip)
+    # specify the base of that IK element:
+    simIK.setElementBase(self.ikEnv, self.ikGroup, ikElement, self.ikBase)
+    # specify the constraints of that IK element:
+    simIK.setElementConstraints(self.ikEnv, self.ikGroup, ikElement, simIK.constraint_x | simIK.constraint_y)
+
+# IK calculation, and application to the scene:
+def sysCall_actuation():
+    # reflect the pose of the target dummy in the IK environment:
+    simIK.setObjectMatrix(self.ikEnv, self.ikTarget, self.ikBase, sim.getObjectMatrix(self.simTarget, self.simBase))
+    simIK.handleGroup(self.ikEnv, self.ikGroup)  # solve
+    # apply the calculated joint values:
+    sim.setJointPosition(self.simJoints[0], simIK.getJointPosition(self.ikEnv, self.ikJoints[0]))
+    sim.setJointPosition(self.simJoints[1], simIK.getJointPosition(self.ikEnv, self.ikJoints[1]))</code>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- set-up:
 function sysCall_init()
-    simJoints={sim.getObject('/j1'),sim.getObject('/j2')}
-    ikJoints={}
-    ikBase=simIK.createDummy(ikEnv) -- create a dummy in the IK environemnt
+    sim = require('sim')
+    simIK = require('simIK')
+    simBase = sim.getObject('/base')
+    simTip = sim.getObject('/tip')
+    simTarget = sim.getObject('/target')
+    simJoints = {sim.getObject('/j1'), sim.getObject('/j2')}
+    ikJoints = {}
+    ikEnv = simIK.createEnvironment()
+    ikBase = simIK.createDummy(ikEnv) -- create a dummy in the IK environemnt
     -- set that dummy into the same pose as its CoppeliaSim counterpart:
-    simIK.setObjectMatrix(ikEnv,ikBase,-1,sim.getObjectMatrix(simBase)) 
-    local parent=ikBase
-    for i=1,#simJoints,1 do -- loop through all joints
+    simIK.setObjectMatrix(ikEnv, ikBase, -1, sim.getObjectMatrix(simBase)) 
+    local parent = ikBase
+    for i = 1, #simJoints, 1 do -- loop through all joints
         -- create a joint in the IK environment:
-        ikJoints[i]=simIK.createJoint(ikEnv,simIK.jointtype_revolute)
+        ikJoints[i] = simIK.createJoint(ikEnv, simIK.jointtype_revolute)
        -- set it into IK mode: 
-        simIK.setJointMode(ikEnv,ikJoints[i],simIK.jointmode_ik) 
+        simIK.setJointMode(ikEnv, ikJoints[i], simIK.jointmode_ik) 
         -- set the same joint limits as its CoppeliaSim counterpart joint:
-        local cyclic,interv=sim.getJointInterval(simJoints[i])
-        simIK.setJointInterval(ikEnv,ikJoints[i],cyclic,interv)
+        local cyclic, interv = sim.getJointInterval(simJoints[i])
+        simIK.setJointInterval(ikEnv, ikJoints[i], cyclic, interv)
         -- set the same lin./ang. joint position as its CoppeliaSim counterpart joint: 
-        simIK.setJointPosition(ikEnv,ikJoints[i],sim.getJointPosition(simJoints[i]))
+        simIK.setJointPosition(ikEnv, ikJoints[i], sim.getJointPosition(simJoints[i]))
         -- set the same object pose as its CoppeliaSim counterpart joint: 
-        simIK.setObjectMatrix(ikEnv,ikJoints[i],-1,sim.getObjectMatrix(simJoints[i])) 
-        simIK.setObjectParent(ikEnv,ikJoints[i],parent) -- set its corresponding parent
-        parent=ikJoints[i]
+        simIK.setObjectMatrix(ikEnv, ikJoints[i], -1, sim.getObjectMatrix(simJoints[i])) 
+        simIK.setObjectParent(ikEnv, ikJoints[i], parent) -- set its corresponding parent
+        parent = ikJoints[i]
     end
-    ikTip=simIK.createDummy(ikEnv) -- create the tip dummy in the IK environment
+    ikTip = simIK.createDummy(ikEnv) -- create the tip dummy in the IK environment
     -- set that dummy into the same pose as its CoppeliaSim counterpart:
-    simIK.setObjectMatrix(ikEnv,ikTip,-1,sim.getObjectMatrix(simTip)) 
-    simIK.setObjectParent(ikEnv,ikTip,parent) -- attach it to the kinematic chain
+    simIK.setObjectMatrix(ikEnv, ikTip, -1, sim.getObjectMatrix(simTip)) 
+    simIK.setObjectParent(ikEnv, ikTip, parent) -- attach it to the kinematic chain
     ikTarget=simIK.createDummy(ikEnv) -- create the target dummy in the IK environment
     -- set that dummy into the same pose as its CoppeliaSim counterpart:
-    simIK.setObjectMatrix(ikEnv,ikTarget,-1,sim.getObjectMatrix(simTip)) 
-    simIK.setTargetDummy(ikEnv,ikTip,ikTarget) -- link the two dummies
+    simIK.setObjectMatrix(ikEnv, ikTarget, -1, sim.getObjectMatrix(simTarget)) 
+    simIK.setTargetDummy(ikEnv, ikTip, ikTarget) -- link the two dummies
     ikGroup=simIK.createGroup(ikEnv) -- create an IK group
     -- set its resolution method to undamped:
-    simIK.setGroupCalculation(ikEnv,ikGroup,simIK.method_pseudo_inverse,0,3)
+    simIK.setGroupCalculation(ikEnv, ikGroup, simIK.method_pseudo_inverse, 0, 3)
     -- add an IK element to that IK group: 
-    local ikElement=simIK.addElement(ikEnv,ikGroup,ikTip)
+    local ikElement = simIK.addElement(ikEnv, ikGroup, ikTip)
     -- specify the base of that IK element: 
-    simIK.setElementBase(ikEnv,ikGroup,ikElement,ikBase)
+    simIK.setElementBase(ikEnv, ikGroup, ikElement, ikBase)
     -- specify the constraints of that IK element: 
-    simIK.setElementConstraints(ikEnv,ikGroup,ikElement,simIK.constraint_x|simIK.constraint_y) 
+    simIK.setElementConstraints(ikEnv, ikGroup, ikElement, simIK.constraint_x | simIK.constraint_y) 
 end
 
 -- IK calculation, and application to the scene:
 function sysCall_actuation()
     -- reflect the pose of the target dummy in the IK environment:
-    simIK.setObjectMatrix(ikEnv,ikTarget,ikBase,sim.getObjectMatrix(simTarget,simBase)) 
-    simIK.handleGroup(ikEnv,ikGroup) -- solve
+    simIK.setObjectMatrix(ikEnv, ikTarget, ikBase, sim.getObjectMatrix(simTarget, simBase)) 
+    simIK.handleGroup(ikEnv, ikGroup) -- solve
     -- apply the calculated joint values:
-    sim.setJointPosition(simJoints[1],simIK.getJointPosition(ikEnv,ikJoints[1])) 
-    sim.setJointPosition(simJoints[2],simIK.getJointPosition(ikEnv,ikJoints[2]))
+    sim.setJointPosition(simJoints[1], simIK.getJointPosition(ikEnv, ikJoints[1])) 
+    sim.setJointPosition(simJoints[2], simIK.getJointPosition(ikEnv, ikJoints[2]))
 end</code>
+
+</div>
 
 <p>For examples on how to use above API functions, refer to the scenes in <em>scenes/kinematics/</em>, and make sure to inspect the attached scripts.</p>
 
@@ -124,6 +218,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

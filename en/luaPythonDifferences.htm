@@ -21,11 +21,20 @@
 <p>The way Lua and Python scripts are handled in CoppeliaSim (next to differences related to the language itself) displays small differences, which are discussed here:</p>
 
 <li>Python scripts require a <em>#python</em> header tag as the very first instruction/comment:</li>
+<div class="multi-language-switcher">
+
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 def sysCall_init():
+    print("Hello world!")</code>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+function sysCall_init()
     print("Hello world!")
-</code>
+end</code>
+</div>
+
 <li>CoppeliaSim tries to select the default Python interpreter present on your system. If this does not work, or if another interpreter is desired, then one can edit the <em>usrset.txt</em> file entry named <em>defaultPython</em>. The location of the <em>usrset.txt</em> file can be queried via sim.getStringParam(sim.stringparam_usersettingsdir)</li>
 <li>Lua code always executes in the same thread as CoppeliaSim and is thus quite fast. Python code on the other hand is launched in a new process, which connects to CoppeliaSim via socket communication. This implies that Python code will usually start and run slower than Lua code. However, when Python is operating in non-stepping mode, and doesn't access CoppeliaSim API, it truely runs parallel to CoppeliaSim.</li>
 <li>Python scripts are handled via Lua wrapper code, which handles the launch and communication of each Python script. Auxiliary Lua code can be passed via the <em>luaExec</em> command, within a Python comment section. That code must come immediately after the <em>#python</em> header tag:</li>
@@ -41,9 +50,11 @@ end
 '''
 
 def sysCall_init():
-    print("Hello world!")
-</code>
+    print("Hello world!")</code>
+    
 <li>The import directive does not work when importing the primary Python file, and following should be used instead:</li>
+<div class="multi-language-switcher">
+
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 include myExternalFile
@@ -54,23 +65,45 @@ include myExternalFile
 # &lt;CoppeliaSim executable path&gt;/python 
 # &lt;current scene path&gt;/ 
 # &lt;additional path&gt;/ (see system/usrset.txt and value 'additionalPythonPath')
-# additional include paths passed via #luaExec additionalIncludePaths={'c:/Python38'}
-</code>
+# additional include paths passed via #luaExec additionalIncludePaths={'c:/Python38'}</code>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+require('myExternalFile')</code>
+</div>
+
 <li>Python threaded scripts will always execute their initialization section (if present). The clean-up section (and other system callbacks) however are only executed in specific situations or in an asynchronous manner</li>
 
 <li>Python threaded scripts will need to call a message pump (via <a href="regularApi/simHandleExtCalls.htm">sim.handleExtCalls</a>) in order to have user callback functions to be serviced, depending on the situation:</li>
+<div class="multi-language-switcher">
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 def sysCall_thread():
     xml ='&lt;ui title="Custom UI"&gt; &lt;button text="Click me!" on-click="click_callback"/&gt; &lt;/ui&gt;'
-    ui=simUI.create(xml)
-    while sim.getThreadExistRequest() == False:
+    ui = simUI.create(xml)
+    while not sim.getThreadExistRequest():
         sim.handleExtCalls()
     simUI.destroy(ui)
 
 def click_callback(ui,button):
+    print("button was clicked!")</code>
+    
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+function sysCall_thread()
+    xml ='&lt;ui title="Custom UI"&gt; &lt;button text="Click me!" on-click="click_callback"/&gt; &lt;/ui&gt;'
+    ui = simUI.create(xml)
+    while not sim.getThreadExistRequest() do
+        sim.handleExtCalls() -- optional
+    end
+    simUI.destroy(ui)
+end
+
+function click_callback(ui,button)
     print("button was clicked!")
-</code>
+end</code>
+</div>
+
 
 <li>When some Python code section needs to be executed without interruption, then one can use following construct:</li>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
@@ -80,8 +113,7 @@ def sysCall_thread():
     
     # perform some task that involves CoppeliaSim
     
-    sim.releaseLock()
-</code>
+    sim.releaseLock()</code>
 
 <li>Some rare API functions will only be availabe in Lua, while other only in Python.</li>
 
@@ -108,6 +140,7 @@ def sysCall_thread():
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

@@ -33,67 +33,128 @@
 
 <p>Following example illustrates how to display a joint angle in a simple custom user interface:</p>
   
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+import math
+
+def sysCall_init():
+    sim = require('sim')
+    simUI = require('simUI')
+    self.jointHandle = sim.getObject('/Joint')
+    xml = """
+        &lt;ui title=&quot;Example&quot; closeable=&quot;false&quot; layout=&quot;form&quot;&gt;
+            &lt;label text=&quot;joint angle:&quot; /&gt;
+            &lt;label id=&quot;1&quot; text=&quot;-&quot; /&gt;
+        &lt;/ui&gt;
+    """
+    self.ui = simUI.create(xml)
+
+def sysCall_sensing():
+    v = 180 * sim.getJointPosition(self.jointHandle) / math.pi
+    simUI.setLabelText(self.ui, "1", '{:.3f}'.format(v))
+
+def sysCall_cleanup():
+    simUI.destroy(self.ui)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-simUI=require('simUI')
-
 function sysCall_init()
-    jointHandle=sim.getObject('/Joint')
+    sim = require('sim')
+    simUI = require('simUI')
+    jointHandle = sim.getObject('/Joint')
     local xml =[[&lt;ui title=&quot;Example&quot; closeable=&quot;false&quot; layout=&quot;form&quot;&gt;
         &lt;label text=&quot;joint angle:&quot; /&gt;
         &lt;label id=&quot;1&quot; text=&quot;-&quot; /&gt;
         &lt;/ui&gt;]]
-    ui=simUI.create(xml)
+    ui = simUI.create(xml)
 end
 
 function sysCall_sensing()
-    local v=180*sim.getJointPosition(jointHandle)/math.pi
-    simUI.setLabelText(ui,1,string.format('%.3f',v))
+    local v = 180 * sim.getJointPosition(jointHandle) / math.pi
+    simUI.setLabelText(ui, 1, string.format('%.3f', v))
 end
 
 function sysCall_cleanup()
     simUI.destroy(ui)
-end</code>  
+end</code> 
+
+</div> 
 
 <br>
 <h2><a name="augmentingScene"></a>Augmenting the scene with visual items
 </h2>
 <p>Simple visual items such as points, lines, spheres or individual triangles can easily be added to the scene via API functions <a href="regularApi/simAddDrawingObject.htm">sim.addDrawingObject</a> and <a href="regularApi/simAddDrawingObjectItem.htm">sim.addDrawingObjectItem</a>, for example:</p>
   
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+import math
+
+def sysCall_init():
+    sim = require('sim')
+    drawingObject = sim.addDrawingObject(sim.drawing_spherepts, 0.005, 0, -1, 1000, [1, 0, 0])
+    for i in range(360):
+        coord = [math.cos(i * math.pi / 180), math.sin(i * math.pi / 180), 0.01]
+        sim.addDrawingObjectItem(drawingObject, coord)</code>
+        
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    local drawingObject=sim.addDrawingObject(sim.drawing_spherepts,0.005,0,-1,1000,{1,0,0})
-    for i=0,359,1 do
-        local coord={math.cos(i*math.pi/180),math.sin(i*math.pi/180),0.01}
-        sim.addDrawingObjectItem(drawingObject,coord)
+    sim = require('sim')
+    local drawingObject = sim.addDrawingObject(sim.drawing_spherepts, 0.005, 0, -1, 1000, {1, 0, 0})
+    for i = 0, 359, 1 do
+        local coord = {math.cos(i * math.pi / 180), math.sin(i * math.pi / 180), 0.01}
+        sim.addDrawingObjectItem(drawingObject, coord)
     end
 end</code>
 
+</div>
+
 <p>More complex items, such as random meshes can be created on the fly via <a href="regularApi/simLoadModel.htm">sim.loadModel</a>, <a href="simAssimp.htm">simAssimp.importShapes</a>, <a href="regularApi/simCreatePrimitiveShape.htm">sim.createPrimitiveShape</a>, <a href="regularApi/simCreateShape.htm">sim.createShape</a> and/or <a href="regularApi/simCopyPasteObjects.htm">sim.copyPasteObjects</a>. To avoid surcharching the scene with too many additional objects, make sure to group them with <a href="regularApi/simGroupShapes.htm">sim.groupShapes</a>. For example:</p>
   
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+import math
+
+def sysCall_init():
+    sim = require('sim')
+    individualShapes = []
+    for i in range(360):
+        shape = sim.createPrimitiveShape(sim.primitiveshape_cylinder, [0.005, 0.005, 0.02])
+        coord = [math.cos(math.radians(i)), math.sin(math.radians(i)), 0.01]
+        sim.setObjectPosition(shape, coord)
+        sim.setShapeColor(shape, None, sim.colorcomponent_ambient_diffuse, [1, 0, 0])
+        individualShapes.append(shape)
+    
+    # Group individual shapes:
+    masterShape = sim.groupShapes(individualShapes, True)
+    # Make it invisible to collision detection, sensors, etc.:
+    sim.setObjectSpecialProperty(masterShape, 0)</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    local individualShapes={}
-    for i=0,359,1 do
-        local shape=sim.createPrimitiveShape(sim.primitiveshape_cylinder,{0.005,0.005,0.02})
-        local coord={math.cos(i*math.pi/180),math.sin(i*math.pi/180),0.01}
-        sim.setObjectPosition(shape,coord)
-        sim.setShapeColor(shape,nil,sim.colorcomponent_ambient_diffuse,{1,0,0})
-        individualShapes[i+1]=shape
+    sim = require('sim')
+    local individualShapes = {}
+    for i = 0, 359, 1 do
+        local shape = sim.createPrimitiveShape(sim.primitiveshape_cylinder, {0.005, 0.005, 0.02})
+        local coord = {math.cos(i * math.pi / 180), math.sin(i * math.pi / 180), 0.01}
+        sim.setObjectPosition(shape, coord)
+        sim.setShapeColor(shape, nil, sim.colorcomponent_ambient_diffuse, {1, 0, 0})
+        individualShapes[i + 1] = shape
     end
     -- Group individual shapes:
-    local masterShape=sim.groupShapes(individualShapes,true)
+    local masterShape = sim.groupShapes(individualShapes, true)
     -- Make it invisible to collision detection, sensors, etc.:
-    sim.setObjectSpecialProperty(masterShape,0)
+    sim.setObjectSpecialProperty(masterShape, 0)
 end</code>  
-  
+
+</div>  
 
 <br>
 <h2>
@@ -101,26 +162,46 @@ end</code>
 </h2>
 <p>Following example illustrates how to log a joint angle to a file:</p>
   
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+import math
+
+def sysCall_init():
+    sim = require('sim')
+    self.jointHandle = sim.getObject('/Joint')
+    self.file = open('jointAngles.txt', 'w+')
+    self.file.write('Joint angles for each simulation step:\n\n')
+
+def sysCall_sensing():
+    v = 180 * sim.getJointPosition(self.jointHandle) / math.pi
+    self.file.write('time: {:.3f} [s]'.format(sim.getSimulationTime() + sim.getSimulationTimeStep()))
+    self.file.write(', joint angle: {:.1f} [deg]\n'.format(v))
+
+def sysCall_cleanup():
+    self.file.close()</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    jointHandle=sim.getObject('/Joint')
-    file=io.open('jointAngles.txt','w+')
+    sim = require('sim')
+    jointHandle = sim.getObject('/Joint')
+    file = io.open('jointAngles.txt', 'w+')
     file:write('Joint angles for each simulation step:\n\n')
 end
 
 function sysCall_sensing()
-    local v=180*sim.getJointPosition(jointHandle)/math.pi
-    file:write(string.format('time: %.3f [s]',sim.getSimulationTime()+sim.getSimulationTimeStep()))
-    file:write(string.format(', joint angle: %.1f [deg]\n',v))
+    local v = 180 * sim.getJointPosition(jointHandle) / math.pi
+    file:write(string.format('time: %.3f [s]', sim.getSimulationTime() + sim.getSimulationTimeStep()))
+    file:write(string.format(', joint angle: %.1f [deg]\n', v))
 end
 
 function sysCall_cleanup()
     file:close()
 end</code>
-  
+
+</div>  
 
 <br>
 <br>
@@ -141,6 +222,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

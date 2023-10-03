@@ -30,22 +30,21 @@
 
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">#include &lt;simLib/simExp.h&gt;
 #include &lt;simLib/simTypes.h&gt;
+
 SIM_DLLEXPORT int simInit(SSimInit* info);
 SIM_DLLEXPORT void simMsg(SSimMsg* info);
 SIM_DLLEXPORT void simCleanup();
 
 SIM_DLLEXPORT void simInit_ui(); // called immediately after simInit
 SIM_DLLEXPORT void simMsg_ui(SSimMsg_ui* info);
-SIM_DLLEXPORT void simCleanup_ui(); // called immediately before simCleanup
-</code>
+SIM_DLLEXPORT void simCleanup_ui(); // called immediately before simCleanup</code>
 
 <p>*_ui entry points are exclusively served by the UI thread, while the other entry points are served by the simulation thread. </p>
 <p>A plugin shoud be named &quot;simXXX-YYY&quot;, where the -YYY part is the optional version information, e.g. &quot;simIK-2-1&quot; for the name and &quot;libsimIK-2-1.so&quot; for the file on Linux. The plugin should be placed in <em>&lt;coppeliaSim executable&gt;</em>. It can then be loaded via Lua with e.g.:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-simIK=loadPlugin('simIK-2-1')
-</code>
+simIK = loadPlugin('simIK-2-1')</code>
 
 
 
@@ -53,7 +52,7 @@ simIK=loadPlugin('simIK-2-1')
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-local simIK=loadPlugin('simIK-2-1')
+local simIK = loadPlugin('simIK-2-1')
 
 function simIK.anotherFunction()
     print('a pure Lua function')
@@ -61,13 +60,20 @@ end
 
 return simIK</code>
 
-<p>Above module should have the same name as the plugin it is loading (e.g. "simIK-2-1.lua") and placed in <em>&lt;coppeliaSim executable&gt;/lua</em>. From a script, the desired functionality, including version, can then be loaded with e.g.:</p>
+<p>Above module should have the same name as the plugin it is loading (e.g. "simIK-2-1.lua") and placed in <em>&lt;coppeliaSim executable&gt;/lua</em>. From a script (Python or Lua), the desired functionality, including version, can then be loaded with e.g.:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    simIK = require('simIK-2-1')</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-simIK=require('simIK-2-1')
-</code>
-
+function sysCall_init()
+    simIK = require('simIK-2-1')
+end</code>
+</div>
 
 <p>For more information on plugins, refer to following  repositories: </p>
 
@@ -107,6 +113,7 @@ simIK=require('simIK-2-1')
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

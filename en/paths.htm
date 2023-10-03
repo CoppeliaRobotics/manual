@@ -71,51 +71,95 @@ section[#section+1]=section[2]</code>
 
 <p>Path data is stored inside of the path object, as <a href="apiFunctions.htm#customDataBlocks">custom object data</a>. It can be accessed with:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+# control point data (each one has x, y, z, qx, qy, qz, qw (position and quaternion)):
+ctrlPts = sim.unpackDoubleTable(sim.readCustomDataBlock(pathHandle, 'PATHCTRLPTS'))
+
+# path data (each one has x, y, z, qx, qy, qz, qw (position and quaternion)):
+pathData = sim.unpackDoubleTable(sim.readCustomDataBlock(pathHandle, 'PATH')</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
--- control point data (each one has x,y,z,qx,qy,qz,qw (position and quaternion)):
-local ctrlPts=sim.unpackDoubleTable(sim.readCustomDataBlock(pathHandle,'PATHCTRLPTS'))
+-- control point data (each one has x, y, z, qx, qy, qz, qw (position and quaternion)):
+local ctrlPts = sim.unpackDoubleTable(sim.readCustomDataBlock(pathHandle, 'PATHCTRLPTS'))
 
--- path data (each one has x,y,z,qx,qy,qz,qw (position and quaternion)):
-local pathData=sim.unpackDoubleTable(sim.readCustomDataBlock(pathHandle,'PATH')</code>
+-- path data (each one has x, y, z, qx, qy, qz, qw (position and quaternion)):
+local pathData = sim.unpackDoubleTable(sim.readCustomDataBlock(pathHandle, 'PATH')</code>
+</div>
 
 <br>
 
 <p>Various <a href="apiFunctions.htm#paths">API functions related to paths</a> are available, e.g. in order to have an object follow a path in position and orientation, one could use following script:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+import numpy as np
+def sysCall_init():
+    sim = require('sim')
+    self.objectToFollowPath = sim.getObject('.')
+    self.path = sim.getObject('/Path')
+    pathData = sim.unpackDoubleTable(sim.readCustomDataBlock(self.path, 'PATH'))
+    
+    m = np.array(pathData).reshape(len(pathData) // 7, 7)
+    self.pathPositions = m[:, :3].flatten().tolist()
+    self.pathQuaternions = m[:, 3:].flatten().tolist()
+    
+    self.pathLengths, self.totalLength = sim.getPathLengths(self.pathPositions, 3)
+    self.velocity = 0.04 # m/s
+    self.posAlongPath = 0
+    self.previousSimulationTime = 0
+    sim.setStepping(True)
+
+def sysCall_thread():
+    while not sim.getSimulationStopping():
+        t = sim.getSimulationTime()
+        self.posAlongPath += self.velocity * (t - self.previousSimulationTime)
+        self.posAlongPath %= self.totalLength
+        pos = sim.getPathInterpolatedConfig(self.pathPositions, self.pathLengths, self.posAlongPath)
+        quat = sim.getPathInterpolatedConfig(self.pathQuaternions, self.pathLengths,
+               self.posAlongPath, None, [2, 2, 2, 2])
+        sim.setObjectPosition(self.objectToFollowPath, pos, self.path)
+        sim.setObjectQuaternion(self.objectToFollowPath, quat, self.path)
+        self.previousSimulationTime = t
+        sim.step()</code>
+
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-
 function sysCall_init()
-    objectToFollowPath=sim.getObject('.')
-    path=sim.getObject('/Path')
-    pathData=sim.unpackDoubleTable(sim.readCustomDataBlock(path,'PATH'))
-    local m=Matrix(#pathData//7,7,pathData)
-    pathPositions=m:slice(1,1,m:rows(),3):data()
-    pathQuaternions=m:slice(1,4,m:rows(),7):data()
-    pathLengths,totalLength=sim.getPathLengths(pathPositions,3)
-    velocity=0.04 -- m/s
-    posAlongPath=0
-    previousSimulationTime=0
+    sim = require('sim')
+    objectToFollowPath = sim.getObject('.')
+    path = sim.getObject('/Path')
+    pathData = sim.unpackDoubleTable(sim.readCustomDataBlock(path, 'PATH'))
+    local m = Matrix(#pathData // 7, 7, pathData)
+    pathPositions = m:slice(1, 1, m:rows(), 3):data()
+    pathQuaternions = m:slice(1, 4, m:rows(), 7):data()
+    pathLengths, totalLength = sim.getPathLengths(pathPositions, 3)
+    velocity = 0.04 -- m/s
+    posAlongPath = 0
+    previousSimulationTime = 0
     sim.setStepping(true)
 end
 
 function sysCall_thread()
     while not sim.getSimulationStopping() do
-        local t=sim.getSimulationTime()
-        posAlongPath=posAlongPath+velocity*(t-previousSimulationTime)
-        posAlongPath=posAlongPath % totalLength
-        local pos=sim.getPathInterpolatedConfig(pathPositions,pathLengths,posAlongPath)
-        local quat=sim.getPathInterpolatedConfig(pathQuaternions,pathLengths,
-                                                 posAlongPath,nil,{2,2,2,2})
-        sim.setObjectPosition(objectToFollowPath,pos,path)
-        sim.setObjectQuaternion(objectToFollowPath,quat,path)
-        previousSimulationTime=t
+        local t = sim.getSimulationTime()
+        posAlongPath = posAlongPath+velocity * (t - previousSimulationTime)
+        posAlongPath = posAlongPath % totalLength
+        local pos = sim.getPathInterpolatedConfig(pathPositions, pathLengths, posAlongPath)
+        local quat = sim.getPathInterpolatedConfig(pathQuaternions, pathLengths,
+                                                 posAlongPath, nil, {2,2,2,2})
+        sim.setObjectPosition(objectToFollowPath, pos, path)
+        sim.setObjectQuaternion(objectToFollowPath, quat, path)
+        previousSimulationTime = t
         sim.step()
     end
 end</code>
-
+</div>
 
 <br>
 <br>
@@ -136,6 +180,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 
