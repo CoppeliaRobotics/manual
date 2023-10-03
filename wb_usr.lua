@@ -659,8 +659,8 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="simLuaCmd API reference"},
-                            link="simLuaCmd.htm?view=alphabetical"
+                            name={en="simCmd API reference"},
+                            link="simCmd.htm?view=alphabetical"
                         },
                     }
                 },

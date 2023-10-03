@@ -52,7 +52,7 @@ Version history:
 <li>Support for Python has been greatly improved. Embedded scripts now use a new Python wrapper by default: pythonWrapperV2.lua, and the ZeroMQ remote API has been updated. This makes Python code more reactive, faster and easier to program. <a href="luaPythonDifferences.htm">Differences with Lua scripts</a> have been further reduced. Reentrancy is not a problem anymore.</li>
 <li>sim.setThreadAutomaticSwitch is deprecated in favor of <a href="regularApi/simSetStepping.htm">sim.setStepping</a></li>
 <li>sim.switchThread is deprecated in favor of <a href="regularApi/simStep.htm">sim.step</a></li>
-<li>The LuaCmd plugin now works also in headless mode, with line editing, history and TAB-completion, via the replxx library.</li>
+<li>The Commander plugin now works also in headless mode, with line editing, history and TAB-completion, via the replxx library.</li>
 <li>Added <a href="callbackFunctions.htm">callback function</a> <em>sysCall_thread</em> for Lua too, which is an alternate, convenience function, to creating and handling the main coroutine via code.</li>
 <li>Added <a href="callbackFunctions.htm">callback function</a> <em>sysCall_selChange</em> that is triggered when selection changes.</li>
 <li>Improved the Referenced Handles Explorer add-on</li>
@@ -95,7 +95,7 @@ Version history:
 <li>New add-ons: Find midpoint, Measure distance/direction, Translate to align vertex, Mesh convex hull, Mesh intersection, Mesh union, Mesh difference, Mesh symmetric difference, Mesh subdivision, Joint tool, Event viewer, Broadcast message viewer.</li>
 <li>New <a href="importExport.htm#ldraw">LDraw plugin and add-on</a> to import ldr/mpd models.</li>
 <li>OMPL plugin new functions: simOMPL.createStateSpaceForJoint, simOMPL.setStateSpaceForJoints</li>
-<li>LuaCmd plugin: introduced some convenience automatic vars: H, SEL, SEL1, and a function ("apropos") to look up API functions/constants.</li>
+<li>Commander plugin: introduced some convenience automatic vars: H, SEL, SEL1, and a function ("apropos") to look up API functions/constants.</li>
 <li>IM plugin new functions: simIM.writeToTexture, simIM.getFormat, simIM.getMarkerDictionary, simIM.drawMarker, simIM.detectMarkers</li>
 <li>IGL plugin new functions: simIGL.getMesh, simIGL.randomPointsOnMesh, simIGL.sweptVolume, simIGL.exactGeodesic, simIGL.upsample, simIGL.closestFacet, simIGL.uniqueEdgeMap, simIGL.meshBooleanShape, simIGL.centroid, simIGL.barycenter, simIGL.convexHull, simIGL.convexHullShape, simIGL.tetrahedralize, simIGL.intersectWithHalfSpace, simIGL.volume</li>
 <li>Eigen plugin new functions: simEigen.pinv</li>
@@ -299,7 +299,7 @@ Version history:
 <li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a> have been implemented and are supported in <a href="childScripts.htm">child scripts</a> and <a href="customizationScripts.htm">customization scripts</a>.</li>
 <li>Added a system callback function for <a href="customizationScripts.htm">customization scripts</a> and <a href="addOns.htm">add-ons</a> that allows, during simulation, to control the execution of the <a href="mainScript.htm">main script</a>: sysCall_beforeMainScript. This is useful to easily implement step-by-step simulation, or to easily synchronize the simulation with an external application.</li>
 <li>Added a simple <a href="scriptProperties.htm#debugMode">script debug functionality</a> that allows to monitor function calls and watching variables.</li>
-<li>The Lua commander now has dynamic variable completion, history, explicitly prints any variable, etc. Type <em>help()</em> for details.</li>
+<li>The Commander now has dynamic variable completion, history, explicitly prints any variable, etc. Type <em>help()</em> for details.</li>
 <li>Added following API function: <a href="regularApi/simGetPersistentDataTags.htm">sim.getPersistentDataTags</a>.</li>
 <li>The Open Mesh plugin for V-REP now uses the latest OpenMesh library (V6.3) on all 3 platforms</li>
 <li>Added a <a href="https://msgpack.org/index.html">MessagePack</a> module for Lua: <a href="http://fperrad.github.io/lua-MessagePack/" target="_blank">lua-MessagePack</a>, courtesy of Francois Perrad.</li>
@@ -324,7 +324,7 @@ Version history:
 <li>Fixed several bugs. Thanks to Steffen Hemer, Fangyi Zhang, virgile Daugé, Riccardo Spica, Filipe Rocha, Jacob Huesman, Matthew Veres, Robert Lang and Florian Golemo for noticing them or helping to resolve them.</li>
 <li>Switched to Qt 5.9.0 LTS on all platforms.</li>
 <li>From within a script, <em>print()</em> now prints to the status bar, instead of the console. This can be reverted with <em>print=printToConsole</em>. <em>printf</em>() is now also supported. Both, <em>print</em> and printf will now also print the content of tables.</li>
-<li>Added a Lua commander plugin (read-eval-print loop), that adds a text input to the V-REP status bar, which allows entering and executing Lua code on the fly, like in a terminal. The code can be run in the <a href="sandboxScript.htm">sandbox script</a>, or any other active script in V-REP</li>
+<li>Added a Commander plugin (read-eval-print loop), that adds a text input to the V-REP status bar, which allows entering and executing Lua code on the fly, like in a terminal. The code can be run in the <a href="sandboxScript.htm">sandbox script</a>, or any other active script in V-REP</li>
 <li>Moved all the source code items related to V-REP to <a href="https://github.com/CoppeliaRobotics" target="_blank">github</a>.</li>
 <li>Switched to a cleaner way of calling script code, by using predefined functions (e.g. <em>sysCall_init</em>, <em>sysCall_actuation</em>, etc. Scripts should now  contain nothing else than functions anymore. The old way of calling scripts is however still supported for the sake of backward compatibility (but make sure not to mix both methods).</li>
 <li>New <a href="jointCallbackFunctions.htm">joint callback functions</a> have been implemented and are supported in <a href="childScripts.htm">child scripts</a> and <a href="customizationScripts.htm">customization scripts</a>. The old joint control callback script functionality should not be used anymore and is not accessible anymore via the GUI, but is still operational (you can  temporarily make it accessible again via <em>enableOldJointCallbackScriptEdition</em> in <em>system/usrset.txt</em>)</li>
