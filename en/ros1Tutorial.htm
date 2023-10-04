@@ -25,9 +25,15 @@
 
 <p>The general ROS functionality in CoppeliaSim is supported via the <a href="rosInterf.htm">ROS Interface</a> (<em>libsimROS.so</em>). The Linux distribution should include that file already compiled in <em>CoppeliaSim/compiledROSPlugins</em>, but it first needs to be copied to <em>CoppeliaSim/</em>, otherwise it won't be loaded. You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of CoppeliaSim for details about plugin load operations. The ROS plugin is loaded with:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+simROS = require('simROS')</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-simROS=require('simROS')</code>
+simROS = require('simROS')</code>
+</div>
 
 <p>The load operation will only be successful if roscore was running at that time. Also make sure to source the ROS environment prior to running CoppeliaSim.</p>
 
@@ -62,48 +68,97 @@ $ catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release</code>
 
 <p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="childScripts.htm">child script</a> to it with [Add &gt; Associated child script &gt; Non threaded &gt; Lua]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+<div class="multi-language-switcher">
 
-sim=require('sim')
-simROS=require('simROS')
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def subscriber_callback(msg):
+    # This is the subscriber callback function
+    sim.addLog(sim.verbosity_scriptinfos, f'subscriber receiver following Float32: {str(msg["data"])}')
+
+def get_transform_stamped(obj_handle, name, rel_to, rel_to_name):
+    # This function retrieves the stamped transform for a specific object
+    t = sim.getSystemTime()
+    p = sim.getObjectPosition(obj_handle, rel_to)
+    o = sim.getObjectQuaternion(obj_handle, rel_to)
+    
+    return {
+        'header': {
+            'stamp': t,
+            'frame_id': rel_to_name
+        },
+        'child_frame_id': name,
+        'transform': {
+            'translation': {'x': p[0], 'y': p[1], 'z': p[2]},
+            'rotation': {'x': o[0], 'y': o[1], 'z': o[2], 'w': o[3]}
+        }
+    }
+
+def sysCall_init():
+    sim = require('sim')
+    simROS = require('simROS')
+    
+    # The child script initialization
+    self.object_handle = sim.getObject('.')
+    self.object_alias = sim.getObjectAlias(object_handle, 3)
+
+    # Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
+    self.publisher = simROS.advertise('/simulationTime', 'std_msgs/Float32')
+    self.subscriber = simROS.subscribe('/simulationTime', 'std_msgs/Float32', subscriber_callback)
+
+def sysCall_actuation():
+    # Send an updated simulation time message and send the transform of the object attached to this script
+    simROS.publish(self.publisher, {'data': sim.getSimulationTime()})
+    simROS.sendTransform(get_transform_stamped(self.object_handle, self.object_alias, -1, 'world'))
+    # To send several transforms at once, use simROS.sendTransforms instead (if such a method exists in Python's simROS)
+
+def sysCall_cleanup():
+    # Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
+    simROS.shutdownPublisher(self.publisher)
+    simROS.shutdownSubscriber(self.subscriber)</code>
+    
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function subscriber_callback(msg)
     -- This is the subscriber callback function
-    sim.addLog(sim.verbosity_scriptinfos,'subscriber receiver following Float32: '..msg.data)
+    sim.addLog(sim.verbosity_scriptinfos, 'subscriber receiver following Float32: '..msg.data)
 end
 
-function getTransformStamped(objHandle,name,relTo,relToName)
+function getTransformStamped(objHandle, name, relTo, relToName)
     -- This function retrieves the stamped transform for a specific object
-    t=sim.getSystemTime()
-    p=sim.getObjectPosition(objHandle,relTo)
-    o=sim.getObjectQuaternion(objHandle,relTo)
+    t = sim.getSystemTime()
+    p = sim.getObjectPosition(objHandle, relTo)
+    o = sim.getObjectQuaternion(objHandle, relTo)
     return {
-        header={
-            stamp=t,
-            frame_id=relToName
+        header = {
+            stamp = t,
+            frame_id = relToName
         },
-        child_frame_id=name,
-        transform={
-            translation={x=p[1],y=p[2],z=p[3]},
-            rotation={x=o[1],y=o[2],z=o[3],w=o[4]}
+        child_frame_id = name,
+        transform = {
+            translation = {x = p[1], y = p[2], z = p[3]},
+            rotation = {x = o[1], y = o[2], z = o[3], w = o[4]}
         }
     }
 end
 
 function sysCall_init()
+    sim = require('sim')
+    simROS = require('simROS')
+
     -- The child script initialization
-    objectHandle=sim.getObject('.')
-    objectAlias=sim.getObjectAlias(objectHandle,3)
+    objectHandle = sim.getObject('.')
+    objectAlias = sim.getObjectAlias(objectHandle, 3)
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
-    publisher=simROS.advertise('/simulationTime','std_msgs/Float32')
-    subscriber=simROS.subscribe('/simulationTime','std_msgs/Float32','subscriber_callback')
+    publisher = simROS.advertise('/simulationTime', 'std_msgs/Float32')
+    subscriber = simROS.subscribe('/simulationTime', 'std_msgs/Float32', 'subscriber_callback')
 end
 
 function sysCall_actuation()
     -- Send an updated simulation time message, and send the transform of the object attached to this script:
-    simROS.publish(publisher,{data=sim.getSimulationTime()})
-    simROS.sendTransform(getTransformStamped(objectHandle,objectAlias,-1,'world'))
+    simROS.publish(publisher, {data = sim.getSimulationTime()})
+    simROS.sendTransform(getTransformStamped(objectHandle, objectAlias, -1, 'world'))
     -- To send several transforms at once, use simROS.sendTransforms instead
 end
 
@@ -112,7 +167,7 @@ function sysCall_cleanup()
     simROS.shutdownPublisher(publisher)
     simROS.shutdownSubscriber(subscriber)
 end</code>
-
+</div>
 
 
 
@@ -210,6 +265,7 @@ $ rostopic pub /stopSimulation std_msgs/Bool true --once</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 
