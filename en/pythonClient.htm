@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>CoppeliaSim's library and Python client</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>CoppeliaSim's library and Python client</h1>
+
+<p>CoppeliaSim offers a wide range of functionalities via its graphical user interface. For more customized scenarios where fine-grained control of the simulation(s) loop is required (e.g. reinforcement learning), it also offers the flexibility to be used as a library within custom programs.</p>
+
+<p>Using CoppeliaSIm as a library consists of the following steps:</p>
+
+<ol>
+<li>Loading the CoppeliaSim's library (coppeliaSim.dll / libcoppeliaSim.so / libcoppeliaSim.dylib) via the specific function (dlopen() on POSIX or LoadLibrary() on Win32).</li>
+
+<li>Creating a secondary (SIM) thread (as of current version, this step is mandatory) and in the secondary thread execute:
+    <ol>
+        <li>simInitialize</li>
+        <li>any other coppeliaSim API functions, or simply simLoop until simGetExitRequest returns false</li>
+        <li>simDeinitialize.</li>
+    </ol>
+</li>
+
+<li>On the main (UI) thread: call the simRunGui function (as of current version, this step is mandatory, also when running headless, i.e. without GUI).</li>
+</ol>
+
+<h3>Python client application</h3>
+
+<p>A complete working example of loading the CoppeliaSim library in Python using ctypes is given in <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython">coppeliaSimClientPython</a>.</p>
+
+<p>The coppeliaSim.bridge module provides seamless access to the regular API used by scripts, e.g.:</p>
+
+<code class="hljs language-python coppelia-coppeliasim-script">
+import coppeliaSim.bridge
+
+# load the bridge compoennt:
+coppeliaSim.bridge.load()
+
+# fetch API objects:
+sim = coppeliaSim.bridge.require('sim')
+
+# e.g.: use some API function:
+program_version = sim.getInt32Param(sim.intparam_program_full_version)
+</code>
+
+<p>The default implementation of simThreadFunc simply executes the application until quit is requested:</p>
+
+<code class="hljs language-python coppelia-coppeliasim-script">
+def simThreadFunc(appDir):
+    simInitialize(c_char_p(appDir.encode('utf-8')), 0)
+    while not simGetExitRequest():
+        simLoop(None, 0)
+    simDeinitialize()
+</code>
+
+<p>Another possible scenario would be to manually control the operations used to setup a simulation environment (e.g. sim.loadScene) and to execute a simulation, e.g. by manually stepping for a predetermined amount of steps:</p>
+
+<code class="hljs language-python coppelia-coppeliasim-script">
+def simThreadFunc(appDir):
+    simInitialize(c_char_p(appDir.encode('utf-8')), 0)
+
+    import coppeliaSim.bridge
+    coppeliaSim.bridge.load()
+
+    global sim
+    sim = coppeliaSim.bridge.require('sim')
+
+    sim.loadScene('path/to/scene.ttt')
+    simStart()
+    for i in range(1000):
+        t = sim.getSimulationTime()
+        print(f'Simulation time: {t:.2f} [s] (simulation running synchronously to client, i.e. stepped)')
+        simStep()
+    simStop()
+
+    simDeinitialize()
+
+def simStart():
+    if sim.getSimulationState() == sim.simulation_stopped:
+        sim.startSimulation()
+
+def simStep():
+    if sim.getSimulationState() != sim.simulation_stopped:
+        t = sim.getSimulationTime()
+        while t == sim.getSimulationTime():
+            simLoop(None, 0)
+
+def simStop():
+    while sim.getSimulationState() != sim.simulation_stopped:
+        sim.stopSimulation()
+        simLoop(None, 0)
+</code>
+
+<p>Please refer to <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython/blob/main/main_with_ui.py">coppeliaSimClientPython/main_with_ui.py</a> for the complete code.</p>
+
+<br>
+<br>
+ </tr>
+</table> 
+</div>  
+  
+  
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+
+</html>
