@@ -24,7 +24,17 @@
 <p>First of all you should make sure that you have gone through the <a href="https://index.ros.org/doc/ros2/Tutorials/#tutorials">official ROS2 tutorials</a>, at least the beginner section. Then, we assume that you have the latest Ubuntu running, that ROS2 is installed, and that the workspace folders are set. Here also refer to the <a href="https://index.ros.org/doc/ros2/Installation/">official documentation regarding the ROS 2 installation</a>.</p>
 
 <p>The general ROS2 functionality in CoppeliaSim is supported via the <a href="rosInterf.htm">ROS2 Interface</a> (<em>libsimROS2.so</em>). The Linux distribution should include that file already compiled in <em>CoppeliaSim/compiledROSPlugins</em>, but it first needs to be copied to <em>CoppeliaSim/</em>, otherwise it won't be loaded.  You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of CoppeliaSim for details about plugin load operations. The ROS2 plugin is loaded with:</p>
-<code class="hljs language-lua coppelia-coppeliasim-script">simROS2=require('simROS2')</code>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+simROS2 = require('simROS2')</code>
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+simROS2 = require('simROS2')</code>
+</div>
+
 <p>Make sure to source the ROS2 environment prior to running CoppeliaSim.</p>
 <p>If the plugin cannot be loaded, then you should recompile it by yourself. It is open source and can be modified as much as needed in order to support a specific feature or to extend its functionality. If specific messages/services/etc. need to be supported, make sure to edit files located in <em>simROS2/meta/</em>, prior to recompilation. There are<em> </em>2 packages:</p>
 <li><a href="https://github.com/CoppeliaRobotics/simROS2" target="_blank">simROS2</a>: this package is the <a href="rosInterf.htm">ROS2 Interface</a> that will be compiled to a &quot;.so&quot; file, and that is used by CoppeliaSim.</li>
@@ -47,48 +57,97 @@ $ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release</code>
 
 <p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="childScripts.htm">child script</a> to it with [Add &gt; Associated child script &gt; Non threaded &gt; Lua]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
 
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+<div class="multi-language-switcher">
 
-sim=require('sim')
-simROS2=require('simROS2')
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def subscriber_callback(msg):
+    # This is the subscriber callback function
+    log_message = f'subscriber receiver following Float32: {msg["data"]}'
+    sim.addLog(sim.verbosity_scriptinfos, log_message)
+
+def getTransformStamped(objHandle, name, relTo, relToName):
+    # This function retrieves the stamped transform for a specific object
+    t = simROS2.getSystemTime()
+    p = sim.getObjectPosition(objHandle, relTo)
+    o = sim.getObjectQuaternion(objHandle, relTo)
+    return {
+        'header': {
+            'stamp': t,
+            'frame_id': relToName
+        },
+        'child_frame_id': name,
+        'transform': {
+            'translation': {'x': p[0], 'y': p[1], 'z': p[2]},
+            'rotation': {'x': o[0], 'y': o[1], 'z': o[2], 'w': o[3]}
+        }
+    }
+
+def sysCall_init():
+    sim = require('sim')
+    simROS2 = require('simROS2')
+
+    # The child script initialization
+    self.objectHandle = sim.getObject('.')
+    self.objectAlias = sim.getObjectAlias(self.objectHandle, 3)
+    
+    # Prepare the float32 publisher and subscriber (we subscribe to the topic we publish):
+    self.publisher = simROS2.createPublisher('/simulationTime', 'std_msgs/msg/Float32')
+    self.subscriber = simROS2.createSubscription('/simulationTime', 'std_msgs/msg/Float32', subscriber_callback)
+
+def sysCall_actuation():
+    # Send an updated simulation time message, and send the transform of the object attached to this script:
+    simROS2.publish(self.publisher, {'data': sim.getSimulationTime()})
+    simROS2.sendTransform(getTransformStamped(self.objectHandle, self.objectAlias, -1, 'world'))
+    # To send several transforms at once, use simROS2.sendTransforms instead
+
+def sysCall_cleanup():
+    # Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
+    simROS2.shutdownPublisher(self.publisher)
+    simROS2.shutdownSubscriber(self.subscriber)</code>
+    
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function subscriber_callback(msg)
     -- This is the subscriber callback function
-    sim.addLog(sim.verbosity_scriptinfos,'subscriber receiver following Float32: '..msg.data)
+    sim.addLog(sim.verbosity_scriptinfos, 'subscriber receiver following Float32: '..msg.data)
 end
 
-function getTransformStamped(objHandle,name,relTo,relToName)
+function getTransformStamped(objHandle, name, relTo, relToName)
     -- This function retrieves the stamped transform for a specific object
-    t=simROS2.getSystemTime()
-    p=sim.getObjectPosition(objHandle,relTo)
-    o=sim.getObjectQuaternion(objHandle,relTo)
+    local t = simROS2.getSystemTime()
+    local p = sim.getObjectPosition(objHandle,relTo)
+    local o = sim.getObjectQuaternion(objHandle,relTo)
     return {
-        header={
-            stamp=t,
-            frame_id=relToName
+        header = {
+            stamp = t,
+            frame_id = relToName
         },
-        child_frame_id=name,
-        transform={
-            translation={x=p[1],y=p[2],z=p[3]},
-            rotation={x=o[1],y=o[2],z=o[3],w=o[4]}
+        child_frame_id = name,
+        transform = {
+            translation = {x = p[1], y = p[2], z = p[3]},
+            rotation = {x = o[1], y = o[2], z = o[3], w = o[4]}
         }
     }
 end
 
 function sysCall_init()
+    sim = require('sim')
+    simROS2 = require('simROS2')
+
     -- The child script initialization
-    objectHandle=sim.getObject('.')
-    objectAlias=sim.getObjectAlias(objectHandle,3)
+    objectHandle = sim.getObject('.')
+    objectAlias = sim.getObjectAlias(objectHandle, 3)
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we publish):
-    publisher=simROS2.createPublisher('/simulationTime','std_msgs/msg/Float32')
-    subscriber=simROS2.createSubscription('/simulationTime','std_msgs/msg/Float32','subscriber_callback')
+    publisher = simROS2.createPublisher('/simulationTime', 'std_msgs/msg/Float32')
+    subscriber = simROS2.createSubscription('/simulationTime', 'std_msgs/msg/Float32', 'subscriber_callback')
 end
 
 function sysCall_actuation()
     -- Send an updated simulation time message, and send the transform of the object attached to this script:
-    simROS2.publish(publisher,{data=sim.getSimulationTime()})
-    simROS2.sendTransform(getTransformStamped(objectHandle,objectAlias,-1,'world'))
+    simROS2.publish(publisher, {data = sim.getSimulationTime()})
+    simROS2.sendTransform(getTransformStamped(objectHandle, objectAlias, -1, 'world'))
     -- To send several transforms at once, use simROS2.sendTransforms instead
 end
 
@@ -98,7 +157,7 @@ function sysCall_cleanup()
     simROS.shutdownSubscriber(subscriber)
 end</code>
 
-
+</div>
 
 
 
@@ -195,6 +254,7 @@ $ ros2 topic pub /stopSimulation std_msgs/msg/Bool '{data: true}' --once</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

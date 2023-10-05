@@ -27,16 +27,25 @@
 
 <p>The entrance to a script is always originating from <a href="callbackFunctions.htm">callback functions</a> which are not running threaded, and should not be blocking. This means that every time they are called, they should perform some task and then return control. If control is not returned, then CoppeliaSim will halt. </p>
 <p>Non-threaded code is inherently synchronized  with the simulation loop:</p>
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+
+def sysCall_sensing():
+    print('simulation time:', sim.getSimulationTime())</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim=require('sim')
+    sim = require('sim')
 end
 
 function sysCall_sensing()
-    print('simulation time: ',sim.getSimulationTime())
+    print('simulation time: ', sim.getSimulationTime())
 end</code>
-
+</div>
 
 
 <h2>
@@ -47,32 +56,56 @@ end</code>
 <p>Threaded scripts on the other hand allow running blocking code, without halting CoppeliaSim: the code is in fact preemtively interrupted and later resumed on a regular basis by CoppeliaSim, by default.</p>
 
 <p>Threaded code runs non-blocking (or in non-stepping mode) by default:</p>
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+
+def sysCall_thread():
+    while not sim.getSimulationStopping():
+        print('simulation time:', sim.getSimulationTime())</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim=require('sim')
+    sim = require('sim')
 end
 
 function sysCall_thread()
     while not sim.getSimulationStopping() do
-        print('simulation time: ',sim.getSimulationTime())
+        print('simulation time: ', sim.getSimulationTime())
     end
 end</code>
-
+</div>
 <p>This behaviour can be changed via <a href="regularApi/simSetStepping.htm">sim.setStepping</a>, which then requires explicit yielding via <a href="regularApi/simStep.htm">sim.step</a>:</p>
+
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    sim.setStepping(True)  # enable the stepping mode (no more preemptive yielding from CoppeliaSim)
+
+def sysCall_thread():
+    while not sim.getSimulationStopping():
+        print('simulation time:', sim.getSimulationTime())
+        sim.step()  # resume in the next simulation step</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim=require('sim')
+    sim = require('sim')
     sim.setStepping(true) -- enable the stepping mode (no more preemtive yielding from CoppeliaSim) 
 end
 
 function sysCall_thread()
     while not sim.getSimulationStopping() do
-        print('simulation time: ',sim.getSimulationTime())
+        print('simulation time: ', sim.getSimulationTime())
         sim.step() -- resume in next simulation step
     end
 end</code>
+</div>
 
 <p>Above while loop will now execute exactly once for each main simulation step and not waste time reading and printing the simulation time over and over for same the simulation step: once the current thread has yielded control back to CoppeliaSim via sim.step(), it will resume next time the thread is resumed, which is in next simulation step.</p>
 
@@ -99,6 +132,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

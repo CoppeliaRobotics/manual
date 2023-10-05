@@ -22,47 +22,93 @@
 <p>There is a <a href="rosInterf.htm">ROS interface</a> and a <a href="ros2Interface.htm">ROS2 interface</a> available for CoppeliaSim, both duplicate the C++ ROS/ROS2 API with good fidelity. They are implemented via the <a href="https://github.com/CoppeliaRobotics/simROS" target="_blank">simROS plugin</a> and <a href="https://github.com/CoppeliaRobotics/simROS2" target="_blank">simROS2 plugin</a>. Use the <a href="http://catkin-tools.readthedocs.io/en/latest/">catkin tools</a> to build those packages, otherwise you might run into difficulties.</p>
 <p>As an example, a <a href="visionSensors.htm">vision sensor</a> ROS2 publisher could look like:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    simROS = require('simROS')
+
+    self.visionSensor = sim.getObject('/Vision_sensor')
+
+    # Enable an image publisher:
+    self.pub = simROS2.createPublisher('/image', 'sensor_msgs/msg/Image')
+    simROS2.publisherTreatUInt8ArrayAsString(self.pub)
+
+def sysCall_sensing():
+    # Publish the image of the vision sensor:
+    img, resolution = sim.getVisionSensorImg(self.visionSensor)
+    data = {}
+    data['header'] = {'stamp': simROS2.getTime(), 'frame_id': 'a'}
+    data['height'] = resolution[1]
+    data['width'] = resolution[0]
+    data['encoding'] = 'rgb8'
+    data['is_bigendian'] = 1
+    data['step'] = resolution[0] * 3
+    data['data'] = img
+    simROS2.publish(self.pub, data)
+
+def sysCall_cleanup():
+    simROS2.shutdownPublisher(self.pub)</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-simROS=require('simROS')
-
 function sysCall_init()
-    visionSensor=sim.getObject('/Vision_sensor')
+    sim = require('sim')
+    simROS = require('simROS')
+    visionSensor = sim.getObject('/Vision_sensor')
 
     -- Enable an image publisher:
-    pub=simROS2.createPublisher('/image', 'sensor_msgs/msg/Image')
+    pub = simROS2.createPublisher('/image', 'sensor_msgs/msg/Image')
     simROS2.publisherTreatUInt8ArrayAsString(pub)
 end
 
 function sysCall_sensing()
     -- Publish the image of the vision sensor:
-    local img,resolution=sim.getVisionSensorImg(visionSensor)
-    data={}
-    data.header={stamp=simROS2.getTime(), frame_id='a'}
-    data.height=resolution[2]
-    data.width=resolution[1]
-    data.encoding='rgb8'
-    data.is_bigendian=1
-    data.step=resolution[1]*3
-    data.data=img
-    simROS2.publish(pub,data)
+    local img, resolution = sim.getVisionSensorImg(visionSensor)
+    data = {}
+    data.header = {stamp = simROS2.getTime(), frame_id = 'a'}
+    data.height = resolution[2]
+    data.width = resolution[1]
+    data.encoding = 'rgb8'
+    data.is_bigendian = 1
+    data.step = resolution[1] * 3
+    data.data = img
+    simROS2.publish(pub, data)
 end
 
 function sysCall_cleanup()
     simROS2.shutdownPublisher(pub)
 end</code>
-
+</div>
 <p>The subscriber on the other hand could look like:</p>
 
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+    simROS = require('simROS')
+    
+    # Enable an image subscriber:
+    self.sub = simROS2.createSubscription('/image', 'sensor_msgs/msg/Image', image_callback)
+    simROS2.subscriptionTreatUInt8ArrayAsString(self.sub)
+
+def image_callback(msg):
+    # Here we have received an image
+    pass
+
+def sysCall_cleanup():
+    simROS2.shutdownSubscription(self.sub)</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim=require('sim')
-simROS=require('simROS')
-
 function sysCall_init()
+    sim = require('sim')
+    simROS = require('simROS')
+    
     -- Enable an image subscriber:
-    sub=simROS2.createSubscription('/image', 'sensor_msgs/msg/Image', 'image_callback')
+    sub = simROS2.createSubscription('/image', 'sensor_msgs/msg/Image', 'image_callback')
     simROS2.subscriptionTreatUInt8ArrayAsString(sub)
 end
 
@@ -73,6 +119,7 @@ end
 function sysCall_cleanup()
     simROS2.shutdownSubscription(sub)
 end</code>
+</div>
 <br>
 
 
@@ -98,6 +145,7 @@ end</code>
 <script src="../js/hljs/11.8.0/languages/python.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
 <script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 

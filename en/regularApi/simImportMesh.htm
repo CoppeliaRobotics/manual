@@ -116,13 +116,11 @@ Lua<br>return values
 <div>USAGE EXAMPLE (e.g. in a <a href="../customizationScripts.htm">customization script</a>):</div>
 <code class="hljs language-lua simple">--lua
 
-if (importButtonPressed) then
-    vertices,indices,reserved,names=sim.importMesh(1,"d:\\example.dxf",0,0.0001,1)
-    for i=1,#vertices,1 do
-        h=sim.createShape(2,20*math.pi/180,vertices[i],indices[i])
-        sim.setShapeColor(h,"",sim.colorcomponent_ambient,{0.5,0.5,0.5})
-        sim.setObjectAlias(h,names[i])
-    end
+local vertices, indices, reserved, names = sim.importMesh(1, "d:\\example.dxf", 0, 0.0001, 1)
+for i = 1, #vertices, 1 do
+    h = sim.createShape(2, 20 * math.pi / 180, vertices[i], indices[i])
+    sim.setShapeColor(h, "", sim.colorcomponent_ambient, {0.5, 0.5, 0.5})
+    sim.setObjectAlias(h, names[i])
 end</code>
 </td> 
 </tr> 

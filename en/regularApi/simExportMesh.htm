@@ -129,31 +129,29 @@ Lua<br>synopsis
 <code class="hljs language-lua simple">--lua
 
 -- Exports all shapes in the scene
-if (exportButtonPressed) then
-    allVertices={}
-    allIndices={}
-    shapeIndex=0
-    while (true) do
-        h=sim.getObjects(shapeIndex,sim.object_shape_type)
-        if (h&#60;0) then
-            break
-        end
-        shapeIndex=shapeIndex+1
-        vertices,indices=sim.getShapeMesh(h)
-        m=sim.getObjectMatrix(h)
-        for i=1,#vertices/3,1 do
-            v={vertices[3*(i-1)+1],vertices[3*(i-1)+2],vertices[3*(i-1)+3]}
-            v=sim.multiplyVector(m,v)
-            vertices[3*(i-1)+1]=v[1]
-            vertices[3*(i-1)+2]=v[2]
-            vertices[3*(i-1)+3]=v[3]
-        end
-        table.insert(allVertices,vertices)
-        table.insert(allIndices,indices)
+local allVertices = {}
+local allIndices = {}
+local shapeIndex = 0
+while true do
+    local h = sim.getObjects(shapeIndex, sim.object_shape_type)
+    if h &#60; 0 then
+        break
     end
-    if (#allVertices>0) then
-        sim.exportMesh(0,"d:\\example.obj",0,1,allVertices,allIndices)
+    shapeIndex = shapeIndex + 1
+    local vertices, indices = sim.getShapeMesh(h)
+    local m = sim.getObjectMatrix(h)
+    for i = 1, #vertices // 3, 1 do
+        local v = {vertices[3 * (i - 1) +1], vertices[3 * (i - 1) + 2], vertices[3 * (i - 1) + 3]}
+        v = sim.multiplyVector(m, v)
+        vertices[3 * (i - 1) + 1] = v[1]
+        vertices[3 * (i - 1) + 2] = v[2]
+        vertices[3 * (i - 1) + 3] = v[3]
     end
+    table.insert(allVertices, vertices)
+    table.insert(allIndices, indices)
+end
+if #allVertices &gt; 0 then
+    sim.exportMesh(0, "d:\\example.obj", 0, 1, allVertices, allIndices)
 end</code>
 </td> 
 </tr> 
