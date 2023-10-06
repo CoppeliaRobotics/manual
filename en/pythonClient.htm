@@ -55,8 +55,7 @@
 
 <p>Module <code>coppeliaSim.lib</code> handles the load and setup of core functions (<code>simInitialize</code>, <code>simDeinitialize</code>, etc...) via <code>ctypes</code>.</p>
 
-<code class="hljs language-python coppelia-coppeliasim-script">
-import builtins
+<code class="hljs language-python coppelia-coppeliasim-client">import builtins
 import os
 import threading
 
@@ -74,25 +73,21 @@ appDir = os.path.dirname(builtins.coppeliaSim_library)
 t = threading.Thread(target=simThreadFunc, args=(appDir,))
 t.start()
 simRunGui(sim_gui_all) # use sim_gui_headless for headless mode
-t.join()
-</code>
+t.join()</code>
 
 <h2>SIM thread loop</h2>
 
 <p>The basic implementation of simThreadFunc simply executes the application until quit is requested:</p>
 
-<code class="hljs language-python coppelia-coppeliasim-script">
-def simThreadFunc(appDir):
+<code class="hljs language-python coppelia-coppeliasim-client">def simThreadFunc(appDir):
     simInitialize(c_char_p(appDir.encode('utf-8')), 0)
     while not simGetExitRequest():
         simLoop(None, 0)
-    simDeinitialize()
-</code>
+    simDeinitialize()</code>
 
 <p>Another possible scenario would be to manually control the operations used to setup a simulation environment (e.g. <code>sim.loadScene</code>) and to execute a simulation, e.g. by manually stepping for a predetermined amount of steps:</p>
 
-<code class="hljs language-python coppelia-coppeliasim-script">
-def simThreadFunc(appDir):
+<code class="hljs language-python coppelia-coppeliasim-client">def simThreadFunc(appDir):
     simInitialize(c_char_p(appDir.encode('utf-8')), 0)
 
     # script bridge, see next section
@@ -125,15 +120,13 @@ def simStep():
 def simStop():
     while sim.getSimulationState() != sim.simulation_stopped:
         sim.stopSimulation()
-        simLoop(None, 0)
-</code>
+        simLoop(None, 0)</code>
 
 <h2>coppeliaSim.bridge</h2>
 
 <p>The <code>coppeliaSim.bridge</code> module provides seamless access to the regular API used by scripts, e.g.:</p>
 
-<code class="hljs language-python coppelia-coppeliasim-script">
-import coppeliaSim.bridge
+<code class="hljs language-python coppelia-coppeliasim-client">import coppeliaSim.bridge
 
 # load the bridge component:
 coppeliaSim.bridge.load()
@@ -142,8 +135,7 @@ coppeliaSim.bridge.load()
 sim = coppeliaSim.bridge.require('sim')
 
 # e.g.: use some API function:
-program_version = sim.getInt32Param(sim.intparam_program_full_version)
-</code>
+program_version = sim.getInt32Param(sim.intparam_program_full_version)</code>
 
 <br/>
 <br/>
