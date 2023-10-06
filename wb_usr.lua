@@ -791,8 +791,8 @@ wb_usr.tree =
                     link="plugins.htm"
                 },
                 {
-                    name={en="The main client application"},
-                    link="mainClientApplication.htm"
+                    name={en="CoppeliaSim's library"},
+                    link="coppeliaSimLibrary.htm"
                 },
                 {
                     name={en="Accessing scene objects programmatically"},

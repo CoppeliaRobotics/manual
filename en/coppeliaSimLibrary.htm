@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>The main client application</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>CoppeliaSim's library</h1>
+
+<p>CoppeliaSim offers a wide range of functionality via its graphical user interface. For more customized scenarios where fine-grained control of the simulation loop is required (e.g. reinforcement learning), it also offers the flexibility to be used as a library within custom programs.</p>
+
+<p>Using CoppeliaSim as a library consists in loading the CoppeliaSim's library (regular or headless library):</p>
+        <li>Windows: <code>LoadLibrary("coppeliaSim.dll")</code> / <code>LoadLibrary("coppeliaSimHeadless.dll")</code></li>
+        <li>Linux: <code>dlopen("libcoppeliaSim.so")</code> / <code>dlopen("libcoppeliaSimHeadless.so")</code></li>
+        <li>macOS: <code>dlopen("libcoppeliaSim.dylib")</code> / <code>dlopen("libcoppeliaSimHeadless.dylib")</code></li>
+
+<p>then creating a secondary thread (the simulation thread), and:</p>
+        <li>calling <code>simInitialize</code> to initialize.</li>
+        <li>calling any other API functions, and/or calling <code>simLoop</code> until <code>simGetExitRequest</code> returns false</li>
+        <li>calling <code>simDeinitialize</code> before termination.</li>
+
+<p>Finally, in the main thread (the UI thread), calling <code>simRunGui</code>. Argument to <code>simRunGui</code> can be used to toggle on/off individual part of the interface (use <code>sim_gui_all</code> to enable all), or to run in <em>GUI suppression mode</em> (<code>sim_gui_headless</code>).</p>
+
+
+
+<p>When using the headless library, there is no need to create a secondary thread, or call <code>simRunGui</code></p>
+
+<a name="cppClient"></a>
+<h1>C++ client</h1>
+
+
+<p>The default main client application that comes with the installation package is a C++ application:  <a href="https://github.com/CoppeliaRobotics/coppeliaSimClient" target="_blank"><em>coppeliaSimClient</em></a>, but also available in <em>&lt;CoppeliaSim folder&gt;/programming/</em>. It compiles to <em>coppeliaSim.exe</em> (Windows), or <em>coppeliaSim</em> (macOSX and Linux).</p>
+
+
+<a name="pythonClient"></a>
+<h1>Python client</h1>
+
+<p>A complete working example of loading the CoppeliaSim library in Python is given in <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython" target="_blank">coppeliaSimClientPython</a>, but also available in <em>&lt;CoppeliaSim folder&gt;/programming/</em>. From your command line:</p>
+
+<code class="hljs coppelia-terminal">$ python ./main_wait_ui.py -h    (display run options)<br>    
+$ python ./main_wait_ui.py -L &lt;path/to/CoppeliaSim/library&gt;    (run CoppeliaSim)</code>
+
+<p>In this section, relevant parts are explained.</p>
+
+<h2>Initialization</h2>
+
+<p>Module <code>coppeliaSim.lib</code> handles the load and setup of core functions (<code>simInitialize</code>, <code>simDeinitialize</code>, etc...) via <code>ctypes</code>.</p>
+
+<code class="hljs language-python coppelia-coppeliasim-client">import builtins
+import os
+import threading
+
+from ctypes import *
+
+# set the path to the coppeliaSim's library:
+builtins.coppeliaSim_library = "/path/to/libcoppeliaSim.so"
+
+# import the coppeliaSim's library functions:
+from coppeliaSim.lib import *
+
+appDir = os.path.dirname(builtins.coppeliaSim_library)
+
+# start the sim thread (see in the next section)
+t = threading.Thread(target=simThreadFunc, args=(appDir,))
+t.start()
+simRunGui(sim_gui_all) # use sim_gui_headless for headless mode
+t.join()</code>
+
+<h2>SIM thread loop</h2>
+
+<p>The basic implementation of simThreadFunc simply executes the application until quit is requested:</p>
+
+<code class="hljs language-python coppelia-coppeliasim-client">def simThreadFunc(appDir):
+    simInitialize(c_char_p(appDir.encode('utf-8')), 0)
+    while not simGetExitRequest():
+        simLoop(None, 0)
+    simDeinitialize()</code>
+
+<p>Another possible scenario would be to manually control the operations used to setup a simulation environment (e.g. <code>sim.loadScene</code>) and to execute a simulation, e.g. by manually stepping for a predetermined amount of steps:</p>
+
+<code class="hljs language-python coppelia-coppeliasim-client">def simThreadFunc(appDir):
+    simInitialize(c_char_p(appDir.encode('utf-8')), 0)
+
+    # script bridge, see next section
+    import coppeliaSim.bridge
+    coppeliaSim.bridge.load()
+
+    global sim
+    sim = coppeliaSim.bridge.require('sim')
+
+    sim.loadScene('path/to/scene.ttt')
+    simStart()
+    for i in range(1000):
+        t = sim.getSimulationTime()
+        print(f'Simulation time: {t:.2f} [s] (running in stepped mode)')
+        simStep()
+    simStop()
+
+    simDeinitialize()
+
+def simStart():
+    if sim.getSimulationState() == sim.simulation_stopped:
+        sim.startSimulation()
+
+def simStep():
+    if sim.getSimulationState() != sim.simulation_stopped:
+        t = sim.getSimulationTime()
+        while t == sim.getSimulationTime():
+            simLoop(None, 0)
+
+def simStop():
+    while sim.getSimulationState() != sim.simulation_stopped:
+        sim.stopSimulation()
+        simLoop(None, 0)</code>
+
+<h2>coppeliaSim.bridge</h2>
+
+<p>The <code>coppeliaSim.bridge</code> module provides seamless access to the regular API used by scripts, e.g.:</p>
+
+<code class="hljs language-python coppelia-coppeliasim-client">import coppeliaSim.bridge
+
+# load the bridge component:
+coppeliaSim.bridge.load()
+
+# fetch API objects:
+sim = coppeliaSim.bridge.require('sim')
+
+# e.g.: use some API function:
+program_version = sim.getInt32Param(sim.intparam_program_full_version)</code>
+
+
+<p>Please refer to <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython/blob/main/main_with_ui.py">coppeliaSimClientPython/main_with_ui.py</a> for the complete code.</p>
+
+
+<br>
+<br>
+ </tr>
+</table> 
+</div>  
+  
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+  
+</body>
+
+</html>
