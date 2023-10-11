@@ -36,7 +36,7 @@
 <code class="hljs language-python coppelia-zmq-remote-api-client">from coppeliasim_zmqremoteapi_client import RemoteAPIClient
 
 client = RemoteAPIClient()
-sim = require('sim')
+sim = client.require('sim')
 
 sim.setStepping(True)
 
@@ -88,6 +88,48 @@ int main(int argc,char* argv[])
 
 <br>
 
+<h2>Java client</h2>
+<p>Any Java client requires <a href="https://maven.apache.org/index.html" target="_blank">Apache Maven</a>. For details see <em>programming/zmqRemoteApi/clients/java/src/main/java</em>, which contains several examples.</p>
+<p> Build them with:</p>
+<code class="hljs coppelia-terminal">$ export COPPELIASIM_ROOT_DIR=path/to/CoppeliaSim/exec/folder/or/resources/folder/on/macOS
+$ cd zmqRemoteApi/clients/java
+$ mvn package</code>
+
+
+<br>
+
+
+
+
+<p>Following is a very simple Java ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepping</a> simulation for 3 seconds:</p>
+<code class="hljs language-java coppelia-zmq-remote-api-client">import java.util.List;
+import java.util.Arrays;
+
+import com.coppeliarobotics.remoteapi.zmq.*;
+
+public class Example
+{
+    public static void main(String[] _args) throws java.io.IOException, co.nstant.in.cbor.CborException
+    {
+        var client = new RemoteAPIClient();
+        var sim = client.getObject().sim();
+
+        sim.setStepping(true);
+        sim.startSimulation();
+
+        float simTime = 0.0f;
+        while((simTime = sim.getSimulationTime()) &lt; 3)
+        {
+            System.out.println("Simulation time: " + simTime + " [s]");
+            sim.step();
+        }
+        sim.stopSimulation();
+    }
+}</code>
+
+
+<br>
+
 <h2>Matlab &amp; Octave clients</h2>
 <p>Matlab clients require the bundled <a href="https://github.com/zeromq/jeromq" target="_blank">JeroMQ</a>, which installs automatically if not yet present.</p>
 <p>Octave clients require Octave 6.4+, the octave communications and zeromq packages. Those can be installed with:</p>
@@ -119,9 +161,9 @@ sim.stopSimulation();</code>
 <p>Currently, a Lua client is only supported from within a CoppeliaSim script, e.g. in order to connect 2 or more CoppeliaSim instances.</p>
 <p>Following is a very simple Lua ZeroMQ remote API client code, which synchronizes the simulation steps with another CoppeliaSim instance:</p>
 <code class="hljs language-lua coppelia-zmq-remote-api-client">function sysCall_init()
-    remoteApiClient=require'luaZmqRemoteApi'
-    remoteApiClient.init('127.0.0.1',23002)
-    simx=remoteApiClient.getObject('sim')
+    remoteApiClient = require('luaZmqRemoteApi')
+    remoteApiClient.init('127.0.0.1', 23002)
+    simx = remoteApiClient.getObject('sim')
 
     remoteApiClient.setStepping(true)
     simx.startSimulation()
