@@ -7,7 +7,10 @@ def main():
     currentDir = os.path.dirname(os.path.abspath(__file__))
     inputFile = currentDir + '/regularApi.txt'
     regApiDir = currentDir + '/en/regularApi'
-    shutil.rmtree(regApiDir)
+    try:
+        shutil.rmtree(regApiDir)
+    except Exception as e:
+        pass    
     os.makedirs(regApiDir)
     temp = currentDir + '/templates/regularApi_cpp.htm'
     with open(temp, 'r') as file_r:
