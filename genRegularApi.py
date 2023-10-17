@@ -20,6 +20,21 @@ def main():
         template = file_r.read()
     with open(inputFile, 'r') as file_r:
         all = file_r.read()
+        
+        pos = 0
+        allCpp = {}
+        allPythonLua = {}
+        while pos!= None:
+            apiFunc, pos = getTxt(all, 'apiFunctionName', pos)
+            _, posEnd = getTxt(all, 'apiFunctionName', pos)
+            if apiFunc:
+                apiSynopsisCpp, *_ = getTxt(all, 'apiSynopsisCpp', pos, posEnd)
+                apiSynopsisPython, *_ = getTxt(all, 'apiSynopsisPython', pos, posEnd)
+                apiSynopsisLua, *_ = getTxt(all, 'apiSynopsisLua', pos, posEnd)
+                if apiSynopsisCpp:
+                    allCpp[getCppName(apiFunc)] = True
+                if apiSynopsisPython or apiSynopsisLua:
+                    allPythonLua[getPythonLuaName(apiFunc)] = True
         pos = 0
         cnt = 0
         while pos!= None:
@@ -28,6 +43,13 @@ def main():
             if apiFunc:
                 cnt += 1
                 apiDescription, *_ = getTxt(all, 'apiDescription', pos, posEnd)
+                apiSeeAlso, *_ = getTxt(all, 'apiSeeAlso', pos, posEnd)
+                if apiSeeAlso != None:
+                    apiSeeAlsoCpp = prepSeeAlso(apiSeeAlso, allCpp, allPythonLua, 'cpp')
+                    apiSeeAlsoPythonLua = prepSeeAlso(apiSeeAlso, allCpp, allPythonLua, 'pythonLua')
+                else:
+                    apiSeeAlsoCpp = ''
+                    apiSeeAlsoPythonLua = ''
                 apiSynopsisCpp, *_ = getTxt(all, 'apiSynopsisCpp', pos, posEnd)
                 apiInputCpp, *_ = getTxt(all, 'apiInputCpp', pos, posEnd)
                 apiOutputCpp, *_ = getTxt(all, 'apiOutputCpp', pos, posEnd)
@@ -49,6 +71,7 @@ def main():
                         a = template
                         a = a.replace('__funcName__', apiFunc)
                         a = a.replace('__funcDescription__', apiDescription)
+                        a = a.replace('__seeAlso__', apiSeeAlsoPythonLua)
                         a = a.replace('__pythonSynopsis__', formatSynopsis(apiSynopsisPython, 100))
                         a = a.replace('__luaSynopsis__', formatSynopsis(apiSynopsisLua, 100))
                         if apiInputPythonLua:
@@ -69,6 +92,7 @@ def main():
                         a = template_cpp
                         a = a.replace('__funcName__', getCppName(apiFunc))
                         a = a.replace('__funcDescription__', apiDescription)
+                        a = a.replace('__seeAlso__', apiSeeAlsoCpp)
                         a = a.replace('__cppSynopsis__', formatSynopsis(apiSynopsisCpp, 100))
                         if apiInputCpp:
                             a = a.replace('__input__', apiInputCpp)
@@ -99,6 +123,45 @@ def getCppName(s):
     def repl(match):
         return match.group(1).upper()
     return re.sub(r'\.([a-zA-Z])', repl, s)
+    
+def getPythonLuaName(s):
+    if s.find('.') !=-1 :
+        return s
+    if not s.startswith('sim') or len(s) < 5:
+        return s
+    s = s[:3] + '.' + s[3:]
+    s = s[:4] + s[4].lower() + s[5:]
+    return s
+    
+def prepSeeAlso(items, allCpp, allPythonLua, lang):
+    ret = ''
+    lines = items.splitlines()
+    bullets = []
+    for line in lines:
+        line = line.strip()
+        if len(line) > 0:
+            if line.startswith('<'):
+               bullets.append(line)
+            else:
+                if lang == 'cpp':
+                    if getCppName(line) in allCpp:
+                        bullets.append('<a href="' + getCppName(line) + '_cpp.htm">' + getCppName(line) + '</a>')
+                    else:
+                        if getPythonLuaName(line) in allPythonLua:
+                            bullets.append('<a href="' + getCppName(line) + '.htm">' + getPythonLuaName(line) + '</a>')
+                        else:
+                            print("Error with cpp 'see also' item " + line)
+                else: 
+                    if getPythonLuaName(line) in allPythonLua:
+                        bullets.append('<a href="' + getCppName(line) + '.htm">' + getPythonLuaName(line) + '</a>')
+                    #else:
+                    #    print("Error with python/lua 'see also' item " + line)
+    if len(bullets) > 0:
+        ret = 'See also:\n<ul>\n'
+        for l in bullets:
+            ret += '<li>' + l + '</li>\n'
+        ret += '</ul>\n'
+    return ret
     
 def formatSynopsis(s, maxLength):
     if s == None:
