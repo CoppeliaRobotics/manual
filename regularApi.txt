@@ -953,11 +953,11 @@ int simApplyTexture(int shapeHandle, const double* textureCoordinates, int textC
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>shapeHandle</strong>: The handle of the shape. See also <a href="simGetObject.htm">sim.getObject</a></li>
-<li><strong>textureCoordinates</strong>: The UV texture coordinates. For each of the shape's triangle, there should be exactly 3 UV texture coordinate pairs</li>
-<li><strong>textCoordSize</strong>: The size of the textureCoordinate array</li>
-<li><strong>texture</strong>: The RGB or RGBA texture</li>
-<li><strong>textureResolution</strong>: The X/Y resolution of the texture</li>
+<li><strong>shapeHandle</strong>: handle of the shape</li>
+<li><strong>textureCoordinates</strong>: UV texture coordinates. For each of the shape's triangle, there should be exactly 3 UV texture coordinate pairs</li>
+<li><strong>textCoordSize</strong>: size of the textureCoordinate array</li>
+<li><strong>texture</strong>: RGB or RGBA texture</li>
+<li><strong>textureResolution</strong>: X/Y resolution of the texture</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0: if set (1), then adjacent texture pixels are not interpolated</li>
@@ -1353,9 +1353,12 @@ sim.buildMatrix
 
 ==================== apiDescription ====================<
 Builds a transformation matrix based on a position vector and
-<a href="../positionOrientationTransformation.htm#euler">Euler angles</a>. See also the section about
-<a href="../positionOrientationTransformation.htm">positions, orientations and transformations</a>
+<a href="../positionOrientationTransformation.htm#euler">Euler angles</a>
 ==================== apiDescription ====================>
+
+==================== apiSeeAlso ====================<
+<a href="../positionOrientationTransformation.htm">positions, orientations and transformations</a>
+==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
 int simBuildMatrix(const double* position, const double* eulerAngles, double* matrix)
@@ -1855,7 +1858,7 @@ int checkOctreePointOccupancy(int octreeHandle, int options, const double* pts, 
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the OC tree reference frame, otherwise they are relative to the world reference frame</li>
@@ -1903,7 +1906,7 @@ int res, int tag, int locLow, int locHigh = sim.checkOctreePointOccupancy(int oc
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the OC tree reference frame, otherwise they are relative to the world reference frame</li>
@@ -2229,7 +2232,6 @@ sim.checkVisionSensorEx
 Checks whether the vision sensor detects the indicated entity. Detection is silent (no visual feedback) compared
 to <a href="simHandleVisionSensor.htm">sim.handleVisionSensor</a>. The <a href="../visionCallbackFunctions.htm">vision callback functions</a>
 will be called on the acquired image. Also, the visibility state of the entity is overridden if the entity is an object
-. See also <a href="simReadVisionSensor.htm">sim.readVisionSensor</a>.
 ==================== apiDescription ====================>
 
 ==================== apiSeeAlso ====================<
@@ -4645,19 +4647,19 @@ float[] outP, float[] times = sim.generateTimeOptimalTrajectory(float[] path
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>path</strong>: the path, specified in row-major order, e.g. a path containing two 3D positions  would be [x1 y1 z1 x2 y2 z2]</li>
-<li><strong>pathLengths</strong>: the lengths of a path. Each path point should have a corresponding length value (as the distance from the path's first point, along the path). See also <a href="simGetPathLengths.htm">sim.getPathLengths</a>.</li>
-<li><strong>minMaxVel</strong>: the minimum and maximum allowed velocity, for each dimension/axis, e.g. {xmin,xmax,ymin,ymax,zmin,zmax}</li>
-<li><strong>minMaxAccel</strong>: the minimum and maximum allowed acceleration, for each dimension/axis, e.g. [xmin xmax ymin ymax zmin zmax]</li>
-<li><strong>trajPtSamples</strong>: the desired number of path points/configurations</li>
-<li><strong>boundaryCondition</strong>: the boundary condition</li>
+<li><strong>path</strong>: path, specified in row-major order, e.g. a path containing two 3D positions  would be [x1 y1 z1 x2 y2 z2]</li>
+<li><strong>pathLengths</strong>: lengths of a path. Each path point should have a corresponding length value (as the distance from the path's first point, along the path). See also <a href="simGetPathLengths.htm">sim.getPathLengths</a>.</li>
+<li><strong>minMaxVel</strong>: minimum and maximum allowed velocity, for each dimension/axis, e.g. {xmin,xmax,ymin,ymax,zmin,zmax}</li>
+<li><strong>minMaxAccel</strong>: minimum and maximum allowed acceleration, for each dimension/axis, e.g. [xmin xmax ymin ymax zmin zmax]</li>
+<li><strong>trajPtSamples</strong>: desired number of path points/configurations</li>
+<li><strong>boundaryCondition</strong>: boundary condition</li>
 <li><strong>timeout</strong>: a timeout duration</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
 ==================== apiOutputPythonLua ====================<
 <ul>
-<li><strong>outP</strong>: the generated path</li>
+<li><strong>outP</strong>: generated path</li>
 </ul>
 ==================== apiOutputPythonLua ====================>
 
@@ -5082,7 +5084,7 @@ int simGetContactInfo(int dynamicPass, int objectHandle, int index, int* objectH
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>dynamicPass</strong>: a specific dynamic sub-step index or sim.handle_all. By default a call to <a href="simHandleDynamics.htm">simHandleDynamics</a> executes the dynamics engine x times, with x times smaller time steps (where x is a parameter that can be adjusted). At each of those sub-steps, contacts are created and destroyed. With the dynamicPass argument you can select which sub-step you wish to retrieve contacts from (zero-based index), or sim.handle_all to retrieve the contacts of all sub-steps. See also <a href="simGetInt32Param.htm">simGetInt32Param</a>(sim.intparam_dynamic_step_divider).</li>
+<li><strong>dynamicPass</strong>: specific dynamic sub-step index or sim.handle_all. By default a call to <a href="simHandleDynamics.htm">simHandleDynamics</a> executes the dynamics engine x times, with x times smaller time steps (where x is a parameter that can be adjusted). At each of those sub-steps, contacts are created and destroyed. With the dynamicPass argument you can select which sub-step you wish to retrieve contacts from (zero-based index), or sim.handle_all to retrieve the contacts of all sub-steps. See also <a href="simGetInt32Param.htm">simGetInt32Param</a>(sim.intparam_dynamic_step_divider).</li>
 <li><strong>objectHandle</strong>: handle of a specific object you wish to retrieve contacts from, or sim.handle_all to retrieve all contacts in the scene.</li>
 <li><strong>index</strong>: zero-based index of the contact to retrieve. Optionally, you may add sim.handleflag_extended to the index, if you also wish to retrieve the normal vector (see further down)</li>
 <li><strong>objectHandles</strong>: handles of the two objects contacting. The handles might also refer to particle objects that are not treated as regular scene objects.</li>
@@ -7497,7 +7499,6 @@ sim.getObjectPose
 
 ==================== apiDescription ====================<
 Retrieves the pose of an object
- See also <a href="simSetObjectPose.htm">sim.setObjectPose</a> and the section about <a href="../positionOrientationTransformation.htm">positions, orientations and transformations</a>
 ==================== apiDescription ====================>
 
 ==================== apiSeeAlso ====================<
@@ -8212,7 +8213,7 @@ const double* simGetOctreeVoxels(int octreeHandle, int* ptCnt, void* reserved)
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>ptCnt</strong>: a pointer receiving the number of voxels contained in the returned pointer.</li>
 <li><strong>reserved</strong>: reserved for future extensions. Set to nullptr</li>
 </ul>
@@ -8234,7 +8235,7 @@ float[] voxels = sim.getOctreeVoxels(int octreeHandle)
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -8539,7 +8540,7 @@ int simGetPointCloudOptions(int pointCloudHandle, double* maxVoxelSize, int* max
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 <li><strong>maxVoxelSize</strong>: maximum size of the OC tree voxels containing points</li>
 <li><strong>maxPtCntPerVoxel</strong>: maximum number of points allowed in a same OC tree voxel</li>
 <li><strong>options</strong>: bit-coded:
@@ -8572,7 +8573,7 @@ float maxVoxelS, int maxPtCntPerVoxel, int opt, float ps = sim.getPointCloudOpti
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>pcHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pcHandle</strong>: handle of the point cloud</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -8614,7 +8615,7 @@ const double* simGetPointCloudPoints(int pointCloudHandle, int* ptCnt, void* res
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 <li><strong>ptCnt</strong>: pointer receiving the number of points contained in the returned pointer.</li>
 <li><strong>reserved</strong>: reserved for future extensions. Set to nullptr</li>
 </ul>
@@ -8636,7 +8637,7 @@ float[] points = sim.getPointCloudPoints(int pointCloudHandle)
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -9320,7 +9321,7 @@ int simGetShapeGeomInfo(int shapeHandle, int* intData, double* floatData, void* 
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>shapeHandle</strong>: handle of the shape. See also <a href="simGetObject.htm">sim.getObject</a>.</li>
+<li><strong>shapeHandle</strong>: handle of the shape</li>
 <li><strong>intData (output)</strong>: pointer to 5 integer values:</li>
 <li>intData[0]: the <a href="../apiConstants.htm#primitiveTypes">primitive type</a> of the shape. Undefined if the shape is a compound shape.</li>
 <li><strong>floatData (output)</strong>: pointer to 5 double values:
@@ -9357,7 +9358,7 @@ int result, int pureType, float[4] dimensions = sim.getShapeGeomInfo(int shapeHa
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>shapeHandle</strong>: handle of the shape. See also <a href="simGetObject.htm">sim.getObject</a>.</li>
+<li><strong>shapeHandle</strong>: handle of the shape</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -9686,10 +9687,10 @@ table data = sim.getShapeViz(int shapeHandle, int index)
 <li>bit1 set (2): wireframe</li>
 </ul>
 </li>
-<li><strong>data.texture.texture</strong>: the string-coded RGBA texture. See also <a href="simTransformBuffer.htm">sim.transformBuffer</a></li>
-<li><strong>data.texture.id</strong>: a texture id (to identify textures shared among several shapes)</li>
-<li><strong>data.texture.resolution</strong>: the resolution of the texture</li>
-<li><strong>data.texture.coordinates</strong>: the texture coordinates</li>
+<li><strong>data.texture.texture</strong>: string-coded RGBA texture. See also <a href="simTransformBuffer.htm">sim.transformBuffer</a></li>
+<li><strong>data.texture.id</strong>: texture id (to identify textures shared among several shapes)</li>
+<li><strong>data.texture.resolution</strong>: resolution of the texture</li>
+<li><strong>data.texture.coordinates</strong>: texture coordinates</li>
 <li><strong>data.texture.applyMode</strong>: 0=modulate, 1=decal, 2=add</li>
 <li><strong>data.texture.options</strong>: bit-coded:
 <ul>
@@ -11726,7 +11727,7 @@ int simInsertObjectIntoOctree(int octreeHandle, int objectHandle, int options
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>objectHandle</strong>: handle of the object to insert. Only potentially <a href="../collidableObjects.htm">collidable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 <li><strong>color</strong>: pointer to one RGB triple, specifying the red, green and blue color components (0-255). Can be nullptr.</li>
@@ -11753,7 +11754,7 @@ int totalVoxelCnt = sim.insertObjectIntoOctree(int octreeHandle, int objectHandl
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>objectHandle</strong>: handle of the object to insert. Only potentially <a href="../collidableObjects.htm">collidable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 <li><strong>color</strong>: array of RGB triplet, specifying the red, green and blue color components (0 - 255). Can be None/nil</li>
@@ -11790,7 +11791,7 @@ int simInsertObjectIntoPointCloud(int pointCloudHandle, int objectHandle, int op
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 <li><strong>objectHandle</strong>: handle of the object to insert. Only potentially <a href="../collidableObjects.htm">collidable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 <li><strong>gridSize</strong>: when a shape is inserted, it will first be converted to an OC tree with a given grid or voxel size.</li>
@@ -11824,7 +11825,7 @@ int totalPointCnt = sim.insertObjectIntoPointCloud(int pointCloudHandle, int obj
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 <li><strong>objectHandle</strong>: handle of the object to insert. Only potentially <a href="../collidableObjects.htm">collidable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 <li><strong>gridSize</strong>: when a shape is inserted, it will first be converted to an OC tree with a given grid or voxel size</li>
@@ -11862,7 +11863,7 @@ int simInsertPointsIntoPointCloud(int pointCloudHandle, int options, const doubl
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: the handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: the handle of the point cloud</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the point cloud reference frame, otherwise they are relative to the world reference frame</li>
@@ -11942,7 +11943,7 @@ int simInsertVoxelsIntoOctree(int octreeHandle, int options, const double* pts, 
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the OC tree reference frame, otherwise they are relative to the world reference frame</li>
@@ -12135,7 +12136,7 @@ int simIntersectPointsWithPointCloud(int pointCloudHandle, int options, const do
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the point cloud reference frame, otherwise they are relative to the world reference frame</li>
@@ -12166,7 +12167,7 @@ int totalPointCnt = sim.intersectPointsWithPointCloud(int pcHandle, int options,
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>pcHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pcHandle</strong>: handle of the point cloud</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the point cloud reference frame, otherwise they are relative to the world reference frame</li>
@@ -12264,7 +12265,7 @@ int simIsDynamicallyEnabled(int objectHandle)
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>ojectHandle</strong>: handle of the scene object. See also <a href="simGetObject.htm">sim.getObject</a>.</li>
+<li><strong>ojectHandle</strong>: handle of the scene object</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -12284,7 +12285,7 @@ bool dynamicallyEnabled = sim.isDynamicallyEnabled(int objectHandle)
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>ojectHandle</strong>: handle of the scene object. See also <a href="simGetObject.htm">sim.getObject</a>.</li>
+<li><strong>ojectHandle</strong>: handle of the scene object</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -12711,7 +12712,6 @@ sim.moveToConfig
 ==================== apiDescription ====================<
 Generates joint movement data using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
 This function  can only be called from scripts running in a thread, since this is a blocking operation
-. See also <a href="simMoveToPose.htm">sim.moveToPose</a>, and <a href="simRuckigPos.htm">sim.ruckigPos</a>.
 ==================== apiDescription ====================>
 
 ==================== apiSeeAlso ====================<
@@ -13521,7 +13521,6 @@ sim.poseToMatrix
 
 ==================== apiDescription ====================<
 Converts a pose to a transformation matrix
-. See also the section about <a href="../positionOrientationTransformation.htm">positions, orientations and transformations</a>
 ==================== apiDescription ====================>
 
 ==================== apiSeeAlso ====================<
@@ -14212,7 +14211,6 @@ sim.readForceSensor
 
 ==================== apiDescription ====================<
 Reads the force and torque applied to a force sensor (filtered values are read)
-. See also <a href="simGetJointForce.htm">sim.getJointForce</a>.
 ==================== apiDescription ====================>
 
 ==================== apiSeeAlso ====================<
@@ -14706,8 +14704,7 @@ sim.relocateShapeFrame
 ==================== apiDescription ====================<
 Repositions and reorients the reference frame of a shape, while keeping the mesh
 in place. The shape's inertia properties are unaffected
-. See also <a href="simAlignShapeBB.htm">sim.alignShapeBB</a>
-==================== apiDescription ====================>
+. ================== apiDescription ====================>
 
 ==================== apiSeeAlso ====================<
 sim.alignShapeBB
@@ -14956,7 +14953,7 @@ int simRemovePointsFromPointCloud(int pointCloudHandle, int options, const doubl
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the point cloud reference frame, otherwise they are relative to the world reference frame</li>
@@ -14987,7 +14984,7 @@ int totalPointCnt = sim.removePointsFromPointCloud(int pointCloudHandle, int opt
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the point cloud reference frame, otherwise they are relative to the world reference frame</li>
@@ -15073,7 +15070,7 @@ int simRemoveVoxelsFromOctree(int octreeHandle, int options, const double* pts, 
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the OC tree reference frame, otherwise they are relative to the world reference frame</li>
@@ -15101,7 +15098,7 @@ int totalVoxelCnt = sim.removeVoxelsFromOctree(int octreeHandle, int options, fl
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0 set (1): specified points are relative to the OC tree reference frame, otherwise they are relative to the world reference frame</li>
@@ -18445,7 +18442,7 @@ int simSetPointCloudOptions(int pointCloudHandle, double maxVoxelSize, int maxPt
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 <li><strong>maxVoxelSize</strong>: maximum size of the OC tree voxels containing points</li>
 <li><strong>maxPtCntPerVoxel</strong>: maximum number of points allowed in a same OC tree voxel</li>
 <li><strong>options</strong>: bit-coded:
@@ -18480,7 +18477,7 @@ sim.setPointCloudOptions(int pcHandle, float maxVoxelSize, int maxPtCntPerVoxel,
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>pcHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pcHandle</strong>: handle of the point cloud</li>
 <li><strong>maxVoxelSize</strong>: maximum size of the OC tree voxels containing points</li>
 <li><strong>maxPtCntPerVoxel</strong>: maximum number of points allowed in a same OC tree voxel</li>
 <li><strong>options</strong>: bit-coded:
@@ -19241,7 +19238,7 @@ int simSubtractObjectFromOctree(int octreeHandle, int objectHandle, int options,
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>objectHandle</strong>: handle of the object to subtract. Only potentially <a href="../collidableObjects.htm">collidable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 <li><strong>reserved</strong>: reserved for future extensions. Set to nullptr</li>
@@ -19264,7 +19261,7 @@ int totalVoxelCnt = sim.subtractObjectFromOctree(int octreeHandle, int objectHan
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>octreeHandle</strong>: handle of the OC tree. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>octreeHandle</strong>: handle of the OC tree</li>
 <li><strong>objectHandle</strong>: handle of the object to subtract. Only potentially <a href="../collidableObjects.htm">collidable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 </ul>
@@ -19301,7 +19298,7 @@ int simSubtractObjectFromPointCloud(int pointCloudHandle, int objectHandle, int 
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>pointCloudHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
 <li><strong>objectHandle</strong>:  handle of the object to subtract. Only potentially <a href="../measurableObjects.htm">measurable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 <li><strong>tolerance</strong>: distance used as a tolerance value</li>
@@ -19327,7 +19324,7 @@ int totalPointCnt = sim.subtractObjectFromPointCloud(int pcHandle, int objectHan
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>pcHandle</strong>: handle of the point cloud. See also <a href="simGetObject.htm">sim.getObject</a></li>
+<li><strong>pcHandle</strong>: handle of the point cloud</li>
 <li><strong>objectHandle</strong>:  handle of the object to subtract. Only potentially <a href="../measurableObjects.htm">measurable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 <li><strong>tolerance</strong>: distance used as a tolerance value</li>
