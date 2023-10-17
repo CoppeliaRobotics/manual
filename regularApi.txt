@@ -100,8 +100,8 @@ sim.removeDrawingObject
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simAddDrawingObject(int objectType, double size, double duplicateTolerance
-                        int parentObjectHandle, int maxItemCount, const float* color
+int simAddDrawingObject(int objectType, double size, double duplicateTolerance,
+                        int parentObjectHandle, int maxItemCount, const float* color,
                         const float* setToNULL, const float* setToNULL, const float* setToNULL)
 ==================== apiSynopsisCpp ====================>
 
@@ -123,14 +123,14 @@ int simAddDrawingObject(int objectType, double size, double duplicateTolerance
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance
-                                               int parentObjectHandle, int maxItemCount
+int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance,
+                                               int parentObjectHandle, int maxItemCount,
                                                list color = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance
-                                               int parentObjectHandle, int maxItemCount
+int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance,
+                                               int parentObjectHandle, int maxItemCount,
                                                float[3] color = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -325,8 +325,8 @@ Adds or updates a graph curve. A graph curve is persistent, but can be removed w
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simAddGraphCurve(int graphHandle, const char* curveName, int dim, const int* streamIds
-                     const double* defaultValues, const char* unitStr, int int options
+int simAddGraphCurve(int graphHandle, const char* curveName, int dim, const int* streamIds,
+                     const double* defaultValues, const char* unitStr, int int options,
                      const float* color, int curveWidth)
 ==================== apiSynopsisCpp ====================>
 
@@ -351,14 +351,14 @@ int simAddGraphCurve(int graphHandle, const char* curveName, int dim, const int*
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int curveId = sim.addGraphCurve(int graphHandle, string curveName, int dim, list streamIds
-                                list defaultValues, string unitStr, int options = 0, list color = [0
-                                1, 0], int curveWidth = 2)
+int curveId = sim.addGraphCurve(int graphHandle, string curveName, int dim, list streamIds,
+                                list defaultValues, string unitStr, int options = 0,
+                                list color = [0 1, 0], int curveWidth = 2)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int curveId = sim.addGraphCurve(int graphHandle, string curveName, int dim, int[] streamIds
-                                float[] defaultValues, string unitStr, int options = 0
+int curveId = sim.addGraphCurve(int graphHandle, string curveName, int dim, int[] streamIds,
+                                float[] defaultValues, string unitStr, int options = 0,
                                 float[3] color = {0, 1, 0}, int curveWidth = 2)
 ==================== apiSynopsisLua ====================>
 
@@ -405,7 +405,7 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simAddGraphStream(int graphHandle, const char* streamName, const char* unitStr, int options
+int simAddGraphStream(int graphHandle, const char* streamName, const char* unitStr, int options,
                       const float* color, double cyclicRange)
 ==================== apiSynopsisCpp ====================>
 
@@ -427,12 +427,12 @@ int simAddGraphStream(int graphHandle, const char* streamName, const char* unitS
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int streamId = sim.addGraphStream(int graphHandle, string streamName, string unitStr = ''
+int streamId = sim.addGraphStream(int graphHandle, string streamName, string unitStr = '',
                                   int options = 0, list color = [1, 0, 0], cyclicRange = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int streamId = sim.addGraphStream(int graphHandle, string streamName, string unitStr = ''
+int streamId = sim.addGraphStream(int graphHandle, string streamName, string unitStr = '',
                                   int options = 0, float[3] color = {1, 0, 0}, cyclicRange = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -590,14 +590,14 @@ sim.removeParticleObject
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density
-                                                 list parameters, float lifeTime, int maxItemCount
+int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density,
+                                                 list parameters, float lifeTime, int maxItemCount,
                                                  list color = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density
-                                                 float[] parameters, float lifeTime
+int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density,
+                                                 float[] parameters, float lifeTime,
                                                  int maxItemCount, float[3] color = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -740,7 +740,7 @@ sim.cameraFitToView
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simAdjustView(int viewHandleOrIndex, int associatedViewableObjectHandle, int options
+int simAdjustView(int viewHandleOrIndex, int associatedViewableObjectHandle, int options,
                   const char* viewLabel)
 ==================== apiSynopsisCpp ====================>
 
@@ -768,12 +768,12 @@ int simAdjustView(int viewHandleOrIndex, int associatedViewableObjectHandle, int
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-sim.adjustView(int viewHandleOrIndex, int associatedViewableObjectHandle, int options
+sim.adjustView(int viewHandleOrIndex, int associatedViewableObjectHandle, int options,
                string viewLabel = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.adjustView(int viewHandleOrIndex, int associatedViewableObjectHandle, int options
+sim.adjustView(int viewHandleOrIndex, int associatedViewableObjectHandle, int options,
                string viewLabel = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -947,7 +947,7 @@ sim.setShapeTexture
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simApplyTexture(int shapeHandle, const double* textureCoordinates, int textCoordSize
+int simApplyTexture(int shapeHandle, const double* textureCoordinates, int textCoordSize,
                     const unsigned char* texture, const int* textureResolution, int options)
 ==================== apiSynopsisCpp ====================>
 
@@ -1096,7 +1096,7 @@ sim.addLog
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simAuxiliaryConsoleOpen(const char* title, int maxLines, int mode, const int* position
+int simAuxiliaryConsoleOpen(const char* title, int maxLines, int mode, const int* position,
                             const int* size, const float* textColor, const float* backgroundColor)
 ==================== apiSynopsisCpp ====================>
 
@@ -1127,15 +1127,15 @@ int simAuxiliaryConsoleOpen(const char* title, int maxLines, int mode, const int
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines, int mode
-                                             list position = None, list size = None
+int consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines, int mode,
+                                             list position = None, list size = None,
                                              list textColor = None, list backgroundColor = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines, int mode
-                                             int[2] position = nil, int[2] size = nil
-                                             float[3] textColor = nil
+int consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines, int mode,
+                                             int[2] position = nil, int[2] size = nil,
+                                             float[3] textColor = nil,
                                              float[3] backgroundColor = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -1438,7 +1438,7 @@ list pose = sim.buildPose(list position, list eulerAnglesOrAxis, int mode = 0, l
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[7] pose = sim.buildPose(float[3] position, float[3] eulerAnglesOrAxis1, int mode = 0
+float[7] pose = sim.buildPose(float[3] position, float[3] eulerAnglesOrAxis1, int mode = 0,
                               float[3] axis2 = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -1534,7 +1534,7 @@ simGetScriptHandleEx
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCallScriptFunctionEx(int scriptHandleOrType, const char* functionNameAtScriptName
+int simCallScriptFunctionEx(int scriptHandleOrType, const char* functionNameAtScriptName,
                             int stackId)
 ==================== apiSynopsisCpp ====================>
 
@@ -1570,7 +1570,7 @@ sim.floatingViewAdd
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCameraFitToView(int viewHandleOrIndex, int objectCount, const int* objectHandles, int options
+int simCameraFitToView(int viewHandleOrIndex, int objectCount, const int* objectHandles, int options,
                        double scaling)
 ==================== apiSynopsisCpp ====================>
 
@@ -1596,12 +1596,12 @@ int simCameraFitToView(int viewHandleOrIndex, int objectCount, const int* object
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int result = sim.cameraFitToView(int viewHandleOrIndex, list objectHandles = None, int options = 0
+int result = sim.cameraFitToView(int viewHandleOrIndex, list objectHandles = None, int options = 0,
                                  float scaling = 1)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int result = sim.cameraFitToView(int viewHandleOrIndex, int[] objectHandles = nil, int options = 0
+int result = sim.cameraFitToView(int viewHandleOrIndex, int[] objectHandles = nil, int options = 0,
                                  float scaling = 1)
 ==================== apiSynopsisLua ====================>
 
@@ -1643,12 +1643,12 @@ sim.restoreEntityColor
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list originalColorData = sim.changeEntityColor(int entityHandle, list newColor
+list originalColorData = sim.changeEntityColor(int entityHandle, list newColor,
                                                int colorComponent = sim.colorcomponent_ambient_diffuse)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-map[] originalColorData = sim.changeEntityColor(int entityHandle, float[3] newColor
+map[] originalColorData = sim.changeEntityColor(int entityHandle, float[3] newColor,
                                                 int colorComponent = sim.colorcomponent_ambient_diffuse)
 ==================== apiSynopsisLua ====================>
 
@@ -1809,14 +1809,14 @@ int simCheckDistance(int entity1Handle, int entity2Handle, double threshold, dou
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int result, list distanceData, list objectHandlePair = sim.checkDistance(int entity1Handle
-                                                                         int entity2Handle
+int result, list distanceData, list objectHandlePair = sim.checkDistance(int entity1Handle,
+                                                                         int entity2Handle,
                                                                          float threshold = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int result, float[7] distanceData, int[2] objectHandlePair = sim.checkDistance(int entity1Handle
-                                                                               int entity2Handle
+int result, float[7] distanceData, int[2] objectHandlePair = sim.checkDistance(int entity1Handle,
+                                                                               int entity2Handle,
                                                                                float threshold = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -1852,7 +1852,7 @@ Checks whether the provided points collide with the <a href="../octrees.htm">OC 
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int checkOctreePointOccupancy(int octreeHandle, int options, const double* pts, int ptCnt
+int checkOctreePointOccupancy(int octreeHandle, int options, const double* pts, int ptCnt,
                               unsigned int* tag, unsigned long long int* location, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -2006,8 +2006,8 @@ sim.checkProximitySensorEx2
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCheckProximitySensorEx(int sensorHandle, int entityHandle, int detectionMode
-                              double detectionThreshold, double maxAngle, double* detectedPoint
+int simCheckProximitySensorEx(int sensorHandle, int entityHandle, int detectionMode,
+                              double detectionThreshold, double maxAngle, double* detectedPoint,
                               int* detectedObjectHandle, double* surfaceNormalVector)
 ==================== apiSynopsisCpp ====================>
 
@@ -2160,7 +2160,7 @@ sim.checkVisionSensorEx
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCheckVisionSensor(int sensorHandle, int entityHandle, double** auxValues
+int simCheckVisionSensor(int sensorHandle, int entityHandle, double** auxValues,
                          int** auxValuesCount)
 ==================== apiSynopsisCpp ====================>
 
@@ -2257,13 +2257,13 @@ double* simCheckVisionSensorEx(int sensorHandle, int entityHandle, bool returnIm
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-<div>list buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)</div>
-<div>bytes buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)</div>
+list buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)
+bytes buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-<div>float[] buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)</div>
-<div>buffer buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)</div>
+float[] buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)
+buffer buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)
 ==================== apiSynopsisLua ====================>
 
 ==================== apiInputPythonLua ====================<
@@ -2473,12 +2473,12 @@ sim.transformImage
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-bytes outImg = sim.combineRgbImages(bytes img1, list img1Res, bytes img2, list img2Res
+bytes outImg = sim.combineRgbImages(bytes img1, list img1Res, bytes img2, list img2Res,
                                     int operation)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-buffer outImg = sim.combineRgbImages(buffer img1, int[2] img1Res, buffer img2, int[2] img2Res
+buffer outImg = sim.combineRgbImages(buffer img1, int[2] img1Res, buffer img2, int[2] img2Res,
                                      int operation)
 ==================== apiSynopsisLua ====================>
 
@@ -2636,7 +2636,7 @@ int shapeHandle = sim.convexDecompose(int shapeHandle, int options, list intPara
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int shapeHandle = sim.convexDecompose(int shapeHandle, int options, int[4] intParams
+int shapeHandle = sim.convexDecompose(int shapeHandle, int options, int[4] intParams,
                                       float[3] floatParams)
 ==================== apiSynopsisLua ====================>
 
@@ -2971,7 +2971,7 @@ Creates a <a href="../forceSensors.htm">force sensor</a>.
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCreateForceSensor(int options, const int* intParams, const double* floatParams
+int simCreateForceSensor(int options, const int* intParams, const double* floatParams,
                          const double* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -3071,7 +3071,7 @@ sim.createShape
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCreateHeightfieldShape(int options, double shadingAngle, int xPointCount, int yPointCount
+int simCreateHeightfieldShape(int options, double shadingAngle, int xPointCount, int yPointCount,
                               double xSize, const double* heights)
 ==================== apiSynopsisCpp ====================>
 
@@ -3099,12 +3099,12 @@ int simCreateHeightfieldShape(int options, double shadingAngle, int xPointCount,
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int objectHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount
+int objectHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount,
                                               int yPointCount, float xSize, list heights)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int objectHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount
+int objectHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount,
                                               int yPointCount, float xSize, float[] heights)
 ==================== apiSynopsisLua ====================>
 
@@ -3147,7 +3147,7 @@ sim.setJointInterval
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCreateJoint(int jointType, int jointMode, int options, const double* sizes
+int simCreateJoint(int jointType, int jointMode, int options, const double* sizes,
                    const double* reservedA, const double* reservedB)
 ==================== apiSynopsisCpp ====================>
 
@@ -3340,7 +3340,7 @@ sim.removeObjects
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCreatePointCloud(double maxVoxelSize, int maxPtCntPerVoxel, int options, double pointSize
+int simCreatePointCloud(double maxVoxelSize, int maxPtCntPerVoxel, int options, double pointSize,
                         void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -3369,12 +3369,12 @@ int simCreatePointCloud(double maxVoxelSize, int maxPtCntPerVoxel, int options, 
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int handle = sim.createPointCloud(float maxVoxelSize, int maxPtCntPerVoxel, int options
+int handle = sim.createPointCloud(float maxVoxelSize, int maxPtCntPerVoxel, int options,
                                   float pointSize)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int handle = sim.createPointCloud(float maxVoxelSize, int maxPtCntPerVoxel, int options
+int handle = sim.createPointCloud(float maxVoxelSize, int maxPtCntPerVoxel, int options,
                                   float pointSize)
 ==================== apiSynopsisLua ====================>
 
@@ -3483,7 +3483,7 @@ Creates a <a href="../proximitySensors.htm">proximity sensor</a>
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCreateProximitySensor(int sensorType, int subType, int options, const int* intParams
+int simCreateProximitySensor(int sensorType, int subType, int options, const int* intParams,
                              const double* floatParams, const double* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -3546,12 +3546,12 @@ int simCreateProximitySensor(int sensorType, int subType, int options, const int
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options
+int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options,
                                              list intParams, list floatParams)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options
+int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options,
                                              int[8] intParams, float[15] floatParams)
 ==================== apiSynopsisLua ====================>
 
@@ -3632,9 +3632,9 @@ sim.importMesh
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCreateShape(int options, double shadingAngle, const double* vertices, int verticesSize
-                   const int* indices, int indicesSize, const double* normals
-                   const double* textureCoordinates, const unsigned char* texture
+int simCreateShape(int options, double shadingAngle, const double* vertices, int verticesSize,
+                   const int* indices, int indicesSize, const double* normals,
+                   const double* textureCoordinates, const unsigned char* texture,
                    const int* textureResolution)
 ==================== apiSynopsisCpp ====================>
 
@@ -3670,14 +3670,14 @@ int simCreateShape(int options, double shadingAngle, const double* vertices, int
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int objectHandle = sim.createShape(int options, float shadingAngle, list vertices, list indices
-                                   list normals = None, list textureCoordinates = None
+int objectHandle = sim.createShape(int options, float shadingAngle, list vertices, list indices,
+                                   list normals = None, list textureCoordinates = None,
                                    string/bytes texture = None, list textureResolution = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int objectHandle = sim.createShape(int options, float shadingAngle, float[] vertices, int[] indices
-                                   float[] normals = nil, float[] textureCoordinates = nil
+int objectHandle = sim.createShape(int options, float shadingAngle, float[] vertices, int[] indices,
+                                   float[] normals = nil, float[] textureCoordinates = nil,
                                    string/buffer texture = nil, int[2] textureResolution = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -3755,8 +3755,8 @@ sim.setShapeTexture
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCreateTexture(const char* fileName, int options, const double* planeSizes
-                     const double* scalingUV, const double* xy_g, int fixedResolution
+int simCreateTexture(const char* fileName, int options, const double* planeSizes,
+                     const double* scalingUV, const double* xy_g, int fixedResolution,
                      int* textureId, int* resolution, const void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -3788,21 +3788,15 @@ int simCreateTexture(const char* fileName, int options, const double* planeSizes
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int shapeHandle, int textureId, list resolution = sim.createTexture(string fileName, int options
-                                                                    list planeSizes = None
-                                                                    list scalingUV = None
-                                                                    list xy_g = None
-                                                                    int fixedResolution = 0
-                                                                    list resolution = None)
+int shape, int id, list res = sim.createTexture(string fileName, int options, list planeSizes = None,
+                                                list scalingUV = None, list xy_g = None,
+                                                int fixedResolution = 0, list resolution = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int shapeHandle, int textureId, int[2] resolution = sim.createTexture(string fileName, int options
-                                                                      float[2] planeSizes = nil
-                                                                      float[2] scalingUV = nil
-                                                                      float[2] xy_g = nil
-                                                                      int fixedResolution = 0
-                                                                      int[2] resolution = nil)
+int shape, int id, int[2] res = sim.createTexture(string fileName, int options, float[2] planeSizes = nil,
+                                                  float[2] scalingUV = nil, float[2] xy_g = nil,
+                                                  int fixedResolution = 0, int[2] resolution = nil)
 ==================== apiSynopsisLua ====================>
 
 ==================== apiInputPythonLua ====================<
@@ -3825,9 +3819,9 @@ int shapeHandle, int textureId, int[2] resolution = sim.createTexture(string fil
 
 ==================== apiOutputPythonLua ====================<
 <ul>
-<li><strong>shapeHandle</strong>: handle of the created planar shape</li>
-<li><strong>textureId</strong>: new texture ID. If a same texture is already present, the old texture ID will be returned</li>
-<li><strong>resolution</strong>: the effective texture resolution</li>
+<li><strong>shape</strong>: handle of the created planar shape</li>
+<li><strong>id</strong>: new texture ID. If a same texture is already present, the old texture ID will be returned</li>
+<li><strong>res</strong>: the effective texture resolution</li>
 </ul>
 ==================== apiOutputPythonLua ====================>
 
@@ -3843,7 +3837,7 @@ Creates a <a href="../visionSensors.htm">vision sensor</a>.
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simCreateVisionSensor(int options, const int* intParams, const double* floatParams
+int simCreateVisionSensor(int options, const int* intParams, const double* floatParams,
                           const double* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -4133,12 +4127,12 @@ int simDuplicateGraphCurveToStatic(int graphHandle, int curveId, const char* sta
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int staticCurveId = sim.duplicateGraphCurveToStatic(int graphHandle, int curveId
+int staticCurveId = sim.duplicateGraphCurveToStatic(int graphHandle, int curveId,
                                                     string staticCurveName)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int staticCurveId = sim.duplicateGraphCurveToStatic(int graphHandle, int curveId
+int staticCurveId = sim.duplicateGraphCurveToStatic(int graphHandle, int curveId,
                                                     string staticCurveName)
 ==================== apiSynopsisLua ====================>
 
@@ -4233,8 +4227,8 @@ sim.getShapeMesh
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simExportMesh(int fileformat, const char* pathAndFilename, int options, double scalingFactor
-                  int elementCount, double** vertices, const int* verticesSizes, int** indices
+int simExportMesh(int fileformat, const char* pathAndFilename, int options, double scalingFactor,
+                  int elementCount, double** vertices, const int* verticesSizes, int** indices,
                   const int* indicesSizes, double** reserved, char** names)
 ==================== apiSynopsisCpp ====================>
 
@@ -4321,12 +4315,12 @@ delete[] indicesSizes;</code>
 ==================== apiMoreCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-sim.exportMesh(int fileformat, string pathAndFilename, int options, float scalingFactor
+sim.exportMesh(int fileformat, string pathAndFilename, int options, float scalingFactor,
                list vertices, list indices)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.exportMesh(int fileformat, string pathAndFilename, int options, float scalingFactor
+sim.exportMesh(int fileformat, string pathAndFilename, int options, float scalingFactor,
                float[] vertices, int[] indices)
 ==================== apiSynopsisLua ====================>
 
@@ -4426,12 +4420,12 @@ int simFloatingViewAdd(double posX, double posY, double sizeX, double sizeY, int
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY
+int floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY,
                                              int options)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY
+int floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY,
                                              int options)
 ==================== apiSynopsisLua ====================>
 
@@ -4519,7 +4513,7 @@ Generates an extrusion shape from a path
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simGenerateShapeFromPath(const double* path, int pathSize, const double* section
+int simGenerateShapeFromPath(const double* path, int pathSize, const double* section,
                              int sectionSize, int options, const double* upVector, double reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -4546,12 +4540,12 @@ int simGenerateShapeFromPath(const double* path, int pathSize, const double* sec
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int shapeHandle = sim.generateShapeFromPath(list path, list section, int options = 0
+int shapeHandle = sim.generateShapeFromPath(list path, list section, int options = 0,
                                             list upVector = [0.0, 0.0, 1.0])
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int shapeHandle = sim.generateShapeFromPath(float[] path, float[] section, int options = 0
+int shapeHandle = sim.generateShapeFromPath(float[] path, float[] section, int options = 0,
                                             float[3] upVector = {0.0, 0.0, 1.0})
 ==================== apiSynopsisLua ====================>
 
@@ -4587,12 +4581,12 @@ Generates a 3D text model.
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisPython ====================<
-int modelHandle = sim.generateTextShape(string txt, list color = [1, 1, 1], float height = 0.1
+int modelHandle = sim.generateTextShape(string txt, list color = [1, 1, 1], float height = 0.1,
                                         bool centered = False, string alphabetLocation = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int modelHandle = sim.generateTextShape(string txt, float[3] color = {1, 1, 1}, float height = 0.1
+int modelHandle = sim.generateTextShape(string txt, float[3] color = {1, 1, 1}, float height = 0.1,
                                         bool centered = false, string alphabetLocation = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -4628,20 +4622,20 @@ Generates a time optimal trajectory, based on the TOPPRA library
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list outP, list times = sim.generateTimeOptimalTrajectory(list path, list pathLengths
-                                                          list minMaxVel, list minMaxAccel
-                                                          int trajPtSamples = 1000
-                                                          string boundaryCondition = 'not-a-knot'
+list outP, list times = sim.generateTimeOptimalTrajectory(list path, list pathLengths,
+                                                          list minMaxVel, list minMaxAccel,
+                                                          int trajPtSamples = 1000,
+                                                          string boundaryCondition = 'not-a-knot',
                                                           float timeout = 5)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[] outP, float[] times = sim.generateTimeOptimalTrajectory(float[] path
-                                                                float[] pathLengths
-                                                                float[] minMaxVel
-                                                                float[] minMaxAccel
-                                                                int trajPtSamples = 1000
-                                                                string boundaryCondition = 'not-a-knot'
+float[] outP, float[] times = sim.generateTimeOptimalTrajectory(float[] path,
+                                                                float[] pathLengths,
+                                                                float[] minMaxVel,
+                                                                float[] minMaxAccel,
+                                                                int trajPtSamples = 1000,
+                                                                string boundaryCondition = 'not-a-knot',
                                                                 float timeout = 5)
 ==================== apiSynopsisLua ====================>
 
@@ -4677,14 +4671,14 @@ will be part of the returned configurations
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisPython ====================<
-list configurations = sim.getAlternateConfigs(list jointHandles, list inputConfig
-                                              int tipHandle = -1, list lowLimits = None
+list configurations = sim.getAlternateConfigs(list jointHandles, list inputConfig,
+                                              int tipHandle = -1, list lowLimits = None,
                                               list ranges = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[] configurations = sim.getAlternateConfigs(int[] jointHandles, float[] inputConfig
-                                                 int tipHandle = -1, float[] lowLimits = nil
+float[] configurations = sim.getAlternateConfigs(int[] jointHandles, float[] inputConfig,
+                                                 int tipHandle = -1, float[] lowLimits = nil,
                                                  float[] ranges = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -4932,7 +4926,7 @@ Returns the position or distance along a path that is closest to a specified poi
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-double simGetClosestPosOnPath(const double* path, int pathSize, const double* pathLengths
+double simGetClosestPosOnPath(const double* path, int pathSize, const double* pathLengths,
                               const double* absPt)
 ==================== apiSynopsisCpp ====================>
 
@@ -5143,9 +5137,9 @@ sim.getQHull
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simGetDecimatedMesh(const double* inVertices, int inVerticesL, const int* inIndices
-                        int inIndicesL, double** verticesOut, int* verticesOutL, int** indicesOut
-                        int* indicesOutL, double decimationPercent, int reserved1
+int simGetDecimatedMesh(const double* inVertices, int inVerticesL, const int* inIndices,
+                        int inIndicesL, double** verticesOut, int* verticesOutL, int** indicesOut,
+                        int* indicesOutL, double decimationPercent, int reserved1,
                         const double* reserved2)
 ==================== apiSynopsisCpp ====================>
 
@@ -5172,12 +5166,12 @@ int simGetDecimatedMesh(const double* inVertices, int inVerticesL, const int* in
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-list verticesOut, list indicesOut = sim.getDecimatedMesh(list verticesIn, list indicesIn
+list verticesOut, list indicesOut = sim.getDecimatedMesh(list verticesIn, list indicesIn,
                                                          float decimationPercentage)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[] verticesOut, int[] indicesOut = sim.getDecimatedMesh(float[] verticesIn, int[] indicesIn
+float[] verticesOut, int[] indicesOut = sim.getDecimatedMesh(float[] verticesIn, int[] indicesIn,
                                                              float decimationPercentage)
 ==================== apiSynopsisLua ====================>
 
@@ -6361,7 +6355,7 @@ sim.setLightParameters
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simGetLightParameters(int objectHandle, double* setToNULL, double* diffusePart
+int simGetLightParameters(int objectHandle, double* setToNULL, double* diffusePart,
                           double* specularPart)
 ==================== apiSynopsisCpp ====================>
 
@@ -7364,7 +7358,7 @@ list matrix = sim.getObjectMatrix(int objectHandle, int relativeToObjectHandle =
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[12] matrix = sim.getObjectMatrix(int objectHandle
+float[12] matrix = sim.getObjectMatrix(int objectHandle,
                                        int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisLua ====================>
 
@@ -7416,12 +7410,12 @@ int simGetObjectOrientation(int objectHandle, int relativeToObjectHandle, double
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-list eulerAngles = sim.getObjectOrientation(int objectHandle
+list eulerAngles = sim.getObjectOrientation(int objectHandle,
                                             int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[3] eulerAngles = sim.getObjectOrientation(int objectHandle
+float[3] eulerAngles = sim.getObjectOrientation(int objectHandle,
                                                 int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisLua ====================>
 
@@ -7580,12 +7574,12 @@ int simGetObjectPosition(int objectHandle, int relativeToObjectHandle, double* p
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-list position = sim.getObjectPosition(int objectHandle
+list position = sim.getObjectPosition(int objectHandle,
                                       int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[3] position = sim.getObjectPosition(int objectHandle
+float[3] position = sim.getObjectPosition(int objectHandle,
                                           int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisLua ====================>
 
@@ -7690,12 +7684,12 @@ int simGetObjectQuaternion(int objectHandle, int relativeToObjectHandle, double*
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-list quaternion = sim.getObjectQuaternion(int objectHandle
+list quaternion = sim.getObjectQuaternion(int objectHandle,
                                           int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[4] quaternion = sim.getObjectQuaternion(int objectHandle
+float[4] quaternion = sim.getObjectQuaternion(int objectHandle,
                                               int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisLua ====================>
 
@@ -7851,12 +7845,12 @@ int* simGetObjectsInTree(int treeBaseHandle, int objectType, int options, int* o
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-list objects = sim.getObjectsInTree(int treeBaseHandle, int objectType = sim.handle_all
+list objects = sim.getObjectsInTree(int treeBaseHandle, int objectType = sim.handle_all,
                                     int options = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int[] objects = sim.getObjectsInTree(int treeBaseHandle, int objectType = sim.handle_all
+int[] objects = sim.getObjectsInTree(int treeBaseHandle, int objectType = sim.handle_all,
                                      int options = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -8300,14 +8294,14 @@ Returns an interpolated configuration from a path
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list config = sim.getPathInterpolatedConfig(list path, list pathLengths, float t
-                                            dict method = {'type': 'linear', 'strength': 1.0
+list config = sim.getPathInterpolatedConfig(list path, list pathLengths, float t,
+                                            dict method = {'type': 'linear', 'strength': 1.0,
                                             'forceOpen': False}, list types = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[] config = sim.getPathInterpolatedConfig(float[] path, float[] pathLengths, float t
-                                               map method = {type = 'linear', strength = 1.0
+float[] config = sim.getPathInterpolatedConfig(float[] path, float[] pathLengths, float t,
+                                               map method = {type = 'linear', strength = 1.0,
                                                forceOpen = false}, int[] types = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -8345,12 +8339,12 @@ path's first point, along the path)
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list pathLengths, float totalLength = sim.getPathLengths(list path, int dof
+list pathLengths, float totalLength = sim.getPathLengths(list path, int dof,
                                                          string distCallback = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[] pathLengths, float totalLength = sim.getPathLengths(float[] path, int dof
+float[] pathLengths, float totalLength = sim.getPathLengths(float[] path, int dof,
                                                             function/string distCallback = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -8534,7 +8528,7 @@ Gets various properties of a <a href="../pointClouds.htm">point cloud</a>
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simGetPointCloudOptions(int pointCloudHandle, double* maxVoxelSize, int* maxPtCntPerVoxel
+int simGetPointCloudOptions(int pointCloudHandle, double* maxVoxelSize, int* maxPtCntPerVoxel,
                             int* options, double* pointSize, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -8699,7 +8693,7 @@ sim.getDecimatedMesh
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simGetQHull(const double* inVertices, int inVerticesL, double** verticesOut, int* verticesOutL
+int simGetQHull(const double* inVertices, int inVerticesL, double** verticesOut, int* verticesOutL,
                 int** indicesOut, int* indicesOutL, int reserved1, const double* reserved2)
 ==================== apiSynopsisCpp ====================>
 
@@ -8825,7 +8819,7 @@ sim.setReferencedHandles
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simGetReferencedHandles(int objectHandle, int** referencedHandles, int** reserved1
+int simGetReferencedHandles(int objectHandle, int** referencedHandles, int** reserved1,
                             int** reserved2)
 ==================== apiSynopsisCpp ====================>
 
@@ -8883,7 +8877,7 @@ can be used to build interpolations between transformation matrices
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simGetRotationAxis(const double* matrixStart, const double* matrixGoal, double* axis
+int simGetRotationAxis(const double* matrixStart, const double* matrixGoal, double* axis,
                        double* angle)
 ==================== apiSynopsisCpp ====================>
 
@@ -8907,7 +8901,7 @@ list axis, float angle = sim.getRotationAxis(list poseStart/matrixStart, list po
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[3] axis, float angle = sim.getRotationAxis(float[7]/float[12] poseStart/matrixStart
+float[3] axis, float angle = sim.getRotationAxis(float[7]/float[12] poseStart/matrixStart,
                                                  float[7]/float[12] poseGoal/matrixGoal)
 ==================== apiSynopsisLua ====================>
 
@@ -8944,7 +8938,7 @@ sim.setVisionSensorImg
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-unsigned char* simGetScaledImage(const unsigned char* imageIn, const int* resolutionIn
+unsigned char* simGetScaledImage(const unsigned char* imageIn, const int* resolutionIn,
                                  const int* resolutionOut, int options, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -8972,15 +8966,15 @@ unsigned char* simGetScaledImage(const unsigned char* imageIn, const int* resolu
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-bytes imageOut, list effectiveRolutionOut = sim.getScaledImage(bytes imageIn, list resolutionIn
-                                                               list desiredResolutionOut
+bytes imageOut, list effectiveRolutionOut = sim.getScaledImage(bytes imageIn, list resolutionIn,
+                                                               list desiredResolutionOut,
                                                                int options)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-buffer imageOut, int[2] effectiveResolutionOut = sim.getScaledImage(buffer imageIn
-                                                                    int[2] resolutionIn
-                                                                    int[2] desiredResolutionOut
+buffer imageOut, int[2] effectiveResolutionOut = sim.getScaledImage(buffer imageIn,
+                                                                    int[2] resolutionIn,
+                                                                    int[2] desiredResolutionOut,
                                                                     int options)
 ==================== apiSynopsisLua ====================>
 
@@ -9281,7 +9275,7 @@ int result, list rgbData = sim.getShapeColor(int shapeHandle, string colorName, 
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int result, float[3] rgbData = sim.getShapeColor(int shapeHandle, string colorName
+int result, float[3] rgbData = sim.getShapeColor(int shapeHandle, string colorName,
                                                  int colorComponent)
 ==================== apiSynopsisLua ====================>
 
@@ -9511,7 +9505,7 @@ sim.exportMesh
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simGetShapeMesh(int shapeHandle, double** vertices, int* verticesSize, int** indices
+int simGetShapeMesh(int shapeHandle, double** vertices, int* verticesSize, int** indices,
                     int* indicesSize, double** normals)
 ==================== apiSynopsisCpp ====================>
 
@@ -10769,7 +10763,7 @@ Reads the depth buffer of a vision sensor. The returned data doesn't make sense 
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-float* simGetVisionSensorDepth(int sensorHandle, int options, const int* pos, const int* size
+float* simGetVisionSensorDepth(int sensorHandle, int options, const int* pos, const int* size,
                                int* resolution)
 ==================== apiSynopsisCpp ====================>
 
@@ -10794,12 +10788,12 @@ float* simGetVisionSensorDepth(int sensorHandle, int options, const int* pos, co
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-bytes depth = sim.getVisionSensorDepth(int sensorHandle, int options = 0, list pos = [0, 0]
+bytes depth = sim.getVisionSensorDepth(int sensorHandle, int options = 0, list pos = [0, 0],
                                        list size = [0, 0])
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-buffer depth, int[2] resolution = sim.getVisionSensorDepth(int sensorHandle, int options = 0
+buffer depth, int[2] resolution = sim.getVisionSensorDepth(int sensorHandle, int options = 0,
                                                            int[2] pos = {0, 0}, int[2] size = {0, 0})
 ==================== apiSynopsisLua ====================>
 
@@ -10841,7 +10835,7 @@ sim.saveImage
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-unsigned char* simGetVisionSensorImg(int sensorHandle, int options, double rgbaCutOff
+unsigned char* simGetVisionSensorImg(int sensorHandle, int options, double rgbaCutOff,
                                      const int* pos, const int* size, int* resolution)
 ==================== apiSynopsisCpp ====================>
 
@@ -10868,14 +10862,14 @@ unsigned char* simGetVisionSensorImg(int sensorHandle, int options, double rgbaC
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-bytes image, list resolution = sim.getVisionSensorImg(int sensorHandle, int options = 0
-                                                      float rgbaCutOff = 0.0, list pos = [0, 0]
+bytes image, list resolution = sim.getVisionSensorImg(int sensorHandle, int options = 0,
+                                                      float rgbaCutOff = 0.0, list pos = [0, 0],
                                                       list size = [0, 0])
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-buffer image, int[2] resolution = sim.getVisionSensorImg(int sensorHandle, int options = 0
-                                                         float rgbaCutOff = 0.0, pos = {0, 0}
+buffer image, int[2] resolution = sim.getVisionSensorImg(int sensorHandle, int options = 0,
+                                                         float rgbaCutOff = 0.0, pos = {0, 0},
                                                          size = {0, 0})
 ==================== apiSynopsisLua ====================>
 
@@ -11228,7 +11222,7 @@ sim.resetProximitySensor
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simHandleProximitySensor(int sensorHandle, double* detectedPoint, int* detectedObjectHandle
+int simHandleProximitySensor(int sensorHandle, double* detectedPoint, int* detectedObjectHandle,
                              double* detectedSurfaceNormalVector)
 ==================== apiSynopsisCpp ====================>
 
@@ -11442,9 +11436,9 @@ sim.createShape
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simImportMesh(int fileformat, const char* pathAndFilename, int options
-                  double identicalVerticeTolerance, double scalingFactor, double*** vertices
-                  int** verticesSizes, int*** indices, int** indicesSizes, double*** reserved
+int simImportMesh(int fileformat, const char* pathAndFilename, int options,
+                  double identicalVerticeTolerance, double scalingFactor, double*** vertices,
+                  int** verticesSizes, int*** indices, int** indicesSizes, double*** reserved,
                   char*** names)
 ==================== apiSynopsisCpp ====================>
 
@@ -11498,13 +11492,13 @@ if (elementCount &gt; 0)
 ==================== apiMoreCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-list vertices, list indices = sim.importMesh(int fileformat, string pathAndFilename, int options
+list vertices, list indices = sim.importMesh(int fileformat, string pathAndFilename, int options,
                                              float identicalVerticeTolerance, float scalingFactor)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[] vertices, int[] indices = sim.importMesh(int fileformat, string pathAndFilename, int options
-                                                 float identicalVerticeTolerance
+float[] vertices, int[] indices = sim.importMesh(int fileformat, string pathAndFilename, int options,
+                                                 float identicalVerticeTolerance,
                                                  float scalingFactor)
 ==================== apiSynopsisLua ====================>
 
@@ -11554,7 +11548,7 @@ sim.importMesh
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simImportShape(int fileformat, const char* pathAndFilename, int options
+int simImportShape(int fileformat, const char* pathAndFilename, int options,
                    double identicalVerticeTolerance, double scalingFactor)
 ==================== apiSynopsisCpp ====================>
 
@@ -11585,12 +11579,12 @@ int simImportShape(int fileformat, const char* pathAndFilename, int options
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int shapeHandle = sim.importShape(int fileformat, string pathAndFilename, int options
+int shapeHandle = sim.importShape(int fileformat, string pathAndFilename, int options,
                                   float identicalVerticeTolerance, float scalingFactor)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int shapeHandle = sim.importShape(int fileformat, string pathAndFilename, int options
+int shapeHandle = sim.importShape(int fileformat, string pathAndFilename, int options,
                                   float identicalVerticeTolerance, float scalingFactor)
 ==================== apiSynopsisLua ====================>
 
@@ -11721,7 +11715,7 @@ sim.insertVoxelsIntoOctree
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simInsertObjectIntoOctree(int octreeHandle, int objectHandle, int options
+int simInsertObjectIntoOctree(int octreeHandle, int objectHandle, int options,
                               const unsigned char* color, unsigned int tag, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -11743,12 +11737,12 @@ int simInsertObjectIntoOctree(int octreeHandle, int objectHandle, int options
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int totalVoxelCnt = sim.insertObjectIntoOctree(int octreeHandle, int objectHandle, int options
+int totalVoxelCnt = sim.insertObjectIntoOctree(int octreeHandle, int objectHandle, int options,
                                                list color = None, int tag = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int totalVoxelCnt = sim.insertObjectIntoOctree(int octreeHandle, int objectHandle, int options
+int totalVoxelCnt = sim.insertObjectIntoOctree(int octreeHandle, int objectHandle, int options,
                                                int[] color = nil, int tag = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -11785,7 +11779,7 @@ sim.insertPointsIntoPointCloud
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simInsertObjectIntoPointCloud(int pointCloudHandle, int objectHandle, int options
+int simInsertObjectIntoPointCloud(int pointCloudHandle, int objectHandle, int options,
                                   double gridSize, const unsigned char* color, void* optionalValues)
 ==================== apiSynopsisCpp ====================>
 
@@ -11812,14 +11806,14 @@ int simInsertObjectIntoPointCloud(int pointCloudHandle, int objectHandle, int op
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int totalPointCnt = sim.insertObjectIntoPointCloud(int pointCloudHandle, int objectHandle
-                                                   int options, float gridSize, list color = None
+int totalPointCnt = sim.insertObjectIntoPointCloud(int pointCloudHandle, int objectHandle,
+                                                   int options, float gridSize, list color = None,
                                                    float duplicateTolerance = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int totalPointCnt = sim.insertObjectIntoPointCloud(int pointCloudHandle, int objectHandle
-                                                   int options, float gridSize, int[] color = nil
+int totalPointCnt = sim.insertObjectIntoPointCloud(int pointCloudHandle, int objectHandle,
+                                                   int options, float gridSize, int[] color = nil,
                                                    float duplicateTolerance = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -11857,7 +11851,7 @@ sim.removePointsFromPointCloud
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simInsertPointsIntoPointCloud(int pointCloudHandle, int options, const double* pts, int ptCnt
+int simInsertPointsIntoPointCloud(int pointCloudHandle, int options, const double* pts, int ptCnt,
                                   const unsigned char* color, void* optionalValues)
 ==================== apiSynopsisCpp ====================>
 
@@ -11889,13 +11883,13 @@ int simInsertPointsIntoPointCloud(int pointCloudHandle, int options, const doubl
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int totalPointCnt = sim.insertPointsIntoPointCloud(int pcHandle, int options, list points
-                                                   list color = None
+int totalPointCnt = sim.insertPointsIntoPointCloud(int pcHandle, int options, list points,
+                                                   list color = None,
                                                    float duplicateTolerance = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int totalPointCnt = sim.insertPointsIntoPointCloud(int pcHandle, int options, float[] points
+int totalPointCnt = sim.insertPointsIntoPointCloud(int pcHandle, int options, float[] points,
                                                    int[] color = nil, float duplicateTolerance = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -11937,7 +11931,7 @@ sim.removeVoxelsFromOctree
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simInsertVoxelsIntoOctree(int octreeHandle, int options, const double* pts, int ptCnt
+int simInsertVoxelsIntoOctree(int octreeHandle, int options, const double* pts, int ptCnt,
                               const unsigned char* color, const unsigned int* tag, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -11965,12 +11959,12 @@ int simInsertVoxelsIntoOctree(int octreeHandle, int options, const double* pts, 
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int totalVoxelCnt = sim.insertVoxelsIntoOctree(int octreeHandle, int options, list points
+int totalVoxelCnt = sim.insertVoxelsIntoOctree(int octreeHandle, int options, list points,
                                                list color = None, list tag = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int totalVoxelCnt = sim.insertVoxelsIntoOctree(int octreeHandle, int options, float[] points
+int totalVoxelCnt = sim.insertVoxelsIntoOctree(int octreeHandle, int options, float[] points,
                                                int[] color = nil, int[] tag = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -12011,7 +12005,7 @@ Computes the interpolated transformation matrix between matrixIn1 and matrixIn2.
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simInterpolateMatrices(const double* matrixIn1, const double* matrixIn2, double interpolFactor
+int simInterpolateMatrices(const double* matrixIn1, const double* matrixIn2, double interpolFactor,
                            double* matrixOut)
 ==================== apiSynopsisCpp ====================>
 
@@ -12035,7 +12029,7 @@ list resultMatrix = sim.interpolateMatrices(list matrixIn1, list matrixIn2, floa
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[12] resultMatrix = sim.interpolateMatrices(float[12] matrixIn1, float[12] matrixIn2
+float[12] resultMatrix = sim.interpolateMatrices(float[12] matrixIn1, float[12] matrixIn2,
                                                  float interpolFactor)
 ==================== apiSynopsisLua ====================>
 
@@ -12069,7 +12063,7 @@ Computes the interpolated pose between poseIn1 and poseIn2
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simInterpolatePoses(const double* poseIn1, const double* poseIn2, double interpolFactor
+int simInterpolatePoses(const double* poseIn1, const double* poseIn2, double interpolFactor,
                         double* poseOut)
 ==================== apiSynopsisCpp ====================>
 
@@ -12130,7 +12124,7 @@ sim.setPointCloudOptions
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simIntersectPointsWithPointCloud(int pointCloudHandle, int options, const double* pts, int ptCnt
+int simIntersectPointsWithPointCloud(int pointCloudHandle, int options, const double* pts, int ptCnt,
                                      double tolerance, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -12156,12 +12150,12 @@ int simIntersectPointsWithPointCloud(int pointCloudHandle, int options, const do
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int totalPointCnt = sim.intersectPointsWithPointCloud(int pcHandle, int options, list points
+int totalPointCnt = sim.intersectPointsWithPointCloud(int pcHandle, int options, list points,
                                                       float tolerance)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int totalPointCnt = sim.intersectPointsWithPointCloud(int pcHandle, int options, float[] points
+int totalPointCnt = sim.intersectPointsWithPointCloud(int pcHandle, int options, float[] points,
                                                       float tolerance)
 ==================== apiSynopsisLua ====================>
 
@@ -12395,7 +12389,7 @@ sim.setVisionSensorImg
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-unsigned char* simLoadImage(int* resolution, int options, const char* filenameOrBuffer
+unsigned char* simLoadImage(int* resolution, int options, const char* filenameOrBuffer,
                             void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -12477,17 +12471,17 @@ int simLoadModel(const char* filename)
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-<div>a) int objectHandle = sim.loadModel(string filename)</div>
-<div>b) int objectHandle = sim.loadModel(bytes buffer)</div>
-<div>c) bytes rgbaImage = sim.loadModel(string filename, bool onlyThumbnail)</div>
-<div>d) bytes rgbaImage = sim.loadModel(bytes buffer, bool onlyThumbnail)</div>
+a) int objectHandle = sim.loadModel(string filename)
+b) int objectHandle = sim.loadModel(bytes buffer)
+c) bytes rgbaImage = sim.loadModel(string filename, bool onlyThumbnail)
+d) bytes rgbaImage = sim.loadModel(bytes buffer, bool onlyThumbnail)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-<div>a) int objectHandle = sim.loadModel(string filename)</div>
-<div>b) int objectHandle = sim.loadModel(buffer buffer)</div>
-<div>c) buffer rgbaImage = sim.loadModel(string filename, bool onlyThumbnail)</div>
-<div>d) buffer rgbaImage = sim.loadModel(buffer buffer, bool onlyThumbnail)</div>
+a) int objectHandle = sim.loadModel(string filename)
+b) int objectHandle = sim.loadModel(buffer buffer)
+c) buffer rgbaImage = sim.loadModel(string filename, bool onlyThumbnail)
+d) buffer rgbaImage = sim.loadModel(buffer buffer, bool onlyThumbnail)
 ==================== apiSynopsisLua ====================>
 
 ==================== apiInputPythonLua ====================<
@@ -13064,7 +13058,7 @@ bytes data = sim.packDoubleTable(list doubleNumbers, int startDoubleIndex = 0, i
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-buffer data = sim.packDoubleTable(float[] doubleNumbers, int startDoubleIndex = 0
+buffer data = sim.packDoubleTable(float[] doubleNumbers, int startDoubleIndex = 0,
                                   int doubleCount = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -13103,7 +13097,7 @@ bytes data = sim.packFloatTable(list floatingNumbers, int startFloatIndex = 0, i
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-buffer data = sim.packFloatTable(float[] floatingNumbers, int startFloatIndex = 0
+buffer data = sim.packFloatTable(float[] floatingNumbers, int startFloatIndex = 0,
                                  int floatCount = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -14284,7 +14278,7 @@ sim.resetProximitySensor
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simReadProximitySensor(int sensorHandle, double* detectedPoint, int* detectedObjectHandle
+int simReadProximitySensor(int sensorHandle, double* detectedPoint, int* detectedObjectHandle,
                            double* detectedSurfaceNormalVector)
 ==================== apiSynopsisCpp ====================>
 
@@ -14364,12 +14358,12 @@ char* simReadTexture(int textureId, int options, int posX, int posY, int sizeX, 
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-bytes textureData = sim.readTexture(int textureId, int options, int posX = 0, int posY = 0
+bytes textureData = sim.readTexture(int textureId, int options, int posX = 0, int posY = 0,
                                     int sizeX = 0, int sizeY = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-buffer textureData = sim.readTexture(int textureId, int options, int posX = 0, int posY = 0
+buffer textureData = sim.readTexture(int textureId, int options, int posX = 0, int posY = 0,
                                      int sizeX = 0, int sizeY = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -14546,7 +14540,7 @@ time with the same arguments will unregister a previous hook
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simRegisterScriptFuncHook(int scriptHandle, const char* funcToHook, const char* userFunc
+int simRegisterScriptFuncHook(int scriptHandle, const char* funcToHook, const char* userFunc,
                               bool execBefore, int options)
 ==================== apiSynopsisCpp ====================>
 
@@ -14947,7 +14941,7 @@ sim.setPointCloudOptions
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simRemovePointsFromPointCloud(int pointCloudHandle, int options, const double* pts, int ptCnt
+int simRemovePointsFromPointCloud(int pointCloudHandle, int options, const double* pts, int ptCnt,
                                   double tolerance, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -14973,12 +14967,12 @@ int simRemovePointsFromPointCloud(int pointCloudHandle, int options, const doubl
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int totalPointCnt = sim.removePointsFromPointCloud(int pointCloudHandle, int options, list points
+int totalPointCnt = sim.removePointsFromPointCloud(int pointCloudHandle, int options, list points,
                                                    float tolerance)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int totalPointCnt = sim.removePointsFromPointCloud(int pointCloudHandle, int options, float[] points
+int totalPointCnt = sim.removePointsFromPointCloud(int pointCloudHandle, int options, float[] points,
                                                    float tolerance)
 ==================== apiSynopsisLua ====================>
 
@@ -15064,7 +15058,7 @@ sim.insertVoxelsIntoOctree
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simRemoveVoxelsFromOctree(int octreeHandle, int options, const double* pts, int ptCnt
+int simRemoveVoxelsFromOctree(int octreeHandle, int options, const double* pts, int ptCnt,
                               void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -15130,14 +15124,14 @@ Returns a resampled path
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list outputPath = sim.resamplePath(list path, list pathLengths, int finalConfigCnt
-                                   dict method = {'type': 'linear', 'strength': 1.0
+list outputPath = sim.resamplePath(list path, list pathLengths, int finalConfigCnt,
+                                   dict method = {'type': 'linear', 'strength': 1.0,
                                    'forceOpen': False}, list types = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[] outputPath = sim.resamplePath(float[] path, float[] pathLengths, int finalConfigCnt
-                                      map method = {type = 'linear', strength = 1.0
+float[] outputPath = sim.resamplePath(float[] path, float[] pathLengths, int finalConfigCnt,
+                                      map method = {type = 'linear', strength = 1.0,
                                       forceOpen = false}, int[] types = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -15406,7 +15400,7 @@ be used to build interpolations between poses or transformation matrices
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simRotateAroundAxis(const double* matrixIn, const double* axis, const double* axisPos
+int simRotateAroundAxis(const double* matrixIn, const double* axis, const double* axisPos,
                         double angle, double* matrixOut)
 ==================== apiSynopsisCpp ====================>
 
@@ -15427,13 +15421,13 @@ int simRotateAroundAxis(const double* matrixIn, const double* axis, const double
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-list poseOut/matrixOut = sim.rotateAroundAxis(list poseIn/matrixIn, list axis, list axisPos
+list poseOut/matrixOut = sim.rotateAroundAxis(list poseIn/matrixIn, list axis, list axisPos,
                                               float angle)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[7]/float[12] poseOut/matrixOut = sim.rotateAroundAxis(float[7]/float[12] poseIn/matrixIn
-                                                            float[3] axis, float[3] axisPos
+float[7]/float[12] poseOut/matrixOut = sim.rotateAroundAxis(float[7]/float[12] poseIn/matrixIn,
+                                                            float[3] axis, float[3] axisPos,
                                                             float angle)
 ==================== apiSynopsisLua ====================>
 
@@ -15474,9 +15468,9 @@ sim.moveToConfig
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simRuckigPos(int dofs, double baseCycleTime, int flags, const double* currentPos
-                 const double* currentVel, const double* currentAccel, const double* maxVel
-                 const double* maxAccel, const double* maxJerk, const bool* selection
+int simRuckigPos(int dofs, double baseCycleTime, int flags, const double* currentPos,
+                 const double* currentVel, const double* currentAccel, const double* maxVel,
+                 const double* maxAccel, const double* maxJerk, const bool* selection,
                  const double* targetPos, const double* targetVe, double* reserved1, int* reserved2l)
 ==================== apiSynopsisCpp ====================>
 
@@ -15506,12 +15500,12 @@ int simRuckigPos(int dofs, double baseCycleTime, int flags, const double* curren
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int handle = sim.ruckigPos(int dofs, float baseCycleTime, int flags, list currentPosVelAccel
+int handle = sim.ruckigPos(int dofs, float baseCycleTime, int flags, list currentPosVelAccel,
                            list maxVelAccelJerk, list selection, list targetPosVel)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int handle = sim.ruckigPos(int dofs, float baseCycleTime, int flags, float[] currentPosVelAccel
+int handle = sim.ruckigPos(int dofs, float baseCycleTime, int flags, float[] currentPosVelAccel,
                            float[] maxVelAccelJerk, int[] selection, float[] targetPosVel)
 ==================== apiSynopsisLua ====================>
 
@@ -15590,7 +15584,7 @@ via <a href="simRuckigPos.htm">sim.ruckigPos</a> or <a href="simRuckigVel.htm">s
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simRuckigStep(int handle, double cycleTime, double* newPos, double* newVel, double* newAccel
+int simRuckigStep(int handle, double cycleTime, double* newPos, double* newVel, double* newAccel,
                   double* syncTime, double* reserved1, int* reserved2)
 ==================== apiSynopsisCpp ====================>
 
@@ -15623,12 +15617,12 @@ int simRuckigStep(int handle, double cycleTime, double* newPos, double* newVel, 
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int result, list newPosVelAccel, float synchronizationTime = sim.ruckigStep(int handle
+int result, list newPosVelAccel, float synchronizationTime = sim.ruckigStep(int handle,
                                                                             float cycleTime)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int result, float[] newPosVelAccel, float synchronizationTime = sim.ruckigStep(int handle
+int result, float[] newPosVelAccel, float synchronizationTime = sim.ruckigStep(int handle,
                                                                                float cycleTime)
 ==================== apiSynopsisLua ====================>
 
@@ -15675,9 +15669,9 @@ sim.ruckigPos
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simRuckigVel(int dofs, double baseCycleTime, int flags, const double* currentPos
-                 const double* currentVel, const double* currentAccel, const double* maxAccel
-                 const double* maxJerk, const bool* selection, const double* targetVel
+int simRuckigVel(int dofs, double baseCycleTime, int flags, const double* currentPos,
+                 const double* currentVel, const double* currentAccel, const double* maxAccel,
+                 const double* maxJerk, const bool* selection, const double* targetVel,
                  double* reserved1, int* reserved2)
 ==================== apiSynopsisCpp ====================>
 
@@ -15705,12 +15699,12 @@ int simRuckigVel(int dofs, double baseCycleTime, int flags, const double* curren
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int handle = sim.ruckigVel(int dofs, float baseCycleTime, int flags, list currentPosVelAccel
+int handle = sim.ruckigVel(int dofs, float baseCycleTime, int flags, list currentPosVelAccel,
                            list maxAccelJerk, list selection, list targetVel)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int handle = sim.ruckigVel(int dofs, float baseCycleTime, int flags, float[] currentPosVelAccel
+int handle = sim.ruckigVel(int dofs, float baseCycleTime, int flags, float[] currentPosVelAccel,
                            float[] maxAccelJerk, int[] selection, float[] targetVel)
 ==================== apiSynopsisLua ====================>
 
@@ -15750,7 +15744,7 @@ sim.getVisionSensorImg
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-simSaveImage(const unsigned char* image, const int* resolution, int options, const char* filename
+simSaveImage(const unsigned char* image, const int* resolution, int options, const char* filename,
              int quality, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -15772,12 +15766,12 @@ simSaveImage(const unsigned char* image, const int* resolution, int options, con
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-bytes imgBuffer = sim.saveImage(bytes image, list resolution, int options, string filename
+bytes imgBuffer = sim.saveImage(bytes image, list resolution, int options, string filename,
                                 int quality)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-buffer imgBuffer = sim.saveImage(buffer image, int[2] resolution, int options, string filename
+buffer imgBuffer = sim.saveImage(buffer image, int[2] resolution, int options, string filename,
                                  int quality)
 ==================== apiSynopsisLua ====================>
 
@@ -15976,7 +15970,7 @@ Scales specified objects. All related values are automatically scaled appropriat
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simScaleObjects(const int* objectHandles, int objectCount, double scalingFactor
+int simScaleObjects(const int* objectHandles, int objectCount, double scalingFactor,
                     bool scalePositionsToo)
 ==================== apiSynopsisCpp ====================>
 
@@ -16191,7 +16185,7 @@ int simSerialRead(int portHandle, char* buffer, int dataLengthToRead)
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisLua ====================<
-string data = sim.serialRead(int portHandle, int dataLengthToRead, bool blockingOperation
+string data = sim.serialRead(int portHandle, int dataLengthToRead, bool blockingOperation,
                              string closingString = '', float timeout = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -16697,7 +16691,7 @@ Applies a transformation to a graph stream
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simSetGraphStreamTransformation(int graphHandle, int streamId, int trType, double mult
+int simSetGraphStreamTransformation(int graphHandle, int streamId, int trType, double mult,
                                     double off, int movingAvgPeriod)
 ==================== apiSynopsisCpp ====================>
 
@@ -16719,12 +16713,12 @@ int simSetGraphStreamTransformation(int graphHandle, int streamId, int trType, d
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-sim.setGraphStreamTransformation(int graphHandle, int streamId, int trType, float mult = 1.0
+sim.setGraphStreamTransformation(int graphHandle, int streamId, int trType, float mult = 1.0,
                                  float off = 0.0, int movingAvgPeriod = 1)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.setGraphStreamTransformation(int graphHandle, int streamId, int trType, float mult = 1.0
+sim.setGraphStreamTransformation(int graphHandle, int streamId, int trType, float mult = 1.0,
                                  float off = 0.0, int movingAvgPeriod = 1)
 ==================== apiSynopsisLua ====================>
 
@@ -17285,7 +17279,7 @@ sim.getLightParameters
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simSetLightParameters(int objectHandle, int state, const float* setToNULL
+int simSetLightParameters(int objectHandle, int state, const float* setToNULL,
                           const float* diffusePart, const float* specularPart)
 ==================== apiSynopsisCpp ====================>
 
@@ -17855,7 +17849,7 @@ sim.setObjectMatrix(int objectHandle, list matrix, int relativeToObjectHandle = 
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.setObjectMatrix(int objectHandle, float[12] matrix
+sim.setObjectMatrix(int objectHandle, float[12] matrix,
                     int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisLua ====================>
 
@@ -17904,12 +17898,12 @@ int simSetObjectOrientation(int objectHandle, int relativeToObjectHandle, const 
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-sim.setObjectOrientation(int objectHandle, list eulerAngles
+sim.setObjectOrientation(int objectHandle, list eulerAngles,
                          int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.setObjectOrientation(int objectHandle, float[3] eulerAngles
+sim.setObjectOrientation(int objectHandle, float[3] eulerAngles,
                          int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisLua ====================>
 
@@ -18063,7 +18057,7 @@ sim.setObjectPosition(int objectHandle, list position, int relativeToObjectHandl
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.setObjectPosition(int objectHandle, float[3] position
+sim.setObjectPosition(int objectHandle, float[3] position,
                       int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisLua ====================>
 
@@ -18161,12 +18155,12 @@ int simSetObjectQuaternion(int objectHandle, int relativeToObjectHandle, const d
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-sim.setObjectQuaternion(int objectHandle, list quaternion
+sim.setObjectQuaternion(int objectHandle, list quaternion,
                         int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.setObjectQuaternion(int objectHandle, float[4] quaternion
+sim.setObjectQuaternion(int objectHandle, float[4] quaternion,
                         int relativeToObjectHandle = sim.handle_world)
 ==================== apiSynopsisLua ====================>
 
@@ -18436,7 +18430,7 @@ sim.getPointCloudOptions
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simSetPointCloudOptions(int pointCloudHandle, double maxVoxelSize, int maxPtCntPerVoxel
+int simSetPointCloudOptions(int pointCloudHandle, double maxVoxelSize, int maxPtCntPerVoxel,
                             int options, double pointSize, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -18466,12 +18460,12 @@ int simSetPointCloudOptions(int pointCloudHandle, double maxVoxelSize, int maxPt
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-sim.setPointCloudOptions(int pcHandle, float maxVoxelSize, int maxPtCntPerVoxel, int options
+sim.setPointCloudOptions(int pcHandle, float maxVoxelSize, int maxPtCntPerVoxel, int options,
                          float pointSize)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.setPointCloudOptions(int pcHandle, float maxVoxelSize, int maxPtCntPerVoxel, int options
+sim.setPointCloudOptions(int pcHandle, float maxVoxelSize, int maxPtCntPerVoxel, int options,
                          float pointSize)
 ==================== apiSynopsisLua ====================>
 
@@ -18518,7 +18512,7 @@ sim.getReferencedHandles
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simSetReferencedHandles(int objectHandle, int count, const int* referencedHandles
+int simSetReferencedHandles(int objectHandle, int count, const int* referencedHandles,
                             const int* reserved1, const int* reserved2)
 ==================== apiSynopsisCpp ====================>
 
@@ -18753,7 +18747,7 @@ sim.computeMassAndInertia
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simSetShapeInertia(int shapeHandle, const double* inertiaMatrix
+int simSetShapeInertia(int shapeHandle, const double* inertiaMatrix,
                        const double* transformationMatrix)
 ==================== apiSynopsisCpp ====================>
 
@@ -18886,12 +18880,12 @@ int simSetShapeTexture(int h, int tId, int mode, int opt, const double* uvScalin
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-sim.setShapeTexture(int shapeHandle, int textureId, int mappingMode, int options, list uvScaling
+sim.setShapeTexture(int shapeHandle, int textureId, int mappingMode, int options, list uvScaling,
                     list position = None, list orientation = None)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.setShapeTexture(int shapeHandle, int textureId, int mappingMode, int options, float[2] uvScaling
+sim.setShapeTexture(int shapeHandle, int textureId, int mappingMode, int options, float[2] uvScaling,
                     float[3] position = nil, float[3] orientation = nil)
 ==================== apiSynopsisLua ====================>
 
@@ -19069,7 +19063,7 @@ sensor is flagged as <strong>external input</strong>
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simSetVisionSensorImg(int sensorHandle, const unsigned char* img, int options, const int* pos
+int simSetVisionSensorImg(int sensorHandle, const unsigned char* img, int options, const int* pos,
                           const int* size)
 ==================== apiSynopsisCpp ====================>
 
@@ -19095,12 +19089,12 @@ int simSetVisionSensorImg(int sensorHandle, const unsigned char* img, int option
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-sim.setVisionSensorImg(int sensorHandle, bytes image, int options = 0, list pos = [0, 0]
+sim.setVisionSensorImg(int sensorHandle, bytes image, int options = 0, list pos = [0, 0],
                        list size = [0, 0])
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.setVisionSensorImg(int sensorHandle, buffer image, int options, int[2] pos = {0, 0}
+sim.setVisionSensorImg(int sensorHandle, buffer image, int options, int[2] pos = {0, 0},
                        int[2] size = {0, 0})
 ==================== apiSynopsisLua ====================>
 
@@ -19292,7 +19286,7 @@ sim.removePointsFromPointCloud
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simSubtractObjectFromPointCloud(int pointCloudHandle, int objectHandle, int options
+int simSubtractObjectFromPointCloud(int pointCloudHandle, int objectHandle, int options,
                                     double tolerance, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -19313,12 +19307,12 @@ int simSubtractObjectFromPointCloud(int pointCloudHandle, int objectHandle, int 
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int totalPointCnt = sim.subtractObjectFromPointCloud(int pcHandle, int objectHandle, int options
+int totalPointCnt = sim.subtractObjectFromPointCloud(int pcHandle, int objectHandle, int options,
                                                      float tolerance)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int totalPointCnt = sim.subtractObjectFromPointCloud(int pcHandle, int objectHandle, int options
+int totalPointCnt = sim.subtractObjectFromPointCloud(int pcHandle, int objectHandle, int options,
                                                      float tolerance)
 ==================== apiSynopsisLua ====================>
 
@@ -19518,13 +19512,13 @@ Modifies a buffer than contains packed data
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-<div>a) bytes outBuff = sim.transformBuffer(bytes inBuff, int inFormat, float mult, float off, int outFormat)</div>
-<div>b) list outBuff = sim.transformBuffer(bytes inBuff, sim.buffer_uint8, 0, int splitSize, sim.buffer_split)</div>
+a) bytes outBuff = sim.transformBuffer(bytes inBuff, int inFormat, float mult, float off, int outFormat)
+b) list outBuff = sim.transformBuffer(bytes inBuff, sim.buffer_uint8, 0, int splitSize, sim.buffer_split)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-<div>a) buffer outBuff = sim.transformBuffer(buffer inBuffer, int inFormat, float mult, float off, int outFormat)</div>
-<div>b) buffer[] outBuff = sim.transformBuffer(buffer inBuffer, sim.buffer_uint8, 0, int splitSize, sim.buffer_split)</div>
+a) buffer outBuff = sim.transformBuffer(buffer inBuffer, int inFormat, float mult, float off, int outFormat)
+b) buffer[] outBuff = sim.transformBuffer(buffer inBuffer, sim.buffer_uint8, 0, int splitSize, sim.buffer_split)
 ==================== apiSynopsisLua ====================>
 
 ==================== apiInputPythonLua ====================<
@@ -19563,7 +19557,7 @@ sim.combineRgbImages
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simTransformImage(unsigned char* image, const int* resolution, int options
+int simTransformImage(unsigned char* image, const int* resolution, int options,
                       const double* floatParams, const int* intParams, void* reserved)
 ==================== apiSynopsisCpp ====================>
 
@@ -19750,12 +19744,12 @@ sim.packDoubleTable
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list doubleNumbers = sim.unpackDoubleTable(bytes data, int startDoubleIndex = 0, int doubleCount = 0
+list doubleNumbers = sim.unpackDoubleTable(bytes data, int startDoubleIndex = 0, int doubleCount = 0,
                                            int additionalByteOffset = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[] doubleNumbers = sim.unpackDoubleTable(buffer data, int startDoubleIndex = 0
+float[] doubleNumbers = sim.unpackDoubleTable(buffer data, int startDoubleIndex = 0,
                                               int doubleCount = 0, int additionalByteOffset = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -19791,12 +19785,12 @@ sim.packFloatTable
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list floatingNumbers = sim.unpackFloatTable(bytes data, int startFloatIndex = 0, int floatCount = 0
+list floatingNumbers = sim.unpackFloatTable(bytes data, int startFloatIndex = 0, int floatCount = 0,
                                             int additionalByteOffset = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float[] floatingNumbers = sim.unpackFloatTable(buffer data, int startFloatIndex = 0
+float[] floatingNumbers = sim.unpackFloatTable(buffer data, int startFloatIndex = 0,
                                                int floatCount = 0, int additionalByteOffset = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -19832,12 +19826,12 @@ sim.packInt32Table
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list int32Numbers = sim.unpackInt32Table(bytes data, int startInt32Index = 0, int int32Count = 0
+list int32Numbers = sim.unpackInt32Table(bytes data, int startInt32Index = 0, int int32Count = 0,
                                          int additionalByteOffset = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int[] int32Numbers = sim.unpackInt32Table(buffer data, int startInt32Index = 0, int int32Count = 0
+int[] int32Numbers = sim.unpackInt32Table(buffer data, int startInt32Index = 0, int int32Count = 0,
                                           int additionalByteOffset = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -19927,12 +19921,12 @@ sim.packUInt16Table
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list uint16Numbers = sim.unpackUInt16Table(bytes data, int starUint16Index = 0, int uint16Count = 0
+list uint16Numbers = sim.unpackUInt16Table(bytes data, int starUint16Index = 0, int uint16Count = 0,
                                            int additionalByteOffset)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int[] uint16Numbers = sim.unpackUInt16Table(buffer data, int starUint16Index = 0
+int[] uint16Numbers = sim.unpackUInt16Table(buffer data, int starUint16Index = 0,
                                             int uint16Count = 0, int additionalByteOffset)
 ==================== apiSynopsisLua ====================>
 
@@ -19968,12 +19962,12 @@ sim.packUInt32Table
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-list uint32Numbers = sim.unpackUInt32Table(bytes data, int startUint32Index = 0, int uint32Count = 0
+list uint32Numbers = sim.unpackUInt32Table(bytes data, int startUint32Index = 0, int uint32Count = 0,
                                            int additionalByteOffset = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-int[] uint32Numbers = sim.unpackUInt32Table(buffer data, int startUint32Index = 0
+int[] uint32Numbers = sim.unpackUInt32Table(buffer data, int startUint32Index = 0,
                                             int uint32Count = 0, int additionalByteOffset = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -20208,7 +20202,7 @@ sim.createTexture
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisCpp ====================<
-int simWriteTexture(int textureId, int options, const char* textureData, int posX, int posY
+int simWriteTexture(int textureId, int options, const char* textureData, int posX, int posY,
                     int sizeX, int sizeY, double interpolation)
 ==================== apiSynopsisCpp ====================>
 
@@ -20236,12 +20230,12 @@ int simWriteTexture(int textureId, int options, const char* textureData, int pos
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-sim.writeTexture(int textureId, int options, bytes textureData, int posX = 0, int posY = 0
+sim.writeTexture(int textureId, int options, bytes textureData, int posX = 0, int posY = 0,
                  int sizeX = 0, int sizeY = 0, float interpolation = 0)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-sim.writeTexture(int textureId, int options, buffer textureData, int posX = 0, int posY = 0
+sim.writeTexture(int textureId, int options, buffer textureData, int posX = 0, int posY = 0,
                  int sizeX = 0, int sizeY = 0, float interpolation = 0)
 ==================== apiSynopsisLua ====================>
 
@@ -20279,12 +20273,12 @@ sim.alphaBetaGammaToYawPitchRoll
 ==================== apiSeeAlso ====================>
 
 ==================== apiSynopsisPython ====================<
-float alpha, float beta, float gamma = sim.yawPitchRollToAlphaBetaGamma(float yaw, float pitch
+float alpha, float beta, float gamma = sim.yawPitchRollToAlphaBetaGamma(float yaw, float pitch,
                                                                         float roll)
 ==================== apiSynopsisPython ====================>
 
 ==================== apiSynopsisLua ====================<
-float alpha, float beta, float gamma = sim.yawPitchRollToAlphaBetaGamma(float yaw, float pitch
+float alpha, float beta, float gamma = sim.yawPitchRollToAlphaBetaGamma(float yaw, float pitch,
                                                                         float roll)
 ==================== apiSynopsisLua ====================>
 
