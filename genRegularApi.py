@@ -72,8 +72,8 @@ def main():
                         a = a.replace('__funcName__', apiFunc)
                         a = a.replace('__funcDescription__', apiDescription)
                         a = a.replace('__seeAlso__', apiSeeAlsoPythonLua)
-                        a = a.replace('__pythonSynopsis__', formatSynopsis(apiSynopsisPython, 100))
-                        a = a.replace('__luaSynopsis__', formatSynopsis(apiSynopsisLua, 100))
+                        a = a.replace('__pythonSynopsis__', addCodeSection(formatSynopsis(apiSynopsisPython, 100), 'python'))
+                        a = a.replace('__luaSynopsis__', addCodeSection(formatSynopsis(apiSynopsisLua, 100), 'lua'))
                         if apiInputPythonLua:
                             a = a.replace('__input__', apiInputPythonLua)
                             a = a.replace('__inputVisibility__', '')
@@ -118,6 +118,12 @@ def getTxt(string, item, spos, posEnd = None):
             p2 = string.find(itemName_e, p1)
             return string[p1:p2].strip(), p2
     return None, None
+
+def addCodeSection(string, lang):
+    s = ''
+    if string != None and len(string) > 0:
+        s = '<code class="hljs language-' + lang + ' coppelia-coppeliasim-script">' + string + '</code>'
+    return s
     
 def getCppName(s):
     def repl(match):
@@ -157,7 +163,7 @@ def prepSeeAlso(items, allCpp, allPythonLua, lang):
                     #else:
                     #    print("Error with python/lua 'see also' item " + line)
     if len(bullets) > 0:
-        ret = 'See also:\n<ul>\n'
+        ret = '<br>See also:\n<ul>\n'
         for l in bullets:
             ret += '<li>' + l + '</li>\n'
         ret += '</ul>\n'
@@ -165,7 +171,7 @@ def prepSeeAlso(items, allCpp, allPythonLua, lang):
     
 def formatSynopsis(s, maxLength):
     if s == None:
-        return 'not available'
+        return s
     
     s = s.replace(' = ','##_##')
     s = s.replace('= ','_##')
