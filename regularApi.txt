@@ -196,7 +196,7 @@ int result = sim.addDrawingObjectItem(int drawingObjectHandle, float[] itemData)
 <ul>
 <li><strong>objectHandle</strong>: handle of a previously added drawing object. Can be combined with sim.handleflag_addmultiple to add several drawing items at once, or with sim.handleflag_codedstring, when one wishes to provide data as a float buffer</li>
 <li><strong>itemData</strong>: data relative to an item. If the item is a point item, 3 values are required [x y z]. If the item is a line item, 6 values are required, etc. None/nil to empty the drawing object</li>
-</ul
+</ul>
 ==================== apiInputPythonLua ====================>
 
 ==================== apiOutputPythonLua ====================<
@@ -516,7 +516,7 @@ sim.addItemToCollection(int collectionHandle, int what, int objectHandle, int op
 <li><em>sim.handle_tree</em> (for a tree of objects)</li>
 <li><em>sim.handle_chain</em> (for a chain of objects (i.e. an inverted tree)).</li>
 </ul>
-</il>
+</li>
 <li><strong>objectHandle</strong>: handle of an object</li>
 <li><strong>options</strong>: bit-coded options:
 <ul>
@@ -902,7 +902,7 @@ Announces a change in the scene. This is required for the undo/redo function to 
 when performing changes via the API. Only call this function directly after a change was made through
 a dialog element (e.g. a checkbox was checked/unchecked) and that change was reported to the scene.
 What this call will do is following: the whole scene will be serialized (saved) to memory as a
-&quot;scene image&quot; and compared to a previously memorized &quot;scene image&quot;. If both images
+"scene image" and compared to a previously memorized "scene image". If both images
 are same, then the last image is discarded, otherwise only the changes between the two images are memorized.
 A call to this function has no effect (and doesn't generate any error) when called during simulation or when in edit mode.
 ==================== apiDescription ====================>
@@ -1524,7 +1524,7 @@ Calls a script function (from a <a href="../plugins.htm">plugin</a>,
 represents a <a href="../callbackFunctions.htm">user callback</a> inside of a script. The target script
 must be initialized for this call to succeed, e.g. when calling <a href="../simulationScripts.htm">simulation scripts</a>,
 then simulation must be running
-<br><br>
+<br/><br/>
 Data exchange between a plugin and a script happens via a <a href="../apiFunctions.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in <em>programming/</em><em>include/simStack</em>: they will greatly simplify the task. Have a look at the example plugins <a href="https://github.com/CoppeliaRobotics/simSkeleton" target="_blank">simSkeleton</a> and <a href="https://github.com/CoppeliaRobotics/simSkel" target="_blank">simSkel</a>
 ==================== apiDescription ====================>
 
@@ -2178,7 +2178,7 @@ int simCheckVisionSensor(int sensorHandle, int entityHandle, double** auxValues,
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">double* auxValues = nullptr;
 int* auxValuesCount = nullptr;
 double averageColor[3] = {0.0, 0.0, 0.0};
-if (simCheckVisionSensor(sensorHandle, entityHandle, &auxValues, &auxValuesCount) &gt;=0 )
+if (simCheckVisionSensor(sensorHandle, entityHandle, &amp;auxValues, &amp;auxValuesCount) &gt;= 0)
 {
     if ((auxValuesCount[0] &gt; 0) || (auxValuesCount[1] &gt;= 15))
     {
@@ -3918,7 +3918,7 @@ int sensorHandle = sim.createVisionSensor(int options, int[4] intParams, float[1
 <li>intParams[i+3]: reserved. Set to 0</li>
 </ul>
 </li>
-<li><strong>floatParams: 11 floating point parameters (indexing (i) starts from 0 for Python and 1 for Lua):
+<li><strong>floatParams</strong>: 11 floating point parameters (indexing (i) starts from 0 for Python and 1 for Lua):
 <ul>
 <li>floatParams[i+0]: near clipping plane</li>
 <li>floatParams[i+1]: far clipping plane</li>
@@ -4162,7 +4162,7 @@ Executes some code in a specific script (from a <a href="../plugins.htm">plugin<
 <a href="../mainClientApplication.htm">the main client application</a>, or from another script).
 The target script must be initialized for this call to succeed, e.g. when calling
 <a href="../simulationScripts.htm">simulation scripts</a>, then simulation must be running
-<br><br>
+<br/><br/>
 Data exchange between a plugin and a script happens via a <a href="../apiFunctions.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in <em>programming/</em><em>include/simStack</em>
 ==================== apiDescription ====================>
 
@@ -4277,20 +4277,20 @@ int index = 0;
 while (true)
 {
     int shapeHandle = simGetObjects(index++, sim.object_shape_type);
-    if (shapeHandle &#60; 0)
+    if (shapeHandle &lt; 0)
         break;
     double* vert;
     int vertS;
     int* ind;
     int indS;
-    simGetShapeMesh(shapeHandle, &vert, &vertS, &ind, &indS, nullptr);
+    simGetShapeMesh(shapeHandle, &amp;vert, &amp;vertS, &amp;ind, &amp;indS, nullptr);
     vertices[index - 1] = vert;
     verticesSizes[index - 1] = vertS;
     indices[index - 1] = ind;
     indicesSizes[index - 1] = indS;
     double m[12];
     simGetObjectMatrix(shapeHandle, -1, m);
-    for (int i = 0; i &#60; vertS / 3; i++)
+    for (int i = 0; i &lt; vertS / 3; i++)
     {
         double v[3]={vert[3 * i + 0], vert[3 * i + 1], vert[3 * i + 2]};
         simTransformVector(m, v);
@@ -4302,7 +4302,7 @@ while (true)
 
 simExportMesh(0, "d:\\example.obj", 0, 1, shapeCount, vertices,
                  verticesSizes, indices, indicesSizes, nullptr, nullptr);
-for (int i = 0; i &#60; shapeCount; i++)
+for (int i = 0; i &lt; shapeCount; i++)
 {
     simReleaseBuffer((char*)vertices[i]);
     simReleaseBuffer((char*)indices[i]);
@@ -4341,7 +4341,6 @@ sim.exportMesh(int fileformat, string pathAndFilename, int options, float scalin
 <li><strong>scalingFactor</strong>: the scaling factor to apply to the vertices to export</li>
 <li><strong>vertices</strong>: an array of vertice arrays. See the example below</li>
 <li><strong>indices</strong>: an array of indice arrays. See the example below</li>
-</code>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -4355,7 +4354,7 @@ local allIndices = {}
 local shapeIndex = 0
 while true do
     local h = sim.getObjects(shapeIndex, sim.object_shape_type)
-    if h &#60; 0 then
+    if h &lt; 0 then
         break
     end
     shapeIndex = shapeIndex + 1
@@ -5477,7 +5476,7 @@ char* simGetExtensionString(int objectHandle, int index, const char* key)
 <ul>
 <li><strong>objectHandle</strong>: the handle of an object, or -1 if you wish to retrieve the extension string of the environment.</li>
 <li><strong>index</strong>: keep to -1, unless the object is a shape, and you wish to retrieve the extension string of a shape component (since a shape can be a compound of several other shapes).</li>
-<li><strong>key</strong>: an optional key indicating what value to retrieve. If none is specified, then the whole extension string will be returned. Keys should have the form of <em>key@parentKey@...@parentKey</em>. To retrieve the <em>shadow enabled</em> value of extension string &quot;povray{ shadow {true} fadeXDist {0.00}}&quot;, specify following key: <em>shadow@povray</em>. The key is case sensitive.</li>
+<li><strong>key</strong>: an optional key indicating what value to retrieve. If none is specified, then the whole extension string will be returned. Keys should have the form of <em>key@parentKey@...@parentKey</em>. To retrieve the <em>shadow enabled</em> value of extension string "povray{ shadow {true} fadeXDist {0.00}}", specify following key: <em>shadow@povray</em>. The key is case sensitive.</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -5499,7 +5498,7 @@ string theString = sim.getExtensionString(int objectHandle, int index, string ke
 <ul>
 <li><strong>objectHandle</strong>: handle of an object, or -1 if you wish to retrieve the extension string of the environment</li>
 <li><strong>index</strong>: keep to -1, unless the object is a shape, and you wish to retrieve the extension string of a shape component (since a shape can be a compound of several other shapes)</li>
-<li><strong>key</strong>: optional key indicating what value to retrieve. If None/nil is specified, then the whole extension string is returned. Keys should have the form of <em>key@parentKey@...@parentKey</em>. To retrieve the <em>shadow enabled</em> value of extension string &quot;povray{ shadow {true} fadeXDist {0.00}}&quot;, specify following key: <em>shadow@povray</em>. The key is case sensitive.</li>
+<li><strong>key</strong>: optional key indicating what value to retrieve. If None/nil is specified, then the whole extension string is returned. Keys should have the form of <em>key@parentKey@...@parentKey</em>. To retrieve the <em>shadow enabled</em> value of extension string "povray{ shadow {true} fadeXDist {0.00}}", specify following key: <em>shadow@povray</em>. The key is case sensitive.</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -5882,7 +5881,7 @@ int simGetJointInterval(int objectHandle, bool* cyclic, double* interval)
 <ul>
 <li><strong>objectHandle</strong>: handle of the joint</li>
 <li><strong>cyclic</strong>: indicates whether the joint is cyclic (the joint varies between -pi and +pi in a cyclic manner)</li>
-<li><strong>interval</strong>: interval of the joint. interval[0] is the joint minimum allowed value, interval[1] is the joint range (the maximum allowed value is interval[0]+interval[1]). When the joint is &quot;cyclic&quot;, then the interval parameters don't have any meaning.</li>
+<li><strong>interval</strong>: interval of the joint. interval[0] is the joint minimum allowed value, interval[1] is the joint range (the maximum allowed value is interval[0]+interval[1]). When the joint is "cyclic", then the interval parameters don't have any meaning.</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -5909,7 +5908,7 @@ bool cyclic, float[2] interval = sim.getJointInterval(int objectHandle)
 ==================== apiOutputPythonLua ====================<
 <ul>
 <li><strong>cyclic</strong>: indicates whether the joint is cyclic (the joint varies between -pi and +pi in a cyclic manner).</li>
-<li><strong>interval</strong>: interval of the joint. interval[1] is the joint minimum allowed value, interval[2] is the joint range (the maximum allowed value is interval[1]+interval[2]). When the joint is &quot;cyclic&quot;, then the interval parameters don't have any meaning.</li>
+<li><strong>interval</strong>: interval of the joint. interval[1] is the joint minimum allowed value, interval[2] is the joint range (the maximum allowed value is interval[1]+interval[2]). When the joint is "cyclic", then the interval parameters don't have any meaning.</li>
 </ul>
 ==================== apiOutputPythonLua ====================>
 
@@ -6223,7 +6222,7 @@ int jointType = sim.getJointType(int objectHandle)
 <ul>
 <li>sim.joint_revolute_subtype</li>
 <li>sim.joint_prismatic_subtype</li>
-<li>sim.joint_spherical_subtype</lia>
+<li>sim.joint_spherical_subtype</li>
 </ul>
 </li>
 </ul>
@@ -6500,7 +6499,7 @@ string[] tags = sim.getMatchingPersistentDataTags(string pattern)
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>pattern</strong>: the pattern to match. e.g. &quot;Commander\.options\.s&quot;.</li>
+<li><strong>pattern</strong>: the pattern to match. e.g. "Commander\.options\.s".</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -6887,7 +6886,7 @@ char* simGetObjectAlias(int objectHandle, int options)
 <li>2: full path (e.g. "/parentA/parentB/alias[0]")</li>
 <li>3: naked alias with handle, if the alias is not unique (e.g. "alias" or "alias__42__")</li>
 <li>4: naked alias with handle (e.g. "alias__42__")</li>
-<li>5: print version of the short path, not guaranteed to be unique (e.g. &quot;/parent/ ... /alias&quot;)</li>
+<li>5: print version of the short path, not guaranteed to be unique (e.g. "/parent/ ... /alias")</li>
 <li>6: path using just the alias and an index number (e.g. "/alias{3}")</li>
 <li>7: same as 6, but using the first parent model, if present (e.g. "/parentModel{2}/alias{3}")</li>
 <li>8: same as 6, but using the first 2 parent models, if present (e.g. "/parentModelA{4}/parentModelB{2}/alias{3}")</li>
@@ -6922,7 +6921,7 @@ string alias = sim.getObjectAlias(int objectHandle, int options = -1)
 <li>2: full path (e.g. "/parentA/parentB/alias[0]")</li>
 <li>3: naked alias with handle, if the alias is not unique (e.g. "alias" or "alias__42__")</li>
 <li>4: naked alias with handle (e.g. "alias__42__")</li>
-<li>5: print version of the short path, not guaranteed to be unique (e.g. &quot;/parent/ ... /alias&quot;)</li>
+<li>5: print version of the short path, not guaranteed to be unique (e.g. "/parent/ ... /alias")</li>
 <li>6: path using just the alias and an index number (e.g. "/alias{3}")</li>
 <li>7: same as 6, but using the first parent model, if present (e.g. "/parentModel{2}/alias{3}")</li>
 <li>8: same as 6, but using the first 2 parent models, if present (e.g. "/parentModelA{4}/parentModelB{2}/alias{3}")</li>
@@ -6988,7 +6987,7 @@ int childHandle = sim.getObjectChild(int objectHandle, int index)
 
 ==================== apiOutputPythonLua ====================<
 <ul>
-<li><strong>childHandle</strong>: handle of child object or -1 if the child doesn't exist at that index<</li>
+<li><strong>childHandle</strong>: handle of child object or -1 if the child doesn't exist at that index</li>
 </ul>
 ==================== apiOutputPythonLua ====================>
 
@@ -8175,8 +8174,9 @@ float[3] linearVelocity, float[3] angularVelocity = sim.getObjectVelocity(int ob
 ==================== apiSynopsisLua ====================>
 
 ==================== apiInputPythonLua ====================<
+<ul>
 <li><strong>objectHandle</strong>: handle of a <a href="../objects.htm">scene object</a>. It is highly recommended to add <em><a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_axis</a></em> to the object handle, in order to obtain the <em>regular</em> angular velocity for the object, i.e. the rotation axis and the rotation velocity that is represented by the axis' length. If <em>sim.handleflag_axis</em> is omitted, then a derivative of Euler angles expressed relative to previous' simulation frame will be returned for the angular velocity</li>
-</ul
+</ul>
 ==================== apiInputPythonLua ====================>
 
 ==================== apiOutputPythonLua ====================<
@@ -9691,7 +9691,7 @@ table data = sim.getShapeViz(int shapeHandle, int index)
 <li>bit0 set (1): repeat U</li>
 <li>bit1 set (2): repeat V</li>
 <li>bit2 set (4): interpolate colors</li>
-</ul
+</ul>
 </li>
 </ul>
 ==================== apiOutputPythonLua ====================>
@@ -11228,7 +11228,7 @@ int simHandleProximitySensor(int sensorHandle, double* detectedPoint, int* detec
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>sensorHandle</strong>: handle of a proximity sensor object or sim.handle_all or sim.handle_all_except_explicit. (sim.handle_all will handle all proximity sensor objects, while sim.handle_all_except_explicit will only handle those that are not marked as &quot;explicit handling&quot;)</li>
+<li><strong>sensorHandle</strong>: handle of a proximity sensor object or sim.handle_all or sim.handle_all_except_explicit. (sim.handle_all will handle all proximity sensor objects, while sim.handle_all_except_explicit will only handle those that are not marked as "explicit handling")</li>
 <li><strong>detectedPoint</strong>: coordinates of the closest detected point (x, y and z: detectedPoint[0]-detectedPoint[2]) relative to the sensor reference frame, and distance to the detected point (1 value: detectedPoint[3]). Can be nullptr</li>
 <li><strong>detectedObjectHandle</strong>: handle of the object that was detected. Can be nullptr</li>
 <li><strong>detectedSurfaceNormalVector</strong>: normal vector (normalized) of the detected surface. Relative to the sensor reference frame. Can be nullptr</li>
@@ -11364,7 +11364,7 @@ int simHandleVisionSensor(int visionSensorHandle, double** auxValues, int** auxV
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>visionSensorHandle</strong>: handle of a vision sensor object or sim.handle_all or sim.handle_all_except_explicit. (sim.handle_all will handle all vision sensor objects, while sim.handle_all_except_explicit will only handle those that are not marked as &quot;explicit handling&quot;)</li>
+<li><strong>visionSensorHandle</strong>: handle of a vision sensor object or sim.handle_all or sim.handle_all_except_explicit. (sim.handle_all will handle all vision sensor objects, while sim.handle_all_except_explicit will only handle those that are not marked as "explicit handling")</li>
 <li><strong>auxValues</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values: the minimum of [intensity red green blue depth], the maximum of [intensity red green blue depth], and the average of [intensity red green blue depth]. If the <a href="../visionCallbackFunctions.htm">vision callback function</a> returns additional  values, then they are appended as packets to the first packet. AuxValues can be nullptr. The user is in charge of releasing the auxValues buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>(*auxValues). If visionSensorHandle is sim.handle_all or sim.handle_all_except_explicit, nothing is returned in auxValues.</li>
 <li><strong>auxValuesCount</strong>: contains information about the number of auxiliary value packets and packet sizes returned in auxValues. The first value is the number of packets, the second is the size of packet1, the third is the size of packet2, etc. Can be nullptr if auxValues is also nullptr. The user is in charge of releasing the auxValuesCount buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>(*auxValuesCount).</li>
 </ul>
@@ -11381,7 +11381,7 @@ int simHandleVisionSensor(int visionSensorHandle, double** auxValues, int** auxV
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">double* auxValues=nullptr;
 int* auxValuesCount = nullptr;
 double averageColor[3] = {0.0, 0.0, 0.0};
-if (simHandleVisionSensor(visionSensorHandle, &auxValues, &auxValuesCount) &gt;= 0)
+if (simHandleVisionSensor(visionSensorHandle, &amp;auxValues, &amp;auxValuesCount) &gt;= 0)
 {
     if ((auxValuesCount[0] &gt; 0) || (auxValuesCount[1] &gt;= 15))
     {
@@ -11470,12 +11470,12 @@ int simImportMesh(int fileformat, const char* pathAndFilename, int options,
 int* verticesSizes;
 int** indices;
 int* indicesSizes;
-int elementCount = simImportMesh(1, "d:\\example.dxf", 0, 0.0001, 1.0, &vertices,
-                                 &verticesSizes, &indices, &indicesSizes, nullptr, nullptr);
+int elementCount = simImportMesh(1, "d:\\example.dxf", 0, 0.0001, 1.0, &amp;vertices,
+                                 &amp;verticesSizes, &amp;indices, &amp;indicesSizes, nullptr, nullptr);
 if (elementCount &gt; 0)
 {
     const double grey[3] = {0.5, 0.5, 0.5};
-    for (int i = 0; i &#60; elementCount; i++)
+    for (int i = 0; i &lt; elementCount; i++)
     {
         int shapeHandle = simCreateShape(2, 20.0 * 3.1415 / 180.0, vertices[i],
                                verticesSizes[i], indices[i], indicesSizes[i], nullptr,
@@ -12427,7 +12427,7 @@ buffer image, int[2] resolution = sim.loadImage(int options, string/buffer filen
 <li>bit0 is set (1): the returned image is rgba, otherwise it is rgb</li>
 </ul>
 </li>
-<li><strong>filenameOrBuffer</strong>: name of the file to read. The file extension indicates the format. To load an image from a buffer, simply prefix the buffer with &quot;@mem&quot;</li>
+<li><strong>filenameOrBuffer</strong>: name of the file to read. The file extension indicates the format. To load an image from a buffer, simply prefix the buffer with "@mem"</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -12522,7 +12522,7 @@ int simLoadScene(const char* filename)
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>filename</strong>: scene filename. The filename extension is required (<em>ttt</em>, or <em>simscene.xml</em> ). By default, the current scene is overwritten (append &quot;@keepCurrent&quot; to the filename to preserve current scene)</li>
+<li><strong>filename</strong>: scene filename. The filename extension is required (<em>ttt</em>, or <em>simscene.xml</em> ). By default, the current scene is overwritten (append "@keepCurrent" to the filename to preserve current scene)</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -12542,7 +12542,7 @@ sim.loadScene(string/buffer filenameOrBuffer)
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>filename</strong>: scene buffer or scene filename, including extension. By default, the current scene is overwritten (append &quot;@keepCurrent&quot; to the filename to preserve current scene)</li>
+<li><strong>filename</strong>: scene buffer or scene filename, including extension. By default, the current scene is overwritten (append "@keepCurrent" to the filename to preserve current scene)</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -12618,7 +12618,7 @@ int simModuleEntry(int handle, const char* label, int state)
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>handle</strong>: handle of a module menu entry, or -1 to create one.</li>
-<li><strong>label</strong>: label of the module entry. If handle is -1, then a path can be specified, in order to build sub-menus, e.g. &quot;Menu\nSubmenu1\nSubmenu2\nLabel&quot;. Can be nullptr if handle is not -1.</li>
+<li><strong>label</strong>: label of the module entry. If handle is -1, then a path can be specified, in order to build sub-menus, e.g. "Menu\nSubmenu1\nSubmenu2\nLabel". Can be nullptr if handle is not -1.</li>
 <li><strong>state</strong>: Bit-coded (is ignored if set to -1, -2 destroys an existing item):
 <ul>
 <li>bit0 is set (1): the item is enabled</li>
@@ -12646,7 +12646,7 @@ int handle = sim.moduleEntry(int handle, string label = nil, int state = -1)
 ==================== apiInputPythonLua ====================<
 <ul>
 <li><strong>handle</strong>: handle of a module menu entry, or -1 to create one.</li>
-<li><strong>label</strong>: label of the module entry. If handle is -1, then a path can be specified, in order to build sub-menus, e.g. &quot;Menu\nSubmenu1\nSubmenu2\nLabel&quot;. Can be nullptr if handle is not -1.</li>
+<li><strong>label</strong>: label of the module entry. If handle is -1, then a path can be specified, in order to build sub-menus, e.g. "Menu\nSubmenu1\nSubmenu2\nLabel". Can be nullptr if handle is not -1.</li>
 <li><strong>state</strong>: Bit-coded (is ignored if set to -1, -2 destroys an existing item):
 <ul>
 <li>bit0 is set (1): the item is enabled</li>
@@ -12990,7 +12990,7 @@ char* simOpenTextEditor(const char* initText, const char* xml, int* various)
 <ul>
 <li><strong>initText</strong>: pointer to the initial text to be displayed.</li>
 <li><strong>xml</strong>: pointer to an XML description of the text editor's properties. Can be nullptr for default properties</li>
-<li><strong>various</strong>: optional pointer holding the window size (various[0]-various[1]) and position (various[2],various[3])
+<li><strong>various</strong>: optional pointer holding the window size (various[0]-various[1]) and position (various[2],various[3])</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -13002,39 +13002,39 @@ char* simOpenTextEditor(const char* initText, const char* xml, int* various)
 
 ==================== apiMoreCpp ====================<
 <h3>XML example</h3>
-<code class="hljs language-xml coppelia-coppeliasim-plugin">&lt;editor title=&quot;Window title&quot; editable=&quot;true&quot; searchable=&quot;true&quot;
-  tabWidth=&quot;4&quot; textColor=&quot;50 50 50&quot; backgroundColor=&quot;190 190 190&quot;
-  selectionColor=&quot;128 128 255&quot; size=&quot;800 600&quot; position=&quot;100 100&quot; &gt;
+<code class="hljs language-xml coppelia-coppeliasim-plugin">&lt;editor title="Window title" editable="true" searchable="true"
+  tabWidth="4" textColor="50 50 50" backgroundColor="190 190 190"
+  selectionColor="128 128 255" size="800 600" position="100 100" &gt;
 
-  &lt;keywords1 color=&quot;152 0 0&quot; &gt;
-    &lt;item word=&quot;sim.getObject&quot; autocomplete=&quot;true&quot;
-      calltip=&quot;int handle=sim.getObject(string path)&quot; /&gt;
-    &lt;item word=&quot;sim.getObjectPosition&quot; autocomplete=&quot;true&quot;
-      calltip=&quot;double[3] pos=sim.getObjectPosition(int handle,
-        int relHandle)&quot; /&gt;
+  &lt;keywords1 color="152 0 0" &gt;
+    &lt;item word="sim.getObject" autocomplete="true"
+      calltip="int handle=sim.getObject(string path)" /&gt;
+    &lt;item word="sim.getObjectPosition" autocomplete="true"
+      calltip="double[3] pos=sim.getObjectPosition(int handle,
+        int relHandle)" /&gt;
   &lt;/keywords1&gt;
 
-  &lt;keywords2 color=&quot;220 80 20&quot; &gt;
-    &lt;item word=&quot;sim.getObjectOrientation&quot; autocomplete=&quot;true&quot;
-      calltip=&quot;double[3] euler=sim.getObjectOrientation(int handle,
-        int relHandle)&quot; /&gt;
+  &lt;keywords2 color="220 80 20" &gt;
+    &lt;item word="sim.getObjectOrientation" autocomplete="true"
+      calltip="double[3] euler=sim.getObjectOrientation(int handle,
+        int relHandle)" /&gt;
   &lt;/keywords2&gt;
 &lt;/editor&gt;
 
 <comment>
 Other <em>editor</em> attributes with their default values are:
 
-isLua = &quot;false&quot;
-useSimKeywords = &quot;false&quot;
-commentColor = &quot;0 140 0&quot;
-numberColor = &quot;220 0 220&quot;
-stringColor = &quot;255 255 0&quot;
-characterColor = &quot;255 255 0&quot;
-operatorColor = &quot;0 0 0&quot;
-preprocessorColor = &quot;0 128 128&quot;
-identifierColor = &quot;64 64 64&quot;
-wordColor = &quot;0 0 255&quot;
-word4Color = &quot;152 64 0&quot;</comment></code>
+isLua = "false"
+useSimKeywords = "false"
+commentColor = "0 140 0"
+numberColor = "220 0 220"
+stringColor = "255 255 0"
+characterColor = "255 255 0"
+operatorColor = "0 0 0"
+preprocessorColor = "0 128 128"
+identifierColor = "64 64 64"
+wordColor = "0 0 255"
+word4Color = "152 64 0"</comment></code>
 ==================== apiMoreCpp ====================>
 
 ************************************************************************************
@@ -14494,9 +14494,9 @@ simRegisterScriptCallbackFunction
 ==================== apiDescription ====================<
 Registers a custom script function, that calls back a c/c++ function. This function is useful for plugins
 that wish to provide their own or customized script functions. Should be called inside of simInit entry point
-<br><br>
+<br/><br/>
 Data exchange between a script and the plugin happens via a <a href="../apiFunctions.htm#stacks">stack</a>. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious, if your data structures are anyway relatively simple. In that case you can use the helper classes <em>CScriptFunctionData</em> and <em>CScriptFunctionDataItem</em> located in <em>programming/</em><em>include</em>: they will greatly simplify the task.
-<br><br>
+<br/><br/>
 Use following 4 functions in the helper class: <em>readDataFromStack</em>, <em>getInDataPtr</em>, <em>pushOutData</em> and <em>writeDataToStack</em>
 ==================== apiDescription ====================>
 
@@ -15260,7 +15260,7 @@ int simResetProximitySensor(int sensorHandle)
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>sensorHandle</strong>: handle of the proximity sensor object or sim.handle_all or sim.handle_all_except_explicit. (sim.handle_all will reset all proximity sensor objects, while sim.handle_all_except_explicit will only reset those that are not marked as &quot;explicit handling&quot;)</li>
+<li><strong>sensorHandle</strong>: handle of the proximity sensor object or sim.handle_all or sim.handle_all_except_explicit. (sim.handle_all will reset all proximity sensor objects, while sim.handle_all_except_explicit will only reset those that are not marked as "explicit handling")</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -15332,7 +15332,7 @@ int simResetVisionSensor(int sensorHandle)
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>sensorHandle</strong>: handle of the vision sensor object or sim.handle_all or sim.handle_all_except_explicit. (sim.handle_all will reset all vision sensor objects, while sim.handle_all_except_explicit will only reset those that are not marked as &quot;explicit handling&quot;)</li>
+<li><strong>sensorHandle</strong>: handle of the vision sensor object or sim.handle_all or sim.handle_all_except_explicit. (sim.handle_all will reset all vision sensor objects, while sim.handle_all_except_explicit will only reset those that are not marked as "explicit handling")</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -15803,7 +15803,7 @@ sim.saveModel
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Saves a model (an object marked as &quot;Object is model base&quot; and all other
+Saves a model (an object marked as "Object is model base" and all other
 objects in its hierarchy tree). Any existing file with same name will be overwritten
 ==================== apiDescription ====================>
 
@@ -15818,7 +15818,7 @@ int simSaveModel(int baseOfModelHandle, const char* filename)
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>baseOfModelHandle</strong>: handle of an object marked as &quot;Object is model base&quot;</li>
+<li><strong>baseOfModelHandle</strong>: handle of an object marked as "Object is model base"</li>
 <li><strong>filename</strong>: model filename. The filename extension is required (<em>ttm</em>, or <em>simmodel.xml</em>)</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -15839,7 +15839,7 @@ buffer modelData = sim.saveModel(int baseOfModelHandle, string filename = nil)
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>baseOfModelHandle</strong>: handle of an object marked as &quot;Object is model base&quot;</li>
+<li><strong>baseOfModelHandle</strong>: handle of an object marked as "Object is model base"</li>
 <li><strong>filename</strong>: model filename. The filename extension is required (<em>ttm</em>, or <em>simmodel.xml</em> ). If this argument is omitted, the model is saved to a buffer which is returned</li>
 </ul>
 ==================== apiInputPythonLua ====================>
@@ -16119,7 +16119,7 @@ int simSerialOpen(char* portString, int baudRate, void* reserved1, void* reserve
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>portString</strong>: string specifying the port to open. Under Windows, use something similar to &quot;\\.\COM1&quot;. Under MacOS and Linux, use something similar to &quot;/dev/*&quot; (check the &quot;/dev&quot; folder to know what file to specify). Under Linux, you might have to launch CoppeliaSim with super user priviledges in order to access the serial port.</li>
+<li><strong>portString</strong>: string specifying the port to open. Under Windows, use something similar to "\\.\COM1". Under MacOS and Linux, use something similar to "/dev/*" (check the "/dev" folder to know what file to specify). Under Linux, you might have to launch CoppeliaSim with super user priviledges in order to access the serial port.</li>
 <li><strong>baudRate</strong>: baudrate</li>
 <li><strong>reserved1</strong>: reserved for future extension. Keep at nullptr.</li>
 <li><strong>reserved2</strong>: reserved for future extension. Keep at nullptr.</li>
@@ -16138,7 +16138,7 @@ int result = sim.serialOpen(string portString, int baudRate)
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>portString</strong>: string specifying the port to open. Under Windows, use something similar to &quot;\\.\COM1&quot;. Under MacOS and Linux, use something similar to &quot;/dev/*&quot; (check the &quot;/dev&quot; folder to know what file to specify). Under Linux, you might have to launch CoppeliaSim with super user priviledges in order to access the serial port</li>
+<li><strong>portString</strong>: string specifying the port to open. Under Windows, use something similar to "\\.\COM1". Under MacOS and Linux, use something similar to "/dev/*" (check the "/dev" folder to know what file to specify). Under Linux, you might have to launch CoppeliaSim with super user priviledges in order to access the serial port</li>
 <li><strong>baudRate</strong>: baudrate</li>
 </ul>
 ==================== apiInputPythonLua ====================>
@@ -17396,7 +17396,7 @@ int simSetModelProperty(int objectHandle, int prop)
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object that serves as the model base</li>
-<li><strong>prop</strong>: model property. See the <a href="../apiConstants.htm#modelProperties">model property values</a>. Combine them with the &quot;or&quot;-operator</li>
+<li><strong>prop</strong>: model property. See the <a href="../apiConstants.htm#modelProperties">model property values</a>. Combine them with the "or"-operator</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -17417,7 +17417,7 @@ sim.setModelProperty(int objectHandle, int prop)
 ==================== apiInputPythonLua ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object that serves as the model base</li>
-<li><strong>prop</strong>: model property. See the <a href="../apiConstants.htm#modelProperties">model property values</a>. Combine them with the &quot;or&quot;-operator</li>
+<li><strong>prop</strong>: model property. See the <a href="../apiConstants.htm#modelProperties">model property values</a>. Combine them with the "or"-operator</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -18093,7 +18093,7 @@ int simSetObjectProperty(int objectHandle, int prop)
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: object handle</li>
-<li><strong>prop</strong>: object property. See the <a href="../apiConstants.htm#sceneObjectProperties">object property values</a>. Combine them with the &quot;or&quot;-operator</li>
+<li><strong>prop</strong>: object property. See the <a href="../apiConstants.htm#sceneObjectProperties">object property values</a>. Combine them with the "or"-operator</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -18114,7 +18114,7 @@ sim.setObjectProperty(int objectHandle, int prop)
 ==================== apiInputPythonLua ====================<
 <ul>
 <li><strong>objectHandle</strong>: object handle</li>
-<li><strong>prop</strong>: object property. See the <a href="../apiConstants.htm#sceneObjectProperties">object property values</a>. Combine them with the &quot;or&quot;-operator</li>
+<li><strong>prop</strong>: object property. See the <a href="../apiConstants.htm#sceneObjectProperties">object property values</a>. Combine them with the "or"-operator</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -18243,7 +18243,7 @@ int simSetObjectSpecialProperty(int objectHandle, int prop)
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: object handle</li>
-<li><strong>prop</strong>: object special property. See the <a href="../apiConstants.htm#sceneObjectSpecialProperties">object special property values</a>. Combine them with the &quot;or&quot;-operator</li>
+<li><strong>prop</strong>: object special property. See the <a href="../apiConstants.htm#sceneObjectSpecialProperties">object special property values</a>. Combine them with the "or"-operator</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -18264,7 +18264,7 @@ sim.setObjectSpecialProperty(int objectHandle, int prop)
 ==================== apiInputPythonLua ====================<
 <ul>
 <li><strong>objectHandle</strong>: object handle</li>
-<li><strong>prop</strong>: object special property. See the <a href="../apiConstants.htm#sceneObjectSpecialProperties">object special property values</a>. Combine them with the &quot;or&quot;-operator</li>
+<li><strong>prop</strong>: object special property. See the <a href="../apiConstants.htm#sceneObjectSpecialProperties">object special property values</a>. Combine them with the "or"-operator</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -18920,7 +18920,7 @@ Enables or disables the stepping operation mode for a threaded script. If enable
 to trigger each simulation step explicitly, via <a href="simStep.htm">sim.step</a>. Is applied
 cumulatively, i.e. if the stepping operation mode is enabled n times, it needs to be disabled n times to return
 to the initial state
-<br><br>
+<br/><br/>
 (Lua specific: in stepping operation mode, automatic thread interruptions, i.e. preemptive threading, is supressed)
 ==================== apiDescription ====================>
 
@@ -18944,7 +18944,7 @@ int prevStepLevel = sim.setStepping(bool enable / int desiredStepLevel)
 
 ==================== apiOutputPythonLua ====================<
 <ul>
-<li><strong>prevStepLevel</strong>: previous level of thread interruption. When 0, thread interruption was not enabled previously
+<li><strong>prevStepLevel</strong>: previous level of thread interruption. When 0, thread interruption was not enabled previously</li>
 </ul>
 ==================== apiOutputPythonLua ====================>
 
@@ -19440,29 +19440,29 @@ int handle = sim.textEditorOpen(string initText, string properties)
 ==================== apiMorePythonLua ====================<
 <h3>XML Example</h3>
 <code class="hljs language-xml coppelia-coppeliasim-script">&lt;editor
-title=&quot;Window title&quot; editable=&quot;true&quot; searchable=&quot;true&quot;
-tab-width=&quot;4&quot; toolbar=&quot;false&quot; statusbar=&quot;false&quot; resizable=&quot;true&quot; modal=&quot;false&quot;
-on-close=&quot;callbackFunction&quot; closeable=&quot;true&quot; position=&quot;100 100&quot; size=&quot;800 600&quot;
-placement=&quot;absolute&quot; font=&quot;Courier&quot; font-size=&quot;14&quot; activate=&quot;false&quot; editable=&quot;true&quot;
-line-numbers=&quot;true&quot; max-lines=&quot;0&quot; is-lua=&quot;true&quot; wrap-word=&quot;false&quot;
-text-col=&quot;50 50 50&quot; background-col=&quot;190 190 190&quot; selectionColor=&quot;128 128 255&quot;
-comment-col=&quot;0 140 0&quot; number-col=&quot;220 0 220&quot; string-col=&quot;255 255 0&quot;
-character-col=&quot;255 255 0&quot; operator-col=&quot;0 0 0&quot; identifier-col=&quot;64 64 64&quot;
-preprocessor-col=&quot;0 128 128&quot; keyword1-col=&quot;152 0 0&quot; keyword2-col=&quot;220 80 20&quot;
-keyword3-col=&quot;0 0 255&quot; keyword4-col=&quot;152 64 0&quot;&gt;
+title="Window title" editable="true" searchable="true"
+tab-width="4" toolbar="false" statusbar="false" resizable="true" modal="false"
+on-close="callbackFunction" closeable="true" position="100 100" size="800 600"
+placement="absolute" font="Courier" font-size="14" activate="false" editable="true"
+line-numbers="true" max-lines="0" is-lua="true" wrap-word="false"
+text-col="50 50 50" background-col="190 190 190" selectionColor="128 128 255"
+comment-col="0 140 0" number-col="220 0 220" string-col="255 255 0"
+character-col="255 255 0" operator-col="0 0 0" identifier-col="64 64 64"
+preprocessor-col="0 128 128" keyword1-col="152 0 0" keyword2-col="220 80 20"
+keyword3-col="0 0 255" keyword4-col="152 64 0"&gt;
 
 &lt;keywords1&gt;
-  &lt;item word=&quot;sim.getObject&quot; autocomplete=&quot;true&quot;
-    calltip=&quot;int handle=sim.getObject(string path)&quot; /&gt;
-  &lt;item word=&quot;sim.getObjectPosition&quot; autocomplete=&quot;true&quot;
-    calltip=&quot;float[3] pos=sim.getObjectPosition(int handle,
-      int relHandle)&quot; /&gt;
+  &lt;item word="sim.getObject" autocomplete="true"
+    calltip="int handle=sim.getObject(string path)" /&gt;
+  &lt;item word="sim.getObjectPosition" autocomplete="true"
+    calltip="float[3] pos=sim.getObjectPosition(int handle,
+      int relHandle)" /&gt;
 &lt;/keywords1&gt;
 
 &lt;keywords2&gt;
-  &lt;item word=&quot;sim.getObjectOrientation&quot; autocomplete=&quot;true&quot;
-    calltip=&quot;float[3] euler=sim.getObjectOrientation(int handle,
-      int relHandle)&quot; /&gt;
+  &lt;item word="sim.getObjectOrientation" autocomplete="true"
+    calltip="float[3] euler=sim.getObjectOrientation(int handle,
+      int relHandle)" /&gt;
 &lt;/keywords2&gt;
 
 &lt;/editor&gt;
@@ -20056,7 +20056,7 @@ float deltaTimeLeft = sim.wait(float deltaTime, bool simulationTime = true)
 
 ==================== apiOutputPythonLua ====================<
 <ul>
-<li><strong>deltaTimeLeft</strong>: &quot;wait resolution&quot; of this function is the simulation time step, and the sim.wait command may overshoot the requested waiting time. deltaTimeLeft is the negative overshoot time. If the function was called at simulation time X, and the function returned at simulation time Y, then deltaTimeLeft is deltaTime-(Y-X). deltaTimeLeft is also memorized internally on a thread-basis and used as compensation or correction factor in subsequent blocking commands. deltaTimeLeft is 0 if the simulationTime argument was false</li>
+<li><strong>deltaTimeLeft</strong>: "wait resolution" of this function is the simulation time step, and the sim.wait command may overshoot the requested waiting time. deltaTimeLeft is the negative overshoot time. If the function was called at simulation time X, and the function returned at simulation time Y, then deltaTimeLeft is deltaTime-(Y-X). deltaTimeLeft is also memorized internally on a thread-basis and used as compensation or correction factor in subsequent blocking commands. deltaTimeLeft is 0 if the simulationTime argument was false</li>
 </ul>
 ==================== apiOutputPythonLua ====================>
 
@@ -20106,7 +20106,7 @@ sim.writeCustomDataBlock
 
 ==================== apiDescription ====================<
 Adds or removes custom data to be stored and saved together with an object, or the scene.
-If the tag name ends with the string &quot;@tmp&quot;, then the data is not saved during a scene or model save operation.
+If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
 The data can also be saved globally for the application (for the current CoppeliaSim session)
 ==================== apiDescription ====================>
 
@@ -20160,7 +20160,7 @@ sim.writeCustomTableData
 
 ==================== apiDescription ====================<
 Adds or removes custom table data to be stored and saved together with an object, or the scene.
-If the tag name ends with the string &quot;@tmp&quot;, then the data is not saved during a scene or model save operation.
+If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
 The data can also be saved globally for the application (for the current CoppeliaSim session)
 ==================== apiDescription ====================>
 
