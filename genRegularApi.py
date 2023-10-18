@@ -82,11 +82,12 @@ def main():
         apiOutputPythonLua = getTxt('api-output-python-lua')
         apiMorePythonLua = getTxt('api-more-python-lua') or ''
 
-        if apiSynopsisLua:
+        if apiCalltip := getTxt('api-calltip'):
+            apiCalltip = apiCalltip.splitlines()[0]
             try:
-                FuncDef.from_calltip(apiSynopsisLua)
+                FuncDef.from_calltip(apiCalltip)
             except lark.exceptions.LarkError as e:
-                unparseableCalltips.append((apiSynopsisLua, str(e)))
+                unparseableCalltips.append((apiCalltip, str(e)))
 
         assert (apiSynopsisPython or apiSynopsisLua or apiSynopsisCpp), f'missing <api-synopsys-*>: {ET.tostring(func)}'
 
