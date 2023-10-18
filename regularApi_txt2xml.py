@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 currentDir = Path(__file__).absolute().parent
@@ -37,9 +38,13 @@ for record in records:
         try:
             vt = ET.fromstring(f'<{n}>{v}</{n}>')
             r.append(vt)
-        except xml.etree.ElementTree.ParseError:
+        except xml.etree.ElementTree.ParseError as e:
+            print(f'cannot parse XML ({e!s}): {v!r}')
             f = ET.SubElement(r, n)
             f.text = v
+
+if len(sys.argv) != 2:
+    print(f'usage: {sys.argv[0]} <path/to/output/regularApi.xml>')
+    sys.exit(1)
 ET.indent(root, ' ' * 4)
-print('<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n')
-ET.dump(root)
+ET.ElementTree(root).write(sys.argv[1], 'utf-8', True)
