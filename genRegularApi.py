@@ -41,7 +41,6 @@ def main():
 
     allCpp = {}
     allPythonLua = {}
-    unparseableCalltips = []
 
     def getTxt(n):
         node = func.find(n)
@@ -81,15 +80,7 @@ def main():
         apiInputPythonLua = getTxt('api-input-python-lua')
         apiOutputPythonLua = getTxt('api-output-python-lua')
         apiMorePythonLua = getTxt('api-more-python-lua') or ''
-
-        if apiCalltip := getTxt('api-calltip'):
-            apiCalltip = apiCalltip.splitlines()[0]
-            try:
-                FuncDef.from_calltip(apiCalltip)
-            except lark.exceptions.LarkError as e:
-                unparseableCalltips.append((apiCalltip, str(e)))
-
-        assert (apiSynopsisPython or apiSynopsisLua or apiSynopsisCpp), f'missing <api-synopsys-*>: {ET.tostring(func)}'
+        apiCalltip = getTxt('api-calltip')
 
         if apiSynopsisPython or apiSynopsisLua:
             nm = currentDir / 'en' / 'regularApi' / (getCppName(apiFunc) + '.htm')
@@ -99,7 +90,10 @@ def main():
                 a = a.replace('__funcDescription__', apiDescription)
                 a = a.replace('__seeAlso__', apiSeeAlsoPythonLua)
                 a = a.replace('__pythonSynopsis__', addCodeSection(formatSynopsis(apiSynopsisPython, 100), 'python'))
-                a = a.replace('__luaSynopsis__', addCodeSection(formatSynopsis(apiSynopsisLua, 100), 'lua'))
+                a = a.replace('__luaSynopsis__', addCodeSection(formatSynopsis(apiSynopsisLua, 100), 'lua') +
+                    # XXX: TEST
+                    (formatCalltips(apiCalltip) if '--calltip' in sys.argv and apiCalltip else '')
+                )
                 if apiInputPythonLua:
                     a = a.replace('__input__', apiInputPythonLua)
                     a = a.replace('__inputVisibility__', '')
@@ -134,17 +128,6 @@ def main():
                 file_w.write(a)
 
     print(f'\nTotal generated: {cnt}')
-
-    if unparseableCalltips:
-        print(f'{len(unparseableCalltips)} calltips could not be parsed', end='')
-        opt = '--show-parse-errors'
-        if opt in sys.argv:
-            print('\n')
-            for i, (calltip, error) in enumerate(unparseableCalltips):
-                print(f'{i:-3d}) Calltip: {calltip}')
-                print(f'     Error: {error}')
-        else:
-            print(f' (pass {opt} to view details)')
 
 def addCodeSection(string, lang):
     s = ''
@@ -254,6 +237,26 @@ def formatSynopsis(s, maxLength):
     formatted_string = re.sub(pattern, replacer, s)
 
     return formatted_string
+
+def formatCalltip(s):
+    d = FuncDef.from_calltip(s)
+    render_arg = lambda arg: f'<span class="hljs-built_in">{arg.type}</span> {arg.name}' + (f'={arg.default}' if isinstance(arg, ArgDef) else '')
+    render_funcname = lambda n: f'<span class="hljs-title function_">{n}</span>'
+    render_args = lambda args: ', '.join(map(render_arg, args))
+    return f'{render_args(d.out_args)} = {render_funcname(d.func_name)}({render_args(d.in_args)})'
+
+def formatCalltips(s):
+    r = []
+    for c in s.splitlines():
+        if c == '': break # an empty line marks the begin of comments
+        try:
+            r.append(formatCalltip(c))
+        except lark.exceptions.LarkError as e:
+            print(f'Cannot parse calltip: {c!r}')
+    if r:
+        return addCodeSection('<br/>'.join(r), 'calltip')
+    else:
+        return ''
 
 if __name__ == "__main__":
     main()
