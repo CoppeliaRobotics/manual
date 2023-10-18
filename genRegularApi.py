@@ -6,11 +6,11 @@ import shutil
 from pathlib import Path
 
 
-currentDir = Path(__file__).parent
+currentDir = Path(__file__).absolute().parent
 
 zmqRemoteApiToolsDir = currentDir.parent / 'programming' / 'zmqRemoteApi' / 'tools'
 if zmqRemoteApiToolsDir.is_dir():
-    sys.path.append(str(zmqRemoteApiToolsDir.absolute()))
+    sys.path.append(str(zmqRemoteApiToolsDir))
 else:
     sys.stderr.write('zmqRemoteApi/tools directory missing\n')
     sys.exit(1)
