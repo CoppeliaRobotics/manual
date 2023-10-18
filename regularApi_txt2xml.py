@@ -27,6 +27,7 @@ with (currentDir / 'regularApi.txt').open('r') as f:
             field_content += line
         elif line.strip():
             raise RuntimeError(f'unexpected content at line {line_num}: {line!r}')
+    if record: records.append(record)
 
 import xml.etree
 import xml.etree.ElementTree as ET
