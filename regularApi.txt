@@ -112,7 +112,7 @@ int simAddDrawingObject(int objectType, double size, double duplicateTolerance,
 <li><strong>duplicateTolerance</strong>: if different from 0.0, then a call to <a href="simAddDrawingObjectItem.htm">simAddDrawingObjectItem</a> will only add the item if there is no other item within duplicateTolerance distance. Useful to avoid adding a too high density of points, is however not appropriate when using a large number of points (slower operation). Applicable only for single vertex items.</li>
 <li><strong>parentObjectHandle</strong>: handle of the scene object where the drawing items should keep attached to (if the scene object moves, the drawing items will also move), or -1 if the drawing items are relative to the world (fixed)</li>
 <li><strong>maxItemCount</strong>: maximum number of items this object can hold. 0 uses a default size of 1000.</li>
-<li><strong>color</strong>: default  color (pointer to 3 rgb values). Can be nullptr</li>
+<li><strong>color</strong>: default color (pointer to 3 rgb values). Can be nullptr</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -264,7 +264,7 @@ sim.addForceAndTorque
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Adds a force and/or torque to a shape object that is dynamically enabled. 
+Adds a force and/or torque to a shape object that is dynamically enabled.
 Forces are applied at the center of mass. Added forces and torques are cumulative, and are reset to zero
 after <a href="simHandleDynamics.htm">sim.handleDynamics</a> was called (or by using the following
 flags: sim.handleflag_resetforce and/or sim.handleflag_resettorque)
@@ -1519,7 +1519,7 @@ simCallScriptFunctionEx
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Calls a script function (from a <a href="../plugins.htm">plugin</a>, 
+Calls a script function (from a <a href="../plugins.htm">plugin</a>,
 <a href="../mainClientApplication.htm">the main client application</a>, or from another script). This
 represents a <a href="../callbackFunctions.htm">user callback</a> inside of a script. The target script
 must be initialized for this call to succeed, e.g. when calling <a href="../simulationScripts.htm">simulation scripts</a>,
@@ -1961,7 +1961,7 @@ int simCheckProximitySensor(int sensorHandle, int entityHandle, double* detected
 ==================== apiOutputCpp ====================>
 
 ==================== apiSynopsisPython ====================<
-int res, float dist, list point, int obj, list n = sim.checkProximitySensor(int sensorHandle, 
+int res, float dist, list point, int obj, list n = sim.checkProximitySensor(int sensorHandle,
                                                                             int entityHandle)
 ==================== apiSynopsisPython ====================>
 
@@ -1979,7 +1979,7 @@ int res, float dist, float[3] point, int obj, float[3] n = sim.checkProximitySen
 
 ==================== apiOutputPythonLua ====================<
 <ul>
-<li><strong>res</strong>:  0 (not detected) or 1 (detected)</li>
+<li><strong>res</strong>: 0 (not detected) or 1 (detected)</li>
 <li><strong>dist</strong>: distance from the sensor origin to the detected point. None/nil if result is different from 1</li>
 <li><strong>point</strong>: position of the detected point relative to the sensor origin. None/nil if result is different from 1</li>
 <li><strong>obj</strong>: handle of detected object. None/nil if result is different from 1</li>
@@ -2032,7 +2032,7 @@ int simCheckProximitySensorEx(int sensorHandle, int entityHandle, int detectionM
 
 ==================== apiSynopsisPython ====================<
 int res, float dist, list point, int object, list n = sim.checkProximitySensorEx(int handle, int entityHandle,
-                                                                                 int detectionMode, 
+                                                                                 int detectionMode,
                                                                                  float detectionthreshold,
                                                                                  float maxAngle)
 ==================== apiSynopsisPython ====================>
@@ -2056,7 +2056,7 @@ int res, float dist, float[3] point, int object, float[3] n = sim.checkProximity
 
 ==================== apiOutputPythonLua ====================<
 <ul>
-<li><strong>res</strong>:  0 (not detected) or 1 (detected)</li>
+<li><strong>res</strong>: 0 (not detected) or 1 (detected)</li>
 <li><strong>dist</strong>: distance from the sensor origin to the detected point. None/nil if result is different from 1</li>
 <li><strong>point</strong>: position of the detected point relative to the sensor origin. None/nil if result is different from 1</li>
 <li><strong>object</strong>: handle of detected object. None/nil if result is different from 1</li>
@@ -2133,7 +2133,7 @@ int res, float dist, float[3] point, float[3] n = sim.checkProximitySensorEx2(in
 
 ==================== apiOutputPythonLua ====================<
 <ul>
-<li><strong>res</strong>:  0 (not detected) or 1 (detected)</li>
+<li><strong>res</strong>: 0 (not detected) or 1 (detected)</li>
 <li><strong>dist</strong>: distance from the sensor origin to the detected point. None/nil if res is different from 1</li>
 <li><strong>point</strong>: position of the detected point relative to the sensor origin. None/nil if res is different from 1</li>
 <li><strong>n</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. None/nil if res is different from 1</li>
@@ -2267,7 +2267,7 @@ buffer buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool r
 ==================== apiSynopsisLua ====================>
 
 ==================== apiInputPythonLua ====================<
-<ul>                                                                                                                                                               
+<ul>
 <li><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_codedstring</a> if you wish to retrieve the image or depth map coded in a string (much faster)</li>
 <li><strong>entityHandle</strong>: handle of entity to detect (object or collection), or sim.handle_all to detect all detectable objects</li>
 <li><strong>returnImage</strong>: specifies what should be returned. If true, the sensor's image buffer is returned, otherwise its depth buffer is returned</li>
@@ -2506,7 +2506,7 @@ sim.computeMassAndInertia
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Computes and applies the mass and inertia matrix for a shape, based on its convex  representation.
+Computes and applies the mass and inertia matrix for a shape, based on its convex representation.
 When calling this function while the simulation is running, one should then call
 <a href="simResetDynamicObject.htm">sim.resetDynamicObject</a>, for the changes to take effect
 ==================== apiDescription ====================>
@@ -4158,7 +4158,7 @@ sim.executeScriptString
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Executes some code in a specific script (from a <a href="../plugins.htm">plugin</a>, 
+Executes some code in a specific script (from a <a href="../plugins.htm">plugin</a>,
 <a href="../mainClientApplication.htm">the main client application</a>, or from another script).
 The target script must be initialized for this call to succeed, e.g. when calling
 <a href="../simulationScripts.htm">simulation scripts</a>, then simulation must be running
@@ -4177,7 +4177,7 @@ int simExecuteScriptString(int scriptHandle, const char* stringToExecute, int st
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>scriptHandle</strong>: the handle of the script</li>
-<li><strong>stringToExecute</strong>: a string representing the  code to execute in the specified script</li>
+<li><strong>stringToExecute</strong>: a string representing the code to execute in the specified script</li>
 <li><strong>stackId</strong>: 0 (for no stack) or a <a href="simCreateStack_cpp.htm">stack handle</a>. The stack holds possible out values. See also the <a href="../apiFunctions.htm#stacks">available stack functions</a>.</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -4518,7 +4518,7 @@ int simGenerateShapeFromPath(const double* path, int pathSize, const double* sec
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>path</strong>: path, specified in row-major order, with [x y z qx qy qz qw] values for each path point.  The orientation parts for each path point are ignored if the two first bits of <strong>options</strong> are zero.</li>
+<li><strong>path</strong>: path, specified in row-major order, with [x y z qx qy qz qw] values for each path point. The orientation parts for each path point are ignored if the two first bits of <strong>options</strong> are zero.</li>
 <li><strong>pathSize</strong>: size/length of the path pointer</li>
 <li><strong>section</strong>: extrusion profile, with x/y pairs, e.g. [x1 y1 x2 y2 ... xn yn]. If the first and last pair overlap, the section is closed</li>
 <li><strong>sectionSize</strong>: size/length of the section pointer</li>
@@ -4550,7 +4550,7 @@ int shapeHandle = sim.generateShapeFromPath(float[] path, float[] section, int o
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>path</strong>: path, specified in row-major order, with [x y z qx qy qz qw] values for each path point.  The orientation parts for each path point are ignored if the two first bits of <strong>options</strong> are zero.</li>
+<li><strong>path</strong>: path, specified in row-major order, with [x y z qx qy qz qw] values for each path point. The orientation parts for each path point are ignored if the two first bits of <strong>options</strong> are zero.</li>
 <li><strong>section</strong>: extrusion profile, with x/y pairs, e.g. [x1 y1 x2 y2 ... xn yn]. If the first and last pair overlap, the section is closed</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
@@ -4640,7 +4640,7 @@ float[] outP, float[] times = sim.generateTimeOptimalTrajectory(float[] path,
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>path</strong>: path, specified in row-major order, e.g. a path containing two 3D positions  would be [x1 y1 z1 x2 y2 z2]</li>
+<li><strong>path</strong>: path, specified in row-major order, e.g. a path containing two 3D positions would be [x1 y1 z1 x2 y2 z2]</li>
 <li><strong>pathLengths</strong>: lengths of a path. Each path point should have a corresponding length value (as the distance from the path's first point, along the path). See also <a href="simGetPathLengths.htm">sim.getPathLengths</a>.</li>
 <li><strong>minMaxVel</strong>: minimum and maximum allowed velocity, for each dimension/axis, e.g. {xmin,xmax,ymin,ymax,zmin,zmax}</li>
 <li><strong>minMaxAccel</strong>: minimum and maximum allowed acceleration, for each dimension/axis, e.g. [xmin xmax ymin ymax zmin zmax]</li>
@@ -4687,7 +4687,7 @@ float[] configurations = sim.getAlternateConfigs(int[] jointHandles, float[] inp
 <li><strong>inputConfig</strong>: the manipulator configuration (i.e. joint values).</li>
 <li><strong>tipHandle</strong>: the handle of the object acting as end-effector or tip of the kinematic chain, used to make sure the additional configurations have the same end-effector pose (e.g. in case some joints are dependent on others). Can be set to -1 if there are no joint dependencies involved.</li>
 <li><strong>lowLimits</strong>: an optional array containing the low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</li>
-<li><strong>ranges</strong>: an optional array containing the range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.  If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current linear/angular joint position, with an extent of (-range).</li>
+<li><strong>ranges</strong>: an optional array containing the range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals. If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current linear/angular joint position, with an extent of (-range).</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -4827,7 +4827,7 @@ int simGetArrayParam(int parameter, double* parameterValues)
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>parameter</strong>: <a href="../apiConstants.htm#arrayParameters">array parameter identifier</a></li>
-<li><strong>parameterValues</strong>: a pointer  receiving 3 values</li>
+<li><strong>parameterValues</strong>: a pointer receiving 3 values</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -5808,7 +5808,7 @@ sim.getJointForce
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Retrieves the force or torque applied to a joint  along/about its active axis.
+Retrieves the force or torque applied to a joint along/about its active axis.
 This function retrieves meaningful information only if the joint is prismatic or revolute,
 and is dynamically enabled. With the Bullet, MuJoCo and Newton engine, this function returns
 the force or torque applied to the joint motor  (torques from joint limits are not taken into account).
@@ -5828,7 +5828,7 @@ int simGetJointForce(int jointHandle, double* forceOrTorque)
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>jointHandle</strong>: handle of the joint. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_rawvalue</a> (simply add sim.handleflag_rawvalue to jointHandle), if you wish to access the raw values generated by each individual dynamic simulation step (by default, there are 10 dynamic simulation steps for each simulation step). Raw values can only be accessed from inside a <a href="../callbackFunctions.htm">callback function</a> triggered by the physics engine.</li>
-<li><strong>forceOrTorque</strong>: the force or the torque applied to the joint  along/about its z-axis.</li>
+<li><strong>forceOrTorque</strong>: the force or the torque applied to the joint along/about its z-axis.</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -6470,7 +6470,7 @@ void* simGetMainWindow(int type)
 
 ==================== apiOutputCpp ====================<
 <ul>
-<li>a native window handle or  a pointer to a QWidget object.</li>
+<li>a native window handle or a pointer to a QWidget object.</li>
 </ul>
 ==================== apiOutputCpp ====================>
 
@@ -6482,7 +6482,7 @@ sim.getMatchingPersistentDataTags
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Retrieves  persistent data block tags that match a specific pattern
+Retrieves persistent data block tags that match a specific pattern
 ==================== apiDescription ====================>
 
 ==================== apiSeeAlso ====================<
@@ -7397,7 +7397,7 @@ int simGetObjectOrientation(int objectHandle, int relativeToObjectHandle, double
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.  If this handle is the handle of a joint, then the orientation relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation relative to the joint's base frame will be returned).</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the orientation relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation relative to the joint's base frame will be returned).</li>
 <li><strong>eulerAngles</strong>: Euler angles (alpha, beta and gamma)</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -7421,7 +7421,7 @@ float[3] eulerAngles = sim.getObjectOrientation(int objectHandle,
 ==================== apiInputPythonLua ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.  If this handle is the handle of a joint, then the orientation relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation relative to the joint's base frame will be returned).</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the orientation relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation relative to the joint's base frame will be returned).</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -7671,7 +7671,7 @@ int simGetObjectQuaternion(int objectHandle, int relativeToObjectHandle, double*
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to retrieve the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.  If this handle is the handle of a joint, then the quaternion relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion relative to the joint's base frame will be returned).</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the quaternion relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion relative to the joint's base frame will be returned).</li>
 <li><strong>quaternion</strong>: the quaternion</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -7695,7 +7695,7 @@ float[4] quaternion = sim.getObjectQuaternion(int objectHandle,
 ==================== apiInputPythonLua ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to retrieve the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation.  If this handle is the handle of a joint, then the quaternion relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion relative to the joint's base frame will be returned).</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the quaternion relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion relative to the joint's base frame will be returned).</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -7825,7 +7825,7 @@ int* simGetObjectsInTree(int treeBaseHandle, int objectType, int options, int* o
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>treeBaseHandle</strong>: handle of the object that describes  the hierarchy tree, or sim.handle_scene for all objects in the scene.</li>
+<li><strong>treeBaseHandle</strong>: handle of the object that describes the hierarchy tree, or sim.handle_scene for all objects in the scene.</li>
 <li><strong>objectType</strong>: <a href="../apiConstants.htm#sceneObjectTypes">object type</a> to retrieve or sim.handle_all for any type of object in the tree</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
@@ -7855,7 +7855,7 @@ int[] objects = sim.getObjectsInTree(int treeBaseHandle, int objectType = sim.ha
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>treeBaseHandle</strong>: handle of the object that describes  the hierarchy tree, or sim.handle_scene for all objects in the scene.</li>
+<li><strong>treeBaseHandle</strong>: handle of the object that describes the hierarchy tree, or sim.handle_scene for all objects in the scene.</li>
 <li><strong>objectType</strong>: <a href="../apiConstants.htm#sceneObjectTypes">object type</a> to retrieve or sim.handle_all for any type of object in the tree</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
@@ -9008,7 +9008,7 @@ sim.getScript
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Retrieves the handle of a script 
+Retrieves the handle of a script
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisPython ====================<
@@ -9627,7 +9627,7 @@ int simGetShapeViz(int shapeHandle, int index, struct SShapeVizInfo* info)
 <li><strong>indicesSize</strong>: the size of the indices array</li>
 <li><strong>normals</strong>: array of normals, relative to the shape's reference frame. There are 3*indicesSize normals, i.e. 3 normals per triangle. The user is in charge of releasing this buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> if the return value is &gt; 0.</li>
 <li><strong>shadingAngle</strong>: the gouraud shading angle</li>
-<li><strong>colors[9]</strong>: array of colors: RGB for ambient-diffuse,  specular, and  emission.</li>
+<li><strong>colors[9]</strong>: array of colors: RGB for ambient-diffuse, specular, and emission.</li>
 <li><strong>texture</strong>: the RGBA texture (32bit/pixel). The user is in charge of releasing this buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> if the return value is &gt; 1.</li>
 <li><strong>textureId</strong>: a texture id (to identify textures shared among several shapes)</li>
 <li><strong>textureRes[2]</strong>: the resolution of the texture</li>
@@ -9669,10 +9669,10 @@ table data = sim.getShapeViz(int shapeHandle, int index)
 
 ==================== apiOutputPythonLua ====================<
 <ul>
-<li><strong>data.vertices</strong>: array containing the  vertices, relative to the shape's reference frame</li>
+<li><strong>data.vertices</strong>: array containing the vertices, relative to the shape's reference frame</li>
 <li><strong>data.indices</strong>: array containing the indices</li>
 <li><strong>data.normals</strong>: array containing the normals, relative to the shape's reference frame</li>
-<li><strong>data.colors</strong>: array containing the colors: RGB for ambient-diffuse,  specular, and  emission.</li>
+<li><strong>data.colors</strong>: array containing the colors: RGB for ambient-diffuse, specular, and emission.</li>
 <li><strong>data.shadingAngle</strong>: the gouraud shading angle</li>
 <li><strong>data.transparency</strong>: 1=transparent, 0= opaque</li>
 <li><strong>data.options</strong>: bit-coded:
@@ -9704,7 +9704,7 @@ sim.getSignalName
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Returns the signal name at the given index.  Use this function in a loop until return is nullptr to read all set signals
+Returns the signal name at the given index. Use this function in a loop until return is nullptr to read all set signals
 ==================== apiDescription ====================>
 
 ==================== apiSeeAlso ====================<
@@ -11006,7 +11006,7 @@ sim.handleAddOnScripts
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Lua only. Calls a specific function in <a href="../addOns.htm">add-ons</a>.  
+Lua only. Calls a specific function in <a href="../addOns.htm">add-ons</a>.
 Should only be called from the <a href="../mainScript.htm">main script</a>
 ==================== apiDescription ====================>
 
@@ -11035,7 +11035,7 @@ sim.handleChildScripts
 
 ==================== apiDescription ====================<
 Lua only. Calls a specific <a href="../callbackFunctions.htm#systemCallbacks">system callback function</a> in
-<a href="../childScripts.htm">child scripts</a>.  Child scripts will be executed in a <a href="../scriptExecution.htm">precise order</a>.
+<a href="../childScripts.htm">child scripts</a>. Child scripts will be executed in a <a href="../scriptExecution.htm">precise order</a>.
 This function should only be called from the <a href="../mainScript.htm">main script</a>.
 ==================== apiDescription ====================>
 
@@ -11112,7 +11112,7 @@ sim.handleEmbeddedScripts
 ==================== apiDescription ====================<
 Lua only. Calls a specific <a href="../callbackFunctions.htm#systemCallbacks">system callback function</a> in
 <a href="../childScripts.htm">child scripts</a> and <a href="../customizationScripts.htm">customization scripts</a>.
-Child- and customiization scripts will be executed in a <a href="../scriptExecution.htm">precise order</a>. 
+Child- and customiization scripts will be executed in a <a href="../scriptExecution.htm">precise order</a>.
 This function should only be called from the <a href="../mainScript.htm">main script</a>
 ==================== apiDescription ====================>
 
@@ -11346,7 +11346,7 @@ sim.handleVisionSensor
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Handles (performs sensing, etc. of) a vision sensor object. It (1) clear previous computed  image processing data, (2) reads
+Handles (performs sensing, etc. of) a vision sensor object. It (1) clear previous computed image processing data, (2) reads
 an image and (3) performs image processing via the <a href="../visionCallbackFunctions.htm">vision callback functions</a>
 (if the vision sensor is using an <strong>external input</strong> only (1) is performed)
 ==================== apiDescription ====================>
@@ -11365,7 +11365,7 @@ int simHandleVisionSensor(int visionSensorHandle, double** auxValues, int** auxV
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>visionSensorHandle</strong>: handle of a vision sensor object or sim.handle_all or sim.handle_all_except_explicit. (sim.handle_all will handle all vision sensor objects, while sim.handle_all_except_explicit will only handle those that are not marked as "explicit handling")</li>
-<li><strong>auxValues</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values: the minimum of [intensity red green blue depth], the maximum of [intensity red green blue depth], and the average of [intensity red green blue depth]. If the <a href="../visionCallbackFunctions.htm">vision callback function</a> returns additional  values, then they are appended as packets to the first packet. AuxValues can be nullptr. The user is in charge of releasing the auxValues buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>(*auxValues). If visionSensorHandle is sim.handle_all or sim.handle_all_except_explicit, nothing is returned in auxValues.</li>
+<li><strong>auxValues</strong>: by default CoppeliaSim returns one packet of 15 auxiliary values: the minimum of [intensity red green blue depth], the maximum of [intensity red green blue depth], and the average of [intensity red green blue depth]. If the <a href="../visionCallbackFunctions.htm">vision callback function</a> returns additional values, then they are appended as packets to the first packet. AuxValues can be nullptr. The user is in charge of releasing the auxValues buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>(*auxValues). If visionSensorHandle is sim.handle_all or sim.handle_all_except_explicit, nothing is returned in auxValues.</li>
 <li><strong>auxValuesCount</strong>: contains information about the number of auxiliary value packets and packet sizes returned in auxValues. The first value is the number of packets, the second is the size of packet1, the third is the size of packet2, etc. Can be nullptr if auxValues is also nullptr. The user is in charge of releasing the auxValuesCount buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>(*auxValuesCount).</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -12705,7 +12705,7 @@ sim.moveToConfig
 
 ==================== apiDescription ====================<
 Generates joint movement data using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
-This function  can only be called from scripts running in a thread, since this is a blocking operation
+This function can only be called from scripts running in a thread, since this is a blocking operation
 ==================== apiDescription ====================>
 
 ==================== apiSeeAlso ====================<
@@ -12737,14 +12737,14 @@ float[] endP, float[] endV, float[] endA, float t = sim.moveToConfig(int flags, 
 ==================== apiInputPythonLua ====================<
 <ul>
 <li><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</li>
-<li><strong>currentP</strong>: current configuration, i.e. the current linear/angular joint positions, one value for each  DoF.</li>
-<li><strong>currentV</strong>: current velocity, one value for each  DoF. Can be None/nil in which case a velocity vector of 0 is used.</li>
-<li><strong>currentA</strong>: current acceleration, one value for each  DoF. Can be None/nil in which case an acceleration vector of 0 is used.</li>
-<li><strong>maxV</strong>: maximum allowed velocity, one value for each  DoF. If sim.ruckig_minvel is specified in flags, then maxVel should contain following values: [maxV_1 ... maxV_n minV_1 ... minV_n], i.e. 2x DoF values.</li>
-<li><strong>maxA</strong>: maximum allowed acceleration, one value for each  DoF. If sim.ruckig_minaccel is specified in flags, then maxAccel should contain following values: [maxA_1 ... maxA_n minA_1 ... minA_n], i.e. 2x DoF values.</li>
-<li><strong>maxJ</strong>: maximum allowed jerk, one value for each  DoF.</li>
-<li><strong>targetP</strong>: desired target configuration, one value for each  DoF.</li>
-<li><strong>targetV</strong>: desired target point velocity, one value for each  DoF. Can be None/nil in which case a velocity vector of 0 is used.</li>
+<li><strong>currentP</strong>: current configuration, i.e. the current linear/angular joint positions, one value for each DoF.</li>
+<li><strong>currentV</strong>: current velocity, one value for each DoF. Can be None/nil in which case a velocity vector of 0 is used.</li>
+<li><strong>currentA</strong>: current acceleration, one value for each DoF. Can be None/nil in which case an acceleration vector of 0 is used.</li>
+<li><strong>maxV</strong>: maximum allowed velocity, one value for each DoF. If sim.ruckig_minvel is specified in flags, then maxVel should contain following values: [maxV_1 ... maxV_n minV_1 ... minV_n], i.e. 2x DoF values.</li>
+<li><strong>maxA</strong>: maximum allowed acceleration, one value for each DoF. If sim.ruckig_minaccel is specified in flags, then maxAccel should contain following values: [maxA_1 ... maxA_n minA_1 ... minA_n], i.e. 2x DoF values.</li>
+<li><strong>maxJ</strong>: maximum allowed jerk, one value for each DoF.</li>
+<li><strong>targetP</strong>: desired target configuration, one value for each DoF.</li>
+<li><strong>targetV</strong>: desired target point velocity, one value for each DoF. Can be None/nil in which case a velocity vector of 0 is used.</li>
 <li><strong>callback</strong>: callback function that will be called for each movement step. The arguments provided to the callback function are: currentConfig, currentVel, currentAccel, auxData.</li>
 <li><strong>auxData</strong>: random data that will be forwarded to the callback function.</li>
 <li><strong>cyclicJoints</strong>: array of booleans indicating which joint is cyclic (for cyclic joints, the movement will always go in the direction that represents the shortest distance to the goal). Can be nil or omitted.</li>
@@ -12785,7 +12785,7 @@ sim.ruckigPos
 list endP/endM, float t = sim.moveToPose(int flags, list currentP/currentM,
                                          list maxVel, list maxAccel,
                                          list maxJerk, list targetP/targetM,
-                                         func callback, auxData, 
+                                         func callback, auxData,
                                          list metric = None,
                                          float timeStep = 0)
 ==================== apiSynopsisPython ====================>
@@ -13105,7 +13105,7 @@ buffer data = sim.packFloatTable(float[] floatingNumbers, int startFloatIndex = 
 <ul>
 <li><strong>floatingNumbers</strong>: array containing floating-point numbers. Non-numbers will be packed as zero values</li>
 <li><strong>startFloatIndex</strong>: zero-based index from which on data should be packed. Can be omitted in which case 0 is used</li>
-<li><strong>floatCount</strong>:  amount of floats that should be packed. Can be omitted in which case 0 is used (which indicates that the maximum available floats should be packed from the indicated startFloatIndex)</li>
+<li><strong>floatCount</strong>: amount of floats that should be packed. Can be omitted in which case 0 is used (which indicates that the maximum available floats should be packed from the indicated startFloatIndex)</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -14058,7 +14058,7 @@ sim.readCustomDataBlock
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Reads custom data that is stored inside of an object or the scene.  Reads also custom data for the application's
+Reads custom data that is stored inside of an object or the scene. Reads also custom data for the application's
 currrent session
 ==================== apiDescription ====================>
 
@@ -14128,7 +14128,7 @@ char* simReadCustomDataBlockTags(int objectHandle, int* tagCount)
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>objectHandle</strong>: handle of the object, sim.handle_scene  or sim.handle_app.</li>
+<li><strong>objectHandle</strong>: handle of the object, sim.handle_scene or sim.handle_app.</li>
 <li><strong>tagCount</strong>: pointer to an integer receiving the number of tag strings contained in the returned buffer.</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -14149,7 +14149,7 @@ string[] tags = sim.readCustomDataBlockTags(int objectHandle)
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>objectHandle</strong>: handle of the object, sim.handle_scene  or sim.handle_app</li>
+<li><strong>objectHandle</strong>: handle of the object, sim.handle_scene or sim.handle_app</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -14516,7 +14516,7 @@ int simRegisterScriptCallbackFunction(const char* func, const char* reserved,
 <li><strong>callback</strong>: callback address that is called when the function is called from Lua. See further down for a simple way to call above function, using a helper class. The callback's first argument is a SScriptCallBack structure that holds:</li>
 <li><strong>int objectID</strong>: handle of the object that the calling script is attached to, or -1 if the calling script is not a child script</li>
 <li><strong>int scriptID</strong>: handle of the calling script</li>
-<li><strong>int stackID</strong>: a <a href="simCreateStack_cpp.htm">stack handle</a>. The stack is used to read arguments from the script, and to return data to the script.  See also the <a href="../apiFunctions.htm#stacks">available stack functions</a>.</li>
+<li><strong>int stackID</strong>: a <a href="simCreateStack_cpp.htm">stack handle</a>. The stack is used to read arguments from the script, and to return data to the script. See also the <a href="../apiFunctions.htm#stacks">available stack functions</a>.</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -14678,7 +14678,7 @@ int simReleaseStack(int stackHandle)
 
 ==================== apiInputCpp ====================<
 <ul>
-<li><strong>stackHandle</strong>:  stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
+<li><strong>stackHandle</strong>: stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
 </ul>
 ==================== apiInputCpp ====================>
 
@@ -15037,7 +15037,7 @@ sim.removeScript(int scriptHandle)
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>scriptHandle</strong>: handle of the script to remove,  or sim.handle_all or sim.handle_self</li>
+<li><strong>scriptHandle</strong>: handle of the script to remove, or sim.handle_all or sim.handle_self</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -15456,7 +15456,7 @@ sim.ruckigPos
 ==================== apiDescription ====================<
 Executes a call to the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
 The Ruckig online trajectory generator provides instantaneous trajectory generation capabilities
-for motion control systems. This function prepares a  position-based trajectory generation object,
+for motion control systems. This function prepares a position-based trajectory generation object,
 that can then be calculated with <a href="simRuckigStep.htm">sim.ruckigStep</a>. When this object
 is not needed anymore, remove it with <a href="simRuckigRemove.htm">sim.ruckigRemove</a>
 ==================== apiDescription ====================>
@@ -15659,7 +15659,7 @@ sim.ruckigVel
 ==================== apiDescription ====================<
 Executes a call to the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
 The Ruckig online trajectory generator provides instantaneous trajectory generation capabilities for
-motion control systems. This function prepares a  velocity-based trajectory generation object,
+motion control systems. This function prepares a velocity-based trajectory generation object,
 that can then be calculated with <a href="simRuckigStep.htm">sim.ruckigStep</a>. When this object
 is not needed anymore, remove it with <a href="simRuckigRemove.htm">sim.ruckigRemove</a>
 ==================== apiDescription ====================>
@@ -15777,11 +15777,11 @@ buffer imgBuffer = sim.saveImage(buffer image, int[2] resolution, int options, s
 
 ==================== apiInputPythonLua ====================<
 <ul>
-<li><strong>image</strong>:  image (in rgb, rgba or greyscale format)</li>
+<li><strong>image</strong>: image (in rgb, rgba or greyscale format)</li>
 <li><strong>resolution</strong>: x/y resolution of the provided image.</li>
 <li><strong>options</strong>: bit-coded:
 <ul>
-<li>bit0 - bit1:  format of the provided image (0=rgb, 1=rgba, 2=greyscale)</li>
+<li>bit0 - bit1: format of the provided image (0=rgb, 1=rgba, 2=greyscale)</li>
 </ul>
 </li>
 <li><strong>filename</strong>: name of the file to write. The file extension indicates the format. If the filename only contains '.xxx', where xxx represents the file format, then the image will be saved to memory</li>
@@ -16387,7 +16387,7 @@ sim.setEngineBoolParam
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Sets a bool-type physics engine property. You might have to call 
+Sets a bool-type physics engine property. You might have to call
 <a href="simResetDynamicObject.htm">sim.resetDynamicObject</a> for changes to take effect
 ==================== apiDescription ====================>
 
@@ -16438,7 +16438,7 @@ sim.setEngineFloatParam
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Sets a double-type physics engine property. You might have to call 
+Sets a double-type physics engine property. You might have to call
 <a href="simResetDynamicObject.htm">sim.resetDynamicObject</a> for changes to take effect
 ==================== apiDescription ====================>
 
@@ -16489,7 +16489,7 @@ sim.setEngineInt32Param
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Sets an int32-type physics engine property. You might have to call 
+Sets an int32-type physics engine property. You might have to call
 <a href="simResetDynamicObject.htm">sim.resetDynamicObject</a> for changes to take effect
 ==================== apiDescription ====================>
 
@@ -16635,7 +16635,7 @@ sim.setFloatSignal
 
 ==================== apiDescription ====================<
 Sets the value of a double signal. A signal created in a <a href="../childScripts.htm">child script</a>,
-a <a href="../customizationScripts.htm">customization script</a> or in the 
+a <a href="../customizationScripts.htm">customization script</a> or in the
 <a href="../mainScript.htm">main script</a> is automatically cleared when the script ends
 ==================== apiDescription ====================>
 
@@ -17189,7 +17189,7 @@ sim.setJointTargetVelocity
 
 ==================== apiDescription ====================<
 Sets the target linear/angular velocity of a non-spherical joint. When in kinematic mode,
-the joint moves according to a motion profile that respects maximum  acceleration and
+the joint moves according to a motion profile that respects maximum acceleration and
 jerk values. In dynamic and velocity control mode, the controller is instructed about the
 desired velocity
 ==================== apiDescription ====================>
@@ -17833,7 +17833,7 @@ int simSetObjectMatrix(int objectHandle, int relativeToObjectHandle, const doubl
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the matrix is specified. Specify sim.handle_world to set the absolute transformation matrix, sim.handle_inverse to set the inverse of the  absolute transformation matrix, sim.handle_parent to set the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame the transformation matrix is specified. If this handle is the handle of a joint, then the matrix is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the matrix is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the matrix is specified. Specify sim.handle_world to set the absolute transformation matrix, sim.handle_inverse to set the inverse of the absolute transformation matrix, sim.handle_parent to set the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame the transformation matrix is specified. If this handle is the handle of a joint, then the matrix is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the matrix is applied relative to the joint's base frame)</li>
 <li><strong>matrix</strong>: the matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -17857,7 +17857,7 @@ sim.setObjectMatrix(int objectHandle, float[12] matrix,
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
 <li><strong>matrix</strong>: the matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the matrix is specified. Specify sim.handle_world to set the absolute transformation matrix, sim.handle_inverse to set the inverse of the  absolute transformation matrix, sim.handle_parent to set the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame the transformation matrix is specified. If this handle is the handle of a joint, then the matrix is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the matrix is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the matrix is specified. Specify sim.handle_world to set the absolute transformation matrix, sim.handle_inverse to set the inverse of the absolute transformation matrix, sim.handle_parent to set the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame the transformation matrix is specified. If this handle is the handle of a joint, then the matrix is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the matrix is applied relative to the joint's base frame)</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -17886,7 +17886,7 @@ int simSetObjectOrientation(int objectHandle, int relativeToObjectHandle, const 
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified.  If this handle is the handle of a joint, then the orientation is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the orientation is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation is applied relative to the joint's base frame)</li>
 <li><strong>eulerAngles</strong>: Euler angles (alpha, beta and gamma)</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -17911,7 +17911,7 @@ sim.setObjectOrientation(int objectHandle, float[3] eulerAngles,
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
 <li><strong>eulerAngles</strong>: Euler angles (alpha, beta and gamma)</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified.  If this handle is the handle of a joint, then the orientation is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the orientation is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation is applied relative to the joint's base frame)</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -17989,7 +17989,7 @@ int simSetObjectPose(int objectHandle, int relativeToObjectHandle, const double*
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to provide the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the pose is specified. Specify sim.handle_world to set the absolute pose, sim.handle_inverse to set the inverse of the  absolute pose, sim.handle_parent to set the pose relative to the object's parent, or an object handle relative to whose reference frame the pose is specified. If this handle is the handle of a joint, then the pose is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the pose is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the pose is specified. Specify sim.handle_world to set the absolute pose, sim.handle_inverse to set the inverse of the absolute pose, sim.handle_parent to set the pose relative to the object's parent, or an object handle relative to whose reference frame the pose is specified. If this handle is the handle of a joint, then the pose is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the pose is applied relative to the joint's base frame)</li>
 <li><strong>pose</strong>: the pose (array of 7 values [x y z qx qy qz qw])</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -18012,7 +18012,7 @@ sim.setObjectPose(int objectHandle, float[7] pose, int relativeToObjectHandle = 
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to provide the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe</li>
 <li><strong>pose</strong>: the pose (array of 7 values [x y z qx qy qz qw])</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the pose is specified. Specify sim.handle_world to set the absolute pose, sim.handle_inverse to set the inverse of the  absolute pose, sim.handle_parent to set the pose relative to the object's parent, or an object handle relative to whose reference frame the pose is specified. If this handle is the handle of a joint, then the pose is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the pose is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the pose is specified. Specify sim.handle_world to set the absolute pose, sim.handle_inverse to set the inverse of the absolute pose, sim.handle_parent to set the pose relative to the object's parent, or an object handle relative to whose reference frame the pose is specified. If this handle is the handle of a joint, then the pose is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the pose is applied relative to the joint's base frame)</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -18024,7 +18024,7 @@ sim.setObjectPosition
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Sets the position (x, y and z-coordinates) of an object. Dynamically simulated objects, 
+Sets the position (x, y and z-coordinates) of an object. Dynamically simulated objects,
 together with their hierarchy tree, are dynamically reset (this however does not apply
 to static shapes)
 ==================== apiDescription ====================>
@@ -18041,7 +18041,7 @@ int simSetObjectPosition(int objectHandle, int relativeToObjectHandle, const dou
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify sim.handle_world to set the absolute position, sim.handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified.  If this handle is the handle of a joint, then the position is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the position is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify sim.handle_world to set the absolute position, sim.handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified. If this handle is the handle of a joint, then the position is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the position is applied relative to the joint's base frame)</li>
 <li><strong>position</strong>: coordinates of the object</li>
 </ul>
 ==================== apiInputCpp ====================>
@@ -18065,7 +18065,7 @@ sim.setObjectPosition(int objectHandle, float[3] position,
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
 <li><strong>position</strong>: coordinates of the object</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify sim.handle_world to set the absolute position, sim.handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified.  If this handle is the handle of a joint, then the position is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the position is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify sim.handle_world to set the absolute position, sim.handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified. If this handle is the handle of a joint, then the position is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the position is applied relative to the joint's base frame)</li>
 </ul>
 ==================== apiInputPythonLua ====================>
 
@@ -18142,7 +18142,7 @@ int simSetObjectQuaternion(int objectHandle, int relativeToObjectHandle, const d
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to provide the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe</li>
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified.  If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame)</li>
 <li><strong>quaternion</strong>: the quaternion (array of 4 values [qx qy qz qw])
 </li>
 </ul>
@@ -18168,7 +18168,7 @@ sim.setObjectQuaternion(int objectHandle, float[4] quaternion,
 <ul>
 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to provide the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe</li>
 <li><strong>quaternion</strong>: the quaternion (array of 4 values [qx qy qz qw])
-<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified.  If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame)</li>
+<li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame)</li>
 </li>
 </ul>
 ==================== apiInputPythonLua ====================>
@@ -18298,7 +18298,7 @@ int simSetObjectStringParam(int objectHandle, int parameterID, char* parameter, 
 
 ==================== apiOutputCpp ====================<
 <ul>
-<li>-1 in case of an error, 0 if the parameter could not be set, or 1 if  operation was successful</li>
+<li>-1 in case of an error, 0 if the parameter could not be set, or 1 if operation was successful</li>
 </ul>
 ==================== apiOutputCpp ====================>
 
@@ -18576,7 +18576,7 @@ int simSetScriptInt32Param(int scriptHandle, int parameterID, int parameter)
 
 ==================== apiOutputCpp ====================<
 <ul>
-<li>-1 in case of an error, 0 if the parameter could not be set, or 1 if  operation was successful</li>
+<li>-1 in case of an error, 0 if the parameter could not be set, or 1 if operation was successful</li>
 </ul>
 ==================== apiOutputCpp ====================>
 
@@ -18626,7 +18626,7 @@ int simSetScriptStringParam(int scriptHandle, int parameterID, char* parameter, 
 
 ==================== apiOutputCpp ====================<
 <ul>
-<li>-1 in case of an error, 0 if the parameter could not be set, or 1 if  operation was successful</li>
+<li>-1 in case of an error, 0 if the parameter could not be set, or 1 if operation was successful</li>
 </ul>
 ==================== apiOutputCpp ====================>
 
@@ -18862,7 +18862,7 @@ int simSetShapeTexture(int h, int tId, int mode, int opt, const double* uvScalin
 <li><strong>opt</strong>: bit-coded:
 <ul>
 <li>bit0: if set (1), then adjacent texture pixels are not interpolated.</li>
-<li>bit1:  if set (2), then the texture is applied as a decal (its appearance won't be influenced by light conditions).</li>
+<li>bit1: if set (2), then the texture is applied as a decal (its appearance won't be influenced by light conditions).</li>
 <li>bit2: if set (4), then the texture will be repeated along the U direction.</li>
 <li>bit3: if set (8), then the texture will be repeated along the V direction.</li>
 </ul>
@@ -18897,7 +18897,7 @@ sim.setShapeTexture(int shapeHandle, int textureId, int mappingMode, int options
 <li><strong>options</strong>: bit-coded:
 <ul>
 <li>bit0: if set (1), then adjacent texture pixels are not interpolated.</li>
-<li>bit1:  if set (2), then the texture is applied as a decal (its appearance won't be influenced by light conditions).</li>
+<li>bit1: if set (2), then the texture is applied as a decal (its appearance won't be influenced by light conditions).</li>
 <li>bit2: if set (4), then the texture will be repeated along the U direction.</li>
 <li>bit3: if set (8), then the texture will be repeated along the V direction.</li>
 </ul>
@@ -19004,7 +19004,7 @@ sim.setStringSignal
 
 ==================== apiDescription ====================<
 Sets the value of a string signal. A signal created in a <a href="../childScripts.htm">child script</a>,
-a <a href="../customizationScripts.htm">customization script</a> or in the 
+a <a href="../customizationScripts.htm">customization script</a> or in the
 <a href="../mainScript.htm">main script</a> is automatically cleared when the script ends
 ==================== apiDescription ====================>
 
@@ -19293,7 +19293,7 @@ int simSubtractObjectFromPointCloud(int pointCloudHandle, int objectHandle, int 
 ==================== apiInputCpp ====================<
 <ul>
 <li><strong>pointCloudHandle</strong>: handle of the point cloud</li>
-<li><strong>objectHandle</strong>:  handle of the object to subtract. Only potentially <a href="../measurableObjects.htm">measurable objects</a> are supported</li>
+<li><strong>objectHandle</strong>: handle of the object to subtract. Only potentially <a href="../measurableObjects.htm">measurable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 <li><strong>tolerance</strong>: distance used as a tolerance value</li>
 <li><strong>reserved</strong>: reserved for future extensions. Set to nullptr</li>
@@ -19319,7 +19319,7 @@ int totalPointCnt = sim.subtractObjectFromPointCloud(int pcHandle, int objectHan
 ==================== apiInputPythonLua ====================<
 <ul>
 <li><strong>pcHandle</strong>: handle of the point cloud</li>
-<li><strong>objectHandle</strong>:  handle of the object to subtract. Only potentially <a href="../measurableObjects.htm">measurable objects</a> are supported</li>
+<li><strong>objectHandle</strong>: handle of the object to subtract. Only potentially <a href="../measurableObjects.htm">measurable objects</a> are supported</li>
 <li><strong>options</strong>: reserved. Set to 0</li>
 <li><strong>tolerance</strong>: distance used as a tolerance value</li>
 </ul>
@@ -19339,7 +19339,7 @@ sim.textEditorClose
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Closes a  text edition window previously opened with <a href="simTextEditorOpen.htm">sim.textEditorOpen</a>
+Closes a text edition window previously opened with <a href="simTextEditorOpen.htm">sim.textEditorOpen</a>
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisPython ====================<
@@ -19478,7 +19478,7 @@ sim.textEditorShow
 ==================== apiFunctionName ====================>
 
 ==================== apiDescription ====================<
-Shows or hides a  text edition window previously opened with <a href="simTextEditorOpen.htm">sim.textEditorOpen</a>
+Shows or hides a text edition window previously opened with <a href="simTextEditorOpen.htm">sim.textEditorOpen</a>
 ==================== apiDescription ====================>
 
 ==================== apiSynopsisPython ====================<
