@@ -20,5 +20,4 @@ for func in root:
     if calltip:
         ET.SubElement(func, 'api-calltip').text = calltip
 
-ET.indent(tree, ' ' * 4)
 ET.dump(tree)
