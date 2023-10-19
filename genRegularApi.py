@@ -11,15 +11,16 @@ currentDir = Path(__file__).absolute().parent
 
 templatesDir = currentDir / 'templates'
 
-zmqRemoteApiToolsDir = currentDir.parent / 'programming' / 'zmqRemoteApi' / 'tools'
-if zmqRemoteApiToolsDir.is_dir():
-    sys.path.append(str(zmqRemoteApiToolsDir))
-else:
-    sys.stderr.write('zmqRemoteApi/tools directory missing\n')
-    sys.exit(1)
+if '--calltip' in sys.argv:
+    zmqRemoteApiToolsDir = currentDir.parent / 'programming' / 'zmqRemoteApi' / 'tools'
+    if zmqRemoteApiToolsDir.is_dir():
+        sys.path.append(str(zmqRemoteApiToolsDir))
+    else:
+        sys.stderr.write('zmqRemoteApi/tools directory missing\n')
+        sys.exit(1)
 
-import lark
-from calltip import FuncDef, Arg, ArgDef
+    import lark
+    from calltip import FuncDef, Arg, ArgDef
 
 
 def main():
