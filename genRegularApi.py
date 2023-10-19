@@ -98,11 +98,13 @@ def main():
                     a = a.replace('__input__', apiInputPythonLua)
                     a = a.replace('__inputVisibility__', '')
                 else:
+                    a = a.replace('__input__', '')
                     a = a.replace('__inputVisibility__', 'style="display: none;"')
                 if apiOutputPythonLua:
                     a = a.replace('__output__', apiOutputPythonLua)
                     a = a.replace('__outputVisibility__', '')
                 else:
+                    a = a.replace('__output__', '')
                     a = a.replace('__outputVisibility__', 'style="display: none;"')
                 a = a.replace('__more__', apiMorePythonLua)
                 file_w.write(a)
@@ -118,11 +120,13 @@ def main():
                     a = a.replace('__input__', apiInputCpp)
                     a = a.replace('__inputVisibility__', '')
                 else:
+                    a = a.replace('__input__', '')
                     a = a.replace('__inputVisibility__', 'style="display: none;"')
                 if apiOutputCpp:
                     a = a.replace('__output__', apiOutputCpp)
                     a = a.replace('__outputVisibility__', '')
                 else:
+                    a = a.replace('__output__', '')
                     a = a.replace('__outputVisibility__', 'style="display: none;"')
                 a = a.replace('__more__', apiMoreCpp)
                 file_w.write(a)
