@@ -90,10 +90,10 @@ int main(int argc,char* argv[])
 
 <h2>Java client</h2>
 <p>Any Java client requires <a href="https://maven.apache.org/index.html" target="_blank">Apache Maven</a>. For details see <em>programming/zmqRemoteApi/clients/java/src/main/java</em>, which contains several examples.</p>
-<p> Build them with:</p>
+<p> Make sure that your folder names do not contain any spaces, and have CoppeliaSim running (API function are fetched from CoppeliaSim). Build with:</p>
 <code class="hljs coppelia-terminal">$ export COPPELIASIM_ROOT_DIR=path/to/CoppeliaSim/exec/folder/or/resources/folder/on/macOS
 $ cd zmqRemoteApi/clients/java
-$ mvn package</code>
+$ mvn package -D&quot;GENERATE_INCLUDE_OBJECTS=sim,simIK&quot;</code>
 
 
 <br>
@@ -101,9 +101,8 @@ $ mvn package</code>
 
 
 
-<p>Following is a very simple Java ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepping</a> simulation for 3 seconds:</p>
-<code class="hljs language-java coppelia-zmq-remote-api-client">import java.util.List;
-import java.util.Arrays;
+<p>In above, only the sim and simIK namespaces are considered, you may add more when needed. Following is a very simple Java ZeroMQ remote API client code, which starts then runs a <a href="simulation.htm#stepped">stepping</a> simulation for 3 seconds:</p>
+<code class="hljs language-java coppelia-zmq-remote-api-client">import java.util.Arrays;
 
 import com.coppeliarobotics.remoteapi.zmq.*;
 
@@ -117,10 +116,10 @@ public class Example
         sim.setStepping(true);
         sim.startSimulation();
 
-        float simTime = 0.0f;
+        double simTime = 0.0;
         while((simTime = sim.getSimulationTime()) &lt; 3)
         {
-            System.out.println("Simulation time: " + simTime + " [s]");
+            System.out.printf("Simulation time: %.2f [s]%n", simTime);
             sim.step();
         }
         sim.stopSimulation();
