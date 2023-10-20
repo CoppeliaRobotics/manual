@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>simPython Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>simPython Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">Plugin for embedding a Python interpreter</p></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#call">simPython.call</a>
+<a href="?#create">simPython.create</a>
+<a href="?#destroy">simPython.destroy</a>
+<a href="?#getVersion">simPython.getVersion</a>
+<a href="?#run">simPython.run</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="call" id="call"></a>simPython.call</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table result=simPython.call(string scriptStateHandle, string func, table args)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>scriptStateHandle</strong> (string)</div>
+<div>
+<strong>func</strong> (string)</div>
+<div>
+<strong>args</strong> (table)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (table)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list result=simPython.call(string scriptStateHandle, string func, list args)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="create" id="create"></a>simPython.create</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string scriptStateHandle=simPython.create()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>scriptStateHandle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string scriptStateHandle=simPython.create()<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="destroy" id="destroy"></a>simPython.destroy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simPython.destroy(string scriptStateHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>scriptStateHandle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simPython.destroy(string scriptStateHandle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getVersion" id="getVersion"></a>simPython.getVersion</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get version of Python interpreter</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int[] version=simPython.getVersion()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>version</strong> (table of int)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list version=simPython.getVersion()<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="run" id="run"></a>simPython.run</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table result=simPython.run(string scriptStateHandle, string code)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>scriptStateHandle</strong> (string)</div>
+<div>
+<strong>code</strong> (string)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (table)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list result=simPython.run(string scriptStateHandle, string code)<br>
+</td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section"></td></tr>
+<tr><td id="structs" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section"></td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css">
+<script src="../js/hljs/11.8.0/highlight.min.js"></script><script src="../js/hljs/11.8.0/languages/cmake.min.js"></script><script src="../js/hljs/11.8.0/languages/cpp.min.js"></script><script src="../js/hljs/11.8.0/languages/java.min.js"></script><script src="../js/hljs/11.8.0/languages/javascript.min.js"></script><script src="../js/hljs/11.8.0/languages/lua.min.js"></script><script src="../js/hljs/11.8.0/languages/matlab.min.js"></script><script src="../js/hljs/11.8.0/languages/python.min.js"></script><script src="../js/hljs/11.8.0/languages/rust.min.js"></script><script src="../js/hljs/11.8.0/languages/xml.min.js"></script><script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>
