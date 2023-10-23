@@ -47,10 +47,11 @@
 <a name="pythonClient"></a>
 <h1>Python client</h1>
 
-<p>A complete working example of loading the CoppeliaSim library in Python is given in <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython" target="_blank">coppeliaSimClientPython</a>, but also available in <em>&lt;CoppeliaSim folder&gt;/programming/</em>. From your command line:</p>
+<p>A complete working example of loading the CoppeliaSim library in Python is given in <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython" target="_blank">coppeliaSimClientPython</a>, but also available in <em>&lt;CoppeliaSim folder&gt;</em>. From your command line:</p>
 
-<code class="hljs coppelia-terminal">$ python3 ./main_wait_ui.py -h    (display run options)<br>    
-$ python3 ./main_wait_ui.py -L &lt;path/to/CoppeliaSim/library&gt;    (run CoppeliaSim)</code>
+<code class="hljs coppelia-terminal">$ python3 ./coppeliaSim.py -h                                 (display run options)    
+$ python3 ./coppeliaSim.py                                    (run CoppeliaSim with default lib)
+$ python3 ./coppeliaSim.py -L &lt;path/to/CoppeliaSim/library&gt;   (run CoppeliaSim with specific lib)</code>
 
 <p>In this section, relevant parts are explained.</p>
 
@@ -65,12 +66,12 @@ import threading
 from ctypes import *
 
 # set the path to the coppeliaSim's library:
-builtins.coppeliaSim_library = "/path/to/libcoppeliaSim.so"
+builtins.coppeliasim_library = "/path/to/libcoppeliaSim.so"
 
 # import the coppeliaSim's library functions:
-from coppeliaSim.lib import *
+from coppeliasim.lib import *
 
-appDir = os.path.dirname(builtins.coppeliaSim_library)
+appDir = os.path.dirname(builtins.coppeliasim_library)
 
 # start the sim thread (see in the next section)
 t = threading.Thread(target=simThreadFunc, args=(appDir,))
@@ -94,11 +95,11 @@ t.join()</code>
     simInitialize(c_char_p(appDir.encode('utf-8')), 0)
 
     # script bridge, see next section
-    import coppeliaSim.bridge
-    coppeliaSim.bridge.load()
+    import coppeliasim.bridge
+    coppeliasim.bridge.load()
 
     global sim
-    sim = coppeliaSim.bridge.require('sim')
+    sim = coppeliasim.bridge.require('sim')
 
     sim.loadScene('path/to/scene.ttt')
     simStart()
@@ -125,23 +126,23 @@ def simStop():
         sim.stopSimulation()
         simLoop(None, 0)</code>
 
-<h2>coppeliaSim.bridge</h2>
+<h2>coppeliasim.bridge</h2>
 
 <p>The <code>coppeliaSim.bridge</code> module provides seamless access to the regular API used by scripts, e.g.:</p>
 
-<code class="hljs language-python coppelia-coppeliasim-client">import coppeliaSim.bridge
+<code class="hljs language-python coppelia-coppeliasim-client">import coppeliasim.bridge
 
 # load the bridge component:
-coppeliaSim.bridge.load()
+coppeliasim.bridge.load()
 
 # fetch API objects:
-sim = coppeliaSim.bridge.require('sim')
+sim = coppeliasim.bridge.require('sim')
 
 # e.g.: use some API function:
 program_version = sim.getInt32Param(sim.intparam_program_full_version)</code>
 
 
-<p>Please refer to <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython/blob/main/main_with_ui.py">coppeliaSimClientPython/main_with_ui.py</a> for the complete code.</p>
+<p>Please refer to <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython/blob/main/coppeliaSim.py" target="_blank">coppeliaSimClientPython/coppeliaSim.py</a> for the complete code.</p>
 
 
 <br>
