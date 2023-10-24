@@ -35,7 +35,29 @@ function sysCall_init()
 end</code>
 </div>
 
-<li>CoppeliaSim tries to select the default Python interpreter present on your system. If this does not work, or if another interpreter is desired, then one can edit the <em>usrset.txt</em> file entry named <em>defaultPython</em>. The location of the <em>usrset.txt</em> file can be queried via sim.getStringParam(sim.stringparam_usersettingsdir)</li>
+<li>Global variables are inconvenient and not recommended in Python:</li>
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    self.myVariable = 21
+
+def sysCall_sensing():
+    print(self.myVariable)</code>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+function sysCall_init()
+    myVariable = 21
+end
+
+function sysCall_sensing()
+    print(myVariable)
+end</code>
+</div>
+
+<li>CoppeliaSim selects the default Python interpreter present on your system. If this does not work, or if another interpreter is desired, then one can edit the <em>usrset.txt</em> file entry named <em>defaultPython</em>. The location of the <em>usrset.txt</em> file can be queried via sim.getStringParam(sim.stringparam_usersettingsdir)</li>
 <li>Lua code always executes in the same thread as CoppeliaSim and is thus quite fast. Python code on the other hand is launched in a new process, which connects to CoppeliaSim via socket communication. This implies that Python code will usually start and run slower than Lua code. However, when Python is operating in non-stepping mode, and doesn't access CoppeliaSim API, it truely runs parallel to CoppeliaSim.</li>
 <li>Python scripts are handled via Lua wrapper code, which handles the launch and communication of each Python script. Auxiliary Lua code can be passed via the <em>luaExec</em> command, within a Python comment section. That code must come immediately after the <em>#python</em> header tag:</li>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
@@ -114,6 +136,22 @@ def sysCall_thread():
     # perform some task that involves CoppeliaSim
     
     sim.releaseLock()</code>
+
+<li>A few callback functions need to be enabled explicitly, in order to avoid constant slowdowns:</li>
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+#luaExec contactCallback = true    -- enable contact callback
+#luaExec dynCallback = true        -- enable dyn callback
+#luaExec eventCallback = true      -- enable event callback
+
+def sysCall_contact(inArg):
+    print(inArg)
+    
+def sysCall_dyn(inArg):
+    print(inArg)
+    
+def sysCall_event(inArg):
+    print(inArg)</code>
 
 <li>Some rare API functions will only be availabe in Lua, while other only in Python.</li>
 
