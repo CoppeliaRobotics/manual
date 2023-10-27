@@ -60,6 +60,7 @@ end</code>
 <li>CoppeliaSim selects the default Python interpreter present on your system. If this does not work, or if another interpreter is desired, then one can edit the <em>usrset.txt</em> file entry named <em>defaultPython</em>. The location of the <em>usrset.txt</em> file can be queried via sim.getStringParam(sim.stringparam_usersettingsdir)</li>
 <li>Lua code always executes in the same thread as CoppeliaSim and is thus quite fast. Python code on the other hand is launched in a new process, which connects to CoppeliaSim via socket communication. This implies that Python code will usually start and run slower than Lua code. However, when Python is operating in non-stepping mode, and doesn't access CoppeliaSim API, it truely runs parallel to CoppeliaSim.</li>
 <li>Python scripts are handled via Lua wrapper code, which handles the launch and communication of each Python script. Auxiliary Lua code can be passed via the <em>luaExec</em> command, within a Python comment section. That code must come immediately after the <em>#python</em> header tag:</li>
+<br>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 #luaExec wrapper='myWrapperCode' -- looks for myWrapperCode.lua in Lua's search path
@@ -67,12 +68,18 @@ end</code>
 #luaExec additionalIncludePaths={'c:/Python38','c:/path2'} -- adds additional paths to search for the include file
 '''luaExec
 function myLuaFunction()
-    -- do something here
+    print('hello Paul!')
+    sim.callScriptFunction('myPythonFunction',sim.getScript(sim.handle_self))
 end
 '''
 
+def myPythonFunction():
+    print('hello Jeanine!')
+
 def sysCall_init():
-    print("Hello world!")</code>
+    sim = require('sim')
+    sim.callScriptFunction('myLuaFunction',sim.getScript(sim.handle_self))
+    print("hello Marc!")</code>
     
 <li>The import directive does not work when importing the primary Python file, and following should be used instead:</li>
 <div class="multi-language-switcher">
@@ -128,6 +135,7 @@ end</code>
 
 
 <li>When some Python code section needs to be executed without interruption, then one can use following construct:</li>
+<br>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 def sysCall_thread():
@@ -138,6 +146,7 @@ def sysCall_thread():
     sim.releaseLock()</code>
 
 <li>A few callback functions need to be enabled explicitly, in order to avoid constant slowdowns:</li>
+<br>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 #luaExec contactCallback = true    -- enable contact callback
