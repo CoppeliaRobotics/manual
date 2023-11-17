@@ -115,7 +115,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string serviceServerHandle=simROS.advertiseService(string serviceName, string serviceType, string serviceCallback)<br>
+<td class="apiTableRightLSyn">string serviceServerHandle=simROS.advertiseService(string serviceName, string serviceType, func serviceCallback)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -126,7 +126,7 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>serviceType</strong> (string): topic type, e.g.: 'geometry_msgs::Twist'</div>
 <div>
-<strong>serviceCallback</strong> (string): name of the callback function, which will be called with a single argument of type table containing the service request payload; it must return another table containing the response</div>
+<strong>serviceCallback</strong> (func): callback function, which will be called with a single argument of type table containing the service request payload; it must return another table containing the response</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -136,7 +136,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string serviceServerHandle=simROS.advertiseService(string serviceName, string serviceType, string serviceCallback)<br>
+<td class="apiTableRightPSyn">string serviceServerHandle=simROS.advertiseService(string serviceName, string serviceType, func serviceCallback)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -647,7 +647,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string subscriberHandle=simROS.imageTransportSubscribe(string topicName, string topicCallback, int queueSize=1)<br>
+<td class="apiTableRightLSyn">string subscriberHandle=simROS.imageTransportSubscribe(string topicName, func topicCallback, int queueSize=1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -656,7 +656,7 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>topicName</strong> (string): topic name, e.g.: '/cmd_vel'</div>
 <div>
-<strong>topicCallback</strong> (string): name of the callback function, which will be called as: topicCallback(buffer data, int width, int height)</div>
+<strong>topicCallback</strong> (func): callback function, which will be called as: topicCallback(buffer data, int width, int height)</div>
 <div>
 <strong>queueSize</strong> (int, default: 1): (optional) queue size</div>
 </td>
@@ -668,7 +668,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string subscriberHandle=simROS.imageTransportSubscribe(string topicName, string topicCallback, int queueSize=1)<br>
+<td class="apiTableRightPSyn">string subscriberHandle=simROS.imageTransportSubscribe(string topicName, func topicCallback, int queueSize=1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1296,7 +1296,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string subscriberHandle=simROS.subscribe(string topicName, string topicType, string topicCallback, int queueSize=1, transport_hints transportHints={})<br>
+<td class="apiTableRightLSyn">string subscriberHandle=simROS.subscribe(string topicName, string topicType, func topicCallback, int queueSize=1, transport_hints transportHints={})<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1307,7 +1307,7 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>topicType</strong> (string): topic type, e.g.: 'geometry_msgs::Twist'</div>
 <div>
-<strong>topicCallback</strong> (string): name of the callback function, which will be called with a single argument of type table containing the message payload, e.g.: {linear={x=1.5, y=0.0, z=0.0}, angular={x=0.0, y=0.0, z=-2.3}}</div>
+<strong>topicCallback</strong> (func): callback function, which will be called with a single argument of type table containing the message payload, e.g.: {linear={x=1.5, y=0.0, z=0.0}, angular={x=0.0, y=0.0, z=-2.3}}</div>
 <div>
 <strong>queueSize</strong> (int, default: 1): (optional) queue size</div>
 <div>
@@ -1321,7 +1321,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string subscriberHandle=simROS.subscribe(string topicName, string topicType, string topicCallback, int queueSize=1, transport_hints transportHints={})<br>
+<td class="apiTableRightPSyn">string subscriberHandle=simROS.subscribe(string topicName, string topicType, func topicCallback, int queueSize=1, transport_hints transportHints={})<br>
 </td>
 </tr>
 <tr class="apiTableTr">

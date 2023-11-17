@@ -611,7 +611,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string actionClientHandle=simROS2.createActionClient(string actionName, string actionType, string goalResponseCallback, string feedbackCallback, string resultCallback)<br>
+<td class="apiTableRightLSyn">string actionClientHandle=simROS2.createActionClient(string actionName, string actionType, func goalResponseCallback, func feedbackCallback, func resultCallback)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -622,11 +622,11 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>actionType</strong> (string): action type, e.g.: 'example_interfaces/action/Fibonacci'</div>
 <div>
-<strong>goalResponseCallback</strong> (string): the goal response callback, will be called with arguments (goal_id,accepted) where accepted is a boolean value</div>
+<strong>goalResponseCallback</strong> (func): the goal response callback, will be called with arguments (goal_id,accepted) where accepted is a boolean value</div>
 <div>
-<strong>feedbackCallback</strong> (string): the feedback callback, will be called with arguments (goal_id,feedback) where feedback is a table representing the Feedback message of the action type</div>
+<strong>feedbackCallback</strong> (func): the feedback callback, will be called with arguments (goal_id,feedback) where feedback is a table representing the Feedback message of the action type</div>
 <div>
-<strong>resultCallback</strong> (string): the result callback, will be called with arguments (goal_id,code,result) where code is a value from <a href="#enum:action_result_code">simROS2.action_result_code</a>, and result is a table representing the Result message of the action type</div>
+<strong>resultCallback</strong> (func): the result callback, will be called with arguments (goal_id,code,result) where code is a value from <a href="#enum:action_result_code">simROS2.action_result_code</a>, and result is a table representing the Result message of the action type</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -636,7 +636,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string actionClientHandle=simROS2.createActionClient(string actionName, string actionType, string goalResponseCallback, string feedbackCallback, string resultCallback)<br>
+<td class="apiTableRightPSyn">string actionClientHandle=simROS2.createActionClient(string actionName, string actionType, func goalResponseCallback, func feedbackCallback, func resultCallback)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -658,7 +658,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string actionServerHandle=simROS2.createActionServer(string actionName, string actionType, string handleGoalCallback, string handleCancelCallback, string handleAcceptedCallback)<br>
+<td class="apiTableRightLSyn">string actionServerHandle=simROS2.createActionServer(string actionName, string actionType, func handleGoalCallback, func handleCancelCallback, func handleAcceptedCallback)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -669,13 +669,13 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>actionType</strong> (string): action type, e.g.: 'example_interfaces/action/Fibonacci'</div>
 <div>
-<strong>handleGoalCallback</strong> (string): name of callback function, which will be called with arguments (goal_id, goal) where goal is a table representing the Goal message of the action type. the callback must return a valid <a href="#enum:goal_response">simROS2.goal_response</a>
+<strong>handleGoalCallback</strong> (func): callback function, which will be called with arguments (goal_id, goal) where goal is a table representing the Goal message of the action type. the callback must return a valid <a href="#enum:goal_response">simROS2.goal_response</a>
 </div>
 <div>
-<strong>handleCancelCallback</strong> (string): name of callback function, which will be called with arguments (goal_id, goal) where goal is a table representing the Goal message of the action type. the callback must return a valid <a href="#enum:cancel_response">simROS2.cancel_response</a>
+<strong>handleCancelCallback</strong> (func): callback function, which will be called with arguments (goal_id, goal) where goal is a table representing the Goal message of the action type. the callback must return a valid <a href="#enum:cancel_response">simROS2.cancel_response</a>
 </div>
 <div>
-<strong>handleAcceptedCallback</strong> (string): name of callback function, which will be called with arguments (goal_id, goal) where goal is a table representing the Goal message of the action type. it will be called after the goal is accepted, and is responsible of executing the goal, but must return immediately.</div>
+<strong>handleAcceptedCallback</strong> (func): callback function, which will be called with arguments (goal_id, goal) where goal is a table representing the Goal message of the action type. it will be called after the goal is accepted, and is responsible of executing the goal, but must return immediately.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -685,7 +685,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string actionServerHandle=simROS2.createActionServer(string actionName, string actionType, string handleGoalCallback, string handleCancelCallback, string handleAcceptedCallback)<br>
+<td class="apiTableRightPSyn">string actionServerHandle=simROS2.createActionServer(string actionName, string actionType, func handleGoalCallback, func handleCancelCallback, func handleAcceptedCallback)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -830,7 +830,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string serviceHandle=simROS2.createService(string serviceName, string serviceType, string serviceCallback)<br>
+<td class="apiTableRightLSyn">string serviceHandle=simROS2.createService(string serviceName, string serviceType, func serviceCallback)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -841,7 +841,7 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>serviceType</strong> (string): service type, e.g.: 'std_srvs/srv/Trigger'</div>
 <div>
-<strong>serviceCallback</strong> (string): name of the callback function, which will be called with a single argument of type table containing the service request payload; it must return another table containing the response</div>
+<strong>serviceCallback</strong> (func): callback function, which will be called with a single argument of type table containing the service request payload; it must return another table containing the response</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -851,7 +851,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string serviceHandle=simROS2.createService(string serviceName, string serviceType, string serviceCallback)<br>
+<td class="apiTableRightPSyn">string serviceHandle=simROS2.createService(string serviceName, string serviceType, func serviceCallback)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -873,7 +873,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string subscriptionHandle=simROS2.createSubscription(string topicName, string topicType, string topicCallback, int queueSize=1)<br>
+<td class="apiTableRightLSyn">string subscriptionHandle=simROS2.createSubscription(string topicName, string topicType, func topicCallback, int queueSize=1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -884,7 +884,7 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>topicType</strong> (string): topic type, e.g.: 'geometry_msgs/msg/Twist'</div>
 <div>
-<strong>topicCallback</strong> (string): name of the callback function, which will be called with a single argument of type table containing the message payload, e.g.: {linear={x=1.5, y=0.0, z=0.0}, angular={x=0.0, y=0.0, z=-2.3}}</div>
+<strong>topicCallback</strong> (func): callback function, which will be called with a single argument of type table containing the message payload, e.g.: {linear={x=1.5, y=0.0, z=0.0}, angular={x=0.0, y=0.0, z=-2.3}}</div>
 <div>
 <strong>queueSize</strong> (int, default: 1): (optional) queue size</div>
 </td>
@@ -896,7 +896,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string subscriptionHandle=simROS2.createSubscription(string topicName, string topicType, string topicCallback, int queueSize=1)<br>
+<td class="apiTableRightPSyn">string subscriptionHandle=simROS2.createSubscription(string topicName, string topicType, func topicCallback, int queueSize=1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1329,7 +1329,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string subscriptionHandle=simROS2.imageTransportCreateSubscription(string topicName, string topicCallback, int queueSize=1)<br>
+<td class="apiTableRightLSyn">string subscriptionHandle=simROS2.imageTransportCreateSubscription(string topicName, func topicCallback, int queueSize=1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1338,7 +1338,7 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>topicName</strong> (string): topic name, e.g.: '/cmd_vel'</div>
 <div>
-<strong>topicCallback</strong> (string): name of the callback function, which will be called as: topicCallback(buffer data, int width, int height)</div>
+<strong>topicCallback</strong> (func): callback function, which will be called as: topicCallback(buffer data, int width, int height)</div>
 <div>
 <strong>queueSize</strong> (int, default: 1): (optional) queue size</div>
 </td>
@@ -1350,7 +1350,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string subscriptionHandle=simROS2.imageTransportCreateSubscription(string topicName, string topicCallback, int queueSize=1)<br>
+<td class="apiTableRightPSyn">string subscriptionHandle=simROS2.imageTransportCreateSubscription(string topicName, func topicCallback, int queueSize=1)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
