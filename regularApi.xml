@@ -11470,7 +11470,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
         <api-synopsis-cpp>int simSetObjectParent(int objectHandle, int parentObjectHandle, bool keepInPlace)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>objectHandle</strong>: handle of the object that will become child of the parent object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_assembly</a> (simply add sim.handleflag_assembly to <strong>objectHandle</strong>), if the two objects can be assembled via a predefined assembly transformation (refer to the <strong>assembling</strong> option in the <a href="../commonPropertiesDialog.htm">object common properties</a>). In that case, <strong>parentObjectHandle</strong> can't be -1, and <strong>keepInPlace</strong> should be set to false</li>
+                <li><strong>objectHandle</strong>: handle of the object that will become child of the parent object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_assembly</a> (simply add sim.handleflag_assembly to <strong>objectHandle</strong>), if the two objects correspond to assembly items. In that case, <strong>parentObjectHandle</strong> can't be -1, and <strong>keepInPlace</strong> should be set to false</li>
                 <li><strong>parentObjectHandle</strong>: handle of the object that will become parent, or -1 if the object should become parentless</li>
                 <li><strong>keepInPlace</strong>: indicates whether the object's absolute position and orientation should stay same</li>
             </ul>
@@ -11484,7 +11484,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
         <api-synopsis-lua>sim.setObjectParent(int objectHandle, int parentObjectHandle, bool keepInPlace)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>objectHandle</strong>: handle of the object that will become child of the parent object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_assembly</a> (simply add sim.handleflag_assembly to <strong>objectHandle</strong>), if the two objects can be assembled via a predefined assembly transformation (refer to the <strong>assembling</strong> option in the <a href="../commonPropertiesDialog.htm">object common properties</a>). In that case, <strong>parentObjectHandle</strong> can't be -1, and <strong>keepInPlace</strong> should be set to false</li>
+                <li><strong>objectHandle</strong>: handle of the object that will become child of the parent object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_assembly</a> ((simply add sim.handleflag_assembly to <strong>objectHandle</strong>), if the two objects correspond to assembly items. In that case, <strong>parentObjectHandle</strong> can't be -1, and <strong>keepInPlace</strong> should be set to false</li>
                 <li><strong>parentObjectHandle</strong>: handle of the object that will become parent, or -1 if the object should become parentless</li>
                 <li><strong>keepInPlace</strong>: indicates whether the object's absolute position and orientation should stay same</li>
             </ul>
@@ -12816,7 +12816,7 @@ sim.relocateShapeFrame</api-see-also>
         <api-function-name>sim.writeCustomDataBlock</api-function-name>
         <api-description>Adds or removes custom data to be stored and saved together with an object, or the scene.
 If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
-The data can also be saved globally for the application (for the current CoppeliaSim session)</api-description>
+The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the child- or customization script attached to that object</api-description>
         <api-see-also>sim.setReferencedHandles
 <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
             <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
@@ -12850,7 +12850,7 @@ The data can also be saved globally for the application (for the current Coppeli
         <api-function-name>sim.writeCustomTableData</api-function-name>
         <api-description>Adds or removes custom table data to be stored and saved together with an object, or the scene.
 If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
-The data can also be saved globally for the application (for the current CoppeliaSim session)</api-description>
+The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the child- or customization script attached to that object</api-description>
         <api-see-also>
             <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
         </api-see-also>

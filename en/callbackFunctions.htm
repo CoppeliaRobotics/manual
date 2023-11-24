@@ -195,8 +195,13 @@ def sysCall_msg(msg, origin):
     # sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant
     pass
 
+def sysCall_data(inData):
+    # Asynchronously called when a custom data block attached to the object associated with this script is modified
+    # Only for child- and customization scripts
+    pass
+
 def sysCall_event(cborBuffer):
-    # Called when something (mainly visual for now) changes. Can be reentrant
+    # Asynchronously called when something (mainly visual for now) changes. Can be reentrant
     # Mainly used to synchronize an external viewer/renderer with CoppeliaSim.
     # See also sim.getGenesisEvents
     pass</code>
@@ -205,7 +210,7 @@ def sysCall_event(cborBuffer):
 
 function sysCall_info()
     -- Lua only. Can be used to specify initial configuration data. E.g. in case of an add-on: 
-    return {autoStart=false,menu='menu1\nmenu2\nadd-on name',menuEnabled=true}
+    return {autoStart = false, menu = 'menu1\nmenu2\nadd-on name', menuEnabled = true}
 end
 
 function sysCall_init()
@@ -280,35 +285,35 @@ end
 function sysCall_selChange(inData)
     -- After selection was changed
     for i = 1, #inData.sel, 1 do
-        print("Object with handle "..inData.sel[i].." is selected")
+        print("Object with handle " .. inData.sel[i] .. " is selected")
     end
 end
 
 function sysCall_beforeCopy(inData)
     -- Before one or several objects will be copied. Can be reentrant
     for i = 1, #inData.objects, 1 do
-        print("Object with handle "..inData.objects[i].." will be copied")
+        print("Object with handle " .. inData.objects[i] .. " will be copied")
     end
 end
 
 function sysCall_afterCopy(inData)
     -- After one or several objects were copied. Can be reentrant
     for i = 1, #inData.objects, 1 do
-        print("Object with handle "..inData.objects[i].." was copied")
+        print("Object with handle " .. inData.objects[i] .. " was copied")
     end
 end
 
 function sysCall_afterCreate(inData)
     -- After one or several objects were created. Can be reentrant
     for i = 1, #inData.objects, 1 do
-        print("Object with handle "..inData.objects[i].." was created")
+        print("Object with handle " .. inData.objects[i] .. " was created")
     end
 end
 
 function sysCall_beforeDelete(inData)
     -- Before one or several objects will be deleted. Can be reentrant
     for i = 1, #inData.objects, 1 do
-        print("Object with handle "..inData.objects[i].." will be deleted")
+        print("Object with handle " .. inData.objects[i] .. " will be deleted")
     end
     -- inData.allObjects indicates if all objects in the scene will be deleted
 end
@@ -316,14 +321,14 @@ end
 function sysCall_afterDelete(inData)
     -- After one or several objects were deleted. Can be reentrant
     for i = 1, #inData.objects, 1 do
-        print("Object with handle "..inData.objects[i].." was deleted")
+        print("Object with handle " .. inData.objects[i] .. " was deleted")
     end
     -- inData.allObjects indicates if all objects in the scene were deleted
 end
 
 function sysCall_beforeMainScript()
     -- Can be used to step a simulation in a custom manner.
-    local outData={doNotRunMainScript=false} -- when true, then the main script won't be executed
+    local outData = {doNotRunMainScript = false} -- when true, then the main script won't be executed
     return outData
 end
 
@@ -371,22 +376,27 @@ end
 
 function sysCall_moduleEntry(inData)
     -- Called when a user module menu entry is selected, e.g.
-    print('Following module menu entry was selected: '..inData.handle)
+    print('Following module menu entry was selected: ' .. inData.handle)
     -- See sim.moduleEntry for details.
 end
 
-function sysCall_msg(msg,origin)
+function sysCall_msg(msg, origin)
     -- Synchronously called when sim.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
     -- sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant 
 end
 
+function sysCall_data(inData)
+    -- Asynchronously called when a custom data block attached to the object associated with this script is modified
+    -- Only for child- and customization scripts
+end
+
 function sysCall_event(cborBuffer)
-    -- Called when something (mainly visual for now) changes. Can be reentrant 
+    -- Asynchronously called when something (mainly visual for now) changes. Can be reentrant 
     -- Mainly used to synchronize an external viewer/renderer with CoppeliaSim.
     -- See also sim.getGenesisEvents
 end
 
-function sysCall_ext(funcName,inData)
+function sysCall_ext(funcName, inData)
     -- When this function is present, then all external calls to a script function, i.e. user callbacks,
     -- will be intercepted (the original function will be shadowed). If only monitoring is desired,
     -- then one should use sim.registerScriptFuncHook on this function.

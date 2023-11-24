@@ -57,19 +57,20 @@ function sysCall_sensing()
 end</code>
 </div>
 
-<li>CoppeliaSim selects the default Python interpreter present on your system. If this does not work, or if another interpreter is desired, then one can edit the <em>usrset.txt</em> file entry named <em>defaultPython</em>. The location of the <em>usrset.txt</em> file can be queried via sim.getStringParam(sim.stringparam_usersettingsdir)</li>
+<li>CoppeliaSim selects the default Python interpreter present on your system. If this does not work, or if another interpreter is desired, then one can edit the <em>usrset.txt</em> file entry named <em>defaultPython</em>. The location of the <em>usrset.txt</em> file can be queried via sim.getStringParam(sim.stringparam_usersettingsdir). In addition to that, each script can specify a custom Python executable if required, via the <em>luaExec</em> directive (see further down)</li>
 <li>Lua code always executes in the same thread as CoppeliaSim and is thus quite fast. Python code on the other hand is launched in a new process, which connects to CoppeliaSim via socket communication. This implies that Python code will usually start and run slower than Lua code. However, when Python is operating in non-stepping mode, and doesn't access CoppeliaSim API, it truely runs parallel to CoppeliaSim.</li>
-<li>Python scripts are handled via Lua wrapper code, which handles the launch and communication of each Python script. Auxiliary Lua code can be passed via the <em>luaExec</em> command, within a Python comment section. That code must come immediately after the <em>#python</em> header tag:</li>
+<li><a name="luaExec"></a>Python scripts are handled via Lua wrapper code, which handles the launch and communication of each Python script. Auxiliary settings, Lua code or Lua functions can be passed via the <em>luaExec</em> directive, within a Python comment section. That code must come immediately after the <em>#python</em> header tag:</li>
 <br>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
-#luaExec wrapper='myWrapperCode' -- looks for myWrapperCode.lua in Lua's search path
-#luaExec additionalPaths={'c:/path1','c:/path2'} -- adds additional Python module search paths
-#luaExec additionalIncludePaths={'c:/Python38','c:/path2'} -- adds additional paths to search for the include file
+#luaExec wrapper = 'myWrapperCode' -- looks for myWrapperCode.lua in Lua's search path
+#luaExec pythonExecutable = 'c:/python38/python.exe' -- runs a specific Python executable 
+#luaExec additionalPaths = {'c:/path1', 'c:/path2'} -- adds additional Python module search paths
+#luaExec additionalIncludePaths = {'c:/Python38', 'c:/path2'} -- adds additional paths to search for the include file
 '''luaExec
 function myLuaFunction()
     print('hello Paul!')
-    sim.callScriptFunction('myPythonFunction',sim.handle_self)
+    sim.callScriptFunction('myPythonFunction', sim.handle_self)
 end
 '''
 
@@ -78,7 +79,7 @@ def myPythonFunction():
 
 def sysCall_init():
     sim = require('sim')
-    sim.callScriptFunction('myLuaFunction',sim.handle_self)
+    sim.callScriptFunction('myLuaFunction', sim.handle_self)
     print("hello Marc!")</code>
     
 <li>The import directive does not work when importing the primary Python file, and following should be used instead:</li>
@@ -108,7 +109,7 @@ require('myExternalFile')</code>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 def sysCall_thread():
-    xml ='&lt;ui title="Custom UI"&gt; &lt;button text="Click me!" on-click="click_callback"/&gt; &lt;/ui&gt;'
+    xml = '&lt;ui title="Custom UI"&gt; &lt;button text="Click me!" on-click="click_callback"/&gt; &lt;/ui&gt;'
     ui = simUI.create(xml)
     while not sim.getThreadExistRequest():
         sim.handleExtCalls()
@@ -120,7 +121,7 @@ def click_callback(ui,button):
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_thread()
-    xml ='&lt;ui title="Custom UI"&gt; &lt;button text="Click me!" on-click="click_callback"/&gt; &lt;/ui&gt;'
+    xml = '&lt;ui title="Custom UI"&gt; &lt;button text="Click me!" on-click="click_callback"/&gt; &lt;/ui&gt;'
     ui = simUI.create(xml)
     while not sim.getThreadExistRequest() do
         sim.handleExtCalls() -- optional
@@ -128,7 +129,7 @@ function sysCall_thread()
     simUI.destroy(ui)
 end
 
-function click_callback(ui,button)
+function click_callback(ui, button)
     print("button was clicked!")
 end</code>
 </div>
