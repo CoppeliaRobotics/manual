@@ -49,8 +49,11 @@
 
 <p>A complete working example of loading the CoppeliaSim library in Python is given in <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython" target="_blank">coppeliaSimClientPython</a>, but also available in <em>&lt;CoppeliaSim folder&gt;</em>. From your command line:</p>
 
-<code class="hljs coppelia-terminal">$ python3 ./coppeliaSim.py -h                                 (display run options)    
-$ python3 ./coppeliaSim.py                                    (run CoppeliaSim with default lib)
+<code class="hljs coppelia-terminal">$ python3 ./coppeliaSim.py --help     (display run options)    
+$ python3 ./coppeliaSim.py            (run CoppeliaSim with GUI and local coppeliaSim lib)
+$ python3 ./coppeliaSim.py -O=0       (run CoppeliaSim with minimalistic GUI and local coppeliaSim lib)
+$ python3 ./coppeliaSim.py -h         (run CoppeliaSim with emulated headless mode and local coppeliaSim lib)
+$ python3 ./coppeliaSim.py -H         (run CoppeliaSim with true headless mode and local coppeliaSimHeadless lib)
 $ python3 ./coppeliaSim.py -L &lt;path/to/CoppeliaSim/library&gt;   (run CoppeliaSim with specific lib)</code>
 
 <p>In this section, relevant parts are explained.</p>
@@ -74,10 +77,13 @@ from coppeliasim.lib import *
 appDir = os.path.dirname(builtins.coppeliasim_library)
 
 # start the sim thread (see in the next section)
-t = threading.Thread(target=simThreadFunc, args=(appDir,))
-t.start()
-simRunGui(sim_gui_all) # use sim_gui_headless for headless mode
-t.join()</code>
+if trueHeadless:
+    simThreadFunc(appDir)
+else:
+    t = threading.Thread(target=simThreadFunc, args=(appDir,))
+    t.start()
+    simRunGui(sim_gui_all) # use sim_gui_headless for headless mode
+    t.join()</code>
 
 <h2>SIM thread loop</h2>
 

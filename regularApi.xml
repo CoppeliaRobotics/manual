@@ -8115,7 +8115,7 @@ sim.closeScene</api-see-also>
         <api-synopsis-cpp>int simLoadScene(const char* filename)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>filename</strong>: scene filename. The filename extension is required (<em>ttt</em>, or <em>simscene.xml</em> ). By default, the current scene is overwritten (append "@keepCurrent" to the filename to preserve current scene)</li>
+                <li><strong>filename</strong>: scene filename, including extension. An empty string loads the default scene. By default, the current scene is overwritten (append "@keepCurrent" to the filename to preserve current scene)</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -8127,7 +8127,7 @@ sim.closeScene</api-see-also>
         <api-synopsis-lua>sim.loadScene(string/buffer filenameOrBuffer)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>filename</strong>: scene buffer or scene filename, including extension. By default, the current scene is overwritten (append "@keepCurrent" to the filename to preserve current scene)</li>
+                <li><strong>filename</strong>: scene buffer or scene filename, including extension. An empty string loads the default scene. By default, the current scene is overwritten (append "@keepCurrent" to the filename to preserve current scene). An empty string loads the default scene</li>
             </ul>
         </api-input-python-lua>
         <api-calltip>sim.loadScene(string filename)
@@ -12251,8 +12251,13 @@ sim.getSimulationState
                 <li>-1 in case of an error, 0 if the operation could not be performed. &gt;0 in case of success.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.stopSimulation()</api-synopsis-python>
-        <api-synopsis-lua>sim.stopSimulation()</api-synopsis-lua>
+        <api-synopsis-python>sim.stopSimulation(bool wait = False)</api-synopsis-python>
+        <api-synopsis-lua>sim.stopSimulation(bool wait = false)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>wait</strong>: if true, will wait until the simulation state is sim.simulation_stopped, otherwise only triggers a stop request. If true, calling script cannot be the main- or a child script, and should run threaded.</li>
+            </ul>
+        </api-input-python-lua>
         <api-calltip>sim.stopSimulation()</api-calltip>
     </function>
     <function>
