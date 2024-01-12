@@ -6255,7 +6255,7 @@ sim.setShapeTexture</api-see-also>
         <api-synopsis-cpp>int simGetShapeViz(int shapeHandle, int index, struct SShapeVizInfo* info)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>shapeHandle</strong>: handle of the shape</li>
+                <li><strong>shapeHandle</strong>: handle of the shape. Can be combined with sim_handleflag_extended in order to retrieve extended data</li>
                 <li><strong>index</strong>: 0-based index of the shape element to retrieve (compound shapes contain more than one shape element)</li>
                 <li><strong>info</strong>: visual information about the shape:
                     <ul>
@@ -6266,6 +6266,12 @@ sim.setShapeTexture</api-see-also>
                         <li><strong>normals</strong>: array of normals, relative to the shape's reference frame. There are 3*indicesSize normals, i.e. 3 normals per triangle. The user is in charge of releasing this buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> if the return value is &gt; 0.</li>
                         <li><strong>shadingAngle</strong>: the gouraud shading angle</li>
                         <li><strong>colors[9]</strong>: array of colors: RGB for ambient-diffuse, specular, and emission.</li>
+                        <li><strong>transparency</strong>: transparency value (0.0 = opaque, 1.0 = fully transparent). To have this field written, combine shapeHandle with  sim_handleflag_extended</li>
+                        <li><strong>options</strong>: bit-coded options (to have this field written, combine shapeHandle with  sim_handleflag_extended):
+                            <ul>
+                                <li>bit0 set (1): backfaces are culled</li>
+                            </ul>
+                        </li>
                         <li><strong>texture</strong>: the RGBA texture (32bit/pixel). The user is in charge of releasing this buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> if the return value is &gt; 1.</li>
                         <li><strong>textureId</strong>: a texture id (to identify textures shared among several shapes)</li>
                         <li><strong>textureRes[2]</strong>: the resolution of the texture</li>
