@@ -150,7 +150,7 @@ coppeliasim.bridge.load()
 # fetch API objects:
 sim = coppeliasim.bridge.require('sim')
 
-# e.g.: use some API function:
+# call some API function:
 program_version = sim.getInt32Param(sim.intparam_program_full_version)</code>
 
 <h3>Callbacks</h3>
@@ -184,14 +184,15 @@ def myCallback(arg1, arg2, arg3):
 <code class="hljs language-python coppelia-coppeliasim-client">
 # signature is always int(int), i.e. the undecorated callback:
 myCallback_c = CFUNCTYPE(c_int, c_int)(myCallback)
+
 # note: maintain a reference to above variable for the whole lifetime
 #       of the application, otherwise it will be garbage collected and
-#       it will crash when called
+#       it will crash when called by C
 
 simRegCallback(0, myCallback_c)
 </code>
 
-<p>The callback can be later called by e.g. <code>sim.callScriptFunction('ccallback0', sim.scripttype_sandboxscript, ...)</code> or by plugins that take normal (lua) callbacks.</p>
+<p>The callback can be later called by e.g. <code>sim.callScriptFunction('ccallback0', sim.scripttype_sandboxscript, ...)</code> or by plugins that take normal (Lua) callbacks.</p>
 
 <p>Refer to <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython/blob/main/coppeliaSim.py" target="_blank">coppeliaSimClientPython/coppeliaSim.py</a> for the complete code.</p>
 
