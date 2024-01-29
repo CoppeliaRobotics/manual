@@ -134,7 +134,15 @@ def simStop():
 
 <h2>coppeliasim.bridge</h2>
 
-<p>The <code>coppeliaSim.bridge</code> module provides seamless access to the regular API used by scripts, e.g.:</p>
+<p>The <code>coppeliaSim.bridge</code> module provides seamless access to the regular API used by scripts.</p>
+
+<p>Instead of <code>moduleName = require('moduleName')</code>, use <code>moduleName = coppeliaSim.bridge.require('moduleName')</code>.</p>
+
+<p>Instead of <code>obj = sim.getScriptFunctions(script)</code>, use <code>obj = coppeliaSim.bridge.getScriptFunctions(script)</code>.</p>
+
+<p>All other API functions can be used normally.</p>
+
+<p>Example:</p>
 
 <code class="hljs language-python coppelia-coppeliasim-client">import coppeliasim.bridge
 
@@ -147,6 +155,45 @@ sim = coppeliasim.bridge.require('sim')
 # e.g.: use some API function:
 program_version = sim.getInt32Param(sim.intparam_program_full_version)</code>
 
+<h3>Callbacks</h3>
+
+<p>To use Python functions as callbacks, those need to be exposed as C functions, and called via CoppeliaSim's C function wrapper.</p>
+
+<p>A C callback function is called with an <code>int</code> argument being the handle of the stack containing input/output arguments, and has to return an <code>int</code>, nonzero in case of success, e.g.:</p>
+
+<code class="hljs language-python coppelia-coppeliasim-client">
+def myCallback(stack):
+    # use CoppeliaSim stack API to read input args
+    # use CoppeliaSim stack API to write return values
+    # always return 1 here to indicate success (or 0 for failure)
+    return 1
+</code>
+
+<p>for convenience, a <code>callback</code> decorator can be used, which automatically performs reading input arguments from stack and writing return values to stack for most common types, also handling of exceptions:</p>
+
+<code class="hljs language-python coppelia-coppeliasim-client">
+from coppeliasim.callback import callback
+@callback
+def myCallback(arg1, arg2, arg3):
+    print('myCallback called with args:', arg1, arg2, arg3)
+    ret1, ret2 = 42, 'xyz'
+    print('myCallback returning:', ret1, ret2)
+    return ret1, ret2
+</code>
+
+<p>In both cases, the callback has to be registered with <code>simRegCallback</code>:</p>
+
+<code class="hljs language-python coppelia-coppeliasim-client">
+# signature is always int(int), i.e. the undecorated callback:
+myCallback_c = CFUNCTYPE(c_int, c_int)(myCallback)
+# note: maintain a reference to above variable for the whole lifetime
+#       of the application, otherwise it will be garbage collected and
+#       it will crash when called
+
+simRegCallback(0, myCallback_c)
+</code>
+
+<p>The callback can be later called by e.g. <code>sim.callScriptFunction('ccallback0', sim.scripttype_sandboxscript, ...)</code> or by plugins that take normal (lua) callbacks.</p>
 
 <p>Refer to <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython/blob/main/coppeliaSim.py" target="_blank">coppeliaSimClientPython/coppeliaSim.py</a> for the complete code.</p>
 
