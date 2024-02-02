@@ -66,21 +66,17 @@ $ python3 ./coppeliaSim.py -L &lt;path/to/CoppeliaSim/library&gt;   (run Coppeli
 import os
 import threading
 
-from ctypes import *
-
 # set the path to the coppeliaSim's library:
 builtins.coppeliasim_library = "/path/to/libcoppeliaSim.so"
 
 # import the coppeliaSim's library functions:
 from coppeliasim.lib import *
 
-appDir = os.path.dirname(builtins.coppeliasim_library)
-
 # start the sim thread (see in the next section)
 if trueHeadless:
-    simThreadFunc(appDir)
+    simThreadFunc()
 else:
-    t = threading.Thread(target=simThreadFunc, args=(appDir,))
+    t = threading.Thread(target=simThreadFunc)
     t.start()
     simRunGui(sim_gui_all) # use sim_gui_headless for headless mode
     t.join()</code>
@@ -89,16 +85,16 @@ else:
 
 <p>The basic implementation of simThreadFunc simply executes the application until quit is requested:</p>
 
-<code class="hljs language-python coppelia-coppeliasim-client">def simThreadFunc(appDir):
-    simInitialize(c_char_p(appDir.encode('utf-8')), 0)
+<code class="hljs language-python coppelia-coppeliasim-client">def simThreadFunc():
+    simInitialize(appDir().encode('utf-8'), 0)
     while not simGetExitRequest():
         simLoop(None, 0)
     simDeinitialize()</code>
 
 <p>Another possible scenario would be to manually control the operations used to setup a simulation environment (e.g. <code>sim.loadScene</code>) and to execute a simulation, e.g. by manually stepping for a predetermined amount of steps:</p>
 
-<code class="hljs language-python coppelia-coppeliasim-client">def simThreadFunc(appDir):
-    simInitialize(c_char_p(appDir.encode('utf-8')), 0)
+<code class="hljs language-python coppelia-coppeliasim-client">def simThreadFunc():
+    simInitialize(appDir().encode('utf-8'), 0)
 
     # script bridge, see next section
     import coppeliasim.bridge
@@ -167,11 +163,12 @@ def myCallback(stack):
     return 1
 </code>
 
-<p>for convenience, a <code>callback</code> decorator can be used, which automatically performs reading input arguments from stack and writing return values to stack for most common types, also handling of exceptions:</p>
+<p>for convenience, a <code>coppeliasim.stack.callback</code> decorator can be used, which automatically performs reading input arguments from stack and writing return values to stack for most common types, also handling of exceptions:</p>
 
 <code class="hljs language-python coppelia-coppeliasim-client">
-from coppeliasim.callback import callback
-@callback
+import coppeliasim.stack
+
+@coppeliasim.stack.callback
 def myCallback(arg1, arg2, arg3):
     print('myCallback called with args:', arg1, arg2, arg3)
     ret1, ret2 = 42, 'xyz'
@@ -182,6 +179,8 @@ def myCallback(arg1, arg2, arg3):
 <p>In both cases, the callback has to be registered with <code>simRegCallback</code>:</p>
 
 <code class="hljs language-python coppelia-coppeliasim-client">
+from ctypes import CFUNCTYPE, c_int
+
 # signature is always int(int), i.e. the undecorated callback:
 myCallback_c = CFUNCTYPE(c_int, c_int)(myCallback)
 
