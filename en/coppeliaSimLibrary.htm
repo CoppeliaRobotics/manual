@@ -150,15 +150,30 @@ program_version = sim.getInt32Param(sim.intparam_program_full_version)</code>
 
 <h3>Callbacks</h3>
 
+<p>Some regular API functions use callbacks, i.e. they take a function parameter, and call it one or more time during the execution of the function or at a later time. Examples are <a href="#">sim.moveToConfig</a>, <a href="#">simIK.findConfig</a>, <a href="#">simOMPL.setStateValidationCallback</a>, etc...</p>
+
 <p>To use Python functions as callbacks, those need to be exposed as C functions, and called via CoppeliaSim's C function wrapper.</p>
 
 <p>A C callback function is called with an <code>int</code> argument being the handle of the stack containing input/output arguments, and has to return an <code>int</code>, nonzero in case of success, e.g.:</p>
 
 <code class="hljs language-python coppelia-coppeliasim-client">
-def myCallback(stack):
-    # use CoppeliaSim stack API to read input args
+def myCallback(stackHandle):
+    # use CoppeliaSim stack API to read input args, e.g.:
+    doubleValue = ctypes.c_double()
+    if simGetStackDoubleValue(stackHandle, ctypes.byref(doubleValue)) != 1:
+        print('error in reading double from stack')
+        # return 0 for error:
+        return 0
+    doubleValue = doubleValue.value
+    simPopStackItem(stackHandle, 1)
+    # and so on...
+
     # use CoppeliaSim stack API to write return values
-    # always return 1 here to indicate success (or 0 for failure)
+    simPushInt32OntoStack(stackHandle, 42)
+    stringRetVal = 'xyz'
+    simPushStringOntoStack(stackHandle, stringRetVal, len(stringRetVal))
+
+    # return 1 for success:
     return 1
 </code>
 
@@ -187,10 +202,11 @@ myCallback_c = CFUNCTYPE(c_int, c_int)(myCallback)
 #       of the application, otherwise it will be garbage collected and
 #       it will crash when called by C
 
+# callback with index 0 will be available under the name 'ccallback0':
 simRegCallback(0, myCallback_c)
 </code>
 
-<p>The callback can be later called by e.g. <code>sim.callScriptFunction('ccallback0', sim.scripttype_sandboxscript, ...)</code> or by plugins that take normal (Lua) callbacks.</p>
+<p>The callback can be referenced by the name 'ccallback0' (or 'ccallback1' and so on...) and called by e.g. <code>sim.callScriptFunction('ccallback0', sim.scripttype_sandboxscript, 0.25, 400, 'str')</code> or passed to API functions and plugins that accept (Lua) callbacks.</p>
 
 <p>Refer to <a href="https://github.com/CoppeliaRobotics/coppeliaSimClientPython/blob/main/coppeliaSim.py" target="_blank">coppeliaSimClientPython/coppeliaSim.py</a> for the complete code.</p>
 
