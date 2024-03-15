@@ -6671,6 +6671,25 @@ Table values that are not numbers are converted to 0</api-description>
         </api-output-cpp>
     </function>
     <function>
+        <api-function-name>simGetStackStringType</api-function-name>
+        <api-description>Returns the type of a specific stack string</api-description>
+        <api-see-also>
+            <a href="../apiFunctions.htm#stacks">stack functions</a>
+        </api-see-also>
+        <api-synopsis-cpp>int simGetStackStringType(int stackHandle, int cIndex)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>stackHandle</strong>: a stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
+                <li><strong>cIndex</strong>: the zero-based index of the stack string. Negative values indicate reverse counting from the top of the stack (i.e. -1 indicates the stack top)</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>-1 in case of an error, otherwise the <a href="../apiConstants.htm#stringTypes">string type</a></li>
+            </ul>
+        </api-output-cpp>
+    </function>
+    <function>
         <api-function-name>simGetStackSize</api-function-name>
         <api-description>Returns the size of the stack</api-description>
         <api-see-also>
@@ -8983,18 +9002,61 @@ located at the top of the stack</api-description>
         </api-output-cpp>
     </function>
     <function>
+        <api-function-name>simPushTextOntoStack</api-function-name>
+        <api-description>Pushes a text string onto the stack. The string will then be located at the top of the stack</api-description>
+        <api-see-also>
+		    simPushBufferOntoStack
+            <a href="../apiFunctions.htm#stacks">stack functions</a>
+        </api-see-also>
+        <api-synopsis-cpp>int simPushTextOntoStack(int stackHandle, const char* value)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>stackHandle</strong>: stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
+                <li><strong>value</strong>: a text string</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>-1 in case of an error.</li>
+            </ul>
+        </api-output-cpp>
+    </function>
+    <function>
+        <api-function-name>simPushBufferOntoStack</api-function-name>
+        <api-description>Pushes a binary data buffer onto the stack. The buffer will then be located at the top of the stack</api-description>
+        <api-see-also>
+		    simPushTextOntoStack
+            <a href="../apiFunctions.htm#stacks">stack functions</a>
+        </api-see-also>
+        <api-synopsis-cpp>int simPushBufferOntoStack(int stackHandle, const char* value, int bufferSize)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>stackHandle</strong>: stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
+                <li><strong>value</strong>: a binary data buffer</li>
+                <li><strong>stringSize</strong>: length of the buffer.</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>-1 in case of an error.</li>
+            </ul>
+        </api-output-cpp>
+    </function>
+    <function>
         <api-function-name>simPushStringOntoStack</api-function-name>
-        <api-description>Pushes a string onto the stack. The string may contain any values, including embedded zeros.
+        <api-description>Pushes an undifferentiated binary string onto the stack. The string may contain any values, including embedded zeros, and may represent text or any other data.
 The string will then be located at the top of the stack</api-description>
         <api-see-also>
+		    simPushTextOntoStack
+		    simPushBufferOntoStack
             <a href="../apiFunctions.htm#stacks">stack functions</a>
         </api-see-also>
         <api-synopsis-cpp>int simPushStringOntoStack(int stackHandle, const char* value, int stringSize)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
                 <li><strong>stackHandle</strong>: stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
-                <li><strong>value</strong>: a string</li>
-                <li><strong>stringSize</strong>: length of the string. If you specify 0, the string is a text string and its length will be automatically determined.</li>
+                <li><strong>value</strong>: a binary string</li>
+                <li><strong>stringSize</strong>: length of the binary string.</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>

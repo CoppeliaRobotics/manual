@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Language" content="en-us">
 <title>simROS2 Plugin API reference</title>
-<link rel="stylesheet" type="text/css" href="../../helpFiles/style.css">
+<link rel="stylesheet" type="text/css" href="../style.css">
 <script type="text/javascript">
 //
 function getParameterByName(name, url = window.location.href)
@@ -785,7 +785,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string publisherHandle=simROS2.createPublisher(string topicName, string topicType, int queueSize=1, bool latch=false)<br>
+<td class="apiTableRightLSyn">string publisherHandle=simROS2.createPublisher(string topicName, string topicType, int unused=0, bool unused2=false, simros2_qos qos=nil)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -796,9 +796,12 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>topicType</strong> (string): topic type, e.g.: 'geometry_msgs/msg/Twist'</div>
 <div>
-<strong>queueSize</strong> (int, default: 1): (optional) queue size</div>
+<strong>unused</strong> (int, default: 0): unused, set to zero</div>
 <div>
-<strong>latch</strong> (bool, default: false): (optional) latch topic</div>
+<strong>unused2</strong> (bool, default: false): unused, set to false</div>
+<div>
+<strong>qos</strong> (simros2_qos, default: nil): QoS settings, see <a href="#struct:simros2_qos">simros2_qos</a>
+</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -808,7 +811,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string publisherHandle=simROS2.createPublisher(string topicName, string topicType, int queueSize=1, bool latch=false)<br>
+<td class="apiTableRightPSyn">string publisherHandle=simROS2.createPublisher(string topicName, string topicType, int unused=0, bool unused2=false, simros2_qos qos=nil)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -873,7 +876,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">string subscriptionHandle=simROS2.createSubscription(string topicName, string topicType, func topicCallback, int queueSize=1)<br>
+<td class="apiTableRightLSyn">string subscriptionHandle=simROS2.createSubscription(string topicName, string topicType, func topicCallback, int unused=0, simros2_qos qos=nil)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -886,7 +889,10 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>topicCallback</strong> (func): callback function, which will be called with a single argument of type table containing the message payload, e.g.: {linear={x=1.5, y=0.0, z=0.0}, angular={x=0.0, y=0.0, z=-2.3}}</div>
 <div>
-<strong>queueSize</strong> (int, default: 1): (optional) queue size</div>
+<strong>unused</strong> (int, default: 0): unused, set to zero</div>
+<div>
+<strong>qos</strong> (simros2_qos, default: nil): QoS settings, see <a href="#struct:simros2_qos">simros2_qos</a>
+</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -896,7 +902,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">string subscriptionHandle=simROS2.createSubscription(string topicName, string topicType, func topicCallback, int queueSize=1)<br>
+<td class="apiTableRightPSyn">string subscriptionHandle=simROS2.createSubscription(string topicName, string topicType, func topicCallback, int unused=0, simros2_qos qos=nil)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2295,6 +2301,34 @@ td.section { margin: 0; padding: 0; }
 <div><strong>reject</strong></div>
 <div><strong>accept</strong></div>
 </td></tr></tbody></table>
+<h3 class="subsectionBar">
+<a name="enum:qos_history_policy" id="enum:qos_history_policy"></a>simROS2.qos_history_policy</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>system_default</strong></div>
+<div><strong>keep_last</strong></div>
+<div><strong>keep_all</strong></div>
+</td></tr></tbody></table>
+<h3 class="subsectionBar">
+<a name="enum:qos_reliability_policy" id="enum:qos_reliability_policy"></a>simROS2.qos_reliability_policy</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>system_default</strong></div>
+<div><strong>reliable</strong></div>
+<div><strong>best_effort</strong></div>
+</td></tr></tbody></table>
+<h3 class="subsectionBar">
+<a name="enum:qos_durability_policy" id="enum:qos_durability_policy"></a>simROS2.qos_durability_policy</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>system_default</strong></div>
+<div><strong>transient_local</strong></div>
+<div><strong>volatile</strong></div>
+</td></tr></tbody></table>
+<h3 class="subsectionBar">
+<a name="enum:qos_liveliness_policy" id="enum:qos_liveliness_policy"></a>simROS2.qos_liveliness_policy</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>system_default</strong></div>
+<div><strong>automatic</strong></div>
+<div><strong>manual_by_topic</strong></div>
+</td></tr></tbody></table>
 </td></tr>
 <tr><td id="structs" class="section">
 <br><br><h1>Data structures</h1>
@@ -2316,6 +2350,46 @@ td.section { margin: 0; padding: 0; }
 <strong>sec</strong> (int): seconds</div>
 <div>
 <strong>nanosec</strong> (int): nanoseconds</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="struct:simros2_qos" id="struct:simros2_qos"></a>simros2_qos</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                Description
+                                            </td>
+<td class="apiTableRightDescr">QoS data structure<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Fields</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>history</strong> (int, default: simros2_qos_history_policy_system_default)</div>
+<div>
+<strong>depth</strong> (int, default: 10)</div>
+<div>
+<strong>reliability</strong> (int, default: simros2_qos_reliability_policy_system_default)</div>
+<div>
+<strong>durability</strong> (int, default: simros2_qos_durability_policy_system_default)</div>
+<div>
+<strong>deadline</strong> (simros2_time)</div>
+<div>
+<strong>lifespan</strong> (simros2_time)</div>
+<div>
+<strong>liveliness</strong> (int, default: simros2_qos_liveliness_policy_system_default)</div>
+<div>
+<strong>liveliness_lease_duration</strong> (simros2_time)</div>
+<div>
+<strong>avoid_ros_namespace_conventions</strong> (bool, default: false)</div>
 </td>
 </tr>
 <tr class="apiTableTr">

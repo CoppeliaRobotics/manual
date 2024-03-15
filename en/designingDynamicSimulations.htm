@@ -115,7 +115,7 @@
 
 
 <h2>
-<a name="pureShapes"></a><a name="primitive"></a>Design consideration 1
+<a name="1"></a><a name="pureShapes"></a><a name="primitive"></a>Design consideration 1
 </h2>
 
 <p><strong>Use primitive shapes. </strong>Whenever possible, try using primitive<a href="shapes.htm"> shapes</a> as respondable shapes: primitive shapes are much more stable and faster during dynamic simulation. Instead of using the complicated triangular mesh of a robot model as respondable shape, or its slightly better convex representation, try approximating the triangular mesh with several primitive shapes, then grouping them [Edit &gt; Shape grouping/merging &gt; group]. Following figure illustrates a robot's hidden respondable primitive shapes:<br>
@@ -131,7 +131,7 @@
 
 
 <h2>
-<a name="convexShapes"></a>Design consideration 2
+<a name="2"></a><a name="convexShapes"></a>Design consideration 2
 </h2>
 
 
@@ -147,7 +147,7 @@
 
 
 <h2>
-<a name="dynamicContentVisualization"></a>Design consideration 3
+<a name="3"></a><a name="dynamicContentVisualization"></a>Design consideration 3
 </h2>
 
 
@@ -177,7 +177,7 @@
 
 
 <h2>
-<a name="hierarchy"></a>Design consideration 4
+<a name="4"></a><a name="hierarchy"></a>Design consideration 4
 </h2>
 
 
@@ -194,7 +194,7 @@
 
 
 <h2>
-<a name="modelBaseSelection"></a>Design consideration 5
+<a name="5"></a><a name="modelBaseSelection"></a>Design consideration 5
 </h2>
 
 
@@ -234,7 +234,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 
 
 <h2>
-<a name="sizes"></a>Design consideration 6
+<a name="6"></a><a name="sizes"></a>Design consideration 6
 </h2>
 
 
@@ -243,7 +243,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <br>
 
 <h2>
-<a name="masses"></a>Design consideration 7
+<a name="7"></a><a name="masses"></a>Design consideration 7
 </h2>
 
 <p><strong>Keep masses similar and not too light</strong>. When linking two shapes with a dynamically enabled joint or a dynamically enabled force sensor, make sure the two shape's masses are not too different (m1&lt;10*m2 and m2&lt;10*m1), otherwise the joint or force sensor might be very <em>soft</em> and <em>wobbly</em> and present large positional/orientational errors (this effect can however also be used as a <em>natural damping</em> sometimes). Additionally, very low mass shapes should be avoided since they won't be able to exert very large forces onto other shapes (even if propelled by high force actuators!).</p>
@@ -252,7 +252,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <br>
 
 <h2>
-<a name="inertias"></a>Design consideration 8
+<a name="8"></a><a name="inertias"></a>Design consideration 8
 </h2>
 
 
@@ -262,7 +262,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <br>
 
 <h2>
-<a name="layers"></a>Design consideration 9
+<a name="9"></a><a name="layers"></a>Design consideration 9
 </h2>
 
 <p><strong>Assign dynamic shapes to layer 9</strong>. Assign all dynamic shapes which are supposed to be hidden to layer 9 (refer to the <a href="commonPropertiesDialog.htm">object common properties</a>): in CoppeliaSim, by default, all layers are visible, except for layers 9-16. When editing or testing a <a href="scenes.htm">scene</a>, you can then quickly visualize all hidden  shapes in the scene by temporarily enabling layer 9 (refer also to the <a href="layerSelectionDialog.htm">layer selection dialog</a>).<br>
@@ -271,7 +271,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 
 
 <h2>
-<a name="dynamicStaticDynamic"></a>Design consideration 10
+<a name="10"></a><a name="dynamicStaticDynamic"></a>Design consideration 10
 </h2>
 
 <p><strong>Never have a static shape between two dynamic items</strong>. The static shape will interrupt the logical behaviour of the dynamic chain:</p>
@@ -280,7 +280,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <br>
 
 <h2>
-<a name="dynamicStaticRespondable"></a>Design consideration 11
+<a name="11"></a><a name="dynamicStaticRespondable"></a>Design consideration 11
 </h2>
 
 <p><strong>Never have a static respondable shape on top of a dynamic item</strong>. Static means the shape's trajectory cannot be influenced by any collision, but if at the same time it is respondable, this means that it can itself influence other shapes' trajectories via collision. The simulation result would be unpredictable.<br>
