@@ -3943,7 +3943,7 @@ sim.readForceSensor</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>forceOrTorque</strong>: force or the torque applied to the joint along/about its z-axis, or None/nil if no value is available yet.</li>
+                <li><strong>forceOrTorque</strong>: force or the torque applied to the joint along/about its z-axis.</li>
             </ul>
         </api-output-python-lua>
         <api-calltip>float forceOrTorque = sim.getJointForce(int jointHandle)</api-calltip>
@@ -11534,12 +11534,13 @@ apply to static shapes)</api-description>
         <api-function-name>sim.setObjectParent</api-function-name>
         <api-description>Sets an object's parent object. Dynamically simulated objects, together with their
 hierarchy tree, are dynamically reset (this however does not apply to static shapes)</api-description>
-        <api-see-also>sim.getObjectParent</api-see-also>
+        <api-see-also>sim.getObjectParent
+        <a href="../assembly.htm">assembly operation</a></api-see-also>
         <api-synopsis-cpp>int simSetObjectParent(int objectHandle, int parentObjectHandle, bool keepInPlace)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>objectHandle</strong>: handle of the object that will become child of the parent object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_assembly</a> (simply add sim.handleflag_assembly to <strong>objectHandle</strong>), if the two objects correspond to assembly items. In that case, <strong>parentObjectHandle</strong> can't be -1, and <strong>keepInPlace</strong> should be set to false</li>
-                <li><strong>parentObjectHandle</strong>: handle of the object that will become parent, or -1 if the object should become parentless</li>
+                <li><strong>objectHandle</strong>: handle of the object that will become child of the parent object. Can be or-combined with <a href="../apiConstants.htm#specialHandleFlags">sim_handleflag_assembly</a> if an assembly operation is desired instead (in that case, <strong>parentObjectHandle</strong> can't be -1, and <strong>keepInPlace</strong> should be set to false)</li>
+                <li><strong>parentObjectHandle</strong>: handle of the object that will become parent, or -1 if the object should become parentless. In an assembly operation, the assembly dummy on the parent object should be specified instead</li>
                 <li><strong>keepInPlace</strong>: indicates whether the object's absolute position and orientation should stay same</li>
             </ul>
         </api-input-cpp>
@@ -11552,8 +11553,8 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
         <api-synopsis-lua>sim.setObjectParent(int objectHandle, int parentObjectHandle, bool keepInPlace)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>objectHandle</strong>: handle of the object that will become child of the parent object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_assembly</a> ((simply add sim.handleflag_assembly to <strong>objectHandle</strong>), if the two objects correspond to assembly items. In that case, <strong>parentObjectHandle</strong> can't be -1, and <strong>keepInPlace</strong> should be set to false</li>
-                <li><strong>parentObjectHandle</strong>: handle of the object that will become parent, or -1 if the object should become parentless</li>
+                <li><strong>objectHandle</strong>: handle of the object that will become child of the parent object. Can be or-combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_assembly</a> if an assembly operation is desired instead (in that case, <strong>parentObjectHandle</strong> can't be -1, and <strong>keepInPlace</strong> should be set to false)</li>
+                <li><strong>parentObjectHandle</strong>: handle of the object that will become parent, or -1 if the object should become parentless. In an assembly operation, the assembly dummy on the parent object should be specified instead</li>
                 <li><strong>keepInPlace</strong>: indicates whether the object's absolute position and orientation should stay same</li>
             </ul>
         </api-input-python-lua>
