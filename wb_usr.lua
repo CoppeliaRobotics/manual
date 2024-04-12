@@ -386,7 +386,7 @@ wb_usr.tree =
             folder=
             {
                 {
-                    name={en="Geometric calculations"},
+                    name={en="Geometry / mesh"},
                     link="geometricCalculations.htm",
                     folder=
                     {
@@ -419,6 +419,14 @@ wb_usr.tree =
                                     link="coppeliaGeometricRoutines-api.htm?view=category"
                                 },
                             }
+                        },
+                        {
+                            name={en="simConvex API reference"},
+                            link="simConvex.htm?view=alphabetical"
+                        },
+                        {
+                            name={en="simOpenMesh API reference"},
+                            link="simOpenMesh.htm?view=alphabetical"
                         },
                         {
                             name={en="simIGL API reference"},

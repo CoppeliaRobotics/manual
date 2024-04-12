@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>simConvex API</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style></head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+
+<tr><td id="title" class="section"><h1>simConvex API reference</h1></td></tr>
+
+<tr><td id="alphabetical" class="section"><pre class="apiList">
+<a href="?#simConvex.hacd">simConvex.hacd</a>
+<a href="?#simConvex.vhacd">simConvex.vhacd</a>
+<a href="?#simConvex.hull">simConvex.hull</a>
+<a href="?#simConvex.qhull">simConvex.qhull</a>
+</pre></td></tr>
+
+
+<tr><td id="commands" class="section">
+
+<p class="subsectionBar">
+<a name="simConvex.hacd" id="simConvex.hacd"></a>simConvex.hacd</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Computes the HACD convex decomposition of a shape</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int[] convexShapeHandles = simConvex.hacd(int shapeHandle, map params)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>shapeHandle</strong>: the handle of the shape</div>
+<div><strong>params</strong>: a map with optional parameters. Can be nil. Allowed parameters are:
+<ul>
+<li>min_cluster_cnt (default: 1)</li>
+<li>max_concavity (default: 100.0)</li>
+<li>max_connection_dist (default: 30.0)</li>
+<li>triangle_cnt_decimated_mesh (default: 500)</li>
+<li>max_vertices_cnt (default: 200)</li>
+<li>small_cluster_detect_threshold (default: 0.25)</li>
+<li>add_extra_pts (default: true)</li>
+<li>add_extra_face_pts (default: true)</li>
+</ul>
+</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div><strong>convexShapeHandles</strong>: the convex decomposition</div></td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list convexShapeHandles = simConvex.hacd(int shapeHandle, dict params)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simConvex.vhacd">simConvex.vhacd</a>, <a href="#simConvex.hull">simConvex.hull</a></td>
+</tr>
+</table>
+<br>
+
+
+
+<p class="subsectionBar">
+<a name="simConvex.vhacd" id="simConvex.vhacd"></a>simConvex.vhacd</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Computes the V-HACD convex decomposition of a shape</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int[] convexShapeHandles = simConvex.vhacd(int shapeHandle, map params)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>shapeHandle</strong>: the handle of the shape</div>
+<div><strong>params</strong>: a map with optional parameters. Can be nil. Allowed parameters are:
+<ul>
+<li>resolution (default: 100000)</li>
+<li>concavity (default: 0.1)</li>
+<li>plane_downsampling (default: 4)</li>
+<li>hull_downsampling (default: 4)</li>
+<li>alpha (default: 0.05)</li>
+<li>beta (default: 0.05)</li>
+<li>max_vertices (default: 64)</li>
+<li>min_volume (default: 0.0001)</li>
+<li>pca (default: false)</li>
+<li>voxels (default: true)</li>
+</ul>
+</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div><strong>convexShapeHandles</strong>: the convex decomposition</div></td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list convexShapeHandles = simConvex.vhacd(int shapeHandle, dict params)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"><a href="#simConvex.hacd">simConvex.hacd</a>, <a href="#simConvex.hull">simConvex.hull</a></td>
+</tr>
+</table>
+<br>
+
+
+
+
+<p class="subsectionBar">
+<a name="simConvex.hull" id="simConvex.hull"></a>simConvex.hull</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Computes the convex hull of one or more objects</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int convexShapeHandle = simConvex.hull(int[] objectHandles, float growth = 0.0)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>objectHandles</strong>: the handles of objects. Only shapes, dummies, OC-trees and point clouds are taken into account</div>
+<div><strong>growth</strong>: an optional growth</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div><strong>convexShapeHandle</strong>: the convex hull</div></td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int convexShapeHandle = simConvex.hull(list objectHandles, float growth = 0.0)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"> <a href="#simConvex.qhull">simConvex.qhull</a>, <a href="#simConvex.hacd">simConvex.hacd</a>, <a href="#simConvex.vhacd">simConvex.vhacd</a></td>
+</tr>
+</table>
+<br>
+
+
+
+
+<p class="subsectionBar">
+<a name="simConvex.qhull" id="simConvex.qhull"></a>simConvex.qhull</p>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">Description</td>
+<td class="apiTableRightDescr">Computes the convex hull from 3D points</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] vertices, int[] indices = simConvex.qhull(float[] points, float growth = 0.0)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua arguments</td>
+<td class="apiTableRightLParam">
+<div><strong>points</strong>: an array with consecutive 3D point coordinates</div>
+<div><strong>growth</strong>: an optional growth</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div><strong>vertices</strong>: the vertices of the convex hull</div>
+<div><strong>indices</strong>: the indices of the convex hull</div>
+</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list vertices, list indices = simConvex.qhull(list points, float growth = 0.0)</td>
+</tr>
+
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">See also</td>
+<td class="apiTableRightDescr"> <a href="#simConvex.hull">simConvex.hull</a></td>
+</tr>
+</table>
+<br>
+
+
+
+
+
+
+</td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('category').style.display = view == 'category' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script>
+</body>
+</html>
