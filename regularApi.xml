@@ -4597,7 +4597,7 @@ sim.getObjectsInTree</api-see-also>
         <api-synopsis-cpp>int simGetObjectChild(int objectHandle, int index)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>objectHandle</strong>: handle of the object</li>
+                <li><strong>objectHandle</strong>: handle of the object, or sim_handle_scene to retrieve orphan objects</li>
                 <li><strong>index</strong>: zero-based index of the child's position. To retrieve all children of an object, call the function by increasing the index until the return value is -1</li>
             </ul>
         </api-input-cpp>
@@ -4610,7 +4610,7 @@ sim.getObjectsInTree</api-see-also>
         <api-synopsis-lua>int childHandle = sim.getObjectChild(int objectHandle, int index)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>objectHandle</strong>: handle of the object</li>
+                <li><strong>objectHandle</strong>: handle of the object, or sim.handle_scene to retrieve orphan objects</li>
                 <li><strong>index</strong>: zero-based index of the child's position. To retrieve all children of an object, call the function by increasing the index until the return value is -1</li>
             </ul>
         </api-input-python-lua>
@@ -8257,98 +8257,270 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
     </function>
     <function>
         <api-function-name>sim.moveToConfig</api-function-name>
-        <api-description>Generates joint movement data using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
-This function can only be called from scripts running in a thread, since this is a blocking operation</api-description>
-        <api-see-also>sim.moveToPose
-sim.ruckigPos</api-see-also>
-        <api-synopsis-python>list endP, list endV, list endA, float t = sim.moveToConfig(int flags, list currentP,
-                                                            list currentV, list currentA,
-                                                            list maxV, list maxA,
-                                                            list maxJ, list targetP,
-                                                            list targetV, func callback,
-                                                            auxData, list cyclicJoints = None,
-                                                            float timeStep = 0)</api-synopsis-python>
-        <api-synopsis-lua>float[] endP, float[] endV, float[] endA, float t = sim.moveToConfig(int flags, float[] currentP,
-                                                                     float[] currentV,
-                                                                     float[] currentA, float[] maxV,
-                                                                     float[] maxA, float[] maxJ,
-                                                                     float[] targetP, float[] targetV,
-                                                                     func/string callback, auxData,
-                                                                     bool[] cyclicJoints = nil,
-                                                                     float timeStep = 0)</api-synopsis-lua>
+        <api-description>Executes a n-DoF motion using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>. This function can only be called from scripts running in a thread, since this is a blocking operation</api-description>
+        <api-see-also>sim.moveToConfig_init
+        sim.moveToConfig_step
+        sim.moveToConfig_cleanup
+        sim.moveToPose
+        sim.ruckigPos</api-see-also>
+        <api-synopsis-python>sim.moveToConfig(dict params)</api-synopsis-python>
+        <api-synopsis-lua>sim.moveToConfig(table params)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</li>
-                <li><strong>currentP</strong>: current configuration, i.e. the current linear/angular joint positions, one value for each DoF.</li>
-                <li><strong>currentV</strong>: current velocity, one value for each DoF. Can be None/nil in which case a velocity vector of 0 is used.</li>
-                <li><strong>currentA</strong>: current acceleration, one value for each DoF. Can be None/nil in which case an acceleration vector of 0 is used.</li>
-                <li><strong>maxV</strong>: maximum allowed velocity, one value for each DoF. If sim.ruckig_minvel is specified in flags, then maxVel should contain following values: [maxV_1 ... maxV_n minV_1 ... minV_n], i.e. 2x DoF values.</li>
-                <li><strong>maxA</strong>: maximum allowed acceleration, one value for each DoF. If sim.ruckig_minaccel is specified in flags, then maxAccel should contain following values: [maxA_1 ... maxA_n minA_1 ... minA_n], i.e. 2x DoF values.</li>
-                <li><strong>maxJ</strong>: maximum allowed jerk, one value for each DoF.</li>
-                <li><strong>targetP</strong>: desired target configuration, one value for each DoF.</li>
-                <li><strong>targetV</strong>: desired target point velocity, one value for each DoF. Can be None/nil in which case a velocity vector of 0 is used.</li>
-                <li><strong>callback</strong>: callback function that will be called for each movement step. The arguments provided to the callback function are: currentConfig, currentVel, currentAccel, auxData.</li>
-                <li><strong>auxData</strong>: random data that will be forwarded to the callback function.</li>
-                <li><strong>cyclicJoints</strong>: array of booleans indicating which joint is cyclic (for cyclic joints, the movement will always go in the direction that represents the shortest distance to the goal). Can be nil or omitted.</li>
-                <li><strong>timeStep</strong>: desired time step size. A value of 0 indicates that the current simulation time step is used</li>
+                <li><strong>params</strong>: parameters of the function:
+                    <ul>
+                        <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
+                        <li><strong>pos</strong>: specifies current configuration as a vector with one value per DoF</li>
+                        <li><strong>vel</strong>: optional. Specifies current velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
+                        <li><strong>accel</strong>: optional. Specifies current acceleration as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
+                        <li><strong>maxVel</strong>: optional. Specifies the maximum allowed velocity as a vector with one value per DoF. Defaults to [0.5, 0.5, ...] if omitted</li>
+                        <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per DoF. Defaults to -maxVel if omitted</li>
+                        <li><strong>maxAccel</strong>: optional. Specifies the maximum allowed acceleration as a vector with one value per DoF. Defaults to [0.1, 0.1, ...] if omitted</li>
+                        <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per DoF. Defaults to -maxAccel if omitted</li>
+                        <li><strong>maxJerk</strong>: optional. Specifies the maximum allowed jerk as a vector with one value per DoF. Defaults to [0.2, 0.2, ...] if omitted</li>
+                        <li><strong>targetPos</strong>: specifies the target configuration as a vector with one value per DoF</li>
+                        <li><strong>targetVel</strong>: optional. Specifies the target velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
+                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The arguments provided to the callback function are: currentPos, currentVel, currentAccel, auxData</li>
+                        <li><strong>auxData</strong>: optional. Data to be forwarded to the callback function</li>
+                        <li><strong>cyclicJoints</strong>: optional. Indicates which joint is cyclic (for cyclic joints, the movement always goes in the direction that represents the shortest distance to the goal). Defaults to [false, false, ...] is omitted</li>
+                        <li><strong>timeStep</strong>: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted</li>
+                    </ul>
+                </li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+        </api-output-python-lua>
+        <api-calltip>sim.moveToConfig(map params)</api-calltip>
+    </function>
+    
+    <function>
+        <api-function-name>sim.moveToConfig_init</api-function-name>
+        <api-description>Initiates a n-DoF motion using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a></api-description>
+        <api-see-also>sim.moveToConfig_step
+        sim.moveToConfig_cleanup
+        sim.moveToPose_init
+        sim.ruckigPos</api-see-also>
+        <api-synopsis-python>dict motionObject = sim.moveToConfig_init(dict params)</api-synopsis-python>
+        <api-synopsis-lua>table motionObject = sim.moveToConfig_init(table params)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>params</strong>: parameters of the function:
+                    <ul>
+                        <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
+                        <li><strong>pos</strong>: specifies current configuration as a vector with one value per DoF</li>
+                        <li><strong>vel</strong>: optional. Specifies current velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
+                        <li><strong>accel</strong>: optional. Specifies current acceleration as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
+                        <li><strong>maxVel</strong>: optional. Specifies the maximum allowed velocity as a vector with one value per DoF. Defaults to [0.5, 0.5, ...] if omitted</li>
+                        <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per DoF. Defaults to -maxVel if omitted</li>
+                        <li><strong>maxAccel</strong>: optional. Specifies the maximum allowed acceleration as a vector with one value per DoF. Defaults to [0.1, 0.1, ...] if omitted</li>
+                        <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per DoF. Defaults to -maxAccel if omitted</li>
+                        <li><strong>maxJerk</strong>: optional. Specifies the maximum allowed jerk as a vector with one value per DoF. Defaults to [0.2, 0.2, ...] if omitted</li>
+                        <li><strong>targetPos</strong>: specifies the target configuration as a vector with one value per DoF</li>
+                        <li><strong>targetVel</strong>: optional. Specifies the target velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
+                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The arguments provided to the callback function are: currentPos, currentVel, currentAccel, auxData</li>
+                        <li><strong>auxData</strong>: optional. Data to be forwarded to the callback function</li>
+                        <li><strong>cyclicJoints</strong>: optional. Indicates which joint is cyclic (for cyclic joints, the movement always goes in the direction that represents the shortest distance to the goal). Defaults to [false, false, ...] is omitted</li>
+                        <li><strong>timeStep</strong>: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted</li>
+                    </ul>
+                </li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>endP</strong>: the configuration at the end of the movement.</li>
-                <li><strong>endV</strong>: the velocity at the end of the movement.</li>
-                <li><strong>endA</strong>: the acceleration at the end of the movement.</li>
-                <li><strong>t</strong>: the leftover time in current simulation step, i.e. the remaining time that was not used for movement.</li>
+                <li><strong>motionObject</strong>: a motion object</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[] endPos, float[] endVel, float[] endAccel, float timeLeft = sim.moveToConfig(int flags, float[] currentPos, float[] currentVel, float[] currentAccel, float[] maxVel, float[] maxAccel, float[] maxJerk, float[] targetPos, float[] targetVel, func callback, any auxData=nil, bool[] cyclicJoints=nil, float timeStep=0.0)</api-calltip>
+        <api-calltip>map motionObject = sim.moveToConfig_init(map params)</api-calltip>
     </function>
+    
+    <function>
+        <api-function-name>sim.moveToConfig_step</api-function-name>
+        <api-description>Steps a motion object</api-description>
+        <api-see-also>sim.moveToConfig_init
+        sim.moveToConfig_cleanup</api-see-also>
+        <api-synopsis-python>int res, dict data = sim.moveToConfig_step(dict motionObject)</api-synopsis-python>
+        <api-synopsis-lua>int res, table data = sim.moveToConfig_step(table motionObject)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>motionObject</strong>: a motion object</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>res</strong>: step result:
+                    <ul>
+                        <li><strong>negative</strong>: error</li>
+                        <li><strong>0</strong>: step successful, motion is still ongoing</li>
+                        <li><strong>1</strong>: step successful, motion ended</li>
+                        <li><strong>2</strong>: motion aborted</li>
+                    </ul>
+                </li>
+                <li><strong>data</strong>: motion data. Relevant fields are:
+                    <ul>
+                        <li><strong>pos</strong>: current configuration</li>
+                        <li><strong>vel</strong>: current velocity</li>
+                        <li><strong>accel</strong>: current acceleration</li>
+                    </ul>
+                </li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>int res, map data = sim.moveToConfig_step(map motionObject)</api-calltip>
+    </function>
+    
+    
+    <function>
+        <api-function-name>sim.moveToConfig_cleanup</api-function-name>
+        <api-description>Destroys a motion object</api-description>
+        <api-see-also>sim.moveToConfig_init
+        sim.moveToConfig_step</api-see-also>
+        <api-synopsis-python>sim.moveToConfig_cleanup(dict motionObject)</api-synopsis-python>
+        <api-synopsis-lua>sim.moveToConfig_cleanup(table motionObject)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>motionObject</strong>: handle of the motion object</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+        </api-output-python-lua>
+        <api-calltip>sim.moveToConfig_cleanup(map motionObject)</api-calltip>
+    </function>
+    
+    
+    
+    
     <function>
         <api-function-name>sim.moveToPose</api-function-name>
-        <api-description>Generates object movement data using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>,
-by performing interpolations between two poses. The function can operate by handling 4 movement variables (x,y,z and
+        <api-description>Executes an object motion using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>, by performing interpolations between two poses. The function can operate by handling 4 motion variables (x,y,z and
 angle between the two poses), or a single movement variable (t, which requires a metric to be specified for distance
 calculation between the two poses). This function can only be called from a script running in a thread, since this is a blocking
 operation</api-description>
-        <api-see-also>sim.moveToConfig
-sim.ruckigPos</api-see-also>
-        <api-synopsis-python>list endP/endM, float t = sim.moveToPose(int flags, list currentP/currentM,
-                                         list maxVel, list maxAccel,
-                                         list maxJerk, list targetP/targetM,
-                                         func callback, auxData,
-                                         list metric = None,
-                                         float timeStep = 0)</api-synopsis-python>
-        <api-synopsis-lua>float[7]/float[12] endP/endM, float t = sim.moveToPose(int flags,
-                                                       float[7]/float[12] currentP/currentM,
-                                                       float[] maxVel, float[] maxAccel,
-                                                       float[] maxJerk,
-                                                       float[7]/float[12] targetP/targetM,
-                                                       func/string callback, auxData,
-                                                       float[4] metric = nil,
-                                                       float timeStep = 0)</api-synopsis-lua>
+        <api-see-also>sim.moveToPose_init
+        sim.moveToPose_step
+        sim.moveToPose_cleanup
+        sim.moveToConfig
+        sim.ruckigPos</api-see-also>
+        <api-synopsis-python>sim.moveToPose(dict params)</api-synopsis-python>
+        <api-synopsis-lua>sim.moveToPose(table params)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</li>
-                <li><strong>currentP/currentM</strong>: the start pose, specified via a pose [x y z qx qy qz qw] or transformation matrix [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]</li>
-                <li><strong>maxVel</strong>: the maximum allowed velocity. If <em>metric</em> is specified, then this is an array of size 1, otherwse an array of size 4. If sim.ruckig_minVel is specified in flags, then this array should contain twice as many values, first the values for the maximum velocity, then the values for the minimum velocity.</li>
-                <li><strong>maxAccel</strong>: the maximum allowed acceleration. If <em>metric</em> is specified, then this is an array of size 1, otherwse an array of size 4. If sim.ruckig_minAccel is specified in flags, then this array should contain twice as many values, first the values for the maximum acceleration, then the values for the minimum acceleration.</li>
-                <li><strong>maxJerk</strong>: the maximum allowed jerk. If <em>metric</em> is specified, then this is an array of size 1, otherwse an array of size 4.</li>
-                <li><strong>targetP/targetM</strong>: the goal pose, specified via a pose [x y z qx qy qz qw] or transformation matrix [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]</li>
-                <li><strong>callback</strong>: a callback function that will be called for each movement step. The arguments provided to the callback function are: currentPose/currentMatrix, currentVel, currentAccel, auxData.</li>
-                <li><strong>auxData</strong>: random data that will be forwarded to the callback function.</li>
-                <li><strong>metric</strong>: an optional metric, used to compute a pose-pose distance. If metric is None/nil, the movement calculation happens in the 4-dimensional space (x,y,z,angle), otherwise it happens in the 1-dimensional space (t).</li>
-                <li><strong>timeStep</strong>: the desired time step size. A value of 0 indicates that the current simulation time step will be used.</li>
+                <li><strong>params</strong>: parameters of the function:
+                    <ul>
+                        <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
+                        <li><strong>pose</strong>: specifies current pose</li>
+                        <li><strong>metric</strong>: optional. A metric to compute a pose-pose distance. If omitted, the motion calculation happens in the 4-dimensional space (dim = 4: x, y, z, angle), otherwise it happens in the 1-dimensional space (dime = 1: t)</li>
+                        <li><strong>maxVel</strong>: optional. Specifies the maximum allowed velocity as a vector with one value per dim. Defaults to [0.2 ...] if omitted</li>
+                        <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per dim. Defaults to -maxVel if omitted</li>
+                        <li><strong>maxAccel</strong>: optional. Specifies the maximum allowed acceleration as a vector with one value per dim. Defaults to [0.1 ...] if omitted</li>
+                        <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per dim. Defaults to -maxAccel if omitted</li>
+                        <li><strong>maxJerk</strong>: optional. Specifies the maximum allowed jerk as a vector with one value per dime. Defaults to [0.1 ...] if omitted</li>
+                        <li><strong>targetPose</strong>: specifies the target pose</li>
+                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The arguments provided to the callback function are: currentPose, currentVel, currentAccel, auxData</li>
+                        <li><strong>auxData</strong>: optional. Data to be forwarded to the callback function</li>
+                        <li><strong>timeStep</strong>: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted</li>
+                    </ul>
+                </li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+        </api-output-python-lua>
+        <api-calltip>sim.moveToPose(map params)</api-calltip>
+    </function>
+    
+    
+
+
+    <function>
+        <api-function-name>sim.moveToPose_init</api-function-name>
+        <api-description>Initiates an object motion using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>, by performing interpolations between two poses. The function can operate by handling 4 motion variables (x,y,z and
+angle between the two poses), or a single movement variable (t, which requires a metric to be specified for distance
+calculation between the two poses)</api-description>
+        <api-see-also>sim.moveToPose_step
+        sim.moveToPose_cleanup
+        sim.moveToConfig_init
+        sim.ruckigPos</api-see-also>
+        <api-synopsis-python>dict motionObject = sim.moveToPose_init(dict params)</api-synopsis-python>
+        <api-synopsis-lua>table motionObject = sim.moveToPose_init(table params)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>params</strong>: parameters of the function:
+                    <ul>
+                        <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
+                        <li><strong>pose</strong>: specifies current pose</li>
+                        <li><strong>metric</strong>: optional. A metric to compute a pose-pose distance. If omitted, the motion calculation happens in the 4-dimensional space (dim = 4: x, y, z, angle), otherwise it happens in the 1-dimensional space (dime = 1: t)</li>
+                        <li><strong>maxVel</strong>: optional. Specifies the maximum allowed velocity as a vector with one value per dim. Defaults to [0.2 ...] if omitted</li>
+                        <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per dim. Defaults to -maxVel if omitted</li>
+                        <li><strong>maxAccel</strong>: optional. Specifies the maximum allowed acceleration as a vector with one value per dim. Defaults to [0.1 ...] if omitted</li>
+                        <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per dim. Defaults to -maxAccel if omitted</li>
+                        <li><strong>maxJerk</strong>: optional. Specifies the maximum allowed jerk as a vector with one value per dime. Defaults to [0.1 ...] if omitted</li>
+                        <li><strong>targetPose</strong>: specifies the target pose</li>
+                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The arguments provided to the callback function are: currentPose, currentVel, currentAccel, auxData</li>
+                        <li><strong>auxData</strong>: optional. Data to be forwarded to the callback function</li>
+                        <li><strong>timeStep</strong>: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted</li>
+                    </ul>
+                </li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>endP/endM</strong>: the pose at the end of the movement, specified via a pose [x y z qx qy qz qw] or transformation matrix [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]</li>
-                <li><strong>t</strong>: the leftover time in current simulation step, i.e. the remaining time that was not used for movement.</li>
+                <li><strong>motionObject</strong>: a motion object</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[7] endPose, float timeLeft = sim.moveToPose(int flags, float[7] currentPose, float[] maxVel, float[] maxAccel, float[] maxJerk, float[7] targetPose, func callback, any auxData=nil, float[4] metric=nil, float timeStep=0.0)
-float[12] endMatrix, float timeLeft = sim.moveToPose(int flags, float[12] currentMatrix, float[] maxVel, float[] maxAccel, float[] maxJerk, float[12] targetMatrix, func callback, any auxData=nil, float[4] metric=nil, float timeStep=0.0)</api-calltip>
+        <api-calltip>map motionObject = sim.moveToPose_init(map params)</api-calltip>
     </function>
+    
+    <function>
+        <api-function-name>sim.moveToPose_step</api-function-name>
+        <api-description>Steps a motion object</api-description>
+        <api-see-also>sim.moveToPose_init
+        sim.moveToPose_cleanup</api-see-also>
+        <api-synopsis-python>int res, dict data = sim.moveToPose_step(dict motionObject)</api-synopsis-python>
+        <api-synopsis-lua>int res, table data = sim.moveToPose_step(table motionObject)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>motionObject</strong>: a motion object</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>res</strong>: step result:
+                    <ul>
+                        <li><strong>negative</strong>: error</li>
+                        <li><strong>0</strong>: step successful, motion is still ongoing</li>
+                        <li><strong>1</strong>: step successful, motion ended</li>
+                        <li><strong>2</strong>: motion aborted</li>
+                    </ul>
+                </li>
+                <li><strong>data</strong>: motion data. Relevant fields are:
+                    <ul>
+                        <li><strong>pose</strong>: current pose</li>
+                        <li><strong>vel</strong>: current velocity</li>
+                        <li><strong>accel</strong>: current acceleration</li>
+                    </ul>
+                </li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>int res, map data = sim.moveToPose_step(map motionObject)</api-calltip>
+    </function>
+    
+    
+    <function>
+        <api-function-name>sim.moveToPose_cleanup</api-function-name>
+        <api-description>Destroys a motion object</api-description>
+        <api-see-also>sim.moveToPose_init
+        sim.moveToPose_step</api-see-also>
+        <api-synopsis-python>sim.moveToPose_cleanup(dict motionObject)</api-synopsis-python>
+        <api-synopsis-lua>sim.moveToPose_cleanup(table motionObject)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>motionObject</strong>: handle of the motion object</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+        </api-output-python-lua>
+        <api-calltip>sim.moveToPose_cleanup(map motionObject)</api-calltip>
+    </function>
+
+
     <function>
         <api-function-name>sim.multiplyMatrices</api-function-name>
         <api-description>Multiplies two transformation matrices</api-description>
