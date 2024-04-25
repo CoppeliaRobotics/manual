@@ -8269,18 +8269,19 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
             <ul>
                 <li><strong>params</strong>: parameters of the function:
                     <ul>
+                        <li><strong>pos</strong>: mandatory if joints is not specified. Specifies the current configuration as a vector with one value per DoF</li>
+                        <li><strong>joints</strong>: mandatory if pos is not specified. Specifies the joint handles as a vector with one handle per DoF</li>
+                        <li><strong>targetPos</strong>: specifies the target configuration as a vector with one value per DoF</li>
                         <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
-                        <li><strong>pos</strong>: specifies current configuration as a vector with one value per DoF</li>
                         <li><strong>vel</strong>: optional. Specifies current velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
                         <li><strong>accel</strong>: optional. Specifies current acceleration as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
-                        <li><strong>maxVel</strong>: specifies the maximum allowed velocity as a vector with one value per DoF</li>
+                        <li><strong>maxVel</strong>: optional if neither maxAccel nor maxJerk are specified. Specifies the maximum allowed velocity as a vector with one value per DoF. Defaults to [inf, inf, ...] if omitted</li>
                         <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per DoF. Defaults to -maxVel if omitted</li>
-                        <li><strong>maxAccel</strong>: specifies the maximum allowed acceleration as a vector with one value per DoF</li>
+                        <li><strong>maxAccel</strong>: optional if neither maxVel nor maxJerk are specified. Specifies the maximum allowed acceleration as a vector with one value per DoF. Defaults to [inf, inf, ...] if omitted</li>
                         <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per DoF. Defaults to -maxAccel if omitted</li>
-                        <li><strong>maxJerk</strong>: specifies the maximum allowed jerk as a vector with one value per DoF</li>
-                        <li><strong>targetPos</strong>: specifies the target configuration as a vector with one value per DoF</li>
+                        <li><strong>maxJerk</strong>: optional if neither maxVel nor maxAccel are specified. specifies the maximum allowed jerk as a vector with one value per DoF. Defaults to [inf, inf, ...] if omitted</li>
                         <li><strong>targetVel</strong>: optional. Specifies the target velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
-                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The arguments provided to the callback function are: currentPos, currentVel, currentAccel, auxData</li>
+                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The argument provided to the callback function is the current motion state</li>
                         <li><strong>auxData</strong>: optional. Data to be forwarded to the callback function</li>
                         <li><strong>cyclicJoints</strong>: optional. Indicates which joint is cyclic (for cyclic joints, the movement always goes in the direction that represents the shortest distance to the goal). Defaults to [false, false, ...] is omitted</li>
                         <li><strong>timeStep</strong>: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted</li>
@@ -8306,18 +8307,19 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
             <ul>
                 <li><strong>params</strong>: parameters of the function:
                     <ul>
+                        <li><strong>pos</strong>: mandatory if joints is not specified. Specifies the current configuration as a vector with one value per DoF</li>
+                        <li><strong>joints</strong>: mandatory if pos is not specified. Specifies the joint handles as a vector with one handle per DoF</li>
+                        <li><strong>targetPos</strong>: specifies the target configuration as a vector with one value per DoF</li>
                         <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
-                        <li><strong>pos</strong>: specifies current configuration as a vector with one value per DoF</li>
                         <li><strong>vel</strong>: optional. Specifies current velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
                         <li><strong>accel</strong>: optional. Specifies current acceleration as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
-                        <li><strong>maxVel</strong>: specifies the maximum allowed velocity as a vector with one value per DoF</li>
+                        <li><strong>maxVel</strong>: optional if neither maxAccel nor maxJerk are specified. Specifies the maximum allowed velocity as a vector with one value per DoF. Defaults to [inf, inf, ...] if omitted</li>
                         <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per DoF. Defaults to -maxVel if omitted</li>
-                        <li><strong>maxAccel</strong>: specifies the maximum allowed acceleration as a vector with one value per DoF</li>
+                        <li><strong>maxAccel</strong>: optional if neither maxVel nor maxJerk are specified. Specifies the maximum allowed acceleration as a vector with one value per DoF. Defaults to [inf, inf, ...] if omitted</li>
                         <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per DoF. Defaults to -maxAccel if omitted</li>
-                        <li><strong>maxJerk</strong>: specifies the maximum allowed jerk as a vector with one value per DoF</li>
-                        <li><strong>targetPos</strong>: specifies the target configuration as a vector with one value per DoF</li>
+                        <li><strong>maxJerk</strong>: optional if neither maxVel nor maxAccel are specified. specifies the maximum allowed jerk as a vector with one value per DoF. Defaults to [inf, inf, ...] if omitted</li>
                         <li><strong>targetVel</strong>: optional. Specifies the target velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
-                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The arguments provided to the callback function are: currentPos, currentVel, currentAccel, auxData</li>
+                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The argument provided to the callback function is the current motion state</li>
                         <li><strong>auxData</strong>: optional. Data to be forwarded to the callback function</li>
                         <li><strong>cyclicJoints</strong>: optional. Indicates which joint is cyclic (for cyclic joints, the movement always goes in the direction that represents the shortest distance to the goal). Defaults to [false, false, ...] is omitted</li>
                         <li><strong>timeStep</strong>: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted</li>
@@ -8355,13 +8357,7 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
                         <li><strong>2</strong>: motion aborted</li>
                     </ul>
                 </li>
-                <li><strong>data</strong>: motion data. Relevant fields are:
-                    <ul>
-                        <li><strong>pos</strong>: current configuration</li>
-                        <li><strong>vel</strong>: current velocity</li>
-                        <li><strong>accel</strong>: current acceleration</li>
-                    </ul>
-                </li>
+                <li><strong>data</strong>: current motion state</li>
             </ul>
         </api-output-python-lua>
         <api-calltip>int res, map data = sim.moveToConfig_step(map motionObject)</api-calltip>
@@ -8405,16 +8401,34 @@ operation</api-description>
             <ul>
                 <li><strong>params</strong>: parameters of the function:
                     <ul>
-                        <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
-                        <li><strong>pose</strong>: specifies current pose</li>
-                        <li><strong>metric</strong>: optional. A metric to compute a pose-pose distance. If omitted, the motion calculation happens in the 4-dimensional space (dim = 4: x, y, z, angle), otherwise it happens in the 1-dimensional space (dim = 1: t)</li>
-                        <li><strong>maxVel</strong>: specifies the maximum allowed velocity as a vector with one value per dim</li>
-                        <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per dim. Defaults to -maxVel if omitted</li>
-                        <li><strong>maxAccel</strong>: specifies the maximum allowed acceleration as a vector with one value per dim</li>
-                        <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per dim. Defaults to -maxAccel if omitted</li>
-                        <li><strong>maxJerk</strong>: specifies the maximum allowed jerk as a vector with one value per dim</li>
+                        <li><strong>pose</strong>: mandatory if neither object nor ik are specified. Specifies current pose</li>
+                        <li><strong>object</strong>: mandatory if neither pose nor ik are specified. Specifies the handle of the object to move</li>
+                        <li><strong>ik</strong>: mandatory if neither pose nor object are specified. Contains IK-relevant informations, if a kinematic chain should move via IK to a target:
+							<ul>
+		                        <li><strong>tip</strong>: specifies the handle of the tip object (on the end-effector)</li>
+		                        <li><strong>target</strong>: specifies the handle of the target object (the object to reach)</li>
+		                        <li><strong>base</strong>: optional. Specifies the handle of the base object (the base of the kinematic chain). Defaults to -1</li>
+		                        <li><strong>joints</strong>: optional. Specifies the handles of the joints involved in IK calculations. Defaults to all joints within tip and base</li>
+		                        <li><strong>method</strong>: optional. Specifies the resolution method. Defaults to simIK.method_damped_least_squares</li>
+		                        <li><strong>damping</strong>: optional. Specifies the resolution damping. Defaults to 0.02</li>
+		                        <li><strong>iterations</strong>: optional. Specifies the max. number of iterations. Defaults to 20</li>
+		                        <li><strong>constraints</strong>: optional. Specifies the constraints. Defaults to simIK.constraint_pose</li>
+		                        <li><strong>precision</strong>: optional. Specifies the desired precision. Defaults to [0.001, 0.5 * math.pi / 180.0]</li>
+		                        <li><strong>allowError</strong>: optional. Specifies whether a resolution with precision values over what is allowed will be applied anyway. Defaults to params.ik.allowError</li>
+								<li><strong>breakFlags</strong>: optional. Specified the reasons-flags required for simIK.handleGroup to fail Defaults to 0</li> 
+								
+							</ul>
+						</li>
                         <li><strong>targetPose</strong>: specifies the target pose</li>
-                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The arguments provided to the callback function are: currentPose, currentVel, currentAccel, auxData</li>
+                        <li><strong>targetVel</strong>: optional. Specifies the target velocity. Defaults to [0, ...] if omitted</li>
+                        <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
+                        <li><strong>metric</strong>: optional. A metric to compute a pose-pose distance. If omitted, the motion calculation happens in the 4-dimensional space (dim = 4: x, y, z, angle), otherwise it happens in the 1-dimensional space (dim = 1: t)</li>
+                        <li><strong>maxVel</strong>: optional if neither maxAccel nor maxJerk are specified. Specifies the maximum allowed velocity as a vector with one value per dim. Defaults to [inf, ...] if omitted</li>
+                        <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per dim. Defaults to -maxVel if omitted</li>
+                        <li><strong>maxAccel</strong>: optional if neither maxVel nor maxJerk are specified. Specifies the maximum allowed acceleration as a vector with one value per dim. Defaults to [inf, ...] if omitted</li>
+                        <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per dim. Defaults to -maxAccel if omitted</li>
+                        <li><strong>maxJerk</strong>: optional if neither maxVel nor maxAccel are specified. Specifies the maximum allowed jerk as a vector with one value per dim. Defaults to [inf, ...] if omitted</li>
+                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The argument provided to the callback function is the current motion state</li>
                         <li><strong>auxData</strong>: optional. Data to be forwarded to the callback function</li>
                         <li><strong>timeStep</strong>: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted</li>
                     </ul>
@@ -8444,16 +8458,34 @@ calculation between the two poses)</api-description>
             <ul>
                 <li><strong>params</strong>: parameters of the function:
                     <ul>
-                        <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
-                        <li><strong>pose</strong>: specifies current pose</li>
-                        <li><strong>metric</strong>: optional. A metric to compute a pose-pose distance. If omitted, the motion calculation happens in the 4-dimensional space (dim = 4: x, y, z, angle), otherwise it happens in the 1-dimensional space (dim = 1: t)</li>
-                        <li><strong>maxVel</strong>: specifies the maximum allowed velocity as a vector with one value per dim</li>
-                        <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per dim. Defaults to -maxVel if omitted</li>
-                        <li><strong>maxAccel</strong>: specifies the maximum allowed acceleration as a vector with one value per dim</li>
-                        <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per dim. Defaults to -maxAccel if omitted</li>
-                        <li><strong>maxJerk</strong>: specifies the maximum allowed jerk as a vector with one value per dim</li>
+                        <li><strong>pose</strong>: mandatory if neither object nor ik are specified. Specifies current pose</li>
+                        <li><strong>object</strong>: mandatory if neither pose nor ik are specified. Specifies the handle of the object to move</li>
+                        <li><strong>ik</strong>: mandatory if neither pose nor object are specified. Contains IK-relevant informations, if a kinematic chain should move via IK to a target:
+							<ul>
+		                        <li><strong>tip</strong>: specifies the handle of the tip object (on the end-effector)</li>
+		                        <li><strong>target</strong>: specifies the handle of the target object (the object to reach)</li>
+		                        <li><strong>base</strong>: optional. Specifies the handle of the base object (the base of the kinematic chain). Defaults to -1</li>
+		                        <li><strong>joints</strong>: optional. Specifies the handles of the joints involved in IK calculations. Defaults to all joints within tip and base</li>
+		                        <li><strong>method</strong>: optional. Specifies the resolution method. Defaults to simIK.method_damped_least_squares</li>
+		                        <li><strong>damping</strong>: optional. Specifies the resolution damping. Defaults to 0.02</li>
+		                        <li><strong>iterations</strong>: optional. Specifies the max. number of iterations. Defaults to 20</li>
+		                        <li><strong>constraints</strong>: optional. Specifies the constraints. Defaults to simIK.constraint_pose</li>
+		                        <li><strong>precision</strong>: optional. Specifies the desired precision. Defaults to [0.001, 0.5 * math.pi / 180.0]</li>
+		                        <li><strong>allowError</strong>: optional. Specifies whether a resolution with precision values over what is allowed will be applied anyway. Defaults to params.ik.allowError</li>
+								<li><strong>breakFlags</strong>: optional. Specified the reasons-flags required for simIK.handleGroup to fail Defaults to 0</li> 
+								
+							</ul>
+						</li>
                         <li><strong>targetPose</strong>: specifies the target pose</li>
-                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The arguments provided to the callback function are: currentPose, currentVel, currentAccel, auxData</li>
+                        <li><strong>targetVel</strong>: optional. Specifies the target velocity. Defaults to [0, ...] if omitted</li>
+                        <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
+                        <li><strong>metric</strong>: optional. A metric to compute a pose-pose distance. If omitted, the motion calculation happens in the 4-dimensional space (dim = 4: x, y, z, angle), otherwise it happens in the 1-dimensional space (dim = 1: t)</li>
+                        <li><strong>maxVel</strong>: optional if neither maxAccel nor maxJerk are specified. Specifies the maximum allowed velocity as a vector with one value per dim. Defaults to [inf, ...] if omitted</li>
+                        <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per dim. Defaults to -maxVel if omitted</li>
+                        <li><strong>maxAccel</strong>: optional if neither maxVel nor maxJerk are specified. Specifies the maximum allowed acceleration as a vector with one value per dim. Defaults to [inf, ...] if omitted</li>
+                        <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per dim. Defaults to -maxAccel if omitted</li>
+                        <li><strong>maxJerk</strong>: optional if neither maxVel nor maxAccel are specified. Specifies the maximum allowed jerk as a vector with one value per dim. Defaults to [inf, ...] if omitted</li>
+                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The argument provided to the callback function is the current motion state</li>
                         <li><strong>auxData</strong>: optional. Data to be forwarded to the callback function</li>
                         <li><strong>timeStep</strong>: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted</li>
                     </ul>
@@ -8490,13 +8522,7 @@ calculation between the two poses)</api-description>
                         <li><strong>2</strong>: motion aborted</li>
                     </ul>
                 </li>
-                <li><strong>data</strong>: motion data. Relevant fields are:
-                    <ul>
-                        <li><strong>pose</strong>: current pose</li>
-                        <li><strong>vel</strong>: current velocity</li>
-                        <li><strong>accel</strong>: current acceleration</li>
-                    </ul>
-                </li>
+                <li><strong>data</strong>: current motion state</li>
             </ul>
         </api-output-python-lua>
         <api-calltip>int res, map data = sim.moveToPose_step(map motionObject)</api-calltip>
