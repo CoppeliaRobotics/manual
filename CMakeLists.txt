@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(helpFiles)
+project(manual)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 
@@ -21,9 +21,9 @@ add_custom_target(genRegularApi ALL
 file(GLOB HELP_FILES CONFIGURE_DEPENDS *.html *.lua *.class *.css *.txt)
 list(FILTER HELP_FILES EXCLUDE REGEX "/CMakeLists\\.txt$")
 foreach(HELP_FILE IN LISTS HELP_FILES)
-    coppeliasim_add_helpfile(${HELP_FILE} SUBDIR .)
+    coppeliasim_add_manual(${HELP_FILE} SUBDIR .)
 endforeach()
-coppeliasim_add_helpfile_directory(en)
-coppeliasim_add_helpfile_directory(index)
-coppeliasim_add_helpfile_directory(wb_img)
-coppeliasim_add_helpfile_directory(js)
+coppeliasim_add_manual_directory(en)
+coppeliasim_add_manual_directory(index)
+coppeliasim_add_manual_directory(wb_img)
+coppeliasim_add_manual_directory(js)
