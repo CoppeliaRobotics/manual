@@ -1947,6 +1947,95 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
         <api-calltip>int dummyHandle = sim.createDummy(float size)</api-calltip>
     </function>
     <function>
+        <api-function-name>sim.createScript</api-function-name>
+        <api-description>Creates a <a href="../scriptObject.htm">script object</a>.</api-description>
+        <api-synopsis-cpp>int simCreateScript(int scriptType, const char* scriptText, int options)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>scriptType</strong>: the script type. Only child- or customization scripts are allowed</li>
+                <li><strong>scriptText</strong>: the content of the script</li>
+                <li><strong>options</strong>: options, 0 for default values</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>-1 if operation was not successful, otherwise the handle of the script object</li>
+            </ul>
+        </api-output-cpp>
+        <api-synopsis-python>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0)</api-synopsis-python>
+        <api-synopsis-lua>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>scriptType</strong>: the script type. Only child- or customization scripts are allowed</li>
+                <li><strong>scriptText</strong>: the content of the script</li>
+                <li><strong>options</strong>: options, 0 for default values</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>scriptHandle</strong>: handle of the script object</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0)</api-calltip>
+    </function>
+    <function>
+        <api-function-name>sim.getObjectHierarchyOrder</api-function-name>
+        <api-description>Retrieves the zero-based position of an object among its siblings in the scene hierarchy</api-description>
+        <api-synopsis-cpp>int simGetObjectHierarchyOrder(int objectHandle, int* totalSiblingsCount)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>objectHandle</strong>: the handle of the object</li>
+                <li><strong>totalSiblingsCount</strong>: if not null, receives the total siblings count</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>-1 if operation was not successful, otherwise the position of the object</li>
+            </ul>
+        </api-output-cpp>
+        <api-synopsis-python>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(int objectHandle)</api-synopsis-python>
+        <api-synopsis-lua>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(int objectHandle)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>objectHandle</strong>: the handle of the object</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>order</strong>: the position of the object</li>
+                <li><strong>totalSiblingsCount</strong>: the total siblings count</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(int objectHandle)</api-calltip>
+    </function>
+    <function>
+        <api-function-name>sim.setObjectHierarchyOrder</api-function-name>
+        <api-description>Moves an object up or down among its siblings in the scene hierarchy</api-description>
+        <api-synopsis-cpp>int simSetObjectHierarchyOrder(int objectHandle, int order)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>objectHandle</strong>: the handle of the object</li>
+                <li><strong>order</strong>: the desired zero-based position</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>-1 if operation was not successful</li>
+            </ul>
+        </api-output-cpp>
+        <api-synopsis-python>sim.setObjectHierarchyOrder(int objectHandle, int order)</api-synopsis-python>
+        <api-synopsis-lua>sim.setObjectHierarchyOrder(int objectHandle, int order)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>objectHandle</strong>: the handle of the object</li>
+                <li><strong>order</strong>: the desired zero-based position</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+        </api-output-python-lua>
+        <api-calltip>sim.setObjectHierarchyOrder(int objectHandle, int order)</api-calltip>
+    </function>
+    <function>
         <api-function-name>sim.createForceSensor</api-function-name>
         <api-description>Creates a <a href="../forceSensors.htm">force sensor</a>.</api-description>
         <api-synopsis-cpp>int simCreateForceSensor(int options, const int* intParams, const double* floatParams,
