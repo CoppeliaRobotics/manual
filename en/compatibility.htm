@@ -32,15 +32,9 @@ CoppeliaSim is developed by a small team. Unlike larger entities, we embrace an 
 </h2>
 
 <h3>Forward compatibility</h3>
-<p>There are potentially two problematic situations with existing code:</p>
+<p>There is potentially one problematic situation with existing code:</p>
 
 <ul>
-  <li>Comparison between a string and a buffer always resolves to <em>false</em>. This can break code where API functions previously returning a string, now return a buffer, as in e.g.:</li>
-<code class="hljs language-lua coppelia-coppeliasim-script">local data = sim.getCustomDataBlock(gripperHandle, 'openCloseState')
-if data == 'open' then
-    -- this never executes
-end</code>
-
 <li>Code that relies on the usage of the <em>type</em>-function will break with buffers,  e.g.:</li>
 <code class="hljs language-lua coppelia-coppeliasim-script">function sendData(data)
     if type(data) == 'string' then
@@ -53,8 +47,7 @@ end</code>
 <ul>
 <li>Converting a buffer to string via <em>tostring</em>, before handing it to a code base that is not aware of buffers, is the best way to avoid potential problems </li>
 <li>Where a buffer is compared to a string (and vice-versa), convert one or the other via <em>tostring</em> or <em>tobuffer</em>, otherwise comparison always resolves to <em>false</em></li>
-<li>In particular, pay close attention to following API functions that previously returned ambiguous data (text/binary data): <a href="regularApi/simReadCustomDataBlock.htm">sim.readCustomDataBlock</a>, <a href="regularApi/simGetStringSignal.htm">sim.getStringSignal</a>, <a href="regularApi/simGetNamedStringParam.htm">sim.getNamedStringParam</a> or <a href="regularApi/simGetScriptStringParam.htm">sim.getScriptStringParam</a>.</li>
-<li>Usage of buffers can be disabled in the <a href="commandLine.htm#settingsFile">user settings file</a> with variable <em>useBuffers</em>. Usage of buffers with <a href="regularApi/simReadCustomDataBlock.htm">sim.readCustomDataBlock</a> in particular can be disabled in the same file with variable <em>noBuffersWithSimReadCustomDataBlock</em></li>
+<li>Usage of buffers can be disabled in the <a href="commandLine.htm#settingsFile">user settings file</a> with variable <em>useBuffers</em></li>
 </ul>
 
 <h3>Backward compatibility</h3>
@@ -73,25 +66,6 @@ end</code>
 
 <br>
 <br>
-
-<h2>
-<a name="sim.readCustomDataBlockTags" id="sim.readCustomDataBlockTags"></a>sim.readCustomDataBlockTags in CoppeliaSim V4.7
-</h2>
-
-<p><a href="regularApi/simReadCustomDataBlockTags.htm">sim.readCustomDataBlockTags</a> now returns an empty array, instead of nil/None, when there is no custom data blocks attached to the object.</p>
-
-<h3>Forward compatibility</h3>
-
-<p>Workaround: do not compare the return value of sim.readCustomDataBlockTags with nil/None anymore</p>
-
-<h3>Backward compatibility</h3>
-
-<p>Workaround: the return value nil/None of sim.readCustomDataBlockTags should be interpreted as an empty array</p>
-
-
- <br> 
- <br> 
-
   
   </td>
  </tr>

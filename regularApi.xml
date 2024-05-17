@@ -8978,7 +8978,7 @@ sim.getSimulationState</api-see-also>
         <api-description>Reads a block of persistent data</api-description>
         <api-see-also>sim.persistentDataWrite
 sim.getPersistentDataTags
-sim.readCustomDataBlock</api-see-also>
+<a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a></api-see-also>
         <api-synopsis-cpp>char* simPersistentDataRead(const char* dataTag, int* dataLength)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
@@ -9011,7 +9011,7 @@ sim.readCustomDataBlock</api-see-also>
 or until it is cleared by writing an empty data block. If the options flag is set appropriately, then persistent data can
 also be stored on file, and be automatically reloaded next time CoppeliaSim starts</api-description>
         <api-see-also>sim.persistentDataRead
-sim.writeCustomDataBlock</api-see-also>
+<a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a></api-see-also>
         <api-synopsis-cpp>int simPersistentDataWrite(const char* dataTag, const char* dataValue, int dataLength, int options)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
@@ -9433,8 +9433,33 @@ sysCall_event <a href="../callbackFunctions.htm">callback function</a> and via t
         <api-synopsis-lua>sim.quitSimulator()</api-synopsis-lua>
         <api-calltip>sim.quitSimulator()</api-calltip>
     </function>
+
     <function>
-        <api-function-name>sim.readCustomDataBlock</api-function-name>
+        <api-function-name>sim.readCustomStringData</api-function-name>
+        <api-description>Reads custom data that is stored inside of an object or the scene. Reads also custom data for the application's
+currrent session</api-description>
+        <api-see-also>
+            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
+        </api-see-also>
+        <api-synopsis-python>string customData = sim.readCustomStringData(int objectHandle, string tagName)</api-synopsis-python>
+        <api-synopsis-lua>string customData = sim.readCustomStringData(int objectHandle, string tagName)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>objectHandle</strong>: handle of the object, or sim.handle_scene if the data is stored in the scene, or sim.handle_app if the data is stored in the application's current session</li>
+                <li><strong>tagName</strong>: string that identifies the data</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>customData</strong>: the custom data</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>string data = sim.readCustomStringData(int objectHandle, string tagName)</api-calltip>
+    </function>
+
+    <function>
+        <api-function-name>simReadCustomDataBlock</api-function-name>
         <api-description>Reads custom data that is stored inside of an object or the scene. Reads also custom data for the application's
 currrent session</api-description>
         <api-see-also>
@@ -9454,8 +9479,19 @@ currrent session</api-description>
                 <li>the custom data block, or nullptr in case of an error (or if the data is not present). The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>bytes customDataBlock = sim.readCustomDataBlock(int objectHandle, string tagName)</api-synopsis-python>
-        <api-synopsis-lua>buffer customDataBlock = sim.readCustomDataBlock(int objectHandle, string tagName)</api-synopsis-lua>
+    </function>
+
+
+    <function>
+        <api-function-name>sim.readCustomBufferData</api-function-name>
+        <api-description>Reads custom data that is stored inside of an object or the scene. Reads also custom data for the application's
+currrent session</api-description>
+        <api-see-also>
+            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
+        </api-see-also>
+        <api-synopsis-python>bytes customData = sim.readCustomBufferData(int objectHandle, string tagName)</api-synopsis-python>
+        <api-synopsis-lua>buffer customData = sim.readCustomBufferData(int objectHandle, string tagName)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object, or sim.handle_scene if the data is stored in the scene, or sim.handle_app if the data is stored in the application's current session</li>
@@ -9464,16 +9500,42 @@ currrent session</api-description>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>customDataBlock</strong>: the custom data block</li>
+                <li><strong>customData</strong>: the custom data</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer data = sim.readCustomDataBlock(int objectHandle, string tagName)</api-calltip>
+        <api-calltip>buffer data = sim.readCustomBufferData(int objectHandle, string tagName)</api-calltip>
     </function>
     <function>
-        <api-function-name>sim.readCustomDataBlockTags</api-function-name>
+        <api-function-name>sim.readCustomDataTags</api-function-name>
         <api-description>Reads the tags of all custom data that is stored inside of an object,
 a scene, or the application</api-description>
-        <api-see-also>sim.readCustomDataBlock</api-see-also>
+        <api-see-also>
+            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+        </api-see-also>
+        <api-synopsis-python>list tags = sim.readCustomDataTags(int objectHandle)</api-synopsis-python>
+        <api-synopsis-lua>string[] tags = sim.readCustomDataTags(int objectHandle)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>objectHandle</strong>: handle of the object, sim.handle_scene or sim.handle_app</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>tags</strong>: an array of tags</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>string[] tags = sim.readCustomDataTags(int objectHandle)</api-calltip>
+    </function>
+
+
+
+    <function>
+        <api-function-name>sim.readCustomDataTags</api-function-name>
+        <api-description>Reads the tags of all custom data that is stored inside of an object,
+a scene, or the application</api-description>
+        <api-see-also>
+            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+        </api-see-also>
         <api-synopsis-cpp>char* simReadCustomDataBlockTags(int objectHandle, int* tagCount)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
@@ -9486,20 +9548,8 @@ a scene, or the application</api-description>
                 <li>the tags (each followed by the zero-char) or nullptr in case of an error (or if no tags are present). The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list tags = sim.readCustomDataBlockTags(int objectHandle)</api-synopsis-python>
-        <api-synopsis-lua>string[] tags = sim.readCustomDataBlockTags(int objectHandle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object, sim.handle_scene or sim.handle_app</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>tags</strong>: an array of tags or None/nil if no tags are present</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>string[] tags = sim.readCustomDataBlockTags(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.readCustomTableData</api-function-name>
         <api-description>Reads custom table data that is stored inside of an object or the scene.
@@ -13179,8 +13229,31 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>any sigVal = sim.waitForSignal(string sigName)</api-calltip>
     </function>
+
     <function>
-        <api-function-name>sim.writeCustomDataBlock</api-function-name>
+        <api-function-name>sim.writeCustomStringData</api-function-name>
+        <api-description>Adds or removes custom data to be stored and saved together with an object, or the scene.
+If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
+The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the child- or customization script attached to that object</api-description>
+        <api-see-also>sim.setReferencedHandles
+<a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
+        </api-see-also>
+        <api-synopsis-python>sim.writeCustomStringData(int objectHandle, string tagName, string/bytes data)</api-synopsis-python>
+        <api-synopsis-lua>sim.writeCustomStringData(int objectHandle, string tagName, string data)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>objectHandle</strong>: handle of the object where you want to store your data, or sim.handle_scene if you wish to store the data with the scene, or sim.handle_app if you wish to store the data with the application's current session</li>
+                <li><strong>tagName</strong>: string that identifies the data. An empty string removes all custom data blocks</li>
+                <li><strong>data</strong>: your custom data. If empty, the current data under the specified dataName is removed</li>
+            </ul>
+        </api-input-python-lua>
+        <api-calltip>sim.writeCustomStringData(int objectHandle, string tagName, string data)</api-calltip>
+    </function>
+
+
+    <function>
+        <api-function-name>sim.writeCustomStringData</api-function-name>
         <api-description>Adds or removes custom data to be stored and saved together with an object, or the scene.
 If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
 The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the child- or customization script attached to that object</api-description>
@@ -13202,8 +13275,21 @@ The data can also be saved globally for the application (for the current Coppeli
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.writeCustomDataBlock(int objectHandle, string tagName, string/bytes data)</api-synopsis-python>
-        <api-synopsis-lua>sim.writeCustomDataBlock(int objectHandle, string tagName, buffer data)</api-synopsis-lua>
+    </function>
+
+
+
+    <function>
+        <api-function-name>sim.writeCustomBufferData</api-function-name>
+        <api-description>Adds or removes custom data to be stored and saved together with an object, or the scene.
+If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
+The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the child- or customization script attached to that object</api-description>
+        <api-see-also>sim.setReferencedHandles
+<a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
+        </api-see-also>
+        <api-synopsis-python>sim.writeCustomBufferData(int objectHandle, string tagName, string/bytes data)</api-synopsis-python>
+        <api-synopsis-lua>sim.writeCustomBufferData(int objectHandle, string tagName, buffer data)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object where you want to store your data, or sim.handle_scene if you wish to store the data with the scene, or sim.handle_app if you wish to store the data with the application's current session</li>
@@ -13211,8 +13297,9 @@ The data can also be saved globally for the application (for the current Coppeli
                 <li><strong>data</strong>: your custom data. If empty, the current data under the specified dataName is removed</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.writeCustomDataBlock(int objectHandle, string tagName, buffer data)</api-calltip>
+        <api-calltip>sim.writeCustomBufferData(int objectHandle, string tagName, buffer data)</api-calltip>
     </function>
+    
     <function>
         <api-function-name>sim.writeCustomTableData</api-function-name>
         <api-description>Adds or removes custom table data to be stored and saved together with an object, or the scene.

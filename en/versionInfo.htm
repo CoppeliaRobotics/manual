@@ -61,7 +61,6 @@ Version history:
 <li>The way <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a> are called has been simplified while keeping backward compatible. Additionally, for non-threaded situations, one can now call the related component functions <a href="regularApi/simMoveToConfig_init.htm">sim.moveToConfig_init</a>, <a href="regularApi/simMoveToConfig_step.htm">sim.moveToConfig_step</a>, <a href="regularApi/simMoveToConfig_cleanup.htm">sim.moveToConfig_cleanup</a>, <a href="regularApi/simMoveToPose_init.htm">sim.moveToPose_init</a>, <a href="regularApi/simMoveToPose_step.htm">sim.moveToPose_step</a> and <a href="regularApi/simMoveToPose_cleanup.htm">sim.moveToPose_cleanup</a>. See <em>scenes/trajectoryAndMotion/basicTrajectoryGeneration.ttt</em> to get a quick overview</li>
 <li>Improved the <a href="importExport.htm#gltf">GLTF exporter</a>, transparency and backface culling is now taken into account</li>
 <li>MuJoCo XML files are now saved to the directory indicated when typing sim.getStringParam(sim.stringparam_mujocodir)</li>
-<li><a href="regularApi/simReadCustomDataBlockTags.htm">sim.readCustomDataBlockTags</a> now returns an empty array instead of nil/None, which may lead to <a href="compatibility.htm#sim.readCustomDataBlockTags">potential compatibility issues</a>.</li>
 <li>Added an object tracking example scene using numpy and OpenCV: <em>scenes/vision/objectTracking.ttt</em></li>
 <li>Added 2 AWS Robomaker scenes</li>
 <li>IGL plugin new functions: simIGL.adaptiveUpsample, simIGL.rayTest</li>
@@ -624,7 +623,7 @@ Version history:
 <li>Added a model of the Robotnik Summit XL robot, courtesy of Roberto Guzman: <em>Models/robots/mobile/Robotnik_Summit_XL_140701.ttm</em></li>
 <li>Improved the undo/redo functionality that now operates in a more consistent manner. Camera movements are not considered as undo points anymore. This behaviour can be adjusted via the user settings file <em>system/usrset.txt</em>.</li>
 
-<li>The API functions <a href="regularApi/simReadCustomDataBlock.htm">sim.readCustomDataBlock</a> and <a href="regularApi/simWriteCustomDataBlock.htm">sim.writeCustomDataBlock</a> can now also be used to attach custom data to scripts. At the same time you can now also specify whether the data should be saved during a  scene or model save operation.</li>
+<li>The API functions <a href="regularApi/simReadCustomStringData.htm">sim.readCustomStringData</a> and <a href="regularApi/simWriteCustomStringData.htm">sim.writeCustomStringData</a> can now also be used to attach custom data to scripts. At the same time you can now also specify whether the data should be saved during a  scene or model save operation.</li>
 
 <li>The vision sensor code has been optimized and vision sensors now run faster. They now can also operate in a different mode, in order to simulate the temperature of objects for instance, or in order to detect object handles.</li>
 
@@ -689,7 +688,7 @@ Version history:
 <li>Added new API functions to create and modify textures: <a href="regularApi/simGetTextureId.htm">sim.getTextureId</a>, <a href="regularApi/simReadTexture.htm">sim.readTexture</a>, <a href="regularApi/simWriteTexture.htm">sim.writeTexture</a>, <a href="regularApi/simCreateTexture.htm">sim.createTexture</a>.</li>
 <li>Added new API functions related to motion planning: simSimplifyMpPath and simFindIkPath.</li>
 <li>Completed the documentation of the motion planning functionality.</li>
-<li>Added new API functions that allow to easily store custom data inside of scene objects, or inside of a scene file: <a href="regularApi/simWriteCustomDataBlock.htm">sim.writeCustomDataBlock</a> and <a href="regularApi/simReadCustomDataBlock.htm">sim.readCustomDataBlock</a>.</li>
+<li>Added new API functions that allow to easily store custom data inside of scene objects, or inside of a scene file: <a href="regularApi/simWriteCustomStringData.htm">sim.writeCustomStringData</a> and <a href="regularApi/simReadCustomStringData.htm">sim.readCustomStringData</a>.</li>
 <li>Added a new simulation scene that illustrates motion planning and grasping: <em>scenes/motionPlanningAndGraspingDemo.ttt</em>.</li>
 <li>Added a new plugin (<em>simVision</em>) in charge of various tasks. Currently, it exports 2 custom Lua function to handle spherical vision sensors and anaglyph stereo cameras. The plugin source code is located <a href="https://github.com/CoppeliaRobotics/simVision" target="_blank">here</a>.</li>
 <li>Added a simulation model of a spherical camera, which features a 360x180 view of the scene: <em>models/components/sensors/spherical vision sensor.ttm</em>.</li>

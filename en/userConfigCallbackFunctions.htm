@@ -25,7 +25,7 @@
 <br>
 
 
-<p> When double-cliked, the user config callback function is triggered. This can be used as a convenient way of displaying a <a href="customUserInterfaces.htm">custom user interface</a> to the user, that is specific to the <a href="objects.htm">object</a>/<a href="models.htm">model</a> the customization script is attached to. User data can be read and written to objects with <a href="regularApi/simReadCustomDataBlock.htm">sim.readCustomDataBlock</a>/<a href="regularApi/simWriteCustomDataBlock.htm">sim.writeCustomDataBlock</a> for instance:</p>
+<p> When double-cliked, the user config callback function is triggered. This can be used as a convenient way of displaying a <a href="customUserInterfaces.htm">custom user interface</a> to the user, that is specific to the <a href="objects.htm">object</a>/<a href="models.htm">model</a> the customization script is attached to. User data can be read and written to objects with <a href="regularApi/simReadCustomBufferData.htm">sim.readCustomBufferData</a>/<a href="regularApi/simWriteCustomBufferData.htm">sim.writeCustomBufferData</a> for instance:</p>
 
 <p align=center><img src="images/userConfigCallback.jpg"></p>
 <p class=imageLabel>[Custom configuration dialog]</p>
@@ -80,7 +80,7 @@ def accelerationChanged(ui, id, val):
     writeData(data)
 
 def readData():
-    data = sim.readCustomDataBlock(self.modelHandle, 'RobotParams')
+    data = sim.readCustomBufferData(self.modelHandle, 'RobotParams')
     if data:
         data = sim.unpackTable(data)
     else:
@@ -90,7 +90,7 @@ def readData():
     return data
 
 def writeData(data):
-    sim.writeCustomDataBlock(self.modelHandle, 'RobotParams', sim.packTable(data))</code>
+    sim.writeCustomBufferData(self.modelHandle, 'RobotParams', sim.packTable(data))</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
@@ -150,7 +150,7 @@ function accelerationChanged(ui, id, val)
 end
 
 function readData()
-    local data = sim.readCustomDataBlock(modelHandle, 'RobotParams')
+    local data = sim.readCustomBufferData(modelHandle, 'RobotParams')
     if data then
         data = sim.unpackTable(data)
     else
@@ -162,7 +162,7 @@ function readData()
 end
 
 function writeData(data)
-    sim.writeCustomDataBlock(modelHandle, 'RobotParams', sim.packTable(data))
+    sim.writeCustomBufferData(modelHandle, 'RobotParams', sim.packTable(data))
 end</code>
 
 </div>
@@ -270,7 +270,7 @@ function sysCall_init()
             },
         },
     }
-    sim.writeCustomDataBlock(sim.getObject('.'), '__schema__', sim.packTable(schema))
+    sim.writeCustomBufferData(sim.getObject('.'), '__schema__', sim.packTable(schema))
     configUi = ConfigUI('myModelType', nil, modificationCallback)
 end
 

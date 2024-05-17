@@ -92,14 +92,14 @@ end</code>
 # script 1 writes the data to the scene:
 
 myData = [1, 2, [&quot;Hello&quot;, &quot;world&quot;, True, {&quot;value1&quot;: 63, &quot;value2&quot;: &quot;aString&quot;}]]
-sim.writeCustomDataBlock(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myData))</code>
+sim.writeCustomBufferData(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myData))</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- script 1 writes the data to the scene:
 
 local myData = {1, 2, {&quot;Hello&quot;, &quot;world&quot;, true, {value1 = 63, value2 = &quot;aString&quot;}}}
-sim.writeCustomDataBlock(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myData))</code>
+sim.writeCustomBufferData(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myData))</code>
 
 </div>
 
@@ -109,7 +109,7 @@ sim.writeCustomDataBlock(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myDa
 
 # script 2 reads the data from the scene:
 
-myData = sim.readCustomDataBlock(sim.handle_scene, &quot;myTag&quot;)
+myData = sim.readCustomBufferData(sim.handle_scene, &quot;myTag&quot;)
 if myData != None:
     myData = sim.unpackTable(myData)</code>
 
@@ -117,7 +117,7 @@ if myData != None:
 
 -- script 2 reads the data from the scene:
 
-local myData = sim.readCustomDataBlock(sim.handle_scene, &quot;myTag&quot;)
+local myData = sim.readCustomBufferData(sim.handle_scene, &quot;myTag&quot;)
 if myData then
     myData = sim.unpackTable(myData)
 end</code>
