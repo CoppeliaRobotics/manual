@@ -1580,6 +1580,21 @@ buffer theBuffer = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, b
         <api-calltip>sim.clearStringSignal(string signalName)</api-calltip>
     </function>
     <function>
+        <api-function-name>sim.clearBufferSignal</api-function-name>
+        <api-description>Clears a buffer signal (removes it)</api-description>
+        <api-see-also>
+            <a href="../apiFunctions.htm#signals">signal functions</a>
+        </api-see-also>
+        <api-synopsis-python>sim.clearBufferSignal(string signalName)</api-synopsis-python>
+        <api-synopsis-lua>sim.clearBufferSignal(string signalName)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>signalName</strong>: name of the signal</li>
+            </ul>
+        </api-input-python-lua>
+        <api-calltip>sim.clearBufferSignal(string signalName)</api-calltip>
+    </function>
+    <function>
         <api-function-name>sim.closeScene</api-function-name>
         <api-description>Closes current scene, and switches to another open scene. If there is no other open scene,
 a new scene is then created. Can only be called from an <a href="../addOns.htm">add-on</a>,
@@ -6942,7 +6957,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
         <api-synopsis-python>bytes signalValue = sim.getStringSignal(string signalName)</api-synopsis-python>
-        <api-synopsis-lua>buffer signalValue = sim.getStringSignal(string signalName)</api-synopsis-lua>
+        <api-synopsis-lua>string signalValue = sim.getStringSignal(string signalName)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>signalName</strong>: name of the signal</li>
@@ -6953,7 +6968,27 @@ Table values that are not numbers are converted to 0</api-description>
                 <li><strong>signalValue</strong>: value of the signal, or None/nil if signal does not exist</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer signalValue = sim.getStringSignal(string signalName)</api-calltip>
+        <api-calltip>string signalValue = sim.getStringSignal(string signalName)</api-calltip>
+    </function>
+    <function>
+        <api-function-name>sim.getBufferSignal</api-function-name>
+        <api-description>Gets the value of a buffer signal</api-description>
+        <api-see-also>
+            <a href="../apiFunctions.htm#signals">signal functions</a>
+        </api-see-also>
+        <api-synopsis-python>bytes signalValue = sim.getBufferSignal(string signalName)</api-synopsis-python>
+        <api-synopsis-lua>buffer signalValue = sim.getBufferSignal(string signalName)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>signalName</strong>: name of the signal</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>signalValue</strong>: value of the signal, or None/nil if signal does not exist</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>buffer signalValue = sim.getBufferSignal(string signalName)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getSystemTime</api-function-name>
@@ -12563,14 +12598,32 @@ a <a href="../customizationScripts.htm">customization script</a> or in the
             </ul>
         </api-output-cpp>
         <api-synopsis-python>sim.setStringSignal(string signalName, string/bytes signalValue)</api-synopsis-python>
-        <api-synopsis-lua>sim.setStringSignal(string signalName, buffer signalValue)</api-synopsis-lua>
+        <api-synopsis-lua>sim.setStringSignal(string signalName, string signalValue)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>signalName</strong>: name of the signal</li>
                 <li><strong>signalValue</strong>: value of the signal (which may contain any value, including embedded zeros)</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.setStringSignal(string signalName, buffer signalValue)</api-calltip>
+        <api-calltip>sim.setStringSignal(string signalName, string signalValue)</api-calltip>
+    </function>
+    <function>
+        <api-function-name>sim.setBufferSignal</api-function-name>
+        <api-description>Sets the value of a buffer signal. A signal created in a <a href="../childScripts.htm">child script</a>,
+a <a href="../customizationScripts.htm">customization script</a> or in the
+<a href="../mainScript.htm">main script</a> is automatically cleared when the script ends</api-description>
+        <api-see-also>
+            <a href="../apiFunctions.htm#signals">signal functions</a>
+        </api-see-also>
+        <api-synopsis-python>sim.setBufferSignal(string signalName, string/bytes signalValue)</api-synopsis-python>
+        <api-synopsis-lua>sim.setBufferSignal(string signalName, buffer signalValue)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>signalName</strong>: name of the signal</li>
+                <li><strong>signalValue</strong>: value of the signal (which may contain any value, including embedded zeros)</li>
+            </ul>
+        </api-input-python-lua>
+        <api-calltip>sim.setBufferSignal(string signalName, buffer signalValue)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.setVisionSensorImg</api-function-name>
