@@ -5849,14 +5849,14 @@ sim.getDecimatedMesh</api-see-also>
         <api-function-name>sim.getReferencedHandles</api-function-name>
         <api-description>Retrieves a list of custom handles, linking a given scene object to other scene objects</api-description>
         <api-see-also>sim.setReferencedHandles</api-see-also>
-        <api-synopsis-cpp>int simGetReferencedHandles(int objectHandle, int** referencedHandles, int** reserved1,
-                            int** reserved2)</api-synopsis-cpp>
+        <api-synopsis-cpp>int simGetReferencedHandles(int objectHandle, int** referencedHandles, const char* tag,
+                            int** reserved)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the scene object that stores the list of handles. Can be optionally combined with <em>sim.handleflag_keeporiginal</em>, in which case the handles that link to originals are retrieved.</li>
                 <li><strong>referencedHandles</strong>: a pointer to a pointer that will be allocated and receive the list of scene object handles. The user is in charge of releasing that buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>.</li>
-                <li><strong>reserved1</strong>: reserved for future extensions</li>
-                <li><strong>reserved2</strong>: reserved for future extensions</li>
+                <li><strong>tag</strong>: a tag: only handles stored within that tag are retrieved. nullptr defaults to an empty tag</li>
+                <li><strong>reserved</strong>: reserved for future extensions</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -5864,11 +5864,12 @@ sim.getDecimatedMesh</api-see-also>
                 <li>-1 in case of an error. Otherwise, the number of handles returned.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list referencedHandles = sim.getReferencedHandles(int objectHandle)</api-synopsis-python>
-        <api-synopsis-lua>int[] referencedHandles = sim.getReferencedHandles(int objectHandle)</api-synopsis-lua>
+        <api-synopsis-python>list referencedHandles = sim.getReferencedHandles(int objectHandle, string tag = '')</api-synopsis-python>
+        <api-synopsis-lua>int[] referencedHandles = sim.getReferencedHandles(int objectHandle, string tag = '')</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the scene object that stores the list of handles. Can be optionally combined with <em>sim.handleflag_keeporiginal</em>, in which case the handles that link to originals are retrieved.</li>
+                <li><strong>tag</strong>: a tag: only handles stored within that tag are retrieved. defaults to an empty tag</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
@@ -5876,7 +5877,7 @@ sim.getDecimatedMesh</api-see-also>
                 <li><strong>referencedHandles</strong>: an array with scene object handles</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int[] referencedHandles = sim.getReferencedHandles(int objectHandle)</api-calltip>
+        <api-calltip>int[] referencedHandles = sim.getReferencedHandles(int objectHandle, string tag = '')</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getRotationAxis</api-function-name>
@@ -12269,14 +12270,14 @@ after a duplication of <em>objectA</em>, the duplicate of <em>objectA</em> will 
 original <em>objectB</em> (if <em>objectB</em> still exists)</api-description>
         <api-see-also>sim.getReferencedHandles</api-see-also>
         <api-synopsis-cpp>int simSetReferencedHandles(int objectHandle, int count, const int* referencedHandles,
-                            const int* reserved1, const int* reserved2)</api-synopsis-cpp>
+                            const char* tag, const int* reserved)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the scene object that will store the list of handles. Can be optionally combined with <em>sim.handleflag_keeporiginal</em>, in which case the handles that link to originals are retrieved</li>
                 <li><strong>count</strong>: number of handles to store</li>
                 <li><strong>referencedHandles</strong>: list of scene object handles.</li>
-                <li><strong>reserved1</strong>: reserved for future extensions</li>
-                <li><strong>reserved2</strong>: reserved for future extensions</li>
+                <li><strong>tag</strong>: a tag: handles will be stored under this tag. nullptr defaults to an empty tag</li>
+                <li><strong>reserved</strong>: reserved for future extensions</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -12284,15 +12285,16 @@ original <em>objectB</em> (if <em>objectB</em> still exists)</api-description>
                 <li>-1 in case of an error.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setReferencedHandles(int objectHandle, list referencedHandles)</api-synopsis-python>
-        <api-synopsis-lua>sim.setReferencedHandles(int objectHandle, int[] referencedHandles)</api-synopsis-lua>
+        <api-synopsis-python>sim.setReferencedHandles(int objectHandle, list referencedHandles, string tag = '')</api-synopsis-python>
+        <api-synopsis-lua>sim.setReferencedHandles(int objectHandle, int[] referencedHandles, string tag = '')</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the scene object that will store the list of handles. Can be optionally combined with <em>sim.handleflag_keeporiginal</em>, in which case the handles that link to originals are retrieved</li>
                 <li><strong>referencedHandles</strong>: list of scene object handles.</li>
+                <li><strong>tag</strong>: a tag: handles will be stored under this tag. Defaults to an empty tag</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.setReferencedHandles(int objectHandle, int[] referencedHandles)</api-calltip>
+        <api-calltip>sim.setReferencedHandles(int objectHandle, int[] referencedHandles, string tag = '')</api-calltip>
     </function>
     <function>
         <api-function-name>sim.setScriptInt32Param</api-function-name>
