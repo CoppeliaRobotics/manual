@@ -5880,6 +5880,24 @@ sim.getDecimatedMesh</api-see-also>
         <api-calltip>int[] referencedHandles = sim.getReferencedHandles(int objectHandle, string tag = '')</api-calltip>
     </function>
     <function>
+        <api-function-name>sim.getReferencedHandlesTags</api-function-name>
+        <api-description>Retrieves a list of all referenced handles tags</api-description>
+        <api-see-also>sim.getReferencedHandles</api-see-also>
+        <api-synopsis-python>list tags = sim.getReferencedHandlesTags(int objectHandle)</api-synopsis-python>
+        <api-synopsis-lua>string[] tags = sim.getReferencedHandlesTags(int objectHandle)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>objectHandle</strong>: handle of the scene object that stores the list of handles. Can be optionally combined with <em>sim.handleflag_keeporiginal</em>, in which case the handles that link to originals are retrieved.</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>tags</strong>: an array with found tags</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>string[] tags = sim.getReferencedHandlesTags(int objectHandle)</api-calltip>
+    </function>
+    <function>
         <api-function-name>sim.getRotationAxis</api-function-name>
         <api-description>Retrieves an axis and rotation angle that brings one pose or transformation matrix
 onto another one. The translation part of the poses/matrices is ignored. This function,
@@ -9974,15 +9992,12 @@ sim.addDrawingObjectItem</api-see-also>
     </function>
     <function>
         <api-function-name>sim.removeModel</api-function-name>
-        <api-description>Removes a model from the scene. Object
-destruction always destroys attached scripts before destroying the object itself. If a script
-destroys the object it is attached to, then the object is first destroyed, and the
-script destruction is delayed</api-description>
+        <api-description>Removes a model from the scene</api-description>
         <api-see-also>sim.removeObjects</api-see-also>
         <api-synopsis-cpp>int simRemoveModel(int objectHandle)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>objectHandle</strong>: handle of the model (i.e. object tagged as model) to remove.</li>
+                <li><strong>objectHandle</strong>: handle of the model (i.e. object tagged as model) to remove. A negative value indicates a delayed removal (in that case this argument should be -objectHandle -1</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -9990,11 +10005,12 @@ script destruction is delayed</api-description>
                 <li>-1 if operation was not successful, otherwise the number of removed objects (a model might contain several objects)</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int removedCnt = sim.removeModel(int objectHandle)</api-synopsis-python>
-        <api-synopsis-lua>int removedCnt = sim.removeModel(int objectHandle)</api-synopsis-lua>
+        <api-synopsis-python>int removedCnt = sim.removeModel(int objectHandle, bool delayedRemoval = False)</api-synopsis-python>
+        <api-synopsis-lua>int removedCnt = sim.removeModel(int objectHandle, bool delayedRemoval = false)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the model (i.e. object tagged as model) to remove</li>
+                <li><strong>delayedRemoval</strong>: whether the removal should be delayed (e.g. when a script destroys itself). Defaults to false</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
@@ -10002,20 +10018,17 @@ script destruction is delayed</api-description>
                 <li><strong>removedCnt</strong>: number of removed objects (a model might contain several objects)</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int objectCount = sim.removeModel(int objectHandle)</api-calltip>
+        <api-calltip>int objectCount = sim.removeModel(int objectHandle, bool delayedRemoval = false)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.removeObjects</api-function-name>
-        <api-description>Removes one or several objects from the scene.
-Object destruction always destroys attached scripts before destroying the object itself. If a script
-triggers the destruction of the object it is attached to, then the object is first destroyed, and the
-script destruction is delayed</api-description>
+        <api-description>Removes one or several objects from the scene</api-description>
         <api-see-also>sim.removeModel</api-see-also>
         <api-synopsis-cpp>int simRemoveObjects(const int* objectHandles, int count)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
                 <li><strong>objectHandles</strong>: handles of the objects to remove</li>
-                <li><strong>count</strong>: number of objects to remove</li>
+                <li><strong>count</strong>: number of objects to remove. Negative value indicates a delayed removal</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -10023,14 +10036,15 @@ script destruction is delayed</api-description>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.removeObjects(int[] objectHandles)</api-synopsis-python>
-        <api-synopsis-lua>sim.removeObjects(int[] objectHandles)</api-synopsis-lua>
+        <api-synopsis-python>sim.removeObjects(int[] objectHandles, bool delayedRemoval = False)</api-synopsis-python>
+        <api-synopsis-lua>sim.removeObjects(int[] objectHandles, bool delayedRemoval = false)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandles</strong>: handles of the objects to remove</li>
+                <li><strong>delayedRemoval</strong>: whether the removal should be delayed (e.g. when a script destroys itself). Defaults to false</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.removeObjects(int[1..*] objectHandles)</api-calltip>
+        <api-calltip>sim.removeObjects(int[1..*] objectHandles, bool delayedRemoval = false)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.removeParticleObject</api-function-name>
