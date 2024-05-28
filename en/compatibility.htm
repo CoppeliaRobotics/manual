@@ -32,7 +32,7 @@ CoppeliaSim is developed by a small team. Unlike larger entities, we embrace an 
 </h2>
 
 <h3>Forward compatibility</h3>
-<p>There is potentially one problematic situation with existing code:</p>
+<p>There are potentially two problematic situations with existing code:</p>
 
 <ul>
 <li>Code that relies on the usage of the <em>type</em>-function will break with buffers,  e.g.:</li>
@@ -41,6 +41,24 @@ CoppeliaSim is developed by a small team. Unlike larger entities, we embrace an 
         -- this does not execute when data is a buffer
     end
 end</code>
+
+<li>Most API functions that clearly return binary data (e.g. sim.getVisionSensorImg) now return the data as a buffer. Comparing that buffer with a string will always resolve to <em>false</em>,   e.g.:</li>
+<code class="hljs language-lua coppelia-coppeliasim-script">print(sim.getVisionSensorImg(h) == anyStringData) -- always prints false</code>
+
+<li>sim.packTable now returns a buffer of different length from previous CoppeliaSim versions (text/strings and buffers are now differentiated and this is reflected in the packed data),   e.g.:</li>
+<code class="hljs language-lua coppelia-coppeliasim-script">local packedTable1 = sim.packTable({'Txt'})
+local packedTable2 = sim.packTable({'Txt\0'})
+local packedTable3 = sim.packTable({tobuffer('Txt')})
+print(packedTable1) -- prints: [buffer (16 bytes)]
+print(packedTable2) -- prints: [buffer (17 bytes)
+print(packedTable3) -- prints: [buffer (16 bytes)
+print(packedTable1 == packedTable2) -- prints: false
+print(packedTable1 == packedTable3) -- prints: false
+print(packedTable2 == packedTable3) -- prints: false
+print(sim.unpackTable(packedTable1)) -- prints: {'Txt'}
+print(sim.unpackTable(packedTable2)) -- prints: {[binary string (4 bytes)]}
+print(sim.unpackTable(packedTable3)) -- prints: {[buffer (3 bytes)]}</code>
+
 </ul>
 
 <p>Workarounds:</p>
