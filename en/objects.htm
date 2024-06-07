@@ -20,53 +20,49 @@
 <h1>Scene objects</h1>
 
 
-<p>The main elements in CoppeliaSim that are used for building a simulation <a href="scenes.htm">scene</a> are scene objects (objects in short). Objects are visible in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> and in the scene<a href="pagesAndViews.htm"> view</a>. In the scene view, objects have a three dimensional representation as illustrated in following figure:
+<p>The main elements in CoppeliaSim that are used for building a simulation <a href="scenes.htm">scene</a> are scene objects. They are visible in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> and in the scene<a href="pagesAndViews.htm"> view</a>. In the scene view, scene objects have a three dimensional representation as illustrated in following figure:
 </p>
 
 <p align=center><img src="images/sceneObjects1.jpg"></p>
-<p class=imageLabel>[Object types in CoppeliaSim and their three dimensional representation]</p>
+<p class=imageLabel>[Scene object types in CoppeliaSim and their 3 dimensional representation]</p>
 <br>
 
 <p>
-Following list gives a brief functional description of each object type:
+Following list gives a brief functional description of each scene object type:
 </p>
 
-<li><a href="shapes.htm">Shapes</a>: a shape is a rigid mesh that is composed of triangular faces. </li>
-<li><a href="joints.htm">Joints</a>: a joint object is a joint or actuator. Four types are supported: revolute joints, prismatic joints, screws and spherical joints. </li>
-<li><a href="graphs.htm">Graphs</a>: a graph is used to record and visualize simulation data. </li>
-<li><a href="dummies.htm">Dummies</a>: a dummy is a point with orientation. Dummies are multipurpose objects that can have many different applications. </li>
-<li><a href="proximitySensors.htm">Proximity sensors</a>: a proximity sensor detects objects in a geometrically exact fashion within its detection volume. CoppeliaSim supports pyramid-, cylinder-, disk-, cone- and ray-type proximity sensors. </li>
-<li><a href="visionSensors.htm">Vision sensors</a>: a vision sensor is a camera-type sensor, reacting to light, colors and images. </li>
-<li><a href="forceSensors.htm">Force sensors</a>: a force sensor is an object able to measure forces and torques that are applied to it. It also has the ability to <em>break</em> if a given threashold is overshot. </li>
-<li><a href="cameras.htm">Cameras</a>: a camera is an object that allows <em>seeing</em> the simulation scene from various view points. </li>
-<li><a href="lights.htm">Lights</a>: a light is an object that allows illuminating the simulation scene. </li>
-<li><a href="octrees.htm">OC trees</a>: an OC tree is a spacial partitioning data structure made up by voxels.</li>
-<li><a href="pointClouds.htm">Point clouds</a>: a point cloud is an OC tree structure that contains points.</li>
-<li><a href="paths.htm">Paths</a>: a path is a succession of points with orientation in space. As path is a <em>pseudo scene object</em>, since it is built using merely dummies and a <a href="customizationScripts.htm">customization script</a> that describes its functionality and behaviour. </li>
+<li><a href="shapes.htm">Shapes</a>: a shape is a rigid mesh that is composed of triangular faces </li>
+<li><a href="joints.htm">Joints</a>: a joint is an object allowing 1 or 3 degrees of freedom between connecting objects. A joint can be passive or active (actuator)</li>
+<li><a href="graphs.htm">Graphs</a>: a graph is used to record and visualize simulation data</li>
+<li><a href="dummies.htm">Dummies</a>: a dummy is a point with orientation. Dummies are multipurpose objects that can have many different purposes</li>
+<li><a href="proximitySensors.htm">Proximity sensors</a>: a proximity sensor can detect specific scene objects in a geometrically exact fashion within its detection volume</li>
+<li><a href="visionSensors.htm">Vision sensors</a>: a vision sensor is a camera-type sensor, reacting to light, colors and images</li>
+<li><a href="forceSensors.htm">Force sensors</a>: a force sensor is an object able to measure forces and torques that are applied to it</li>
+<li><a href="cameras.htm">Cameras</a>: a camera is an object that allows <em>seeing</em> the simulation scene from various view points</li>
+<li><a href="lights.htm">Lights</a>: a light is an object that allows illuminating the simulation scene</li>
+<li><a href="octrees.htm">OC trees</a>: an OC tree is a spacial partitioning data structure made up by voxels</li>
+<li><a href="pointClouds.htm">Point clouds</a>: a point cloud is an OC tree structure that contains points</li>
+<li><a href="paths.htm">Paths</a>: a path is a succession of points with orientation in space. As path is a <em>pseudo scene object</em>, since it is made up by several scene objects </li>
+<li><a href="scriptObjects.htm">Script objects</a>: a script object is a script wrapped in a scene object as a simulation- or customization script</li>
 
 <p>
-Some of above objects can have special properties allowing other objects or <a href="functionality.htm">various functionality</a> to interact with them. Objects can be: </p>
+Some of above scene objects can have special properties allowing other objects or <a href="functionality.htm">various functionality</a> to interact with them. They can be: </p>
 
 <li><a href="collidableObjects.htm">Collidable</a>: collidable objects can be tested for <a href="collisionDetection.htm">collision</a> against other collidable objects. </li>
 <li><a href="measurableObjects.htm">Measurable</a>: measurable objects can have the <a href="distanceCalculation.htm">minimum distance</a> between them and other measurable objects calculated. </li>
 <li><a href="detectableObjects.htm">Detectable</a>: detectable objects can be detected by <a href="proximitySensors.htm">proximity sensors</a>. </li>
 <li><a href="viewableObjects.htm">Viewable</a>: viewable objects can be <em>looked through</em>, <em>looked at</em>, or their image content can be visualized in views. Refer to the<a href="pagesAndViews.htm"> pages and views-section</a> for more information </li>
 
-<p>Each object has a position and orientation within the simulation scene. We refer to an object's position and orientation as configuration of the object. Objects can be attached to other objects (or built on top of each other). If object A is built on top of object B, then object B is the parent and object A is the child. To create a parent-child relationships between object B and object A, select object A, then select object B (the selection order is important). Then select [Edit &gt; Set parent, keep pose(s)]. Following figure illustrates this operation:<br>
+<p>Each scene object has a position and orientation within the simulation scene. We refer to an object's position and orientation as pose of the object. Objects can be attached to other objects (or built on top of each other). If object A is built on top of object B, then object B is the parent and object A is the child. To create a parent-child relationships between object B and object A, select object A, then select object B (the selection order is important). Then select [Edit &gt; Set parent, keep pose(s)].<br>
 </p>
 
-<p align=center><img src="images/sceneObjects3.jpg"></p>
-<p class=imageLabel>[(1) Before attaching object A to object B, (2) after attaching object A to object B]</p>
-<br>
-
-
-<p>Alternatively, you can drag and drop an object onto another one in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> to obtain a similar result. Notice that object A's configuration was not changed (both objects kept their respective configuration). However, looking at the scene hierarchy, you can see that object A became child of object B. If you now move object B, object A will automatically follow, since object A is attached to object B. Object A can be detached by selecting it, then selecting [Edit &gt; Set parent-less]. Doing so will detach object A without changing its configuration. Alternatively, you can drag and drop an object onto the world icon to obtain a similar result.<br>
+<p>Alternatively, you can drag and drop an object onto another in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> to obtain a similar result. Notice that object A's absolute pose was not changed. However, looking at the scene hierarchy, you can see that object A became child of object B. If you now move object B, object A will automatically follow, since object A is attached to object B. Object A can be detached by selecting it, then selecting [Edit &gt; Set parent-less]. Doing so will detach object A without changing its pose. Alternatively, you can drag and drop an object onto the world icon to obtain a similar result.<br>
 </p>
 
-<p>Every object has an absolute configuration (or cumulative configuration) that is relative to the world's reference frame, and a local configuration (or relative configuration) that is relative to the parent object's reference frame. In above example, when object A became child of object B, object A's absolute configuration didn't change, but its local configuration was modified.<br>
+<p>Every scene object has an absolute pose (or cumulative pose) that is relative to the world's reference frame, and a local pose (or relative pose) that is relative to the parent object's reference frame. In above example, when object A became child of object B, object A's absolute pose didn't change, but its local pose was modified.<br>
 </p>
 
-<p>The absolute configuration of the last selected object is displayed in the <a href="userInterface.htm#InformationText">information text</a>. To modify or adjust the absolute or local configuration of an object, refer to the <a href="coordinateDialog.htm">coordinates and transformations dialog</a> and the section on <a href="objectMovement.htm">object position/orientation manipulation</a>.<br>
+<p>The absolute pose of the last selected scene object is displayed in the <a href="userInterface.htm#InformationText">information text</a>. To modify or adjust the absolute or local pose of an object, refer to the <a href="coordinateDialog.htm">coordinates and transformations dialog</a> and the section on <a href="objectMovement.htm">object position/orientation manipulation</a>.<br>
 </p>
 
 <br>

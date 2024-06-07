@@ -22,7 +22,7 @@
 <p>There are several ways messages or data can be exchanged/transmitted/received in and around CoppeliaSim, but also between CoppeliaSim and an external application, other computer, machine, etc.:</p>
 <p> One can exchange data via:</p>
 <li><a href="#signals">signals</a></li>
-<li><a href="#customDataBlocks">custom data blocks</a></li>
+<li><a href="#customData">custom data</a></li>
 <li><a href="#pluginFunctions">calling plugin functions</a></li>
 <li><a href="#simCallScriptFunction">calling script functions</a></li>
 <li><a href="#simBroadcastMsg">broadcasting a message</a></li>
@@ -80,10 +80,10 @@ end</code>
 </div>
 <br>
 
-<h2><a name="customDataBlocks"></a>Custom data blocks</h2>
+<h2><a name="customData"></a><a name="customDataBlocks"></a>Custom data</h2>
 
 
-<p><a href="apiFunctions.htm#customDataBlocks">Custom data blocks</a> is data that is stored inside of a <a href="objects.htm">scene object</a>, or inside a <a href="scenes.htm">scene</a>. It can be used to store custom data to be saved together with a <a href="models.htm">model</a> or scene, but also as a means of communication. For example:</p>
+<p><a href="apiFunctions.htm#customData">Custom data</a> is data that is stored inside of a <a href="objects.htm">scene object</a>, or inside a <a href="scenes.htm">scene</a>. It can be used to store custom data to be saved together with a <a href="models.htm">model</a> or scene, but also as a means of communication. For example:</p>
 
 <div class="multi-language-switcher">
 
@@ -92,14 +92,14 @@ end</code>
 # script 1 writes the data to the scene:
 
 myData = [1, 2, [&quot;Hello&quot;, &quot;world&quot;, True, {&quot;value1&quot;: 63, &quot;value2&quot;: &quot;aString&quot;}]]
-sim.writeCustomBufferData(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myData))</code>
+sim.writeCustomTableData(sim.handle_scene, &quot;myTag&quot;, myData)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- script 1 writes the data to the scene:
 
 local myData = {1, 2, {&quot;Hello&quot;, &quot;world&quot;, true, {value1 = 63, value2 = &quot;aString&quot;}}}
-sim.writeCustomBufferData(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myData))</code>
+sim.writeCustomTableData(sim.handle_scene, &quot;myTag&quot;, myData)</code>
 
 </div>
 
@@ -109,18 +109,15 @@ sim.writeCustomBufferData(sim.handle_scene, &quot;myTag&quot;, sim.packTable(myD
 
 # script 2 reads the data from the scene:
 
-myData = sim.readCustomBufferData(sim.handle_scene, &quot;myTag&quot;)
-if myData != None:
-    myData = sim.unpackTable(myData)</code>
+myData = sim.readCustomTableData(sim.handle_scene, &quot;myTag&quot;)
+# do something with the data</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- script 2 reads the data from the scene:
 
-local myData = sim.readCustomBufferData(sim.handle_scene, &quot;myTag&quot;)
-if myData then
-    myData = sim.unpackTable(myData)
-end</code>
+local myData = sim.readCustomTableData(sim.handle_scene, &quot;myTag&quot;)
+-- do something with the data</code>
 
 </div>
 
@@ -170,7 +167,7 @@ simRegisterScriptCallbackFunction(&quot;func&quot;, nullptr, myCallbackFunc);</c
 <p>A <a href="scripts.htm">script</a> function can obviously be called from within the same script, but also:</p>
 <li>across scripts (via <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a> or <a href="regularApi/simGetScriptFunctions.htm">sim.getScriptFunctions</a>)</li>
 <li>from a plugin (via <a href="regularApi/simCallScriptFunctionEx_cpp.htm">simCallScriptFunctionEx</a>)</li>
-<li>from a <a href="#ros">ROS</a> client (via a callback mechanism)
+<li>from a <a href="rosInterfaces.htm">ROS</a> client (via a callback mechanism)
 <li>or from a <a href="remoteApiOverview.htm">remote API</a> client</li>
 <p>The called script function can perform various tasks, then send back data to the caller. This is also a simple way to extend the functionality of an external application in a quick manner. It is however important that the called script doesn't perform lengthly tasks, otherwise everything will come to a halt (lengthly tasks should rather be triggered externally, and processed at an appropriate moment by the script itself when called from the regular <a href="callbackFunctions.htm">system callbacks</a>).</p>
 

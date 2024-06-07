@@ -78,7 +78,7 @@ end</code>
 <p> Restart the customization script for the changes to take effect, then open the path's <a href="userConfigCallbackFunctions.htm">user configuration dialog</a> and check the <strong>Generate extruded shape</strong> checkbox.<br>
 </p>
 
-<p>The last step is to adjust the controller of BubbleRob, so that it will also follow the black path. Open the <a href="childScripts.htm">child script</a> attached to <em>bubbleRob</em>, and replace it with following code:</p>
+<p>The last step is to adjust the controller of BubbleRob, so that it will also follow the black path. Open the <a href="simulationScripts.htm">simulation script</a> attached to <em>bubbleRob</em>, and replace it with following code:</p>
 
 
 <div class="multi-language-switcher">
@@ -92,18 +92,18 @@ def sysCall_init():
     sim = require('sim')
     simUI = require('simUI')
 
-    self.bubbleRobBase = sim.getObject('.')
-    self.leftMotor = sim.getObject("./leftMotor")
-    self.rightMotor = sim.getObject("./rightMotor")
-    self.noseSensor = sim.getObject("./sensingNose")
+    self.bubbleRobBase = sim.getObject('..')
+    self.leftMotor = sim.getObject("../leftMotor")
+    self.rightMotor = sim.getObject("../rightMotor")
+    self.noseSensor = sim.getObject("../sensingNose")
 
     self.minMaxSpeed = [50 * math.pi / 180, 300 * math.pi / 180]
     self.backUntilTime = -1
 
     self.floorSensorHandles = [-1, -1, -1]
-    self.floorSensorHandles[0] = sim.getObject("./leftSensor")
-    self.floorSensorHandles[1] = sim.getObject("./middleSensor")
-    self.floorSensorHandles[2] = sim.getObject("./rightSensor")
+    self.floorSensorHandles[0] = sim.getObject("../leftSensor")
+    self.floorSensorHandles[1] = sim.getObject("../middleSensor")
+    self.floorSensorHandles[2] = sim.getObject("../rightSensor")
 
     self.robotTrace = sim.addDrawingObject(
         sim.drawing_linestrip + sim.drawing_cyclic, 2, 0, -1, 200,
@@ -172,16 +172,16 @@ def sysCall_cleanup():
 function sysCall_init()
     sim = require('sim')
     simUI = require('simUI')
-    bubbleRobBase = sim.getObject('.')
-    leftMotor = sim.getObject("./leftMotor")
-    rightMotor = sim.getObject("./rightMotor")
-    noseSensor = sim.getObject("./sensingNose")
+    bubbleRobBase = sim.getObject('..')
+    leftMotor = sim.getObject("../leftMotor")
+    rightMotor = sim.getObject("../rightMotor")
+    noseSensor = sim.getObject("../sensingNose")
     minMaxSpeed = {50 * math.pi / 180,300 * math.pi / 180}
     backUntilTime = -1 -- Tells whether bubbleRob is in forward or backward mode
     floorSensorHandles = {-1, -1, -1}
-    floorSensorHandles[1] = sim.getObject("./leftSensor")
-    floorSensorHandles[2] = sim.getObject("./middleSensor")
-    floorSensorHandles[3] = sim.getObject("./rightSensor")
+    floorSensorHandles[1] = sim.getObject("../leftSensor")
+    floorSensorHandles[2] = sim.getObject("../middleSensor")
+    floorSensorHandles[3] = sim.getObject("../rightSensor")
     robotTrace = sim.addDrawingObject(sim.drawing_linestrip + sim.drawing_cyclic, 2, 0, -1,
                  200, {1, 1, 0}, nil, nil, {1, 1, 0})
     -- Create the custom UI:

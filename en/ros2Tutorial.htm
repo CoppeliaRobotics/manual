@@ -19,7 +19,7 @@
 
 <h1>ROS2 tutorial</h1>
 
-<p>This tutorial will try to explain in a simple way how you can manage to have CoppeliaSim <em>ROS 2 enabled</em>, based on <a href="https://index.ros.org/doc/ros2/Releases/Release-Foxy-Fitzroy/">ROS2 Foxy</a>.</p>
+<p>This tutorial will try to explain in a simple way how you can manage to have CoppeliaSim <em>ROS 2 enabled</em>.</p>
 
 <p>First of all you should make sure that you have gone through the <a href="https://index.ros.org/doc/ros2/Tutorials/#tutorials">official ROS2 tutorials</a>, at least the beginner section. Then, we assume that you have the latest Ubuntu running, that ROS2 is installed, and that the workspace folders are set. Here also refer to the <a href="https://index.ros.org/doc/ros2/Installation/">official documentation regarding the ROS 2 installation</a>.</p>
 
@@ -55,7 +55,7 @@ $ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release</code>
 <code class="hljs coppelia-terminal">$ ros2 node list
 /sim_ros2_interface</code>
 
-<p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="childScripts.htm">child script</a> to it with [Add &gt; Associated child script &gt; Non threaded &gt; Lua]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
+<p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="simulationScripts.htm">simulation script</a> to it with [Add &gt; Script &gt; simulation script &gt; Non threaded &gt; Lua/Python]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
 
 <div class="multi-language-switcher">
 
@@ -87,8 +87,8 @@ def sysCall_init():
     sim = require('sim')
     simROS2 = require('simROS2')
 
-    # The child script initialization
-    self.objectHandle = sim.getObject('.')
+    # The simulation script initialization
+    self.objectHandle = sim.getObject('..')
     self.objectAlias = sim.getObjectAlias(self.objectHandle, 3)
     
     # Prepare the float32 publisher and subscriber (we subscribe to the topic we publish):
@@ -135,8 +135,8 @@ function sysCall_init()
     sim = require('sim')
     simROS2 = require('simROS2')
 
-    -- The child script initialization
-    objectHandle = sim.getObject('.')
+    -- The simulation script initialization
+    objectHandle = sim.getObject('..')
     objectAlias = sim.getObjectAlias(objectHandle, 3)
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we publish):
@@ -145,7 +145,7 @@ function sysCall_init()
 end
 
 function sysCall_actuation()
-    -- Send an updated simulation time message, and send the transform of the object attached to this script:
+    -- Send an updated simulation time message, and send the transform of the object this script is attached to:
     simROS2.publish(publisher, {data = sim.getSimulationTime()})
     simROS2.sendTransform(getTransformStamped(objectHandle, objectAlias, -1, 'world'))
     -- To send several transforms at once, use simROS2.sendTransforms instead
@@ -171,7 +171,7 @@ end</code>
 <code class="hljs coppelia-terminal">$ ros2 topic echo /simulationTime</code>
 
 
-<p>Now load the demo scene <em>messaging/ros2InterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="childScripts.htm">child script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
+<p>Now load the demo scene <em>messaging/ros2InterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="simulationScripts.htm">simulation script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
 
 <p align=center><img src="images/rosTut1.jpg"></p>
 <p class=imageLabel>[Image publisher and image subscriber demo]</p>
@@ -197,7 +197,7 @@ end</code>
 
 
 
-<p>The child script attached to the  robot, and running in a non-threaded fashion, is in charge of following:</p>
+<p>The simulation script attached to the  robot, and running in a non-threaded fashion, is in charge of following:</p>
 
 <li>determine some object handles (e.g. motor joint handles and proximity sensor handle)</li>
 <li>Launch motor speed subscribers</li>

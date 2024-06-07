@@ -24,12 +24,12 @@
 <li>user callback functions are directly triggered by user code, or a plugin. This happens for instance when the user calls a script function in a different script via <a href="regularApi/simCallScriptFunction.htm">sim.callScriptFunction</a>, or when the user clicks a <a href="customUserInterfaces.htm">custom UI</a> button, which triggers a custom event. User callback functions can usually run in <a href="scripts.htm">any type of script</a>.</li>
 <li>system callback functions on the other hand are triggered by CoppeliaSim when a certain event happens, for instance when a script is initialized, or before switching to another scene. System callback functions have fixed function names, such as <em>sysCall_init</em> or <em>sysCall_beforeInstanceSwitch</em>. Not all system callback functions are supported by all types of scripts, e.g. some can only run in an <a href="addOns.htm">add-on</a> (e.g. <em>sysCall_addOnScriptSuspend</em>).</li>
 <p>While most system callback functions operate in a relatively straight-forward manner and are easy to understand (see further down for a complete list of system callback functions), some require a little bit more explanations:</p>
-<li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a> are called by the physics engine  before and after each dynamics simulation step.</li>
-<li>The <a href="contactCallbackFunction.htm">contact callback function</a> is called by the physics engine for each contact pair.</li>
-<li><a href="jointCallbackFunctions.htm">Joint callback functions</a> are called by the physics engine for custom joint control.</li>
-<li><a href="visionCallbackFunctions.htm">Vision callback functions</a> are called whenever an new image is acquires or applied.</li>
-<li><a href="triggerCallbackFunctions.htm">Trigger callback functions</a> are called when a certain trigger event is fired.</li>
-<li><a href="userConfigCallbackFunctions.htm">User config callback functions</a> are called when the user double-clicks a user parameter icon.</li>
+<li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a> are called by the physics engine  before and after each dynamics simulation step</li>
+<li>The <a href="contactCallbackFunction.htm">contact callback function</a> is called by the physics engine for each contact pair</li>
+<li><a href="jointCallbackFunctions.htm">Joint callback functions</a> are called for custom joint control</li>
+<li><a href="visionCallbackFunctions.htm">Vision callback functions</a> are called whenever an new image is acquires or applied</li>
+<li><a href="triggerCallbackFunctions.htm">Trigger callback functions</a> are called when a certain trigger event is fired</li>
+<li><a href="userConfigCallbackFunctions.htm">User config callback functions</a> are called when the user double-clicks a user parameter icon</li>
 
 <br>
 <p><a name="systemCallbacks"></a>Following is a list of all supported system callback functions. Most support returning {cmd='cleanup'} or {cmd='restart'} to end or restart the script. Refer to the comments in the code below for details about individual functions:</p>
@@ -52,17 +52,17 @@ def sysCall_cleanup():
 
 def sysCall_nonSimulation():
     # Is executed when simulation is not running.
-    # Not for simulation scripts.
+    # Not for simulation scripts or the main script.
     pass
 
 def sysCall_beforeSimulation():
     # Simulation is about to start.
-    # Not for simulation scripts.
+    # Not for simulation scripts or the main script.
     pass
 
 def sysCall_afterSimulation():
     # Simulation has just ended.
-    # Not for simulation scripts.
+    # Not for simulation scripts or the main script.
     pass
 
 def sysCall_actuation():
@@ -91,12 +91,12 @@ def sysCall_realTimeIdle():
 
 def sysCall_beforeInstanceSwitch():
     # About to switch to another scene.
-    # Not for simulation scripts.
+    # Not for simulation scripts or the main script.
     pass
 
 def sysCall_afterInstanceSwitch():
     # Switched to another scene.
-    # Not for simulation scripts.
+    # Not for simulation scripts or the main script.
     pass
 
 def sysCall_beforeSave():
@@ -145,13 +145,13 @@ def sysCall_beforeMainScript():
     return outData
 
 def sysCall_addOnScriptSuspend():
-    # Add-on script execution is about to be suspended.
-    # Only for add-on scripts.
+    # Add-on execution is about to be suspended.
+    # Only for add-ons.
     pass
 
 def sysCall_addOnScriptResume():
-    # Add-on script execution is about to be resumed.
-    # Only for add-on scripts.
+    # Add-on execution is about to be resumed.
+    # Only for add-ons.
     pass
 
 def sysCall_dyn(inData):
@@ -160,24 +160,20 @@ def sysCall_dyn(inData):
 
 def sysCall_joint(inData):
     # See the joint callback function section for details
-    # Return statement was missing in the original Lua code
     return {...}
 
 def sysCall_contact(inData):
     # See the contact callback function section for details
-    # Return statement was missing in the original Lua code
     return {...}
 
 def sysCall_vision(inData):
     # See the vision callback function section for details
-    # Only for customization scripts and child scripts.
-    # Return statement was missing in the original Lua code
+    # Only for customization scripts and simulation scripts.
     return {...}
 
 def sysCall_trigger(inData):
     # See the trigger callback function section for details
-    # Only for customization scripts and child scripts.
-    # Return statement was missing in the original Lua code
+    # Only for customization scripts and simulation scripts.
     return {...}
 
 def sysCall_userConfig():
@@ -196,8 +192,8 @@ def sysCall_msg(msg, origin):
     pass
 
 def sysCall_data(inData):
-    # Asynchronously called when a custom data block attached to the object associated with this script is modified
-    # Only for child- and customization scripts
+    # Asynchronously called when custom data attached to this script's parent object is modified
+    # Only for simulation- and customization scripts
     pass
 
 def sysCall_event(cborBuffer):
@@ -227,17 +223,17 @@ end
 
 function sysCall_nonSimulation()
     -- Is executed when simulation is not running. 
-    -- Not for simulation scripts.
+    -- Not for simulation scripts or the main script.
 end
 
 function sysCall_beforeSimulation()
     -- Simulation is about to start. 
-    -- Not for simulation scripts.
+    -- Not for simulation scripts or the main script.
 end
 
 function sysCall_afterSimulation()
     -- Simulation has just ended. 
-    -- Not for simulation scripts.
+    -- Not for simulation scripts or the main script.
 end
 
 function sysCall_actuation()
@@ -266,12 +262,12 @@ end
 
 function sysCall_beforeInstanceSwitch()
     -- About to switch to another scene.
-    -- Not for simulation scripts.
+    -- Not for simulation scripts or the main script.
 end
 
 function sysCall_afterInstanceSwitch()
     -- Switched to another scene. 
-    -- Not for simulation scripts.
+    -- Not for simulation scripts or the main script.
 end
 
 function sysCall_beforeSave()
@@ -333,13 +329,13 @@ function sysCall_beforeMainScript()
 end
 
 function sysCall_addOnScriptSuspend()
-    -- Add-on script execution is about to be suspended.
-    -- Only for add-on scripts.
+    -- Add-on execution is about to be suspended.
+    -- Only for add-ons.
 end
 
 function sysCall_addOnScriptResume()
-    -- Add-on script execution is about to be resumed.
-    -- Only for add-on scripts.
+    -- Add-on execution is about to be resumed.
+    -- Only for add-ons.
 end
 
 function sysCall_dyn(inData)
@@ -359,13 +355,13 @@ end
 
 function sysCall_vision(inData)
     -- See the vision callback function section for details
-    -- Only for customization scripts and child scripts.
+    -- Only for customization scripts and simulation scripts.
     return outData
 end
 
 function sysCall_trigger(inData)
     -- See the trigger callback function section for details
-    -- Only for customization scripts and child scripts.
+    -- Only for customization scripts and simulation scripts.
     return outData
 end
 
@@ -386,8 +382,8 @@ function sysCall_msg(msg, origin)
 end
 
 function sysCall_data(inData)
-    -- Asynchronously called when a custom data block attached to the object associated with this script is modified
-    -- Only for child- and customization scripts
+    -- Asynchronously called when custom data attached to this script's parent object is modified
+    -- Only for simulation- and customization scripts
 end
 
 function sysCall_event(cborBuffer)

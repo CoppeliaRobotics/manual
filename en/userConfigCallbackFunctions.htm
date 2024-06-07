@@ -19,13 +19,13 @@
 
 <h1>User config callback functions</h1>
 
-<p>A <a href="customizationScripts.htm">customization script</a> that includes a user config callback function (which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>), will display a configuration dialog icon, in the scene hierarchy:</p>
+<p>A <a href="customizationScripts.htm">customization script</a> that includes a user config callback function (which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>), displays a configuration dialog icon in the scene hierarchy:</p>
 <p align=center><img src="images/scriptSimParams1.jpg"></p>
 <p class=imageLabel>[Configuration dialog icon]</p>
 <br>
 
 
-<p> When double-cliked, the user config callback function is triggered. This can be used as a convenient way of displaying a <a href="customUserInterfaces.htm">custom user interface</a> to the user, that is specific to the <a href="objects.htm">object</a>/<a href="models.htm">model</a> the customization script is attached to. User data can be read and written to objects with <a href="regularApi/simReadCustomBufferData.htm">sim.readCustomBufferData</a>/<a href="regularApi/simWriteCustomBufferData.htm">sim.writeCustomBufferData</a> for instance:</p>
+<p> For convenience, the icon is also displayed for the customization script's parent. When double-clicked, the user config callback function is triggered. This can be used as a convenient way of displaying a <a href="customUserInterfaces.htm">custom user interface</a>, that is specific to the <a href="objects.htm">object</a>/<a href="models.htm">model</a> the customization script refers to. User data can be read and written to objects with <a href="regularApi/simReadCustomTableData.htm">sim.readCustomTableData</a> / <a href="regularApi/simWriteCustomTableData.htm">sim.writeCustomTableData</a> for instance:</p>
 
 <p align=center><img src="images/userConfigCallback.jpg"></p>
 <p class=imageLabel>[Custom configuration dialog]</p>
@@ -38,7 +38,7 @@
 def sysCall_init():
     sim = require('sim')
     simUI = require('simUI')
-    self.modelHandle = sim.getObject('.')
+    self.modelHandle = sim.getObject('..')
 
 def sysCall_userConfig():
     xml = '''&lt;ui title="Robot" closeable="true" modal="true" layout="form" on-close="customUiClosed"&gt;
@@ -80,24 +80,22 @@ def accelerationChanged(ui, id, val):
     writeData(data)
 
 def readData():
-    data = sim.readCustomBufferData(self.modelHandle, 'RobotParams')
-    if data:
-        data = sim.unpackTable(data)
-    else:
+    data = sim.readCustomTableData(self.modelHandle, 'RobotParams')
+    if data == [] or data == {}:
         data = {}
         data['maxVel'] = 0.2
         data['maxAccel'] = 0.05
     return data
 
 def writeData(data):
-    sim.writeCustomBufferData(self.modelHandle, 'RobotParams', sim.packTable(data))</code>
+    sim.writeCustomTableData(self.modelHandle, 'RobotParams', data)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
     sim = require('sim')
     simUI = require('simUI')
-    modelHandle = sim.getObject('.')
+    modelHandle = sim.getObject('..')
 end
 
 function sysCall_userConfig()
@@ -150,11 +148,8 @@ function accelerationChanged(ui, id, val)
 end
 
 function readData()
-    local data = sim.readCustomBufferData(modelHandle, 'RobotParams')
-    if data then
-        data = sim.unpackTable(data)
-    else
-        data = {}
+    local data = sim.readCustomTableData(modelHandle, 'RobotParams')
+    if next(data) == nil then
         data.maxVel = 0.2
         data.maxAccel = 0.05
     end
@@ -162,14 +157,14 @@ function readData()
 end
 
 function writeData(data)
-    sim.writeCustomBufferData(modelHandle, 'RobotParams', sim.packTable(data))
+    sim.writeCustomTableData(modelHandle, 'RobotParams', data)
 end</code>
 
 </div>
 
 <br>
 
-<p>You may also use the <em>configUI</em> module for quicker set-up of custom configuration dialog, that will also automatically write data to custom data blocks:</p>
+<p>You may also use the <em>configUI</em> module for quicker set-up of custom configuration dialog, that will also automatically write custom data to objects:</p>
 
 <p align=center><img src="images/userConfigCallback2.jpg"></p>
 <p class=imageLabel>[Custom configuration dialog based on <em>configUI</em> module]</p>
@@ -270,12 +265,13 @@ function sysCall_init()
             },
         },
     }
-    sim.writeCustomBufferData(sim.getObject('.'), '__schema__', sim.packTable(schema))
+    sim.writeCustomBufferData(sim.getObject('..'), '__schema__', sim.packTable(schema))
     configUi = ConfigUI('myModelType', nil, modificationCallback)
+    configUi.getObjectCallback = function() return sim.getObject '..' end
 end
 
 function modificationCallback(config)
-    local objectHandle = sim.getObject('.')
+    local objectHandle = sim.getObject('..')
     local txt = "Object '"..sim.getObjectAlias(objectHandle,5).."' just changed.\nNew parameters are:"
     print(txt)
     print(config)

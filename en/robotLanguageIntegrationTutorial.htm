@@ -45,7 +45,7 @@
 "<strong>IFNBITGOTO</strong> y label": if bit at position y (1-32) in the robot input port is not set, jump to &quot;label&quot;
 "<strong>GOTO</strong> label": jumps to "label"</pre>
 
-<p>Any word different from &quot;<strong>REM</strong>&quot;, &quot;<strong>SETLINVEL</strong>&quot;, &quot;<strong>SETROTVEL</strong>&quot;, &quot;<strong>MOVE</strong>&quot;, &quot;<strong>WAIT</strong>&quot;, &quot;<strong>SETBIT</strong>&quot;, &quot;<strong>CLEARBIT</strong>&quot;, &quot;<strong>IFBITGOTO</strong>&quot;, &quot;<strong>IFNBITGOTO</strong>&quot; and &quot;<strong>GOTO</strong>&quot; is considered to be a label. Now run the simulation. If the related plugin was not found, following message displays (the display of the message is handled in the <a href="childScripts.htm">child scripts</a> attached to <a href="objects.htm">objects</a> <em>MTB_Robot</em> and <em>MTB_Robot#0</em>):<br>
+<p>Any word different from &quot;<strong>REM</strong>&quot;, &quot;<strong>SETLINVEL</strong>&quot;, &quot;<strong>SETROTVEL</strong>&quot;, &quot;<strong>MOVE</strong>&quot;, &quot;<strong>WAIT</strong>&quot;, &quot;<strong>SETBIT</strong>&quot;, &quot;<strong>CLEARBIT</strong>&quot;, &quot;<strong>IFBITGOTO</strong>&quot;, &quot;<strong>IFNBITGOTO</strong>&quot; and &quot;<strong>GOTO</strong>&quot; is considered to be a label. Now run the simulation. If the related plugin was not found, following message displays (the display of the message is handled in the <a href="simulationScripts.htm">simulation scripts</a> attached to <a href="objects.htm">objects</a> <em>MTB_Robot</em> and <em>MTB_Robot#0</em>):<br>
 </p>
 
 <p align=center><img src="images/robLangTut3.jpg"></p>
@@ -62,7 +62,7 @@
  <li>receive the program code (i.e. a buffer) from the MTB plugin, compile it, and initialize the robot controller.</li>
  <li>apply input signals, step through the program code (the step duration can be different from step to step), and return output signals and joint angles. </li>
  
- <p>If the MTB server detects an error during compilation of the program code, it will return an error message to the plugin, that will hand it over to the calling <a href="childScripts.htm">child script</a> (i.e. in our case, the child scripts attached to objects <em>MTB_Robot</em> and <em>MTB_Robot#0</em>.), which will display (for example):<br>
+ <p>If the MTB server detects an error during compilation of the program code, it will return an error message to the plugin, that will hand it over to the calling <a href="simulationScripts.htm">simulation script</a> (i.e. in our case, the simulation scripts attached to objects <em>MTB_Robot</em> and <em>MTB_Robot#0</em>.), which will display (for example):<br>
  </p>
 
 <p align=center><img src="images/robLangTut4.jpg"></p>
@@ -86,7 +86,7 @@
 </p>
 
 
-<p>There are two  child scripts attached to the <em>MTB_Robot</em> and <em>MTB_Robot#0</em> objects. They are in charge of handling the custom dialogs and communicating with the MTB plugin. Most code in the child scripts could be handled by the plugin too. Open the child script attached to one of the two MTB robot (e.g. with a double-click on the script icon next to the robot model in the scene hierarchy). At the top of the script, you will see the robot language code.<br>
+<p>There are two  simulation scripts attached to the <em>MTB_Robot</em> and <em>MTB_Robot#0</em> objects. They are in charge of handling the custom dialogs and communicating with the MTB plugin. Most code in the simulation scripts could be handled by the plugin too. Open the simulation script attached to one of the two MTB robot. At the top of the script, you will see the robot language code.<br>
 </p>
 
 
@@ -99,7 +99,7 @@ the actual robot language program is compiled and executed by the &quot;mtbServe
 <li>
 the <em>simMTB</em> plugin is in charge of providing custom script functions, and  also  launches the <em>mtbServer</em> application when needed, and communicates with it via socket communication.</li>
 <li>
-the child scripts attached to <em>MTB_Robot</em> and <em>MTB_Robot#0</em> check whether the <em>simMTB</em> plugin is loaded and handle the communication with the plugin. </li>
+the simulation scripts attached to <em>MTB_Robot</em> and <em>MTB_Robot#0</em> check whether the <em>simMTB</em> plugin is loaded and handle the communication with the plugin. </li>
 
 
 
@@ -112,7 +112,7 @@ the child scripts attached to <em>MTB_Robot</em> and <em>MTB_Robot#0</em> check 
 <li>Writing a <a href="plugins.htm">plugin</a> to handle the new robot natively, i.e. to handle the new robot by interpreting its own robot language. Any language capable of accessing C-API functions and capable of being wrapped in a dll can be used to create the plugin (but c/c++ is preferred). The robot language interpreter could be directly embedded in the plugin, or launched as an external application (<em>mtbServer</em>) as is done in this tutorial.<br>
 </li>
 
-<li>Writing a small <a href="childScripts.htm">child script</a> responsible for handling <a href="customUIPlugin.htm">custom dialogs</a> and linking the robot with the plugin. This step can be entirely done in CoppeliaSim.<br>
+<li>Writing a small <a href="simulationScripts.htm">simulation script</a> responsible for handling <a href="customUIPlugin.htm">custom dialogs</a> and linking the robot with the plugin. This step can be entirely done in CoppeliaSim.<br>
 </li>
 
 
@@ -125,10 +125,10 @@ the child scripts attached to <em>MTB_Robot</em> and <em>MTB_Robot#0</em> check 
 <p>When writing any plugin, make sure that the plugin accesses CoppeliaSim's <a href="apiFunctions.htm">regular API</a> only from the main thread (or from a thread created by CoppeliaSim)! The plugin can launch new threads, but in that case those new threads should not be used to access CoppeliaSim (they can however be used to communicate with a server application, to communicate with some hardware, to execute background calculations, etc.).</p>
 <br>
 
-<p>Now let's have a look at the child script that is attached to the MTB robot. The code might seem quite long or complicated. However most functionality handled in the child script could also be directly handled in the plugin, making the child script much smaller/cleaner. The advantage in handling most functionality in the child script is that modifications can be performed without having to recompile the plugin!<br>
+<p>Now let's have a look at the simulation script that is attached to the MTB robot. The code might seem quite long or complicated. However most functionality handled in the simulation script could also be directly handled in the plugin, making the simulation script much smaller/cleaner. The advantage in handling most functionality in the simulation script is that modifications can be performed without having to recompile the plugin!<br>
 </p>
 
-<p>Following is the MTB robot's child script main functionality:<br>
+<p>Following is the MTB robot's simulation script main functionality:<br>
 </p>
 
 <li>
@@ -189,7 +189,7 @@ table[4] jointValues = simMTB.getJoints(int mtbServerHandle)</code>
 <li><strong>simMTB.getJoints</strong>: retrieves the current linear/angular joint positions. The linear/angular joint positions are automatically updated when <em>simMTB.step</em> is called.</li>
 
 
-<p>You could also imagine slightly modifying the step function, and add one additional function, in order to be able to handle intermediate events triggered by the robot language program execution. In that case, each simulation step would have to execute following script code (in a child script):<br>
+<p>You could also imagine slightly modifying the step function, and add one additional function, in order to be able to handle intermediate events triggered by the robot language program execution. In that case, each simulation step would have to execute following script code (in a simulation script):<br>
 </p>
 
 <div class="multi-language-switcher">

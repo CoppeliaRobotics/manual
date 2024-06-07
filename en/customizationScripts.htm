@@ -19,27 +19,11 @@
 
 <h1>Customization scripts <img src="images/customizationScriptIcon.jpg"></h1>
 
-<p>Customization scripts are <a href="scripts.htm">embedded scripts</a> that can be used to customize a simulation scene to a great extent. They are attached to (or <em>associated with</em>) <a href="objects.htm">scene objects</a>, and they can be easily recognized from their dark script icon in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:</p>
+<p>A customization script can be used to customize a simulation <a href="scenes.htm">scene</a> or <a href="models.htm">model</a> to a great extent:  imagine a model that was dropped into a scene and that is able to configure or adapt itself, even when simulation is not running. This could be a robot where the user can adjust the various link lengths with a single slider repositioning. </p>
 
-<p align=center><img src="images/customizationScripts0.jpg"></p>
-<p class=imageLabel>[A customization script associated with object <em>Robot</em>]</p>
-
-<p>Double-clicking the script icon opens the <a href="scriptEditor.htm">script editor</a>. You can change properties of a given script, or associate it with another object via the <a href="scriptProperties.htm">script dialog</a>. You can attach a new customization script to an object by selecting the object, then navigating to [Add &gt; Associated customization script]. </p>
-
-
-
-<p>Following are customization scripts' main properties:</p>
-
-<li>they are executed all the time (within a same scene): when simulation is running, as well as when simulation is not running.</li>
-<li>they are attached to (or associated with) scene objects (i.e. they are <em>associated</em> scripts). Associated scripts form the basis of CoppeliaSim's distributed control architecture, and share the convenient property to be automatically duplicated if their associated object is duplicated. </li>
-
-
-<p>Above properties allow customization scripts to share some of the best features of <a href="addOns.htm">add-ons</a> and <a href="childScripts.htm">child scripts</a>. Customization scripts allow the creation of customizable models for instance: imagine a <a href="models.htm">model</a> that was dropped into a scene, and that is able to configure or adapt itself, even when simulation is not running. This could be a robot where the user can adjust the various link lengths with a single slider repositioning.</p>
-
-
-<p>Customization scripts follow a <a href="scriptExecution.htm">precise calling or execution order</a> and  can <a href="threadedAndNonThreadedCode.htm">run threaded or non-threaded</a>. If possible, do not use this type of script to run simulation code, which is anyway best handled via <a href="childScripts.htm">child scripts</a>.</p>
-<p>A customization script is typically segmented into a collection of <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>, the most important ones are: </p>
-<li><strong>sysCall_init</strong>. This function is executed just one time (the first time the child script is called). Usually you would put some initialization code in this part.
+<p>Customization scripts are executed all the time (within a same scene): when simulation is running, as well as when simulation is not running. They follow a <a href="scriptExecution.htm">precise calling or execution order</a> and  can <a href="threadedAndNonThreadedCode.htm">run threaded or non-threaded</a>. Double-clicking their icon in the scene hierarchy opens the <a href="scriptEditor.htm">script editor</a>.</p>
+<p>A customization script is typically segmented into <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>, the most important ones are: </p>
+<li><strong>sysCall_init</strong>. This function is executed just one time, the first time the script is called. Usually you would put some initialization code in this part.
 </li>
 
 <li><strong>sysCall_thread</strong>. This function is the entrance to the script's threaded execution code. Threaded code is interrupted (and later resumed) on a regular basis by CoppeliaSim, by default. This behaviour can however be adjusted via <a href="regularApi/simSetStepping.htm">sim.setStepping</a>. See also <a href="apiFunctions.htm#threads">the other thread-related API functions</a> for more details. </li>
@@ -52,6 +36,9 @@
 
 
 <li><strong>sysCall_afterSimulation</strong>. This function is executed once just after simulation ended. </li>
+
+<li><strong>sysCall_cleanup</strong>. This function is executed one time just before  the script state is destroyed (e.g. when the script is removed)</li>
+
 
 <br>
 <br>

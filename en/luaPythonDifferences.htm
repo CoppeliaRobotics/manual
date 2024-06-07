@@ -20,20 +20,7 @@
 
 <p>The way Lua and Python scripts are handled in CoppeliaSim (next to differences related to the language itself) displays small differences, which are discussed here:</p>
 
-<li>Python scripts require a <em>#python</em> header tag as the very first instruction/comment:</li>
-<div class="multi-language-switcher">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_init():
-    print("Hello world!")</code>
-
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
-
-function sysCall_init()
-    print("Hello world!")
-end</code>
-</div>
+<li>Prior to CoppeliaSim V4.7, Python scripts required a <em>#python</em> header tag as the very first instruction/comment. This is not the case anymore: language is decided at script creation time, or deduced from file extension</li>
 
 <li>Global variables are inconvenient and not recommended in Python:</li>
 <div class="multi-language-switcher">
@@ -59,7 +46,7 @@ end</code>
 
 <li>CoppeliaSim selects the default Python interpreter present on your system. If this does not work, or if another interpreter is desired, then one can edit the <em>usrset.txt</em> file entry named <em>defaultPython</em>. The location of the <em>usrset.txt</em> file can be queried via sim.getStringParam(sim.stringparam_usersettingsdir). In addition to that, each script can specify a custom Python executable if required, via the <em>luaExec</em> directive (see further down)</li>
 <li>Lua code always executes in the same thread as CoppeliaSim and is thus quite fast. Python code on the other hand is launched in a new process, which connects to CoppeliaSim via socket communication. This implies that Python code will usually start and run slower than Lua code. However, when Python is operating in non-stepping mode, and doesn't access CoppeliaSim API, it truely runs parallel to CoppeliaSim.</li>
-<li><a name="luaExec"></a>Python scripts are handled via Lua wrapper code, which handles the launch and communication of each Python script. Auxiliary settings, Lua code or Lua functions can be passed via the <em>luaExec</em> directive, within a Python comment section. That code must come immediately after the <em>#python</em> header tag:</li>
+<li><a name="luaExec"></a>Python scripts are handled via Lua wrapper code, which handles the launch and communication of each Python script. Auxiliary settings, Lua code or Lua functions can be passed via the <em>luaExec</em> directive, within a Python comment section. That code must come immediately at the beginning of the script:</li>
 <br>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 

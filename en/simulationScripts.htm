@@ -17,27 +17,25 @@
 
 
 
-<h1>Simulation scripts</h1>
+<h1>Simulation scripts <img src="images/childScripts1.jpg"></h1>
 
-<p>Simulation <a href="scripts.htm">scripts</a> play the central role in a simulation, and are only executed while a simulation is running. There are two types of simulation scripts: </p>
-
-<li><a href="mainScript.htm">The main script</a>: by default, each <a href="scenes.htm">scene</a> has a main script that handles all the functionality (that is in charge of calling child scripts (see hereafter)). Without main script, a <a href="simulation.htm">simulation</a> cannot run. The main script can be customized, but it is preferable to do all the customization work in child scripts.<br>
+<p>A simulation script executes code handling a particular function in a <a href="simulation.htm">simulation</a>. Double-clicking the script icon opens the <a href="scriptEditor.htm">script editor</a>. </p>
+<p>Simulation scripts should exclusively be used to handle simulation-time tasks, since they only run when simulation is running. Their entrance functions are <a href="callbackFunctions.htm"> callback functions</a>. Functions that are not <a href="threadedAndNonThreadedCode.htm#threaded">running threaded</a> should not be blocking. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole <a href="simulation.htm">simulation</a> halts. Simulation script functions are called at least twice per simulation step from <a href="mainScript.htm">the main script</a>'s actuation and sensing functions. The system will also call other <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> where appropriate (e.g. during script initialization, clean-up, etc). </p>
+<p>Simulation scripts follow a <a href="scriptExecution.htm">precise calling or execution order</a> and are typically segmented into <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>, the most important ones are: </p>
+<li><strong>sysCall_init</strong>. This function is executed just one time, the first time the script is called. Usually you would put some initialization code in this part.
 </li>
 
-<li><a href="childScripts.htm">Child scripts</a>: each <a href="objects.htm">scene object</a> can be associated with a child script that can handle a specific part of a simulation. The most common use for a child script is to have it control a <a href="models.htm">model</a> (e.g. a robot). Since child scripts  are attached to scene objects (i.e. they are <em>associated</em> scripts), they will also be duplicated during a copy-and-paste operation, which is an important feature that allows a simulation scene to be easily scalable. <em>Associated</em> scripts form the basis of CoppeliaSim's distributed control architecture.</li>
+<li><strong>sysCall_thread</strong>. This function is the entrance to the script's threaded execution code. Threaded code is interrupted (and later resumed) on a regular basis by CoppeliaSim, by default. This behaviour can however be adjusted via <a href="regularApi/simSetStepping.htm">sim.setStepping</a>. See also <a href="apiFunctions.htm#threads">the other thread-related API functions</a> for more details. </li>
 
-<p>Following are the main differences between the main script and a child script:</p>
+<li><strong>sysCall_actuation</strong>. This function is executed in each simulation step, during the actuation phase of a simulation step. Refer to the <a href="mainScript.htm">main script</a> default code for more details about the actuation phase, but typically, you would do some actuation in this part (no sensing).<br>
+</li>
 
-<li>there can only be one main script. There can be an unlimited number of child scripts.</li>
+<li><strong>sysCall_sensing</strong>. This function is executed in each simulation step, during the sensing phase of a simulation step. Refer to the <a href="mainScript.htm">main script</a> default code for more details about the sensing phase, but typically, you would only do sensing in this part (no actuation).<br>
+</li>
 
-<li>the main script is independent and should preferably not be customized. Child scripts are associated with scene objects and should be customized.</li>
-
-<li>the main script is never duplicated in a copy/paste operation of scene objects. Child scripts will duplicate themselves together with their associated scene object.</li>
-
-<li>child scripts support a few more <a href="callbackFunctions.htm">callback functions</a> than the main script.</li>
+<li><strong>sysCall_cleanup</strong>. This function is executed one time just before  the script state is destroyed (e.g. when simulation ends, or when the script is removed). </li>
 
 
-<p>Simulation scripts, and all scripts in general, are mainly invoked via <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> by CoppeliaSim, and follow a precise<a href="scriptExecution.htm"> execution order </a>in relation with other script types. They can <a href="threadedAndNonThreadedCode.htm">run threaded or non-threaded</a>.</p>
 
 <br>
 <br>

@@ -19,12 +19,9 @@
 
 <h1>Accessing scene objects programmatically</h1>
 
-<p>When programming in and around CoppeliaSim, you will always need to reference <a href="objects.htm">scene objects</a>. You do this with handles, that you obtain via <a href="regularApi/simGetObject.htm">sim.getObject</a>, which expects an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner in case of <a href="#fromAssociatedCode">associated code</a>.</p>
-<p>In both cases, the path to the object can often be simplified. You may also use wildcards, and optionally specify the object sequence or order in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path/alias.</p>
-<div class="warningBox">
-<p><strong>Note</strong>: until CoppeliaSim V4.2.0, object access was based on <em>object names </em>(with <em>sim.getObjectHandle</em>), which are now deprecated (but still functional for backward compatibility). We however highly recommend to use object paths as described below, to retrieve object handles. Object paths can easily be identified since they start with one of following characters: <strong>/</strong> or <strong>.</strong> or <strong>:</strong></p>
-<p>Deprecated object names are not displayed anymore in the scene hierarchy (where object aliases are displayed instead). You can however still see the deprecated name of an object by selecting it: it will be displayed at the top of the rendering page.</p>
-</div>
+<p>When programming in and around CoppeliaSim, you will always need to reference <a href="objects.htm">scene objects</a>. You do this with handles, that you obtain via <a href="regularApi/simGetObject.htm">sim.getObject</a>, which expects an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner in case of <a href="#fromScriptObject">script object code</a>.</p>
+
+<p>In both cases, the path to the object can often be simplified. You may also use wildcards, and optionally specify the object sequence or order, in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path/alias.</p>
 
 
 <br>
@@ -33,11 +30,11 @@
 
 <h2><a name="fromUnassociatedCode"></a>Access from <em>unassociated</em> code</h2>
 
-<p><em>Unassociated</em> code is code that is not attached to any scene object. This includes all the code written for <a href="plugins.htm">plugins</a>, <a href="addOns.htm">add-ons</a>, <a href="remoteApiOverview.htm">remote API</a> clients, external <a href="rosInterfaces.htm">ROS</a> nodes, and <a href="mainScript.htm">the main script</a>.</p>
+<p><em>Unassociated</em> code is code that is not from a <a href="scriptObjects.htm">script object</a>. This includes all the code written for <a href="plugins.htm">plugins</a>, <a href="addOns.htm">add-ons</a>, <a href="remoteApiOverview.htm">remote API</a> clients, external <a href="rosInterfaces.htm">ROS</a> nodes, and <a href="mainScript.htm">the main script</a>.</p>
 
 <p>In that case, you simply specify the object's <strong>absolute</strong> path, in order to retrieve its handle. If the object alias is unique, the path to the object can be simplified. You may also use wildcards, and optionally specify the object sequence in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path:</p>
 
-<code class="hljs language-c++ coppelia-coppeliasim-plugin">// e.g. inside of a c/c++ plugin:
+<code class="hljs language-c++ coppelia-coppeliasim-plugin">// e.g. from within a c/c++ plugin:
 
 // using the full <em>Object</em> path:
 int objectHandle = simGetObject(&quot;/Path/to/Object&quot;, -1, -1, 0);
@@ -65,7 +62,7 @@ while (true)
         break;
 } </code>
 
-<code class="hljs language-python coppelia-zmq-remote-api-client"># e.g. inside of a Python ZeroMQ remote API client:
+<code class="hljs language-python coppelia-zmq-remote-api-client"># e.g. from within a Python ZeroMQ remote API client:
 
 # using the full <em>Object</em> path:
 objectHandle = sim.getObject(&quot;/Path/to/Object&quot;)
@@ -86,12 +83,12 @@ robotHandle = sim.getObject(&quot;/Robot{4}&quot;)</code>
 <br>
 
 <h2>
-<a name="fromAssociatedCode"></a>Access from <em>associated</em> code
+<a name="fromScriptObject"></a><a name="fromAssociatedCode"></a>Access from a script object (i.e. from <em>associated</em> code)
 </h2>
 
-<p><em>Associated</em> code is code that is associated with a scene object (i.e. <em>attached</em> to a scene object). This includes all the code written for <a href="childScripts.htm">child scripts</a> or <a href="customizationScripts.htm">customization scripts</a>.</p>
+<p><em>Associated</em> code is code that runs in a <a href="scriptObjects.htm">script object</a>, i.e. code that runs in a <a href="simulationScripts.htm">simulation-</a> or <a href="customizationScripts.htm">customization script</a>.</p>
 
-<p>In that case, objects can also be accessed in an <strong>absolute</strong> manner, but additionally, object access can also operate in a <strong>relative</strong> manner (relative to the current script/object (<em> ./ </em>), or relative to the model containing current script ( <em>:/</em> ) ):</p>
+<p>In that case, objects can also be accessed in an <strong>absolute</strong> manner as described above, but additionally, object access can also happen in a <strong>relative</strong> manner (relative to the current script object (<em> ./ </em>), or relative to the model containing current script ( <em>:/</em> ) ):</p>
 
 
 
@@ -99,12 +96,12 @@ robotHandle = sim.getObject(&quot;/Robot{4}&quot;)</code>
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
-# e.g. inside of child or customization script:
+# from within a simulation- or customization script:
 
-# returns the object this script is attached to:
+# returns the current script's handle:
 objectHandle = sim.getObject(&quot;.&quot;) 
 
-# returns the parent object this script is attached to:
+# returns the parent of this script:
 parentHandle = sim.getObject(&quot;..&quot;) 
 
 # returns the model this script is contained in:
@@ -139,12 +136,12 @@ local objectHandle = sim.getObject(&quot;./Object&quot;, {'proxy': anotherObject
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
--- e.g. inside of child or customization script:
+# from within a simulation- or customization script:
 
--- returns the object this script is attached to:
+-- returns the current script's handle:
 local objectHandle = sim.getObject(&quot;.&quot;) 
 
--- returns the parent object this script is attached to:
+-- returns the parent of this script:
 local parentHandle = sim.getObject(&quot;..&quot;) 
 
 -- returns the model this script is contained in:

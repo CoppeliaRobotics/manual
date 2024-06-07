@@ -638,13 +638,13 @@ A call to this function has no effect (and doesn't generate any error) when call
     </function>
     <function>
         <api-function-name>sim.associateScriptWithObject</api-function-name>
-        <api-description>Sets the associated object of a child script. Use with care when simulation is running</api-description>
+        <api-description>Sets the associated object of a simulation script. Use with care when simulation is running</api-description>
         <api-see-also>sim.addScript
 sim.setScriptStringParam</api-see-also>
         <api-synopsis-cpp>int simAssociateScriptWithObject(int scriptHandle, int objectHandle)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>scriptHandle</strong>: handle of the child script</li>
+                <li><strong>scriptHandle</strong>: handle of the simulation script</li>
                 <li><strong>objectHandle</strong>: handle of the associated object, or -1 to remove the association</li>
             </ul>
         </api-input-cpp>
@@ -657,7 +657,7 @@ sim.setScriptStringParam</api-see-also>
         <api-synopsis-lua>sim.associateScriptWithObject(int scriptHandle, int objectHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>scriptHandle</strong>: handle of the child script</li>
+                <li><strong>scriptHandle</strong>: handle of the simulation script</li>
                 <li><strong>objectHandle</strong>: handle of the associated object, or -1 to remove the association</li>
             </ul>
         </api-input-python-lua>
@@ -1804,7 +1804,7 @@ sim.loadModel</api-see-also>
             <ul>
                 <li><strong>objectHandles</strong>: array containing the handles of the objects to copy and paste. The same array will receive the copied object handles, with the same correspondency.</li>
                 <li><strong>objectCount</strong>: the number of handles contained in the objectHandles array.</li>
-                <li><strong>options</strong>: bit-coded. If bit0 is set (i.e. 1), then whole models will be copied. In that case, all specified objects should be flagged as <em>model base</em>. If bit1 is set (i.e. 2), then all child and customization scripts are stripped away. If bit2 is set (i.e. 4), then all object custom data is stripped away. If bit3 is set (i.e. 8), then all object references are stripped away. If bit4 is set (i.e. 16), then all textures are stripped away. If bit5 is set (i.e. 32), then model tags and DNA information is stripped away.</li>
+                <li><strong>options</strong>: bit-coded. If bit0 is set (i.e. 1), then whole models will be copied. In that case, all specified objects should be flagged as <em>model base</em>. If bit1 is set (i.e. 2), then all simulation and customization scripts are stripped away. If bit2 is set (i.e. 4), then all object custom data is stripped away. If bit3 is set (i.e. 8), then all object references are stripped away. If bit4 is set (i.e. 16), then all textures are stripped away. If bit5 is set (i.e. 32), then model tags and DNA information is stripped away.</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -1820,7 +1820,7 @@ sim.loadModel</api-see-also>
                 <li><strong>options</strong>: bit-coded:
                     <ul>
                         <li>bit0 is set (i.e. 1): whole models are copied. In that case, all specified objects should be flagged as <em>model base</em></li>
-                        <li>bit1 is set (i.e. 2): all child and customization scripts are stripped away</li>
+                        <li>bit1 is set (i.e. 2): all simulation and customization scripts are stripped away</li>
                         <li>bit2 is set (i.e. 4): all object custom data is stripped away</li>
                         <li>bit3 is set (i.e. 8): all object references are stripped away</li>
                         <li>bit4 is set (i.e. 16): all textures are stripped away</li>
@@ -1894,7 +1894,7 @@ map copy = sim.copyTable(map original)</api-calltip>
     <function>
         <api-function-name>sim.createCollection</api-function-name>
         <api-description>Creates a new <a href="../collections.htm">collection</a>. A collection created in a
-<a href="../childScripts.htm">child script</a>, a <a href="../customizationScripts.htm">customization script</a> or in
+<a href="../simulationScripts.htm">simulation script</a>, a <a href="../customizationScripts.htm">customization script</a> or in
 the <a href="../mainScript.htm">main script</a> are automatically destroyed when the script ends</api-description>
         <api-see-also>
             <a href="../apiFunctions.htm#collections">functions related to collections</a>
@@ -1963,18 +1963,18 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
     </function>
     <function>
         <api-function-name>sim.createScript</api-function-name>
-        <api-description>Creates a <a href="../scriptObject.htm">script object</a>.</api-description>
+        <api-description>Creates a <a href="../scriptObjects.htm">script object</a>.</api-description>
         <api-synopsis-cpp>int simCreateScript(int scriptType, const char* scriptText, int options, const char* lang)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>scriptType</strong>: the script type. Only child- or customization scripts are allowed</li>
+                <li><strong>scriptType</strong>: the script type. Only simulation-, customization- or passive scripts are allowed</li>
                 <li><strong>scriptText</strong>: the content of the script</li>
                 <li><strong>options</strong>: bit-coded options:
                     <ul>
                         <li>bit 0 set (1): script is initially disabled</li>
                     </ul>
                 </li>
-                <li><strong>lang</strong>: language. A value different from '', 'lua' or 'python' disables the script</li>
+                <li><strong>lang</strong>: language. A value different from "lua" or "python" disables the script. nullptr defaults to "lua"</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -1982,18 +1982,18 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li>-1 if operation was not successful, otherwise the handle of the script object</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = '')</api-synopsis-python>
-        <api-synopsis-lua>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = '')</api-synopsis-lua>
+        <api-synopsis-python>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-synopsis-python>
+        <api-synopsis-lua>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>scriptType</strong>: the script type. Only child- or customization scripts are allowed</li>
+                <li><strong>scriptType</strong>: the script type. Only simulation-, customization- or passive scripts are allowed</li>
                 <li><strong>scriptText</strong>: the content of the script</li>
                 <li><strong>options</strong>: bit-coded options:
                     <ul>
                         <li>bit 0 set (1): script is initially disabled</li>
                     </ul>
                 </li>
-                <li><strong>lang</strong>: language. A value different from '', 'lua' or 'python' disables the script</li>
+                <li><strong>lang</strong>: language. A value different 'lua' or 'python' disables the script</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
@@ -2001,7 +2001,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li><strong>scriptHandle</strong>: handle of the script object</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = '')</api-calltip>
+        <api-calltip>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getObjectHierarchyOrder</api-function-name>
@@ -4424,7 +4424,7 @@ sim.getStackTraceback</api-see-also>
     </function>
     <function>
         <api-function-name>sim.getMatchingPersistentDataTags</api-function-name>
-        <api-description>Retrieves persistent data block tags that match a specific pattern</api-description>
+        <api-description>Retrieves persistent data tags that match a specific pattern</api-description>
         <api-see-also>sim.getPersistentDataTags</api-see-also>
         <api-synopsis-python>list tags = sim.getMatchingPersistentDataTags(string pattern)</api-synopsis-python>
         <api-synopsis-lua>string[] tags = sim.getMatchingPersistentDataTags(string pattern)</api-synopsis-lua>
@@ -4435,7 +4435,7 @@ sim.getStackTraceback</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>tags</strong>: an array containing the retrieved data block tags</li>
+                <li><strong>tags</strong>: an array containing the retrieved data tags</li>
             </ul>
         </api-output-python-lua>
         <api-calltip>string[] tags = sim.getMatchingPersistentDataTags(string pattern)</api-calltip>
@@ -5585,25 +5585,25 @@ path's first point, along the path)</api-description>
     </function>
     <function>
         <api-function-name>sim.getPersistentDataTags</api-function-name>
-        <api-description>Retrieves all persistent data block tags or names</api-description>
+        <api-description>Retrieves all persistent data tags or names</api-description>
         <api-see-also>sim.getMatchingPersistentDataTags
 sim.persistentDataRead</api-see-also>
         <api-synopsis-cpp>char* simGetPersistentDataTags(int* tagCount)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>tagCount</strong>: the number of retrieved data block tags</li>
+                <li><strong>tagCount</strong>: the number of retrieved data tags</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
             <ul>
-                <li>nullptr if operation was not successful or no data block exists. Otherwise the data block tags, separated by the '\0' char. In that case the returned buffer should be released with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a></li>
+                <li>nullptr if operation was not successful or no data exists. Otherwise the data tags, separated by the '\0' char. In that case the returned buffer should be released with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a></li>
             </ul>
         </api-output-cpp>
         <api-synopsis-python>list tags = sim.getPersistentDataTags()</api-synopsis-python>
         <api-synopsis-lua>string[] tags = sim.getPersistentDataTags()</api-synopsis-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>tags</strong>: an array containing the retrieved data block tags</li>
+                <li><strong>tags</strong>: an array containing the retrieved data tags</li>
             </ul>
         </api-output-python-lua>
         <api-calltip>string[] tags = sim.getPersistentDataTags()</api-calltip>
@@ -6016,7 +6016,7 @@ sim.setVisionSensorImg</api-see-also>
         <api-input-python-lua>
             <ul>
                 <li><strong>scriptType</strong>: <a href="../apiConstants.htm#scriptTypes">type of the script</a>, or sim.handle_self</li>
-                <li><strong>objectHandle</strong>: handle of the object the script is attached to, in case of a child- or customization script</li>
+                <li><strong>objectHandle</strong>: handle of the object the script is attached to, in case of a simulation- or customization script</li>
                 <li><strong>scriptName</strong>: name of the add-on, in case of an add-on</li>
             </ul>
         </api-input-python-lua>
@@ -6051,8 +6051,8 @@ sim.setVisionSensorImg</api-see-also>
         <api-input-cpp>
             <ul>
                 <li><strong>scriptType</strong>: the <a href="../apiConstants.htm#scriptTypes">type of the script</a>.</li>
-                <li><strong>objectHandle</strong>: the object handle the script is attached to (in case of child- or customization scripts. Can be -1.</li>
-                <li><strong>scriptName</strong>: the path of the object the script is attached to (in case of child- or customization scripts), or the name of the add-on. Can be nullptr.</li>
+                <li><strong>objectHandle</strong>: the object handle the script is attached to (in case of simulation- or customization scripts. Can be -1.</li>
+                <li><strong>scriptName</strong>: the path of the object the script is attached to (in case of simulation- or customization scripts), or the name of the add-on. Can be nullptr.</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -7310,17 +7310,17 @@ Should only be called from the <a href="../mainScript.htm">main script</a>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>count</strong>: number of called add-on scripts</li>
+                <li><strong>count</strong>: number of called add-ons</li>
             </ul>
         </api-output-python-lua>
         <api-calltip>int count = sim.handleAddOnScripts(int callType)</api-calltip>
     </function>
     <function>
-        <api-function-name>sim.handleChildScripts</api-function-name>
+        <api-function-name>sim.handleSimulationScripts</api-function-name>
         <api-description>Lua only. Calls a specific <a href="../callbackFunctions.htm#systemCallbacks">system callback function</a> in
-<a href="../childScripts.htm">child scripts</a>. Child scripts will be executed in a <a href="../scriptExecution.htm">precise order</a>.
+<a href="../simulationScripts.htm">simulation scripts</a>. Simulation scripts will be executed in a <a href="../scriptExecution.htm">precise order</a>.
 This function should only be called from the <a href="../mainScript.htm">main script</a>.</api-description>
-        <api-synopsis-lua>int scriptCount = sim.handleChildScripts(int callType)</api-synopsis-lua>
+        <api-synopsis-lua>int scriptCount = sim.handleSimulationScripts(int callType)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>callType</strong>: the desired system call type (e.g. <em>sysCall_actuation</em>)</li>
@@ -7328,10 +7328,10 @@ This function should only be called from the <a href="../mainScript.htm">main sc
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>scriptCount</strong>: number of called child scripts</li>
+                <li><strong>scriptCount</strong>: number of called simulation scripts</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int calledScripts = sim.handleChildScripts(int callType)</api-calltip>
+        <api-calltip>int calledScripts = sim.handleSimulationScripts(int callType)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.handleDynamics</api-function-name>
@@ -7364,8 +7364,8 @@ This function should only be called from the <a href="../mainScript.htm">main sc
     <function>
         <api-function-name>sim.handleEmbeddedScripts</api-function-name>
         <api-description>Lua only. Calls a specific <a href="../callbackFunctions.htm#systemCallbacks">system callback function</a> in
-<a href="../childScripts.htm">child scripts</a> and <a href="../customizationScripts.htm">customization scripts</a>.
-Child- and customiization scripts will be executed in a <a href="../scriptExecution.htm">precise order</a>.
+<a href="../simulationScripts.htm">simulation scripts</a> and <a href="../customizationScripts.htm">customization scripts</a>.
+Simulation- and customization scripts will be executed in a <a href="../scriptExecution.htm">precise order</a>.
 This function should only be called from the <a href="../mainScript.htm">main script</a>
         </api-description>
         <api-synopsis-lua>int scriptCount = sim.handleEmbeddedScripts(int callType)</api-synopsis-lua>
@@ -7464,7 +7464,7 @@ sim.resetProximitySensor</api-see-also>
     </function>
     <function>
         <api-function-name>sim.handleSandboxScript</api-function-name>
-        <api-description>Lua only. Calls a specific function in the <a href="../sandboxScript.htm">sandbox script</a>.
+        <api-description>Lua only. Calls a specific function in the <a href="../sandboxScript.htm">sandbox</a>.
 sim.handleSandboxScript should only be called from the <a href="../mainScript.htm">main script</a>
         </api-description>
         <api-synopsis-lua>sim.handleSandboxScript(int callType)</api-synopsis-lua>
@@ -8346,7 +8346,7 @@ sim.loadScene(buffer serializedScene)</api-calltip>
     <function>
         <api-function-name>sim.moduleEntry</api-function-name>
         <api-description>Creates, modifies or destroys module menu entries. Those are user selectable items located in [Menu bar &gt; Modules].
-When selected, the corresponding script will have its <a href="../callbackFunctions.htm#sysCall_moduleEntry">sysCall_moduleEntry</a>
+When selected, the corresponding script will have its <a href="../callbackFunctions.htm">sysCall_moduleEntry</a>
 callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">sim_message_eventcallback_moduleentry</a> triggered</api-description>
         <api-synopsis-cpp>int simModuleEntry(int handle, const char* label, int state)</api-synopsis-cpp>
         <api-input-cpp>
@@ -9039,49 +9039,49 @@ sim.getSimulationState</api-see-also>
     </function>
     <function>
         <api-function-name>sim.persistentDataRead</api-function-name>
-        <api-description>Reads a block of persistent data</api-description>
+        <api-description>Reads persistent data</api-description>
         <api-see-also>sim.persistentDataWrite
 sim.getPersistentDataTags
-<a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a></api-see-also>
+<a href="../apiFunctions.htm#customData">custom data related functions</a></api-see-also>
         <api-synopsis-cpp>char* simPersistentDataRead(const char* dataTag, int* dataLength)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>dataTag</strong>: name of the data block</li>
-                <li><strong>dataLength</strong>: size of the returned data block, since it may contain any data (also embedded zeros).</li>
+                <li><strong>dataTag</strong>: name of the data</li>
+                <li><strong>dataLength</strong>: size of the returned data, since it may contain any data (also embedded zeros).</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
             <ul>
-                <li>nullptr if operation was not successful or data block does not exist, otherwise the data block (which may contain any value, including embedded zeros). In that case the returned buffer should be released with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a></li>
+                <li>nullptr if operation was not successful or data does not exist, otherwise the data (which may contain any value, including embedded zeros). In that case the returned buffer should be released with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a></li>
             </ul>
         </api-output-cpp>
         <api-synopsis-python>bytes dataValue = sim.persistentDataRead(string dataTag)</api-synopsis-python>
         <api-synopsis-lua>buffer dataValue = sim.persistentDataRead(string dataTag)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>dataTag</strong>: name of the data block</li>
+                <li><strong>dataTag</strong>: name of the data</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>dataValue</strong>: value of the data block, or None/nil if data block does not exist. The returned data block may contain any value, including embedded zeros.</li>
+                <li><strong>dataValue</strong>: value of the data, or None/nil if data does not exist. The returned data may contain any value, including embedded zeros.</li>
             </ul>
         </api-output-python-lua>
         <api-calltip>buffer dataValue = sim.persistentDataRead(string dataTag)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.persistentDataWrite</api-function-name>
-        <api-description>Writes a persistent data block. Persistent data, valid across all opened simulator scenes, remains until the simulator ends,
-or until it is cleared by writing an empty data block. If the options flag is set appropriately, then persistent data can
+        <api-description>Writes persistent data. Persistent data, valid across all opened simulator scenes, remains until the simulator ends,
+or until it is cleared by writing empty data. If the options flag is set appropriately, then persistent data can
 also be stored on file, and be automatically reloaded next time CoppeliaSim starts</api-description>
         <api-see-also>sim.persistentDataRead
-<a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a></api-see-also>
+<a href="../apiFunctions.htm#customData">custom data related functions</a></api-see-also>
         <api-synopsis-cpp>int simPersistentDataWrite(const char* dataTag, const char* dataValue, int dataLength, int options)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>dataTag</strong>: name of the data block</li>
-                <li><strong>dataValue</strong>: content of the data block (which may contain any value, including embedded zeros). If dataValue is an empty string, then the data block is cleared (if present).</li>
-                <li><strong>dataLength</strong>: size of the data block.</li>
+                <li><strong>dataTag</strong>: name of the data</li>
+                <li><strong>dataValue</strong>: content of the data (which may contain any value, including embedded zeros). If dataValue is an empty string, then the data is cleared (if present).</li>
+                <li><strong>dataLength</strong>: size of the data.</li>
                 <li><strong>options</strong>: bit-coded:
                     <ul>
                         <li>bit0 is set (1): data is also stored on file ("system/persistentData.dat"), and automatically reloaded next time CoppeliaSim start</li>
@@ -9098,8 +9098,8 @@ also be stored on file, and be automatically reloaded next time CoppeliaSim star
         <api-synopsis-lua>sim.persistentDataWrite(string dataTag, buffer dataValue, int options = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>dataTag</strong>: name of the data block</li>
-                <li><strong>dataValue</strong>: content of the data block (which may contain any value, including embedded zeros). If dataValue is an empty string, then the data block is cleared (if present).</li>
+                <li><strong>dataTag</strong>: name of the data</li>
+                <li><strong>dataValue</strong>: content of the data (which may contain any value, including embedded zeros). If dataValue is an empty string, then the data is cleared (if present).</li>
                 <li><strong>options</strong>: bit-coded:
                     <ul>
                         <li>bit0 is set (1): data is also stored on file ("system/persistentData.dat"), and automatically reloaded next time CoppeliaSim start</li>
@@ -9503,7 +9503,7 @@ sysCall_event <a href="../callbackFunctions.htm">callback function</a> and via t
         <api-description>Reads custom data that is stored inside of an object or the scene. Reads also custom data for the application's
 currrent session</api-description>
         <api-see-also>
-            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#customData">custom data related functions</a>
             <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
         </api-see-also>
         <api-synopsis-python>string customData = sim.readCustomStringData(int objectHandle, string tagName)</api-synopsis-python>
@@ -9522,36 +9522,13 @@ currrent session</api-description>
         <api-calltip>string data = sim.readCustomStringData(int objectHandle, string tagName)</api-calltip>
     </function>
 
-    <function>
-        <api-function-name>simReadCustomDataBlock</api-function-name>
-        <api-description>Reads custom data that is stored inside of an object or the scene. Reads also custom data for the application's
-currrent session</api-description>
-        <api-see-also>
-            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
-            <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
-        </api-see-also>
-        <api-synopsis-cpp>char* simReadCustomDataBlock(int objectHandle, const char* tagName, int* dataSize)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object, or sim.handle_scene if the data is stored in the scene, or sim.handle_app if the data is stored in the application's current session.</li>
-                <li><strong>tagName</strong>: string that identifies the data.</li>
-                <li><strong>dataSize</strong>: pointer to an integer receiving the size of the returned buffer.</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>the custom data block, or nullptr in case of an error (or if the data is not present). The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>.</li>
-            </ul>
-        </api-output-cpp>
-    </function>
-
 
     <function>
         <api-function-name>sim.readCustomBufferData</api-function-name>
         <api-description>Reads custom data that is stored inside of an object or the scene. Reads also custom data for the application's
 currrent session</api-description>
         <api-see-also>
-            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#customData">custom data related functions</a>
             <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
         </api-see-also>
         <api-synopsis-python>bytes customData = sim.readCustomBufferData(int objectHandle, string tagName)</api-synopsis-python>
@@ -9574,7 +9551,7 @@ currrent session</api-description>
         <api-description>Reads the tags of all custom data that is stored inside of an object,
 a scene, or the application</api-description>
         <api-see-also>
-            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#customData">custom data related functions</a>
         </api-see-also>
         <api-synopsis-python>list tags = sim.readCustomDataTags(int objectHandle)</api-synopsis-python>
         <api-synopsis-lua>string[] tags = sim.readCustomDataTags(int objectHandle)</api-synopsis-lua>
@@ -9598,7 +9575,7 @@ a scene, or the application</api-description>
         <api-description>Reads the tags of all custom data that is stored inside of an object,
 a scene, or the application</api-description>
         <api-see-also>
-            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#customData">custom data related functions</a>
         </api-see-also>
         <api-synopsis-cpp>char* simReadCustomDataBlockTags(int objectHandle, int* tagCount)</api-synopsis-cpp>
         <api-input-cpp>
@@ -9619,7 +9596,7 @@ a scene, or the application</api-description>
         <api-description>Reads custom table data that is stored inside of an object or the scene.
 Reads also custom table data for the application's currrent session</api-description>
         <api-see-also>
-            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#customData">custom data related functions</a>
         </api-see-also>
         <api-synopsis-python>dict/list tableData = sim.readCustomTableData(int objectHandle, string tagName)</api-synopsis-python>
         <api-synopsis-lua>table tableData = sim.readCustomTableData(int objectHandle, string tagName)</api-synopsis-lua>
@@ -9839,7 +9816,7 @@ Use following 4 functions in the helper class: <em>readDataFromStack</em>, <em>g
                 <li><strong>funct</strong>: name of the function, without namespace</li>
                 <li><strong>reserved</strong>: set to nullptr</li>
                 <li><strong>callback</strong>: callback address that is called when the function is called from Lua. See further down for a simple way to call above function, using a helper class. The callback's first argument is a SScriptCallBack structure that holds:</li>
-                <li><strong>int objectID</strong>: handle of the object that the calling script is attached to, or -1 if the calling script is not a child script</li>
+                <li><strong>int objectID</strong>: handle of the object that the calling script is attached to, or -1 if the calling script is not a simulation script</li>
                 <li><strong>int scriptID</strong>: handle of the calling script</li>
                 <li><strong>int stackID</strong>: a <a href="simCreateStack_cpp.htm">stack handle</a>. The stack is used to read arguments from the script, and to return data to the script. See also the <a href="../apiFunctions.htm#stacks">available stack functions</a>.</li>
             </ul>
@@ -11158,7 +11135,7 @@ automatically enforced by the system (preemptive threading). By default this val
     </function>
     <function>
         <api-function-name>sim.setFloatSignal</api-function-name>
-        <api-description>Sets the value of a double signal. A signal created in a <a href="../childScripts.htm">child script</a>,
+        <api-description>Sets the value of a double signal. A signal created in a <a href="../simulationScripts.htm">simulation script</a>,
 a <a href="../customizationScripts.htm">customization script</a> or in the
 <a href="../mainScript.htm">main script</a> is automatically cleared when the script ends</api-description>
         <api-see-also>
@@ -11286,7 +11263,7 @@ a <a href="../customizationScripts.htm">customization script</a> or in the
     </function>
     <function>
         <api-function-name>sim.setInt32Signal</api-function-name>
-        <api-description>Sets the value of an integer signal. A signal created in a <a href="../childScripts.htm">child script</a>,
+        <api-description>Sets the value of an integer signal. A signal created in a <a href="../simulationScripts.htm">simulation script</a>,
 a <a href="../customizationScripts.htm">customization script</a> or in the <a href="../mainScript.htm">main script</a>
 is automatically cleared when the script ends</api-description>
         <api-see-also>
@@ -12604,7 +12581,7 @@ to the initial state
     </function>
     <function>
         <api-function-name>sim.setStringSignal</api-function-name>
-        <api-description>Sets the value of a string signal. A signal created in a <a href="../childScripts.htm">child script</a>,
+        <api-description>Sets the value of a string signal. A signal created in a <a href="../simulationScripts.htm">simulation script</a>,
 a <a href="../customizationScripts.htm">customization script</a> or in the
 <a href="../mainScript.htm">main script</a> is automatically cleared when the script ends</api-description>
         <api-see-also>
@@ -12635,7 +12612,7 @@ a <a href="../customizationScripts.htm">customization script</a> or in the
     </function>
     <function>
         <api-function-name>sim.setBufferSignal</api-function-name>
-        <api-description>Sets the value of a buffer signal. A signal created in a <a href="../childScripts.htm">child script</a>,
+        <api-description>Sets the value of a buffer signal. A signal created in a <a href="../simulationScripts.htm">simulation script</a>,
 a <a href="../customizationScripts.htm">customization script</a> or in the
 <a href="../mainScript.htm">main script</a> is automatically cleared when the script ends</api-description>
         <api-see-also>
@@ -12746,7 +12723,7 @@ sim.getSimulationState
         <api-synopsis-lua>sim.stopSimulation(bool wait = false)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>wait</strong>: if true, will wait until the simulation state is sim.simulation_stopped, otherwise only triggers a stop request. If true, calling script cannot be the main- or a child script, and should run threaded.</li>
+                <li><strong>wait</strong>: if true, will wait until the simulation state is sim.simulation_stopped, otherwise only triggers a stop request. If true, calling script cannot be the main- or a simulation script, and should run threaded.</li>
             </ul>
         </api-input-python-lua>
         <api-calltip>sim.stopSimulation()</api-calltip>
@@ -13313,9 +13290,9 @@ sim.relocateShapeFrame</api-see-also>
         <api-function-name>sim.writeCustomStringData</api-function-name>
         <api-description>Adds or removes custom data to be stored and saved together with an object, or the scene.
 If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
-The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the child- or customization script attached to that object</api-description>
+The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the simulation- or customization script attached to that object</api-description>
         <api-see-also>sim.setReferencedHandles
-<a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+<a href="../apiFunctions.htm#customData">custom data related functions</a>
             <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
         </api-see-also>
         <api-synopsis-python>sim.writeCustomStringData(int objectHandle, string tagName, string/bytes data)</api-synopsis-python>
@@ -13323,7 +13300,7 @@ The data can also be saved globally for the application (for the current Coppeli
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object where you want to store your data, or sim.handle_scene if you wish to store the data with the scene, or sim.handle_app if you wish to store the data with the application's current session</li>
-                <li><strong>tagName</strong>: string that identifies the data. An empty string removes all custom data blocks</li>
+                <li><strong>tagName</strong>: string that identifies the data. An empty string removes all custom data</li>
                 <li><strong>data</strong>: your custom data. If empty, the current data under the specified dataName is removed</li>
             </ul>
         </api-input-python-lua>
@@ -13335,16 +13312,16 @@ The data can also be saved globally for the application (for the current Coppeli
         <api-function-name>sim.writeCustomStringData</api-function-name>
         <api-description>Adds or removes custom data to be stored and saved together with an object, or the scene.
 If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
-The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the child- or customization script attached to that object</api-description>
+The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the simulation- or customization script attached to that object</api-description>
         <api-see-also>sim.setReferencedHandles
-<a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+<a href="../apiFunctions.htm#customData">custom data related functions</a>
             <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
         </api-see-also>
         <api-synopsis-cpp>int simWriteCustomDataBlock(int objectHandle, const char* tagName, const char* data, int dataSize)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object where you want to store your data, or sim.handle_scene if you wish to store the data with the scene, or sim.handle_app if you wish to store the data with the application's current session.</li>
-                <li><strong>tagName</strong>: string that identifies the data. An empty string will remove all custom data blocks</li>
+                <li><strong>tagName</strong>: string that identifies the data. An empty string will remove all custom data </li>
                 <li><strong>data</strong>: your custom data. If nullptr or empty, the current data under the specified dataName will be removed</li>
                 <li><strong>dataSize</strong>: size of your custom data</li>
             </ul>
@@ -13362,9 +13339,9 @@ The data can also be saved globally for the application (for the current Coppeli
         <api-function-name>sim.writeCustomBufferData</api-function-name>
         <api-description>Adds or removes custom data to be stored and saved together with an object, or the scene.
 If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
-The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the child- or customization script attached to that object</api-description>
+The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the simulation- or customization script attached to that object</api-description>
         <api-see-also>sim.setReferencedHandles
-<a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+<a href="../apiFunctions.htm#customData">custom data related functions</a>
             <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
         </api-see-also>
         <api-synopsis-python>sim.writeCustomBufferData(int objectHandle, string tagName, string/bytes data)</api-synopsis-python>
@@ -13372,7 +13349,7 @@ The data can also be saved globally for the application (for the current Coppeli
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object where you want to store your data, or sim.handle_scene if you wish to store the data with the scene, or sim.handle_app if you wish to store the data with the application's current session</li>
-                <li><strong>tagName</strong>: string that identifies the data. An empty string removes all custom data blocks</li>
+                <li><strong>tagName</strong>: string that identifies the data. An empty string removes all custom data </li>
                 <li><strong>data</strong>: your custom data. If empty, the current data under the specified dataName is removed</li>
             </ul>
         </api-input-python-lua>
@@ -13383,16 +13360,16 @@ The data can also be saved globally for the application (for the current Coppeli
         <api-function-name>sim.writeCustomTableData</api-function-name>
         <api-description>Adds or removes custom table data to be stored and saved together with an object, or the scene.
 If the tag name ends with the string "@tmp", then the data is not saved during a scene or model save operation.
-The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the child- or customization script attached to that object</api-description>
+The data can also be saved globally for the application (for the current CoppeliaSim session). If the data is attached to an object, then the sysCall_data <a href="../callbackFunctions.htm">callback function</a> is called asynchronously for the simulation- or customization script attached to that object</api-description>
         <api-see-also>
-            <a href="../apiFunctions.htm#customDataBlocks">custom data block related functions</a>
+            <a href="../apiFunctions.htm#customData">custom data related functions</a>
         </api-see-also>
         <api-synopsis-python>sim.writeCustomTableData(int objectHandle, string tagName, dict/list tableData)</api-synopsis-python>
         <api-synopsis-lua>sim.writeCustomTableData(int objectHandle, string tagName, table tableData)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object where the data has to be stored, or sim.handle_scene if you wish to store the data with the scene, or sim.handle_app if you wish to store the data with the application's current session.</li>
-                <li><strong>tagName</strong>: string that identifies the data. An empty string will remove all custom data blocks</li>
+                <li><strong>tagName</strong>: string that identifies the data. An empty string will remove all custom data </li>
                 <li><strong>tableData</strong>: data to store. An empty array effectively removes the custom data from the object</li>
             </ul>
         </api-input-python-lua>

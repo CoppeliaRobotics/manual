@@ -2,63 +2,14 @@
 <html>
 
 <head>
+<meta http-equiv="Refresh" content="0; url=simulationScripts.htm" />
 <meta http-equiv="Content-Language" content="en-us">
-<title>Child scripts</title>
-<link rel="stylesheet" type="text/css" href="../style.css">
+<title>Simulation scripts</title>
 </head>
 
+
 <body>
-
-<div align="center">
-<table class=allEncompassingTable >
- <tr>
-  <td >
-<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
-
-
-
-<h1>Child scripts <img src="images/childScripts1.jpg"></h1>
-
-<p>A child script is a <a href="simulationScripts.htm">simulation script</a>. CoppeliaSim supports an unlimited number of child scripts per <a href="scenes.htm">scene</a>. Each child script represents specific code that handles a particular function in a <a href="simulation.htm">simulation</a>. Child scripts are attached to (or <em>associated with</em>) <a href="objects.htm">scene objects</a>, and they can be easily recognized from their script icon in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:</p>
-
-<p align=center><img src="images/childScripts0.jpg"></p>
-<p class=imageLabel>[A child script associated with object <em>Robot</em>]</p>
-
-<p>Double-clicking the script icon opens the <a href="scriptEditor.htm">script editor</a>. You can change properties of a given script via the <a href="scriptProperties.htm">script dialog</a>. You can attach a new child script to an object by selecting the object, then navigating to [Add &gt; Associated child script]. </p>
-
-<p>  A child script's association with a scene object has following benefits: </p>
-<li><strong>Very good portability</strong>: child scripts will be saved/loaded together with their associated object. Using child scripts, you are able to create extremely portable code and simulation <a href="models.htm">models</a> that do not need to rely on any system specific plugin. A fully functional model can be contained in a single file (usable without modification across various platforms), which is not the case when relying on <a href="plugins.htm">plugins</a> for model control. Additionally, and for the same reason, models relying on child scripts require no maintenance over time (e.g. a new OS version will not require you to adjust portions of code or recompilation, as you might have to do when using <a href="plugins.htm">plugins</a>).</li>
-<li><strong>Inherent scalability</strong>: if an object that has an attached child script is duplicated, its child script will also be duplicated. The duplicated child script's content will be identical to the original child script's content, however, the duplicated child script will <em>know</em> that is was duplicated and redirect object access correctly, if relative paths were used for object access. Refer to the section on <a href="accessingSceneObjects.htm">accessing scene objects programmatically</a> for more details.</li>
-
-<li><strong>No conflict between different model versions</strong>: if you modify the child script of a given model (e.g. to customize it to your needs), this will have no consequence on other similar models. This is a much more critical aspect when relying on <a href="plugins.htm">plugins</a> instead of child scripts for model control: indeed, with plugins you always run the risk of having conflicts with previous plugin versions.</li>
-
-<li><strong><a name="nonThreaded"></a><a name="threaded"></a>Very easy synchronization with the simulation loop</strong>: child scripts can run <a href="threadedAndNonThreadedCode.htm">threaded or non-threaded</a>, and can be easily synchronized with the simulation loop, which represents a powerful feature.</li>
-
-<p>Child scripts should exclusively be used to handle simulation-time tasks, since they only run when simulation is running. Their entrance functions are <a href="callbackFunctions.htm"> callback functions</a>. Functions that are not <a href="threadedAndNonThreadedCode.htm#threaded">running threaded</a> should not be blocking. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole <a href="simulation.htm">simulation</a> halts. Child script functions are called by the <a href="mainScript.htm">main script</a> at least twice per simulation step from the main script's actuation and sensing functions. The system will also call other <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> where appropriate (e.g. during child script initialization, clean-up, etc). </p>
-<p>Child scripts follow a <a href="scriptExecution.htm">precise calling or execution order</a>: they are called starting with scripts attached to leaf objects (or childless objects), and ending with scripts attached to root objects (or parentless objects). They are typically segmented into a collection of <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>, the most important ones are: </p>
-<li><strong>sysCall_init</strong>. This function is executed just one time (the first time the child script is called). This can be at the beginning of a simulation, but also in the middle of a simulation: remember that objects associated with child scripts can be copy/pasted into a <a href="scenes.htm">scene</a> at any time, also when a simulation is running. Usually you would put some initialization code in this part.
-</li>
-
-<li><strong>sysCall_thread</strong>. This function is the entrance to the script's threaded execution code. Threaded code is interrupted (and later resumed) on a regular basis by CoppeliaSim, by default. This behaviour can however be adjusted via <a href="regularApi/simSetStepping.htm">sim.setStepping</a>. See also <a href="apiFunctions.htm#threads">the other thread-related API functions</a> for more details. </li>
-
-<li><strong>sysCall_actuation</strong>. This function is executed in each simulation step, during the actuation phase of a simulation step. Refer to the <a href="mainScript.htm">main script</a> default code for more details about the actuation phase, but typically, you would do some actuation in this part (no sensing).<br>
-</li>
-
-<li><strong>sysCall_sensing</strong>. This function is executed in each simulation step, during the sensing phase of a simulation step. Refer to the <a href="mainScript.htm">main script</a> default code for more details about the sensing phase, but typically, you would only do sensing in this part (no actuation).<br>
-</li>
-
-
-<li><strong>sysCall_cleanup</strong>. This function is executed one time just before a simulation ends, or before the script is destroyed. </li>
-
-
-
-<br>
-<br>
- </tr>
-</table> 
-</div>  
-  
-  
+<p>Please follow <a href="simulationScripts.htm">this link</a>.</p>
 </body>
 
 </html>

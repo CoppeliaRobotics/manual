@@ -376,6 +376,29 @@ wb_usr.tree =
                             name={en="Paths"},
                             link="paths.htm"
                         },
+                        {
+                            name={en="Script objects"},
+                            link="scriptObjects.htm",
+                            folder=
+                            {
+                                {
+                                    name={en="Simulation scripts"},
+                                    link="simulationScripts.htm",
+                                },
+                                {
+                                    name={en="Customization scripts"},
+                                    link="customizationScripts.htm"
+                                },
+                                {
+                                    name={en="Script editor"},
+                                    link="scriptEditor.htm"
+                                },
+                                {
+                                    name={en="Script object properties"},
+                                    link="scriptPropertiesDialog.htm"
+                                },
+                            }
+                        },
                     }
                 },
             }
@@ -699,7 +722,7 @@ wb_usr.tree =
             folder=
             {
                 {
-                    name={en="Scripts"},
+                    name={en="Scripting"},
                     link="scripts.htm",
                     folder=
                     {
@@ -709,31 +732,8 @@ wb_usr.tree =
                             folder=
                             {
                                 {
-                                    name={en="Simulation scripts"},
-                                    link="simulationScripts.htm",
-                                    folder=
-                                    {
-                                        {
-                                            name={en="The main script"},
-                                            link="mainScript.htm"
-                                        },
-                                        {
-                                            name={en="Child scripts"},
-                                            link="childScripts.htm",
-                                        },
-                                    }
-                                },
-                                {
-                                    name={en="Customization scripts"},
-                                    link="customizationScripts.htm"
-                                },
-                                {
-                                    name={en="Script dialog"},
-                                    link="scriptProperties.htm"
-                                },
-                                {
-                                    name={en="Script editor"},
-                                    link="scriptEditor.htm"
+                                    name={en="The main script"},
+                                    link="mainScript.htm"
                                 },
                             }
                         },
@@ -742,12 +742,8 @@ wb_usr.tree =
                             link="addOns.htm"
                         },
                         {
-                            name={en="The sandbox script"},
+                            name={en="The sandbox"},
                             link="sandboxScript.htm"
-                        },
-                        {
-                            name={en="Script execution order"},
-                            link="scriptExecution.htm"
                         },
                         {
                             name={en="Threaded and non-threaded script code"},
@@ -784,6 +780,10 @@ wb_usr.tree =
                                 },
                             }
                         },
+                        {
+                            name={en="Script execution order"},
+                            link="scriptExecution.htm"
+                        },                                
                         {
                             name={en="Lua vs Python scripts"},
                             link="luaPythonDifferences.htm"

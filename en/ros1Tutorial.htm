@@ -66,7 +66,7 @@ $ catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release</code>
 /rosout
 /sim_ros_interface</code>
 
-<p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="childScripts.htm">child script</a> to it with [Add &gt; Associated child script &gt; Non threaded &gt; Lua]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
+<p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="simulationScripts.htm">simulation script</a> to it with [Add &gt; Script &gt; simulation script &gt; Non threaded &gt; Lua/Python]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
 
 <div class="multi-language-switcher">
 
@@ -98,8 +98,8 @@ def sysCall_init():
     sim = require('sim')
     simROS = require('simROS')
     
-    # The child script initialization
-    self.object_handle = sim.getObject('.')
+    # The simulation script initialization
+    self.object_handle = sim.getObject('..')
     self.object_alias = sim.getObjectAlias(object_handle, 3)
 
     # Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
@@ -146,8 +146,8 @@ function sysCall_init()
     sim = require('sim')
     simROS = require('simROS')
 
-    -- The child script initialization
-    objectHandle = sim.getObject('.')
+    -- The simulation script initialization
+    objectHandle = sim.getObject('..')
     objectAlias = sim.getObjectAlias(objectHandle, 3)
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
@@ -182,7 +182,7 @@ end</code>
 <code class="hljs coppelia-terminal">$ rostopic echo /simulationTime</code>
 
 
-<p>Now load the demo scene <em>messaging/rosInterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="childScripts.htm">child script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
+<p>Now load the demo scene <em>messaging/rosInterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="simulationScripts.htm">simulation script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
 
 <p align=center><img src="images/rosTut1.jpg"></p>
 <p class=imageLabel>[Image publisher and image subscriber demo]</p>
@@ -208,7 +208,7 @@ end</code>
 
 
 
-<p>The child script attached to the  robot, and running in a non-threaded fashion, is in charge of following:</p>
+<p>The simulation script attached to the  robot, and running in a non-threaded fashion, is in charge of following:</p>
 
 <li>determine some object handles (e.g. motor joint handles and proximity sensor handle)</li>
 <li>Launch motor speed subscribers</li>

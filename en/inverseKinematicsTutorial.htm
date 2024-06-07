@@ -103,7 +103,7 @@
 
 
 <p>Inverse kinematics is entirely set up by having a script calling appropriate API commands: the idea is to build an equivalent kinematic model via the  functions provided by the <a href="kinematicsPlugin.htm">kinematics plugin</a>. The approach uses the concept and terminology of <a href="solvingIkAndFk.htm">IK groups and IK elements</a>.</p>
-<p>Select object <em>redundantRobot</em>, then [Add &gt; Associated child script &gt; Non-threaded] to attach a <a href="childScripts.htm">child script</a> to that object. Double-click the script icon that appeared next to the object alias, and replace the script content with following code:</p>
+<p>Select object <em>redundantRobot</em>, then [Add &gt; Script &gt; simulation script &gt; Non-threaded &gt; Lua/Python] to attach a <a href="simulationScripts.htm">simulation script</a> to that object. Double-click the new script icon in the scene hierarchy, and replace the script content with following code:</p>
 
 <div class="multi-language-switcher">
 
@@ -118,9 +118,9 @@ def sysCall_init():
     # Build a kinematic chain and 2 IK groups (undamped and damped) inside of the IK plugin environment,
     # based on the kinematics of the robot in the scene:
     
-    simBase = sim.getObject('.')
-    simTip = sim.getObject('./redundantRob_tip')
-    simTarget = sim.getObject('./redundantRob_target')
+    simBase = sim.getObject('..')
+    simTip = sim.getObject('../redundantRob_tip')
+    simTarget = sim.getObject('../redundantRob_target')
 
     # Simple way:
     self.ikEnv = simIK.createEnvironment()
@@ -134,10 +134,10 @@ def sysCall_init():
 
     # Elaborate way:
     '''
-    simBase = sim.getObject('.')
-    simTip = sim.getObject('./redundantRob_tip')
-    simTarget = sim.getObject('./redundantRob_target')
-    simJoints = [sim.getObject(f'./redundantRob_joint{i}') for i in range(1, 8)]
+    simBase = sim.getObject('..')
+    simTip = sim.getObject('../redundantRob_tip')
+    simTarget = sim.getObject('../redundantRob_target')
+    simJoints = [sim.getObject(f'../redundantRob_joint{i}') for i in range(1, 8)]
     ikJoints = []
 
     self.ikEnv = simIK.createEnvironment()
@@ -208,9 +208,9 @@ function sysCall_init()
     simIK = require('simIK')
 
     -- Simple way:
-    local simBase = sim.getObject('.')
-    local simTip = sim.getObject('./redundantRob_tip')
-    local simTarget = sim.getObject('./redundantRob_target')
+    local simBase = sim.getObject('..')
+    local simTip = sim.getObject('../redundantRob_tip')
+    local simTarget = sim.getObject('../redundantRob_target')
     -- create an IK environment:
     ikEnv = simIK.createEnvironment()
     -- create an IK group: 
@@ -228,12 +228,12 @@ function sysCall_init()
     
     -- Elaborate way:
     --[[
-    simBase = sim.getObject('.')
-    simTip = sim.getObject('./redundantRob_tip')
-    simTarget = sim.getObject('./redundantRob_target')
+    simBase = sim.getObject('..')
+    simTip = sim.getObject('../redundantRob_tip')
+    simTarget = sim.getObject('../redundantRob_target')
     simJoints = {}
     for i = 1, 7, 1 do
-        simJoints[i] = sim.getObject('./redundantRob_joint'..i)
+        simJoints[i] = sim.getObject('../redundantRob_joint'..i)
     end
     ikJoints = {}
     -- create an IK environment:
