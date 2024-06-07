@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.convexDecompose</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>sim.convexDecompose</h2>
+    <p>Deprecated. Use the <a href="../simConvex.htm">simConvex API</a> instead</p>
+</div>
+
+<div class="regApiSection">
+    <h3>Synopsis</h3>
+    <div class="multi-language-switcher">
+    	<code class="hljs language-python coppelia-coppeliasim-script">int shapeHandle = sim.convexDecompose(int shapeHandle, int options, list intParams, list floatParams)</code>
+        
+        <code class="hljs language-lua coppelia-coppeliasim-script">int shapeHandle = sim.convexDecompose(int shapeHandle, int options, int[4] intParams, 
+                                      float[3] floatParams)</code>
+    </div>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>shapeHandle</strong>: handle of the shape to operate on</li>
+                <li><strong>options</strong>: bit-coded:
+                    <ul>
+                        <li>bit0 set (1): the specified shape will be morphed into its convex decomposition. Otherwise, the convex decomposition will smply be added to the scene</li>
+                        <li>bit1 set (2): specified convex decomposition parameters will be displayed in a dialog, allowing the user to modify them.</li>
+                        <li>bit2 set (4): same convex decomposition parameters will be used as a previous call to this function. Only when this bit is set can the convex decomposition parameters be omitted.</li>
+                        <li>bit3 set (8): HACD: extra points will be added when computing the concavity</li>
+                        <li>bit4 set (16): HACD: faces points will be added when computing the concavity</li>
+                        <li>bit5 (32): reserved. Do not set</li>
+                        <li>bit6 (64): reserved. Do not set</li>
+                        <li>bit7 set (128): the V-HACD algorithm will be used. If not set, the HACD algorithm will be used.</li>
+                        <li>bit8 set (256): V-HACD: pca is enabled (default is disabled).</li>
+                        <li>bit9 set (512): V-HACD: tetrahedron-based approximate convex decomposition. If not set, then the voxel-based approximate convex decomposition will be used (default).</li>
+                    </ul>
+                </li>
+                <li><strong>intParams</strong>: 10 int values:
+                    <ul>
+                        <li>intParams[0]: HACD: the minimum number of clusters to be generated (e.g. 1)</li>
+                        <li>intParams[1]: HACD: the targeted number of triangles of the decimated mesh (e.g. 500)</li>
+                        <li>intParams[2]: HACD: the maximum number of vertices for each generated convex hull (e.g. 100)</li>
+                        <li>intParams[3]: reserved. Set to 0</li>
+                        <li>intParams[4]: reserved. Set to 0</li>
+                        <li>intParams[5]: V-HACD: resolution (10000-64000000, 100000 is default).</li>
+                        <li>intParams[6]: V-HACD: depth (1-32, 20 is default).</li>
+                        <li>intParams[7]: V-HACD: plane downsampling (1-16, 4 is default).</li>
+                        <li>intParams[8]: V-HACD: convex hull downsampling (1-16, 4 is default).</li>
+                        <li>intParams[9]: V-HACD: max. number of vertices per convex hull (4-1024, 64 is default).</li>
+                    </ul>
+                </li>
+                <li><strong>floatParams</strong>: 10 double values:
+                    <ul>
+                        <li>floatParams[0]: HACD: the maximum allowed concavity (e.g. 100.0)</li>
+                        <li>floatParams[1]: HACD: the maximum allowed distance to get convex clusters connected (e.g. 30)</li>
+                        <li>floatParams[2]: HACD: the threshold to detect small clusters. The threshold is expressed as a percentage of the total mesh surface (e.g. 0.25)</li>
+                        <li>floatParams[3]: reserved. Set to 0.0</li>
+                        <li>floatParams[4]: reserved. Set to 0.0</li>
+                        <li>floatParams[5]: V-HACD: concavity (0.0-1.0, 0.0025 is default).</li>
+                        <li>floatParams[6]: V-HACD: alpha (0.0-1.0, 0.05 is default).</li>
+                        <li>floatParams[7]: V-HACD: beta (0.0-1.0, 0.05 is default).</li>
+                        <li>floatParams[8]: V-HACD: gamma (0.0-1.0, 0.00125 is default).</li>
+                        <li>floatParams[9]: V-HACD: min. volume per convex hull (0.0-0.01, 0.0001 is default).</li>
+                    </ul>
+                </li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return values</h3>
+    
+            <ul>
+                <li><strong>shapeHandle</strong>: handle of the new shape, or the handle of the original shape when morphing</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>
