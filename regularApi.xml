@@ -1911,7 +1911,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
         <api-synopsis-cpp>int simCreateScript(int scriptType, const char* scriptText, int options, const char* lang)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>scriptType</strong>: the script type. Only simulation-, customization- or passive scripts are allowed</li>
+                <li><strong>scriptType</strong>: the <a href="../apiConstants.htm#scriptTypes">script type</a>. Only simulation-, customization- or passive scripts are allowed</li>
                 <li><strong>scriptText</strong>: the content of the script</li>
                 <li><strong>options</strong>: bit-coded options:
                     <ul>
@@ -6043,12 +6043,12 @@ sim.setVisionSensorImg</api-see-also>
     </function>
     <function>
         <api-function-name>sim.getShapeBB</api-function-name>
-        <api-description>Returns the size of a shape's bounding box</api-description>
-        <api-see-also>
-            <a href="../apiFunctions.htm#size">size and scaling functions</a>
+        <api-description>Returns the size and relative pose of a shape's bounding box</api-description>
+        <api-see-also>sim.getObjectPose
+<a href="../positionOrientationTransformation.htm">positions, orientations and transformations</a>
         </api-see-also>
-        <api-synopsis-python>list size = sim.getShapeBB(int shapeHandle)</api-synopsis-python>
-        <api-synopsis-lua>float[3] size = sim.getShapeBB(int shapeHandle)</api-synopsis-lua>
+        <api-synopsis-python>list size, list pose = sim.getShapeBB(int shapeHandle)</api-synopsis-python>
+        <api-synopsis-lua>float[3] size, float[7] pose = sim.getShapeBB(int shapeHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the shape</li>
@@ -6056,10 +6056,11 @@ sim.setVisionSensorImg</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>size</strong>: size of the bounding box</li>
+                <li><strong>size</strong>: size array [Sx Sy Sz]</li>
+                <li><strong>pose</strong>: pose array: [x y z qx qy qz qw]. The pose is relative to the shape's pose</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[3] size = sim.getShapeBB(int shapeHandle)</api-calltip>
+        <api-calltip>float[3] size, float[7] pose = sim.getShapeBB(int shapeHandle)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getShapeColor</api-function-name>
