@@ -76,7 +76,7 @@ wb_usr.tree =
                     }
                 },
                 {
-                    name={en="On positions, orientations and transformations"},
+                    name={en="On positions and orientations"},
                     link="positionOrientationTransformation.htm"
                 },
                 {
@@ -127,269 +127,269 @@ wb_usr.tree =
             }
         },
         {
-            name={en="Entities"},
-            link="entities.htm",
+            name={en="Scene objects"},
+            link="objects.htm",
             folder=
             {
                 {
-                    name={en="Collections"},
-                    link="collections.htm",
-                },
-                {
-                    name={en="Scene objects"},
-                    link="objects.htm",
+                    name={en="Entities"},
+                    link="entities.htm",
                     folder=
                     {
                         {
-                            name={en="Object properties"},
-                            link="sceneObjectPropertiesDialog.htm",
+                            name={en="Collections"},
+                            link="collections.htm",
+                        },
+                    }
+                },
+                {
+                    name={en="Object properties"},
+                    link="sceneObjectPropertiesDialog.htm",
+                    folder=
+                    {
+                        {
+                            name={en="Object common properties"},
+                            link="commonPropertiesDialog.htm"
+                        },
+                    }
+                },
+                {
+                    name={en="Collidable objects"},
+                    link="collidableObjects.htm"
+                },
+                {
+                    name={en="Measurable objects"},
+                    link="measurableObjects.htm"
+                },
+                {
+                    name={en="Detectable objects"},
+                    link="detectableObjects.htm"
+                },
+                {
+                    name={en="Viewable objects"},
+                    link="viewableObjects.htm"
+                },
+                {
+                    name={en="Layer selection dialog"},
+                    link="layerSelectionDialog.htm"
+                },
+                {
+                    name={en="Cameras"},
+                    link="cameras.htm",
+                    folder=
+                    {
+                        {
+                            name={en="Camera properties"},
+                            link="cameraPropertiesDialog.htm"
+                        },
+                    }
+                },
+                {
+                    name={en="Lights"},
+                    link="lights.htm",
+                    folder=
+                    {
+                        {
+                            name={en="Light properties"},
+                            link="lightPropertiesDialog.htm"
+                        },
+                    }
+                },
+                {
+                    name={en="Shapes"},
+                    link="shapes.htm",
+                    folder=
+                    {
+                        {
+                            name={en="Shape coordinate frame"},
+                            link="shapeReferenceFrames.htm"
+                        },
+                        {
+                            name={en="Primitive shapes"},
+                            link="primitiveShapes.htm"
+                        },
+                        {
+                            name={en="Shape properties"},
+                            link="shapeProperties.htm",
                             folder=
                             {
                                 {
-                                    name={en="Object common properties"},
-                                    link="commonPropertiesDialog.htm"
+                                    name={en="Shape dynamics properties"},
+                                    link="shapeDynamicsProperties.htm"
+                                },
+                                {
+                                    name={en="Shape geometry dialog"},
+                                    link="geometryDialog.htm"
                                 },
                             }
                         },
                         {
-                            name={en="Collidable objects"},
-                            link="collidableObjects.htm"
-                        },
-                        {
-                            name={en="Measurable objects"},
-                            link="measurableObjects.htm"
-                        },
-                        {
-                            name={en="Detectable objects"},
-                            link="detectableObjects.htm"
-                        },
-                        {
-                            name={en="Viewable objects"},
-                            link="viewableObjects.htm"
-                        },
-                        {
-                            name={en="Layer selection dialog"},
-                            link="layerSelectionDialog.htm"
-                        },
-                        {
-                            name={en="Cameras"},
-                            link="cameras.htm",
+                            name={en="Shape edit modes"},
+                            link="shapeEditModes.htm",
                             folder=
                             {
                                 {
-                                    name={en="Camera properties"},
-                                    link="cameraPropertiesDialog.htm"
+                                    name={en="Triangle edit mode"},
+                                    link="triangleEditMode.htm"
+                                },
+                                {
+                                    name={en="Vertex edit mode"},
+                                    link="vertexEditMode.htm"
+                                },
+                                {
+                                    name={en="Edge edit mode"},
+                                    link="edgeEditMode.htm"
+                                },
+                                {
+                                    name={en="Edit mode for compound shapes"},
+                                    link="groupedShapeEditMode.htm"
                                 },
                             }
                         },
+                    }
+                },
+                {
+                    name={en="Joints"},
+                    link="joints.htm",
+                    folder=
+                    {
                         {
-                            name={en="Lights"},
-                            link="lights.htm",
+                            name={en="Joint modes"},
+                            link="jointModes.htm"
+                        },
+                        {
+                            name={en="Joint properties"},
+                            link="jointProperties.htm",
                             folder=
                             {
                                 {
-                                    name={en="Light properties"},
-                                    link="lightPropertiesDialog.htm"
+                                    name={en="Joint dynamics properties"},
+                                    link="jointDynamicsProperties.htm"
                                 },
                             }
                         },
+                    }
+                },
+                {
+                    name={en="Dummies"},
+                    link="dummies.htm",
+                    folder=
+                    {
                         {
-                            name={en="Shapes"},
-                            link="shapes.htm",
+                            name={en="Dummy properties"},
+                            link="dummyPropertiesDialog.htm"
+                        },
+                    }
+                },
+                {
+                    name={en="Graphs"},
+                    link="graphs.htm",
+                    folder=
+                    {
+                        {
+                            name={en="Graph properties"},
+                            link="graphPropertiesDialog.htm"
+                        },
+                    }
+                },
+                {
+                    name={en="Proximity sensors"},
+                    link="proximitySensors.htm",
+                    folder=
+                    {
+                        {
+                            name={en="Proximity sensor types and mode of operation"},
+                            link="proximitySensorDescription.htm"
+                        },
+                        {
+                            name={en="Proximity sensor properties"},
+                            link="proximitySensorPropertiesDialog.htm",
                             folder=
                             {
                                 {
-                                    name={en="Shape coordinate frame"},
-                                    link="shapeReferenceFrames.htm"
+                                    name={en="Proximity sensor volume dialog"},
+                                    link="proximitySensorVolumeDialog.htm"
                                 },
                                 {
-                                    name={en="Primitive shapes"},
-                                    link="primitiveShapes.htm"
-                                },
-                                {
-                                    name={en="Shape properties"},
-                                    link="shapeProperties.htm",
-                                    folder=
-                                    {
-                                        {
-                                            name={en="Shape dynamics properties"},
-                                            link="shapeDynamicsProperties.htm"
-                                        },
-                                        {
-                                            name={en="Shape geometry dialog"},
-                                            link="geometryDialog.htm"
-                                        },
-                                    }
-                                },
-                                {
-                                    name={en="Shape edit modes"},
-                                    link="shapeEditModes.htm",
-                                    folder=
-                                    {
-                                        {
-                                            name={en="Triangle edit mode"},
-                                            link="triangleEditMode.htm"
-                                        },
-                                        {
-                                            name={en="Vertex edit mode"},
-                                            link="vertexEditMode.htm"
-                                        },
-                                        {
-                                            name={en="Edge edit mode"},
-                                            link="edgeEditMode.htm"
-                                        },
-                                        {
-                                            name={en="Edit mode for compound shapes"},
-                                            link="groupedShapeEditMode.htm"
-                                        },
-                                    }
+                                    name={en="Proximity sensor detection parameter dialog"},
+                                    link="proximitySensorDetectionParameterDialog.htm"
                                 },
                             }
                         },
+                    }
+                },
+                {
+                    name={en="Vision sensors"},
+                    link="visionSensors.htm",
+                    folder=
+                    {
                         {
-                            name={en="Joints"},
-                            link="joints.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Joint modes"},
-                                    link="jointModes.htm"
-                                },
-                                {
-                                    name={en="Joint properties"},
-                                    link="jointProperties.htm",
-                                    folder=
-                                    {
-                                        {
-                                            name={en="Joint dynamics properties"},
-                                            link="jointDynamicsProperties.htm"
-                                        },
-                                    }
-                                },
-                            }
+                            name={en="Vision sensor types and mode of operation"},
+                            link="visionSensorDescription.htm"
                         },
                         {
-                            name={en="Dummies"},
-                            link="dummies.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Dummy properties"},
-                                    link="dummyPropertiesDialog.htm"
-                                },
-                            }
+                            name={en="Vision sensor properties"},
+                            link="visionSensorPropertiesDialog.htm"
+                        },
+                    }
+                },
+                {
+                    name={en="Force sensors"},
+                    link="forceSensors.htm",
+                    folder=
+                    {
+                        {
+                            name={en="Force sensor property"},
+                            link="forceSensorPropertiesDialog.htm"
+                        },
+                    }
+                },
+                {
+                    name={en="OC trees"},
+                    link="octrees.htm",
+                    folder=
+                    {
+                        {
+                            name={en="OC tree properties"},
+                            link="octreePropertiesDialog.htm"
+                        },
+                    }
+                },
+                {
+                    name={en="Point clouds"},
+                    link="pointClouds.htm",
+                    folder=
+                    {
+                        {
+                            name={en="Point cloud properties"},
+                            link="pointCloudPropertiesDialog.htm"
+                        },
+                    }
+                },
+                {
+                    name={en="Paths"},
+                    link="paths.htm"
+                },
+                {
+                    name={en="Script objects"},
+                    link="scriptObjects.htm",
+                    folder=
+                    {
+                        {
+                            name={en="Simulation scripts"},
+                            link="simulationScripts.htm",
                         },
                         {
-                            name={en="Graphs"},
-                            link="graphs.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Graph properties"},
-                                    link="graphPropertiesDialog.htm"
-                                },
-                            }
+                            name={en="Customization scripts"},
+                            link="customizationScripts.htm"
                         },
                         {
-                            name={en="Proximity sensors"},
-                            link="proximitySensors.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Proximity sensor types and mode of operation"},
-                                    link="proximitySensorDescription.htm"
-                                },
-                                {
-                                    name={en="Proximity sensor properties"},
-                                    link="proximitySensorPropertiesDialog.htm",
-                                    folder=
-                                    {
-                                        {
-                                            name={en="Proximity sensor volume dialog"},
-                                            link="proximitySensorVolumeDialog.htm"
-                                        },
-                                        {
-                                            name={en="Proximity sensor detection parameter dialog"},
-                                            link="proximitySensorDetectionParameterDialog.htm"
-                                        },
-                                    }
-                                },
-                            }
+                            name={en="Script editor"},
+                            link="scriptEditor.htm"
                         },
                         {
-                            name={en="Vision sensors"},
-                            link="visionSensors.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Vision sensor types and mode of operation"},
-                                    link="visionSensorDescription.htm"
-                                },
-                                {
-                                    name={en="Vision sensor properties"},
-                                    link="visionSensorPropertiesDialog.htm"
-                                },
-                            }
-                        },
-                        {
-                            name={en="Force sensors"},
-                            link="forceSensors.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Force sensor property"},
-                                    link="forceSensorPropertiesDialog.htm"
-                                },
-                            }
-                        },
-                        {
-                            name={en="OC trees"},
-                            link="octrees.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="OC tree properties"},
-                                    link="octreePropertiesDialog.htm"
-                                },
-                            }
-                        },
-                        {
-                            name={en="Point clouds"},
-                            link="pointClouds.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Point cloud properties"},
-                                    link="pointCloudPropertiesDialog.htm"
-                                },
-                            }
-                        },
-                        {
-                            name={en="Paths"},
-                            link="paths.htm"
-                        },
-                        {
-                            name={en="Script objects"},
-                            link="scriptObjects.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Simulation scripts"},
-                                    link="simulationScripts.htm",
-                                },
-                                {
-                                    name={en="Customization scripts"},
-                                    link="customizationScripts.htm"
-                                },
-                                {
-                                    name={en="Script editor"},
-                                    link="scriptEditor.htm"
-                                },
-                                {
-                                    name={en="Script object properties"},
-                                    link="scriptPropertiesDialog.htm"
-                                },
-                            }
+                            name={en="Script object properties"},
+                            link="scriptPropertiesDialog.htm"
                         },
                     }
                 },
