@@ -168,10 +168,6 @@ wb_usr.tree =
                             link="viewableObjects.htm"
                         },
                         {
-                            name={en="Convex hull"},
-                            link="convexHull.htm"
-                        },
-                        {
                             name={en="Layer selection dialog"},
                             link="layerSelectionDialog.htm"
                         },
@@ -209,10 +205,6 @@ wb_usr.tree =
                                 {
                                     name={en="Primitive shapes"},
                                     link="primitiveShapes.htm"
-                                },
-                                {
-                                    name={en="Convex decomposition"},
-                                    link="convexDecomposition.htm"
                                 },
                                 {
                                     name={en="Shape properties"},
@@ -445,7 +437,18 @@ wb_usr.tree =
                         },
                         {
                             name={en="simConvex API reference"},
-                            link="simConvex.htm?view=alphabetical"
+                            link="simConvex.htm?view=alphabetical",
+                            folder=
+                            {
+                                {
+                                    name={en="Convex hull"},
+                                    link="convexHull.htm"
+                                },
+                                {
+                                    name={en="Convex decomposition"},
+                                    link="convexDecomposition.htm"
+                                },
+                            }
                         },
                         {
                             name={en="simOpenMesh API reference"},

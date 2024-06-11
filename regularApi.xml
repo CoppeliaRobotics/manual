@@ -439,35 +439,6 @@ sim.removeParticleObject</api-see-also>
         <api-calltip>sim.addParticleObjectItem(int objectHandle, float[] itemData)</api-calltip>
     </function>
     <function>
-        <api-function-name>sim.addScript</api-function-name>
-        <api-description>Inserts a new script. Use with care when simulation is running</api-description>
-        <api-see-also>sim.associateScriptWithObject</api-see-also>
-        <api-synopsis-cpp>int simAddScript(int scriptType)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>scriptType</strong>: <a href="../apiConstants.htm#scriptTypes">type of the script</a>.</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>handle of the new script, or -1 in case of an error</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>int scriptHandle = sim.addScript(int scriptType)</api-synopsis-python>
-        <api-synopsis-lua>int scriptHandle = sim.addScript(int scriptType)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>scriptType</strong>: <a href="../apiConstants.htm#scriptTypes">type of the script</a></li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the new script</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int scriptHandle = sim.addScript(int scriptType)</api-calltip>
-    </function>
-    <function>
         <api-function-name>sim.adjustView</api-function-name>
         <api-description>Adjusts parameters of a view</api-description>
         <api-see-also>sim.floatingViewAdd
@@ -635,33 +606,6 @@ A call to this function has no effect (and doesn't generate any error) when call
                 <li>The ID of the texture, or -1 in case of an error</li>
             </ul>
         </api-output-cpp>
-    </function>
-    <function>
-        <api-function-name>sim.associateScriptWithObject</api-function-name>
-        <api-description>Sets the associated object of a simulation script. Use with care when simulation is running</api-description>
-        <api-see-also>sim.addScript
-sim.setScriptStringParam</api-see-also>
-        <api-synopsis-cpp>int simAssociateScriptWithObject(int scriptHandle, int objectHandle)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the simulation script</li>
-                <li><strong>objectHandle</strong>: handle of the associated object, or -1 to remove the association</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>sim.associateScriptWithObject(int scriptHandle, int objectHandle)</api-synopsis-python>
-        <api-synopsis-lua>sim.associateScriptWithObject(int scriptHandle, int objectHandle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the simulation script</li>
-                <li><strong>objectHandle</strong>: handle of the associated object, or -1 to remove the association</li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.associateScriptWithObject(int scriptHandle, int objectHandle)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.auxiliaryConsoleClose</api-function-name>
@@ -5922,22 +5866,21 @@ sim.setVisionSensorImg</api-see-also>
     </function>
     <function>
         <api-function-name>sim.getScript</api-function-name>
-        <api-description>Retrieves the handle of a script</api-description>
-        <api-synopsis-python>int scriptHandle = sim.getScript(int scriptType, int objectHandle = -1, string scriptName = '')</api-synopsis-python>
-        <api-synopsis-lua>int scriptHandle = sim.getScript(int scriptType, int objectHandle = -1, string scriptName = '')</api-synopsis-lua>
+        <api-description>Retrieves the handle of a script. For script objects, use sim.getObject instead</api-description>
+        <api-synopsis-python>int scriptHandle = sim.getScript(int scriptType, string scriptName = '')</api-synopsis-python>
+        <api-synopsis-lua>int scriptHandle = sim.getScript(int scriptType, string scriptName = '')</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>scriptType</strong>: <a href="../apiConstants.htm#scriptTypes">type of the script</a>, or sim.handle_self</li>
-                <li><strong>objectHandle</strong>: handle of the object the script is attached to, in case of a simulation- or customization script</li>
                 <li><strong>scriptName</strong>: name of the add-on, in case of an add-on</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>scriptHandle</strong>: handle of the script, or -1 if the script does not exist</li>
+                <li><strong>scriptHandle</strong>: handle of the script</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int scriptHandle = sim.getScript(int scriptType, int objectHandle=-1, string scriptName='')</api-calltip>
+        <api-calltip>int scriptHandle = sim.getScript(int scriptType, string scriptName='')</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getScriptFunctions</api-function-name>
@@ -5972,74 +5915,6 @@ sim.setVisionSensorImg</api-see-also>
                 <li>handle of the script, or -1 if the script does not exist.</li>
             </ul>
         </api-output-cpp>
-    </function>
-    <function>
-        <api-function-name>sim.getScriptInt32Param</api-function-name>
-        <api-description>Retrieves an int32 parameter of a script</api-description>
-        <api-see-also>
-            <a href="../apiFunctions.htm#scriptParameters">functions related to script parameters</a>
-        </api-see-also>
-        <api-synopsis-cpp>int simGetScriptInt32Param(int scriptHandle, int parameterID, int* parameter)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script</li>
-                <li><strong>parameterID</strong>: identifier of the parameter to retrieve. See the <a href="../apiConstants.htm#scriptParameters">list of all possible script parameters</a></li>
-                <li><strong>parameter</strong>: retrieved parameter</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 in case of an error, 0 if the parameter could not be retrieved, or 1 if operation was successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>int parameter = sim.getScriptInt32Param(int scriptHandle, int parameterID)</api-synopsis-python>
-        <api-synopsis-lua>int parameter = sim.getScriptInt32Param(int scriptHandle, int parameterID)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script</li>
-                <li><strong>parameterID</strong>: identifier of the parameter to retrieve. See the <a href="../apiConstants.htm#scriptParameters">list of all possible script parameters</a></li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>parameter</strong>: retrieved parameter.</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int parameter = sim.getScriptInt32Param(int scriptHandle, int parameterID)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.getScriptStringParam</api-function-name>
-        <api-description>Retrieves a string parameter of a script</api-description>
-        <api-see-also>
-            <a href="../apiFunctions.htm#scriptParameters">functions related to script parameters</a>
-        </api-see-also>
-        <api-synopsis-cpp>char* simGetScriptStringParam(int scriptHandle, int parameterID, int* parameterLength)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script</li>
-                <li><strong>parameterID</strong>: identifier of the parameter to retrieve. See the <a href="../apiConstants.htm#scriptParameters">list of all possible script parameters</a></li>
-                <li><strong>parameterLength</strong>: the length of the retrieved parameter</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>A buffer containing the retrieved string, or nullptr in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>. The returned buffer might contain embedded zeros, and its length is specified by the parameterLength argument.</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>bytes parameter = sim.getScriptStringParam(int scriptHandle, int parameterID)</api-synopsis-python>
-        <api-synopsis-lua>buffer parameter = sim.getScriptStringParam(int scriptHandle, int parameterID)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script. Can be combined with sim.handle_self to target the current script</li>
-                <li><strong>parameterID</strong>: identifier of the parameter to retrieve. See the <a href="../apiConstants.htm#scriptParameters">list of all possible script parameters</a></li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>parameter</strong>: buffer</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>buffer parameter = sim.getScriptStringParam(int scriptHandle, int parameterID)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getShapeBB</api-function-name>
@@ -10014,31 +9889,6 @@ sim.setPointCloudOptions
         <api-calltip>int totalPointCnt = sim.removePointsFromPointCloud(int pointCloudHandle, int options, float[] points, float tolerance)</api-calltip>
     </function>
     <function>
-        <api-function-name>sim.removeScript</api-function-name>
-        <api-description>Removes a script. Not all script types can be removed, and it will also depend on whether
-simulation is running or not. Use with caution</api-description>
-        <api-see-also>sim.addScript</api-see-also>
-        <api-synopsis-cpp>int simRemoveScript(int scriptHandle)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script to remove or sim.handle_all to remove all scripts</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>sim.removeScript(int scriptHandle)</api-synopsis-python>
-        <api-synopsis-lua>sim.removeScript(int scriptHandle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script to remove, or sim.handle_all or sim.handle_self</li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.removeScript(int scriptHandle)</api-calltip>
-    </function>
-    <function>
         <api-function-name>sim.removeVoxelsFromOctree</api-function-name>
         <api-description>Removes voxels from an <a href="../octrees.htm">OC tree</a>
         </api-description>
@@ -12209,67 +12059,6 @@ original <em>objectB</em> (if <em>objectB</em> still exists)</api-description>
             </ul>
         </api-input-python-lua>
         <api-calltip>sim.setReferencedHandles(int objectHandle, int[] referencedHandles, string tag = '')</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.setScriptInt32Param</api-function-name>
-        <api-description>Sets an int32 parameter of a script</api-description>
-        <api-see-also>
-            <a href="../apiFunctions.htm#scriptParameters">functions related to script parameters</a>
-        </api-see-also>
-        <api-synopsis-cpp>int simSetScriptInt32Param(int scriptHandle, int parameterID, int parameter)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script</li>
-                <li><strong>parameterID</strong>: identifier of the parameter to set. See the <a href="../apiConstants.htm#scriptParameters">list of all possible script parameters</a></li>
-                <li><strong>parameter</strong>: parameter value</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 in case of an error, 0 if the parameter could not be set, or 1 if operation was successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>sim.setScriptInt32Param(int scriptHandle, int parameterID, int parameter)</api-synopsis-python>
-        <api-synopsis-lua>sim.setScriptInt32Param(int scriptHandle, int parameterID, int parameter)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script, or sim.handle_self</li>
-                <li><strong>parameterID</strong>: identifier of the parameter to set. See the <a href="../apiConstants.htm#scriptParameters">list of all possible script parameters</a></li>
-                <li><strong>parameter</strong>: parameter value</li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.setScriptInt32Param(int scriptHandle, int parameterID, int parameter)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.setScriptStringParam</api-function-name>
-        <api-description>Sets a string parameter of a script</api-description>
-        <api-see-also>
-            <a href="../apiFunctions.htm#scriptParameters">functions related to script parameters</a>
-        </api-see-also>
-        <api-synopsis-cpp>int simSetScriptStringParam(int scriptHandle, int parameterID, char* parameter, int parameterLength)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script</li>
-                <li><strong>parameterID</strong>: identifier of the parameter to set. See the <a href="../apiConstants.htm#scriptParameters">list of all possible script parameters</a></li>
-                <li><strong>parameter</strong>: parameter value (can contain embedded zeros)</li>
-                <li><strong>parameterLength</strong>: length of the parameter value</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 in case of an error, 0 if the parameter could not be set, or 1 if operation was successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>sim.setScriptStringParam(int scriptHandle, int parameterID, string/bytes parameter)</api-synopsis-python>
-        <api-synopsis-lua>sim.setScriptStringParam(int scriptHandle, int parameterID, buffer parameter)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>scriptHandle</strong>: handle of the script, or sim.handle_self</li>
-                <li><strong>parameterID</strong>: identifier of the parameter to set. See the <a href="../apiConstants.htm#scriptParameters">list of all possible script parameters</a></li>
-                <li><strong>parameter</strong>: parameter value (can contain embedded zeros)</li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.setScriptStringParam(int scriptHandle, int parameterID, buffer parameter)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.setShapeBB</api-function-name>

@@ -188,21 +188,21 @@ simRegisterScriptCallbackFunction(&quot;func&quot;, nullptr, myCallbackFunc);</c
 
 def sysCall_init():
     sim = require('sim')
-    self.scriptHandle = sim.getScriptInt32Param(sim.handle_self, sim.scriptintparam_handle)
+    self.objectHandle = sim.getObject('.')
 
 def sysCall_sensing():
     message = {'id': 'greetingMessage', 'data': {'msg': 'Hello!'}}
     sim.broadcastMsg(message)
 
 def sysCall_msg(msg, origin):
-    if origin != self.scriptHandle and msg.id == 'greetingMessage':
+    if origin != self.objectHandle and msg.id == 'greetingMessage':
         print("Received following message from script {}:".format(origin))
         print(msg['data']['msg'])</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
     sim = require('sim')
-    scriptHandle = sim.getScriptInt32Param(sim.handle_self, sim.scriptintparam_handle)
+    scriptHandle = sim.getObject('.')
 end
 
 function sysCall_sensing()
