@@ -24,17 +24,23 @@ td.section { margin: 0; padding: 0; }
 <div align="center"><table class="allEncompassingTable">
 <tr><td id="title" class="section"><h1>simIGL Plugin API reference</h1></td></tr>
 <tr><td id="info" class="section"><p class="infoBox">Wrapper for libigl</p></td></tr>
-<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#barycenter">simIGL.barycenter</a>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#adaptiveUpsample">simIGL.adaptiveUpsample</a>
+<a href="?#barycenter">simIGL.barycenter</a>
 <a href="?#centroid">simIGL.centroid</a>
 <a href="?#closestFacet">simIGL.closestFacet</a>
 <a href="?#convexHull">simIGL.convexHull</a>
 <a href="?#convexHullShape">simIGL.convexHullShape</a>
+<a href="?#drawMesh">simIGL.drawMesh</a>
 <a href="?#exactGeodesic">simIGL.exactGeodesic</a>
+<a href="?#faceCentroids">simIGL.faceCentroids</a>
 <a href="?#getMesh">simIGL.getMesh</a>
 <a href="?#intersectWithHalfSpace">simIGL.intersectWithHalfSpace</a>
 <a href="?#meshBoolean">simIGL.meshBoolean</a>
 <a href="?#meshBooleanShape">simIGL.meshBooleanShape</a>
+<a href="?#meshOctreeIntersection">simIGL.meshOctreeIntersection</a>
+<a href="?#pointNormalToMatrix">simIGL.pointNormalToMatrix</a>
 <a href="?#randomPointsOnMesh">simIGL.randomPointsOnMesh</a>
+<a href="?#rayTest">simIGL.rayTest</a>
 <a href="?#sweptVolume">simIGL.sweptVolume</a>
 <a href="?#tetrahedralize">simIGL.tetrahedralize</a>
 <a href="?#uniqueEdgeMap">simIGL.uniqueEdgeMap</a>
@@ -43,6 +49,40 @@ td.section { margin: 0; padding: 0; }
 </pre></td></tr>
 <tr><td id="commands" class="section">
 <h3 class="subsectionBar">
+<a name="adaptiveUpsample" id="adaptiveUpsample"></a>simIGL.adaptiveUpsample</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Divide triangles with an edge longer than given threshold.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">mesh m=simIGL.adaptiveUpsample(mesh m, float threshold)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (mesh): mesh</div>
+<div>
+<strong>threshold</strong> (float): maximum triangle edge length</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (mesh): list of tetrahedron volumes</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">mesh m=simIGL.adaptiveUpsample(mesh m, float threshold)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="barycenter" id="barycenter"></a>simIGL.barycenter</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -74,12 +114,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">grid bc=simIGL.barycenter(grid v, grid f)<br>
 </td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -114,12 +148,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">list c, float vol=simIGL.centroid(mesh m)<br>
 </td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -167,12 +195,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightPSyn">list r, list s=simIGL.closestFacet(mesh m, grid points, grid emap, grid uec, grid uee, list indices={})<br>
 </td>
 </tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
-</tr>
 </table>
 <br><h3 class="subsectionBar">
 <a name="convexHull" id="convexHull"></a>simIGL.convexHull</h3>
@@ -202,12 +224,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">mesh m=simIGL.convexHull(list points)<br>
 </td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -239,11 +255,39 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightPSyn">int handleResult=simIGL.convexHullShape(list handles)<br>
 </td>
 </tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="drawMesh" id="drawMesh"></a>simIGL.drawMesh</h3>
+<table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">draw a mesh using drawing objects</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table dwo=simIGL.drawMesh(table mesh, table opts)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>mesh</strong> (table): the mesh data, as returned by simIGL.getMesh</div>
+<div>
+<strong>opts</strong> (table): various options (color: table3, lineWidth: int, offset: table3, dwo: int or nil, it will be created)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>dwo</strong> (table): the drawing object that has been used to draw</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list dwo=simIGL.drawMesh(list mesh, list opts)<br>
+</td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -285,11 +329,35 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightPSyn">list distances=simIGL.exactGeodesic(mesh m, list vs, list fs, list vt, list ft)<br>
 </td>
 </tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="faceCentroids" id="faceCentroids"></a>simIGL.faceCentroids</h3>
+<table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Computes the centroid of mesh faces.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">grid c=simIGL.faceCentroids(mesh m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (mesh): mesh</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>c</strong> (grid): centroid coordinates</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">grid c=simIGL.faceCentroids(mesh m)<br>
+</td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -324,12 +392,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">list mesh=simIGL.getMesh(int h, list options={})<br>
 </td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -371,12 +433,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightPSyn">mesh m, list j=simIGL.intersectWithHalfSpace(mesh m, list pt, list n)<br>
 </td>
 </tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
-</tr>
 </table>
 <br><h3 class="subsectionBar">
 <a name="meshBoolean" id="meshBoolean"></a>simIGL.meshBoolean</h3>
@@ -416,8 +472,8 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
+                                                    See also
+                                                </td>
 <td class="apiTableRightDescr"></td>
 </tr>
 </table>
@@ -454,11 +510,73 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightPSyn">int handleResult=simIGL.meshBooleanShape(list handles, int op)<br>
 </td>
 </tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="meshOctreeIntersection" id="meshOctreeIntersection"></a>simIGL.meshOctreeIntersection</h3>
+<table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Computes the part of mesh intersecting the given octree.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">mesh m=simIGL.meshOctreeIntersection(mesh m, int oc)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (mesh): mesh</div>
+<div>
+<strong>oc</strong> (int): handle of octree</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (mesh): intersecting mesh subset</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">mesh m=simIGL.meshOctreeIntersection(mesh m, int oc)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="pointNormalToMatrix" id="pointNormalToMatrix"></a>simIGL.pointNormalToMatrix</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return the transform matrix (table of 12 values) from point and normal</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table matrix=simIGL.pointNormalToMatrix(table point, table normal)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>point</strong> (table): (3D vector)</div>
+<div>
+<strong>normal</strong> (table): (3D vector)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>matrix</strong> (table): the resulting transform matrix (table of 12 values)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list matrix=simIGL.pointNormalToMatrix(list point, list normal)<br>
+</td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -500,11 +618,41 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightPSyn">grid b, grid fi=simIGL.randomPointsOnMesh(int n, mesh m, bool convertToWorldCoords=false)<br>
 </td>
 </tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="rayTest" id="rayTest"></a>simIGL.rayTest</h3>
+<table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">perform a ray test, from given origin towards every of the points, and return a new array of points.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table resultPoints=simIGL.rayTest(table origin, table points, int proximitySensorHandle=NIL)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>origin</strong> (table): (3D vector)</div>
+<div>
+<strong>points</strong> (table): one or more points to test</div>
+<div>
+<strong>proximitySensorHandle</strong> (int, default: NIL): handle of a ray type proximity sensor, or nil in which case it will be created</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>resultPoints</strong> (table): the resulting points of the ray test</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list resultPoints=simIGL.rayTest(list origin, list points, int proximitySensorHandle=NIL)<br>
+</td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -545,12 +693,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">mesh m=simIGL.sweptVolume(mesh m, string transformFunc, int timeSteps, int gridSize, float isoLevel=0)<br>
 </td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -594,12 +736,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightPSyn">int result, grid tv, grid tt, grid tf=simIGL.tetrahedralize(mesh m, string switches="")<br>
 </td>
 </tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
-</tr>
 </table>
 <br><h3 class="subsectionBar">
 <a name="uniqueEdgeMap" id="uniqueEdgeMap"></a>simIGL.uniqueEdgeMap</h3>
@@ -640,12 +776,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightPSyn">grid e, grid ue, grid emap, grid uec, grid uee=simIGL.uniqueEdgeMap(grid f)<br>
 </td>
 </tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
-</tr>
 </table>
 <br><h3 class="subsectionBar">
 <a name="upsample" id="upsample"></a>simIGL.upsample</h3>
@@ -680,12 +810,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightPSyn">mesh m=simIGL.upsample(mesh m, int n=1)<br>
 </td>
 </tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
-</tr>
 </table>
 <br><h3 class="subsectionBar">
 <a name="volume" id="volume"></a>simIGL.volume</h3>
@@ -715,12 +839,6 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">list vol=simIGL.volume(tetmesh m)<br>
 </td>
-</tr>
-<tr class="apiTableTr">
-<td class="apiTableLeftDescr">
-                                                See also
-                                            </td>
-<td class="apiTableRightDescr"></td>
 </tr>
 </table>
 <br>
@@ -846,15 +964,7 @@ document.getElementById('enums').style.display = view == null ? 'table-cell' : '
 document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
 document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
 //
-                </script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/default.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script><script type="text/javascript">
-//
-document.addEventListener('DOMContentLoaded', (event) => {
-    document.querySelectorAll('code.hljs').forEach((block) => {
-        hljs.highlightBlock(block);
-    });
-});
-//
-                </script>
+                </script><link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css">
+<script src="../js/hljs/11.8.0/highlight.min.js"></script><script src="../js/hljs/11.8.0/languages/cmake.min.js"></script><script src="../js/hljs/11.8.0/languages/cpp.min.js"></script><script src="../js/hljs/11.8.0/languages/java.min.js"></script><script src="../js/hljs/11.8.0/languages/javascript.min.js"></script><script src="../js/hljs/11.8.0/languages/lua.min.js"></script><script src="../js/hljs/11.8.0/languages/matlab.min.js"></script><script src="../js/hljs/11.8.0/languages/python.min.js"></script><script src="../js/hljs/11.8.0/languages/rust.min.js"></script><script src="../js/hljs/11.8.0/languages/xml.min.js"></script><script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 </html>
