@@ -715,6 +715,10 @@ wb_usr.tree =
                             name={en="simSubprocess API reference"},
                             link="simSubprocess.htm?view=alphabetical"
                         },
+                        {
+                            name={en="simEigen API reference"},
+                            link="simEigen.htm?view=alphabetical"
+                        },
                     }
                 },
             }
