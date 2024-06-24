@@ -143,12 +143,12 @@ wb_usr.tree =
                     }
                 },
                 {
-                    name={en="Object properties"},
+                    name={en="Scene object dialog"},
                     link="sceneObjectPropertiesDialog.htm",
                     folder=
                     {
                         {
-                            name={en="Object common properties"},
+                            name={en="General scene object properties dialog"},
                             link="commonPropertiesDialog.htm"
                         },
                     }
@@ -179,7 +179,7 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="Camera properties"},
+                            name={en="Camera dialog"},
                             link="cameraPropertiesDialog.htm"
                         },
                     }
@@ -190,7 +190,7 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="Light properties"},
+                            name={en="Light dialog"},
                             link="lightPropertiesDialog.htm"
                         },
                     }
@@ -209,12 +209,12 @@ wb_usr.tree =
                             link="primitiveShapes.htm"
                         },
                         {
-                            name={en="Shape properties"},
+                            name={en="Shape dialog"},
                             link="shapeProperties.htm",
                             folder=
                             {
                                 {
-                                    name={en="Shape dynamics properties"},
+                                    name={en="Shape dynamics dialog"},
                                     link="shapeDynamicsProperties.htm"
                                 },
                                 {
@@ -258,12 +258,12 @@ wb_usr.tree =
                             link="jointModes.htm"
                         },
                         {
-                            name={en="Joint properties"},
+                            name={en="Joint dialog"},
                             link="jointProperties.htm",
                             folder=
                             {
                                 {
-                                    name={en="Joint dynamics properties"},
+                                    name={en="Joint dynamics dialog"},
                                     link="jointDynamicsProperties.htm"
                                 },
                             }
@@ -276,7 +276,7 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="Dummy properties"},
+                            name={en="Dummy dialog"},
                             link="dummyPropertiesDialog.htm"
                         },
                     }
@@ -287,7 +287,7 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="Graph properties"},
+                            name={en="Graph dialog"},
                             link="graphPropertiesDialog.htm"
                         },
                     }
@@ -302,7 +302,7 @@ wb_usr.tree =
                             link="proximitySensorDescription.htm"
                         },
                         {
-                            name={en="Proximity sensor properties"},
+                            name={en="Proximity sensor dialog"},
                             link="proximitySensorPropertiesDialog.htm",
                             folder=
                             {
@@ -328,7 +328,7 @@ wb_usr.tree =
                             link="visionSensorDescription.htm"
                         },
                         {
-                            name={en="Vision sensor properties"},
+                            name={en="Vision sensor dialog"},
                             link="visionSensorPropertiesDialog.htm"
                         },
                     }
@@ -339,7 +339,7 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="Force sensor property"},
+                            name={en="Force sensor dialog"},
                             link="forceSensorPropertiesDialog.htm"
                         },
                     }
@@ -350,7 +350,7 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="OC tree properties"},
+                            name={en="OC tree dialog"},
                             link="octreePropertiesDialog.htm"
                         },
                     }
@@ -361,7 +361,7 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="Point cloud properties"},
+                            name={en="Point cloud dialog"},
                             link="pointCloudPropertiesDialog.htm"
                         },
                     }
@@ -388,7 +388,7 @@ wb_usr.tree =
                             link="scriptEditor.htm"
                         },
                         {
-                            name={en="Script object properties"},
+                            name={en="Script dialog"},
                             link="scriptPropertiesDialog.htm"
                         },
                     }
@@ -844,7 +844,7 @@ wb_usr.tree =
             folder=
             {
                 {
-                    name={en="Simulation settings dialog"},
+                    name={en="Simulation dialog"},
                     link="simulationPropertiesDialog.htm"
                 },
             }
