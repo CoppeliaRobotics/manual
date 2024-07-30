@@ -502,7 +502,7 @@ The shape's inertia properties are unaffected</api-description>
         <api-input-cpp>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the shape</li>
-                <li><strong>pose</strong>: pose describing the new orientation of the shape's bounding box. The pose is expressed as [x y z qx qy qz qw]. A nullptr pose, or a pose containing only zeros will align the bounding box with the mesh's natural bounding box</li>
+                <li><strong>pose</strong>: pose describing the new orientation of the shape's bounding box. The pose is expressed as [x y z qx qy qz qw], where the positional part is ignored. A nullptr pose, or a pose containing only zeros will align the bounding box with the mesh's natural bounding box</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -515,7 +515,7 @@ The shape's inertia properties are unaffected</api-description>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the shape</li>
-                <li><strong>pose</strong>: pose describing the new orientation of the shape's bounding box. The pose is expressed as [x y z qx qy qz qw]. A pose containing only zeros aligns the bounding box with the mesh's natural bounding box</li>
+                <li><strong>pose</strong>: pose describing the new orientation of the shape's bounding box. The pose is expressed as [x y z qx qy qz qw], where the positional part is ignored. A pose containing only zeros aligns the bounding box with the mesh's natural bounding box</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
@@ -1719,7 +1719,7 @@ sim.loadModel</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>copiedObjectHandles</strong>: the duplicate object handles, where original and copy have the same location in their respective arrays</li>
+                <li><strong>copiedObjectHandles</strong>: the duplicate object handles, where original and copy have the same location in their respective arrays (when script objects are stripped away, the array could contain -1 values)</li>
             </ul>
         </api-output-python-lua>
         <api-calltip>int[1..*] copiedObjectHandles = sim.copyPasteObjects(int[1..*] objectHandles, int options=0)</api-calltip>
@@ -2091,9 +2091,9 @@ sim.createShape</api-see-also>
             <ul>
                 <li><strong>jointType</strong>:
                     <ul>
-                        <li>sim.joint_revolute_subtype</li>
-                        <li>sim.joint_prismatic_subtype</li>
-                        <li>sim.joint_spherical_subtype</li>
+                        <li>sim.joint_revolute</li>
+                        <li>sim.joint_prismatic</li>
+                        <li>sim.joint_spherical</li>
                     </ul>
                 </li>
                 <li><strong>jointMode</strong>: a <a href="../apiConstants.htm#jointModes">joint mode</a></li>
@@ -2113,9 +2113,9 @@ sim.createShape</api-see-also>
             <ul>
                 <li><strong>jointType</strong>:
                     <ul>
-                        <li>sim.joint_revolute_subtype</li>
-                        <li>sim.joint_prismatic_subtype</li>
-                        <li>sim.joint_spherical_subtype</li>
+                        <li>sim.joint_revolute</li>
+                        <li>sim.joint_prismatic</li>
+                        <li>sim.joint_spherical</li>
                     </ul>
                 </li>
                 <li><strong>jointMode</strong>: a <a href="../apiConstants.htm#jointModes">joint mode</a></li>
@@ -2331,7 +2331,7 @@ sim.createHeightfieldShape</api-see-also>
                              const double* floatParams, const double* reserved)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>sensorType</strong>: desired <a href="../apiConstants.htm#sceneObjectSubTypes">proximity sensor type</a> (e.g. sim.proximitysensor_cone_subtype)</li>
+                <li><strong>sensorType</strong>: desired <a href="../apiConstants.htm#sceneObjectSubTypes">proximity sensor type</a> (e.g. sim.proximitysensor_cone)</li>
                 <li><strong>subType</strong>: deprecated. Set to 16</li>
                 <li><strong>options</strong>: bit-coded options:
                     <ul>
@@ -2391,7 +2391,7 @@ sim.createHeightfieldShape</api-see-also>
                                              int[8] intParams, float[15] floatParams)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>sensorType</strong>: desired <a href="../apiConstants.htm#sceneObjectSubTypes">proximity sensor type</a> (e.g. sim.proximitysensor_cone_subtype)</li>
+                <li><strong>sensorType</strong>: desired <a href="../apiConstants.htm#sceneObjectSubTypes">proximity sensor type</a> (e.g. sim.proximitysensor_cone)</li>
                 <li><strong>subType</strong>: deprecated. Set to 16</li>
                 <li><strong>options</strong>: bit-coded options:
                     <ul>
@@ -2907,7 +2907,7 @@ sim.getShapeMesh</api-see-also>
             <h3>Example</h3>
             <code class="hljs language-c++ coppelia-coppeliasim-plugin">// Exports all shapes in the scene
 int shapeCount = 0;
-while (simGetObjects(shapeCount++, sim.object_shape_type) != -1);
+while (simGetObjects(shapeCount++, sim.sceneobject_shape) != -1);
 shapeCount--;
 double** vertices = new double*[shapeCount];
 int* verticesSizes = new int[shapeCount];
@@ -2916,7 +2916,7 @@ int* indicesSizes = new int[shapeCount];
 int index = 0;
 while (true)
 {
-    int shapeHandle = simGetObjects(index++, sim.object_shape_type);
+    int shapeHandle = simGetObjects(index++, sim.sceneobject_shape);
     if (shapeHandle &lt; 0)
         break;
     double* vert;
@@ -2985,7 +2985,7 @@ local allVertices = {}
 local allIndices = {}
 local shapeIndex = 0
 while true do
-    local h = sim.getObjects(shapeIndex, sim.object_shape_type)
+    local h = sim.getObjects(shapeIndex, sim.sceneobject_shape)
     if h &lt; 0 then
         break
     end
@@ -4129,7 +4129,7 @@ sim.getJointTargetVelocity</api-see-also>
         </api-input-cpp>
         <api-output-cpp>
             <ul>
-                <li>Type of the joint (sim.joint_revolute_subtype, sim.joint_prismatic_subtype or sim.joint_spherical_subtype), or -1 if operation was not successful</li>
+                <li>Type of the joint (sim.joint_revolute, sim.joint_prismatic or sim.joint_spherical), or -1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
         <api-synopsis-python>int jointType = sim.getJointType(int objectHandle)</api-synopsis-python>
@@ -4143,9 +4143,9 @@ sim.getJointTargetVelocity</api-see-also>
             <ul>
                 <li><strong>jointType</strong>: type of the joint:
                     <ul>
-                        <li>sim.joint_revolute_subtype</li>
-                        <li>sim.joint_prismatic_subtype</li>
-                        <li>sim.joint_spherical_subtype</li>
+                        <li>sim.joint_revolute</li>
+                        <li>sim.joint_prismatic</li>
+                        <li>sim.joint_spherical</li>
                     </ul>
                 </li>
             </ul>
@@ -5040,7 +5040,7 @@ object handles in the scene</api-description>
         <api-input-cpp>
             <ul>
                 <li><strong>index</strong>: object index. First object is located at index 0</li>
-                <li><strong>objectType</strong>: object type (sim.object_shape_type, sim.object_joint_type, etc. (see the <a href="../apiConstants.htm#sceneObjectTypes">object types</a>) or sim.handle_all for any type of object</li>
+                <li><strong>objectType</strong>: object type (sim.sceneobject_shape, sim.sceneobject_joint, etc. (see the <a href="../apiConstants.htm#sceneObjectTypes">object types</a>) or sim.handle_all for any type of object</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -5053,7 +5053,7 @@ object handles in the scene</api-description>
         <api-input-python-lua>
             <ul>
                 <li><strong>index</strong>: object index. First object is located at index 0</li>
-                <li><strong>objectType</strong>: object type (sim.object_shape_type, sim.object_joint_type, etc. (see the <a href="../apiConstants.htm#sceneObjectTypes">object types</a>) or sim.handle_all for any type of object</li>
+                <li><strong>objectType</strong>: object type (sim.sceneobject_shape, sim.sceneobject_joint, etc. (see the <a href="../apiConstants.htm#sceneObjectTypes">object types</a>) or sim.handle_all for any type of object</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
@@ -5242,7 +5242,7 @@ sim.getModelProperty</api-see-also>
         </api-input-cpp>
         <api-output-cpp>
             <ul>
-                <li>type of the object (sim.object_shape_type, sim.object_joint_type, etc. (see the <a href="../apiConstants.htm#sceneObjectTypes">object types</a>) or -1 in case of error</li>
+                <li>type of the object (sim.sceneobject_shape, sim.sceneobject_joint, etc. (see the <a href="../apiConstants.htm#sceneObjectTypes">object types</a>) or -1 in case of error</li>
             </ul>
         </api-output-cpp>
         <api-synopsis-python>int objectType = sim.getObjectType(int objectHandle)</api-synopsis-python>
@@ -5254,7 +5254,7 @@ sim.getModelProperty</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>objectType</strong>: type of the object (sim.object_shape_type, sim.object_joint_type, etc. (see the <a href="../apiConstants.htm#sceneObjectTypes">object types</a>)</li>
+                <li><strong>objectType</strong>: type of the object (sim.sceneobject_shape, sim.sceneobject_joint, etc. (see the <a href="../apiConstants.htm#sceneObjectTypes">object types</a>)</li>
             </ul>
         </api-output-python-lua>
         <api-calltip>int objectType = sim.getObjectType(int objectHandle)</api-calltip>
@@ -10254,7 +10254,7 @@ sim.getVisionSensorImg</api-see-also>
                         <li>bit0 - bit1: format of the provided image (0=rgb, 1=rgba, 2=greyscale)</li>
                     </ul>
                 </li>
-                <li><strong>filename</strong>: name of the file to write. The file extension indicates the format. If the filename only contains '.xxx', where xxx represents the file format, then the image will be saved to memory</li>
+                <li><strong>filename</strong>: name of the file to write. The file extension indicates the format. If the filename only contains '.ext', where ext represents the file format, then the image will be saved to memory</li>
                 <li><strong>quality</strong>: quality of the written image: 0 for best compression, 100 for largest file. Use -1 for default behaviour.</li>
             </ul>
         </api-input-python-lua>
