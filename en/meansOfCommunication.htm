@@ -20,13 +20,14 @@
 <h1>Messaging/interfaces/connectivity</h1>
 
 <p>There are several ways messages or data can be exchanged/transmitted/received in and around CoppeliaSim, but also between CoppeliaSim and an external application, other computer, machine, etc.:</p>
-<p> One can exchange data via:</p>
-<li><a href="#signals">signals</a></li>
-<li><a href="#customData">custom data</a></li>
+<p> One can send/receive data via:</p>
+<li><a name="signals"></a><a href="properties.htm#signals">signals</a></li>
+<li><a name="customData"></a><a name="customDataBlocks"></a><a href="properties.htm#customData">custom data</a></li>
 <li><a href="#pluginFunctions">calling plugin functions</a></li>
 <li><a href="#simCallScriptFunction">calling script functions</a></li>
-<li><a href="#simBroadcastMsg">broadcasting a message</a></li>
 <li><a href="remoteApiOverview.htm">Remote API</a></li>
+<li><a href="#simBroadcastMsg">broadcasting a message</a></li>
+<li><a href="#events">events</a></li>
 <li><a href="rosInterfaces.htm">ROS</a></li>
 <li><a href="#zmq">ZeroMQ</a></li>
 <li><a href="#ws">WebSocket</a></li>
@@ -36,94 +37,6 @@
 
 <br>
 <br>
-
-<h2><a name="signals"></a>Signals</h2>
-
-
-<p><a href="apiFunctions.htm#signals">Signals</a> can be seen as global variables. They can be defined, redefined, read and cleared. For example:</p>
-
-<div class="multi-language-switcher">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-# script 1 writes the data to string signal mySignalName:
-
-myData = [1, 2, [&quot;Hello&quot;, &quot;world&quot;, True, {&quot;value1&quot;: 63, &quot;value2&quot;: &quot;aString&quot;}]]
-sim.setStringSignal(&quot;mySignalName&quot;, sim.packTable(myData))</code>
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
-
--- script 1 writes the data to string signal mySignalName:
-
-local myData = {1, 2, {&quot;Hello&quot;, &quot;world&quot;, true, {value1 = 63, value2 = &quot;aString&quot;}}}
-sim.setStringSignal(&quot;mySignalName&quot;, sim.packTable(myData))</code>
-
-</div>
-
-<div class="multi-language-switcher">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-# script 2 reads the data from string signal mySignalName:
-
-myData = sim.getStringSignal(&quot;mySignalName&quot;)
-if myData != None:
-    myData = sim.unpackTable(myData)</code>
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
-
--- script 2 reads the data from string signal mySignalName:
-
-local myData = sim.getStringSignal(&quot;mySignalName&quot;)
-if myData then
-    myData = sim.unpackTable(myData)
-end</code>
-
-</div>
-<br>
-
-<h2><a name="customData"></a><a name="customDataBlocks"></a>Custom data</h2>
-
-
-<p><a href="apiFunctions.htm#customData">Custom data</a> is data that is stored inside of a <a href="objects.htm">scene object</a>, or inside a <a href="scenes.htm">scene</a>. It can be used to store custom data to be saved together with a <a href="models.htm">model</a> or scene, but also as a means of communication. For example:</p>
-
-<div class="multi-language-switcher">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-# script 1 writes the data to the scene:
-
-myData = [1, 2, [&quot;Hello&quot;, &quot;world&quot;, True, {&quot;value1&quot;: 63, &quot;value2&quot;: &quot;aString&quot;}]]
-sim.writeCustomTableData(sim.handle_scene, &quot;myTag&quot;, myData)</code>
-
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
-
--- script 1 writes the data to the scene:
-
-local myData = {1, 2, {&quot;Hello&quot;, &quot;world&quot;, true, {value1 = 63, value2 = &quot;aString&quot;}}}
-sim.writeCustomTableData(sim.handle_scene, &quot;myTag&quot;, myData)</code>
-
-</div>
-
-<div class="multi-language-switcher">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-# script 2 reads the data from the scene:
-
-myData = sim.readCustomTableData(sim.handle_scene, &quot;myTag&quot;)
-# do something with the data</code>
-
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
-
--- script 2 reads the data from the scene:
-
-local myData = sim.readCustomTableData(sim.handle_scene, &quot;myTag&quot;)
--- do something with the data</code>
-
-</div>
-
-<br>
-
-
 
 <h2>
 <a name="callingPluginFunctions"></a><a name="pluginFunctions"></a>Calling plugin functions
@@ -218,6 +131,50 @@ function sysCall_msg(msg, origin)
 end</code>
 
 </div>
+<br>
+
+
+
+
+<h2><a name="events"></a>Events</h2>
+
+
+<p>A <a href="scripts.htm">script</a> or a <a href="plugins.htm">plugin</a> can receive notifications for everything that happens in CoppeliaSim itself, e.g. when an object is created, modified, removed, or when an internal state changed. A script can use the sysCall_event <a href="callbackFunctions.htm">callback function</a> to that end, coupled with some filtering for efficiency's sake. For instance, following script tracks a pose change with any scene object, and a change in scene object selection:</p>
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+#luaExec eventCallback = true      -- enable event callback
+
+import cbor2 as cbor
+
+def sysCall_init():
+    sim = require('sim')
+    filters = {}
+    filters[sim.handle_sceneobject] = ['pose']
+    filters[sim.handle_scene] = ['selectionHandles']
+    sim.setEventFilters(filters)
+
+def sysCall_event(events):
+    ev = cbor.loads(events)
+    print(ev)</code>
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+function sysCall_init()
+    sim = require('sim')
+    cbor = require('org.conman.cbor')
+    local filters = {}
+    filters[sim.handle_sceneobject] = {'pose'}
+    filters[sim.handle_scene] = {'selectionHandles'}
+    sim.setEventFilters(filters)
+end
+
+function sysCall_event(events)
+    local ev = cbor.decode(events)
+    print(ev)
+end</code>
+
+</div>
+<p>Most <a href="properties.htm">properties</a> generate an event when changed (i.e. modified explicitly or internally by CoppeliaSim). See also the event viewer add-on located at [Modules &gt; Developer tools &gt; Event viewer].</p>
 <br>
 
 
@@ -453,7 +410,6 @@ page = http.request('http://www.google.com')</code>
 
 
 <p>Many other means of communication can be directly supported from within a script, via a Lua extension library or via a Python package. Indirectly, by passing via a <a href="plugins.htm">plugin</a>, there are even more possibilities, since a plugin can virtually link to any type of c/c++ communication library.</p>
-
 
 
 <br>
