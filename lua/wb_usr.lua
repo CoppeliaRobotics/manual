@@ -836,7 +836,7 @@ wb_usr.tree =
                         },
                         {
                             name={en="Properties"},
-                            link="properties.htm"
+                            link="properties.htm",
                             folder=
                             {
                                 {

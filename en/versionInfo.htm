@@ -71,7 +71,7 @@ Version history:
 <li>Introduced <em><a href="buffers.htm">buffers</a></em> in order to be able to clearly differentiate binary data. This can however lead to   <a href="compatibility.htm#buffers">potential  compatibility issues</a></li>
 <li>When a deprecated function is used, a short warning message is output once, for the related script. Verbosity of those messages can be adjusted by setting the <a href="commandLine.htm#settingsFile">user settings</a> parameter <em>notifyDeprecated</em> to 0 (no notification), 1 (simple notification, default) or 2 (exhaustive notification)</li>
 <li>Enhancements have been made to the convex hull, convex decomposition, and mesh decimation features. In addition to the existing HACD and V-HACD algorithms, the new CoACD algorithm is now available as an alternative. These functionalities are now accessible through add-ons and have been relocated to [Menu bar &gt; Modules &gt; Geometry / Mesh]</li>
-<li>Added sim.scriptintparam_autorestartonerror, allowing to e.g. trigger an add-on restart on error via <a href="regularApi/simSetObjectInt32Param.htm">sim.setObjectInt32Param</a></li>
+<li>Added the <a href="propertiesReference.htm#restartOnError">restartOnError</a> property, allowing to e.g. trigger an add-on restart on error</li>
 <li>Improved command line option parsing. Option "-s" is not allowed anymore: use "-s0" instead.</li>
 <li>User models located in <em>&lt;userSettingsDir&gt;/userContent/models/&lt;category&gt;/</em> and <em>&lt;userSettingsDir&gt;/overlay/&lt;repoName&gt;/models/&lt;category&gt;/</em> are automatically overlayed to the model browser</li>
 <li>Better and unified code editor coloring</li>
@@ -79,11 +79,10 @@ Version history:
 <li>Added <a href="regularApi/simGetObjectHierarchyOrder.htm">sim.getObjectHierarchyOrder</a>, <a href="regularApi/simSetObjectHierarchyOrder.htm">sim.setObjectHierarchyOrder</a>, as well as a possibility to move a scene object up/down among its siblings, via the hierarchy context menu</li>
 <li>Python scripts can now use a specific Python version/installation via <em>pythonExecutable</em> (as a <a href="luaPythonDifferences.htm#luaExec">luaExec command</a>)</li>
 <li>Introduced a better method to <a href="assembly.htm">assemble items</a></li> 
-<li><a href="apiFunctions.htm#customDataBlocks">Custom data</a> that is added or removed to/from an object now trigger a call to the <em>sysCall_data</em> <a href="callbackFunctions.htm">callback function</a> of the attached simulation- or customization script</li>
 <li>The way <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a> are called has been simplified while keeping backward compatible. Additionally, for non-threaded situations, one can now call the related component functions <a href="regularApi/simMoveToConfig_init.htm">sim.moveToConfig_init</a>, <a href="regularApi/simMoveToConfig_step.htm">sim.moveToConfig_step</a>, <a href="regularApi/simMoveToConfig_cleanup.htm">sim.moveToConfig_cleanup</a>, <a href="regularApi/simMoveToPose_init.htm">sim.moveToPose_init</a>, <a href="regularApi/simMoveToPose_step.htm">sim.moveToPose_step</a> and <a href="regularApi/simMoveToPose_cleanup.htm">sim.moveToPose_cleanup</a>. See <em>scenes/trajectoryAndMotion/basicTrajectoryGeneration.ttt</em> to get a quick overview</li>
 <li>Improved the <a href="importExport.htm#gltf">GLTF exporter</a>, transparency and backface culling is now taken into account</li>
 <li><a href="regularApi/simRemoveObjects.htm">sim.removeObjects</a> and <a href="regularApi/simRemoveModel.htm">sim.removeModel</a> can now operate in a delayed fashion</li>
-<li>MuJoCo XML files are now saved to the directory indicated when typing sim.getStringParam(sim.stringparam_mujocodir)</li>
+<li>MuJoCo XML files are now saved to the directory indicated via the <a href="propertiesReference.htm#mujocoPath">mujocoPath</a> property</li>
 <li>Added an object tracking example scene using numpy and OpenCV: <em>scenes/vision/objectTracking.ttt</em></li>
 <li>Added 2 AWS Robomaker scenes</li>
 <li>IGL plugin new functions: simIGL.adaptiveUpsample, simIGL.rayTest</li>
@@ -334,7 +333,7 @@ Version history:
 <li><a href="PyRep.htm">PyRep</a>, built on top of V-REP and courtesy of Stephen James (Imperial College London), is a Python toolkit for robot learning research. Compared to the remote  client approach, it displays great speed improvements since remote procedure calls or synchronization are not required. This makes PyRep the perfect solution for learning algorithms in the areas of reinforcement learning, imitation learning, state estimation, mapping, and computer vision.</li>
 <li>V-REP now also offers shadows support with <a href="visionSensors.htm">vision sensors</a>, when rendering via the <a href="https://github.com/coppeliaRobotics/simOpenGL3" target="_blank">simOpenGL3 plugin</a>, courtesy of Stephen James (Imperial College London). See also the updated <em>rendererDemo.ttt</em> scene.</li>
 <li><a href="sandboxScript.htm">The sandbox</a> is now loaded from <em>system/sndbxscpt.txt</em> at start-up, and can contain similar callback functions as <a href="addOns.htm">add-ons</a>.</li>
-<li>Named <a href="commandLine.htm">command-line</a> arguments are now supported via the <em>-G</em> option. Those can be queried (e.g. by plugins) via <a href="regularApi/simGetNamedStringParam.htm">sim.getNamedStringParam</a>.</li>
+<li>Named <a href="commandLine.htm">command-line</a> arguments are now supported via the <em>-G</em> option. Those can be queried (e.g. by plugins) via <a href="properties.htm#namedParams">properties named parameters</a></li>
 <br>
 <br>
 
@@ -420,7 +419,6 @@ Version history:
 <li>2D visualization of newly added <a href="graphs.htm">graph objects</a> is now based on the <a href="customUIPlugin.htm">custom UI</a> plot functionality.</li>
 <li>Added following API functions to the <a href="rosInterf.htm">ROS Interface</a>: <a href="simROS.htm#getTime">simROS.getTime</a>, <a href="simROS.htm#hasParam">simROS.hasParam</a>, <a href="simROS.htm#searchParam">simROS.searchParam</a>, <a href="simROS.htm#deleteParam">simROS.deleteParam</a>, <a href="simROS.htm#getParamBool">simROS.getParamBool</a>, <a href="simROS.htm#setParamBool">simROS.setParamBool</a>, <a href="simROS.htm#getParamInt">simROS.getParamInt</a>, <a href="simROS.htm#setParamInt">simROS.setParamInt</a>, <a href="simROS.htm#getParamDouble">simROS.getParamDouble</a>, <a href="simROS.htm#setParamDouble">simROS.setParamDouble</a>, <a href="simROS.htm#getParamString">simROS.getParamString</a>, <a href="simROS.htm#setParamString">simROS.setParamString</a>. </li>
 <li>Added an improved version of the playback tool: <em>Models/tools/playback tool.ttm</em>: it operates faster, requires less memory, and uses the <a href="customUIPlugin.htm">custom UI plugin</a>.</li>
-<li>Added a tool for viewing custom data blocks attached to objects or a scene: <em>Models/tools/custom data block reader.ttm</em>.</li>
 <li>Added an API function, based on the <a href="http://www.cgal.org/">CGAL library</a>, that allows to extract a shape from a point cloud: <a href="simSurfRec.htm#reconstruct_scale_space">simSurfRec.reconstruct_scale_space</a>. A model using that function is available here: <em>Models/tools/surface reconstruction.ttm</em></li>
 <li>Added a model allowing to import a point cloud from a <em>*.xyz</em> file format: <em>Models/tools/point cloud importer.ttm</em></li>
 <li>Added an option to record the desktop, including overlapping dialogs, instead of only the simulation window in the <a href="aviRecorder.htm">video recorder</a>.</li>
@@ -473,7 +471,6 @@ Version history:
 <li>Added a new type of custom user interface, based on a plugin and Qt: <a href="customUIPlugin.htm">Qt-based custom UIs</a>. A demo scene can be found at <em>scenes/customUI-QtBased.ttt</em>.</li>
 <li>Added a menu item that allows to compute the inflated convex hull of a shape. This is useful in order to generate simplified collision object that are slightly bigger than their original. The menu item is located at [Modules &gt; Geometry / Mesh &gt; Convex hull...]
 </li><li>Added <a href="apiFunctions.htm#stacks">stack functions</a> that allow to hold almost any type of data or data structure. This is useful for flexible communication between plugins and scripts. Following new API functions now use stacks: <a href="regularApi/simCallScriptFunctionEx_cpp.htm">simCallScriptFunctionEx</a> and <a href="regularApi/simRegisterScriptCallbackFunction_cpp.htm">simRegisterScriptCallbackFunction</a>.</li>
-<li>Added <a href="apiFunctions.htm#engineParameters">setter and getter API function for the physics engine properties</a>.</li>
 <li>Added a newer version of the Bullet engine (i.e. V2.83). The new version offers now 4 different solver types: <em>sequential impulse</em>, <em>NNCG</em>, <em>Dantzig</em>, and <em>projected Gauss-Seidel</em>. All physics engine's plugins have been reworked.</li>
 <li>Added two additional spherical vision sensors: they now allow to retrieve spherical RGB images, spherical depth buffers, or spherical RGB images and depth buffers: <em>Models/components/sensors/spherical vision sensor RGB.ttm</em>, <em>Models/components/sensors/spherical vision sensor depth.ttm</em>, <em>Models/components/sensors/spherical vision sensor RGB + depth.ttm</em>.</li>
 <li>Reworked the Velodyne sensors, which are now using the new point cloud object. This means that sensor points can now be <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a> and <a href="detectableObjects.htm">detectable</a>.</li>
@@ -630,7 +627,7 @@ Version history:
 
 <li>Added a new type of <a href="scripts.htm">embedded script</a>: <a href="customizationScripts.htm">customization scripts</a>. They can be used to customize a simulation scene to a great extent. The main difference with simulation scripts is that customization scripts are running all the time, also when simulation is not running.</li>
 
-<li>Added several models that demonstrate the new <a href="customizationScripts.htm">customization script</a> functionality: <em>Models/nature/terrain bump.ttm</em>, <em>Models/nature/Terrain.ttm</em>, <em>Models/nature/Tree.ttm</em>, <em>Models/infrastructure/other/resizable concret block.ttm</em>, <em>Models/infrastructure/floors/resizable floor*.ttm</em>, <em>Models/tools/playback tool.ttm</em>, <em>Models/tools/isometric scaling tool.ttm</em>, <em>Models/tools/name change tool.ttm</em>, <em>Models/tools/custom data viewer tool.ttm</em>, <em>Models/equipment/conveyor belts/customizable conveyor belt.ttm</em>, <em>Models/furniture/tables/customizable table.ttm</em>.</li>
+<li>Added several models that demonstrate the new <a href="customizationScripts.htm">customization script</a> functionality: <em>Models/nature/terrain bump.ttm</em>, <em>Models/nature/Terrain.ttm</em>, <em>Models/nature/Tree.ttm</em>, <em>Models/infrastructure/other/resizable concret block.ttm</em>, <em>Models/infrastructure/floors/resizable floor*.ttm</em>, <em>Models/tools/playback tool.ttm</em>, <em>Models/tools/isometric scaling tool.ttm</em>, <em>Models/tools/name change tool.ttm</em>, <em>Models/equipment/conveyor belts/customizable conveyor belt.ttm</em>, <em>Models/furniture/tables/customizable table.ttm</em>.</li>
 
 <li>Modified  the way <a href="simulationScripts.htm">simulation scripts</a> are handled in order to make them operate in a more coherent manner:</li>
 <li class=tabTab> <a href="simulationScripts.htm">simulation scripts</a> execution is now automatically cascaded.</li>
@@ -646,8 +643,6 @@ Version history:
 
 <li>Added a model of the Robotnik Summit XL robot, courtesy of Roberto Guzman: <em>Models/robots/mobile/Robotnik_Summit_XL_140701.ttm</em></li>
 <li>Improved the undo/redo functionality that now operates in a more consistent manner. Camera movements are not considered as undo points anymore. This behaviour can be adjusted via the user settings file <em>system/usrset.txt</em>.</li>
-
-<li>The API functions <a href="regularApi/simReadCustomStringData.htm">sim.readCustomStringData</a> and <a href="regularApi/simWriteCustomStringData.htm">sim.writeCustomStringData</a> can now also be used to attach custom data to scripts. At the same time you can now also specify whether the data should be saved during a  scene or model save operation.</li>
 
 <li>The vision sensor code has been optimized and vision sensors now run faster. They now can also operate in a different mode, in order to simulate the temperature of objects for instance, or in order to detect object handles.</li>
 
@@ -712,7 +707,6 @@ Version history:
 <li>Added new API functions to create and modify textures: <a href="regularApi/simGetTextureId.htm">sim.getTextureId</a>, <a href="regularApi/simReadTexture.htm">sim.readTexture</a>, <a href="regularApi/simWriteTexture.htm">sim.writeTexture</a>, <a href="regularApi/simCreateTexture.htm">sim.createTexture</a>.</li>
 <li>Added new API functions related to motion planning: simSimplifyMpPath and simFindIkPath.</li>
 <li>Completed the documentation of the motion planning functionality.</li>
-<li>Added new API functions that allow to easily store custom data inside of scene objects, or inside of a scene file: <a href="regularApi/simWriteCustomStringData.htm">sim.writeCustomStringData</a> and <a href="regularApi/simReadCustomStringData.htm">sim.readCustomStringData</a>.</li>
 <li>Added a new simulation scene that illustrates motion planning and grasping: <em>scenes/motionPlanningAndGraspingDemo.ttt</em>.</li>
 <li>Added a new plugin (<em>simVision</em>) in charge of various tasks. Currently, it exports 2 custom Lua function to handle spherical vision sensors and anaglyph stereo cameras. The plugin source code is located <a href="https://github.com/CoppeliaRobotics/simVision" target="_blank">here</a>.</li>
 <li>Added a simulation model of a spherical camera, which features a 360x180 view of the scene: <em>models/components/sensors/spherical vision sensor.ttm</em>.</li>
@@ -799,12 +793,9 @@ Version history:
 <li>Fixed several minor bugs. Thanks to Qi Wang, Giordano and Karl Robillard.
 
 <li>Added also following new <a href="apiFunctions.htm">regular API</a> functions: <a href="regularApi/simGetJointMode.htm">sim.getJointMode</a>, <a href="regularApi/simGetJointTargetPosition.htm">sim.getJointTargetPosition</a> and <a href="regularApi/simGetJointTargetVelocity.htm">sim.getJointTargetVelocity</a>.</li>
-<li>Added 3 new <a href="objectParameterIDs.htm">object parameter IDs</a> (3020-3022) that allow setting the initial rotational velocity of a dynamically enabled <a href="shapes.htm">shape</a>.</li>
 <li>Added a <a href="userInterface.htm#toolbars">toolbar button</a> that facilitates object/model re-instanciation: this allows modifying in a same way an unlimited number of same robots.</li>
 <li>Added a <a href="lineFollowingBubbleRobTutorial.htm">tutorial about a line following robot</a>, courtesy of Eric Rohmer.</li>
 
-
-<li>Added two new API functions: simEnableWorkThreads and simWaitForWorkThreads. They allow to execute sensing operations concurrently (i.e. in parallel), taking advantage of several processor cores. By default the functionality is turned off. It can be turned on via the <a href="settings.htm">user settings dialog</a>, the variable <em>workThreadCount</em> in file <em>system/usrset.txt</em>, or programmatically via <a href="regularApi/simSetInt32Param.htm">sim.setInt32Param</a>(sim.intparam_work_thread_count,coreCount). Refer also to the default <a href="mainScript.htm">main script</a>, that was slightly modified to accomodate for that.</li>
 
 <li>Added a new model: <em>models/other/timing info.ttm</em>. It allows to quickly have an overview of the time spent in the various calculations.</li>
 
@@ -831,7 +822,6 @@ Version history:
 <li>Added a few new <a href="shortcuts.htm">shortcut keys</a>.</li>
 <li>Added an example Ackermann steering vehicle: models/examples/simple Ackermann steering.ttm</li>
 <li>Added two transceiver models: models/components/sensors/transceiver.ttm and models/components/sensors/directionalTransceiver.ttm</li>
-<li>Added several mechanisms allowing to execute sensing operations concurrently (i.e. in parallel), taking advantage of several processor cores. By default the functionality is turned off, since still in development phase. It can be turned on via the variable <em>workThreadCount</em> in file <em>system/usrset.txt</em>, or programmatically via <a href="regularApi/simSetInt32Param.htm">sim.setInt32Param</a>(<a href="apiConstants.htm#integerParameters">sim.intparam_work_thread_count</a>,coreCount). Refer also to the default <a href="mainScript.htm">main script</a>, that was slightly modified to accomodate for that.</li>
 <br>
 
 
@@ -920,7 +910,6 @@ Version history:
 <li>Serial port functions: <a href="regularApi/simSerialOpen.htm">sim.serialOpen</a>, <a href="regularApi/simSerialClose.htm">sim.serialClose</a>, <a href="regularApi/simSerialSend.htm">sim.serialSend</a>, <a href="regularApi/simSerialRead.htm">sim.serialRead</a> and <a href="regularApi/simSerialCheck.htm">sim.serialCheck</a>.</li>
 <li>The serial port functionality is now also operational on the Mac and Linux platforms</li>
 <li>Fixed a bug where icons would not appear on systems with an old or non-accelerated graphic card</li>
-<li>Added a new integer parameter:  <a href="apiConstants.htm#integerParameters">sim.intparam_scene_unique_id</a></li>
 <br>
 
 
@@ -956,7 +945,6 @@ Version history:
 <li>Fixed a bug in which V-REP would crash after an undo operation in certain conditions.</li>
 <li>Color-coded objects in the <a href="designingDynamicSimulations.htm#dynamicContentVisualization">dynamic content visualization mode</a>.</li>
 <li>Added a parameter to the user settings file (system/usrset.txt) that allows to adjust the GUI font size: guiFontSize_Win</li>
-<li>Added a new integer parameter to detect the platform V-REP is running on: <a href="apiConstants.htm#integerParameters">sim.intparam_platform</a></li>
 <li>New model: "spring-damper.ttm"</li>
 <li>New model: "motorbike.ttm"</li>
 <br>
@@ -966,7 +954,6 @@ Version history:
 <li>This release too underwent heavy internal changes in preparation for support of other platforms (Mac and Linux). Please inform us as soon as possible in case of unexpected behaviour with this release. Thanks!</li>
 <li>All dialogs and user interfaces have been completely rewritten/redesigned/reorganized. They now all rely on the <a href="http://www.qt.nokia.com">Qt framework</a></li>
 <li>The application main loop (i.e. the default <a href="mainClientApplication.htm">main client application</a>) has been simplified and prepared for separate GUI thread functionality. The rendering of the scene is now handled internally. Following functions were added: <a href="regularApi/simGetMainWindow_cpp.htm">simGetMainWindow</a>. Following functions were removed: simLaunchSimulator, simEndSimulator, simRenderScene, simHandleWindowMessages, simGetInstanceIndex, simGetVisibleInstanceIndex, simSwitchToInstance, simEmptyScene, simRegisterModuleName and simRegisterEventCallback.</li>
-<li>Added following values: <a href="apiConstants.htm#simulatorMessages">sim_message_eventcallback_guipass</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_simulation_start_resume_request</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_simulation_pause_request</a>, <a href="apiConstants.htm#simulatorMessages">sim_message_simulation_stop_request</a>, <a href="apiConstants.htm#integerParameters">sim.intparam_qt_version</a>, <a href="apiConstants.htm#floatingParameters">sim.floatparam_rand</a>. Following value is now also writable: <a href="apiConstants.htm#booleanParameters">sim.boolparam_console_visible</a></li>
 <li>Adjusted/adapted all V-REP plugins: since this release, <a href="plugins.htm">plugins</a> should dynamically bind to the V-REP library. The task is simplified with two files distributed with V-REP: &quot;simLib.h&quot; and &quot;simLib.cpp&quot;. This reduces compatibility problems linked to working with various compilers. Old plugins should be slightly modified: it is recommended to adjust old plugins in a similar way as was done for the "BubbleRob" plugin project, located in the "c_examples" directory of V-REP's installation directory. If you are having difficulties adjusting your plugin code, please contact us for assistance.</li>
 <li>Fixed a bug linked to the click-and-select functionality.</li>
 <li>Added several pre-configured simulation settings (e.g. physics engine settings or simulation time step settings). The user can conveniently modify them in the <a href="userInterface.htm#toolbars">toolbar</a>.</li>
@@ -1011,7 +998,6 @@ Version history:
 <li>Removed the shape tracing option in order to simplify the <a href="shapeProperties.htm">shape properties</a>. Shape tracing can still be achieved with appropriate function calls (e.g. see the "tracer" model)</li>
 <li>simResetTracing and simHandleTracing <a href="apiFunctions.htm">API functions</a> were declared deprecated</li>
 <li>The <a href="shapeProperties.htm">shape dialog</a> were further simplified by encapsulating the shape calculation structure parameters in a separate dialog</li>
-<li>Added new <a href="objectParameterIDs.htm">object parameter IDs</a></li>
 <li>Following <a href="apiFunctions.htm">API functions</a> are now also available from the Lua side: simAddSceneCustomData, simGetSceneCustomData, simAddObjectCustomData and simGetObjectCustomData</li>
 <li>New model: "laser pointer.ttm"</li>
 <li>New model: "tracer.ttm"</li>
@@ -1040,14 +1026,9 @@ Version history:
 
 <br><h2>V-REP V2.5.8 (July 20th 2011)</h2> 
 <li>Improved the <a href="regularApi/simAddParticleObject.htm">sim.addParticleObject</a> function to also support linear and quadratic drag parameters</li>
-<li>New API functions: <a href="regularApi/simGetArrayParam.htm">sim.getArrayParam</a> and <a href="regularApi/simSetArrayParam.htm">sim.setArrayParam</a></li>
 <li>Temporarily removed following commands to facilitate a move towards other platforms: simAttachCustomMenu, simRemoveCustomMenu, simCreateCustomToolbar, simSetCustomToolbarState, simRemoveCustomToolbar, simGetWindowMessage, simProcessWindowMessage</li>
 <li>Removed the "SimpleCustomClientApplication" project files</li>
 <li>Added more fog parameters</li>
-<li>Added new <a href="apiConstants.htm#integerParameters">int parameters</a>: sim.intparam_infotext_style and sim.intparam_settings</li>
-<li>Added new <a href="apiConstants.htm#arrayParameters">array parameters</a>: sim.arrayparam_gravity, sim.arrayparam_fog, sim.arrayparam_fog_color, sim.arrayparam_background_color1, sim.arrayparam_background_color2 and sim.arrayparam_ambient_light</li>
-<li>Added new <a href="apiConstants.htm#booleanParameters">bool parameters</a>: sim.boolparam_display_enabled, sim.boolparam_infotext_visible, sim.boolparam_statustext_open and sim.boolparam_fog_enabled</li>
-<li>Added new <a href="objectParameterIDs.htm">object parameter IDs</a></li>
 <li>Added a new <a href="visionSensors.htm">vision sensor</a> filter component: blob detection</li>
 <li>New <a href="joints.htm">joints</a> added to the <a href="scenes.htm">scene</a> are in dynamic mode by default since this release</li>
 <li>Added two entries in the configuration file ("usrset.txt") that allows to correct display problems with specific graphic cards / systems: "renderingSurfaceVShift" and "renderingSurfaceVResize"</li>
@@ -1085,10 +1066,7 @@ Version history:
 
 
 <br><h2>V-REP V2.5.6 (June 14th 2011)</h2> 
-<li> Extended the functionality of the <a href="apiFunctions.htm#signals">functions related to signals</a>. Signals can now be local (to a given simulator instance) or global </li>
 <li> Textures can now also be applied using texture coordinate information loaded during an <a href="importExport.htm">import</a> operation</li>
-<li>Added a new integer parameter: <a href="apiConstants.htm#integerParameters">sim.intparam_visible_layers</a></li>
-<li>Added a new bool parameter: <a href="apiConstants.htm#booleanParameters">sim.boolparam_shape_textures_are_visible</a></li>
 <li>New scene: "controlTypeExamples.ttt"</li>
 <li>Bug correction (crash with spherical joints, and joints involved in loop closure with the <a href="dynamicsModule.htm#ode">ODE</a> engine)</li>
 <br>
@@ -1104,7 +1082,6 @@ Version history:
 </li>
 <li> When simulation stops, then the initial parenting will try to be restored<br>
 </li>
-<li>Added a new integer parameter: <a href="apiConstants.htm#integerParameters">sim.intparam_dynamic_engine</a></li>
 <li>Added a new recordable data stream for graphs: "Joints: force or torque"</li>
 <li>Number of active lights not limited to 8 anymore (provided that the GPU also supports more than 8 lights)</li>
 <li>Folders now also appear and are clickable in the lower part of the model browser window</li>
@@ -1154,8 +1131,6 @@ Extended the functionality of the <a href="regularApi/simUnpackInt32Table.htm">s
 Extended the functionality of the <a href="regularApi/simAdjustView.htm">sim.adjustView</a> function </li>
 <li>New API command to control the show state of an auxiliary console window: <a href="regularApi/simAuxiliaryConsoleShow.htm">sim.auxiliaryConsoleShow</a><br>
 </li>
-<li>
-New API commands to set and retrieve various values linked to objects (will be extended on a regular basis): <a href="regularApi/simGetObjectInt32Param.htm">sim.getObjectInt32Param</a>, <a href="regularApi/simSetObjectInt32Param.htm">sim.setObjectInt32Param</a>, <a href="regularApi/simGetObjectFloatParam.htm">sim.getObjectFloatParam</a>, <a href="regularApi/simSetObjectFloatParam.htm">sim.setObjectFloatParam</a>, <a href="regularApi/simGetObjectStringParam.htm">sim.getObjectStringParam</a> and <a href="regularApi/simSetObjectStringParam.htm">sim.setObjectStringParam</a></li>
 <li>
 New V-REP plugin &quot;simExtCam.dll&quot; (using &quot;escape.dll&quot;) that exports 4 new commands to acquire webcam images: simCam.start, simCam.stop, simCam.info and simCam.grab</li>
 <li>
@@ -1246,8 +1221,6 @@ New API command to create joints: sim.createJoint </li>
 API commands simGetShapeVertex and simGetShapeTriangle are declared deprecated </li>
 <li>
 Scene hierarchy now always contains a double-clickable &quot;World&quot; object. This replaces the environment toolbar button which was removed</li>
-<li>
-New API constant: sim.boolparam_scene_and_model_load_messages </li>
 <li>
 New API constants for banner support </li>
 <li>
@@ -1417,8 +1390,6 @@ New API commands: sim.setModelProperty and sim.getModelProperty </li>
 <br>
 <br><h2>V-REP V2.4.7</h2> 
 
-<li>
-New API command: sim.getStringParam </li>
 <li>
 Option to create primitive shapes with selected triangles in the triangle edit mode </li>
 <li>

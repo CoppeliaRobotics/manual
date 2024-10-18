@@ -69,25 +69,25 @@ section[#section + 1] = section[2]</code>
 <p class=imageLabel>[Simple path generating an extruded circular shape]</p>
 <br>
 
-<p>Path data is stored inside of the path object, as <a href="apiFunctions.htm#customData">custom data</a>. It can be accessed with:</p>
+<p>Path data is stored inside of the path object, as a <a href="properties.htm#customData">custom data property</a>. It can be accessed with:</p>
 
 <div class="multi-language-switcher">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 # control point data (each one has x, y, z, qx, qy, qz, qw (position and quaternion)):
-ctrlPts = sim.unpackDoubleTable(sim.readCustomBufferData(pathHandle, 'PATHCTRLPTS'))
+ctrlPts = sim.unpackDoubleTable(sim.getBufferProperty(pathHandle, 'customData.PATHCTRLPTS'))
 
 # path data (each one has x, y, z, qx, qy, qz, qw (position and quaternion)):
-pathData = sim.unpackDoubleTable(sim.readCustomBufferData(pathHandle, 'PATH')</code>
+pathData = sim.unpackDoubleTable(sim.getBufferProperty(pathHandle, 'customData.PATH'))</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- control point data (each one has x, y, z, qx, qy, qz, qw (position and quaternion)):
-local ctrlPts = sim.unpackDoubleTable(sim.readCustomBufferData(pathHandle, 'PATHCTRLPTS'))
+local ctrlPts = sim.unpackDoubleTable(sim.getBufferProperty(pathHandle, 'customData.PATHCTRLPTS'))
 
 -- path data (each one has x, y, z, qx, qy, qz, qw (position and quaternion)):
-local pathData = sim.unpackDoubleTable(sim.readCustomBufferData(pathHandle, 'PATH')</code>
+local pathData = sim.unpackDoubleTable(sim.getBufferProperty(pathHandle, 'customData.PATH')</code>
 </div>
 
 <br>
@@ -105,7 +105,7 @@ def sysCall_init():
     sim = require('sim')
     self.objectToFollowPath = sim.getObject('..')
     self.path = sim.getObject('/Path')
-    pathData = sim.unpackDoubleTable(sim.readCustomBufferData(self.path, 'PATH'))
+    pathData = sim.unpackDoubleTable(sim.getBufferProperty(self.path, 'customData.PATH'))
 
     m = np.array(pathData).reshape(len(pathData) // 7, 7)
     self.pathPositions = m[:, :3].flatten().tolist()
@@ -136,7 +136,7 @@ function sysCall_init()
     sim = require('sim')
     objectToFollowPath = sim.getObject('..')
     path = sim.getObject('/Path')
-    pathData = sim.unpackDoubleTable(sim.readCustomBufferData(path, 'PATH'))
+    pathData = sim.unpackDoubleTable(sim.getBufferProperty(path, 'customData.PATH'))
     local m = Matrix(#pathData // 7, 7, pathData)
     pathPositions = m:slice(1, 1, m:rows(), 3):data()
     pathQuaternions = m:slice(1, 4, m:rows(), 7):data()

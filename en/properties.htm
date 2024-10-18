@@ -26,14 +26,14 @@
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
-sim.getStringPropert(sim.handle_app, 'settingsPath') # get location of user settings file usrset.txt
+sim.getStringProperty(sim.handle_app, 'settingsPath') # get location of user settings file usrset.txt
 sim.setVector3Property(sim.handle_scene, 'gravity', [0.0, 0.0, 0.0]) # set zero-gravity
 sim.getFloatArrayProperty(jointHandle, 'interval') # get joint lower and upper limits
 sim.getIntArrayProperty(shapeHandle, 'meshes') # get handles of meshes composing the shape
 sim.getFloatArrayProperty(meshHandle, 'vertices') # get vertices of a mesh</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim.getStringPropert(sim.handle_app, 'settingsPath') -- get location of user settings file usrset.txt
+sim.getStringProperty(sim.handle_app, 'settingsPath') -- get location of user settings file usrset.txt
 sim.setVector3Property(sim.handle_scene, 'gravity', {0.0, 0.0, 0.0}) -- set zero-gravity
 sim.getFloatArrayProperty(jointHandle, 'interval') -- get joint lower and upper limits
 sim.getIntArrayProperty(shapeHandle, 'meshes') -- get handles of meshes composing the shape
@@ -65,7 +65,7 @@ sim.removeProperty(objectHandle, 'customData.myFloatArray') -- removable propert
 <p>There are particular types of properties:</p>
 <ul>
 <li><a href="#customData">custom data</a></li>
-<li><a href="#signaly">signals</a></li>
+<li><a href="#signals">signals</a></li>
 <li><a href="#namedParams">named parameters</a></li>
 <li><a href="#engine">engine-related properties</a></li>
 </ul>
@@ -83,14 +83,14 @@ sim.removeProperty(objectHandle, 'customData.myFloatArray') -- removable propert
 # script 1 writes the data to a scene object:
 
 myData = [1, 2, [&quot;Hello&quot;, &quot;world&quot;, True, {&quot;value1&quot;: 63, &quot;value2&quot;: &quot;aString&quot;}]]
-sim.setBufferProperty(objectHandle, &quot;customData.myTag&quot;, myData)</code>
+sim.setBufferProperty(objectHandle, &quot;customData.myTag&quot;, sim.packTable(myData))</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- script 1 writes the data to a scene object:
 
 local myData = {1, 2, {&quot;Hello&quot;, &quot;world&quot;, true, {value1 = 63, value2 = &quot;aString&quot;}}}
-sim.setBufferProperty(objectHandle, &quot;customData.myTag&quot;, myData)</code>
+sim.setBufferProperty(objectHandle, &quot;customData.myTag&quot;, sim.packTable(myData))</code>
 
 </div>
 
@@ -101,7 +101,8 @@ sim.setBufferProperty(objectHandle, &quot;customData.myTag&quot;, myData)</code>
 # script 2 reads the data from the scene object:
 
 myData = sim.getBufferProperty(objectHandle, &quot;customData.myTag&quot;, {'noError' : True})
-if myData != None:
+if myData:
+    myData = sim.unpackTable(myData)
     # do something with the data</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
@@ -110,6 +111,7 @@ if myData != None:
 
 local myData = sim.getBufferProperty(objectHandle, &quot;customData.myTag&quot;, {noError = true})
 if myData then
+    myData = sim.unpackTable(myData)
     -- do something with the data
 end</code>
 </div>

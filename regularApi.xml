@@ -1599,7 +1599,7 @@ sim.loadModel</api-see-also>
             <ul>
                 <li><strong>objectHandles</strong>: array containing the handles of the objects to copy and paste. The same array will receive the copied object handles, with the same correspondency.</li>
                 <li><strong>objectCount</strong>: the number of handles contained in the objectHandles array.</li>
-                <li><strong>options</strong>: bit-coded. If bit0 is set (i.e. 1), then whole models will be copied. In that case, all specified objects should be flagged as <em>model base</em>. If bit1 is set (i.e. 2), then all simulation and customization scripts are stripped away. If bit2 is set (i.e. 4), then all object custom data is stripped away. If bit3 is set (i.e. 8), then all object references are stripped away. If bit4 is set (i.e. 16), then all textures are stripped away. If bit5 is set (i.e. 32), then model tags and DNA information is stripped away.</li>
+                <li><strong>options</strong>: bit-coded. If bit0 is set (i.e. 1), then whole models will be copied. In that case, all specified objects should be flagged as <em>model base</em>. If bit1 is set (i.e. 2), then all simulation and customization scripts are stripped away. If bit2 is set (i.e. 4), then all object <a href="../properties.htm#customData">custom data properties</a> are stripped away. If bit3 is set (i.e. 8), then all object references are stripped away. If bit4 is set (i.e. 16), then all textures are stripped away. If bit5 is set (i.e. 32), then model tags and DNA information is stripped away.</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -1616,7 +1616,7 @@ sim.loadModel</api-see-also>
                     <ul>
                         <li>bit0 is set (i.e. 1): whole models are copied. In that case, all specified objects should be flagged as <em>model base</em></li>
                         <li>bit1 is set (i.e. 2): all simulation and customization scripts are stripped away</li>
-                        <li>bit2 is set (i.e. 4): all object custom data is stripped away</li>
+                        <li>bit2 is set (i.e. 4): all object <a href="../properties.htm#customData">custom data properties</a> are stripped away</li>
                         <li>bit3 is set (i.e. 8): all object references are stripped away</li>
                         <li>bit4 is set (i.e. 16): all textures are stripped away</li>
                         <li>bit5 is set (i.e. 32): model tags and DNA information is stripped away</li>
@@ -3297,7 +3297,7 @@ Useful for script code auto-completion functionality</api-description>
                       double* contactInfo)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>dynamicPass</strong>: specific dynamic sub-step index or sim.handle_all. By default a call to <a href="simHandleDynamics.htm">simHandleDynamics</a> executes the dynamics engine x times, with x times smaller time steps (where x is a parameter that can be adjusted). At each of those sub-steps, contacts are created and destroyed. With the dynamicPass argument you can select which sub-step you wish to retrieve contacts from (zero-based index), or sim.handle_all to retrieve the contacts of all sub-steps. See also <a href="simGetInt32Param.htm">simGetInt32Param</a>(sim.intparam_dynamic_step_divider).</li>
+                <li><strong>dynamicPass</strong>: specific dynamic sub-step index or sim.handle_all. By default a call to <a href="simHandleDynamics.htm">simHandleDynamics</a> executes the dynamics engine x times, with x times smaller time steps (where x is a parameter that can be adjusted). At each of those sub-steps, contacts are created and destroyed. With the dynamicPass argument you can select which sub-step you wish to retrieve contacts from (zero-based index), or sim.handle_all to retrieve the contacts of all sub-steps. See also the <a href="../propertiesReference.htm#dynamicsStepSize">dynamicsStepSize</a> property.</li>
                 <li><strong>objectHandle</strong>: handle of a specific object you wish to retrieve contacts from, or sim.handle_all to retrieve all contacts in the scene.</li>
                 <li><strong>index</strong>: zero-based index of the contact to retrieve. Optionally, you may add sim.handleflag_extended to the index, if you also wish to retrieve the normal vector (see further down)</li>
                 <li><strong>objectHandles</strong>: handles of the two objects contacting. The handles might also refer to particle objects that are not treated as regular scene objects.</li>
@@ -3316,7 +3316,7 @@ Useful for script code auto-completion functionality</api-description>
                                                                               int index)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>dynamicPass</strong>: a specific dynamic sub-step index or sim.handle_all. By default a call to <a href="simHandleDynamics.htm">simHandleDynamics</a> executes the dynamics engine x times, with x times smaller time steps (where x is a parameter that can be adjusted). At each of those sub-steps, contacts are created and destroyed. With the dynamicPass argument you can select which sub-step you wish to retrieve contacts from (zero-based index), or sim.handle_all to retrieve the contacts of all sub-steps. See also <a href="simGetInt32Param.htm">simGetInt32Param</a>(sim.intparam_dynamic_step_divider).</li>
+                <li><strong>dynamicPass</strong>: a specific dynamic sub-step index or sim.handle_all. By default a call to <a href="simHandleDynamics.htm">simHandleDynamics</a> executes the dynamics engine x times, with x times smaller time steps (where x is a parameter that can be adjusted). At each of those sub-steps, contacts are created and destroyed. With the dynamicPass argument you can select which sub-step you wish to retrieve contacts from (zero-based index), or sim.handle_all to retrieve the contacts of all sub-steps. See also the <a href="../propertiesReference.htm#dynamicsStepSize">dynamicsStepSize</a> property.</li>
                 <li><strong>objectHandle</strong>: handle of a specific object you wish to retrieve contacts from, or sim.handle_all to retrieve all contacts in the scene.</li>
                 <li><strong>index</strong>: zero-based index of the contact to retrieve</li>
             </ul>
@@ -3574,7 +3574,7 @@ sim.readForceSensor</api-see-also>
         <api-function-name>sim.getJointMode</api-function-name>
         <api-description>Retrieves the operation mode of a joint</api-description>
         <api-see-also>sim.setJointMode
-<a href="../objectParameterIDs.htm#joints">sim.jointintparam_dynctrlmode</a>
+<a href="propertiesReferences.htm#dynCtrlMode">dynCtrlMode</a> property
         </api-see-also>
         <api-synopsis-cpp>int simGetJointMode(int jointHandle, int* options)</api-synopsis-cpp>
         <api-input-cpp>
@@ -3881,37 +3881,6 @@ sim.getStackTraceback</api-see-also>
             </ul>
         </api-output-python-lua>
         <api-calltip>float[12] matrix = sim.getMatrixInverse(float[12] matrix)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.getModelProperty</api-function-name>
-        <api-description>Retrieves the properties of a model</api-description>
-        <api-see-also>sim.setModelProperty
-sim.getObjectProperty
-sim.getObjectSpecialProperty</api-see-also>
-        <api-synopsis-cpp>int simGetModelProperty(int objectHandle)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object that serves as the model base</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li><a href="../apiConstants.htm#modelProperties">model property values</a>, or -1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>int property = sim.getModelProperty(int objectHandle)</api-synopsis-python>
-        <api-synopsis-lua>int property = sim.getModelProperty(int objectHandle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object that serves as the model base</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>property</strong>: <a href="../apiConstants.htm#modelProperties">model property values</a></li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int property = sim.getModelProperty(int objectHandle)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getNavigationMode</api-function-name>
@@ -4337,37 +4306,6 @@ sim.getObjectChild</api-see-also>
         <api-calltip>float[3] position = sim.getObjectPosition(int objectHandle, int relativeToObjectHandle=sim.handle_world)</api-calltip>
     </function>
     <function>
-        <api-function-name>sim.getObjectProperty</api-function-name>
-        <api-description>Retrieves the main properties of a scene object</api-description>
-        <api-see-also>sim.setObjectProperty
-sim.getObjectSpecialProperty
-sim.getModelProperty</api-see-also>
-        <api-synopsis-cpp>int simGetObjectProperty(int objectHandle)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li><a href="../apiConstants.htm#sceneObjectProperties">object property values</a>, -1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>int property = sim.getObjectProperty(int objectHandle)</api-synopsis-python>
-        <api-synopsis-lua>int property = sim.getObjectProperty(int objectHandle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>property</strong>: <a href="../apiConstants.htm#sceneObjectProperties">object property values</a></li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int property = sim.getObjectProperty(int objectHandle)</api-calltip>
-    </function>
-    <function>
         <api-function-name>sim.getObjectQuaternion</api-function-name>
         <api-description>Retrieves the quaternion of an object</api-description>
         <api-see-also>sim.setObjectQuaternion
@@ -4536,37 +4474,6 @@ Use this to be able to adapt to scaling operations</api-description>
             </ul>
         </api-output-python-lua>
         <api-calltip>float sizeFactor = sim.getObjectSizeFactor(int ObjectHandle)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.getObjectSpecialProperty</api-function-name>
-        <api-description>Retrieves the special properties of a scene object</api-description>
-        <api-see-also>sim.setObjectSpecialProperty
-sim.getObjectProperty
-sim.getModelProperty</api-see-also>
-        <api-synopsis-cpp>int simGetObjectSpecialProperty(int objectHandle)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li><a href="../apiConstants.htm#sceneObjectSpecialProperties">object special property values</a>, -1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>int property = sim.getObjectSpecialProperty(int objectHandle)</api-synopsis-python>
-        <api-synopsis-lua>int property = sim.getObjectSpecialProperty(int objectHandle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>property</strong>: <a href="../apiConstants.htm#sceneObjectSpecialProperties">object special property values</a></li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int property = sim.getObjectSpecialProperty(int objectHandle)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getObjectType</api-function-name>
@@ -5241,7 +5148,7 @@ sim.setVisionSensorImg</api-see-also>
         <api-input-cpp>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the shape</li>
-                <li><strong>colorName</strong>: name of a color. If a name is provided, a specific color component will be retrieved (e.g. if a shape is a compound shape. Can be nullptr. If colorName is <em>@compound</em>, then rgb data for every component of a compound shape will be returned (in that case make sure to have enough space in <em>rgbData</em>, e.g. via simGetObjectInt32Param(shapeHandle,sim.shapeintparam_component_cnt))</li>
+                <li><strong>colorName</strong>: name of a color. If a name is provided, a specific color component will be retrieved (e.g. if a shape is a compound shape. Can be nullptr. If colorName is <em>@compound</em>, then rgb data for every component of a compound shape will be returned (in that case make sure to have enough space in <em>rgbData</em>, e.g. via the <a href="../propertiesReference.htm#meshes">meshes</a> property)</li>
                 <li><strong>colorComponent</strong>: <a href="../apiConstants.htm#colorComponents">color component</a>.</li>
                 <li><strong>rgbData</strong> (output): red, green and blue components of the color (3 values), or the transparency value (1 value)</li>
             </ul>
@@ -5546,45 +5453,6 @@ sim.setShapeTexture</api-see-also>
             </ul>
         </api-output-python-lua>
         <api-calltip>map data = sim.getShapeViz(int shapeHandle, int itemIndex)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.getSignalName</api-function-name>
-        <api-description>Returns the signal name at the given index. Use this function in a loop until return is nullptr to read all set signals</api-description>
-        <api-see-also>
-            <a href="../apiFunctions.htm#signals">signal functions</a>
-        </api-see-also>
-        <api-synopsis-cpp>char* simGetSignalName(int signalIndex, int signalType)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>signalIndex</strong>: zero based index</li>
-                <li><strong>signalType</strong>: signal type. 0 is for integer signals, 1 for double signals, 2 for string signals and 3 ffor double signals.</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>nullptr if operation was not successful or signal does not exist at this index, otherwise the name of the signal at the given index (the user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>)</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>string signalName = sim.getSignalName(int signalIndex, int signalType)</api-synopsis-python>
-        <api-synopsis-lua>string signalName = sim.getSignalName(int signalIndex, int signalType)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>signalIndex</strong>: zero based index</li>
-                <li><strong>signalType</strong>: signal type:
-                    <ul>
-                        <li>0: integer signals</li>
-                        <li>2: string signals</li>
-                        <li>3: float signals</li>
-                    </ul>
-                </li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>signalName</strong>: name of the signal at the given index</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>string signalName = sim.getSignalName(int signalIndex, int signalType)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getSimulationState</api-function-name>
@@ -9959,7 +9827,7 @@ sim.setJointPosition</api-see-also>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the joint object</li>
                 <li><strong>targetPosition</strong>: target position of the joint</li>
-                <li><strong>motionParams</strong>: when in kinematic mode: the maximum allowed velocity, acceleration and jerk. When in dynamics mode with position control and motion profile enabled, the maximum allowed velocity, acceleration and jerk. Can be None/nil for default values. See also <a href="simGetObjectFloatParam.htm">sim.getObjectFloatParam</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxvel</a>, <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxvel</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxjerk</a></li>
+                <li><strong>motionParams</strong>: when in kinematic mode: the maximum allowed velocity, acceleration and jerk. When in dynamics mode with position control and motion profile enabled, the maximum allowed velocity, acceleration and jerk. Can be None/nil for default values. See also the <a href="../propertiesReference.htm#maxVelAccelJerk">maxVelAccelJerk</a> property</li>
             </ul>
         </api-input-python-lua>
         <api-calltip>sim.setJointTargetPosition(int objectHandle, float targetPosition, float[] motionParams={})</api-calltip>
@@ -9989,7 +9857,7 @@ desired velocity</api-description>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the joint object</li>
                 <li><strong>targetVelocity</strong>: target velocity of the joint</li>
-                <li><strong>motionParams</strong>: when the joint is in kinematic mode: the maximum allowed acceleration and jerk. When in dynamic mode with motion profile control enabled: the maximum allowed acceleration and jerk. Can be None/nil for default values. See also <a href="simGetObjectFloatParam.htm">sim.getObjectFloatParam</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxvel</a> and <a href="../objectParameterIDs.htm#joints">sim.jointfloatparam_maxjerk</a></li>
+                <li><strong>motionParams</strong>: when the joint is in kinematic mode: the maximum allowed acceleration and jerk. When in dynamic mode with motion profile control enabled: the maximum allowed acceleration and jerk. Can be None/nil for default values. See also the <a href="../propertiesReference.htm#maxVelAccelJerk">maxVelAccelJerk</a> property</li>
             </ul>
         </api-input-python-lua>
         <api-calltip>sim.setJointTargetVelocity(int objectHandle, float targetVelocity, float[] motionParams={})</api-calltip>
@@ -10037,34 +9905,6 @@ constraints on the fly (among others)</api-description>
             </ul>
         </api-input-python-lua>
         <api-calltip>sim.setLinkDummy(int dummyHandle, int linkDummyHandle)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.setModelProperty</api-function-name>
-        <api-description>Sets the properties of a model</api-description>
-        <api-see-also>sim.getModelProperty
-sim.setObjectProperty
-sim.setObjectSpecialProperty</api-see-also>
-        <api-synopsis-cpp>int simSetModelProperty(int objectHandle, int prop)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object that serves as the model base</li>
-                <li><strong>prop</strong>: model property. See the <a href="../apiConstants.htm#modelProperties">model property values</a>. Combine them with the "or"-operator</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>sim.setModelProperty(int objectHandle, int prop)</api-synopsis-python>
-        <api-synopsis-lua>sim.setModelProperty(int objectHandle, int prop)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object that serves as the model base</li>
-                <li><strong>prop</strong>: model property. See the <a href="../apiConstants.htm#modelProperties">model property values</a>. Combine them with the "or"-operator</li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.setModelProperty(int objectHandle, int property)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.setNavigationMode</api-function-name>
@@ -10338,34 +10178,6 @@ to static shapes)</api-description>
         <api-calltip>sim.setObjectPosition(int objectHandle, float[3] position, int relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
     <function>
-        <api-function-name>sim.setObjectProperty</api-function-name>
-        <api-description>Sets the properties of a scene object</api-description>
-        <api-see-also>sim.getObjectProperty
-sim.setObjectSpecialProperty
-sim.setModelProperty</api-see-also>
-        <api-synopsis-cpp>int simSetObjectProperty(int objectHandle, int prop)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>objectHandle</strong>: object handle</li>
-                <li><strong>prop</strong>: object property. See the <a href="../apiConstants.htm#sceneObjectProperties">object property values</a>. Combine them with the "or"-operator</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>sim.setObjectProperty(int objectHandle, int prop)</api-synopsis-python>
-        <api-synopsis-lua>sim.setObjectProperty(int objectHandle, int prop)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: object handle</li>
-                <li><strong>prop</strong>: object property. See the <a href="../apiConstants.htm#sceneObjectProperties">object property values</a>. Combine them with the "or"-operator</li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.setObjectProperty(int objectHandle, int property)</api-calltip>
-    </function>
-    <function>
         <api-function-name>sim.setObjectQuaternion</api-function-name>
         <api-description>Sets the quaternion of an object. Dynamically simulated objects, together with their
 hierarchy tree, are dynamically reset (this however does not apply to static shapes)</api-description>
@@ -10422,34 +10234,6 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
             </ul>
         </api-input-python-lua>
         <api-calltip>sim.setObjectSel(int[] objectHandles)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.setObjectSpecialProperty</api-function-name>
-        <api-description>Sets the special properties of a scene object</api-description>
-        <api-see-also>sim.getObjectSpecialProperty
-sim.setObjectProperty
-sim.setModelProperty</api-see-also>
-        <api-synopsis-cpp>int simSetObjectSpecialProperty(int objectHandle, int prop)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>objectHandle</strong>: object handle</li>
-                <li><strong>prop</strong>: object special property. See the <a href="../apiConstants.htm#sceneObjectSpecialProperties">object special property values</a>. Combine them with the "or"-operator</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>sim.setObjectSpecialProperty(int objectHandle, int prop)</api-synopsis-python>
-        <api-synopsis-lua>sim.setObjectSpecialProperty(int objectHandle, int prop)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: object handle</li>
-                <li><strong>prop</strong>: object special property. See the <a href="../apiConstants.htm#sceneObjectSpecialProperties">object special property values</a>. Combine them with the "or"-operator</li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.setObjectSpecialProperty(int objectHandle, int property)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.setPage</api-function-name>
@@ -12683,15 +12467,16 @@ sim.getSimulationTime</api-see-also>
     
     <function>
         <api-function-name>sim.getProperties</api-function-name>
-        <api-description>Fetches all properties of a specific target item</api-description>
+        <api-description>Convenience function to fetches all properties of a specific target item</api-description>
         <api-see-also>
             <a href="../properties.htm">properties</a>
         </api-see-also>
-        <api-synopsis-python>dict properties = sim.getProperties(int target)</api-synopsis-python>
-        <api-synopsis-lua>map properties = sim.getProperties(int target)</api-synopsis-lua>
+        <api-synopsis-python>dict properties = sim.getProperties(int target, dict options = {})</api-synopsis-python>
+        <api-synopsis-lua>map properties = sim.getProperties(int target, map options = {})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>target</strong>: target item</li>
+                <li><strong>options</strong>: an optional map. Set options.skipLarge = true to skip large data</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
@@ -12699,7 +12484,89 @@ sim.getSimulationTime</api-see-also>
                 <li><strong>properties</strong>: properties</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>map properties = sim.getProperties(int target)</api-calltip>
+        <api-calltip>map properties = sim.getProperties(int target, map options = {})</api-calltip>
+    </function>
+    
+    <function>
+        <api-function-name>sim.setProperties</api-function-name>
+        <api-description>Convenience function to set several properties at once</api-description>
+        <api-see-also>
+            <a href="../properties.htm">properties</a>
+        </api-see-also>
+        <api-synopsis-python>sim.setProperties(int target, dict properties)</api-synopsis-python>
+        <api-synopsis-lua>sim.setProperties(int target, map properties)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>target</strong>: target item</li>
+                <li><strong>properties</strong>: a map where keys are propertyNames and values are propertyStates</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+        </api-output-python-lua>
+        <api-calltip>sim.setProperties(int target, map properties)</api-calltip>
+    </function>
+    
+    <function>
+        <api-function-name>sim.getPropertiesInfos</api-function-name>
+        <api-description>Convenience function to fetches all properties infos of a specific target item</api-description>
+        <api-see-also>
+            <a href="../properties.htm">properties</a>
+        </api-see-also>
+        <api-synopsis-python>dict propertiesInfo = sim.getPropertiesInfos(int target, dict options = {})</api-synopsis-python>
+        <api-synopsis-lua>map propertiesInfo = sim.getPropertiesInfos(int target, map options = {})</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>target</strong>: target item</li>
+                <li><strong>options</strong>: an optional map</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>propertiesInfo</strong>: properties infos</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>map propertiesInfo = sim.getPropertiesInfos(int target, map options = {})</api-calltip>
+    </function>
+    
+    <function>
+        <api-function-name>sim.setProperty</api-function-name>
+        <api-description>Convenience function to set a property</api-description>
+        <api-see-also>
+            <a href="../properties.htm">properties</a>
+        </api-see-also>
+        <api-synopsis-python>sim.setProperty(int target, string propertyName, any propertyState, int propertyType = None)</api-synopsis-python>
+        <api-synopsis-lua>sim.setProperty(int target, string propertyName, any propertyState, int propertyType = nil)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>target</strong>: target item</li>
+                <li><strong>propertyName</strong>: property name</li>
+                <li><strong>propertyState</strong>: property value</li>
+                <li><strong>propertyType</strong>: an optional property type</li>
+            </ul>
+        </api-input-python-lua>
+        <api-calltip>sim.setProperty(int target, string propertyName, any propertyState, int propertyType = nil)</api-calltip>
+    </function>
+    
+    <function>
+        <api-function-name>sim.getProperty</api-function-name>
+        <api-description>Convenience functon to fetch a property</api-description>
+        <api-see-also>
+            <a href="../properties.htm">properties</a>
+        </api-see-also>
+        <api-synopsis-python>any propertyState = sim.getProperty(int target, string propertyName)</api-synopsis-python>
+        <api-synopsis-lua>any propertyState = sim.getProperty(int target, string propertyName)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>target</strong>: target item</li>
+                <li><strong>propertyName</strong>: property name</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>propertyState</strong>: property value</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>any propertyState = sim.getProperty(int target, string propertyName)</api-calltip>
     </function>
     
     <function>
