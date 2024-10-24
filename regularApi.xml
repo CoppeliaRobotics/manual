@@ -3074,18 +3074,20 @@ sim.cameraFitToView</api-see-also>
         <api-see-also>
             <a href="../apiFunctions.htm#paths">path related functions</a>
         </api-see-also>
-        <api-synopsis-python>list outP, list times = sim.generateTimeOptimalTrajectory(list path, list pathLengths,
+        <api-synopsis-python>list outP, list times, int scriptHandle = sim.generateTimeOptimalTrajectory(list path, list pathLengths,
                                                           list minMaxVel, list minMaxAccel,
                                                           int trajPtSamples = 1000,
                                                           string boundaryCondition = 'not-a-knot',
-                                                          float timeout = 5)</api-synopsis-python>
-        <api-synopsis-lua>float[] outP, float[] times = sim.generateTimeOptimalTrajectory(float[] path,
+                                                          float timeout = 5,
+                                                          int calculationScriptHandle = None)</api-synopsis-python>
+        <api-synopsis-lua>float[] outP, float[] times, int scriptHandle = sim.generateTimeOptimalTrajectory(float[] path,
                                                                 float[] pathLengths,
                                                                 float[] minMaxVel,
                                                                 float[] minMaxAccel,
                                                                 int trajPtSamples = 1000,
                                                                 string boundaryCondition = 'not-a-knot',
-                                                                float timeout = 5)</api-synopsis-lua>
+                                                                float timeout = 5,
+                                                                int calculationScriptHandle = nil)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>path</strong>: path, specified in row-major order, e.g. a path containing two 3D positions would be [x1 y1 z1 x2 y2 z2]</li>
@@ -3095,14 +3097,17 @@ sim.cameraFitToView</api-see-also>
                 <li><strong>trajPtSamples</strong>: desired number of path points/configurations</li>
                 <li><strong>boundaryCondition</strong>: boundary condition</li>
                 <li><strong>timeout</strong>: a timeout duration</li>
+                <li><strong>calculationScriptHandle</strong>: optional. Can indicate a script handle returned in a previous call to this function, including -1 to indicate that the created calculation script should be returned for future reuse</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>outP</strong>: generated path</li>
+                <li><strong>outP</strong>: generated path points</li>
+                <li><strong>times</strong>: generated times corresponding to path points</li>
+                <li><strong>scriptHandle</strong>: the handle of the calculation script for reuse in a subsequent call to this function</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[] path, float[] times = sim.generateTimeOptimalTrajectory(float[] path, float[] pathLengths, float[] minMaxVel, float[] minMaxAccel, int trajPtSamples=1000, string boundaryCondition='not-a-knot', float timeout=5)</api-calltip>
+        <api-calltip>float[] path, float[] times, int scriptHandle = sim.generateTimeOptimalTrajectory(float[] path, float[] pathLengths, float[] minMaxVel, float[] minMaxAccel, int trajPtSamples=1000, string boundaryCondition='not-a-knot', float timeout=5, int calculationScriptHandle=nil)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getAlternateConfigs</api-function-name>
