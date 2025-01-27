@@ -55,6 +55,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#getKeyboardModifiers">simUI.getKeyboardModifiers</a>
 <a href="?#getLabelText">simUI.getLabelText</a>
 <a href="?#getPosition">simUI.getPosition</a>
+<a href="?#getPropertiesState">simUI.getPropertiesState</a>
 <a href="?#getRadiobuttonValue">simUI.getRadiobuttonValue</a>
 <a href="?#getRowCount">simUI.getRowCount</a>
 <a href="?#getSize">simUI.getSize</a>
@@ -117,6 +118,7 @@ td.section { margin: 0; padding: 0; }
 <a href="?#setPropertiesContextMenu">simUI.setPropertiesContextMenu</a>
 <a href="?#setPropertiesRow">simUI.setPropertiesRow</a>
 <a href="?#setPropertiesSelection">simUI.setPropertiesSelection</a>
+<a href="?#setPropertiesState">simUI.setPropertiesState</a>
 <a href="?#setRadiobuttonValue">simUI.setRadiobuttonValue</a>
 <a href="?#setRowCount">simUI.setRowCount</a>
 <a href="?#setRowHeaderText">simUI.setRowHeaderText</a>
@@ -1447,6 +1449,34 @@ td.section { margin: 0; padding: 0; }
                                                     See also
                                                 </td>
 <td class="apiTableRightDescr"> <a href="#adjustSize">simUI.adjustSize</a> <a href="#create">simUI.create</a> <a href="#destroy">simUI.destroy</a> <a href="#getSize">simUI.getSize</a> <a href="#getTitle">simUI.getTitle</a> <a href="#hide">simUI.hide</a> <a href="#isVisible">simUI.isVisible</a> <a href="#setPosition">simUI.setPosition</a> <a href="#setSize">simUI.setSize</a> <a href="#setTitle">simUI.setTitle</a> <a href="#setWindowEnabled">simUI.setWindowEnabled</a> <a href="#show">simUI.show</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getPropertiesState" id="getPropertiesState"></a>simUI.getPropertiesState</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string state = simUI.getPropertiesState(string handle, int id)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string): ui handle</div>
+<div>
+<strong>id</strong> (int): widget id</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>state</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string state = simUI.getPropertiesState(string handle, int id)<br>
 </td>
 </tr>
 </table>
@@ -3888,7 +3918,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.setProperties(string handle, int id, string[] pnames, string[] ptypes, string[] pvalues, bool suppressEvents=true)<br>
+<td class="apiTableRightLSyn">simUI.setProperties(string handle, int id, string[] pnames, string[] ptypes, string[] pvalues, int[] pflags, string[] pdisplayk, string[] pdisplayv, bool suppressEvents=true)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -3905,6 +3935,12 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>pvalues</strong> (table of string)</div>
 <div>
+<strong>pflags</strong> (table of int)</div>
+<div>
+<strong>pdisplayk</strong> (table of string)</div>
+<div>
+<strong>pdisplayv</strong> (table of string)</div>
+<div>
 <strong>suppressEvents</strong> (bool, default: true): if true, no event will be generated from this call</div>
 </td>
 </tr>
@@ -3914,7 +3950,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simUI.setProperties(string handle, int id, list pnames, list ptypes, list pvalues, bool suppressEvents=true)<br>
+<td class="apiTableRightPSyn">simUI.setProperties(string handle, int id, list pnames, list ptypes, list pvalues, list pflags, list pdisplayk, list pdisplayv, bool suppressEvents=true)<br>
 </td>
 </tr>
 </table>
@@ -3954,7 +3990,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.setPropertiesRow(string handle, int id, int row, string pname, string ptype, string pvalue, bool suppressEvents=true)<br>
+<td class="apiTableRightLSyn">simUI.setPropertiesRow(string handle, int id, int row, string pname, string ptype, string pvalue, int pflags, string pdisplayk, string pdisplayv, bool suppressEvents=true)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -3973,6 +4009,12 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>pvalue</strong> (string)</div>
 <div>
+<strong>pflags</strong> (int)</div>
+<div>
+<strong>pdisplayk</strong> (string)</div>
+<div>
+<strong>pdisplayv</strong> (string)</div>
+<div>
 <strong>suppressEvents</strong> (bool, default: true): if true, no event will be generated from this call</div>
 </td>
 </tr>
@@ -3982,7 +4024,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simUI.setPropertiesRow(string handle, int id, int row, string pname, string ptype, string pvalue, bool suppressEvents=true)<br>
+<td class="apiTableRightPSyn">simUI.setPropertiesRow(string handle, int id, int row, string pname, string ptype, string pvalue, int pflags, string pdisplayk, string pdisplayv, bool suppressEvents=true)<br>
 </td>
 </tr>
 </table>
@@ -4014,6 +4056,35 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">simUI.setPropertiesSelection(string handle, int id, int row, bool suppressEvents=true)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setPropertiesState" id="setPropertiesState"></a>simUI.setPropertiesState</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simUI.setPropertiesState(string handle, int id, string state)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string): ui handle</div>
+<div>
+<strong>id</strong> (int): widget id</div>
+<div>
+<strong>state</strong> (string)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simUI.setPropertiesState(string handle, int id, string state)<br>
 </td>
 </tr>
 </table>
@@ -6055,6 +6126,49 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">simUI.onPropertiesContextMenuTriggeredCallback(string handle, int id, string key)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:onPropertiesPropertyEditCallback" id="scriptfun:onPropertiesPropertyEditCallback"></a>onPropertiesPropertyEditCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simUI.onPropertiesPropertyEditCallback(string handle, int id, string key, string value)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string): the handle of the UI</div>
+<div>
+<strong>id</strong> (int): the ID of the properties widget</div>
+<div>
+<strong>key</strong> (string)</div>
+<div>
+<strong>value</strong> (string)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simUI.onPropertiesPropertyEditCallback(string handle, int id, string key, string value)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
