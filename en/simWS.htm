@@ -24,7 +24,9 @@ td.section { margin: 0; padding: 0; }
 <div align="center"><table class="allEncompassingTable">
 <tr><td id="title" class="section"><h1>simWS Plugin API reference</h1></td></tr>
 <tr><td id="info" class="section"><p class="infoBox">WebSocket plugin.</p></td></tr>
-<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#send">simWS.send</a>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#connect">simWS.connect</a>
+<a href="?#disconnect">simWS.disconnect</a>
+<a href="?#send">simWS.send</a>
 <a href="?#setCloseHandler">simWS.setCloseHandler</a>
 <a href="?#setFailHandler">simWS.setFailHandler</a>
 <a href="?#setHTTPHandler">simWS.setHTTPHandler</a>
@@ -35,6 +37,69 @@ td.section { margin: 0; padding: 0; }
 </pre></td></tr>
 <tr><td id="commands" class="section">
 <h3 class="subsectionBar">
+<a name="connect" id="connect"></a>simWS.connect</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            Connect to an endpoint.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string clientHandle = simWS.connect(string uri)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>uri</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>clientHandle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string clientHandle = simWS.connect(string uri)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="disconnect" id="disconnect"></a>simWS.disconnect</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">
+            Disconnect from an endpoint.
+        </td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simWS.disconnect(string clientHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>clientHandle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simWS.disconnect(string clientHandle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="send" id="send"></a>simWS.send</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -47,14 +112,14 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simWS.send(string serverHandle, string connectionHandle, buffer data, int opcode=simws_opcode_text)<br>
+<td class="apiTableRightLSyn">simWS.send(string serverOrClientHandle, string connectionHandle, buffer data, int opcode=simws_opcode_text)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>serverHandle</strong> (string)</div>
+<strong>serverOrClientHandle</strong> (string)</div>
 <div>
 <strong>connectionHandle</strong> (string)</div>
 <div>
@@ -69,7 +134,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simWS.send(string serverHandle, string connectionHandle, buffer data, int opcode=simws_opcode_text)<br>
+<td class="apiTableRightPSyn">simWS.send(string serverOrClientHandle, string connectionHandle, buffer data, int opcode=simws_opcode_text)<br>
 </td>
 </tr>
 </table>
@@ -86,14 +151,14 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simWS.setCloseHandler(string serverHandle, string callbackFn)<br>
+<td class="apiTableRightLSyn">simWS.setCloseHandler(string serverOrClientHandle, string callbackFn)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>serverHandle</strong> (string)</div>
+<strong>serverOrClientHandle</strong> (string)</div>
 <div>
 <strong>callbackFn</strong> (string)</div>
 </td>
@@ -104,7 +169,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simWS.setCloseHandler(string serverHandle, string callbackFn)<br>
+<td class="apiTableRightPSyn">simWS.setCloseHandler(string serverOrClientHandle, string callbackFn)<br>
 </td>
 </tr>
 </table>
@@ -121,14 +186,14 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simWS.setFailHandler(string serverHandle, string callbackFn)<br>
+<td class="apiTableRightLSyn">simWS.setFailHandler(string serverOrClientHandle, string callbackFn)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>serverHandle</strong> (string)</div>
+<strong>serverOrClientHandle</strong> (string)</div>
 <div>
 <strong>callbackFn</strong> (string)</div>
 </td>
@@ -139,7 +204,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simWS.setFailHandler(string serverHandle, string callbackFn)<br>
+<td class="apiTableRightPSyn">simWS.setFailHandler(string serverOrClientHandle, string callbackFn)<br>
 </td>
 </tr>
 </table>
@@ -191,14 +256,14 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simWS.setMessageHandler(string serverHandle, string callbackFn)<br>
+<td class="apiTableRightLSyn">simWS.setMessageHandler(string serverOrClientHandle, string callbackFn)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>serverHandle</strong> (string)</div>
+<strong>serverOrClientHandle</strong> (string)</div>
 <div>
 <strong>callbackFn</strong> (string)</div>
 </td>
@@ -209,7 +274,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simWS.setMessageHandler(string serverHandle, string callbackFn)<br>
+<td class="apiTableRightPSyn">simWS.setMessageHandler(string serverOrClientHandle, string callbackFn)<br>
 </td>
 </tr>
 </table>
@@ -226,14 +291,14 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simWS.setOpenHandler(string serverHandle, string callbackFn)<br>
+<td class="apiTableRightLSyn">simWS.setOpenHandler(string serverOrClientHandle, string callbackFn)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>serverHandle</strong> (string)</div>
+<strong>serverOrClientHandle</strong> (string)</div>
 <div>
 <strong>callbackFn</strong> (string)</div>
 </td>
@@ -244,7 +309,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simWS.setOpenHandler(string serverHandle, string callbackFn)<br>
+<td class="apiTableRightPSyn">simWS.setOpenHandler(string serverOrClientHandle, string callbackFn)<br>
 </td>
 </tr>
 </table>
@@ -339,14 +404,14 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simWS.openCallback(string serverHandle, string connectionHandle)<br>
+<td class="apiTableRightLSyn">simWS.openCallback(string serverOrClientHandle, string connectionHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>serverHandle</strong> (string)</div>
+<strong>serverOrClientHandle</strong> (string)</div>
 <div>
 <strong>connectionHandle</strong> (string)</div>
 </td>
@@ -357,7 +422,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simWS.openCallback(string serverHandle, string connectionHandle)<br>
+<td class="apiTableRightPSyn">simWS.openCallback(string serverOrClientHandle, string connectionHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -378,14 +443,14 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simWS.failCallback(string serverHandle, string connectionHandle)<br>
+<td class="apiTableRightLSyn">simWS.failCallback(string serverOrClientHandle, string connectionHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>serverHandle</strong> (string)</div>
+<strong>serverOrClientHandle</strong> (string)</div>
 <div>
 <strong>connectionHandle</strong> (string)</div>
 </td>
@@ -396,7 +461,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simWS.failCallback(string serverHandle, string connectionHandle)<br>
+<td class="apiTableRightPSyn">simWS.failCallback(string serverOrClientHandle, string connectionHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -417,14 +482,14 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simWS.closeCallback(string serverHandle, string connectionHandle)<br>
+<td class="apiTableRightLSyn">simWS.closeCallback(string serverOrClientHandle, string connectionHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>serverHandle</strong> (string)</div>
+<strong>serverOrClientHandle</strong> (string)</div>
 <div>
 <strong>connectionHandle</strong> (string)</div>
 </td>
@@ -435,7 +500,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simWS.closeCallback(string serverHandle, string connectionHandle)<br>
+<td class="apiTableRightPSyn">simWS.closeCallback(string serverOrClientHandle, string connectionHandle)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -456,14 +521,14 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simWS.messageCallback(string serverHandle, string connectionHandle, buffer data)<br>
+<td class="apiTableRightLSyn">simWS.messageCallback(string serverOrClientHandle, string connectionHandle, buffer data)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
 <td class="apiTableRightLParam">
 <div>
-<strong>serverHandle</strong> (string)</div>
+<strong>serverOrClientHandle</strong> (string)</div>
 <div>
 <strong>connectionHandle</strong> (string)</div>
 <div>
@@ -476,7 +541,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simWS.messageCallback(string serverHandle, string connectionHandle, buffer data)<br>
+<td class="apiTableRightPSyn">simWS.messageCallback(string serverOrClientHandle, string connectionHandle, buffer data)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
