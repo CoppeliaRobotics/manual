@@ -24,11 +24,1291 @@ td.section { margin: 0; padding: 0; }
 <div align="center"><table class="allEncompassingTable">
 <tr><td id="title" class="section"><h1>simEigen Plugin API reference</h1></td></tr>
 <tr><td id="info" class="section"></td></tr>
-<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#pinv">simEigen.pinv</a>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#mtxBlock">simEigen.mtxBlock</a>
+<a href="?#mtxBlockAssign">simEigen.mtxBlockAssign</a>
+<a href="?#mtxCopy">simEigen.mtxCopy</a>
+<a href="?#mtxCross">simEigen.mtxCross</a>
+<a href="?#mtxDestroy">simEigen.mtxDestroy</a>
+<a href="?#mtxDot">simEigen.mtxDot</a>
+<a href="?#mtxGetColData">simEigen.mtxGetColData</a>
+<a href="?#mtxGetData">simEigen.mtxGetData</a>
+<a href="?#mtxGetItem">simEigen.mtxGetItem</a>
+<a href="?#mtxGetRowData">simEigen.mtxGetRowData</a>
+<a href="?#mtxGetSize">simEigen.mtxGetSize</a>
+<a href="?#mtxHorzCat">simEigen.mtxHorzCat</a>
+<a href="?#mtxIMul">simEigen.mtxIMul</a>
+<a href="?#mtxLinSpaced">simEigen.mtxLinSpaced</a>
+<a href="?#mtxMaxCoeff">simEigen.mtxMaxCoeff</a>
+<a href="?#mtxMean">simEigen.mtxMean</a>
+<a href="?#mtxMinCoeff">simEigen.mtxMinCoeff</a>
+<a href="?#mtxMul">simEigen.mtxMul</a>
+<a href="?#mtxNew">simEigen.mtxNew</a>
+<a href="?#mtxNorm">simEigen.mtxNorm</a>
+<a href="?#mtxNormalize">simEigen.mtxNormalize</a>
+<a href="?#mtxNormalized">simEigen.mtxNormalized</a>
+<a href="?#mtxOp">simEigen.mtxOp</a>
+<a href="?#mtxOpK">simEigen.mtxOpK</a>
+<a href="?#mtxPInv">simEigen.mtxPInv</a>
+<a href="?#mtxProd">simEigen.mtxProd</a>
+<a href="?#mtxSVD">simEigen.mtxSVD</a>
+<a href="?#mtxSetColData">simEigen.mtxSetColData</a>
+<a href="?#mtxSetData">simEigen.mtxSetData</a>
+<a href="?#mtxSetItem">simEigen.mtxSetItem</a>
+<a href="?#mtxSetRowData">simEigen.mtxSetRowData</a>
+<a href="?#mtxSquaredNorm">simEigen.mtxSquaredNorm</a>
+<a href="?#mtxSum">simEigen.mtxSum</a>
+<a href="?#mtxTrace">simEigen.mtxTrace</a>
+<a href="?#mtxTranspose">simEigen.mtxTranspose</a>
+<a href="?#mtxTransposed">simEigen.mtxTransposed</a>
+<a href="?#mtxVertCat">simEigen.mtxVertCat</a>
+<a href="?#pinv">simEigen.pinv</a>
 <a href="?#svd">simEigen.svd</a>
 </pre></td></tr>
 <tr><td id="commands" class="section">
 <h3 class="subsectionBar">
+<a name="mtxBlock" id="mtxBlock"></a>simEigen.mtxBlock</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Block of size (p,q), starting at (i,j). Indices start at 0. Returns a new matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxBlock(string handle, int i=0, int j=0, int p=-1, int q=-1)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>i</strong> (int, default: 0)</div>
+<div>
+<strong>j</strong> (int, default: 0)</div>
+<div>
+<strong>p</strong> (int, default: -1)</div>
+<div>
+<strong>q</strong> (int, default: -1)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxBlock(string handle, int i=0, int j=0, int p=-1, int q=-1)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxBlockAssign" id="mtxBlockAssign"></a>simEigen.mtxBlockAssign</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Assign matrix 2 to block of size (p,q), starting at (i,j). Indices start at 0. Operates in place.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.mtxBlockAssign(string handle, string handle2, int i=0, int j=0, int p=-1, int q=-1)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>handle2</strong> (string)</div>
+<div>
+<strong>i</strong> (int, default: 0)</div>
+<div>
+<strong>j</strong> (int, default: 0)</div>
+<div>
+<strong>p</strong> (int, default: -1)</div>
+<div>
+<strong>q</strong> (int, default: -1)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEigen.mtxBlockAssign(string handle, string handle2, int i=0, int j=0, int p=-1, int q=-1)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxCopy" id="mtxCopy"></a>simEigen.mtxCopy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Return a new matrix, copy of this one.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxCopy(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxCopy(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxCross" id="mtxCross"></a>simEigen.mtxCross</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Performs cross-product of the two vectors. Returns a new matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxCross(string handle, string handle2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>handle2</strong> (string)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxCross(string handle, string handle2)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxDestroy" id="mtxDestroy"></a>simEigen.mtxDestroy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Destroy the matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.mtxDestroy(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEigen.mtxDestroy(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxDot" id="mtxDot"></a>simEigen.mtxDot</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Performs addition of the two matrices.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.mtxDot(string handle, string handle2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>handle2</strong> (string)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float result = simEigen.mtxDot(string handle, string handle2)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxGetColData" id="mtxGetColData"></a>simEigen.mtxGetColData</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get a column of this matrix. Indices start at 0.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] data = simEigen.mtxGetColData(string handle, int j)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>j</strong> (int)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>data</strong> (table of float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list data = simEigen.mtxGetColData(string handle, int j)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxGetData" id="mtxGetData"></a>simEigen.mtxGetData</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Return matrix data, in row-major order.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] data = simEigen.mtxGetData(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>data</strong> (table of float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list data = simEigen.mtxGetData(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxGetItem" id="mtxGetItem"></a>simEigen.mtxGetItem</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get an item of this matrix. Indices start at 0.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float data = simEigen.mtxGetItem(string handle, int i, int j)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>i</strong> (int)</div>
+<div>
+<strong>j</strong> (int)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>data</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float data = simEigen.mtxGetItem(string handle, int i, int j)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxGetRowData" id="mtxGetRowData"></a>simEigen.mtxGetRowData</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get a row of this matrix. Indices start at 0.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] data = simEigen.mtxGetRowData(string handle, int i)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>i</strong> (int)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>data</strong> (table of float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list data = simEigen.mtxGetRowData(string handle, int i)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxGetSize" id="mtxGetSize"></a>simEigen.mtxGetSize</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Return matrix size.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int rows, int cols = simEigen.mtxGetSize(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>rows</strong> (int)</div>
+<div>
+<strong>cols</strong> (int)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int rows, int cols = simEigen.mtxGetSize(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxHorzCat" id="mtxHorzCat"></a>simEigen.mtxHorzCat</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Concatenate matrices, returning a new matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxHorzCat(string handle, string handle2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>handle2</strong> (string)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxHorzCat(string handle, string handle2)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxIMul" id="mtxIMul"></a>simEigen.mtxIMul</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Performs multiplication of the two matrices in place (writes result to first matrix).</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.mtxIMul(string handle, string handle2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>handle2</strong> (string)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEigen.mtxIMul(string handle, string handle2)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxLinSpaced" id="mtxLinSpaced"></a>simEigen.mtxLinSpaced</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Generates equally spaced values in the closed interval [low,high]. When size is set to 1, a vector of length 1 containing 'high' is returned..</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxLinSpaced(int count, float low=1, float high=nil)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>count</strong> (int)</div>
+<div>
+<strong>low</strong> (float, default: 1)</div>
+<div>
+<strong>high</strong> (float, default: nil)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxLinSpaced(int count, float low=1, float high=nil)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxMaxCoeff" id="mtxMaxCoeff"></a>simEigen.mtxMaxCoeff</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute max coeff. of elements of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.mtxMaxCoeff(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float result = simEigen.mtxMaxCoeff(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxMean" id="mtxMean"></a>simEigen.mtxMean</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute mean of elements of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.mtxMean(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float result = simEigen.mtxMean(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxMinCoeff" id="mtxMinCoeff"></a>simEigen.mtxMinCoeff</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute min coeff. of elements of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.mtxMinCoeff(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float result = simEigen.mtxMinCoeff(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxMul" id="mtxMul"></a>simEigen.mtxMul</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Performs multiplication of the two matrices. Returns a new matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxMul(string handle, string handle2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>handle2</strong> (string)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxMul(string handle, string handle2)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxNew" id="mtxNew"></a>simEigen.mtxNew</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Create a new matrix. If initialData is specified, fill the matrix with specified data.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxNew(int rows, int cols, float[] initialData={})<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>rows</strong> (int)</div>
+<div>
+<strong>cols</strong> (int)</div>
+<div>
+<strong>initialData</strong> (table of float, default: {})</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxNew(int rows, int cols, list initialData={})<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxNorm" id="mtxNorm"></a>simEigen.mtxNorm</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute norm of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.mtxNorm(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float result = simEigen.mtxNorm(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxNormalize" id="mtxNormalize"></a>simEigen.mtxNormalize</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Normalize this matrix in place.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.mtxNormalize(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEigen.mtxNormalize(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxNormalized" id="mtxNormalized"></a>simEigen.mtxNormalized</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Return normalized matrix. Returns a new matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxNormalized(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxNormalized(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxOp" id="mtxOp"></a>simEigen.mtxOp</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Performs element-wise operation on the matrix(es). Returns a new matrix if inplace is false, otherwise writes the result into first matrix./</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxOp(string handle, int op, string handle2=nil, bool inplace=true)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>op</strong> (int)</div>
+<div>
+<strong>handle2</strong> (string, default: nil)</div>
+<div>
+<strong>inplace</strong> (bool, default: true)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxOp(string handle, int op, string handle2=nil, bool inplace=true)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxOpK" id="mtxOpK"></a>simEigen.mtxOpK</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Performs element-wise operation on the matrix and the scalar. Returns a new matrix if inplace is false, otherwise writes the result into first matrix./</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxOpK(string handle, int op, float k, bool inplace=true)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>op</strong> (int)</div>
+<div>
+<strong>k</strong> (float)</div>
+<div>
+<strong>inplace</strong> (bool, default: true)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxOpK(string handle, int op, float k, bool inplace=true)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxPInv" id="mtxPInv"></a>simEigen.mtxPInv</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Pseudo-inverse. See https://eigen.tuxfamily.org/dox/classEigen_1_1CompleteOrthogonalDecomposition.html#ab5e8b3f2c7b602772e1f1d7ce63d446e for details.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string m, string x = simEigen.mtxPInv(string m, string b=nil, float damping=0)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (string): input matrix</div>
+<div>
+<strong>b</strong> (string, default: nil): an optional vector to compute pinv(m)*b, which is more stable and efficient than right-multiplying the result by b</div>
+<div>
+<strong>damping</strong> (float, default: 0): damping factor. if &gt; 0 then it will return m'*(m*m'+damping^2*I)^-1</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>m</strong> (string): pseudo-inverse of input matrix</div>
+<div>
+<strong>x</strong> (string): the result of pinv(m)*b if b has been specified</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string m, string x = simEigen.mtxPInv(string m, string b=nil, float damping=0)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxProd" id="mtxProd"></a>simEigen.mtxProd</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute product of elements of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.mtxProd(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float result = simEigen.mtxProd(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxSVD" id="mtxSVD"></a>simEigen.mtxSVD</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">SVD decomposition. See https://eigen.tuxfamily.org/dox/classEigen_1_1JacobiSVD.html for details.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string s, string u, string v, string x = simEigen.mtxSVD(string m, bool computeThinU=true, bool computeThinV=true, string b=nil)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (string): input matrix</div>
+<div>
+<strong>computeThinU</strong> (bool, default: true): </div>
+<div>
+<strong>computeThinV</strong> (bool, default: true): </div>
+<div>
+<strong>b</strong> (string, default: nil): an optional vector to solve for x the system m*x=b</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>s</strong> (string): singular values as a m-by-1 matrix</div>
+<div>
+<strong>u</strong> (string): U matrix (left singular vectors)</div>
+<div>
+<strong>v</strong> (string): V matrix (right singular vectors)</div>
+<div>
+<strong>x</strong> (string): the x solution if b has been specified</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string s, string u, string v, string x = simEigen.mtxSVD(string m, bool computeThinU=true, bool computeThinV=true, string b=nil)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxSetColData" id="mtxSetColData"></a>simEigen.mtxSetColData</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set a column of this matrix. Indices start at 0.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.mtxSetColData(string handle, int j, float[] data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>j</strong> (int)</div>
+<div>
+<strong>data</strong> (table of float)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEigen.mtxSetColData(string handle, int j, list data)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxSetData" id="mtxSetData"></a>simEigen.mtxSetData</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set data of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.mtxSetData(string handle, float[] data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>data</strong> (table of float)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEigen.mtxSetData(string handle, list data)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxSetItem" id="mtxSetItem"></a>simEigen.mtxSetItem</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set an item of this matrix. Indices start at 0.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.mtxSetItem(string handle, int i, int j, float data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>i</strong> (int)</div>
+<div>
+<strong>j</strong> (int)</div>
+<div>
+<strong>data</strong> (float)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEigen.mtxSetItem(string handle, int i, int j, float data)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxSetRowData" id="mtxSetRowData"></a>simEigen.mtxSetRowData</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set a row of this matrix. Indices start at 0.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.mtxSetRowData(string handle, int i, float[] data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>i</strong> (int)</div>
+<div>
+<strong>data</strong> (table of float)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEigen.mtxSetRowData(string handle, int i, list data)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxSquaredNorm" id="mtxSquaredNorm"></a>simEigen.mtxSquaredNorm</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute squared norm of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.mtxSquaredNorm(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float result = simEigen.mtxSquaredNorm(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxSum" id="mtxSum"></a>simEigen.mtxSum</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute sum of elements of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.mtxSum(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float result = simEigen.mtxSum(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxTrace" id="mtxTrace"></a>simEigen.mtxTrace</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute trace of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.mtxTrace(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">float result = simEigen.mtxTrace(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxTranspose" id="mtxTranspose"></a>simEigen.mtxTranspose</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Transpose this matrix in place.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.mtxTranspose(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEigen.mtxTranspose(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxTransposed" id="mtxTransposed"></a>simEigen.mtxTransposed</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Return a transposed version of this matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxTransposed(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxTransposed(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="mtxVertCat" id="mtxVertCat"></a>simEigen.mtxVertCat</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Concatenate matrices, returning a new matrix.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simEigen.mtxVertCat(string handle, string handle2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>handle2</strong> (string)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simEigen.mtxVertCat(string handle, string handle2)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="pinv" id="pinv"></a>simEigen.pinv</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -116,7 +1396,39 @@ td.section { margin: 0; padding: 0; }
 </table>
 <br>
 </td></tr>
-<tr><td id="enums" class="section"></td></tr>
+<tr><td id="enums" class="section">
+<br><br><h1>Constants</h1>
+<p>Constants used in the various functions. Refer to each constant using <i>enumName.constantName</i>, i.e. <b>simUI.curve_type.xy</b> for <b>xy</b> constant in <b>simUI.curve_type</b> enum.</p>
+<h3 class="subsectionBar">
+<a name="enum:op" id="enum:op"></a>simEigen.op</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>unm</strong></div>
+<div><strong>abs</strong></div>
+<div><strong>acos</strong></div>
+<div><strong>asin</strong></div>
+<div><strong>atan</strong></div>
+<div><strong>ceil</strong></div>
+<div><strong>cos</strong></div>
+<div><strong>deg</strong></div>
+<div><strong>exp</strong></div>
+<div><strong>floor</strong></div>
+<div><strong>log</strong></div>
+<div><strong>log2</strong></div>
+<div><strong>log10</strong></div>
+<div><strong>rad</strong></div>
+<div><strong>sin</strong></div>
+<div><strong>sqrt</strong></div>
+<div><strong>tan</strong></div>
+<div><strong>add</strong></div>
+<div><strong>sub</strong></div>
+<div><strong>times</strong></div>
+<div><strong>div</strong></div>
+<div><strong>intdiv</strong></div>
+<div><strong>mod</strong></div>
+<div><strong>min</strong></div>
+<div><strong>max</strong></div>
+</td></tr></tbody></table>
+</td></tr>
 <tr><td id="structs" class="section"></td></tr>
 <tr><td id="scriptFunctions" class="section"></td></tr>
 </table></div>
