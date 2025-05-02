@@ -4184,7 +4184,7 @@ when constraints can't be perfectly resolved)</api-description>
         <api-input-cpp>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
-                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the orientation relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation relative to the joint's base frame will be returned).</li>
+                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_inverse to retrieve the inverse of the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the orientation relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation relative to the joint's base frame will be returned).</li>
                 <li><strong>eulerAngles</strong>: Euler angles (alpha, beta and gamma)</li>
             </ul>
         </api-input-cpp>
@@ -4320,7 +4320,7 @@ sim.getObjectChild</api-see-also>
         <api-input-cpp>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to retrieve the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
-                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the quaternion relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion relative to the joint's base frame will be returned).</li>
+                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_inverse to retrieve the inverse of the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the quaternion relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion relative to the joint's base frame will be returned).</li>
                 <li><strong>quaternion</strong>: the quaternion</li>
             </ul>
         </api-input-cpp>
@@ -4857,6 +4857,26 @@ number info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
             </ul>
         </api-output-python-lua>
         <api-calltip>float[7] pose = sim.getPoseInverse(float[7] pose)</api-calltip>
+    </function>
+    <function>
+        <api-function-name>sim.getQuaternionInverse</api-function-name>
+        <api-description>Inverts a quaternion</api-description>
+        <api-see-also>
+            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
+        </api-see-also>
+        <api-synopsis-python>list quat = sim.getQuaternionInverse(list quat)</api-synopsis-python>
+        <api-synopsis-lua>float[4] quat = sim.getQuaternionInverse(float[4] quat)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>quat</strong>: the input quaternion</li>
+            </ul>
+        </api-input-python-lua>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>quat</strong>: the output quaternion</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>float[4] quat = sim.getQuaternionInverse(float[4] quat)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getQHull</api-function-name>
@@ -7628,15 +7648,15 @@ calculation between the two poses)</api-description>
     </function>
     <function>
         <api-function-name>sim.multiplyVector</api-function-name>
-        <api-description>Multiplies a vector with a pose or a matrix (e.g. v=m*v)</api-description>
+        <api-description>Multiplies a vector with a quaternion, a pose, or a matrix (e.g. v = m * v)</api-description>
         <api-see-also>
             <a href="../positionOrientationTransformation.htm">positions and orientations</a>
         </api-see-also>
-        <api-synopsis-python>list resultVector = sim.multiplyVector(list pose/matrix, list vector)</api-synopsis-python>
-        <api-synopsis-lua>float[3*n] resultVector = sim.multiplyVector(float[7]/float[12] pose/matrix, float[3*n] vector)</api-synopsis-lua>
+        <api-synopsis-python>list resultVector = sim.multiplyVector(list quaternion/pose/matrix, list vector)</api-synopsis-python>
+        <api-synopsis-lua>float[3*n] resultVector = sim.multiplyVector(float[4]/float[7]/float[12] quaternion/pose/matrix, float[3*n] vector)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>pose/matrix</strong>: a pose (array of 7 values [x y z qx qy qz qw]) or a transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
+                <li><strong>pose/matrix</strong>: a quaternion (array of 4 values [qx qy qz qw]), a pose (array of 7 values [x y z qx qy qz qw]) or a transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
                 <li><strong>vector</strong>: the original vector: an array of 3 * n values. Each triplet represents one vector to be multiplied</li>
             </ul>
         </api-input-python-lua>
@@ -7646,7 +7666,8 @@ calculation between the two poses)</api-description>
             </ul>
         </api-output-python-lua>
         <api-calltip>float[] resultVectors = sim.multiplyVector(float[12] matrix, float[] inVectors)
-float[] resultVectors = sim.multiplyVector(float[7] pose, float[] inVectors)</api-calltip>
+float[] resultVectors = sim.multiplyVector(float[7] pose, float[] inVectors)
+float[] resultVectors = sim.multiplyVector(float[4] quaternion, float[] inVectors)</api-calltip>
     </function>
     <function>
         <api-function-name>simOpenTextEditor</api-function-name>
@@ -10066,7 +10087,7 @@ apply to static shapes)</api-description>
         <api-input-cpp>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
-                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the orientation is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation is applied relative to the joint's base frame)</li>
+                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_inverse to set the inverse of the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the orientation is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation is applied relative to the joint's base frame)</li>
                 <li><strong>eulerAngles</strong>: Euler angles (alpha, beta and gamma)</li>
             </ul>
         </api-input-cpp>
@@ -10193,7 +10214,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
         <api-input-cpp>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to provide the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe</li>
-                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame)</li>
+                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_inverse to set the inverse of the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame)</li>
                 <li><strong>quaternion</strong>: the quaternion (array of 4 values [qx qy qz qw])</li>
             </ul>
         </api-input-cpp>
@@ -10231,7 +10252,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
                 <li>The number of selected objects, or -1 in case of an error</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.getObjectSel(list objectHandles)</api-synopsis-python>
+        <api-synopsis-python>sim.setObjectSel(list objectHandles)</api-synopsis-python>
         <api-synopsis-lua>sim.setObjectSel(int[] objectHandles)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -10942,11 +10963,11 @@ sim.combineRgbImages</api-see-also>
                 <li>-1 if operation was not successful.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.transformImage(bytes image, list resolution, int options)</api-synopsis-python>
-        <api-synopsis-lua>sim.transformImage(buffer image, int[2] resolution, int options)</api-synopsis-lua>
+        <api-synopsis-python>bytes newImage = sim.transformImage(bytes image, list resolution, int options)</api-synopsis-python>
+        <api-synopsis-lua>buffer newImage = sim.transformImage(buffer image, int[2] resolution, int options)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>image</strong>: buffer to rgb or rgba values of the image</li>
+                <li><strong>image</strong>: buffer to rgb or rgba values of the image. Beware that in Lua, this image buffer will be modified!</li>
                 <li><strong>resolution</strong>: resolution of the image</li>
                 <li><strong>options</strong>: bit-coded:
                     <ul>
@@ -10957,7 +10978,12 @@ sim.combineRgbImages</api-see-also>
                 </li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.transformImage(buffer image, int[2] resolution, int options)</api-calltip>
+        <api-output-python-lua>
+            <ul>
+                <li><strong>newImage</strong>: buffer of the transformed image</li>
+            </ul>
+        </api-output-python-lua>
+        <api-calltip>buffer newImage = sim.transformImage(buffer image, int[2] resolution, int options)</api-calltip>
     </function>
     <function>
         <api-function-name>simTransformVector</api-function-name>

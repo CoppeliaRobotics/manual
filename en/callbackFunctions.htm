@@ -99,12 +99,16 @@ def sysCall_afterInstanceSwitch():
     # Not for simulation scripts or the main script.
     pass
 
-def sysCall_beforeSave():
+def sysCall_beforeSave(inData):
     # About to save the scene, or about to set an undo/redo point
-    pass
+    print(str(inData['regularSave']), inData['file'])
 
-def sysCall_afterSave():
+def sysCall_afterSave(inData):
     # After the scene was saved, or after an undo/redo point was set
+    print(str(inData['regularSave']), inData['file'])
+
+def sysCall_afterLoad():
+    # After the scene was loaded
     pass
 
 def sysCall_selChange(inData):
@@ -270,12 +274,18 @@ function sysCall_afterInstanceSwitch()
     -- Not for simulation scripts or the main script.
 end
 
-function sysCall_beforeSave()
+function sysCall_beforeSave(inData)
     -- About to save the scene, or about to set an undo/redo point
+    print(inData.regularSave, inData.file)
 end
 
-function sysCall_afterSave()
+function sysCall_afterSave(inData)
     -- After the scene was saved , or after an undo/redo point was set
+    print(inData.regularSave, inData.file)
+end
+
+function sysCall_afterLoad()
+    -- After the scene was loaded
 end
 
 function sysCall_selChange(inData)
