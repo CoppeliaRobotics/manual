@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>simEvents Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>simEvents Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section"><p class="infoBox">API functions for events</p></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#addChildrenMonitor">simEvents.addChildrenMonitor</a>
+<a href="?#addProbe">simEvents.addProbe</a>
+<a href="?#removeProbe">simEvents.removeProbe</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="addChildrenMonitor" id="addChildrenMonitor"></a>simEvents.addChildrenMonitor</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Add a children monitor probe to monitor changes in the (direct) children of a scene object.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string probeHandle = simEvents.addChildrenMonitor(string callback, int parentHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>callback</strong> (string): Callback function to call when children of the scene object change. Arguments are (childrenHandles).</div>
+<div>
+<strong>parentHandle</strong> (int): Handle to the scene object.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>probeHandle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string probeHandle = simEvents.addChildrenMonitor(string callback, int parentHandle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="addProbe" id="addProbe"></a>simEvents.addProbe</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Add a event probe.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string probeHandle = simEvents.addProbe(string callback, any condition)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>callback</strong> (string): Callback function to call when an event matches the given condition. Arguments are (eventData).</div>
+<div>
+<strong>condition</strong> (any): Boolean condition (see README).</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>probeHandle</strong> (string): Handle to the newly created probe object.</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string probeHandle = simEvents.addProbe(string callback, any condition)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="removeProbe" id="removeProbe"></a>simEvents.removeProbe</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Remove a previously created event probe.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEvents.removeProbe(string probeHandle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>probeHandle</strong> (string): Handle to the probe object.</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEvents.removeProbe(string probeHandle)<br>
+</td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section"></td></tr>
+<tr><td id="structs" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section">
+<br><br><h1>Script functions</h1>
+<p>Script functions are used to call some lua code from the plugin side (tipically used for event handlers).</p>
+<h3 class="subsectionBar">
+<a name="scriptfun:childrenMonitorCallback" id="scriptfun:childrenMonitorCallback"></a>childrenMonitorCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback called when children of an object change, used by <a href="#addChildrenMonitor">simEvents.addChildrenMonitor</a>.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEvents.childrenMonitorCallback(int[] childrenHandles)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>childrenHandles</strong> (table of int): handles of the children objects</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simEvents.childrenMonitorCallback(list childrenHandles)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css">
+<script src="../js/hljs/11.8.0/highlight.min.js"></script><script src="../js/hljs/11.8.0/languages/cmake.min.js"></script><script src="../js/hljs/11.8.0/languages/cpp.min.js"></script><script src="../js/hljs/11.8.0/languages/java.min.js"></script><script src="../js/hljs/11.8.0/languages/javascript.min.js"></script><script src="../js/hljs/11.8.0/languages/lua.min.js"></script><script src="../js/hljs/11.8.0/languages/matlab.min.js"></script><script src="../js/hljs/11.8.0/languages/python.min.js"></script><script src="../js/hljs/11.8.0/languages/rust.min.js"></script><script src="../js/hljs/11.8.0/languages/xml.min.js"></script><script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

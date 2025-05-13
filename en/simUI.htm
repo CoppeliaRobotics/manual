@@ -31,6 +31,8 @@ td.section { margin: 0; padding: 0; }
 <a href="?#addTreeItem">simUI.addTreeItem</a>
 <a href="?#adjustSize">simUI.adjustSize</a>
 <a href="?#appendText">simUI.appendText</a>
+<a href="?#bannerCreate">simUI.bannerCreate</a>
+<a href="?#bannerDestroy">simUI.bannerDestroy</a>
 <a href="?#clearCurve">simUI.clearCurve</a>
 <a href="?#clearTable">simUI.clearTable</a>
 <a href="?#clearTree">simUI.clearTree</a>
@@ -468,6 +470,75 @@ td.section { margin: 0; padding: 0; }
                                                     See also
                                                 </td>
 <td class="apiTableRightDescr"> <a href="#setText">simUI.setText</a> <a href="#setUrl">simUI.setUrl</a> <a href="#getWidgetVisibility">simUI.getWidgetVisibility</a> <a href="#setEnabled">simUI.setEnabled</a> <a href="#setStyleSheet">simUI.setStyleSheet</a> <a href="#setWidgetVisibility">simUI.setWidgetVisibility</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="bannerCreate" id="bannerCreate"></a>simUI.bannerCreate</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int id = simUI.bannerCreate(string text, string[] btnKeys=nil, string[] btnLabels=nil, string callback=nil)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>text</strong> (string): banner text</div>
+<div>
+<strong>btnKeys</strong> (table of string, default: nil): button keys</div>
+<div>
+<strong>btnLabels</strong> (table of string, default: nil): button labels</div>
+<div>
+<strong>callback</strong> (string, default: nil): callback function to call when button is clicked. it will be called with arguments (bannerId, btnKey)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>id</strong> (int): banner id</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int id = simUI.bannerCreate(string text, list btnKeys=nil, list btnLabels=nil, string callback=nil)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#bannerDestroy">simUI.bannerDestroy</a>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="bannerDestroy" id="bannerDestroy"></a>simUI.bannerDestroy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simUI.bannerDestroy(int id)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>id</strong> (int): banner id</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simUI.bannerDestroy(int id)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"> <a href="#bannerCreate">simUI.bannerCreate</a>
 </td>
 </tr>
 </table>
@@ -3918,7 +3989,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.setProperties(string handle, int id, string[] pnames, string[] ptypes, string[] pvalues, int[] pflags, string[] pdisplayk, string[] pdisplayv, bool suppressEvents=true)<br>
+<td class="apiTableRightLSyn">simUI.setProperties(string handle, int id, string[] pnames, string[] ptypes, string[] pvalues, int[] pflags, string[] pdisplayk, string[] pdisplayv, int[] icons, bool suppressEvents=true)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -3941,6 +4012,8 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>pdisplayv</strong> (table of string)</div>
 <div>
+<strong>icons</strong> (table of int)</div>
+<div>
 <strong>suppressEvents</strong> (bool, default: true): if true, no event will be generated from this call</div>
 </td>
 </tr>
@@ -3950,7 +4023,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simUI.setProperties(string handle, int id, list pnames, list ptypes, list pvalues, list pflags, list pdisplayk, list pdisplayv, bool suppressEvents=true)<br>
+<td class="apiTableRightPSyn">simUI.setProperties(string handle, int id, list pnames, list ptypes, list pvalues, list pflags, list pdisplayk, list pdisplayv, list icons, bool suppressEvents=true)<br>
 </td>
 </tr>
 </table>
@@ -3990,7 +4063,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">simUI.setPropertiesRows(string handle, int id, int[] rows, string[] pnames, string[] ptypes, string[] pvalues, int[] pflags, string[] pdisplayk, string[] pdisplayv, bool suppressEvents=true)<br>
+<td class="apiTableRightLSyn">simUI.setPropertiesRows(string handle, int id, int[] rows, string[] pnames, string[] ptypes, string[] pvalues, int[] pflags, string[] pdisplayk, string[] pdisplayv, int[] icons, bool suppressEvents=true)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -4015,6 +4088,8 @@ td.section { margin: 0; padding: 0; }
 <div>
 <strong>pdisplayv</strong> (table of string)</div>
 <div>
+<strong>icons</strong> (table of int)</div>
+<div>
 <strong>suppressEvents</strong> (bool, default: true): if true, no event will be generated from this call</div>
 </td>
 </tr>
@@ -4024,7 +4099,7 @@ td.section { margin: 0; padding: 0; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">simUI.setPropertiesRows(string handle, int id, list rows, list pnames, list ptypes, list pvalues, list pflags, list pdisplayk, list pdisplayv, bool suppressEvents=true)<br>
+<td class="apiTableRightPSyn">simUI.setPropertiesRows(string handle, int id, list rows, list pnames, list ptypes, list pvalues, list pflags, list pdisplayk, list pdisplayv, list icons, bool suppressEvents=true)<br>
 </td>
 </tr>
 </table>
@@ -6343,6 +6418,45 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">simUI.onScene3DObjectClickCallback(string handle, int id, int nodeId)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="scriptfun:onBannerButtonClickCallback" id="scriptfun:onBannerButtonClickCallback"></a>onBannerButtonClickCallback</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback for banner button click event.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simUI.onBannerButtonClickCallback(int bannerId, string btnKey)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>bannerId</strong> (int): banner id</div>
+<div>
+<strong>btnKey</strong> (string): button key</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simUI.onBannerButtonClickCallback(int bannerId, string btnKey)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
