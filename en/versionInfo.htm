@@ -65,7 +65,25 @@ Version history:
 <li>Fixed several bugs. Thanks to Philippe Juhel and Ziwen Zhao for noticing them or helping to resolve them</li>
 <li>Set MuJoCo default <em>armature</em> value to 0.0 to avoid confusion (was mistakenly set to 2.0 in V4.9 rev.0, and changed to 0.0 in V4.9 rev.6): the user is in charge of appropriately adjusting that value for simulation stability</li>
 <li>Added the sysCall_afterLoad <a href="callbackFunctions.htm">callback function</a> (called after a scene was loaded)</li>
-<li>Added a plugin for MIDI I/O</li>
+<li>Added a <a href="simMIDI.htm">plugin for MIDI I/O</a></li>
+<li>Added a <a href="simEvents.htm">plugin for events filtering</a> that can be used to setup advanced filtering, e.g.: <code class="hljs language-lua coppelia-coppeliasim-script">sim = require 'sim'
+simEvents = require 'simEvents'
+
+function callback(data)
+    print('callback', data)
+end
+
+function sysCall_init()
+    dummy = sim.getObject('/dummy')
+    probeHandle = simEvents.addProbe('callback', {'and',
+        {'event', 'objectChanged'},
+        {'handles', {dummy}},
+        {'or',
+            {'has', 'collapsed'},      -- filter on field presence
+            {'eq',  'selected', true}, -- filter on field value
+        },
+    })
+end</code></li>
 <li>The <a href="simWS.htm">WebSockets plugin</a> now supports both client and server operation</li>
 <li>Added a very fast linear algebra library for vector and math operations implemented in the <a href="simEigen.htm">Eigen plugin</a> based on the popular <a href="https://eigen.tuxfamily.org/">Eigen</a> C++ library</li>
 <li>Added demo scene inverseDynamics.ttt, which features a serial manipulator controlled in various ways via inverse dynamics</li>
@@ -1509,6 +1527,18 @@ First public release in March 2010 </li>
 </div>  
   
   
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
 </body>
 
 </html>
