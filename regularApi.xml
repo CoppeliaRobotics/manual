@@ -526,30 +526,24 @@ The shape's inertia properties are unaffected</api-description>
         <api-calltip>int result = sim.alignShapeBB(int shapeHandle, float[7] pose)</api-calltip>
     </function>
     <function>
-        <api-function-name>sim.alphaBetaGammaToYawPitchRoll</api-function-name>
+        <api-function-name>sim.abgToYpr</api-function-name>
         <api-description>Converts CoppeliaSim's alpha-beta-gamma angles to Yaw-Pitch-Roll angles</api-description>
-        <api-see-also>sim.yawPitchRollToAlphaBetaGamma
+        <api-see-also>sim.abgToYpr
 <a href="../positionOrientationTransformation.htm">positions and orientations</a>
         </api-see-also>
-        <api-synopsis-python>float yaw, float pitch, float roll = sim.alphaBetaGammaToYawPitchRoll(float alpha,
-                                                                      float beta, float gamma)</api-synopsis-python>
-        <api-synopsis-lua>float yaw, float pitch, float roll = sim.alphaBetaGammaToYawPitchRoll(float alpha,
-                                                                      float beta, float gamma)</api-synopsis-lua>
+        <api-synopsis-python>list anglesOut = sim.abgToYpr(list anglesIn)</api-synopsis-python>
+        <api-synopsis-lua>float[3] anglesOut = sim.abgToYpr(float[3] anglesIn)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>alpha</strong>: the alpha angle</li>
-                <li><strong>beta</strong>: the beta angle</li>
-                <li><strong>gamma</strong>: the gamma angle</li>
+                <li><strong>anglesIn</strong>: 3 angles: alpha, beta and gamma</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>yaw</strong>: the yaw angle</li>
-                <li><strong>pitch</strong>: the pitch angle</li>
-                <li><strong>roll</strong>: the roll angle</li>
+                <li><strong>anglesOut</strong>: 3 angles: yaw, pitch and roll</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float yawAngle, float pitchAngle, float rollAngle = sim.alphaBetaGammaToYawPitchRoll(float alphaAngle, float betaAngle, float gammaAngle)</api-calltip>
+        <api-calltip>float[3] anglesOut = sim.abgToYpr(float[3] anglesIn)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.announceSceneContentChange</api-function-name>
@@ -4902,40 +4896,6 @@ sim.getDecimatedMesh</api-see-also>
                 <li>-1 or 0 if operation was not successful.</li>
             </ul>
         </api-output-cpp>
-    </function>
-    <function>
-        <api-function-name>sim.getRandom</api-function-name>
-        <api-description>Generates a random value in the range between 0.0 and 1.0. The value is generated from an individual generator attached to the calling script</api-description>
-        <api-synopsis-python>float randomValue = sim.getRandom(int seed = None)</api-synopsis-python>
-        <api-synopsis-lua>float randomValue = sim.getRandom(int seed = nil)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>seed</strong>: an optional number that can be used to seed/reseed the random number generator. Leave empty or set to None/nil if the generator should not be reseeded.</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>randomValue</strong>: a random number in the range of 0.0 and 1.0</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float randomNumber = sim.getRandom(int seed=nil)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.getRealTimeSimulation</api-function-name>
-        <api-description>Indicates whether the simulation is real-time</api-description>
-        <api-synopsis-cpp>int simGetRealTimeSimulation()</api-synopsis-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>1 if simulation is real-time, 0 if it is not, and -1 if the operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>int result = sim.getRealTimeSimulation()</api-synopsis-python>
-        <api-synopsis-lua>int result = sim.getRealTimeSimulation()</api-synopsis-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>result</strong>: 1 if simulation is real-time, or 0 if it is not</li>
-            </ul>
-        </api-output-python-lua>
     </function>
     <function>
         <api-function-name>sim.getReferencedHandles</api-function-name>
@@ -11307,30 +11267,24 @@ sim.createTexture</api-see-also>
         <api-calltip>sim.writeTexture(int textureId, int options, buffer textureData, int posX=0, int posY=0, int sizeX=0, int sizeY=0, float interpol=0.0)</api-calltip>
     </function>
     <function>
-        <api-function-name>sim.yawPitchRollToAlphaBetaGamma</api-function-name>
+        <api-function-name>sim.yprToAbg</api-function-name>
         <api-description>Converts Yaw-Pitch-Roll angles to CoppeliaSim's alpha-beta-gamma angles</api-description>
-        <api-see-also>sim.alphaBetaGammaToYawPitchRoll
+        <api-see-also>sim.abgToYpr
 <a href="../positionOrientationTransformation.htm">positions and orientations</a>
         </api-see-also>
-        <api-synopsis-python>float alpha, float beta, float gamma = sim.yawPitchRollToAlphaBetaGamma(float yaw, float pitch,
-                                                                        float roll)</api-synopsis-python>
-        <api-synopsis-lua>float alpha, float beta, float gamma = sim.yawPitchRollToAlphaBetaGamma(float yaw, float pitch,
-                                                                        float roll)</api-synopsis-lua>
+        <api-synopsis-python>list outAngles = sim.yprToAbg(list inAngles)</api-synopsis-python>
+        <api-synopsis-lua>float[3] outAngles = sim.yprToAbg(float[3] inAngles)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>yaw</strong>: the yaw angle</li>
-                <li><strong>pitch</strong>: the pitch angle</li>
-                <li><strong>roll</strong>: the roll angle</li>
+                <li><strong>inAngles</strong>: 3 angles: yaw, pitch and roll</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>alpha</strong>: the alpha angle</li>
-                <li><strong>beta</strong>: the beta angle</li>
-                <li><strong>gamma</strong>: the gamma angle</li>
+                <li><strong>outAngles</strong>: 3 angles: alpha, beta and gamma</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float alphaAngle, float betaAngle, float gammaAngle = sim.yawPitchRollToAlphaBetaGamma(float yawAngle, float pitchAngle, float rollAngle)</api-calltip>
+        <api-calltip>float[3] outAngles = sim.yprToAbg(float[3] inAngles)</api-calltip>
     </function>
     
     <function>

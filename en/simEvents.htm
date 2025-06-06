@@ -18,12 +18,82 @@ function getParameterByName(name, url = window.location.href)
 //
                 </script><style type="text/css">
 td.section { margin: 0; padding: 0; }
+table { margin-left: 3em; margin-right: 3em; }
                 </style>
 </head>
 <body>
 <div align="center"><table class="allEncompassingTable">
 <tr><td id="title" class="section"><h1>simEvents Plugin API reference</h1></td></tr>
-<tr><td id="info" class="section"><p class="infoBox">API functions for events</p></td></tr>
+<tr><td id="info" class="section">
+<p class="infoBox">API functions for events</p>
+<p>A plugin to filter events.</p>
+<p>Usage: call <code>simEvents.addProbe(callback, condition)</code> to setup an event probe.</p>
+<p>Condition can be one of:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{'and', cond-1, cond-2, ...}</code></td>
+<td>Boolean "and" of the nested conditions</td>
+</tr>
+<tr>
+<td><code>{'or',  cond-1, cond-2, ...}</code></td>
+<td>Boolean "or" of the nested conditions</td>
+</tr>
+<tr>
+<td><code>{'not', cond-1}</code></td>
+<td>Boolean "not" of the nested condition</td>
+</tr>
+<tr>
+<td><code>{'event', eventType}</code></td>
+<td>Filter on event type (e.g. objectAdded, objectChanged, etc...)</td>
+</tr>
+<tr>
+<td><code>{'handles', {handle-1, ...}}</code></td>
+<td>Filter on handle field</td>
+</tr>
+<tr>
+<td><code>{'uids', {uid-1, ...}}</code></td>
+<td>Filter on handle field</td>
+</tr>
+<tr>
+<td><code>{'has', fieldName}</code></td>
+<td>Filter on the presence of the specified field</td>
+</tr>
+<tr>
+<td><code>{'eq', fieldName, fieldValue}</code></td>
+<td>Filter on the value of the specified field</td>
+</tr>
+</tbody>
+</table>
+<p>Use <code>simEvents.removeProbe(probeHandle)</code> to later remove the probe and stop monitoring those events.</p>
+<p>Note: to monitor the direct children of an object, use <code>simEvents.addChildrenMonitor(callback, handle)</code>, which provides a self-modifying event probe that simplifies the handles bookkeeping.</p>
+<p>Example:</p>
+<pre><code class="language-lua">sim = require 'sim'
+simEvents = require 'simEvents'
+
+function callback(data)
+    print('callback', data)
+end
+
+function sysCall_init()
+    dummy = sim.getObject('/dummy')
+    probeHandle = simEvents.addProbe('callback', {'and',
+        {'event', 'objectChanged'},
+        {'handles', {dummy}},
+        {'or',
+            {'has', 'collapsed'},      -- filter on field presence
+            {'eq',  'selected', true}, -- filter on field value
+        },
+    })
+end
+</code></pre>
+</td></tr>
 <tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#addChildrenMonitor">simEvents.addChildrenMonitor</a>
 <a href="?#addProbe">simEvents.addProbe</a>
 <a href="?#removeProbe">simEvents.removeProbe</a>

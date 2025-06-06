@@ -18,12 +18,101 @@ function getParameterByName(name, url = window.location.href)
 //
                 </script><style type="text/css">
 td.section { margin: 0; padding: 0; }
+table { margin-left: 3em; margin-right: 3em; }
                 </style>
 </head>
 <body>
 <div align="center"><table class="allEncompassingTable">
 <tr><td id="title" class="section"><h1>simQML Plugin API reference</h1></td></tr>
-<tr><td id="info" class="section"><p class="infoBox">API functions for creating QML user interfaces. More info about creating user interfaces in QML can be found at <a href="https://doc.qt.io/qt-5/qtquick-index.html">https://doc.qt.io/</a>.</p></td></tr>
+<tr><td id="info" class="section">
+<p class="infoBox">API functions for creating QML user interfaces. More info about creating user interfaces in QML can be found at <a href="https://doc.qt.io/qt-5/qtquick-index.html">https://doc.qt.io/</a>.</p>
+<p>In order to load QML components, a QML engine must be created:</p>
+<pre><code class="language-lua">engine = simQML.createEngine()
+simQML.load(engine, '/path/to/Component.qml')
+</code></pre>
+<p>When the engine is not needed anymore, it should be destroyed with:</p>
+<pre><code class="language-lua">simQML.destroyEngine(engine)
+</code></pre>
+<p>Note: destroying the engine would destroy also all components created within that engine, e.g. all the windows.</p>
+<p>It is also possible to load QML inline code, using <code>simQML.loadData</code>.</p>
+<h4><code>PluginWindow</code> component</h4>
+<p>This component can be found in the <code>CoppeliaSimPlugin</code> QML module.</p>
+<p><code>PluginWindow</code> is a subclass of <code>QtQuick.Window</code> which sets some convenience properties and handlers.</p>
+<p>It is possible to use any other component, such as <code>QtQuick.Window</code> as the top-level component, but <code>PluginWindow</code> is what makes sense most of the times.</p>
+<p>Example:</p>
+<pre><code class="language-lua">simQML.loadData(engine, [[
+    import QtQuick 2.12
+    import CoppeliaSimPlugin 1.0
+
+    PluginWindow {
+        id: mainWindow
+        width: 400
+        height: 300
+        title: qsTr(&quot;QML plugin window&quot;)
+    }
+]])
+</code></pre>
+<h4>Communication: QML -&gt; Lua</h4>
+<p>It is possible to send <em>events</em> from QML to Lua using the <code>sendEvent</code> (or <code>sendEventRaw</code>) method of the <code>CoppeliaSimBridge</code> component.</p>
+<p>For convenience, <code>CoppeliaSimBridge</code> is already instantiated in the <code>PluginWindow</code> component and exposed as the property <code>simBridge</code>.</p>
+<p>QML can call <code>simBridge.sendEvent(eventName, eventData)</code> to send an event to Lua.</p>
+<p>In order to receive the event in Lua, an event handler must be registered with <code>simQML.setEventHandler</code>:</p>
+<pre><code class="language-lua">function myEventHandler(engine, eventName, eventData)
+    print('received event', eventName, eventData)
+end
+
+engine = simQML.createEngine()
+simQML.setEventHandler(engine, 'myEventHandler')
+simQML.loadData(engine, [[
+    import QtQuick 2.12
+    import QtQuick.Controls 2.12
+    import CoppeliaSimPlugin 1.0
+
+    PluginWindow {
+        id: mainWindow
+        width: 400
+        height: 300
+        title: qsTr(&quot;QML plugin window&quot;)
+
+        Button {
+            anchors.fill: parent
+            text: &quot;Click me&quot;
+            onClicked: mainWindow.simBridge.sendEvent('click', {someData: 42})
+        }
+    }
+]])
+</code></pre>
+<h4>Communication: Lua -&gt; QML</h4>
+<p>It is possible to send <em>events</em> from Lua to QML using the <code>simQML.sendEvent(engine, name, data)</code> Lua function.</p>
+<p>In order to receive the event in QML, the handler <code>onEventReceived</code> of the <code>CoppeliaSimBridge</code> object must be implemented.</p>
+<p>For convenience, if using the <code>PluginWindow</code> component, that handler is already implemented, and the event will be dispatched as a call to a function defined in the <code>PluginWindow</code> component.</p>
+<pre><code class="language-lua">engine = simQML.createEngine()
+simQML.loadData(engine, [[
+    import QtQuick 2.12
+    import CoppeliaSimPlugin 1.0
+
+    PluginWindow {
+        id: mainWindow
+        width: 400
+        height: 300
+        title: qsTr(&quot;QML plugin window&quot;)
+
+        function myEvent(data) {
+            console.log(&quot;received event 'myEvent', someData=&quot; + data.someData)
+        }
+    }
+]])
+simQML.sendEvent(engine, 'myEvent', {someData = 42})
+</code></pre>
+<h4>Built-in events</h4>
+<p>An <code>onInstanceSwitch</code> event with bool argument is sent each time the scene owning the engine becomes active/inactive.</p>
+<p>The <code>PluginWindow</code> component already implements the handler for this event, setting the <code>visible</code> property of the <code>Window</code>. Set the <code>sticky</code> property to <code>true</code> to override this behavior.</p>
+<h3>QML References</h3>
+<ul>
+<li><a href="https://www.qt.io/product/qt6/qml-book">The QML Book</a></li>
+<li><a href="https://github.com/Furkanzmc/QML-Coding-Guide">QML Coding (style) guide</a></li>
+</ul>
+</td></tr>
 <tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#createEngine">simQML.createEngine</a>
 <a href="?#destroyEngine">simQML.destroyEngine</a>
 <a href="?#imageDataURL">simQML.imageDataURL</a>

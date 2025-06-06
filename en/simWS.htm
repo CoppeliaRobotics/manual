@@ -18,12 +18,54 @@ function getParameterByName(name, url = window.location.href)
 //
                 </script><style type="text/css">
 td.section { margin: 0; padding: 0; }
+table { margin-left: 3em; margin-right: 3em; }
                 </style>
 </head>
 <body>
 <div align="center"><table class="allEncompassingTable">
 <tr><td id="title" class="section"><h1>simWS Plugin API reference</h1></td></tr>
-<tr><td id="info" class="section"><p class="infoBox">WebSocket plugin.</p></td></tr>
+<tr><td id="info" class="section">
+<p class="infoBox">WebSocket plugin.</p>
+<p>Use <code>simWS.start</code> to start listening on the specified port, <code>simWS.setMessageHandler</code> to set an handler for incoming messages, and <code>simWS.send</code> to send messages on the specified connection:</p>
+<pre><code class="language-lua">-- Simple echo server
+
+function onMessage(server, connection, data)
+    simWS.send(server, connection, data)
+end
+
+function sysCall_init()
+    server = simWS.start(9000)
+    simWS.setMessageHandler(server, 'onMessage')
+end
+</code></pre>
+<p>It is possible to broadcast a message to all connected clients by tracking active connections via open/close events:</p>
+<pre><code class="language-lua">-- Simple broadcaster
+
+function onOpen(server, connection)
+    clients[server] = clients[server] or {}
+    clients[server][connection] = 1
+end
+
+function onClose(server, connection)
+    clients[server][connection] = nil
+end
+
+function broadcast(server, data)
+    for connection, _ in pairs(clients[server] or {}) do
+        simWS.send(server, connection, data)
+    end
+end
+
+function sysCall_init()
+    clients = {}
+    server = simWS.start(9000)
+    simWS.setOpenHandler(server, 'onOpen')
+    simWS.setCloseHandler(server, 'onClose')
+end
+</code></pre>
+<p>Clients use the <code>simWS.connect()</code> function to connect and <code>simWS.send()</code> to send data similarly to the servers.</p>
+<p>See also the examples in the <a href="examples"><code>examples</code></a> subdirectory.</p>
+</td></tr>
 <tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#connect">simWS.connect</a>
 <a href="?#disconnect">simWS.disconnect</a>
 <a href="?#send">simWS.send</a>
