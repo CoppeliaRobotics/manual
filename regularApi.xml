@@ -1049,41 +1049,6 @@ are overridden if the entities are objects. If the entities are both the same co
         <api-calltip>int result, int[2] collidingObjects = sim.checkCollision(int entity1Handle, int entity2Handle)</api-calltip>
     </function>
     <function>
-        <api-function-name>sim.checkCollisionEx</api-function-name>
-        <api-description>Checks whether two entities are colliding, and will return all intersections between
-the two entities. The collidable flags of the entities are overridden if the entities
-are objects</api-description>
-        <api-see-also>sim.checkCollision</api-see-also>
-        <api-synopsis-cpp>int simCheckCollisionEx(int entity1Handle, int entity2Handle, double** intersectionSegments)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>entity1Handle</strong>: handle of entity 1 (can be an object handle or a collection handle)</li>
-                <li><strong>entity2Handle</strong>: handle of entity 2 (can be an object handle or a collection handle), or sim.handle_all to check entity1 against all other collidable objects</li>
-                <li><strong>intersectionSegments</strong>: pointer to an array of double values that represent the intersections (segments) between the two entities (pt1(x,y,z), pt2(x,y,z), pt1(x,y,z), etc). This can be nullptr. The user should use <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> to delete the returned data. That data is only valid if return value is &gt;0</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 in case of an error, otherwise the number of segments returned</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>int result, list intersections = sim.checkCollisionEx(int entity1Handle, int entity2Handle)</api-synopsis-python>
-        <api-synopsis-lua>int result, float[] intersections = sim.checkCollisionEx(int entity1Handle, int entity2Handle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>entity1Handle</strong>: handle of entity 1 (can be an object handle or a collection handle)</li>
-                <li><strong>entity2Handle</strong>: handle of entity 2 (can be an object handle or a collection handle), or sim.handle_all to check entity1 against all other collidable objects</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>result</strong>: number of segments returned</li>
-                <li><strong>intersections</strong>: array containing the intersection segments between the two entities</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int segmentCount, float[6..*] segmentData = sim.checkCollisionEx(int entity1Handle, int entity2Handle)</api-calltip>
-    </function>
-    <function>
         <api-function-name>sim.checkDistance</api-function-name>
         <api-description>Checks the minimum distance between two entities. The measurable flags of the
 entities are overridden if the entities are objects. If the entities are both
@@ -1198,8 +1163,7 @@ will not be checked against themselve</api-description>
         <api-description>Checks whether the proximity sensor detects the indicated entity. Detection is silent (no visual
 feedback) compared to <a href="simHandleProximitySensor.htm">sim.handleProximitySensor</a>.
 Also, the detectable flags of the entity are overridden if the entity is an object</api-description>
-        <api-see-also>sim.readProximitySensor
-sim.checkProximitySensorEx</api-see-also>
+        <api-see-also>sim.readProximitySensor</api-see-also>
         <api-synopsis-cpp>int simCheckProximitySensor(int sensorHandle, int entityHandle, double* detectedPoint)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
@@ -1233,115 +1197,6 @@ sim.checkProximitySensorEx</api-see-also>
             </ul>
         </api-output-python-lua>
         <api-calltip>int result, float distance, float[3] detectedPoint, int detectedObjectHandle, float[3] normalVector = sim.checkProximitySensor(int sensorHandle, int entityHandle)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.checkProximitySensorEx</api-function-name>
-        <api-description>Checks whether the proximity sensor detects the indicated entity. Detection is silent (no visual feedback)
-compared to <a href="simHandleProximitySensor.htm">sim.handleProximitySensor</a>. Also, the detectable flags
-of the entity are overridden if the entity is an object</api-description>
-        <api-see-also>sim.readProximitySensor
-sim.checkProximitySensorEx2</api-see-also>
-        <api-synopsis-cpp>int simCheckProximitySensorEx(int sensorHandle, int entityHandle, int detectionMode,
-                              double detectionThreshold, double maxAngle, double* detectedPoint,
-                              int* detectedObjectHandle, double* surfaceNormalVector)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>sensorHandle</strong>: handle of the proximity sensor object</li>
-                <li><strong>entityHandle</strong>: handle of entity to detect (object or collection), or sim.handle_all to detect all detectable objects</li>
-                <li><strong>detectionMode</strong>: bit coded: bit0 (1) for front face detection, bit1 (2) for back face detection (bit0|bit1 needs to be true), bit2 (4) for fast detection (doesn't search for the closest point, just any point in the detection volume), bit3 (8) for limited angle detection (if set, maxAngle is taken into account).</li>
-                <li><strong>detectionThreshold</strong>: doesn't detect objects farther than detectionThreshold distance from sensor origin</li>
-                <li><strong>maxAngle</strong>: maximum detection angle (angle between detection ray and normal vector of the surface). Can be (0;pi/2). Only if bit3 of detectionMode is set will this parameter have an effect. Use this to realistically simulate ultrasonic sensors.</li>
-                <li><strong>detectedPoint</strong>: coordinates of detected point relative to the sensor origin (detectedPoint[0]-detectedPoint[2]), and distance of detected point to the sensor origin (detectedPoint[3]). Can be nullptr</li>
-                <li><strong>detectedObjectHandle</strong>: handle of detected object (useful when entity to be detected is a collection or sim.handle_all). Can be nullptr</li>
-                <li><strong>surfaceNormalVector</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. Can be nullptr</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful, otherwise 0 (no detection) or 1 (detection)</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>int res, float dist, list point, int object, list n = sim.checkProximitySensorEx(int handle, int entityHandle,
-                                                                                 int detectionMode,
-                                                                                 float detectionthreshold,
-                                                                                 float maxAngle)</api-synopsis-python>
-        <api-synopsis-lua>int res, float dist, float[3] point, int object, float[3] n = sim.checkProximitySensorEx(int handle, int entityHandle,
-                                                                                         int detectionMode,
-                                                                                         float detectionthreshold,
-                                                                                         float maxAngle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>handle</strong>: handle of the proximity sensor object</li>
-                <li><strong>entityHandle</strong>: handle of entity to detect (object or collection), or sim.handle_all to detect all detectable objects</li>
-                <li><strong>detectionMode</strong>: bit coded: bit0 (1) for front face detection, bit1 (2) for back face detection (bit0|bit1 needs to be true), bit2 (4) for fast detection (doesn't search for the closest point, just any point in the detection volume), bit3 (8) for limited angle detection (if set, maxAngle is taken into account).</li>
-                <li><strong>detectionThreshold</strong>: doesn't detect objects farther than detectionThreshold distance from sensor origin</li>
-                <li><strong>maxAngle</strong>: maximum detection angle (angle between detection ray and normal vector of the surface). Can be (0;pi/2). Only if bit3 of detectionMode is set will this parameter have an effect. Use this to realistically simulate ultrasonic sensors.</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>res</strong>: 0 (not detected) or 1 (detected)</li>
-                <li><strong>dist</strong>: distance from the sensor origin to the detected point. None/nil if result is different from 1</li>
-                <li><strong>point</strong>: position of the detected point relative to the sensor origin. None/nil if result is different from 1</li>
-                <li><strong>object</strong>: handle of detected object. None/nil if result is different from 1</li>
-                <li><strong>n</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. None/nil if result is different from 1</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int result, float distance, float[3] detectedPoint, int detectedObjectHandle, float[3] normalVector = sim.checkProximitySensorEx(int sensorHandle, int entityHandle, int mode, float threshold, float maxAngle)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.checkProximitySensorEx2</api-function-name>
-        <api-description>Checks whether the proximity sensor detects the indicated points, segments or triangles.
-Detection is silent (no visual feedback)</api-description>
-        <api-see-also>sim.readProximitySensor
-sim.checkProximitySensorEx</api-see-also>
-        <api-synopsis-cpp>int simCheckProximitySensorEx2(int sensorHandle, double* vertexPointer, int itemType, int itemCount,
-                               int detectionMode, double detectionThreshold, double maxAngle,
-                               double* detectedPoint, double* normalVector)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>sensorHandle</strong>: handle of the proximity sensor object</li>
-                <li><strong>vertexPointer</strong>: a pointer to vertices</li>
-                <li><strong>itemType</strong>: 0 for points, 1 for segments and 2 for triangles</li>
-                <li><strong>itemCount</strong>: the number of items that vertexPointer points at</li>
-                <li><strong>detectionMode</strong>: bit coded: bit0 (1) for front face detection, bit1 (2) for back face detection (bit0|bit1 needs to be true), bit2 (4) for fast detection (doesn't search for the closest point, just any point in the detection volume), bit3 (8) for limited angle detection (if set, maxAngle is taken into account).</li>
-                <li><strong>detectionThreshold</strong>: doesn't detect objects farther than detectionThreshold distance from sensor origin</li>
-                <li><strong>maxAngle</strong>: maximum detection angle (angle between detection ray and normal vector of the surface). Can be (0;pi/2). Only if bit3 of detectionMode is set will this parameter have an effect. Use this to realistically simulate ultrasonic sensors.</li>
-                <li><strong>detectedPoint</strong>: coordinates of detected point relative to the sensor origin (detectedPoint[0]-detectedPoint[2]), and distance of detected point to the sensor origin (detectedPoint[3]). Can be nullptr</li>
-                <li><strong>normalVector</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. Can be nullptr</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful, otherwise 0 (no detection) or 1 (detection)</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>int res, float dist, list point, list n = sim.checkProximitySensorEx2(int sensorHandle, list vertices,
-                                                                         int itemType, int itemCount,
-                                                                         int mode, float threshold,
-                                                                         float maxAngle)</api-synopsis-python>
-        <api-synopsis-lua>int res, float dist, float[3] point, float[3] n = sim.checkProximitySensorEx2(int sensorHandle, float[] vertices,
-                                                                                 int itemType, int itemCount,
-                                                                                 int mode, float threshold,
-                                                                                 float maxAngle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>sensorHandle</strong>: handle of the proximity sensor object</li>
-                <li><strong>vertices</strong>: an array containing vertices</li>
-                <li><strong>itemType</strong>: 0 for points, 1 for segments and 2 for triangles</li>
-                <li><strong>itemCount</strong>: the number of items that the 'vertices' array contains</li>
-                <li>For the other parameters, see the description in <a href="simCheckProximitySensorEx.htm">sim.checkProximitySensorEx</a>. (sim.checkProximitySensorEx2 doesn't support occlusion checking)</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>res</strong>: 0 (not detected) or 1 (detected)</li>
-                <li><strong>dist</strong>: distance from the sensor origin to the detected point. None/nil if res is different from 1</li>
-                <li><strong>point</strong>: position of the detected point relative to the sensor origin. None/nil if res is different from 1</li>
-                <li><strong>n</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. None/nil if res is different from 1</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int result, float distance, float[3] detectedPoint, float[3] normalVector = sim.checkProximitySensorEx2(int sensorHandle, float[3..*] vertices, int itemType, int itemCount, int mode, float threshold, float maxAngle)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.checkVisionSensor</api-function-name>
@@ -1642,27 +1497,6 @@ sim.loadModel</api-see-also>
                 <li>-1 in case of an error, otherwise the handle of the duplicated stack.</li>
             </ul>
         </api-output-cpp>
-    </function>
-    <function>
-        <api-function-name>sim.copyTable</api-function-name>
-        <api-description>Lua only. Duplicates a table, i.e. makes a deep copy
-        </api-description>
-        <api-see-also>
-            <a href="../apiFunctions.htm#packing">packing/unpacking related functions</a>
-        </api-see-also>
-        <api-synopsis-lua>any[]/map copy = sim.copyTable(any[]/map original)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>original</strong>: the original table</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>copy</strong>: the duplicated table</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>any[] copy = sim.copyTable(any[] original)
-map copy = sim.copyTable(map original)</api-calltip>
     </function>
     <function>
         <api-function-name>simCreateBuffer</api-function-name>
@@ -3102,33 +2936,6 @@ sim.cameraFitToView</api-see-also>
             </ul>
         </api-output-python-lua>
         <api-calltip>float[] path, float[] times, int scriptHandle = sim.generateTimeOptimalTrajectory(float[] path, float[] pathLengths, float[] minMaxVel, float[] minMaxAccel, int trajPtSamples=1000, string boundaryCondition='not-a-knot', float timeout=5, int calculationScriptHandle=nil)</api-calltip>
-    </function>
-    <function>
-        <api-function-name>sim.getAlternateConfigs</api-function-name>
-        <api-description>Generates alternative manipulator configurations, for a same end-effector pose, for a manipulator
-that has revolute joints with a range larger than 360 degrees. The original submitted configuration
-will be part of the returned configurations</api-description>
-        <api-synopsis-python>list configurations = sim.getAlternateConfigs(list jointHandles, list inputConfig,
-                                              int tipHandle = -1, list lowLimits = None,
-                                              list ranges = None)</api-synopsis-python>
-        <api-synopsis-lua>float[] configurations = sim.getAlternateConfigs(int[] jointHandles, float[] inputConfig,
-                                                 int tipHandle = -1, float[] lowLimits = nil,
-                                                 float[] ranges = nil)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>jointHandles</strong>: an array with the handles of the manipulator joints.</li>
-                <li><strong>inputConfig</strong>: the manipulator configuration (i.e. joint values).</li>
-                <li><strong>tipHandle</strong>: the handle of the object acting as end-effector or tip of the kinematic chain, used to make sure the additional configurations have the same end-effector pose (e.g. in case some joints are dependent on others). Can be set to -1 if there are no joint dependencies involved.</li>
-                <li><strong>lowLimits</strong>: an optional array containing the low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</li>
-                <li><strong>ranges</strong>: an optional array containing the range values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals. If the range value is 0, then the lowLimit and range values are taken from the joint's properties. If the range value is negative, then the search interval will be centered around the current linear/angular joint position, with an extent of (-range).</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>configurations</strong>: an array containing configurations that are equivalent to the specified inputConfig, in terms of end-effector pose.</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[] configs = sim.getAlternateConfigs(int[] jointHandles, float[] inputConfig, int tipHandle=-1, float[] lowLimits=nil, float[] ranges=nil)</api-calltip>
     </function>
     <function>
         <api-function-name>sim.getApiFunc</api-function-name>
@@ -6258,7 +6065,6 @@ via <a href="simSetGraphStreamValue.htm">sim.setGraphStreamValue</a>
         <api-description>Handles (performs sensing, etc. of) a registered proximity sensor object</api-description>
         <api-see-also>sim.readProximitySensor
 sim.checkProximitySensor
-sim.checkProximitySensorEx
 sim.resetProximitySensor</api-see-also>
         <api-synopsis-cpp>int simHandleProximitySensor(int sensorHandle, double* detectedPoint, int* detectedObjectHandle,
                              double* detectedSurfaceNormalVector)</api-synopsis-cpp>
@@ -8307,7 +8113,6 @@ sysCall_event <a href="../callbackFunctions.htm">callback function</a> and via t
 it merely reads the result from a previous call to <a href="simHandleProximitySensor.htm">sim.handleProximitySensor</a>
         </api-description>
         <api-see-also>sim.checkProximitySensor
-sim.checkProximitySensorEx
 sim.resetProximitySensor</api-see-also>
         <api-synopsis-cpp>int simReadProximitySensor(int sensorHandle, double* detectedPoint, int* detectedObjectHandle,
                            double* detectedSurfaceNormalVector)</api-synopsis-cpp>

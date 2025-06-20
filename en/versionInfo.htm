@@ -41,7 +41,6 @@ W identifies a revision number (mainly for bug fixes)</pre>
 Version history:
 </p>
 
-<!--
 
 <h2>
 <a name="coppeliaSim4.11.0" id="coppeliaSim4.11.0"></a>CoppeliaSim V4.11.0 (<MONTH> <DAY>th <YEAR>)
@@ -51,8 +50,9 @@ Version history:
 <p class=imageLabel>[Lorem Ipsum]</p>
 
 <li>Fixed several bugs. Thanks to Hannes Weixler and ... for noticing them or helping to resolve them</li>
+<li>Support for old, global namespace Lua API (e.g. simGetObjectPosition instead of sim.getObjectPosition), deprecated since V-REP 3.5, has been dropped</li>
+<li>Support for old threaded simulation scripts (non coroutine based threads, indicated via a blue script icon), deprecated since CoppeliaSim V4.2, has been dropped</li>
 <li>checkargs.lua: backwards incompatible change: if you used option <code>default=NIL</code>, it should be changed to <code>default_nil=true</code></li>
--->
 
 
 <h2>
@@ -329,7 +329,7 @@ end</code></li>
 <li><a href="regularApi/simGetShapeMassAndInertia.htm">sim.getShapeMassAndInertia</a> and <a href="regularApi/simSetShapeMassAndInertia.htm">sim.setShapeMassAndInertia</a> are deprecated, and replaced by <a href="regularApi/simGetShapeMass.htm">sim.getShapeMass</a>, <a href="regularApi/simSetShapeMass.htm">sim.setShapeMass</a>, <a href="regularApi/simGetShapeInertia.htm">sim.getShapeInertia</a> and <a href="regularApi/simSetShapeInertia.htm">sim.setShapeInertia</a>.</li>
 <li>Added a new demo scene illustrating smooth movement profiles in forward and inverse kinematics mode: <em>kinematics/smoothMovementsInFkAndIk.ttt</em></li>
 <li>Updated the <a href="pathAndMotionPlanningModules.htm">OMPL plugin</a> to use the OMPL library version 1.5.0</li>
-<li>Added <a href="simIK.htm#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a> and <a href="regularApi/simGetAlternateConfigs.htm">sim.getAlternateConfigs</a>, to be used in conjunction with <a href="simIK.htm#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>, when dealing with manipulators that have joint ranges larger than 360 degrees, to generate alternative configurations.</li>
+<li>Added <a href="simIK.htm#simIK.getAlternateConfigs">simIK.getAlternateConfigs</a>, to be used in conjunction with <a href="simIK.htm#simIK.getConfigForTipPose">simIK.getConfigForTipPose</a>, when dealing with manipulators that have joint ranges larger than 360 degrees, to generate alternative configurations.</li>
 <li>Added several <a href="apiFunctions.htm#paths">path-related API functions</a>, including <a href="regularApi/simGenerateTimeOptimalTrajectory.htm">sim.generateTimeOptimalTrajectory</a> that allows to generate time optimal trajectories (i.e. trajectories that respect velocity and acceleration constraints), based on the <a href="https://hungpham2511.github.io/toppra/" target="_blank">TOPP-RA library</a>. A demo scene related to that can be found in <em>scenes/trajectoryAndMotion/pathToTrajectory.ttt</em>.</li>
 <li>Added a SVG widget for the <a href="customUIPlugin.htm">CustomUI</a> plugin. Content can be loaded from file, from XML string, or embedded in the UI XML.</li>
 <li><a href="regularApi/simRMLMoveToJointPositions.htm">sim.rmlMoveToJointPositions</a> and <a href="regularApi/simRMLMoveToPosition.htm">sim.rmlMoveToPosition</a> are deprecated in favor of <a href="regularApi/simMoveToConfig.htm">sim.moveToConfig</a> and <a href="regularApi/simMoveToPose.htm">sim.moveToPose</a>, which feature a callback mechanism for maximum flexibility.</li>
