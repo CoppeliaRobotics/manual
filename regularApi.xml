@@ -895,12 +895,12 @@ target script must be initialized for this call to succeed, e.g. when calling <a
 then simulation must be running</api-description>
         <api-see-also>sim.getScriptFunctions
 sim.executeScriptString</api-see-also>
-        <api-synopsis-python>... = sim.callScriptFunction(string functionName, int scriptHandle, ...)</api-synopsis-python>
-        <api-synopsis-lua>... = sim.callScriptFunction(string functionName, int scriptHandle, ...)</api-synopsis-lua>
+        <api-synopsis-python>... = sim.callScriptFunction(int scriptHandle, string functionName, ...)</api-synopsis-python>
+        <api-synopsis-lua>... = sim.callScriptFunction(int scriptHandle, string functionName, ...)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>functionName</strong>: the function to call.</li>
                 <li><strong>scriptHandle</strong>: the handle of the script, or sim.handle_self to target the current script. See <a href="simGetScript.htm">sim.getScript</a></li>
+                <li><strong>functionName</strong>: the function to call.</li>
                 <li><strong>...</strong>: any number of arguments that will be handed over to the called function.</li>
             </ul>
         </api-input-python-lua>
@@ -909,7 +909,7 @@ sim.executeScriptString</api-see-also>
                 <li><strong>...</strong>: any number of return values from the called function.</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>any outArg = sim.callScriptFunction(string functionName, int scriptHandle, any inArg=nil)</api-calltip>
+        <api-calltip>any outArg = sim.callScriptFunction(int scriptHandle, string functionName, any inArg=nil)</api-calltip>
     </function>
     <function>
         <api-function-name>simCallScriptFunctionEx</api-function-name>
@@ -8300,11 +8300,11 @@ time with the same arguments will unregister a previous hook</api-description>
                 <li>1 if the hook registration was successful, 0 if a previous hook was removed, and -1 in case of an error</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-lua>int result = sim.registerScriptFuncHook(string funcToHook, string/function userFunc, bool execBefore)</api-synopsis-lua>
+        <api-synopsis-lua>int result = sim.registerScriptFuncHook(string funcToHook, string userFunc, bool execBefore)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>funcToHook</strong>: function to hook</li>
-                <li><strong>userFunc</strong>: user function. Can be a string or a function</li>
+                <li><strong>userFunc</strong>: user function</li>
                 <li><strong>execBefore</strong>: if true, the user function is called before the function to hook. Otherwise it is called after</li>
             </ul>
         </api-input-python-lua>
