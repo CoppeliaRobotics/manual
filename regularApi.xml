@@ -5614,11 +5614,12 @@ Table values that are not numbers are converted to 0</api-description>
                 <li><strong>infoType</strong>: type of information desired:
                     <ul>
                         <li><strong>0</strong>: whether we have a table, whether the table is an array-type or map-type, and the size of the array-type table</li>
-                        <li><strong>1</strong>: whether the table contains only null values.</li>
-                        <li><strong>2</strong>: whether the table contains only number values.</li>
-                        <li><strong>3</strong>: whether the table contains only bool values.</li>
-                        <li><strong>4</strong>: whether the table contains only string values.</li>
-                        <li><strong>5</strong>: whether the table contains only table values.</li>
+                        <li><strong>1</strong>: whether the table contains only null values</li>
+                        <li><strong>2</strong>: whether the table contains only number values</li>
+                        <li><strong>3</strong>: whether the table contains only bool values</li>
+                        <li><strong>4</strong>: whether the table contains only string values</li>
+                        <li><strong>5</strong>: whether the table contains only table values</li>
+                        <li><strong>6</strong>: whether the table contains only matrices</li>
                     </ul>
                 </li>
             </ul>
@@ -5627,12 +5628,13 @@ Table values that are not numbers are converted to 0</api-description>
             <ul>
                 <li>-1 in case of an error, otherwise one of following:
                     <ul>
-                        <li>if <em>infoType</em> is 0: a <a href="../apiConstants.htm#stackTableInfo">stack table information value</a>. If the returned value is &gt;0, then this means the table is an array-type table, containing value-key pairs, where all the keys are numbers, consecutive, and starting at 1. Use <a href="simUnfoldStackTable_cpp.htm">simUnfoldStackTable</a> to read the content of the table.</li>
+                        <li>if <em>infoType</em> is 0: a <a href="../apiConstants.htm#stackTableInfo">stack table information value</a>. If the returned value is &gt;0, then this means the table is an array-type table, containing value-key pairs, where all the keys are numbers, consecutive, and starting at 1. Use <a href="simUnfoldStackTable_cpp.htm">simUnfoldStackTable</a> to read the content of the table</li>
                         <li>if <em>infoType</em> is 1: 1 if the table contains only null values</li>
                         <li>if <em>infoType</em> is 2: 1 if the table contains only number values</li>
                         <li>if <em>infoType</em> is 3: 1 if the table contains only bool values</li>
                         <li>if <em>infoType</em> is 4: 1 if the table contains only string values</li>
                         <li>if <em>infoType</em> is 5: 1 if the table contains only table values</li>
+                        <li>if <em>infoType</em> is 6: 1 if the table contains only matrices</li>
                     </ul>
                 </li>
             </ul>
@@ -7561,8 +7563,7 @@ word4Color = "152 64 0"</comment>
     <function>
         <api-function-name>sim.packTable</api-function-name>
         <api-description>Packs a table into a buffer. The table may contain other nested arrays, maps, None/nil, bool,
-number or string values. All other types (e.g. functions) will be considered as string or None/nil values.
-You can also use sim.packTable to quickly compare two tables or to perform a deep copy of a table</api-description>
+number, string or matrix values. All other types (e.g. functions) will be considered as string or None/nil values. You can also use sim.packTable to quickly compare two tables</api-description>
         <api-see-also>sim.unpackTable
 <a href="../apiFunctions.htm#packing">packing/unpacking functions</a>
         </api-see-also>
@@ -10914,11 +10915,12 @@ sim.relocateShapeFrame</api-see-also>
                 <li>-1 in case of an error.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list/dict aTable = sim.unpackTable(bytes buffer)</api-synopsis-python>
-        <api-synopsis-lua>any[]/map aTable = sim.unpackTable(buffer buffer)</api-synopsis-lua>
+        <api-synopsis-python>list/dict aTable = sim.unpackTable(bytes buffer, int packingScheme=0)</api-synopsis-python>
+        <api-synopsis-lua>any[]/map aTable = sim.unpackTable(buffer buffer, int packingScheme=0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>buffer</strong>: an input buffer</li>
+                <li><strong>packingScheme</strong>: 0 for CoppeliaSim format, 1 for CBOR format</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
