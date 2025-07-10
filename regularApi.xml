@@ -5602,6 +5602,26 @@ Table values that are not numbers are converted to 0</api-description>
         </api-output-cpp>
     </function>
     <function>
+        <api-function-name>simGetStackMatrix</api-function-name>
+        <api-description>Tries to retrieve the value at the top of the stack, if that value is a matrix</api-description>
+        <api-see-also>
+            <a href="../apiFunctions.htm#stacks">stack functions</a>
+        </api-see-also>
+        <api-synopsis-cpp>double* simGetStackMatrix(int stackHandle, int* rows, int* cols)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>stackHandle</strong>: a stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
+                <li><strong>rows</strong>: a pointer to a location receiving the number of rows. Can be nullptr</li>
+                <li><strong>cols</strong>: a pointer to a location receiving the number of columns. Can be nullptr</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>in case of an error, the return value is nullptr and <em>rows</em>/<em>cols</em> are set to -1. If the stack item is not a matrix, the return value is nullptr and <em>rows</em>/<em>cols</em> are set to 0. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>)</li>
+            </ul>
+        </api-output-cpp>
+    </function>
+    <function>
         <api-function-name>simGetStackTableInfo</api-function-name>
         <api-description>Tries to retrieve information about a possible table at the top of the stack</api-description>
         <api-see-also>
@@ -7982,6 +8002,27 @@ The string will then be located at the top of the stack</api-description>
                 <li><strong>stackHandle</strong>: stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
                 <li><strong>value</strong>: a binary string</li>
                 <li><strong>stringSize</strong>: length of the binary string.</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>-1 in case of an error.</li>
+            </ul>
+        </api-output-cpp>
+    </function>
+    <function>
+        <api-function-name>simPushMatrixOntoStack</api-function-name>
+        <api-description>Pushes a matrix onto the stack. The matrix will then be located at the top of the stack</api-description>
+        <api-see-also>
+            <a href="../apiFunctions.htm#stacks">stack functions</a>
+        </api-see-also>
+        <api-synopsis-cpp>int simPushMatrixOntoStack(int stackHandle, const double* matrix, int rows, int cols)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>stackHandle</strong>: stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
+                <li><strong>matrix</strong>: the matrix in row-major order</li>
+                <li><strong>rows</strong>: the number of rows</li>
+                <li><strong>cols</strong>: the number of columns</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
