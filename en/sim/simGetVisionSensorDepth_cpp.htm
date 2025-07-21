@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simGetVisionSensorDepth <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>simGetVisionSensorDepth <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></h2>
+    <p>Reads the depth buffer of a vision sensor. The returned data doesn't make sense if
+<a href="simHandleVisionSensor.htm">sim.handleVisionSensor</a> wasn't called previously</p>
+</div>
+
+<div class="regApiSection">
+    <h3>C++ synopsis</h3>
+    <code class="hljs language-c++ coppelia-coppeliasim-plugin">float* simGetVisionSensorDepth(int sensorHandle, int options, const int* pos, const int* size, 
+                               int* resolution)</code>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>sensorHandle</strong>: handle of the vision sensor</li>
+                <li><strong>options</strong>: options, bit-coded:
+                    <ul>
+                        <li>bit0 set (1): the returned values indicate distances in meters, otherwise return values are in the range of 0.0 - 1.0 (0.0 = closest to sensor (i.e. close clipping plane), 1.0 = farthest from sensor (i.e. far clipping plane))</li>
+                    </ul>
+                </li>
+                <li><strong>pos</strong>: position of the depth buffer portion to retrieve. Can be nullptr, which defaults to [0 0]</li>
+                <li><strong>size</strong>: size of the depth buffer portion to retrieve. Can be nullptr, which defaults to [0 0], which corresponds to [resolutionX resolutionY]</li>
+                <li><strong>resolution</strong>: the returned vision sensor resolution. Can be nullptr</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return</h3>
+    
+            <ul>
+                <li>the depth buffer or nullptr in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a></li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="../apiFunctions.htm#visionSensor">vision sensor related API functions</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

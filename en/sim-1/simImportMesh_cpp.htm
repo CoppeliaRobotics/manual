@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simImportMesh <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>simImportMesh <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></h2>
+    <p>Imports a mesh from a file</p>
+</div>
+
+<div class="regApiSection">
+    <h3>C++ synopsis</h3>
+    <code class="hljs language-c++ coppelia-coppeliasim-plugin">int simImportMesh(int fileformat, const char* pathAndFilename, int options, 
+                  double identicalVerticeTolerance, double scalingFactor, double*** vertices, 
+                  int** verticesSizes, int*** indices, int** indicesSizes, double*** reserved, 
+                  char*** names)</code>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>fileformat</strong>: set to 0. Fileformat is automatically detected</li>
+                <li><strong>pathAndFilename</strong>: the location of the file to import.</li>
+                <li><strong>options</strong>: bit-coded: bit0 set (1): keep identical vertices, bit7 set (128): ignore up-vector coded in fileformat</li>
+                <li><strong>identicalVerticeTolerance</strong>: has no effect. set to zero</li>
+                <li><strong>scalingFactor</strong>: the scaling factor to apply to the imported vertices</li>
+                <li><strong>vertices</strong>: an array to vertice arrays. The import operation may generate several meshes depending on the fileformat. The user is in charge of releasing the memory. See the example below</li>
+                <li><strong>verticesSizes</strong>: an array indicating the individual vertice array sizes. The user is in charge of releasing the memory. See the example below</li>
+                <li><strong>indices</strong>: an array to indice arrays. The import operation may generate several meshes depending on the fileformat. The user is in charge of releasing the memory. Can be nullptr. See the example below</li>
+                <li><strong>indicesSizes</strong>: an array indicating the individual indice array sizes. The user is in charge of releasing the memory. Can be nullptr if indices is also nullptr. See the example below</li>
+                <li><strong>reserved</strong>: reserved for future extensions. Keep at nullptr.</li>
+                <li><strong>names</strong>: not used anymore. Set to nullptr</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return</h3>
+    
+            <ul>
+                <li>Number of imported meshes, or 0 or -1 if the operation was not successful</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+            <h3>Example</h3>
+            <code class="hljs language-c++ coppelia-coppeliasim-plugin">double** vertices;
+int* verticesSizes;
+int** indices;
+int* indicesSizes;
+int elementCount = simImportMesh(1, "d:\\example.dxf", 0, 0.0001, 1.0, &amp;vertices,
+                                 &amp;verticesSizes, &amp;indices, &amp;indicesSizes, nullptr, nullptr);
+if (elementCount &gt; 0)
+{
+    const double grey[3] = {0.5, 0.5, 0.5};
+    for (int i = 0; i &lt; elementCount; i++)
+    {
+        int shapeHandle = simCreateShape(2, 20.0 * 3.1415 / 180.0, vertices[i],
+                               verticesSizes[i], indices[i], indicesSizes[i], nullptr,
+                               nullptr, nullptr, nullptr);
+        simSetShapeColor(shapeHandle, "", sim.colorcomponent_ambient, grey);
+        simReleaseBuffer((char*)indices[i]);
+        simReleaseBuffer((char*)vertices[i]);
+    }
+    simReleaseBuffer((char*)indicesSizes);
+    simReleaseBuffer((char*)indices);
+    simReleaseBuffer((char*)verticesSizes);
+    simReleaseBuffer((char*)vertices);
+}</code>
+        
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="simExportMesh_cpp.htm">simExportMesh</a></li>
+<li><a href="simImportShape_cpp.htm">simImportShape</a></li>
+<li><a href="simCreateShape_cpp.htm">simCreateShape</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

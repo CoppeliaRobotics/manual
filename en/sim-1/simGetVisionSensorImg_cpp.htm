@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simGetVisionSensorImg <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>simGetVisionSensorImg <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></h2>
+    <p>Reads the image of a vision sensor. The returned data doesn't make sense if
+<a href="simHandleVisionSensor.htm">sim.handleVisionSensor</a> wasn't called previously</p>
+</div>
+
+<div class="regApiSection">
+    <h3>C++ synopsis</h3>
+    <code class="hljs language-c++ coppelia-coppeliasim-plugin">unsigned char* simGetVisionSensorImg(int sensorHandle, int options, double rgbaCutOff, 
+                                     const int* pos, const int* size, int* resolution)</code>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>sensorHandle</strong>: handle of the vision sensor</li>
+                <li><strong>options</strong>: options, bit-coded:
+                    <ul>
+                        <li>bit0 set (1): the returned image will by a greyscale image (1 byte per pixel), otherwise an RGB image</li>
+                        <li>bit1 set (2): the returned image will have one additional byte per pixel, as alpha channel (RGBA or greyscale+A)</li>
+                    </ul>
+                </li>
+                <li><strong>rgbaCutOff</strong>: when an RGBA image is returned, the alpha component will be 255 for all depth values below <em>rgbaCutOff</em>, and 0 for all depth values above <em>rgbaCutOff</em>. 0 corresponds to the near clipping plane, 1 to the far clipping plane</li>
+                <li><strong>pos</strong>: position of the image portion to retrieve. Can be nullptr, which defaults to [0 0]</li>
+                <li><strong>size</strong>: size of the image portion to retrieve. Can be nullptr which defaults to [0 0], which corresponds to [resolutionX resolutionY]</li>
+                <li><strong>resolution</strong>: the returned vision sensor resolution. Can be nullptr</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return</h3>
+    
+            <ul>
+                <li>the image buffer or nullptr in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a></li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="simSaveImage_cpp.htm">simSaveImage</a></li>
+<li><a href="../apiFunctions.htm#visionSensor">vision sensor related API functions</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

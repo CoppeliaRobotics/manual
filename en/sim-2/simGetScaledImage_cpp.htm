@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simGetScaledImage <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>simGetScaledImage <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></h2>
+    <p>Generates a scaled-up or scaled down version of the input image</p>
+</div>
+
+<div class="regApiSection">
+    <h3>C++ synopsis</h3>
+    <code class="hljs language-c++ coppelia-coppeliasim-plugin">unsigned char* simGetScaledImage(const unsigned char* imageIn, const int* resolutionIn, 
+                                 const int* resolutionOut, int options, void* reserved)</code>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>imageIn</strong>: pointer to rgb or rgba values of the input image.</li>
+                <li><strong>resolutionIn</strong>: resolution of the input image.</li>
+                <li><strong>resolutionOut</strong>: desired resolution of the output image. The values will be replaced by the effective resolution of the output image</li>
+                <li><strong>options</strong>: bit-coded:
+                    <ul>
+                        <li>bit0 set (1): the input image is rgba, otherwise it is rgb</li>
+                        <li>bit1 set (2): the returned image is rgba, otherwise it is rgb</li>
+                        <li>bit2-3: 0:ignore aspect ratio, 4:keep aspect ratio (the effective resolution of the returned image will be different), 8:keep aspect ratio by expanding (the effective resolution of the returned image will be different)</li>
+                        <li>bit4 set (16): no smooth transformation</li>
+                    </ul>
+                </li>
+                <li><strong>reserved</strong>: Reserved for future extension. Set to nullptr.</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return</h3>
+    
+            <ul>
+                <li>nullptr if operation was not successful, otherwise a buffer containing the output image data. The user is in charge of releasing the buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>.</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="simTransformImage_cpp.htm">simTransformImage</a></li>
+<li><a href="simLoadImage_cpp.htm">simLoadImage</a></li>
+<li><a href="simSaveImage_cpp.htm">simSaveImage</a></li>
+<li><a href="simSetVisionSensorImg_cpp.htm">simSetVisionSensorImg</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.ruckigPos <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>sim.ruckigPos <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></h2>
+    <p>Executes a call to the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
+The Ruckig online trajectory generator provides instantaneous trajectory generation capabilities
+for motion control systems. This function prepares a position-based trajectory generation object,
+that can then be calculated with <a href="simRuckigStep.htm">sim.ruckigStep</a>. When this object
+is not needed anymore, remove it with <a href="simRuckigRemove.htm">sim.ruckigRemove</a>
+        </p>
+</div>
+
+<div class="regApiSection">
+    <h3>Synopsis</h3>
+    <div class="multi-language-switcher">
+    	<code class="hljs language-python coppelia-coppeliasim-script">int handle = sim.ruckigPos(int dofs, float baseCycleTime, int flags, list currentPosVelAccel, 
+                           list maxVelAccelJerk, list selection, list targetPosVel)</code>
+        
+        <code class="hljs language-lua coppelia-coppeliasim-script">int handle = sim.ruckigPos(int dofs, float baseCycleTime, int flags, float[] currentPosVelAccel, 
+                           float[] maxVelAccelJerk, int[] selection, float[] targetPosVel)</code>
+    </div>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>dofs</strong>: number of degrees of freedom (n).</li>
+                <li><strong>baseCycleTime</strong>: smallest expected cycle time. The cycle time should always be a multiple of baseCycleTime. Use a value of 0.0001 (0.1ms).</li>
+                <li><strong>flags</strong>: <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>. -1 for default flags.</li>
+                <li><strong>currentPosVelAccel</strong>: current position, velocity and acceleration: [pos_1 ... pos_n vel_1 ... vel_n accel_1 ... accel_n] (one value for each DoF)</li>
+                <li><strong>maxVelAccelJerk</strong>: maximum allowed velocity, acceleration and jerk: [maxV_1 ... maxV_n maxA_1 ... maxA_n maxJ_1 ... maxJ_n]. If sim.ruckig_minvel is specified in flags, then maxVelAccelJerk should contain following additional values: [minV_1 ... minV_n]. If sim.ruckig_minaccel is specified in flags, then maxVelAccelJerk should contain following additional values: [minA_1 ... minA_n]</li>
+                <li><strong>selection</strong>: selection vector (one value for each DoF). For a default behaviour, fill the vector with non-zero values.</li>
+                <li><strong>targetPosVel</strong>: target position and velocity: [tPos_1 ... tPos_n tVel_1 ... tVel_n]</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return values</h3>
+    
+            <ul>
+                <li><strong>handle</strong>: the handle to the created object</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="simRuckigVel.htm">sim.ruckigVel</a></li>
+<li><a href="simMoveToPose.htm">sim.moveToPose</a></li>
+<li><a href="simMoveToConfig.htm">sim.moveToConfig</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

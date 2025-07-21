@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.addDrawingObject <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>sim.addDrawingObject <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></h2>
+    <p>Adds a drawing object that will be displayed in the scene. Drawing objects are containers
+that hold several items of a given type. This can be used for several different applications
+(simulation of paint, simulation of welding seam, display of 3D objects, etc.). Drawing objects
+created in a <a href="../simulationScripts.htm">simulation script</a> will be automatically
+removed at simulation end</p>
+</div>
+
+<div class="regApiSection">
+    <h3>Synopsis</h3>
+    <div class="multi-language-switcher">
+    	<code class="hljs language-python coppelia-coppeliasim-script">int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance, 
+                                               int parentObjectHandle, int maxItemCount, 
+                                               list color = None)</code>
+        
+        <code class="hljs language-lua coppelia-coppeliasim-script">int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance, 
+                                               int parentObjectHandle, int maxItemCount, 
+                                               float[3] color = nil)</code>
+    </div>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>objectType</strong>: a <a href="../apiConstants.htm#customDrawingObjects">drawing object type combined with attributes</a></li>
+                <li><strong>size</strong>: size of the item (width of lines or size of points are in pixels, other sizes are in meters</li>
+                <li><strong>duplicateTolerance</strong>: if different from 0.0, then a call to <a href="simAddDrawingObjectItem.htm">simAddDrawingObjectItem</a> will only add the item if there is no other item within duplicateTolerance distance. Useful to avoid adding a too high density of points, is however not appropriate when using a large number of points (slower operation). Applicable only for single vertex items.</li>
+                <li><strong>parentObjectHandle</strong>: handle of the scene object where the drawing items should keep attached to (if the scene object moves, the drawing items will also move), or -1 if the drawing items are relative to the world (fixed)</li>
+                <li><strong>maxItemCount</strong>: maximum number of items this object can hold. 0 uses a default size of 1000.</li>
+                <li><strong>color</strong>: default color (3 rgb values). Can be None/nil</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return values</h3>
+    
+            <ul>
+                <li>handle of the drawing object</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="simAddDrawingObjectItem.htm">sim.addDrawingObjectItem</a></li>
+<li><a href="simRemoveDrawingObject.htm">sim.removeDrawingObject</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

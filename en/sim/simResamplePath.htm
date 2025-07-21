@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.resamplePath <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>sim.resamplePath <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></h2>
+    <p>Returns a resampled path</p>
+</div>
+
+<div class="regApiSection">
+    <h3>Synopsis</h3>
+    <div class="multi-language-switcher">
+    	<code class="hljs language-python coppelia-coppeliasim-script">list outputPath = sim.resamplePath(list path, list pathLengths, int finalConfigCnt, 
+                                   dict method = {'type': 'linear', 'strength': 1.0, 
+                                   'forceOpen': False}, list types = None)</code>
+        
+        <code class="hljs language-lua coppelia-coppeliasim-script">float[] outputPath = sim.resamplePath(float[] path, float[] pathLengths, int finalConfigCnt, 
+                                      map method = {type = 'linear', strength = 1.0, 
+                                      forceOpen = false}, int[] types = nil)</code>
+    </div>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>path</strong>: path, specified in row-major order, e.g. a path containing two 3D poses (position+quaternion) would be [x1 y1 z1 qx1 qy1 qz1 qw1 x2 y2 z2 qx2 qy2 qz2 qw2]</li>
+                <li><strong>pathLengths</strong>: lengths of a path. Each path point should have a corresponding length value (as the distance from the path's first point, along the path). See also <a href="simGetPathLengths.htm">sim.getPathLengths</a>.</li>
+                <li><strong>finalConfigCnt</strong>: number of points or configurations the resampled path should contain</li>
+                <li><strong>method</strong>: optional map specifying the type of interpolation (linear or quadraticBezier), and whether the path should be considered as open, even if the first and last path points overlap, and the bezier strength (0.05-1.0)</li>
+                <li><strong>types</strong>: optional array specifying the type of each configuration value/dimension: 0=cartesian value, 1=2pi-cyclic value, 2=quaternion value. e.g. a configuration representing 3D poses should use a types argument [0 0 0 2 2 2 2], a configuration representing revolute and cyclic joints should use a types argument [1 1 1 ...]</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return values</h3>
+    
+            <ul>
+                <li><strong>outputPath</strong>: the resampled path</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="../apiFunctions.htm#paths">path related functions</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

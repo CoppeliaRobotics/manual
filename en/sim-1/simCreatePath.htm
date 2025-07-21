@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.createPath <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>sim.createPath <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></h2>
+    <p>Creates a <a href="../paths.htm">path</a>.</p>
+</div>
+
+<div class="regApiSection">
+    <h3>Synopsis</h3>
+    <div class="multi-language-switcher">
+    	<code class="hljs language-python coppelia-coppeliasim-script">int pathHandle = sim.createPath(list ctrlPts, int options = 0, int subdiv = 100, 
+                                float smoothness = 1.0, int orientationMode = 0, 
+                                list upVector = [0, 0, 1])</code>
+        
+        <code class="hljs language-lua coppelia-coppeliasim-script">int pathHandle = sim.createPath(float[] ctrlPts, int options = 0, int subdiv = 100, 
+                                float smoothness = 1.0, int orientationMode = 0, 
+                                float[3] upVector = {0, 0, 1})</code>
+    </div>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>ctrlPts</strong>: control points, specified in row-major order, with <em>[x y z qx qy qz qw]</em> values for each path point</li>
+                <li><strong>options</strong>: bit-coded:
+                    <ul>
+                        <li>bit0 set (1): path is hidden during simulation</li>
+                        <li>bit1 set (2): path is closed</li>
+                        <li>bit2 set (4): generates an extruded shape</li>
+                        <li>bit3 set (8): show individual path points</li>
+                        <li>bit4 set (16): the path points' orientation is computed according to the orientationMode below</li>
+                    </ul>
+                </li>
+                <li><strong>subdiv</strong>: number of individual path points</li>
+                <li><strong>smoothness</strong>: value between 0.0 (linear interpolation) and 1.0 (100% Bezier interpolation)</li>
+                <li><strong>orientationMode</strong>: value specifiying how the individual path points are oriented along the path, if bit16 of options is set: 0: x along path, y is up, 1: x along path, z is up, 2: y along path, x is up, 3: y along path, z is up, 4: z along path, x is up, 5: z along path, y is up</li>
+                <li><strong>upVector</strong>: up vector, used for generating an extruded shape and for computing individual path point orientations</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return values</h3>
+    
+            <ul>
+                <li><strong>pathHandle</strong>: handle of the created path object</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p></p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

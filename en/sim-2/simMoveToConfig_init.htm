@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.moveToConfig_init <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>sim.moveToConfig_init <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></h2>
+    <p>Initiates a n-DoF motion using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a></p>
+</div>
+
+<div class="regApiSection">
+    <h3>Synopsis</h3>
+    <div class="multi-language-switcher">
+    	<code class="hljs language-python coppelia-coppeliasim-script">dict motionObject = sim.moveToConfig_init(dict params)</code>
+        
+        <code class="hljs language-lua coppelia-coppeliasim-script">table motionObject = sim.moveToConfig_init(table params)</code>
+    </div>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>params</strong>: parameters of the function:
+                    <ul>
+                        <li><strong>pos</strong>: mandatory if joints is not specified. Specifies the current configuration as a vector with one value per DoF</li>
+                        <li><strong>joints</strong>: mandatory if pos is not specified. Specifies the joint handles as a vector with one handle per DoF</li>
+                        <li><strong>targetPos</strong>: specifies the target configuration as a vector with one value per DoF</li>
+                        <li><strong>flags</strong>: optional. <a href="../apiConstants.htm#ruckigFunctions">Ruckig flags</a>, -1 for default flags.</li>
+                        <li><strong>vel</strong>: optional. Specifies current velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
+                        <li><strong>accel</strong>: optional. Specifies current acceleration as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
+                        <li><strong>maxVel</strong>: optional. Specifies the maximum allowed velocity as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to [inf, inf, ...] if omitted</li>
+                        <li><strong>minVel</strong>: optional. Specifies the minimum allowed velocity as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to -maxVel if omitted</li>
+                        <li><strong>maxAccel</strong>: optional. Specifies the maximum allowed acceleration as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to [inf, inf, ...] if omitted</li>
+                        <li><strong>minAccel</strong>: optional. Specifies the minimum allowed acceleration as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to -maxAccel if omitted</li>
+                        <li><strong>maxJerk</strong>: optional. Specifies the maximum allowed jerk as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to [inf, inf, ...] if omitted</li>
+                        <li><strong>targetVel</strong>: optional. Specifies the target velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted</li>
+                        <li><strong>callback</strong>: optional. Callback function called for each motion step. The argument provided to the callback function is the current motion state</li>
+                        <li><strong>auxData</strong>: optional. Data to be forwarded to the callback function</li>
+                        <li><strong>cyclicJoints</strong>: optional. Indicates which joint is cyclic (for cyclic joints, the movement always goes in the direction that represents the shortest distance to the goal). Defaults to [false, false, ...] is omitted</li>
+                        <li><strong>timeStep</strong>: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted</li>
+                    </ul>
+                </li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return values</h3>
+    
+            <ul>
+                <li><strong>motionObject</strong>: a motion object</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="simMoveToConfig_step.htm">sim.moveToConfig_step</a></li>
+<li><a href="simMoveToConfig_cleanup.htm">sim.moveToConfig_cleanup</a></li>
+<li><a href="simMoveToPose_init.htm">sim.moveToPose_init</a></li>
+<li><a href="simRuckigPos.htm">sim.ruckigPos</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

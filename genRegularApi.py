@@ -6,9 +6,13 @@ import xml.etree.ElementTree as ET
 
 from pathlib import Path
 
-
 currentDir = Path(__file__).absolute().parent
 
+API_VER_INFO = ' <small>(in <a href="../apisOverview.htm">sim-2</a>)</small>'
+apiDir_currentVer = currentDir / 'en' / 'sim-2'
+apiDirs_oldVer = [currentDir / 'en' / 'sim-1'] # older API versions
+apiDir_deprecated_currentVer = currentDir / 'en' / 'deprecated' # deprecated but in the same API version
+apiDir_all = currentDir / 'en' / 'sim'
 templatesDir = currentDir / 'templates'
 
 if '--calltip' in sys.argv:
@@ -24,12 +28,18 @@ if '--calltip' in sys.argv:
 
 
 def main():
-    regularApiDir = currentDir / 'en' / 'regularApi'
     try:
-        shutil.rmtree(regularApiDir)
+        shutil.rmtree(apiDir_currentVer)
     except Exception as e:
         pass
-    os.makedirs(regularApiDir)
+    os.makedirs(apiDir_currentVer)
+
+    # first insert deprecated functions (for the same API version):
+    for filename in os.listdir(apiDir_deprecated_currentVer):
+        if filename.endswith('.htm'):
+            src_path = os.path.join(apiDir_deprecated_currentVer, filename)
+            dst_path = os.path.join(apiDir_currentVer, filename)
+            shutil.copy2(src_path, dst_path)    
 
     with (templatesDir / 'regularApi_cpp.htm').open('r') as file_r:
         template_cpp = file_r.read()
@@ -84,10 +94,10 @@ def main():
         apiCalltip = getTxt('api-calltip')
 
         if apiSynopsisPython or apiSynopsisLua:
-            nm = currentDir / 'en' / 'regularApi' / (getCppName(apiFunc) + '.htm')
+            nm = apiDir_currentVer / (getCppName(apiFunc) + '.htm')
             with nm.open('w') as file_w:
                 a = template
-                a = a.replace('__funcName__', apiFunc)
+                a = a.replace('__funcName__', apiFunc + API_VER_INFO)
                 a = a.replace('__funcDescription__', apiDescription)
                 a = a.replace('__seeAlso__', apiSeeAlsoPythonLua)
                 a = a.replace('__pythonSynopsis__', addCodeSection(formatSynopsis(apiSynopsisPython, 100), 'python'))
@@ -110,10 +120,10 @@ def main():
                 a = a.replace('__more__', apiMorePythonLua)
                 file_w.write(a)
         if apiSynopsisCpp:
-            nm = currentDir / 'en' / 'regularApi' / (getCppName(apiFunc) + '_cpp' + '.htm')
+            nm = apiDir_currentVer / (getCppName(apiFunc) + '_cpp' + '.htm')
             with nm.open('w') as file_w:
                 a = template_cpp
-                a = a.replace('__funcName__', getCppName(apiFunc))
+                a = a.replace('__funcName__', getCppName(apiFunc) + API_VER_INFO)
                 a = a.replace('__funcDescription__', apiDescription)
                 a = a.replace('__seeAlso__', apiSeeAlsoCpp)
                 a = a.replace('__cppSynopsis__', formatSynopsis(apiSynopsisCpp, 100))
@@ -132,7 +142,28 @@ def main():
                 a = a.replace('__more__', apiMoreCpp)
                 file_w.write(a)
 
+    # Now copy ALL functions into apiDir_all:
+    try:
+        shutil.rmtree(apiDir_all)
+    except Exception as e:
+        pass
+    os.makedirs(apiDir_all)
+    # First, copy previous API functions:
+    for item in apiDirs_oldVer:
+        for filename in os.listdir(item):
+            if filename.endswith('.htm'):
+                src_path = os.path.join(item, filename)
+                dst_path = os.path.join(apiDir_all, filename)
+                shutil.copy2(src_path, dst_path)    
+    # Now, copy current API functions:
+    for filename in os.listdir(apiDir_currentVer):
+        if filename.endswith('.htm'):
+            src_path = os.path.join(apiDir_currentVer, filename)
+            dst_path = os.path.join(apiDir_all, filename)
+            shutil.copy2(src_path, dst_path)    
+            
     print(f'\nTotal generated: {cnt}')
+    
 
 def addCodeSection(string, lang):
     s = ''

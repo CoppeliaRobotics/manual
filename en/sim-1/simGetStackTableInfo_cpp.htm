@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simGetStackTableInfo <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>simGetStackTableInfo <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></h2>
+    <p>Tries to retrieve information about a possible table at the top of the stack</p>
+</div>
+
+<div class="regApiSection">
+    <h3>C++ synopsis</h3>
+    <code class="hljs language-c++ coppelia-coppeliasim-plugin">int simGetStackTableInfo(int stackHandle, int infoType)</code>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>stackHandle</strong>: stack handle obtained with <a href="simCreateStack_cpp.htm">simCreateStack</a>.</li>
+                <li><strong>infoType</strong>: type of information desired:
+                    <ul>
+                        <li><strong>0</strong>: whether we have a table, whether the table is an array-type or map-type, and the size of the array-type table</li>
+                        <li><strong>1</strong>: whether the table contains only null values</li>
+                        <li><strong>2</strong>: whether the table contains only number values</li>
+                        <li><strong>3</strong>: whether the table contains only bool values</li>
+                        <li><strong>4</strong>: whether the table contains only string values</li>
+                        <li><strong>5</strong>: whether the table contains only table values</li>
+                        <li><strong>6</strong>: whether the table contains only matrices</li>
+                    </ul>
+                </li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return</h3>
+    
+            <ul>
+                <li>-1 in case of an error, otherwise one of following:
+                    <ul>
+                        <li>if <em>infoType</em> is 0: a <a href="../apiConstants.htm#stackTableInfo">stack table information value</a>. If the returned value is &gt;0, then this means the table is an array-type table, containing value-key pairs, where all the keys are numbers, consecutive, and starting at 1. Use <a href="simUnfoldStackTable_cpp.htm">simUnfoldStackTable</a> to read the content of the table</li>
+                        <li>if <em>infoType</em> is 1: 1 if the table contains only null values</li>
+                        <li>if <em>infoType</em> is 2: 1 if the table contains only number values</li>
+                        <li>if <em>infoType</em> is 3: 1 if the table contains only bool values</li>
+                        <li>if <em>infoType</em> is 4: 1 if the table contains only string values</li>
+                        <li>if <em>infoType</em> is 5: 1 if the table contains only table values</li>
+                        <li>if <em>infoType</em> is 6: 1 if the table contains only matrices</li>
+                    </ul>
+                </li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="../apiFunctions.htm#stacks">stack functions</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

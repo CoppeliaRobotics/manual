@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.setReferencedHandles <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>sim.setReferencedHandles <small>(in <a href="../apisOverview.htm">sim-1</a>)</small></h2>
+    <p>Attaches a list of custom handles to a given scene object. Those custom handles
+are handles of other scene objects, that are linked to the given scene object (for whatever purpose).
+The advantage of storing references to other objects with this function is that CoppeliaSim will take
+care of correctly adjusting the references if needed: For instance, imagine <em>objectA</em> storing
+the handle of <em>objectB</em> via this function. If <em>objectB</em> is deleted, then the stored
+handle becomes -1. If <em>objectA</em> and <em>objectB</em> are duplicated at the same time, then the
+duplicate of <em>objectA</em> stores the handle of the duplicate of <em>objectB</em>. Optionally, if
+<em>sim.handleflag_keeporiginal </em>is specified, then linking to original objects is guaranteed, e.g. in above example,
+after a duplication of <em>objectA</em>, the duplicate of <em>objectA</em> will store the handle of the
+original <em>objectB</em> (if <em>objectB</em> still exists)</p>
+</div>
+
+<div class="regApiSection">
+    <h3>Synopsis</h3>
+    <div class="multi-language-switcher">
+    	<code class="hljs language-python coppelia-coppeliasim-script">sim.setReferencedHandles(int objectHandle, list referencedHandles, string tag = '')</code>
+        
+        <code class="hljs language-lua coppelia-coppeliasim-script">sim.setReferencedHandles(int objectHandle, int[] referencedHandles, string tag = '')</code>
+    </div>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>objectHandle</strong>: handle of the scene object that will store the list of handles. Can be optionally combined with <em>sim.handleflag_keeporiginal</em>, in which case the handles that link to originals are retrieved</li>
+                <li><strong>referencedHandles</strong>: list of scene object handles.</li>
+                <li><strong>tag</strong>: a tag: handles will be stored under this tag. Defaults to an empty tag</li>
+            </ul>
+        
+</div>
+
+<div style="display: none;" class="regApiSection">
+    <h3>Return values</h3>
+    
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="simGetReferencedHandles.htm">sim.getReferencedHandles</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

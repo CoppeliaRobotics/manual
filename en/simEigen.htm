@@ -114,6 +114,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Matrix:prod">simEigen.Matrix:prod</a>
 <a href="?#Matrix:prod">simEigen.Matrix:prod</a>
 <a href="?#Matrix:rad">simEigen.Matrix:rad</a>
+<a href="?#Matrix:random">simEigen.Matrix:random</a>
 <a href="?#Matrix:reshaped">simEigen.Matrix:reshaped</a>
 <a href="?#Matrix:row">simEigen.Matrix:row</a>
 <a href="?#Matrix:rowdata">simEigen.Matrix:rowdata</a>
@@ -136,6 +137,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Matrix:transposed">simEigen.Matrix:transposed</a>
 <a href="?#Matrix:vertcat">simEigen.Matrix:vertcat</a>
 <a href="?#Pose">simEigen.Pose</a>
+<a href="?#Pose:copy">simEigen.Pose:copy</a>
 <a href="?#Pose:data">simEigen.Pose:data</a>
 <a href="?#Pose:fromtransform">simEigen.Pose:fromtransform</a>
 <a href="?#Pose:inv">simEigen.Pose:inv</a>
@@ -143,10 +145,12 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Pose:mul">simEigen.Pose:mul</a>
 <a href="?#Pose:totransform">simEigen.Pose:totransform</a>
 <a href="?#Quaternion">simEigen.Quaternion</a>
+<a href="?#Quaternion:copy">simEigen.Quaternion:copy</a>
 <a href="?#Quaternion:data">simEigen.Quaternion:data</a>
 <a href="?#Quaternion:fromaxisangle">simEigen.Quaternion:fromaxisangle</a>
 <a href="?#Quaternion:fromeuler">simEigen.Quaternion:fromeuler</a>
 <a href="?#Quaternion:fromrotation">simEigen.Quaternion:fromrotation</a>
+<a href="?#Quaternion:fromtwovectors">simEigen.Quaternion:fromtwovectors</a>
 <a href="?#Quaternion:imul">simEigen.Quaternion:imul</a>
 <a href="?#Quaternion:inv">simEigen.Quaternion:inv</a>
 <a href="?#Quaternion:isquaternion">simEigen.Quaternion:isquaternion</a>
@@ -156,6 +160,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Quaternion:toeuler">simEigen.Quaternion:toeuler</a>
 <a href="?#Quaternion:torotation">simEigen.Quaternion:torotation</a>
 <a href="?#Vector">simEigen.Vector</a>
+<a href="?#Vector:isvector">simEigen.Vector:isvector</a>
 </pre></td></tr>
 <tr><td id="commands" class="section">
 <h3 class="subsectionBar">
@@ -165,7 +170,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftDescr">
                                                     Description
                                                 </td>
-<td class="apiTableRightDescr">construct a new matrix; can also use the form: simEigen.Matrix{{1, 2}, {3, 4}} to construct directly from data, size will be determined automatically</td>
+<td class="apiTableRightDescr">construct a new matrix; can also use the form: Matrix{{1, 2}, {3, 4}} to construct directly from data, size will be determined automatically</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
@@ -1360,7 +1365,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftDescr">
                                                     Description
                                                 </td>
-<td class="apiTableRightDescr">(class method) check wether the argument is a simEigen.Matrix</td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Matrix</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
@@ -1375,7 +1380,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>true</strong> (bool): if the argument is an instance of simEigen.Matrix</div></td>
+<strong>true</strong> (bool): if the argument is an instance of Matrix</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -1459,7 +1464,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftDescr">
                                                     Description
                                                 </td>
-<td class="apiTableRightDescr">(class method) check wether the argument is a Nx1 simEigen.Matrix</td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Nx1 Matrix</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
@@ -1474,7 +1479,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>true</strong> (bool): if the argument is an instance of simEigen.Matrix of size Nx1</div></td>
+<strong>true</strong> (bool): if the argument is an instance of Matrix of size Nx1</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -2079,6 +2084,30 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="Matrix:random" id="Matrix:random"></a>simEigen.Matrix:random</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return a matrix of uniformly distributed random values in range [-1..1]</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:random()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix of random values in range [-1..1] (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="Matrix:reshaped" id="Matrix:reshaped"></a>simEigen.Matrix:reshaped</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2666,6 +2695,30 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="Pose:copy" id="Pose:copy"></a>simEigen.Pose:copy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">create a copy of this pose</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Pose:copy()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new pose with same data (Pose)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="Pose:data" id="Pose:data"></a>simEigen.Pose:data</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2745,7 +2798,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftDescr">
                                                     Description
                                                 </td>
-<td class="apiTableRightDescr">(class method) check wether the argument is a simEigen.Pose</td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Pose</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
@@ -2760,7 +2813,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>true</strong> (bool): if the argument is an instance of simEigen.Pose</div></td>
+<strong>true</strong> (bool): if the argument is an instance of Pose</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -2835,6 +2888,30 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
 <strong>q</strong> (table): the new quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:copy" id="Quaternion:copy"></a>simEigen.Quaternion:copy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">create a copy of this quaternion</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Quaternion:copy()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new quaternion with same data (Quaternion)</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -2941,6 +3018,35 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="Quaternion:fromtwovectors" id="Quaternion:fromtwovectors"></a>simEigen.Quaternion:fromtwovectors</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new quaternion from rotation matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:fromtwovectors(table m, table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (table): the first vector (Matrix)</div>
+<div>
+<strong>m2</strong> (table): the second vector (Matrix)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): the quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="Quaternion:imul" id="Quaternion:imul"></a>simEigen.Quaternion:imul</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2996,7 +3102,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftDescr">
                                                     Description
                                                 </td>
-<td class="apiTableRightDescr">(class method) check wether the argument is a simEigen.Quaternion</td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Quaternion</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
@@ -3011,7 +3117,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>true</strong> (bool): if the argument is an instance of simEigen.Quaternion</div></td>
+<strong>true</strong> (bool): if the argument is an instance of Quaternion</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -3171,6 +3277,31 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
 <strong>v</strong> (table): the new vector (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Vector:isvector" id="Vector:isvector"></a>simEigen.Vector:isvector</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Nx1 Matrix (i.e. a Vector)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool true = simEigen.Vector:isvector(any m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (any)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>true</strong> (bool): if the argument is an instance of Matrix of size Nx1</div></td>
 </tr>
 </table>
 <br>

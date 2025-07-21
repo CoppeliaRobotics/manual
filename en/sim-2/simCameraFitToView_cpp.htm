@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simCameraFitToView <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>simCameraFitToView <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></h2>
+    <p>Shifts and adjusts a camera associated with a view to fill the view entirely with
+the specified objects or models</p>
+</div>
+
+<div class="regApiSection">
+    <h3>C++ synopsis</h3>
+    <code class="hljs language-c++ coppelia-coppeliasim-plugin">int simCameraFitToView(int viewHandleOrIndex, int objectCount, const int* objectHandles, int options, 
+                       double scaling)</code>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>viewHandleOrIndex</strong>: the handle of the view (can also be a floating view), or the index of the view. If the camera is not associated with any view, then you can specify the handle of the camera, together with the <em>sim.handleflag_camera</em> flag.</li>
+                <li><strong>objectCount</strong>: number of intems in the objectHandles pointer. Can be 0, in which case the whole visible scene will be filling the view.</li>
+                <li><strong>objectHandles</strong>: pointer to objectHandles. Only visible objects will be taken into account. Can be nullptr, in which case the whole visible scene will be filling the view.</li>
+                <li><strong>options</strong>: bit-coded:
+                    <ul>
+                        <li>bit0 (1): if set, then individual objects will be filling the view. If not set, then models associated with model base objects will also be included</li>
+                        <li>bit1 (2): if set, then the view proportions will be 1 by 1, independently on what the view size is</li>
+                    </ul>
+                </li>
+                <li><strong>scaling</strong>: scaling factor. Use 1.0 for normal behaviour.</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return</h3>
+    
+            <ul>
+                <li>-1 if operation was not successful. 0 for a silent error (e.g. when the indicated view doesn't exist anymore), 1 for success</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="simAdjustView_cpp.htm">simAdjustView</a></li>
+<li><a href="simFloatingViewAdd_cpp.htm">simFloatingViewAdd</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

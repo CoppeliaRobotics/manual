@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>sim.addParticleObject <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>sim.addParticleObject <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></h2>
+    <p>Adds a particle object that will be simulated and displayed in the scene. Particle objects
+are containers that hold several items (particles) of a given type. This can be used for
+several different applications (e.g. simulation of air/water jets)</p>
+</div>
+
+<div class="regApiSection">
+    <h3>Synopsis</h3>
+    <div class="multi-language-switcher">
+    	<code class="hljs language-python coppelia-coppeliasim-script">int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density, 
+                                                 list parameters, float lifeTime, int maxItemCount, 
+                                                 list color = None)</code>
+        
+        <code class="hljs language-lua coppelia-coppeliasim-script">int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density, 
+                                                 float[] parameters, float lifeTime, 
+                                                 int maxItemCount, float[3] color = nil)</code>
+    </div>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>objectType</strong>: a <a href="../apiConstants.htm#particleObjects">particle object type combined with attributes</a></li>
+                <li><strong>size</strong>: diameter of the particles (spheres)</li>
+                <li><strong>density</strong>: density of the particles</li>
+                <li><strong>parameters</strong>: an array of values, allowing to specify additional parameters. Can be None/nil. Values come in pair (an integer indicating what parameter, and a float indicating the parameter value. Following indicates the parameters:
+                    <ul>
+                        <li>0: Bullet friction coefficient (default: 0.0)</li>
+                        <li>1: Bullet restitution coefficient (default: 0.0)</li>
+                        <li>2: ODE friction coefficient (default: 0.0)</li>
+                        <li>3: ODE soft ERP value (default: 0.2)</li>
+                        <li>4: ODE soft CFM values (default: 0.0)</li>
+                        <li>5: Bullet, ODE, Newton and Vortex linear drag parameter (default: 0.0). Adds a force opposite to the particle velocity (f=v*parameter)</li>
+                        <li>6: Bullet, ODE, Newton and Vortex quadratic drag parameter (default: 0.0). Adds a force opposite to the particle velocity (f=v*v*parameter)</li>
+                        <li>7: Bullet, ODE, Newton and Vortex linear drag parameter in air (z&gt;0) if sim.particle_water was specified (default: 0.0). Adds a force opposite to the particle velocity (f=v*parameter)</li>
+                        <li>8: Bullet, ODE, Newton and Vortex quadratic drag parameter in air (z&gt;0) if sim.particle_water was specified (default: 0.0). Adds a force opposite to the particle velocity (f=v*v*parameter)</li>
+                        <li>9: Vortex friction (default: 0.0)</li>
+                        <li>10: Vortex restitution (default: 0.0)</li>
+                        <li>11: Vortex restitution threshold (default: 0.001)</li>
+                        <li>12: Vortex compliance (default: 0.0)</li>
+                        <li>13: Vortex damping (default: 0.0)</li>
+                        <li>14: Vortex adhesive force (default: 0.0)</li>
+                        <li>15: Newton static friction (default: 0.0)</li>
+                        <li>16: Newton kinetic friction (default: 0.0)</li>
+                        <li>17: Newton restitution (default: 0.0)</li>
+                        <li>If a parameter is not set, then its default value is used</li>
+                    </ul>
+                </li>
+                <li><strong>lifeTime</strong>: simulation time after which the particles are destroyed. Set to 0.0 for an unlimited lifetime.</li>
+                <li><strong>maxItemCount</strong>: the maximum number of particles that this object can hold</li>
+                <li><strong>color</strong>: default ambient/diffuse color (pointer to 3 rgb values). Can be None/nil</li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return values</h3>
+    
+            <ul>
+                <li>handle of the particle object</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p><br>See also:
+<ul>
+<li><a href="simAddParticleObjectItem.htm">sim.addParticleObjectItem</a></li>
+<li><a href="simRemoveParticleObject.htm">sim.removeParticleObject</a></li>
+</ul>
+</p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

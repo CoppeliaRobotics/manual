@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>simGetShapeViz <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../../index.html" TARGET="_top"><img src="../images/homeImg.png"></a></p>
+
+<div class="regApiSection">
+    <h2>simGetShapeViz <small>(in <a href="../apisOverview.htm">sim-2</a>)</small></h2>
+    <p>Retrieves a shape's visual information.</p>
+</div>
+
+<div class="regApiSection">
+    <h3>C++ synopsis</h3>
+    <code class="hljs language-c++ coppelia-coppeliasim-plugin">int simGetShapeViz(int shapeHandle, int index, struct SShapeVizInfo* info)</code>
+</div>
+
+<div  class="regApiSection">
+    <h3>Arguments</h3>
+    
+            <ul>
+                <li><strong>shapeHandle</strong>: handle of the shape. Can be combined with sim_handleflag_extended in order to retrieve extended data</li>
+                <li><strong>index</strong>: 0-based index of the shape element to retrieve (compound shapes contain more than one shape element)</li>
+                <li><strong>info</strong>: visual information about the shape:
+                    <ul>
+                        <li><strong>vertices</strong>: array of vertices, relative to the shape's reference frame. The user is in charge of releasing this buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> if the return value is &gt; 0.</li>
+                        <li><strong>verticesSize</strong>: the size of the vertices array</li>
+                        <li><strong>indices</strong>: array of indices. The user is in charge of releasing this buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> if the return value is &gt; 0.</li>
+                        <li><strong>indicesSize</strong>: the size of the indices array</li>
+                        <li><strong>normals</strong>: array of normals, relative to the shape's reference frame. There are 3*indicesSize normals, i.e. 3 normals per triangle. The user is in charge of releasing this buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> if the return value is &gt; 0.</li>
+                        <li><strong>shadingAngle</strong>: the gouraud shading angle</li>
+                        <li><strong>colors[9]</strong>: array of colors: RGB for ambient-diffuse, specular, and emission.</li>
+                        <li><strong>transparency</strong>: transparency value (0.0 = opaque, 1.0 = fully transparent). To have this field written, combine shapeHandle with  sim_handleflag_extended</li>
+                        <li><strong>options</strong>: bit-coded options (to have this field written, combine shapeHandle with  sim_handleflag_extended):
+                            <ul>
+                                <li>bit0 set (1): backfaces are culled</li>
+                            </ul>
+                        </li>
+                        <li><strong>texture</strong>: the RGBA texture (32bit/pixel). The user is in charge of releasing this buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> if the return value is &gt; 1.</li>
+                        <li><strong>textureId</strong>: a texture id (to identify textures shared among several shapes)</li>
+                        <li><strong>textureRes[2]</strong>: the resolution of the texture</li>
+                        <li><strong>textureCoords</strong>: the texture coordinates. There are 3*indicesSize texture coordinates, i.e. 3 coordinates per triangle. The user is in charge of releasing this buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> if the return value is &gt; 1.</li>
+                        <li><strong>textureApplyMode</strong>: 0=modulate, 1=decal, 2=add</li>
+                        <li><strong>textureOptions</strong>: bit-coded:
+                            <ul>
+                                <li>bit0 set (1): repeat U</li>
+                                <li>bit1 set (2): repeat V</li>
+                                <li>bit2 set (4): interpolate colors</li>
+                                <li>bit3 set (8): wireframe</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        
+</div>
+
+<div  class="regApiSection">
+    <h3>Return</h3>
+    
+            <ul>
+                <li>-1 if operation was not successful, 0 if there is no shape element at the given indexm, 1 if the shape element does not contain any texture, 2 if the shape element contains a texture</li>
+            </ul>
+        
+</div>
+
+<div class="regApiSection">
+
+</div>
+
+<p></p>
+
+</td>
+</tr>
+</table>
+</div>
+<link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>
