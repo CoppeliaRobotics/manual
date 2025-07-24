@@ -17,6 +17,7 @@
             </ul>
         </api-output-python-lua>
     </function>
+
     <function>
         <api-function-name>unloadPlugin</api-function-name>
         <api-description>Lua only. Unloads a CoppeliaSim plugin</api-description>
@@ -29,6 +30,7 @@
             </ul>
         </api-input-python-lua>
     </function>
+
     <function>
         <api-function-name>sim.acquireLock</api-function-name>
         <api-description>Allows to have CoppeliaSim wait for a threaded code section to be executed without
@@ -38,6 +40,7 @@ interruption. Locking is cumulative</api-description>
         <api-synopsis-lua>sim.acquireLock()</api-synopsis-lua>
         <api-calltip>sim.acquireLock()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addDrawingObject</api-function-name>
         <api-description>Adds a drawing object that will be displayed in the scene. Drawing objects are containers
@@ -88,6 +91,7 @@ sim.removeDrawingObject</api-see-also>
         </api-output-python-lua>
         <api-calltip>int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance, int parentObjectHandle, int maxItemCount, float[3] color=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addDrawingObjectItem</api-function-name>
         <api-description>Adds an item (or clears all items) to a previously inserted drawing object</api-description>
@@ -120,6 +124,7 @@ sim.removeDrawingObject</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result = sim.addDrawingObjectItem(int drawingObjectHandle, float[] itemData)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addForce</api-function-name>
         <api-description>Adds a non-central force to a shape object that is dynamically enabled. Added forces are cumulative,
@@ -139,8 +144,8 @@ was called (or by using the following flag: sim.handleflag_resetforcetorque)</ap
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.addForce(int shapeHandle, list position, list force)</api-synopsis-python>
-        <api-synopsis-lua>sim.addForce(int shapeHandle, float[3] position, float[3] force)</api-synopsis-lua>
+        <api-synopsis-python>sim.addForce(int shapeHandle, vector3 position, vector3 force)</api-synopsis-python>
+        <api-synopsis-lua>sim.addForce(int shapeHandle, vector3 position, vector3 force)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of a dynamically enabled shape. Can be combined with sim.handleflag_resetforcetorque in order to clear the accumulated force and torque.</li>
@@ -148,8 +153,9 @@ was called (or by using the following flag: sim.handleflag_resetforcetorque)</ap
                 <li><strong>force</strong>: array of 3 values that represent the force (in relative coordinates) to add.</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.addForce(int shapeHandle, float[3] position, float[3] force)</api-calltip>
+        <api-calltip>sim.addForce(int shapeHandle, vector3 position, vector3 force)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addForceAndTorque</api-function-name>
         <api-description>Adds a force and/or torque to a shape object that is dynamically enabled.
@@ -170,8 +176,8 @@ flags: sim.handleflag_resetforce and/or sim.handleflag_resettorque)</api-descrip
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.addForceAndTorque(int shapeHandle, list force, list torque)</api-synopsis-python>
-        <api-synopsis-lua>sim.addForceAndTorque(int shapeHandle, float[3] force, float[3] torque)</api-synopsis-lua>
+        <api-synopsis-python>sim.addForceAndTorque(int shapeHandle, vector3 force = [0.0, 0.0, 0.0], vector3 torque = [0.0, 0.0, 0.0])</api-synopsis-python>
+        <api-synopsis-lua>sim.addForceAndTorque(int shapeHandle, vector3 force = {0.0, 0.0, 0.0}, vector3 torque = {0.0, 0.0, 0.0})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of a dynamically enabled shape. Can be combined with sim.handleflag_resetforce and/or sim.handleflag_resettorque in order to clear the accumulated force or torque.</li>
@@ -179,8 +185,9 @@ flags: sim.handleflag_resetforce and/or sim.handleflag_resettorque)</api-descrip
                 <li><strong>torque</strong>: array of 3 values that represent the torque (in absolute coordinates) to add. Can be None/nil</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.addForceAndTorque(int shapeHandle, float[3] force=nil, float[3] torque=nil)</api-calltip>
+        <api-calltip>sim.addForceAndTorque(int shapeHandle, vector3 force = {0.0, 0.0, 0.0}, vector3 torque = {0.0, 0.0, 0.0})</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addGraphCurve</api-function-name>
         <api-description>Adds or updates a graph curve. A graph curve is persistent, but can be removed with
@@ -242,6 +249,7 @@ flags: sim.handleflag_resetforce and/or sim.handleflag_resettorque)</api-descrip
         </api-output-python-lua>
         <api-calltip>int curveId = sim.addGraphCurve(int graphHandle, string curveName, int dim, int[2..3] streamIds, float[2..3] defaultValues, string unitStr, int options=0, float[3] color={1, 1, 0}, int curveWidth=2)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addGraphStream</api-function-name>
         <api-description>Adds or updates a graph stream. A graph stream is persistent, but can be removed
@@ -294,6 +302,7 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
         </api-output-python-lua>
         <api-calltip>int streamId = sim.addGraphStream(int graphHandle, string streamName, string unit, int options=0, float[3] color={1, 0, 0}, float cyclicRange=pi)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addItemToCollection</api-function-name>
         <api-description>Adds an item to a <a href="../collections.htm">collection</a>
@@ -344,6 +353,7 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
         </api-input-python-lua>
         <api-calltip>sim.addItemToCollection(int collectionHandle, int what, int objectHandle, int options)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addLog</api-function-name>
         <api-description>Adds a log message that will be output in the console or status bar</api-description>
@@ -370,6 +380,7 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
         </api-input-python-lua>
         <api-calltip>sim.addLog(int verbosityLevel, string logMessage)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addParticleObject</api-function-name>
         <api-description>Adds a particle object that will be simulated and displayed in the scene. Particle objects
@@ -423,6 +434,7 @@ sim.removeParticleObject</api-see-also>
         </api-output-python-lua>
         <api-calltip>int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density, float[] params, float lifeTime, int maxItemCount, float[3] color=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.addParticleObjectItem</api-function-name>
         <api-description>Adds an item (or clears all items) to a previously inserted particle object</api-description>
@@ -438,6 +450,7 @@ sim.removeParticleObject</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.addParticleObjectItem(int objectHandle, float[] itemData)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.adjustView</api-function-name>
         <api-description>Adjusts parameters of a view</api-description>
@@ -493,6 +506,7 @@ sim.cameraFitToView</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.adjustView(int viewHandleOrIndex, int associatedViewableObjectHandle, int options, string viewLabel=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.alignShapeBB</api-function-name>
         <api-description>Reorients the bounding box of a shape, while keeping the shape frame in place.
@@ -525,6 +539,7 @@ The shape's inertia properties are unaffected</api-description>
         </api-output-python-lua>
         <api-calltip>int result = sim.alignShapeBB(int shapeHandle, float[7] pose)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.abgToYpr</api-function-name>
         <api-description>Converts CoppeliaSim's alpha-beta-gamma angles to Yaw-Pitch-Roll angles</api-description>
@@ -545,6 +560,7 @@ The shape's inertia properties are unaffected</api-description>
         </api-output-python-lua>
         <api-calltip>float[3] anglesOut = sim.abgToYpr(float[3] anglesIn)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.announceSceneContentChange</api-function-name>
         <api-description>Announces a change in the scene. This is required for the undo/redo function to operate properly
@@ -569,6 +585,7 @@ A call to this function has no effect (and doesn't generate any error) when call
         </api-output-python-lua>
         <api-calltip>int result = sim.announceSceneContentChange()</api-calltip>
     </function>
+
     <function>
         <api-function-name>simApplyTexture</api-function-name>
         <api-description>Applies a texture via texture coordinates to a shape</api-description>
@@ -601,6 +618,7 @@ A call to this function has no effect (and doesn't generate any error) when call
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.auxiliaryConsoleClose</api-function-name>
         <api-description>Closes an auxiliary console window</api-description>
@@ -630,6 +648,7 @@ A call to this function has no effect (and doesn't generate any error) when call
         </api-output-python-lua>
         <api-calltip>int result = sim.auxiliaryConsoleClose(int consoleHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.auxiliaryConsoleOpen</api-function-name>
         <api-description>Opens an auxiliary console window for text display. This console window is different from
@@ -696,6 +715,7 @@ sim.addLog</api-see-also>
         </api-output-python-lua>
         <api-calltip>int consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines, int mode, int[2] position=nil, int[2] size=nil, float[3] textColor=nil, float[3] backgroundColor=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.auxiliaryConsolePrint</api-function-name>
         <api-description>Prints to an auxiliary console window</api-description>
@@ -727,6 +747,7 @@ sim.addLog</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result = sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.auxiliaryConsoleShow</api-function-name>
         <api-description>Shows or hides an auxiliary console window</api-description>
@@ -759,6 +780,7 @@ sim.auxiliaryConsoleClose</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result = sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.broadcastMsg</api-function-name>
         <api-description>Broadcasts a message to all scripts, except for the emitting script. Messages are received
@@ -774,6 +796,7 @@ synchronously via the sysCall_msg <a href="../callbackFunctions.htm">callback fu
         </api-input-python-lua>
         <api-calltip>sim.broadcastMsg(map message, int options=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.buildIdentityMatrix</api-function-name>
         <api-description>Builds an identity transformation matrix</api-description>
@@ -800,6 +823,7 @@ synchronously via the sysCall_msg <a href="../callbackFunctions.htm">callback fu
         </api-output-python-lua>
         <api-calltip>float[12] matrix = sim.buildIdentityMatrix()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.buildMatrix</api-function-name>
         <api-description>Builds a transformation matrix based on a position vector and
@@ -836,6 +860,7 @@ synchronously via the sysCall_msg <a href="../callbackFunctions.htm">callback fu
         </api-output-python-lua>
         <api-calltip>float[12] matrix = sim.buildMatrix(float[3] position, float[3] eulerAngles)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.buildPose</api-function-name>
         <api-description>Builds a pose based on a position vector and <a href="../positionOrientationTransformation.htm#euler">Euler angles</a> or
@@ -887,6 +912,7 @@ axes</api-description>
         </api-output-python-lua>
         <api-calltip>float[7] pose = sim.buildPose(float[3] position, float[3] eulerAnglesOrAxis, int mode=0, float[3] axis2=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.callScriptFunction</api-function-name>
         <api-description>Calls a script function (from a <a href="../plugins.htm">plugin</a>, <a href="../mainClientApplication.htm">the main client application</a>,
@@ -911,6 +937,7 @@ sim.executeScriptString</api-see-also>
         </api-output-python-lua>
         <api-calltip>any outArg = sim.callScriptFunction(int scriptHandle, string functionName, any inArg=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simCallScriptFunctionEx</api-function-name>
         <api-description>Calls a script function (from a <a href="../plugins.htm">plugin</a>,
@@ -939,6 +966,7 @@ simGetScriptHandleEx</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.cameraFitToView</api-function-name>
         <api-description>Shifts and adjusts a camera associated with a view to fill the view entirely with
@@ -990,6 +1018,7 @@ sim.floatingViewAdd</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result = sim.cameraFitToView(int viewHandleOrIndex, int[] objectHandles=nil, int options=0, float scaling=1.0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.changeEntityColor</api-function-name>
         <api-description>Changes the color of an <a href="../entities.htm">entity</a>, and returns its original
@@ -1015,6 +1044,7 @@ and <a href="../shapes.htm">shapes</a>
         </api-output-python-lua>
         <api-calltip>map[] originalColorData = sim.changeEntityColor(int entityHandle, float[3] newColor, int colorComponent=sim.colorcomponent_ambient_diffuse)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.checkCollision</api-function-name>
         <api-description>Checks whether two entities are colliding. The collidable flags of the entities
@@ -1048,6 +1078,7 @@ are overridden if the entities are objects. If the entities are both the same co
         </api-output-python-lua>
         <api-calltip>int result, int[2] collidingObjects = sim.checkCollision(int entity1Handle, int entity2Handle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.checkDistance</api-function-name>
         <api-description>Checks the minimum distance between two entities. The measurable flags of the
@@ -1090,6 +1121,7 @@ will not be checked against themselve</api-description>
         </api-output-python-lua>
         <api-calltip>int result, float[7] distanceData, int[2] objectHandlePair = sim.checkDistance(int entity1Handle, int entity2Handle, float threshold=0.0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.checkOctreePointOccupancy</api-function-name>
         <api-description>Checks whether the provided points collide with the <a href="../octrees.htm">OC tree</a> voxels</api-description>
@@ -1158,6 +1190,7 @@ will not be checked against themselve</api-description>
         </api-output-python-lua>
         <api-calltip>int result, int tag, int locationLow, int locationHigh = sim.checkOctreePointOccupancy(int octreeHandle, int options, float[] points)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.checkProximitySensor</api-function-name>
         <api-description>Checks whether the proximity sensor detects the indicated entity. Detection is silent (no visual
@@ -1198,6 +1231,7 @@ Also, the detectable flags of the entity are overridden if the entity is an obje
         </api-output-python-lua>
         <api-calltip>int result, float distance, float[3] detectedPoint, int detectedObjectHandle, float[3] normalVector = sim.checkProximitySensor(int sensorHandle, int entityHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.checkVisionSensor</api-function-name>
         <api-description>Checks whether the vision sensor detects the indicated entity. Detection is silent
@@ -1256,6 +1290,7 @@ if (simCheckVisionSensor(sensorHandle, entityHandle, &amp;auxValues, &amp;auxVal
         </api-output-python-lua>
         <api-calltip>int result, float[] auxPacket1, float[] auxPacket2 = sim.checkVisionSensor(int sensorHandle, int entityHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.checkVisionSensorEx</api-function-name>
         <api-description>Checks whether the vision sensor detects the indicated entity. Detection is silent (no visual feedback) compared
@@ -1294,6 +1329,7 @@ buffer buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool r
         <api-calltip>float[] theBuffer = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)
 buffer theBuffer = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.closeScene</api-function-name>
         <api-description>Closes current scene, and switches to another open scene. If there is no other open scene,
@@ -1316,6 +1352,7 @@ sim.saveScene</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result = sim.closeScene()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.combineRgbImages</api-function-name>
         <api-description>Combines two RGB images</api-description>
@@ -1340,6 +1377,7 @@ sim.saveScene</api-see-also>
         </api-output-python-lua>
         <api-calltip>buffer outImg = sim.combineRgbImages(buffer img1, int[2] img1Res, buffer img2, int[2] img2Res, int operation)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.computeMassAndInertia</api-function-name>
         <api-description>Computes and applies the mass and inertia matrix for a shape, based on its convex representation.
@@ -1375,6 +1413,7 @@ sim.convexDecompose</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result = sim.computeMassAndInertia(int shapeHandle, float density)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.convexDecompose</api-function-name>
         <api-description>Calculates the <a href="../convexDecomposition.htm">convex decomposition</a> of a
@@ -1436,6 +1475,7 @@ sim.ungroupShape</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.copyPasteObjects</api-function-name>
         <api-description>Copies and pastes objects</api-description>
@@ -1480,6 +1520,7 @@ sim.loadModel</api-see-also>
         </api-output-python-lua>
         <api-calltip>int[1..*] copiedObjectHandles = sim.copyPasteObjects(int[1..*] objectHandles, int options=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simCopyStack</api-function-name>
         <api-description>Duplicates a stack object</api-description>
@@ -1498,6 +1539,7 @@ sim.loadModel</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simCreateBuffer</api-function-name>
         <api-description>Creates a buffer. The buffer needs to be released with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a> except otherwise explicitly specified.</api-description>
@@ -1513,6 +1555,7 @@ sim.loadModel</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.createCollection</api-function-name>
         <api-description>Creates a new <a href="../collections.htm">collection</a>. A collection created in a
@@ -1554,6 +1597,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
         </api-output-python-lua>
         <api-calltip>int collectionHandle = sim.createCollection(int options=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createDummy</api-function-name>
         <api-description>Creates a <a href="../dummies.htm">dummy</a>.</api-description>
@@ -1583,6 +1627,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
         </api-output-python-lua>
         <api-calltip>int dummyHandle = sim.createDummy(float size)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createScript</api-function-name>
         <api-description>Creates a <a href="../scriptObjects.htm">script object</a>.</api-description>
@@ -1625,6 +1670,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
         </api-output-python-lua>
         <api-calltip>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectHierarchyOrder</api-function-name>
         <api-description>Retrieves the zero-based position of an object among its siblings in the scene hierarchy</api-description>
@@ -1655,6 +1701,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
         </api-output-python-lua>
         <api-calltip>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setObjectHierarchyOrder</api-function-name>
         <api-description>Moves an object up or down among its siblings in the scene hierarchy</api-description>
@@ -1682,6 +1729,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
         </api-output-python-lua>
         <api-calltip>sim.setObjectHierarchyOrder(int objectHandle, int order)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createForceSensor</api-function-name>
         <api-description>Creates a <a href="../forceSensors.htm">force sensor</a>.</api-description>
@@ -1758,6 +1806,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
         </api-output-python-lua>
         <api-calltip>int sensorHandle = sim.createForceSensor(int options, int[5] intParams, float[5] floatParams)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createHeightfieldShape</api-function-name>
         <api-description>Creates a heightfield <a href="../shapes.htm">shape</a>
@@ -1814,6 +1863,7 @@ sim.createShape</api-see-also>
         </api-output-python-lua>
         <api-calltip>int shapeHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount, int yPointCount, float xSize, float[] heights)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createJoint</api-function-name>
         <api-description>Creates a <a href="../joints.htm">joint</a>
@@ -1864,6 +1914,7 @@ sim.createShape</api-see-also>
         </api-output-python-lua>
         <api-calltip>int jointHandle = sim.createJoint(int jointType, int jointMode, int options, float[2] sizes=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createOctree</api-function-name>
         <api-description>Creates an empty <a href="../octrees.htm">OC tree</a>
@@ -1917,6 +1968,7 @@ sim.createShape</api-see-also>
         </api-output-python-lua>
         <api-calltip>int handle = sim.createOctree(float voxelSize, int options, float pointSize)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createPath</api-function-name>
         <api-description>Creates a <a href="../paths.htm">path</a>.</api-description>
@@ -1951,6 +2003,7 @@ sim.createShape</api-see-also>
         </api-output-python-lua>
         <api-calltip>int pathHandle = sim.createPath(float[] ctrlPts, int options=0, int subdiv=100, float smoothness=1.0, int orientationMode=0, float[3] upVector={0, 0, 1})</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createPointCloud</api-function-name>
         <api-description>Creates an empty <a href="../pointClouds.htm">point cloud</a>
@@ -2009,6 +2062,7 @@ sim.createShape</api-see-also>
         </api-output-python-lua>
         <api-calltip>int handle = sim.createPointCloud(float maxVoxelSize, int maxPtCntPerVoxel, int options, float pointSize)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createPrimitiveShape</api-function-name>
         <api-description>Creates a primitive shape</api-description>
@@ -2057,6 +2111,7 @@ sim.createHeightfieldShape</api-see-also>
         </api-output-python-lua>
         <api-calltip>int shapeHandle = sim.createPrimitiveShape(int primitiveType, float[3] sizes, int options=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createProximitySensor</api-function-name>
         <api-description>Creates a <a href="../proximitySensors.htm">proximity sensor</a>
@@ -2181,6 +2236,7 @@ sim.createHeightfieldShape</api-see-also>
         </api-output-python-lua>
         <api-calltip>int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options, int[8] intParams, float[15] floatParams)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createShape</api-function-name>
         <api-description>Creates a mesh shape</api-description>
@@ -2256,6 +2312,7 @@ sim.importMesh</api-see-also>
         </api-output-python-lua>
         <api-calltip>int shapeHandle = sim.createShape(int options, float shadingAngle, float[] vertices, int[] indices, float[] normals, float[] textureCoordinates, buffer texture, int[2] textureResolution)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simCreateStack</api-function-name>
         <api-description>Creates a stack object that is mainly used to exchange complex data in an easy way with scripts</api-description>
@@ -2269,6 +2326,7 @@ sim.importMesh</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.createTexture</api-function-name>
         <api-description>Creates a planar shape, that will be textured with a new, or imported texture</api-description>
@@ -2336,6 +2394,7 @@ sim.setShapeTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>int shapeHandle, int textureId, int[2] resolution = sim.createTexture(string fileName, int options, float[2] planeSizes=nil, float[2] scalingUV=nil, float[2] xy_g=nil, int fixedResolution=0, int[2] resolution=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.createVisionSensor</api-function-name>
         <api-description>Creates a <a href="../visionSensors.htm">vision sensor</a>.</api-description>
@@ -2434,6 +2493,7 @@ sim.setShapeTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>int sensorHandle = sim.createVisionSensor(int options, int[4] intParams, float[11] floatParams)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simDebugStack</api-function-name>
         <api-description>Prints the content of the specified stack to the console</api-description>
@@ -2453,6 +2513,7 @@ sim.setShapeTexture</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.destroyCollection</api-function-name>
         <api-description>Removes a <a href="../collections.htm">collection</a>
@@ -2480,6 +2541,7 @@ sim.setShapeTexture</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.destroyCollection(int collectionHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.destroyGraphCurve</api-function-name>
         <api-description>Destroys a graph stream or curve</api-description>
@@ -2508,6 +2570,7 @@ sim.setShapeTexture</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.destroyGraphCurve(int graphHandle, int curveId)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simDoesFileExist</api-function-name>
         <api-description>Indicates whether a file exists.</api-description>
@@ -2523,6 +2586,7 @@ sim.setShapeTexture</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.duplicateGraphCurveToStatic</api-function-name>
         <api-description>Duplicates a graph stream or curve, and freezes it</api-description>
@@ -2560,6 +2624,7 @@ sim.setShapeTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>int curveId = sim.duplicateGraphCurveToStatic(int graphHandle, int curveId, string curveName='')</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.executeScriptString</api-function-name>
         <api-description>Executes some code in a specific script (from a <a href="../plugins.htm">plugin</a>,
@@ -2600,6 +2665,7 @@ From C/C++, data exchange between a plugin and a script happens via a <a href=".
         </api-output-python-lua>
         <api-calltip>int result, any value = sim.executeScriptString(string stringToExecute, int scriptHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.exportMesh</api-function-name>
         <api-description>Exports a mesh to a file</api-description>
@@ -2715,6 +2781,7 @@ delete[] indicesSizes;</code>
             <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- Exports all shapes in the scene
+import('simEigen', '*')
 local allVertices = {}
 local allIndices = {}
 local shapeIndex = 0
@@ -2725,10 +2792,10 @@ while true do
     end
     shapeIndex = shapeIndex + 1
     local vertices, indices = sim.getShapeMesh(h)
-    local m = sim.getObjectMatrix(h)
+    local p = sim.getObjectPose(h)
     for i = 1, #vertices // 3, 1 do
-        local v = {vertices[3 * (i - 1) +1], vertices[3 * (i - 1) + 2], vertices[3 * (i - 1) + 3]}
-        v = sim.multiplyVector(m, v)
+        local v = Vector{vertices[3 * (i - 1) +1], vertices[3 * (i - 1) + 2], vertices[3 * (i - 1) + 3]}
+        v = p * v
         vertices[3 * (i - 1) + 1] = v[1]
         vertices[3 * (i - 1) + 2] = v[2]
         vertices[3 * (i - 1) + 3] = v[3]
@@ -2743,6 +2810,7 @@ end</code>
         </api-more-python-lua>
         <api-calltip>sim.exportMesh(int fileformat, string pathAndFilename, int options, float scalingFactor, float[1..*] vertices, int[1..*] indices)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.floatingViewAdd</api-function-name>
         <api-description>Adds a floating view to current page</api-description>
@@ -2794,6 +2862,7 @@ sim.cameraFitToView</api-see-also>
         </api-output-python-lua>
         <api-calltip>int floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY, int options)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.floatingViewRemove</api-function-name>
         <api-description>Removes a floating view previously added with <a href="simFloatingViewAdd.htm">sim.floatingViewAdd</a>.</api-description>
@@ -2822,6 +2891,7 @@ sim.cameraFitToView</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result = sim.floatingViewRemove(int floatingViewHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.generateShapefromPath</api-function-name>
         <api-description>Generates an extrusion shape from a path</api-description>
@@ -2873,6 +2943,7 @@ sim.cameraFitToView</api-see-also>
             </ul>
         </api-output-python-lua>
     </function>
+
     <function>
         <api-function-name>sim.generateTextShape</api-function-name>
         <api-description>Generates a 3D text model.</api-description>
@@ -2896,6 +2967,7 @@ sim.cameraFitToView</api-see-also>
         </api-output-python-lua>
         <api-calltip>int modelHandle = sim.generateTextShape(string txt, float[3] color={1, 1, 1}, float height=0.1, bool centered=false, string alphabetLocation=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.generateTimeOptimalTrajectory</api-function-name>
         <api-description>Generates a time optimal trajectory, based on the TOPPRA library</api-description>
@@ -2937,6 +3009,7 @@ sim.cameraFitToView</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[] path, float[] times, int scriptHandle = sim.generateTimeOptimalTrajectory(float[] path, float[] pathLengths, float[] minMaxVel, float[] minMaxAccel, int trajPtSamples=1000, string boundaryCondition='not-a-knot', float timeout=5, int calculationScriptHandle=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getApiFunc</api-function-name>
         <api-description>Retrieves all API functions and variables that match a specific word.
@@ -2969,6 +3042,7 @@ Useful for script code auto-completion functionality</api-description>
         </api-output-python-lua>
         <api-calltip>string[] funcsAndVars = sim.getApiFunc(int scriptHandle, string apiWord)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getApiInfo</api-function-name>
         <api-description>Returns the call tip (or info text) for an API function</api-description>
@@ -3000,6 +3074,7 @@ Useful for script code auto-completion functionality</api-description>
         </api-output-python-lua>
         <api-calltip>string info = sim.getApiInfo(int scriptHandle, string apiWord)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getClosestPosOnPath</api-function-name>
         <api-description>Returns the position or distance along a path that is closest to a specified point in space</api-description>
@@ -3037,6 +3112,7 @@ Useful for script code auto-completion functionality</api-description>
         </api-output-python-lua>
         <api-calltip>float posAlongPath = sim.getClosestPosOnPath(float[] path, float[] pathLengths, float[3] absPt)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getCollectionObjects</api-function-name>
         <api-description>Retrieves the object handles that compose a <a href="../collections.htm">collection</a>
@@ -3070,6 +3146,7 @@ Useful for script code auto-completion functionality</api-description>
         </api-output-python-lua>
         <api-calltip>int[] objectHandles = sim.getCollectionObjects(int collectionHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getConfigDistance</api-function-name>
         <api-description>Returns the distance between two configurations points</api-description>
@@ -3096,6 +3173,7 @@ Useful for script code auto-completion functionality</api-description>
         </api-output-python-lua>
         <api-calltip>float distance = sim.getConfigDistance(float[] configA, float[] configB, float[] metric=nil, int[] types=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getContactInfo</api-function-name>
         <api-description>Retrieves contact point information of a dynamic simulation pass.</api-description>
@@ -3137,6 +3215,7 @@ Useful for script code auto-completion functionality</api-description>
         </api-output-python-lua>
         <api-calltip>int[2] collidingObjects, float[3] collisionPoint, float[3] reactionForce, float[3] normalVector = sim.getContactInfo(int dynamicPass, int objectHandle, int index)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getDecimatedMesh</api-function-name>
         <api-description>Retrieves a decimated mesh (i.e. a simplified mesh)</api-description>
@@ -3167,6 +3246,7 @@ sim.getQHull</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.getEulerAnglesFromMatrix</api-function-name>
         <api-description>Retrieves the <a href="../positionOrientationTransformation.htm#euler">Euler angles</a> from a transformation matrix</api-description>
@@ -3199,6 +3279,7 @@ sim.getQHull</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[3] eulerAngles = sim.getEulerAnglesFromMatrix(float[12] matrix)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getExplicitHandling</api-function-name>
         <api-description>Retrieves the explicit handling flags for a scene object</api-description>
@@ -3228,6 +3309,7 @@ sim.getQHull</api-see-also>
         </api-output-python-lua>
         <api-calltip>int explicitHandlingFlags = sim.getExplicitHandling(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getExtensionString</api-function-name>
         <api-description>Retrieves a string that describes additional environment or object properties, mainly used by extension plugins.</api-description>
@@ -3260,6 +3342,7 @@ sim.getQHull</api-see-also>
         </api-output-python-lua>
         <api-calltip>string theString = sim.getExtensionString(int objectHandle, int index, string key=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getGenesisEvents</api-function-name>
         <api-description>Retrieves all events that allow to reconstruct a scene's (mostly) visual content remotely</api-description>
@@ -3273,6 +3356,7 @@ sim.getQHull</api-see-also>
         <api-calltip>map[] events = sim.getGenesisEvents()
 buffer events = sim.getGenesisEvents()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointDependency</api-function-name>
         <api-description>Retrieves joint dependency information, when the joint is in dependent mode</api-description>
@@ -3308,6 +3392,7 @@ sim.getJointMode</api-see-also>
         </api-output-python-lua>
         <api-calltip>int masterJointHandle, float offset, float multCoeff = sim.getJointDependency(int jointHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointForce</api-function-name>
         <api-description>Retrieves the force or torque applied to a joint along/about its active axis.
@@ -3344,6 +3429,7 @@ sim.readForceSensor</api-see-also>
         </api-output-python-lua>
         <api-calltip>float forceOrTorque = sim.getJointForce(int jointHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointInterval</api-function-name>
         <api-description>Retrieves the interval parameters of a joint</api-description>
@@ -3376,6 +3462,7 @@ sim.readForceSensor</api-see-also>
         </api-output-python-lua>
         <api-calltip>bool cyclic, float[2] interval = sim.getJointInterval(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointMode</api-function-name>
         <api-description>Retrieves the operation mode of a joint</api-description>
@@ -3408,6 +3495,7 @@ sim.readForceSensor</api-see-also>
         </api-output-python-lua>
         <api-calltip>int jointMode, int options = sim.getJointMode(int jointHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointPosition</api-function-name>
         <api-description>Retrieves the linear/angular position of a joint. This function cannot be used with spherical joints
@@ -3439,6 +3527,7 @@ sim.readForceSensor</api-see-also>
         </api-output-python-lua>
         <api-calltip>float position = sim.getJointPosition(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointTargetForce</api-function-name>
         <api-description>Retrieves the force or torque that a joint can exert</api-description>
@@ -3470,6 +3559,7 @@ sim.getJointTargetVelocity</api-see-also>
         </api-output-python-lua>
         <api-calltip>float forceOrTorque = sim.getJointTargetForce(int jointHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointTargetPosition</api-function-name>
         <api-description>Retrieves the target linear/angular position of a joint</api-description>
@@ -3500,6 +3590,7 @@ sim.getJointTargetVelocity</api-see-also>
         </api-output-python-lua>
         <api-calltip>float targetPosition = sim.getJointTargetPosition(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointTargetVelocity</api-function-name>
         <api-description>Retrieves the target linear/angular velocity of a non-spherical joint</api-description>
@@ -3530,6 +3621,7 @@ sim.getJointTargetVelocity</api-see-also>
         </api-output-python-lua>
         <api-calltip>float targetVelocity = sim.getJointTargetVelocity(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointType</api-function-name>
         <api-description>Retrieves the type of a joint</api-description>
@@ -3564,6 +3656,7 @@ sim.getJointTargetVelocity</api-see-also>
         </api-output-python-lua>
         <api-calltip>int jointType = sim.getJointType(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getJointVelocity</api-function-name>
         <api-description>Retrieves the linear or angular velocity of a joint. The velocity is a measured velocity
@@ -3594,6 +3687,7 @@ sim.getJointTargetVelocity</api-see-also>
         </api-output-python-lua>
         <api-calltip>float velocity = sim.getJointVelocity(int jointHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simGetLastError</api-function-name>
         <api-description>Retrieves and clears the last generated API call error or warning message</api-description>
@@ -3606,6 +3700,7 @@ sim.getStackTraceback</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.getLastInfo</api-function-name>
         <api-description>Retrieves and clears the information string generated by last API call</api-description>
@@ -3624,6 +3719,7 @@ sim.getStackTraceback</api-see-also>
         </api-output-python-lua>
         <api-calltip>string info = sim.getLastInfo()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getLinkDummy</api-function-name>
         <api-description>Retrieves the object handle of the dummy linked to this one</api-description>
@@ -3653,6 +3749,7 @@ sim.getStackTraceback</api-see-also>
         </api-output-python-lua>
         <api-calltip>int linkDummyHandle = sim.getLinkDummy(int dummyHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simGetMainWindow</api-function-name>
         <api-description>Retrieves the handle or pointer of the main window.</api-description>
@@ -3668,6 +3765,7 @@ sim.getStackTraceback</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.getMatrixInverse</api-function-name>
         <api-description>Inverts a transformation matrix</api-description>
@@ -3688,6 +3786,7 @@ sim.getStackTraceback</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[12] matrix = sim.getMatrixInverse(float[12] matrix)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getNavigationMode</api-function-name>
         <api-description>Retrieves the navigation and selection mode for the mouse</api-description>
@@ -3707,6 +3806,7 @@ sim.getStackTraceback</api-see-also>
         </api-output-python-lua>
         <api-calltip>int navigationMode = sim.getNavigationMode()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObject</api-function-name>
         <api-description>Retrieves an object handle based on its path and alias</api-description>
@@ -3747,6 +3847,7 @@ sim.getObjectUid</api-see-also>
         </api-output-python-lua>
         <api-calltip>int objectHandle = sim.getObject(string path, map options={})</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectAlias</api-function-name>
         <api-description>Retrieves the alias or path of an object based on its handle</api-description>
@@ -3806,6 +3907,7 @@ sim.getObjectUid</api-see-also>
         </api-output-python-lua>
         <api-calltip>string objectAlias = sim.getObjectAlias(int objectHandle, int options=-1)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectChild</api-function-name>
         <api-description>Retrieves the handle of an object's child object</api-description>
@@ -3838,6 +3940,7 @@ sim.getObjectsInTree</api-see-also>
         </api-output-python-lua>
         <api-calltip>int childObjectHandle = sim.getObjectChild(int objectHandle, int index)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectChildPose</api-function-name>
         <api-description>Retrieves the intrinsic or internal transformation of an object. For a joint, this is the transformation caused
@@ -3873,6 +3976,7 @@ when constraints can't be perfectly resolved)</api-description>
         </api-output-python-lua>
         <api-calltip>float[7] pose = sim.getObjectChildPose(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectColor</api-function-name>
         <api-description>Retrieves the color of a scene object</api-description>
@@ -3909,6 +4013,7 @@ when constraints can't be perfectly resolved)</api-description>
         </api-output-python-lua>
         <api-calltip>float[3] rgbData = sim.getObjectColor(int objectHandle, int index, int colorComponent)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectFromUid</api-function-name>
         <api-description>Retrieves an object handle based on its unique identifier</api-description>
@@ -3940,10 +4045,11 @@ when constraints can't be perfectly resolved)</api-description>
         </api-output-python-lua>
         <api-calltip>sim.getObjectFromUid(int uid, map options={})</api-calltip>
     </function>
+
     <function>
-        <api-function-name>sim.getObjectMatrix</api-function-name>
+        <api-function-name>simGetObjectMatrix</api-function-name>
         <api-description>Retrieves the transformation matrix of an object</api-description>
-        <api-see-also>sim.setObjectMatrix
+        <api-see-also>simSetObjectMatrix
 <a href="../positionOrientationTransformation.htm">positions and orientations</a>
         </api-see-also>
         <api-synopsis-cpp>int simGetObjectMatrix(int objectHandle, int relativeToObjectHandle, double* matrix)</api-synopsis-cpp>
@@ -3959,26 +4065,12 @@ when constraints can't be perfectly resolved)</api-description>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list matrix = sim.getObjectMatrix(int objectHandle, int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>float[12] matrix = sim.getObjectMatrix(int objectHandle,
-                                       int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
-                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the matrix. Specify sim.handle_world to retrieve the absolute transformation matrix, sim.handle_inverse to retrieve the inverse of the absolute transformation matrix, sim.handle_parent to retrieve the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame we want the transformation matrix. If this handle is the handle of a joint, then the matrix relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the matrix relative to the joint's base frame will be returned).</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>matrix</strong>: array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[12] matrix = sim.getObjectMatrix(int objectHandle, int relativeToObjectHandle=sim.handle_world)</api-calltip>
     </function>
+
     <function>
-        <api-function-name>sim.getObjectOrientation</api-function-name>
+        <api-function-name>simGetObjectOrientation</api-function-name>
         <api-description>Retrieves the orientation (<a href="../positionOrientationTransformation.htm#euler">Euler angles</a>) of an object</api-description>
-        <api-see-also>sim.setObjectOrientation
+        <api-see-also>simSetObjectOrientation
 <a href="../positionOrientationTransformation.htm">positions and orientations</a>
         </api-see-also>
         <api-synopsis-cpp>int simGetObjectOrientation(int objectHandle, int relativeToObjectHandle, double* eulerAngles)</api-synopsis-cpp>
@@ -3994,23 +4086,8 @@ when constraints can't be perfectly resolved)</api-description>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list eulerAngles = sim.getObjectOrientation(int objectHandle,
-                                            int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>float[3] eulerAngles = sim.getObjectOrientation(int objectHandle,
-                                                int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
-                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the orientation relative to the joint's moving frame will be returned (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation relative to the joint's base frame will be returned).</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>eulerAngles</strong>: Euler angles [alpha beta gamma]</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[3] eulerAngles = sim.getObjectOrientation(int objectHandle, int relativeToObjectHandle=sim.handle_world)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectParent</api-function-name>
         <api-description>Retrieves the handle of an object's parent object</api-description>
@@ -4041,6 +4118,7 @@ sim.getObjectChild</api-see-also>
         </api-output-python-lua>
         <api-calltip>int parentObjectHandle = sim.getObjectParent(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectPose</api-function-name>
         <api-description>Retrieves the pose of an object</api-description>
@@ -4075,6 +4153,7 @@ sim.getObjectChild</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[7] pose = sim.getObjectPose(int objectHandle, int relativeToObjectHandle=sim.handle_world)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectPosition</api-function-name>
         <api-description>Retrieves the position of an object</api-description>
@@ -4111,6 +4190,7 @@ sim.getObjectChild</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[3] position = sim.getObjectPosition(int objectHandle, int relativeToObjectHandle=sim.handle_world)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectQuaternion</api-function-name>
         <api-description>Retrieves the quaternion of an object</api-description>
@@ -4147,6 +4227,7 @@ sim.getObjectChild</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[4] quaternion = sim.getObjectQuaternion(int objectHandle, int relativeToObjectHandle=sim.handle_world)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjects</api-function-name>
         <api-description>Retrieves object handles. Use this in a loop where index starts at 0 and is incremented to get all
@@ -4179,6 +4260,7 @@ object handles in the scene</api-description>
         </api-output-python-lua>
         <api-calltip>int objectHandle = sim.getObjects(int index, int objectType)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectSel</api-function-name>
         <api-description>Retrieves the handles of selected objects</api-description>
@@ -4203,6 +4285,7 @@ object handles in the scene</api-description>
         </api-output-python-lua>
         <api-calltip>int[] objectHandles = sim.getObjectSel()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectsInTree</api-function-name>
         <api-description>Retrieves object handles in a given hierarchy tree</api-description>
@@ -4249,6 +4332,7 @@ object handles in the scene</api-description>
         </api-output-python-lua>
         <api-calltip>int[] objects = sim.getObjectsInTree(int treeBaseHandle, int objectType=sim.handle_all, int options=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectSizeFactor</api-function-name>
         <api-description>Retrieves the size factor of a scene object. The size factor is different from the real object size.
@@ -4281,6 +4365,7 @@ Use this to be able to adapt to scaling operations</api-description>
         </api-output-python-lua>
         <api-calltip>float sizeFactor = sim.getObjectSizeFactor(int ObjectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectType</api-function-name>
         <api-description>Retrieves the type of an object</api-description>
@@ -4309,6 +4394,7 @@ Use this to be able to adapt to scaling operations</api-description>
         </api-output-python-lua>
         <api-calltip>int objectType = sim.getObjectType(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectUid</api-function-name>
         <api-description>Retrieves the unique identifier of an object: throughout a CoppeliaSim session, there won't be two
@@ -4339,6 +4425,7 @@ identical unique identifiers. Unique identifiers are however not persistent (i.e
         </api-output-python-lua>
         <api-calltip>int uid = sim.getObjectUid(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getObjectVelocity</api-function-name>
         <api-description>Retrieves the linear and/or angular velocity of an object, in absolute coordinates. The velocity is
@@ -4377,6 +4464,7 @@ objects in the scene</api-description>
         </api-output-python-lua>
         <api-calltip>float[3] linearVelocity, float[3] angularVelocity = sim.getObjectVelocity(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getOctreeVoxels</api-function-name>
         <api-description>Retrieves voxel positions from an <a href="../octrees.htm">OC tree</a>
@@ -4411,6 +4499,7 @@ objects in the scene</api-description>
         </api-output-python-lua>
         <api-calltip>float[] voxels = sim.getOctreeVoxels(int octreeHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getPage</api-function-name>
         <api-description>Retrieves the current page index (view)</api-description>
@@ -4430,6 +4519,7 @@ objects in the scene</api-description>
         </api-output-python-lua>
         <api-calltip>int pageIndex = sim.getPage()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getPathInterpolatedConfig</api-function-name>
         <api-description>Returns an interpolated configuration from a path</api-description>
@@ -4458,6 +4548,7 @@ objects in the scene</api-description>
         </api-output-python-lua>
         <api-calltip>float[] config = sim.getPathInterpolatedConfig(float[] path, float[] pathLengths, float t, map method={type='linear', strength=1.0, forceOpen=false}, int[] types=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getPathLengths</api-function-name>
         <api-description>Returns the lengths of a path in 1, 2 or 3D Cartesian space, even if more coordinates are
@@ -4485,6 +4576,7 @@ path's first point, along the path)</api-description>
         </api-output-python-lua>
         <api-calltip>float[] pathLengths, float totalLength = sim.getPathLengths(float[] path, int dof, func distCallback=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getPluginInfo</api-function-name>
         <api-description>Returns auxiliary information about a loaded plugin</api-description>
@@ -4520,6 +4612,7 @@ sim.getPluginName</api-see-also>
         <api-calltip>string info = sim.getPluginInfo(string pluginName, int infoType)
 number info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getPluginName</api-function-name>
         <api-description>Retrieves a plugin name based on an index</api-description>
@@ -4548,6 +4641,7 @@ number info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
         </api-output-python-lua>
         <api-calltip>string pluginName = sim.getPluginName(int index)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getPointCloudOptions</api-function-name>
         <api-description>Gets various properties of a <a href="../pointClouds.htm">point cloud</a>
@@ -4605,6 +4699,7 @@ number info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
         </api-output-python-lua>
         <api-calltip>float maxVoxelSize, int maxPtCntPerVoxel, int options, float pointSize = sim.getPointCloudOptions(int pointCloudHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getPointCloudPoints</api-function-name>
         <api-description>Retrieves point positions from a <a href="../pointClouds.htm">point cloud</a>
@@ -4639,6 +4734,7 @@ number info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
         </api-output-python-lua>
         <api-calltip>float[] points = sim.getPointCloudPoints(int pointCloudHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getPoseInverse</api-function-name>
         <api-description>Inverts a pose</api-description>
@@ -4659,6 +4755,7 @@ number info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
         </api-output-python-lua>
         <api-calltip>float[7] pose = sim.getPoseInverse(float[7] pose)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getQuaternionInverse</api-function-name>
         <api-description>Inverts a quaternion</api-description>
@@ -4679,6 +4776,7 @@ number info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
         </api-output-python-lua>
         <api-calltip>float[4] quat = sim.getQuaternionInverse(float[4] quat)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getQHull</api-function-name>
         <api-description>Retrieves the convex hull mesh from the specified vertices</api-description>
@@ -4704,6 +4802,7 @@ sim.getDecimatedMesh</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.getReferencedHandles</api-function-name>
         <api-description>Retrieves a list of custom handles, linking a given scene object to other scene objects</api-description>
@@ -4738,6 +4837,7 @@ sim.getDecimatedMesh</api-see-also>
         </api-output-python-lua>
         <api-calltip>int[] referencedHandles = sim.getReferencedHandles(int objectHandle, string tag = '')</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getReferencedHandlesTags</api-function-name>
         <api-description>Retrieves a list of all referenced handles tags</api-description>
@@ -4756,6 +4856,7 @@ sim.getDecimatedMesh</api-see-also>
         </api-output-python-lua>
         <api-calltip>string[] tags = sim.getReferencedHandlesTags(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getRotationAxis</api-function-name>
         <api-description>Retrieves an axis and rotation angle that brings one pose or transformation matrix
@@ -4798,6 +4899,7 @@ can be used to build interpolations between transformation matrices</api-descrip
         <api-calltip>float[3] axis, float angle = sim.getRotationAxis(float[12] matrixStart, float[12] matrixGoal)
 float[3] axis, float angle = sim.getRotationAxis(float[7] poseStart, float[7] poseGoal)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getScaledImage</api-function-name>
         <api-description>Generates a scaled-up or scaled down version of the input image</api-description>
@@ -4857,6 +4959,7 @@ sim.setVisionSensorImg</api-see-also>
         </api-output-python-lua>
         <api-calltip>buffer imageOut, int[2] effectiveResolutionOut = sim.getScaledImage(buffer imageIn, int[2] resolutionIn, int[2] desiredResolutionOut, int options)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getScript</api-function-name>
         <api-description>Retrieves the handle of a script. For script objects, use sim.getObject instead</api-description>
@@ -4875,6 +4978,7 @@ sim.setVisionSensorImg</api-see-also>
         </api-output-python-lua>
         <api-calltip>int scriptHandle = sim.getScript(int scriptType, string scriptName='')</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getScriptFunctions</api-function-name>
         <api-description>Retrieves a map of another script functions, that can be called</api-description>
@@ -4892,6 +4996,7 @@ sim.setVisionSensorImg</api-see-also>
         </api-output-python-lua>
         <api-calltip>map wrapper = sim.getScriptFunctions(int scriptHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simGetScriptHandleEx</api-function-name>
         <api-description>Retrieves the handle of a script.</api-description>
@@ -4909,6 +5014,7 @@ sim.setVisionSensorImg</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.getShapeBB</api-function-name>
         <api-description>Returns the size and relative pose of a shape's bounding box</api-description>
@@ -4930,6 +5036,7 @@ sim.setVisionSensorImg</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[3] size, float[7] pose = sim.getShapeBB(int shapeHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getShapeColor</api-function-name>
         <api-description>Retrieves the color of a shape</api-description>
@@ -4968,6 +5075,7 @@ sim.setVisionSensorImg</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result, float[] rgbData = sim.getShapeColor(int shapeHandle, string colorName, int colorComponent)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getShapeGeomInfo</api-function-name>
         <api-description>Retrieves geometric information related to a shape</api-description>
@@ -5029,6 +5137,7 @@ sim.setVisionSensorImg</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result, int pureType, float[4] dimensions = sim.getShapeGeomInfo(int shapeHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getShapeInertia</api-function-name>
         <api-description>Retrieves the inertia information from a shape</api-description>
@@ -5063,6 +5172,7 @@ sim.computeMassAndInertia</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[9] inertiaMatrix, float[12] transformationMatrix = sim.getShapeInertia(int shapeHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getShapeMass</api-function-name>
         <api-description>Retrieves the mass of a shape</api-description>
@@ -5094,6 +5204,7 @@ sim.computeMassAndInertia</api-see-also>
             </ul>
         </api-output-python-lua>
     </function>
+
     <function>
         <api-function-name>sim.getShapeMesh</api-function-name>
         <api-description>Retrieves a shape's mesh information</api-description>
@@ -5133,6 +5244,7 @@ sim.exportMesh</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[] vertices, int[] indices, float[] normals = sim.getShapeMesh(int shapeHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getShapeTextureId</api-function-name>
         <api-description>Retrieves the texture ID of a texture that is applied to a specific shape</api-description>
@@ -5163,6 +5275,7 @@ sim.setShapeTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>int textureId = sim.getShapeTextureId(int shapeHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getShapeViz</api-function-name>
         <api-description>Retrieves a shape's visual information.</api-description>
@@ -5246,6 +5359,7 @@ sim.setShapeTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>map data = sim.getShapeViz(int shapeHandle, int itemIndex)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getSimulationState</api-function-name>
         <api-description>Retrieves current <a href="../apiConstants.htm#simulationStatus">simulation state</a>
@@ -5268,6 +5382,7 @@ sim.setShapeTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>int simulationState = sim.getSimulationState()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getSimulationStopping</api-function-name>
         <api-description>Convenience function that returns true when the simulation is about to stop or stopped.</api-description>
@@ -5280,6 +5395,7 @@ sim.setShapeTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>bool stopping = sim.getSimulationStopping()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getSimulationTime</api-function-name>
         <api-description>Retrieves the current simulation time</api-description>
@@ -5298,6 +5414,7 @@ sim.setShapeTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>float simulationTime = sim.getSimulationTime()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getSimulationTimeStep</api-function-name>
         <api-description>Retrieves the simulation time step (the simulation time (i.e. not real-time) that
@@ -5317,6 +5434,7 @@ passes at each main script simulation pass). This value might not be constant fo
         </api-output-python-lua>
         <api-calltip>float timeStep = sim.getSimulationTimeStep()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getSimulatorMessage</api-function-name>
         <api-description>Retrieves and removes the next message in the C/C++ or Lua message queues. Use this in a while-loop until
@@ -5347,6 +5465,7 @@ client application. A given message queue cannot hold more than 64 messages, unr
         </api-output-python-lua>
         <api-calltip>int messageID, int[4] auxiliaryData, int[1..*] auxiliaryData2 = sim.getSimulatorMessage()</api-calltip>
     </function>
+
     <function>
         <api-function-name>simGetStackBoolValue</api-function-name>
         <api-description>Tries to retrieve the value at the top of the stack, if that value is a bool</api-description>
@@ -5366,6 +5485,7 @@ client application. A given message queue cannot hold more than 64 messages, unr
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackDoubleTable</api-function-name>
         <api-description>Retrieves a double-precision double array from an array-type table at the top of the stack.
@@ -5387,6 +5507,7 @@ Table values that are not numbers are converted to 0.0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackDoubleValue</api-function-name>
         <api-description>Tries to retrieve the value at the top of the stack, if that value is a number</api-description>
@@ -5406,6 +5527,7 @@ Table values that are not numbers are converted to 0.0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackFloatTable</api-function-name>
         <api-description>Retrieves a float array from an array-type table at the top of the stack.
@@ -5427,6 +5549,7 @@ Table values that are not numbers are converted to 0.0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackFloatValue</api-function-name>
         <api-description>Tries to retrieve the value at the top of the stack, if that value is a number</api-description>
@@ -5446,6 +5569,7 @@ Table values that are not numbers are converted to 0.0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackInt32Table</api-function-name>
         <api-description>Retrieves an int32 array from an array-type table at the top of the stack.
@@ -5467,6 +5591,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackInt32Value</api-function-name>
         <api-description>Tries to retrieve the value at the top of the stack, if that value is a number</api-description>
@@ -5486,6 +5611,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackInt64Table</api-function-name>
         <api-description>Retrieves an int64 array from an array-type table at the top of the stack.
@@ -5507,6 +5633,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackInt64Value</api-function-name>
         <api-description>Tries to retrieve the value at the top of the stack, if that value is a number</api-description>
@@ -5526,6 +5653,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackItemType</api-function-name>
         <api-description>Returns the type of a specific stack item</api-description>
@@ -5545,6 +5673,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackStringType</api-function-name>
         <api-description>Returns the type of a specific stack string</api-description>
@@ -5564,6 +5693,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackSize</api-function-name>
         <api-description>Returns the size of the stack</api-description>
@@ -5582,6 +5712,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackStringValue</api-function-name>
         <api-description>Tries to retrieve the value at the top of the stack, if that value is a string</api-description>
@@ -5601,6 +5732,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackMatrix</api-function-name>
         <api-description>Tries to retrieve the value at the top of the stack, if that value is a matrix</api-description>
@@ -5621,6 +5753,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simGetStackTableInfo</api-function-name>
         <api-description>Tries to retrieve information about a possible table at the top of the stack</api-description>
@@ -5660,6 +5793,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.getStackTraceback</api-function-name>
         <api-description>Lua only. Retrieves and clears the last generated stack traceback for a script</api-description>
@@ -5678,6 +5812,7 @@ sim.getScript</api-see-also>
         </api-output-python-lua>
         <api-calltip>string stacktraceback = sim.getStackTraceback(int scriptHandle=sim.handle_self)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simGetStackUInt8Table</api-function-name>
         <api-description>Retrieves a uint8 array from an array-type table at the top of the stack.
@@ -5699,6 +5834,7 @@ Table values that are not numbers are converted to 0</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.getSystemTime</api-function-name>
         <api-description>Retrieves the system time.</api-description>
@@ -5711,6 +5847,7 @@ Table values that are not numbers are converted to 0</api-description>
         </api-output-python-lua>
         <api-calltip>float time = sim.getSystemTime()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getTextureId</api-function-name>
         <api-description>Retrieves the texture ID of a specific texture</api-description>
@@ -5744,6 +5881,7 @@ sim.createTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>int textureId, int[2] resolution = sim.getTextureId(string textureName)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getUserVariables</api-function-name>
         <api-description>Lua only. Returns all variables, except those set by CoppeliaSim.</api-description>
@@ -5755,6 +5893,7 @@ sim.createTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>string[] variables = sim.getUserVariables()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getVelocity</api-function-name>
         <api-description>Retrieves the linear and/or angular velocity of the center of mass of a non-static shape.
@@ -5788,6 +5927,7 @@ Data is provided by the selected physics engine</api-description>
         </api-output-python-lua>
         <api-calltip>float[3] linearVelocity, float[3] angularVelocity = sim.getVelocity(int shapeHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getVisionSensorDepth</api-function-name>
         <api-description>Reads the depth buffer of a vision sensor. The returned data doesn't make sense if
@@ -5839,6 +5979,7 @@ Data is provided by the selected physics engine</api-description>
         </api-output-python-lua>
         <api-calltip>buffer depth, int[2] resolution = sim.getVisionSensorDepth(int sensorHandle, int options=0, int[2] pos={0, 0}, int[2] size={0, 0})</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getVisionSensorImg</api-function-name>
         <api-description>Reads the image of a vision sensor. The returned data doesn't make sense if
@@ -5896,6 +6037,7 @@ Data is provided by the selected physics engine</api-description>
         </api-output-python-lua>
         <api-calltip>buffer image, int[2] resolution = sim.getVisionSensorImg(int sensorHandle, int options=0, float rgbaCutOff=0.0, int[2] pos={0, 0}, int[2] size={0, 0})</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.getVisionSensorRes</api-function-name>
         <api-description>Returns the resolution of the vision sensor</api-description>
@@ -5925,6 +6067,7 @@ Data is provided by the selected physics engine</api-description>
         </api-output-python-lua>
         <api-calltip>sim.getVisionSensorRes(int sensorHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.groupShapes</api-function-name>
         <api-description>Groups (or merges) several shapes into a <a href="../shapes.htm">compound shape</a> (or <a href="../shapes.htm">simple shape</a>)</api-description>
@@ -5958,6 +6101,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>int shapeHandle = sim.groupShapes(int[] shapeHandles, bool merge=false)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleAddOnScripts</api-function-name>
         <api-description>Lua only. Calls a specific function in <a href="../addOns.htm">add-ons</a>.
@@ -5976,6 +6120,7 @@ Should only be called from the <a href="../mainScript.htm">main script</a>
         </api-output-python-lua>
         <api-calltip>int count = sim.handleAddOnScripts(int callType)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleSimulationScripts</api-function-name>
         <api-description>Lua only. Calls a specific <a href="../callbackFunctions.htm#systemCallbacks">system callback function</a> in
@@ -5994,6 +6139,7 @@ This function should only be called from the <a href="../mainScript.htm">main sc
         </api-output-python-lua>
         <api-calltip>int calledScripts = sim.handleSimulationScripts(int callType)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleDynamics</api-function-name>
         <api-description>Handles the dynamics functionality in a scene</api-description>
@@ -6022,6 +6168,7 @@ This function should only be called from the <a href="../mainScript.htm">main sc
         </api-output-python-lua>
         <api-calltip>int result = sim.handleDynamics(float deltaTime)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleEmbeddedScripts</api-function-name>
         <api-description>Lua only. Calls a specific <a href="../callbackFunctions.htm#systemCallbacks">system callback function</a> in
@@ -6042,6 +6189,7 @@ This function should only be called from the <a href="../mainScript.htm">main sc
         </api-output-python-lua>
         <api-calltip>int calledScripts = sim.handleEmbeddedScripts(int callType)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleExtCalls</api-function-name>
         <api-description>Handles the message pump for threaded scripts</api-description>
@@ -6052,6 +6200,7 @@ This function should only be called from the <a href="../mainScript.htm">main sc
         <api-synopsis-lua>sim.handleExtCalls()</api-synopsis-lua>
         <api-calltip>sim.handleExtCalls()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleGraph</api-function-name>
         <api-description>Handles a graph object (i.e. records another value for each curve, given that such value was provided
@@ -6082,6 +6231,7 @@ via <a href="simSetGraphStreamValue.htm">sim.setGraphStreamValue</a>
         </api-input-python-lua>
         <api-calltip>sim.handleGraph(int objectHandle, float simulationTime)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleProximitySensor</api-function-name>
         <api-description>Handles (performs sensing, etc. of) a registered proximity sensor object</api-description>
@@ -6122,6 +6272,7 @@ sim.resetProximitySensor</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result, float distance, float[3] detectedPoint, int detectedObjectHandle, float[3] normalVector = sim.handleProximitySensor(int sensorHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleSandboxScript</api-function-name>
         <api-description>Lua only. Calls a specific function in the <a href="../sandboxScript.htm">sandbox</a>.
@@ -6135,6 +6286,7 @@ sim.handleSandboxScript should only be called from the <a href="../mainScript.ht
         </api-input-python-lua>
         <api-calltip>sim.handleSandboxScript(int callType)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleSensingStart</api-function-name>
         <api-description>Handles various functionality (e.g. camera tracking during simulation, object velocity calculation, etc.).
@@ -6145,6 +6297,7 @@ the <em>sensing</em> section</api-description>
         <api-synopsis-lua>sim.handleSensingStart()</api-synopsis-lua>
         <api-calltip>sim.handleSensingStart()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleSimulationStart</api-function-name>
         <api-description>Initializes various functionality (e.g. camera tracking during simulation, object velocity calculation, etc.).
@@ -6155,6 +6308,7 @@ Should only be called from the <a href="../mainScript.htm">main script</a>, as t
         <api-synopsis-lua>sim.handleSimulationStart()</api-synopsis-lua>
         <api-calltip>sim.handleSimulationStart()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.handleVisionSensor</api-function-name>
         <api-description>Handles (performs sensing, etc. of) a vision sensor object. It (1) clear previous computed image processing data, (2) reads
@@ -6212,6 +6366,7 @@ if (simHandleVisionSensor(visionSensorHandle, &amp;auxValues, &amp;auxValuesCoun
         </api-output-python-lua>
         <api-calltip>int detectionCount, float[] auxPacket1, float[] auxPacket2 = sim.handleVisionSensor(int sensorHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.importMesh</api-function-name>
         <api-description>Imports a mesh from a file</api-description>
@@ -6301,6 +6456,7 @@ end</code>
         </api-more-python-lua>
         <api-calltip>float[1..*] vertices, int[1..*] indices = sim.importMesh(int fileformat, string pathAndFilename, int options, float identicalVerticeTolerance, float scalingFactor)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.importShape</api-function-name>
         <api-description>Imports a <a href="../shapes.htm">shape</a> from a file (first imports meshes, then groups/merges
@@ -6362,9 +6518,10 @@ them into a shape)</api-description>
         </api-output-python-lua>
         <api-calltip>int shapeHandle = sim.importShape(int fileformat, string pathAndFilename, int options, float identicalVerticeTolerance, float scalingFactor)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.initScript</api-function-name>
-        <api-description>Initializes/reinitializes a script. Operates in an asynchronous way, and cannot be called from within the script being reinitialized</api-description>
+        <api-description>Initializes/reinitializes a script. Operates in an asynchronous way</api-description>
         <api-synopsis-cpp>int simInitScript(int scriptHandle)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
@@ -6376,15 +6533,16 @@ them into a shape)</api-description>
                 <li>-1 in case of an error</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.initScript(int scriptHandle)</api-synopsis-python>
-        <api-synopsis-lua>sim.initScript(int scriptHandle)</api-synopsis-lua>
+        <api-synopsis-python>sim.initScript(int scriptHandle = sim.handle_self)</api-synopsis-python>
+        <api-synopsis-lua>sim.initScript(int scriptHandle = sim.handle_self)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>scriptHandle</strong>: handle of the script to initialize/reinitialize</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.initScript(int scriptHandle)</api-calltip>
+        <api-calltip>sim.initScript(int scriptHandle = sim.handle_self)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simInsertDataIntoStackTable</api-function-name>
         <api-description>Inserts data into a table on the stack. The function expects a <em>value</em> at the top of the stack,
@@ -6407,6 +6565,7 @@ table can be seen as an array. Otherwise, the table can be seen as a map or asso
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.insertObjectIntoOctree</api-function-name>
         <api-description>Inserts an object into an <a href="../octrees.htm">OC tree</a>, as voxels. Each voxel will store
@@ -6452,6 +6611,7 @@ sim.insertVoxelsIntoOctree
         </api-output-python-lua>
         <api-calltip>int totalVoxelCnt = sim.insertObjectIntoOctree(int octreeHandle, int objectHandle, int options, float[] color=nil, int tag=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.insertObjectIntoPointCloud</api-function-name>
         <api-description>Inserts an object into a <a href="../pointClouds.htm">point cloud</a>, as points</api-description>
@@ -6503,6 +6663,7 @@ sim.insertVoxelsIntoOctree
         </api-output-python-lua>
         <api-calltip>int totalPointCnt = sim.insertObjectIntoPointCloud(int pointCloudHandle, int objectHandle, int options, float gridSize, float[] color=nil, float duplicateTolerance=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.insertPointsIntoPointCloud</api-function-name>
         <api-description>Inserts points into a <a href="../pointClouds.htm">point cloud</a>
@@ -6563,6 +6724,7 @@ sim.insertVoxelsIntoOctree
         </api-output-python-lua>
         <api-calltip>int totalPointCnt = sim.insertPointsIntoPointCloud(int pointCloudHandle, int options, float[] points, float[] color=nil, float duplicateTolerance=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.insertVoxelsIntoOctree</api-function-name>
         <api-description>Inserts voxels into an <a href="../octrees.htm">OC tree</a>. Each voxel will store a color and a tag value</api-description>
@@ -6617,6 +6779,7 @@ sim.insertVoxelsIntoOctree
         </api-output-python-lua>
         <api-calltip>int totalVoxelCnt = sim.insertVoxelsIntoOctree(int octreeHandle, int options, float[] points, float[] color=nil, int[] tag=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.interpolateMatrices</api-function-name>
         <api-description>Computes the interpolated transformation matrix between matrixIn1 and matrixIn2. Quaternions are used internally</api-description>
@@ -6655,6 +6818,7 @@ sim.insertVoxelsIntoOctree
         </api-output-python-lua>
         <api-calltip>float[12] resultMatrix = sim.interpolateMatrices(float[12] matrixIn1, float[12] matrixIn2, float interpolFactor)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.interpolatePoses</api-function-name>
         <api-description>Computes the interpolated pose between poseIn1 and poseIn2</api-description>
@@ -6692,6 +6856,7 @@ sim.insertVoxelsIntoOctree
         </api-output-python-lua>
         <api-calltip>float[7] resultPose = sim.interpolatePoses(float[7] poseIn1, float[7] poseIn2, float interpolFactor)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.intersectPointsWithPointCloud</api-function-name>
         <api-description>Removes points from a <a href="../pointClouds.htm">point cloud</a>, that do not intersect with the
@@ -6745,6 +6910,7 @@ sim.setPointCloudOptions
         </api-output-python-lua>
         <api-calltip>int totalPointCnt = sim.intersectPointsWithPointCloud(int pointCloudHandle, int options, float[] points, float tolerance)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simInvertMatrix</api-function-name>
         <api-description>Inverts a transformation matrix</api-description>
@@ -6763,6 +6929,7 @@ sim.setPointCloudOptions
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simInvertPose</api-function-name>
         <api-description>Inverts a pose</api-description>
@@ -6781,6 +6948,7 @@ sim.setPointCloudOptions
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.isDynamicallyEnabled</api-function-name>
         <api-description>Checks whether a scene object is dynamically enabled, i.e. is being handled and simulated by the physics engine.
@@ -6811,6 +6979,7 @@ Note that until the physics engine has parsed the scene in the first simulation 
         </api-output-python-lua>
         <api-calltip>bool enabled = sim.isDynamicallyEnabled(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.isHandle</api-function-name>
         <api-description>Checks whether a general object handle is still valid. When a general object is destroyed
@@ -6843,6 +7012,7 @@ and will trigger an error when used. Use this function to avoid triggering an er
         </api-output-python-lua>
         <api-calltip>bool result = sim.isHandle(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.launchExecutable</api-function-name>
         <api-description>Launches an executable. Similar to os.execute or io.popen, but is system independent.</api-description>
@@ -6857,6 +7027,7 @@ and will trigger an error when used. Use this function to avoid triggering an er
         </api-input-python-lua>
         <api-calltip>sim.launchExecutable(string filename, string parameters='', int showStatus=1)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.loadImage</api-function-name>
         <api-description>Loads an image from file or memory</api-description>
@@ -6904,6 +7075,7 @@ sim.setVisionSensorImg</api-see-also>
         <api-calltip>buffer image, int[2] resolution = sim.loadImage(int options, string filename)
 buffer image, int[2] resolution = sim.loadImage(int options, buffer serializedImage)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.loadModel</api-function-name>
         <api-description>Loads a previously saved model, and selects it</api-description>
@@ -6944,6 +7116,7 @@ d) buffer rgbaImage = sim.loadModel(buffer buffer, bool onlyThumbnail)</api-syno
         <api-calltip>int objectHandle = sim.loadModel(string filename)
 int objectHandle = sim.loadModel(buffer serializedModel)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.loadScene</api-function-name>
         <api-description>Loads a previously saved scene</api-description>
@@ -6971,6 +7144,7 @@ sim.closeScene</api-see-also>
         <api-calltip>sim.loadScene(string filename)
 sim.loadScene(buffer serializedScene)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.matrixToPose</api-function-name>
         <api-description>Converts a transformation matrix to a pose</api-description>
@@ -7003,6 +7177,7 @@ sim.loadScene(buffer serializedScene)</api-calltip>
         </api-output-python-lua>
         <api-calltip>float[7] pose = sim.matrixToPose(float[12] matrix)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.moduleEntry</api-function-name>
         <api-description>Creates, modifies or destroys module menu entries. Those are user selectable items located in [Menu bar &gt; Modules].
@@ -7049,6 +7224,7 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
         </api-output-python-lua>
         <api-calltip>int handle = sim.moduleEntry(int handle, string label=nil, int state=-1)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simMoveStackItemToTop</api-function-name>
         <api-description>Moves a stack into to the top of the stack</api-description>
@@ -7068,6 +7244,7 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.moveToConfig</api-function-name>
         <api-description>Executes a n-DoF motion using the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>. This function can only be called from scripts running in a thread, since this is a blocking operation</api-description>
@@ -7109,6 +7286,7 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
         </api-output-python-lua>
         <api-calltip>map data = sim.moveToConfig(map params)</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.moveToConfig_init</api-function-name>
@@ -7150,6 +7328,7 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
         </api-output-python-lua>
         <api-calltip>map motionObject = sim.moveToConfig_init(map params)</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.moveToConfig_step</api-function-name>
@@ -7178,6 +7357,7 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
         </api-output-python-lua>
         <api-calltip>int res, map data = sim.moveToConfig_step(map motionObject)</api-calltip>
     </function>
+
     
     
     <function>
@@ -7196,6 +7376,7 @@ callback function triggered, or <a href="../apiConstants.htm#simulatorMessages">
         </api-output-python-lua>
         <api-calltip>sim.moveToConfig_cleanup(map motionObject)</api-calltip>
     </function>
+
     
     
     
@@ -7258,6 +7439,7 @@ operation</api-description>
         </api-output-python-lua>
         <api-calltip>map data = sim.moveToPose(map params)</api-calltip>
     </function>
+
     
     
 
@@ -7318,6 +7500,7 @@ calculation between the two poses)</api-description>
         </api-output-python-lua>
         <api-calltip>map motionObject = sim.moveToPose_init(map params)</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.moveToPose_step</api-function-name>
@@ -7346,6 +7529,7 @@ calculation between the two poses)</api-description>
         </api-output-python-lua>
         <api-calltip>int res, map data = sim.moveToPose_step(map motionObject)</api-calltip>
     </function>
+
     
     
     <function>
@@ -7364,6 +7548,7 @@ calculation between the two poses)</api-description>
         </api-output-python-lua>
         <api-calltip>sim.moveToPose_cleanup(map motionObject)</api-calltip>
     </function>
+
 
 
     <function>
@@ -7400,6 +7585,7 @@ calculation between the two poses)</api-description>
         </api-output-python-lua>
         <api-calltip>float[12] resultMatrix = sim.multiplyMatrices(float[12] matrixIn1, float[12] matrixIn2)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.multiplyPoses</api-function-name>
         <api-description>Multiplies two poses</api-description>
@@ -7434,6 +7620,7 @@ calculation between the two poses)</api-description>
         </api-output-python-lua>
         <api-calltip>float[7] resultPose = sim.multiplyPoses(float[7] poseIn1, float[7] poseIn2)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.multiplyVector</api-function-name>
         <api-description>Multiplies a vector with a quaternion, a pose, or a matrix (e.g. v = m * v)</api-description>
@@ -7457,6 +7644,7 @@ calculation between the two poses)</api-description>
 float[] resultVectors = sim.multiplyVector(float[7] pose, float[] inVectors)
 float[] resultVectors = sim.multiplyVector(float[4] quaternion, float[] inVectors)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simOpenTextEditor</api-function-name>
         <api-description>Opens a text edition window. The C version of this function opens a modal window</api-description>
@@ -7484,13 +7672,13 @@ float[] resultVectors = sim.multiplyVector(float[4] quaternion, float[] inVector
     &lt;item word="sim.getObject" autocomplete="true"
       calltip="int handle=sim.getObject(string path)" /&gt;
     &lt;item word="sim.getObjectPosition" autocomplete="true"
-      calltip="double[3] pos=sim.getObjectPosition(int handle,
+      calltip="vector3 pos=sim.getObjectPosition(int handle,
         int relHandle)" /&gt;
   &lt;/keywords1&gt;
 
   &lt;keywords2 color="220 80 20" &gt;
-    &lt;item word="sim.getObjectOrientation" autocomplete="true"
-      calltip="double[3] euler=sim.getObjectOrientation(int handle,
+    &lt;item word="sim.getObjectQuaternion" autocomplete="true"
+      calltip="quaternion quat=sim.getObjectQuaternion(int handle,
         int relHandle)" /&gt;
   &lt;/keywords2&gt;
 &lt;/editor&gt;
@@ -7512,6 +7700,7 @@ word4Color = "152 64 0"</comment>
             </code>
         </api-more-cpp>
     </function>
+
     <function>
         <api-function-name>sim.packDoubleTable</api-function-name>
         <api-description>Packs ab array of double floating-point numbers into a string</api-description>
@@ -7535,6 +7724,7 @@ word4Color = "152 64 0"</comment>
         </api-output-python-lua>
         <api-calltip>buffer data = sim.packDoubleTable(float[] doubleNumbers, int startDoubleIndex=0, int doubleCount=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.packFloatTable</api-function-name>
         <api-description>Packs an array of floating-point numbers into a string</api-description>
@@ -7558,6 +7748,7 @@ word4Color = "152 64 0"</comment>
         </api-output-python-lua>
         <api-calltip>buffer data = sim.packFloatTable(float[] floatNumbers, int startFloatIndex=0, int floatCount=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.packInt32Table</api-function-name>
         <api-description>Packs an array of int32 numbers into a string</api-description>
@@ -7580,6 +7771,7 @@ word4Color = "152 64 0"</comment>
         </api-output-python-lua>
         <api-calltip>buffer data = sim.packInt32Table(int[] int32Numbers, int startInt32Index=0, int int32Count=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.packTable</api-function-name>
         <api-description>Packs a table into a buffer. The table may contain other nested arrays, maps, None/nil, bool,
@@ -7615,6 +7807,7 @@ number, string or matrix values. All other types (e.g. functions) will be consid
         <api-calltip>buffer data = sim.packTable(any[] aTable, int scheme=0)
 buffer data = sim.packTable(map aTable, int scheme=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.packUInt16Table</api-function-name>
         <api-description>Packs an array of uint16 numbers into a string</api-description>
@@ -7637,6 +7830,7 @@ buffer data = sim.packTable(map aTable, int scheme=0)</api-calltip>
         </api-output-python-lua>
         <api-calltip>buffer data = sim.packUInt16Table(int[] uint16Numbers, int startUint16Index=0, int uint16Count=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.packUInt32Table</api-function-name>
         <api-description>Packs an array of uint32 numbers into a string</api-description>
@@ -7659,6 +7853,7 @@ buffer data = sim.packTable(map aTable, int scheme=0)</api-calltip>
         </api-output-python-lua>
         <api-calltip>buffer data = sim.packUInt32Table(int[] uint32Numbers, int startUInt32Index=0, int uint32Count=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.packUInt8Table</api-function-name>
         <api-description>Packs an array of uint8 numbers into a string</api-description>
@@ -7681,6 +7876,7 @@ buffer data = sim.packTable(map aTable, int scheme=0)</api-calltip>
         </api-output-python-lua>
         <api-calltip>buffer data = sim.packUInt8Table(int[] uint8Numbers, int startUint8Index=0, int uint8count=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.pauseSimulation</api-function-name>
         <api-description>Requests a pause of a simulation</api-description>
@@ -7697,6 +7893,7 @@ sim.getSimulationState</api-see-also>
         <api-synopsis-lua>sim.pauseSimulation()</api-synopsis-lua>
         <api-calltip>sim.pauseSimulation()</api-calltip>
     </function>
+
     <function>
         <api-function-name>simPopStackItem</api-function-name>
         <api-description>Removes the top item in the stack, effectively reducing the stack size by one</api-description>
@@ -7716,6 +7913,7 @@ sim.getSimulationState</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.poseToMatrix</api-function-name>
         <api-description>Converts a pose to a transformation matrix</api-description>
@@ -7748,6 +7946,7 @@ sim.getSimulationState</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[12] matrix = sim.poseToMatrix(float[7] pose)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simPushBoolOntoStack</api-function-name>
         <api-description>Pushes a bool value onto the stack. The value will then be located at the top of the stack</api-description>
@@ -7767,6 +7966,7 @@ sim.getSimulationState</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushDoubleOntoStack</api-function-name>
         <api-description>Pushes a double precision value (i.e. a Lua number) onto the stack. The value will then be located at the top of the stack</api-description>
@@ -7786,6 +7986,7 @@ sim.getSimulationState</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushDoubleTableOntoStack</api-function-name>
         <api-description>Pushes a double-precision array onto the stack, as a table filled with Lua numbers. The table will then be located
@@ -7807,6 +8008,7 @@ at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushFloatOntoStack</api-function-name>
         <api-description>Pushes a float value onto the stack. The value will then be located at the top of the stack</api-description>
@@ -7826,6 +8028,7 @@ at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushFloatTableOntoStack</api-function-name>
         <api-description>Pushes a float array onto the stack. The table will then be located at the top of the stack</api-description>
@@ -7846,6 +8049,7 @@ at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushInt32OntoStack</api-function-name>
         <api-description>Pushes an int32 value (i.e. a Lua number) onto the stack. The value will then be located at the top of the stack</api-description>
@@ -7865,6 +8069,7 @@ at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushInt32TableOntoStack</api-function-name>
         <api-description>Pushes an int32 array onto the stack, as a table filled with Lua numbers. The table will then
@@ -7886,6 +8091,7 @@ be located at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushInt64OntoStack</api-function-name>
         <api-description>Pushes an int64 value (i.e. a Lua number) onto the stack. The value will then be located at the
@@ -7906,6 +8112,7 @@ top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushInt64TableOntoStack</api-function-name>
         <api-description>Pushes an int64 array onto the stack, as a table filled with Lua numbers. The table will
@@ -7927,6 +8134,7 @@ then be located at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushNullOntoStack</api-function-name>
         <api-description>Pushes the value Null (or None/nil) onto the stack. The value will then be
@@ -7946,6 +8154,7 @@ located at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushTextOntoStack</api-function-name>
         <api-description>Pushes a text string onto the stack. The string will then be located at the top of the stack</api-description>
@@ -7966,6 +8175,7 @@ located at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushBufferOntoStack</api-function-name>
         <api-description>Pushes a binary data buffer onto the stack. The buffer will then be located at the top of the stack</api-description>
@@ -7987,6 +8197,7 @@ located at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushStringOntoStack</api-function-name>
         <api-description>Pushes an undifferentiated binary string onto the stack. The string may contain any values, including embedded zeros, and may represent text or any other data.
@@ -8010,6 +8221,7 @@ The string will then be located at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushMatrixOntoStack</api-function-name>
         <api-description>Pushes a matrix onto the stack. The matrix will then be located at the top of the stack</api-description>
@@ -8031,6 +8243,7 @@ The string will then be located at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushTableOntoStack</api-function-name>
         <api-description>Pushes an empty table onto the stack. The table will then be located at
@@ -8050,6 +8263,7 @@ the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simPushUInt8TableOntoStack</api-function-name>
         <api-description>Pushes a uint8 array onto the stack, as a table filled with Lua numbers.
@@ -8071,6 +8285,7 @@ The table will then be located at the top of the stack</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.pushUserEvent</api-function-name>
         <api-description>Pushes a user-triggered event. Messages are received asynchronously via the
@@ -8093,6 +8308,7 @@ sysCall_event <a href="../callbackFunctions.htm">callback function</a> and via t
         </api-input-python-lua>
         <api-calltip>sim.pushUserEvent(string event, int handle, int uid, map eventData, int options=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.quitSimulator</api-function-name>
         <api-description>Triggers a quit signal after which the application eventually ends</api-description>
@@ -8106,6 +8322,7 @@ sysCall_event <a href="../callbackFunctions.htm">callback function</a> and via t
         <api-synopsis-lua>sim.quitSimulator()</api-synopsis-lua>
         <api-calltip>sim.quitSimulator()</api-calltip>
     </function>
+
 
 
     <function>
@@ -8149,6 +8366,7 @@ sysCall_event <a href="../callbackFunctions.htm">callback function</a> and via t
         </api-output-python-lua>
         <api-calltip>int result, float[3] forceVector, float[3] torqueVector = sim.readForceSensor(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.readProximitySensor</api-function-name>
         <api-description>Reads the state of a proximity sensor. This function doesn't perform detection,
@@ -8189,6 +8407,7 @@ sim.resetProximitySensor</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result, float distance, float[3] detectedPoint, int detectedObjectHandle, float[3] normalVector = sim.readProximitySensor(int sensorHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.readTexture</api-function-name>
         <api-description>Retrieves the RGB data (or a portion of it) related to a specific texture</api-description>
@@ -8228,6 +8447,7 @@ sim.createTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>buffer textureData = sim.readTexture(int textureId, int options, int posX=0, int posY=0, int sizeX=0, int sizeY=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.readVisionSensor</api-function-name>
         <api-description>Reads the state of a vision sensor. This function doesn't perform detection, it merely
@@ -8267,6 +8487,7 @@ sim.resetVisionSensor</api-see-also>
         </api-output-python-lua>
         <api-calltip>int result, float[] auxPacket1, float[] auxPacket2 = sim.readVisionSensor(int sensorHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.refreshDialogs</api-function-name>
         <api-description>Refreshes CoppeliaSim's internal dialogs. Calling <a href="simRefreshDialogs.htm">sim.refreshDialogs</a> will
@@ -8291,6 +8512,7 @@ not trigger a <a href="../apiConstants.htm#simulatorMessages">sim.message_eventc
         </api-input-python-lua>
         <api-calltip>int result = sim.refreshDialogs(int refreshDegree)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simRegisterScriptCallbackFunction</api-function-name>
         <api-description>Registers a custom script function, that calls back a c/c++ function. This function is useful for plugins
@@ -8321,6 +8543,7 @@ Use following 4 functions in the helper class: <em>readDataFromStack</em>, <em>g
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.registerScriptFuncHook</api-function-name>
         <api-description>Registers a script function hook for <a href="../callbackFunctions.htm">callback functions</a>,
@@ -8356,6 +8579,7 @@ time with the same arguments will unregister a previous hook</api-description>
             </ul>
         </api-output-python-lua>
     </function>
+
     <function>
         <api-function-name>simRegisterScriptVariable</api-function-name>
         <api-description>Registers a script variable. Should be called inside of simInit entry point</api-description>
@@ -8374,6 +8598,7 @@ time with the same arguments will unregister a previous hook</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simReleaseBuffer</api-function-name>
         <api-description>Releases a buffer previously created with <a href="simCreateBuffer_cpp.htm">simCreateBuffer</a> or a buffer returned by the simulator</api-description>
@@ -8389,6 +8614,7 @@ time with the same arguments will unregister a previous hook</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.releaseLock</api-function-name>
         <api-description>Counterpart function to <a href="simAcquireLock.htm">sim.acquireLock</a>. Unlocking is cumulative</api-description>
@@ -8396,6 +8622,7 @@ time with the same arguments will unregister a previous hook</api-description>
         <api-synopsis-lua>sim.releaseLock()</api-synopsis-lua>
         <api-calltip>sim.releaseLock()</api-calltip>
     </function>
+
     <function>
         <api-function-name>simReleaseStack</api-function-name>
         <api-description>Releases a stack object</api-description>
@@ -8414,6 +8641,7 @@ time with the same arguments will unregister a previous hook</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.relocateShapeFrame</api-function-name>
         <api-description>Repositions and reorients the reference frame of a shape, while keeping the mesh
@@ -8446,6 +8674,7 @@ in place. The shape's inertia properties are unaffected.</api-description>
         </api-output-python-lua>
         <api-calltip>int result = sim.relocateShapeFrame(int shapeHandle, float[7] pose)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.removeDrawingObject</api-function-name>
         <api-description>Removes a previously added drawing object</api-description>
@@ -8471,6 +8700,7 @@ sim.addDrawingObjectItem</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.removeDrawingObject(int drawingObjectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.removeModel</api-function-name>
         <api-description>Removes a model from the scene</api-description>
@@ -8501,6 +8731,7 @@ sim.addDrawingObjectItem</api-see-also>
         </api-output-python-lua>
         <api-calltip>int objectCount = sim.removeModel(int objectHandle, bool delayedRemoval = false)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.removeObjects</api-function-name>
         <api-description>Removes one or several objects from the scene</api-description>
@@ -8527,6 +8758,7 @@ sim.addDrawingObjectItem</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.removeObjects(int[1..*] objectHandles, bool delayedRemoval = false)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.removeParticleObject</api-function-name>
         <api-description>Removes a previously added particle object</api-description>
@@ -8541,6 +8773,7 @@ sim.addParticleObjectItem</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.removeParticleObject(int particleObjectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.removePointsFromPointCloud</api-function-name>
         <api-description>Removes points from a <a href="../pointClouds.htm">point cloud</a>. When a point cloud doesn't
@@ -8594,6 +8827,7 @@ sim.setPointCloudOptions
         </api-output-python-lua>
         <api-calltip>int totalPointCnt = sim.removePointsFromPointCloud(int pointCloudHandle, int options, float[] points, float tolerance)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.removeVoxelsFromOctree</api-function-name>
         <api-description>Removes voxels from an <a href="../octrees.htm">OC tree</a>
@@ -8641,6 +8875,7 @@ sim.setPointCloudOptions
         </api-output-python-lua>
         <api-calltip>int totalVoxelCnt = sim.removeVoxelsFromOctree(int octreeHandle, int options, float[] points)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.resamplePath</api-function-name>
         <api-description>Returns a resampled path</api-description>
@@ -8669,6 +8904,7 @@ sim.setPointCloudOptions
         </api-output-python-lua>
         <api-calltip>float[] path = sim.resamplePath(float[] path, float[] pathLengths, int finalConfigCnt, map method={type='linear', strength=1.0, forceOpen=false}, int[] types=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.resetDynamicObject</api-function-name>
         <api-description>Dynamically resets an object that is dynamically simulated. This means that the object representation
@@ -8694,6 +8930,7 @@ simulated chain needs to be modified during simulation (e.g. joint or shape atta
         </api-input-python-lua>
         <api-calltip>sim.resetDynamicObject(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.resetGraph</api-function-name>
         <api-description>Resets a graph object (i.e. clears all its data streams)</api-description>
@@ -8720,6 +8957,7 @@ simulated chain needs to be modified during simulation (e.g. joint or shape atta
         </api-input-python-lua>
         <api-calltip>sim.resetGraph(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.resetProximitySensor</api-function-name>
         <api-description>Clears the detection state, detection color, detection segments, etc. of a proximity sensor object</api-description>
@@ -8744,6 +8982,7 @@ simulated chain needs to be modified during simulation (e.g. joint or shape atta
         </api-input-python-lua>
         <api-calltip>sim.resetProximitySensor(int objectHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simResetScript</api-function-name>
         <api-description>Resets a script interpreter linked to a specific script.</api-description>
@@ -8759,6 +8998,7 @@ simulated chain needs to be modified during simulation (e.g. joint or shape atta
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.resetVisionSensor</api-function-name>
         <api-description>Clears the detection state, etc. of a proximity sensor object</api-description>
@@ -8783,6 +9023,7 @@ simulated chain needs to be modified during simulation (e.g. joint or shape atta
         </api-input-python-lua>
         <api-calltip>sim.resetVisionSensor(int sensorHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.restoreEntityColor</api-function-name>
         <api-description>Restores the color of an <a href="../entities.htm">entity</a>, previously
@@ -8797,6 +9038,7 @@ modified with <a href="simChangeEntityColor.htm">sim.changeEntityColor</a>
         </api-input-python-lua>
         <api-calltip>sim.restoreEntityColor(map[] originalColorData)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.rotateAroundAxis</api-function-name>
         <api-description>Rotates a pose or transformation matrix around a random axis in space. This function,
@@ -8842,6 +9084,7 @@ be used to build interpolations between poses or transformation matrices</api-de
         <api-calltip>float[12] matrixOut = sim.rotateAroundAxis(float[12] matrixIn, float[3] axis, float[3] axisPos, float angle)
 float[7] poseOut = sim.rotateAroundAxis(float[7] poseIn, float[3] axis, float[3] axisPos, float angle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.ruckigPos</api-function-name>
         <api-description>Executes a call to the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
@@ -8902,6 +9145,7 @@ sim.moveToConfig</api-see-also>
         </api-output-python-lua>
         <api-calltip>int handle = sim.ruckigPos(int dofs, float baseCycleTime, int flags, float[] currentPosVelAccel, float[] maxVelAccelJerk, int[] selection, float[] targetPosVel)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.ruckigRemove</api-function-name>
         <api-description>Removes an object previously created via <a href="simRuckigPos.htm">sim.ruckigPos</a>
@@ -8926,6 +9170,7 @@ or <a href="simRuckigVel.htm">sim.ruckigVel</a>.</api-description>
         </api-input-python-lua>
         <api-calltip>sim.ruckigRemove(int handle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.ruckigStep</api-function-name>
         <api-description>Executes a call to the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
@@ -8988,6 +9233,7 @@ via <a href="simRuckigPos.htm">sim.ruckigPos</a> or <a href="simRuckigVel.htm">s
         </api-output-python-lua>
         <api-calltip>int result, float[] newPosVelAccel, float synchronizationTime = sim.ruckigStep(int handle, float cycleTime)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.ruckigVel</api-function-name>
         <api-description>Executes a call to the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
@@ -9044,6 +9290,7 @@ is not needed anymore, remove it with <a href="simRuckigRemove.htm">sim.ruckigRe
         </api-output-python-lua>
         <api-calltip>int handle = sim.ruckigVel(int dofs, float baseCycleTime, int flags, float[] currentPosVelAccel, float[] maxAccelJerk, int[] selection, float[] targetVel)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.saveImage</api-function-name>
         <api-description>Saves an image to file or to memory</api-description>
@@ -9091,6 +9338,7 @@ sim.getVisionSensorImg</api-see-also>
         </api-output-python-lua>
         <api-calltip>buffer serializedImage = sim.saveImage(buffer image, int[2] resolution, int options, string filename, int quality)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.saveModel</api-function-name>
         <api-description>Saves a model (an object marked as "Object is model base" and all other
@@ -9125,6 +9373,7 @@ sim.saveScene</api-see-also>
         <api-calltip>sim.saveModel(int modelBaseHandle, string filename)
 buffer serializedModel = sim.saveModel(int modelBaseHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.saveScene</api-function-name>
         <api-description>Saves a scene. Any existing file with same name will be overwritten</api-description>
@@ -9157,6 +9406,7 @@ sim.saveModel</api-see-also>
         <api-calltip>sim.saveScene(string filename)
 buffer serializedScene = sim.saveScene()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.scaleObject</api-function-name>
         <api-description>Scales specified objects in a non-isometric fashion, if possible. Only non-compound shapes
@@ -9188,6 +9438,7 @@ can be non-isometrically scaled. Some primitive shapes can have some constraints
         </api-input-python-lua>
         <api-calltip>sim.scaleObject(int objectHandle, float xScale, float yScale, float zScale, int options=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.scaleObjects</api-function-name>
         <api-description>Scales specified objects. All related values are automatically scaled appropriately
@@ -9221,6 +9472,7 @@ can be non-isometrically scaled. Some primitive shapes can have some constraints
         </api-input-python-lua>
         <api-calltip>sim.scaleObjects(int[1..*] objectHandles, float scalingFactor, bool scalePositionsToo)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.serialCheck</api-function-name>
         <api-description>Reads how many bytes are waiting to be read on a serial port (RS-232)</api-description>
@@ -9249,6 +9501,7 @@ can be non-isometrically scaled. Some primitive shapes can have some constraints
         </api-output-python-lua>
         <api-calltip>int byteCount = sim.serialCheck(int portHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.serialClose</api-function-name>
         <api-description>Closes a serial port (RS-232)</api-description>
@@ -9272,6 +9525,7 @@ can be non-isometrically scaled. Some primitive shapes can have some constraints
         </api-input-python-lua>
         <api-calltip>sim.serialClose(int portHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.serialOpen</api-function-name>
         <api-description>Opens a serial port (RS-232) for communication. When called from a script,
@@ -9309,6 +9563,7 @@ sim.serialRead</api-see-also>
         </api-output-python-lua>
         <api-calltip>int portHandle = sim.serialOpen(string portString, int baudrate)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.serialRead</api-function-name>
         <api-description>Reads from a previously opened serial port (RS-232). The C version of the function cannot
@@ -9346,6 +9601,7 @@ sim.serialSend</api-see-also>
         </api-output-python-lua>
         <api-calltip>buffer data = sim.serialRead(int portHandle, int dataLengthToRead, bool blockingOperation, buffer closingString='', float timeout=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.serialSend</api-function-name>
         <api-description>Writes data to a previously opened serial port (RS-232)</api-description>
@@ -9377,6 +9633,7 @@ sim.serialSend</api-see-also>
         </api-output-python-lua>
         <api-calltip>int charsSent = sim.serialSend(int portHandle, buffer data)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setAutoYieldDelay</api-function-name>
         <api-description>Allows specifying a thread interruption or yield delay, that will be
@@ -9393,6 +9650,7 @@ automatically enforced by the system (preemptive threading). By default this val
         </api-input-python-lua>
         <api-calltip>sim.setAutoYieldDelay(float dt)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setExplicitHandling</api-function-name>
         <api-description>Sets the explicit handling flags for a scene object</api-description>
@@ -9419,6 +9677,7 @@ automatically enforced by the system (preemptive threading). By default this val
         </api-input-python-lua>
         <api-calltip>sim.setExplicitHandling(int objectHandle, int explicitHandlingFlags)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setGraphStreamTransformation</api-function-name>
         <api-description>Applies a transformation to a graph stream</api-description>
@@ -9458,6 +9717,7 @@ automatically enforced by the system (preemptive threading). By default this val
         </api-input-python-lua>
         <api-calltip>sim.setGraphStreamTransformation(int graphHandle, int streamId, int trType, float mult=1.0, float off=0.0, int movAvgPeriod=1)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setGraphStreamValue</api-function-name>
         <api-description>Sets the next value to be recorded for a graph stream</api-description>
@@ -9488,6 +9748,7 @@ automatically enforced by the system (preemptive threading). By default this val
         </api-input-python-lua>
         <api-calltip>sim.setGraphStreamValue(int graphHandle, int streamId, float value)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setJointDependency</api-function-name>
         <api-description>Sets a joint dependent of another joint. The dependent joint should first be set
@@ -9520,6 +9781,7 @@ into dependent mode via <a href="simSetJointMode.htm">sim.setJointMode</a>
         </api-input-python-lua>
         <api-calltip>sim.setJointDependency(int jointHandle, int masterJointHandle, float offset, float multCoeff)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setJointInterval</api-function-name>
         <api-description>Sets the interval parameters of a joint (i.e. range values). The attributes or
@@ -9549,6 +9811,7 @@ interval parameters might have no effect, depending on the joint-type</api-descr
         </api-input-python-lua>
         <api-calltip>sim.setJointInterval(int objectHandle, bool cyclic, float[2] interval)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setJointMode</api-function-name>
         <api-description>Sets the operation mode of a joint</api-description>
@@ -9577,6 +9840,7 @@ sim.setJointDependency</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.setJointMode(int jointHandle, int jointMode, int options)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setJointPosition</api-function-name>
         <api-description>Sets the linear/angular position of a joint. Cannot be used with spherical joints
@@ -9605,6 +9869,7 @@ sim.setJointTargetPosition</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.setJointPosition(int objectHandle, float position)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setJointTargetForce</api-function-name>
         <api-description>Sets the force or torque that a joint can exert</api-description>
@@ -9635,6 +9900,7 @@ sim.setJointTargetVelocity</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.setJointTargetForce(int objectHandle, float forceOrTorque, bool signedValue=true)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setJointTargetPosition</api-function-name>
         <api-description>Sets the target linear/angular position of a joint. When in kinematic mode,
@@ -9665,6 +9931,7 @@ sim.setJointPosition</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.setJointTargetPosition(int objectHandle, float targetPosition, float[] motionParams={})</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setJointTargetVelocity</api-function-name>
         <api-description>Sets the target linear/angular velocity of a non-spherical joint. When in kinematic mode,
@@ -9695,6 +9962,7 @@ desired velocity</api-description>
         </api-input-python-lua>
         <api-calltip>sim.setJointTargetVelocity(int objectHandle, float targetVelocity, float[] motionParams={})</api-calltip>
     </function>
+
     <function>
         <api-function-name>simSetLastError</api-function-name>
         <api-description>Sets a custom error message and possibly raises a script error</api-description>
@@ -9712,6 +9980,7 @@ desired velocity</api-description>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.setLinkDummy</api-function-name>
         <api-description>Defines (or breaks) a dummy-dummy link pair. Useful to create dynamic loop closure
@@ -9739,6 +10008,7 @@ constraints on the fly (among others)</api-description>
         </api-input-python-lua>
         <api-calltip>sim.setLinkDummy(int dummyHandle, int linkDummyHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setNavigationMode</api-function-name>
         <api-description>Sets the navigation and selection mode for the mouse</api-description>
@@ -9763,6 +10033,7 @@ constraints on the fly (among others)</api-description>
         </api-input-python-lua>
         <api-calltip>sim.setNavigationMode(int navigationMode)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setObjectAlias</api-function-name>
         <api-description>Sets the alias of an object</api-description>
@@ -9789,6 +10060,7 @@ constraints on the fly (among others)</api-description>
         </api-input-python-lua>
         <api-calltip>sim.setObjectAlias(int objectHandle, string objectAlias)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setObjectChildPose</api-function-name>
         <api-description>Can be used to set a spherical joint's rotational transformation
@@ -9818,6 +10090,7 @@ constraints on the fly (among others)</api-description>
         </api-input-python-lua>
         <api-calltip>sim.setObjectChildPose(int objectHandle, float[7] pose)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setObjectColor</api-function-name>
         <api-description>Sets the color of a scene object</api-description>
@@ -9850,11 +10123,12 @@ constraints on the fly (among others)</api-description>
         </api-input-python-lua>
         <api-calltip>bool result = sim.setObjectColor(int objectHandle, int index, int colorComponent, float[3] rgbData)</api-calltip>
     </function>
+
     <function>
-        <api-function-name>sim.setObjectMatrix</api-function-name>
+        <api-function-name>simSetObjectMatrix</api-function-name>
         <api-description>Sets the transformation matrix of an object. Dynamically simulated objects,
 together with their hierarchy tree, are dynamically reset (this however does not apply to static shapes)</api-description>
-        <api-see-also>sim.getObjectMatrix
+        <api-see-also>simGetObjectMatrix
 <a href="../positionOrientationTransformation.htm">positions and orientations</a>
         </api-see-also>
         <api-synopsis-cpp>int simSetObjectMatrix(int objectHandle, int relativeToObjectHandle, const double* matrix)</api-synopsis-cpp>
@@ -9870,24 +10144,14 @@ together with their hierarchy tree, are dynamically reset (this however does not
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setObjectMatrix(int objectHandle, list matrix, int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>sim.setObjectMatrix(int objectHandle, float[12] matrix,
-                    int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
-                <li><strong>matrix</strong>: the matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the matrix is specified. Specify sim.handle_world to set the absolute transformation matrix, sim.handle_inverse to set the inverse of the absolute transformation matrix, sim.handle_parent to set the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame the transformation matrix is specified. If this handle is the handle of a joint, then the matrix is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the matrix is applied relative to the joint's base frame)</li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.setObjectMatrix(int objectHandle, float[12] matrix, int relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
+
     <function>
-        <api-function-name>sim.setObjectOrientation</api-function-name>
+        <api-function-name>simSetObjectOrientation</api-function-name>
         <api-description>Sets the orientation (<a href="../positionOrientationTransformation.htm#euler">Euler angles</a>) of an object.
 Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not
 apply to static shapes)</api-description>
-        <api-see-also>sim.getObjectOrientation
+        <api-see-also>simGetObjectOrientation
 <a href="../positionOrientationTransformation.htm">positions and orientations</a>
         </api-see-also>
         <api-synopsis-cpp>int simSetObjectOrientation(int objectHandle, int relativeToObjectHandle, const double* eulerAngles)</api-synopsis-cpp>
@@ -9903,19 +10167,8 @@ apply to static shapes)</api-description>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setObjectOrientation(int objectHandle, list eulerAngles,
-                         int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>sim.setObjectOrientation(int objectHandle, float[3] eulerAngles,
-                         int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
-                <li><strong>eulerAngles</strong>: Euler angles (alpha, beta and gamma)</li>
-                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the orientation is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the orientation is applied relative to the joint's base frame)</li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.setObjectOrientation(int objectHandle, float[3] eulerAngles, int relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setObjectParent</api-function-name>
         <api-description>Sets an object's parent object. Dynamically simulated objects, together with their
@@ -9946,6 +10199,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
         </api-input-python-lua>
         <api-calltip>sim.setObjectParent(int objectHandle, int parentObjectHandle, bool keepInPlace=true)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setObjectPose</api-function-name>
         <api-description>Sets the pose of an object. Dynamically simulated objects, together with their hierarchy tree,
@@ -9977,6 +10231,7 @@ are dynamically reset (this however does not apply to static shapes)</api-descri
         </api-input-python-lua>
         <api-calltip>sim.setObjectPose(int objectHandle, float[7] pose, int relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setObjectPosition</api-function-name>
         <api-description>Sets the position (x, y and z-coordinates) of an object. Dynamically simulated objects,
@@ -10010,6 +10265,7 @@ to static shapes)</api-description>
         </api-input-python-lua>
         <api-calltip>sim.setObjectPosition(int objectHandle, float[3] position, int relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setObjectQuaternion</api-function-name>
         <api-description>Sets the quaternion of an object. Dynamically simulated objects, together with their
@@ -10043,6 +10299,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
         </api-input-python-lua>
         <api-calltip>sim.setObjectQuaternion(int objectHandle, float[4] quaternion, int relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setObjectSel</api-function-name>
         <api-description>Sets the object selection state</api-description>
@@ -10068,6 +10325,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
         </api-input-python-lua>
         <api-calltip>sim.setObjectSel(int[] objectHandles)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setPage</api-function-name>
         <api-description>Switches between pages (main scene views)</api-description>
@@ -10092,6 +10350,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
         </api-input-python-lua>
         <api-calltip>sim.setPage(int pageIndex)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simSetPluginInfo</api-function-name>
         <api-description>Attaches additional information to a loaded plugin</api-description>
@@ -10120,6 +10379,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
             </ul>
         </api-input-python-lua>
     </function>
+
     <function>
         <api-function-name>sim.setPointCloudOptions</api-function-name>
         <api-description>Sets various properties of a <a href="../pointClouds.htm">point cloud</a>
@@ -10175,6 +10435,7 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
         </api-input-python-lua>
         <api-calltip>sim.setPointCloudOptions(int pointCloudHandle, float maxVoxelSize, int maxPtCntPerVoxel, int options, float pointSize)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setReferencedHandles</api-function-name>
         <api-description>Attaches a list of custom handles to a given scene object. Those custom handles
@@ -10215,6 +10476,7 @@ original <em>objectB</em> (if <em>objectB</em> still exists)</api-description>
         </api-input-python-lua>
         <api-calltip>sim.setReferencedHandles(int objectHandle, int[] referencedHandles, string tag = '')</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setShapeBB</api-function-name>
         <api-description>Sets the size of a shape's bounding box, effectively scaling the shape.
@@ -10232,6 +10494,7 @@ Non-isometric scaling is not always possible</api-description>
         </api-input-python-lua>
         <api-calltip>sim.setShapeBB(int shapeHandle, float[3] size)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setShapeColor</api-function-name>
         <api-description>Sets the color of a shape</api-description>
@@ -10264,6 +10527,7 @@ Non-isometric scaling is not always possible</api-description>
         </api-input-python-lua>
         <api-calltip>sim.setShapeColor(int shapeHandle, string colorName, int colorComponent, float[3] rgbData)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setShapeInertia</api-function-name>
         <api-description>Applies a new inertia matrix to a shape. If simulation is running, the shape is
@@ -10296,6 +10560,7 @@ sim.computeMassAndInertia</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.setShapeInertia(int shapeHandle, float[9] inertiaMatrix, float[12] transformationMatrix)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setShapeMass</api-function-name>
         <api-description>Applies a new mass value to a shape. If simulation is running, the shape is dynamically reset
@@ -10325,6 +10590,7 @@ sim.computeMassAndInertia</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.setShapeMass(int shapeHandle, float mass)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setShapeTexture</api-function-name>
         <api-description>Applies/removes a texture to/from a shape</api-description>
@@ -10381,6 +10647,7 @@ simApplyTexture</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.setShapeTexture(int shapeHandle, int textureId, int mappingMode, int options, float[2] uvScaling, float[3] position=nil, float[3] orientation=nil)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setStepping</api-function-name>
         <api-description>Enables or disables the stepping operation mode for a threaded script. If enabled, then the current script has
@@ -10408,6 +10675,7 @@ to the initial state
         </api-output-python-lua>
         <api-calltip>int prevStepLevel = sim.setStepping(bool enabled)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.setVisionSensorImg</api-function-name>
         <api-description>Writes the image of a vision sensor (and applies any image processing via the
@@ -10458,6 +10726,7 @@ sensor is flagged as <strong>external input</strong>
         </api-input-python-lua>
         <api-calltip>sim.setVisionSensorImg(int sensorHandle, buffer image, int options=0, int[2] pos={0, 0}, int[2] size={0, 0})</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.startSimulation</api-function-name>
         <api-description>Requests a start of a simulation (or a resume of a paused simulation)</api-description>
@@ -10476,6 +10745,7 @@ sim.getSimulationState
         <api-synopsis-lua>sim.startSimulation()</api-synopsis-lua>
         <api-calltip>sim.startSimulation()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.step</api-function-name>
         <api-description>Triggers the next simulation step, when in stepping operation mode. When simulation is running, then sim.step
@@ -10485,6 +10755,7 @@ only returns once the simulation time has changed</api-description>
         <api-synopsis-lua>sim.step()</api-synopsis-lua>
         <api-calltip>sim.step()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.systemSemaphore</api-function-name>
         <api-description>Acquires or releases a system-wide semaphore, i.e. across several CoppeliaSim instances</api-description>
@@ -10500,6 +10771,7 @@ only returns once the simulation time has changed</api-description>
         </api-input-python-lua>
         <api-calltip>sim.systemSemaphore(string key, bool acquire)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.stopSimulation</api-function-name>
         <api-description>Requests a stop of the running simulation</api-description>
@@ -10523,6 +10795,7 @@ sim.getSimulationState
         </api-input-python-lua>
         <api-calltip>sim.stopSimulation()</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.subtractObjectFromOctree</api-function-name>
         <api-description>Removes an object from an <a href="../octrees.htm">OC tree</a>, as voxel subtractions</api-description>
@@ -10560,6 +10833,7 @@ sim.removeVoxelsFromOctree
         </api-output-python-lua>
         <api-calltip>int totalVoxelCnt = sim.subtractObjectFromOctree(int octreeHandle, int objectHandle, int options)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.subtractObjectFromPointCloud</api-function-name>
         <api-description>Removes an object from a <a href="../pointClouds.htm">point cloud</a>, as a subtraction</api-description>
@@ -10603,6 +10877,7 @@ sim.removePointsFromPointCloud
         </api-output-python-lua>
         <api-calltip>int totalPointCnt = sim.subtractObjectFromPointCloud(int pointCloudHandle, int objectHandle, int options, float tolerance)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.textEditorClose</api-function-name>
         <api-description>Closes a text edition window previously opened with <a href="simTextEditorOpen.htm">sim.textEditorOpen</a>
@@ -10623,6 +10898,7 @@ sim.removePointsFromPointCloud
         </api-output-python-lua>
         <api-calltip>string text, int[2] pos, int[2] size = sim.textEditorClose(int handle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.textEditorGetInfo</api-function-name>
         <api-description>Retieves information from a text edition window previously opened with <a href="simTextEditorOpen.htm">sim.textEditorOpen</a>
@@ -10644,6 +10920,7 @@ sim.removePointsFromPointCloud
         </api-output-python-lua>
         <api-calltip>string text, int[2] pos, int[2] size, bool visible = sim.textEditorGetInfo(int handle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.textEditorOpen</api-function-name>
         <api-description>Opens a text edition window</api-description>
@@ -10682,13 +10959,13 @@ keyword3-col="0 0 255" keyword4-col="152 64 0"&gt;
   &lt;item word="sim.getObject" autocomplete="true"
     calltip="int handle=sim.getObject(string path)" /&gt;
   &lt;item word="sim.getObjectPosition" autocomplete="true"
-    calltip="float[3] pos=sim.getObjectPosition(int handle,
+    calltip="vector3 pos=sim.getObjectPosition(int handle,
       int relHandle)" /&gt;
 &lt;/keywords1&gt;
 
 &lt;keywords2&gt;
-  &lt;item word="sim.getObjectOrientation" autocomplete="true"
-    calltip="float[3] euler=sim.getObjectOrientation(int handle,
+  &lt;item word="sim.getObjectQuaternion" autocomplete="true"
+    calltip="quaternion quat=sim.getObjectQuaternion(int handle,
       int relHandle)" /&gt;
 &lt;/keywords2&gt;
 
@@ -10699,6 +10976,7 @@ keyword3-col="0 0 255" keyword4-col="152 64 0"&gt;
         </api-more-python-lua>
         <api-calltip>int handle = sim.textEditorOpen(string initText, string properties)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.textEditorShow</api-function-name>
         <api-description>Shows or hides a text edition window previously opened with <a href="simTextEditorOpen.htm">sim.textEditorOpen</a>
@@ -10713,6 +10991,7 @@ keyword3-col="0 0 255" keyword4-col="152 64 0"&gt;
         </api-input-python-lua>
         <api-calltip>sim.textEditorShow(int handle, bool showState)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.transformBuffer</api-function-name>
         <api-description>Modifies a buffer than contains packed data</api-description>
@@ -10740,6 +11019,7 @@ b) buffer[] outBuff = sim.transformBuffer(buffer inBuffer, sim.buffer_uint8, 0, 
         </api-output-python-lua>
         <api-calltip>buffer outBuffer = sim.transformBuffer(buffer inBuffer, int inFormat, float multiplier, float offset, int outFormat)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.transformImage</api-function-name>
         <api-description>Transforms an image in various ways</api-description>
@@ -10792,6 +11072,7 @@ sim.combineRgbImages</api-see-also>
         </api-output-python-lua>
         <api-calltip>buffer newImage = sim.transformImage(buffer image, int[2] resolution, int options)</api-calltip>
     </function>
+
     <function>
         <api-function-name>simTransformVector</api-function-name>
         <api-description>Multiplies a vector with a transformation matrix (v = m * v)</api-description>
@@ -10811,6 +11092,7 @@ sim.combineRgbImages</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>simUnfoldStackTable</api-function-name>
         <api-description>Extracts all key-value pairs from the table at the top of the stack, and removes the table</api-description>
@@ -10829,6 +11111,7 @@ sim.combineRgbImages</api-see-also>
             </ul>
         </api-output-cpp>
     </function>
+
     <function>
         <api-function-name>sim.ungroupShape</api-function-name>
         <api-description>Ungroups a compound shape into several <a href="../shapes.htm">shapes</a>
@@ -10862,6 +11145,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>int[] simpleShapeHandles = sim.ungroupShape(int shapeHandle)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.unpackDoubleTable</api-function-name>
         <api-description>Unpacks a string (or part of it) into an array of double floating-point numbers</api-description>
@@ -10887,6 +11171,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[] doubleNumbers = sim.unpackDoubleTable(buffer data, int startDoubleIndex=0, int doubleCount=0, int additionalByteOffset=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.unpackFloatTable</api-function-name>
         <api-description>Unpacks a string (or part of it) into an array of floating-point numbers</api-description>
@@ -10912,6 +11197,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[] floatNumbers = sim.unpackFloatTable(buffer data, int startFloatIndex=0, int floatCount=0, int additionalByteOffset=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.unpackInt32Table</api-function-name>
         <api-description>Unpacks a string (or part of it) into an array of int32 numbers</api-description>
@@ -10937,6 +11223,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>int[] int32Numbers = sim.unpackInt32Table(buffer data, int startInt32Index=0, int int32Count=0, int additionalByteOffset=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.unpackTable</api-function-name>
         <api-description>Unpacks a buffer into a table</api-description>
@@ -10971,6 +11258,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>any aTable = sim.unpackTable(buffer buffer)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.unpackUInt16Table</api-function-name>
         <api-description>Unpacks a string (or part of it) into an array of uint16 numbers</api-description>
@@ -10996,6 +11284,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>int[] uint16Numbers = sim.unpackUInt16Table(buffer data, int startUint16Index=0, int uint16Count=0, int additionalByteOffset=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.unpackUInt32Table</api-function-name>
         <api-description>Unpacks a string (or part of it) into an array of uint32 numbers</api-description>
@@ -11021,6 +11310,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>int[] uint32Numbers = sim.unpackUInt32Table(buffer data, int startUint32Index=0, int uint32Count=0, int additionalByteOffset=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.unpackUInt8Table</api-function-name>
         <api-description>Unpacks a string (or part of it) into an array of uint8 numbers</api-description>
@@ -11043,6 +11333,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>int[] uint8Numbers = sim.unpackUInt8Table(buffer data, int startUint8Index=0, int uint8count=0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.wait</api-function-name>
         <api-description>Waits for a certain amount of time</api-description>
@@ -11062,6 +11353,7 @@ sim.relocateShapeFrame</api-see-also>
         </api-output-python-lua>
         <api-calltip>float timeLeft = sim.wait(float dt, bool simulationTime=true)</api-calltip>
     </function>
+
 
     <function>
         <api-function-name>sim.writeTexture</api-function-name>
@@ -11114,6 +11406,7 @@ sim.createTexture</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.writeTexture(int textureId, int options, buffer textureData, int posX=0, int posY=0, int sizeX=0, int sizeY=0, float interpol=0.0)</api-calltip>
     </function>
+
     <function>
         <api-function-name>sim.yprToAbg</api-function-name>
         <api-description>Converts Yaw-Pitch-Roll angles to CoppeliaSim's alpha-beta-gamma angles</api-description>
@@ -11134,6 +11427,7 @@ sim.createTexture</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[3] outAngles = sim.yprToAbg(float[3] inAngles)</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.scheduleExecution</api-function-name>
@@ -11158,6 +11452,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>int id = sim.scheduleExecution(func f, any[] args, float timePoint, bool simTime=false)</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.cancelScheduledExecution</api-function-name>
@@ -11177,6 +11472,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>bool canceled = sim.cancelScheduledExecution(int id)</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setBoolProperty</api-function-name>
@@ -11213,6 +11509,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setBoolProperty(int target, string propertyName, bool propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getBoolProperty</api-function-name>
@@ -11249,6 +11546,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>bool propertyState = sim.getBoolProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setIntProperty</api-function-name>
@@ -11285,6 +11583,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setIntProperty(int target, string propertyName, int propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getIntProperty</api-function-name>
@@ -11321,6 +11620,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>int propertyState = sim.getIntProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setLongProperty</api-function-name>
@@ -11357,6 +11657,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setLongProperty(int target, string propertyName, int propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getLongProperty</api-function-name>
@@ -11393,6 +11694,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>int propertyState = sim.getLongProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setFloatProperty</api-function-name>
@@ -11429,6 +11731,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setFloatProperty(int target, string propertyName, float propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getFloatProperty</api-function-name>
@@ -11465,6 +11768,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>float propertyState = sim.getFloatProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setStringProperty</api-function-name>
@@ -11501,6 +11805,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setStringProperty(int target, string propertyName, string propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getStringProperty</api-function-name>
@@ -11536,6 +11841,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>string propertyState = sim.getStringProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setBufferProperty</api-function-name>
@@ -11574,6 +11880,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setBufferProperty(int target, string propertyName, buffer propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getBufferProperty</api-function-name>
@@ -11611,6 +11918,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>buffer propertyState = sim.getBufferProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setIntArray2Property</api-function-name>
@@ -11647,6 +11955,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setIntArray2Property(int target, string propertyName, int[2] propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getIntArray2Property</api-function-name>
@@ -11683,6 +11992,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>int[2] propertyState = sim.getIntArray2Property(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setVector2Property</api-function-name>
@@ -11719,6 +12029,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setVector2Property(int target, string propertyName, float[2] propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getVector2Property</api-function-name>
@@ -11755,6 +12066,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[2] propertyState = sim.getVector2Property(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setVector3Property</api-function-name>
@@ -11791,6 +12103,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setVector3Property(int target, string propertyName, float[3] propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getVector3Property</api-function-name>
@@ -11828,6 +12141,7 @@ sim.getSimulationTime</api-see-also>
         <api-calltip>float[3] propertyState = sim.getVector3Property(int target, string propertyName, map options = {})</api-calltip>
     </function>
 
+
     <function>
         <api-function-name>sim.setQuaternionProperty</api-function-name>
         <api-description>Sets a quaternion property (double[4]: qx, qy, qz, qw)</api-description>
@@ -11863,6 +12177,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setQuaternionProperty(int target, string propertyName, float[4] propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getQuaternionProperty</api-function-name>
@@ -11899,6 +12214,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[4] propertyState = sim.getQuaternionProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setPoseProperty</api-function-name>
@@ -11935,6 +12251,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setPoseProperty(int target, string propertyName, float[7] propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getPoseProperty</api-function-name>
@@ -11971,6 +12288,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[7] propertyState = sim.getPoseProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setColorProperty</api-function-name>
@@ -12007,6 +12325,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setColorProperty(int target, string propertyName, float[3] propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getColorProperty</api-function-name>
@@ -12043,6 +12362,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[3] propertyState = sim.getColorProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setFloatArrayProperty</api-function-name>
@@ -12080,6 +12400,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setFloatArrayProperty(int target, string propertyName, float[] propertyState, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getFloatArrayProperty</api-function-name>
@@ -12116,6 +12437,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>float[] propertyState = sim.getFloatArrayProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setIntArrayProperty</api-function-name>
@@ -12154,6 +12476,7 @@ sim.getSimulationTime</api-see-also>
         <api-calltip>sim.setIntArrayProperty(int target, string propertyName, int[] propertyState, map options = {})</api-calltip>
     </function>
 
+
     <function>
         <api-function-name>sim.getIntArrayProperty</api-function-name>
         <api-description>Fetches an int array property (int[])</api-description>
@@ -12189,6 +12512,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>int[] propertyState = sim.getIntArrayProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.removeProperty</api-function-name>
@@ -12223,6 +12547,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.removeProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getPropertyName</api-function-name>
@@ -12259,6 +12584,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>string propertyName = sim.getPropertyName(int target, int index, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getPropertyInfo</api-function-name>
@@ -12298,6 +12624,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>int type, int flags, string description = sim.getPropertyInfo(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getProperties</api-function-name>
@@ -12320,6 +12647,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>map properties = sim.getProperties(int target, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setProperties</api-function-name>
@@ -12339,6 +12667,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>sim.setProperties(int target, map properties)</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getPropertiesInfos</api-function-name>
@@ -12361,6 +12690,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>map propertiesInfo = sim.getPropertiesInfos(int target, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setProperty</api-function-name>
@@ -12380,6 +12710,7 @@ sim.getSimulationTime</api-see-also>
         </api-input-python-lua>
         <api-calltip>sim.setProperty(int target, string propertyName, any propertyState, int propertyType = nil)</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.getProperty</api-function-name>
@@ -12403,6 +12734,7 @@ sim.getSimulationTime</api-see-also>
         </api-output-python-lua>
         <api-calltip>any propertyState = sim.getProperty(int target, string propertyName, map options = {})</api-calltip>
     </function>
+
     
     <function>
         <api-function-name>sim.setEventFilters</api-function-name>

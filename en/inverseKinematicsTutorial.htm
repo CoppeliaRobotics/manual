@@ -143,7 +143,7 @@ def sysCall_init():
 
     self.ikEnv = simIK.createEnvironment()
     ikBase = simIK.createDummy(self.ikEnv)
-    simIK.setObjectMatrix(self.ikEnv, ikBase, -1, sim.getObjectMatrix(simBase)) 
+    simIK.setObjectPose(self.ikEnv, ikBase, -1, sim.getObjectPose(simBase)) 
     parent = ikBase
     
     for i in range(len(simJoints)):
@@ -152,16 +152,16 @@ def sysCall_init():
         cyclic, interv = sim.getJointInterval(simJoints[i])
         simIK.setJointInterval(self.ikEnv, ikJoints[i], cyclic, interv)
         simIK.setJointPosition(self.ikEnv, ikJoints[i], sim.getJointPosition(simJoints[i]))
-        simIK.setObjectMatrix(self.ikEnv, ikJoints[i], -1, sim.getObjectMatrix(simJoints[i]))
+        simIK.setObjectPose(self.ikEnv, ikJoints[i], -1, sim.getObjectPose(simJoints[i]))
         simIK.setObjectParent(self.ikEnv, ikJoints[i], parent, True) 
         parent = ikJoints[i]
         
     ikTip = simIK.createDummy(self.ikEnv)
-    simIK.setObjectMatrix(self.ikEnv, ikTip, -1, sim.getObjectMatrix(simTip))
+    simIK.setObjectPose(self.ikEnv, ikTip, -1, sim.getObjectPose(simTip))
     simIK.setObjectParent(self.ikEnv, ikTip, parent, True)
     
     ikTarget = simIK.createDummy(self.ikEnv)
-    simIK.setObjectMatrix(self.ikEnv, ikTarget, -1, sim.getObjectMatrix(simTarget))
+    simIK.setObjectPose(self.ikEnv, ikTarget, -1, sim.getObjectPose(simTarget))
     simIK.setTargetDummy(self.ikEnv, ikTip, ikTarget)
 
     self.ikGroup_undamped = simIK.createGroup(self.ikEnv)
@@ -188,7 +188,7 @@ def sysCall_actuation():
 
     # Elaborate way:
     '''
-    simIK.setObjectMatrix(self.ikEnv, ikTarget, ikBase, sim.getObjectMatrix(simTarget, simBase)) 
+    simIK.setObjectPose(self.ikEnv, ikTarget, ikBase, sim.getObjectPose(simTarget, simBase)) 
     res, *_ = simIK.handleGroup(self.ikEnv, self.ikGroup_undamped)
     if res != simIK.result_success:
         simIK.handleGroup(self.ikEnv, self.ikGroup_damped)
@@ -242,7 +242,7 @@ function sysCall_init()
     -- create a dummy in the IK environment: 
     ikBase = simIK.createDummy(ikEnv)
     -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectMatrix(ikEnv, ikBase, -1, sim.getObjectMatrix(simBase)) 
+    simIK.setObjectPose(ikEnv, ikBase, -1, sim.getObjectPose(simBase)) 
     local parent = ikBase
     for i = 1, #simJoints, 1 do -- loop through all joints
         -- create a joint in the IK environment:
@@ -255,7 +255,7 @@ function sysCall_init()
         -- set the same joint lin./ang. position as its CoppeliaSim counterpart joint: 
         simIK.setJointPosition(ikEnv, ikJoints[i], sim.getJointPosition(simJoints[i]))
         -- set the same object pose as its CoppeliaSim counterpart joint: 
-        simIK.setObjectMatrix(ikEnv, ikJoints[i], -1, sim.getObjectMatrix(simJoints[i]))
+        simIK.setObjectPose(ikEnv, ikJoints[i], -1, sim.getObjectPose(simJoints[i]))
         -- set its corresponding parent: 
         simIK.setObjectParent(ikEnv, ikJoints[i], parent, true) 
         parent = ikJoints[i]
@@ -263,13 +263,13 @@ function sysCall_init()
     -- create the tip dummy in the IK environment:
     ikTip = simIK.createDummy(ikEnv)
     -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectMatrix(ikEnv, ikTip, -1, sim.getObjectMatrix(simTip))
+    simIK.setObjectPose(ikEnv, ikTip, -1, sim.getObjectPose(simTip))
     -- attach it to the kinematic chain: 
     simIK.setObjectParent(ikEnv, ikTip, parent, true)
     -- create the target dummy in the IK environment: 
     ikTarget = simIK.createDummy(ikEnv)
     -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectMatrix(ikEnv, ikTarget, -1, sim.getObjectMatrix(simTarget))
+    simIK.setObjectPose(ikEnv, ikTarget, -1, sim.getObjectPose(simTarget))
     -- link the two dummies: 
     simIK.setTargetDummy(ikEnv, ikTip, ikTarget)
     -- create an IK group: 
@@ -314,7 +314,7 @@ function sysCall_actuation()
     -- Elaborate way:
     --[[
     -- reflect the pose of the target dummy to its counterpart in the IK environment:
-    simIK.setObjectMatrix(ikEnv, ikTarget, ikBase, sim.getObjectMatrix(simTarget, simBase)) 
+    simIK.setObjectPose(ikEnv, ikTarget, ikBase, sim.getObjectPose(simTarget, simBase)) 
     -- try to solve with the undamped method:
     if simIK.handleGroup(ikEnv, ikGroup_undamped) ~= simIK.result_success then 
         -- the position/orientation could not be reached.
