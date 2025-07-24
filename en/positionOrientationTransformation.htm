@@ -42,9 +42,11 @@
 
 <p>where Rx, Ry and Rz represent elemental rotations about axes X, Y and Z respectively (in that order), of the <strong>absolute</strong> reference frame.</p>
 
-<p>Use following API functions to convert between <em>alpha-beta-gamma</em> angles and <em>yaw-pitch-roll</em> angles:</p>
-<li><a href="sim/simYprToAbg.htm">sim.yprToAbg</a></li>
-<li><a href="sim/simAbgToYpr.htm">sim.abgToYpr</a></li>
+<p>Use following to convert between <em>alpha-beta-gamma</em> angles and <em>yaw-pitch-roll</em> angles:</p>
+<code class="hljs language-lua coppelia-coppeliasim-script">-- Lua
+import('simEigen', '*')
+local yprAngles = Quaternion:fromeuler(eulerAngles):toypr()
+local eulerAngles = Quaternion:fromypr(yprAngles):toeuler()</code>
 
 
 <br>
