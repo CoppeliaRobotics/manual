@@ -777,34 +777,7 @@ synchronously via the sysCall_msg <a href="../callbackFunctions.htm">callback fu
     </function>
 
     <function>
-        <api-function-name>sim.buildIdentityMatrix</api-function-name>
-        <api-description>Builds an identity transformation matrix</api-description>
-        <api-see-also>
-            <a href="../apiFunctions.htm#coordinatesAndTransformations">matrix/transformation functions</a>
-        </api-see-also>
-        <api-synopsis-cpp>int simBuildIdentityMatrix(double* matrix)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>matrix</strong>: matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>list matrix = sim.buildIdentityMatrix()</api-synopsis-python>
-        <api-synopsis-lua>float[12] matrix = sim.buildIdentityMatrix()</api-synopsis-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>matrix</strong>: array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[12] matrix = sim.buildIdentityMatrix()</api-calltip>
-    </function>
-
-    <function>
-        <api-function-name>sim.buildMatrix</api-function-name>
+        <api-function-name>simBuildMatrix</api-function-name>
         <api-description>Builds a transformation matrix based on a position vector and
 <a href="../positionOrientationTransformation.htm#euler">Euler angles</a>
         </api-description>
@@ -824,24 +797,10 @@ synchronously via the sysCall_msg <a href="../callbackFunctions.htm">callback fu
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list matrix = sim.buildMatrix(list position, list eulerAngles)</api-synopsis-python>
-        <api-synopsis-lua>float[12] matrix = sim.buildMatrix(float[3] position, float[3] eulerAngles)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>position</strong>: array of 3 values</li>
-                <li><strong>eulerAngles</strong>: array of 3 values</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>matrix</strong>: array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[12] matrix = sim.buildMatrix(float[3] position, float[3] eulerAngles)</api-calltip>
     </function>
 
     <function>
-        <api-function-name>sim.buildPose</api-function-name>
+        <api-function-name>simBuildPose</api-function-name>
         <api-description>Builds a pose based on a position vector and <a href="../positionOrientationTransformation.htm#euler">Euler angles</a> or
 axes</api-description>
         <api-see-also>
@@ -860,36 +819,6 @@ axes</api-description>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list pose = sim.buildPose(list position, list eulerAnglesOrAxis, int mode = 0, list axis2 = None)</api-synopsis-python>
-        <api-synopsis-lua>float[7] pose = sim.buildPose(float[3] position, float[3] eulerAnglesOrAxis1, int mode = 0,
-                              float[3] axis2 = nil)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>position</strong>: pointer to 3 values representing the position component</li>
-                <li><strong>eulerAnglesOrAxis1</strong>: pointer to 3 values representing Euler angles or a reference frame axis (see mode below)</li>
-                <li><strong>mode</strong>: describes how the orientation is specified:
-                    <ul>
-                        <li>0: eulerAnglesOrAxis1 represents Euler angles and axis2 is ignored</li>
-                        <li>1: eulerAnglesOrAxis1 represents the x-axis of the new pose's reference frame, axis2 is ignored</li>
-                        <li>2: eulerAnglesOrAxis1 represents the y-axis of the new pose's reference frame, axis2 is ignored</li>
-                        <li>3: eulerAnglesOrAxis1 represents the z-axis of the new pose's reference frame, axis2 is ignored</li>
-                        <li>4: eulerAnglesOrAxis1 represents the x-axis and axis2 represents the y-axis of the new pose's reference frame</li>
-                        <li>5: eulerAnglesOrAxis1 represents the y-axis and axis2 represents the z-axis of the new pose's reference frame</li>
-                        <li>6: eulerAnglesOrAxis1 represents the z-axis and axis2 represents the x-axis of the new pose's reference frame</li>
-                        <li>7: eulerAnglesOrAxis1 represents the x-axis and axis2 represents the z-axis of the new pose's reference frame</li>
-                        <li>8: eulerAnglesOrAxis1 represents the y-axis and axis2 represents the x-axis of the new pose's reference frame</li>
-                        <li>9: eulerAnglesOrAxis1 represents the z-axis and axis2 represents the y-axis of the new pose's reference frame</li>
-                    </ul>
-                </li>
-                <li><strong>axis2</strong>: pointer to 3 values representing a reference frame axis (see mode above)</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>pose</strong>: the pose (array of 7 values [x y z qx qy qz qw])</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[7] pose = sim.buildPose(float[3] position, float[3] eulerAnglesOrAxis, int mode=0, float[3] axis2=nil)</api-calltip>
     </function>
 
     <function>
@@ -3227,7 +3156,7 @@ sim.getQHull</api-see-also>
     </function>
 
     <function>
-        <api-function-name>sim.getEulerAnglesFromMatrix</api-function-name>
+        <api-function-name>simGetEulerAnglesFromMatrix</api-function-name>
         <api-description>Retrieves the <a href="../positionOrientationTransformation.htm#euler">Euler angles</a> from a transformation matrix</api-description>
         <api-see-also>
             <a href="../positionOrientationTransformation.htm">positions and orientations</a>
@@ -3244,19 +3173,6 @@ sim.getQHull</api-see-also>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list eulerAngles = sim.getEulerAnglesFromMatrix(list matrix)</api-synopsis-python>
-        <api-synopsis-lua>float[3] eulerAngles = sim.getEulerAnglesFromMatrix(float[12] matrix)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>matrix</strong>: array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>eulerAngles</strong>: array of 3 values</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[3] eulerAngles = sim.getEulerAnglesFromMatrix(float[12] matrix)</api-calltip>
     </function>
 
     <function>
@@ -3743,27 +3659,6 @@ sim.getStackTraceback</api-see-also>
                 <li>a native window handle or a pointer to a QWidget object.</li>
             </ul>
         </api-output-cpp>
-    </function>
-
-    <function>
-        <api-function-name>sim.getMatrixInverse</api-function-name>
-        <api-description>Inverts a transformation matrix</api-description>
-        <api-see-also>
-            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
-        </api-see-also>
-        <api-synopsis-python>list matrix = sim.getMatrixInverse(list matrix)</api-synopsis-python>
-        <api-synopsis-lua>float[12] matrix = sim.getMatrixInverse(float[12] matrix)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>matrix</strong>: the input matrix</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>matrix</strong>: the output matrix</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[12] matrix = sim.getMatrixInverse(float[12] matrix)</api-calltip>
     </function>
 
     <function>
@@ -4715,48 +4610,6 @@ number info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
     </function>
 
     <function>
-        <api-function-name>sim.getPoseInverse</api-function-name>
-        <api-description>Inverts a pose</api-description>
-        <api-see-also>
-            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
-        </api-see-also>
-        <api-synopsis-python>list pose = sim.getPoseInverse(list pose)</api-synopsis-python>
-        <api-synopsis-lua>float[7] pose = sim.getPoseInverse(float[7] pose)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>pose</strong>: the input pose</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>pose</strong>: the output pose</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[7] pose = sim.getPoseInverse(float[7] pose)</api-calltip>
-    </function>
-
-    <function>
-        <api-function-name>sim.getQuaternionInverse</api-function-name>
-        <api-description>Inverts a quaternion</api-description>
-        <api-see-also>
-            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
-        </api-see-also>
-        <api-synopsis-python>list quat = sim.getQuaternionInverse(list quat)</api-synopsis-python>
-        <api-synopsis-lua>float[4] quat = sim.getQuaternionInverse(float[4] quat)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>quat</strong>: the input quaternion</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>quat</strong>: the output quaternion</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[4] quat = sim.getQuaternionInverse(float[4] quat)</api-calltip>
-    </function>
-
-    <function>
         <api-function-name>sim.getQHull</api-function-name>
         <api-description>Retrieves the convex hull mesh from the specified vertices</api-description>
         <api-see-also>sim.convexDecompose
@@ -4834,49 +4687,6 @@ sim.getDecimatedMesh</api-see-also>
             </ul>
         </api-output-python-lua>
         <api-calltip>string[] tags = sim.getReferencedHandlesTags(int objectHandle)</api-calltip>
-    </function>
-
-    <function>
-        <api-function-name>sim.getRotationAxis</api-function-name>
-        <api-description>Retrieves an axis and rotation angle that brings one pose or transformation matrix
-onto another one. The translation part of the poses/matrices is ignored. This function,
-when used in combination with <a href="simRotateAroundAxis.htm">sim.rotateAroundAxis</a>,
-can be used to build interpolations between transformation matrices</api-description>
-        <api-see-also>
-            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
-        </api-see-also>
-        <api-synopsis-cpp>int simGetRotationAxis(const double* matrixStart, const double* matrixGoal, double* axis,
-                       double* angle)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>matrixStart</strong>: the <em>start</em> transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>matrixGoal</strong>: the <em>goal</em> transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>axis</strong>: the returned rotation axis in absolute coordinates (array of 3 values [Vx Vy Vz])</li>
-                <li><strong>angle</strong>: the returned rotation angle</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>list axis, float angle = sim.getRotationAxis(list poseStart/matrixStart, list poseGoal/matrixGoal)</api-synopsis-python>
-        <api-synopsis-lua>float[3] axis, float angle = sim.getRotationAxis(float[7]/float[12] poseStart/matrixStart,
-                                                 float[7]/float[12] poseGoal/matrixGoal)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>poseStart/matrixStart</strong>: the <em>start</em> pose (array of 7 values [x y z qx qy qz qw]) or transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>poseGoal/matrixGoal</strong>: the <em>goal</em> pose (array of 7 values [x y z qx qy qz qw]) or transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>axis</strong>: the rotation axis in absolute coordinates [Vx Vy Vz]</li>
-                <li><strong>angle</strong>: the rotation angle</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[3] axis, float angle = sim.getRotationAxis(float[12] matrixStart, float[12] matrixGoal)
-float[3] axis, float angle = sim.getRotationAxis(float[7] poseStart, float[7] poseGoal)</api-calltip>
     </function>
 
     <function>
@@ -6760,83 +6570,6 @@ sim.insertVoxelsIntoOctree
     </function>
 
     <function>
-        <api-function-name>sim.interpolateMatrices</api-function-name>
-        <api-description>Computes the interpolated transformation matrix between matrixIn1 and matrixIn2. Quaternions are used internally</api-description>
-        <api-see-also>
-            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
-        </api-see-also>
-        <api-synopsis-cpp>int simInterpolateMatrices(const double* matrixIn1, const double* matrixIn2, double interpolFactor,
-                           double* matrixOut)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>matrixIn1</strong>: the first input matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>matrixIn2</strong>: the second input matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>interpolFactor</strong>: the interpolation factor, a value between 0.0 and 1.0 (0.0--&gt; matrixOut = matrixIn1, 1.0--&gt; matrixOut = matrixIn2)</li>
-                <li><strong>matrixOut</strong>: the output matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>list resultMatrix = sim.interpolateMatrices(list matrixIn1, list matrixIn2, float interpolFactor)</api-synopsis-python>
-        <api-synopsis-lua>float[12] resultMatrix = sim.interpolateMatrices(float[12] matrixIn1, float[12] matrixIn2,
-                                                 float interpolFactor)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>matrixIn1</strong>: first input matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>matrixIn2</strong>: second input matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>interpolFactor</strong>: interpolation factor, a value between 0.0 and 1.0 (0.0--&gt; resultMatrix = matrixIn1, 1.0--&gt; resultMatrix = matrixIn2)</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>resultMatrix</strong>: the result matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[12] resultMatrix = sim.interpolateMatrices(float[12] matrixIn1, float[12] matrixIn2, float interpolFactor)</api-calltip>
-    </function>
-
-    <function>
-        <api-function-name>sim.interpolatePoses</api-function-name>
-        <api-description>Computes the interpolated pose between poseIn1 and poseIn2</api-description>
-        <api-see-also>
-            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
-        </api-see-also>
-        <api-synopsis-cpp>int simInterpolatePoses(const double* poseIn1, const double* poseIn2, double interpolFactor,
-                        double* poseOut)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>poseIn1</strong>: first input pose (array of 7 values [x y z qx qy qz qw])</li>
-                <li><strong>poseIn2</strong>: second input pose (array of 7 values [x y z qx qy qz qw])</li>
-                <li><strong>interpolFactor</strong>: the interpolation factor, a value between 0.0 and 1.0 (0.0--&gt; poseOut = poseIn1, 1.0--&gt; poseOut = poseIn2)</li>
-                <li><strong>poseOut</strong>: output pose (array of 7 values [x y z qx qy qz qw])</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>list resultPose = sim.interpolatePoses(list poseIn1, list poseIn2, float interpolFactor)</api-synopsis-python>
-        <api-synopsis-lua>float[7] resultPose = sim.interpolatePoses(float[7] poseIn1, float[7] poseIn2, float interpolFactor)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>poseIn1</strong>: first input pose (array of 7 values [x y z qx qy qz qw])</li>
-                <li><strong>poseIn2</strong>: second input pose (array of 7 values [x y z qx qy qz qw])</li>
-                <li><strong>interpolFactor</strong>: interpolation factor, a value between 0.0 and 1.0 (0.0--&gt; resultPose = poseIn1, 1.0--&gt; resultPose = poseIn2)</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>resultPose</strong>: the result pose (array of 7 values [x y z qx qy qz qw])</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[7] resultPose = sim.interpolatePoses(float[7] poseIn1, float[7] poseIn2, float interpolFactor)</api-calltip>
-    </function>
-
-    <function>
         <api-function-name>sim.intersectPointsWithPointCloud</api-function-name>
         <api-description>Removes points from a <a href="../pointClouds.htm">point cloud</a>, that do not intersect with the
 provided points (i.e. the result in the point cloud will be the intersection between the two sets of points).
@@ -7125,7 +6858,7 @@ sim.loadScene(buffer serializedScene)</api-calltip>
     </function>
 
     <function>
-        <api-function-name>sim.matrixToPose</api-function-name>
+        <api-function-name>simMatrixToPose</api-function-name>
         <api-description>Converts a transformation matrix to a pose</api-description>
         <api-see-also>
             <a href="../positionOrientationTransformation.htm">positions and orientations</a>
@@ -7142,19 +6875,6 @@ sim.loadScene(buffer serializedScene)</api-calltip>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list pose = sim.matrixToPose(list matrix)</api-synopsis-python>
-        <api-synopsis-lua>float[7] pose = sim.matrixToPose(float[12] matrix)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>matrix</strong>: input matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>pose</strong>: the output pose (array of 7 values [x y z qx qy qz qw])</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[7] pose = sim.matrixToPose(float[12] matrix)</api-calltip>
     </function>
 
     <function>
@@ -7531,7 +7251,7 @@ calculation between the two poses)</api-description>
 
 
     <function>
-        <api-function-name>sim.multiplyMatrices</api-function-name>
+        <api-function-name>simMultiplyMatrices</api-function-name>
         <api-description>Multiplies two transformation matrices</api-description>
         <api-see-also>
             <a href="../positionOrientationTransformation.htm">positions and orientations</a>
@@ -7549,24 +7269,10 @@ calculation between the two poses)</api-description>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list resultMatrix = sim.multiplyMatrices(list matrixIn1, list matrixIn2)</api-synopsis-python>
-        <api-synopsis-lua>float[12] resultMatrix = sim.multiplyMatrices(float[12] matrixIn1, float[12] matrixIn2)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>matrixIn1</strong>: first input matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>matrixIn2</strong>: second input matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>resultMatrix</strong>: the result matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[12] resultMatrix = sim.multiplyMatrices(float[12] matrixIn1, float[12] matrixIn2)</api-calltip>
     </function>
 
     <function>
-        <api-function-name>sim.multiplyPoses</api-function-name>
+        <api-function-name>simMultiplyPoses</api-function-name>
         <api-description>Multiplies two poses</api-description>
         <api-see-also>
             <a href="../positionOrientationTransformation.htm">positions and orientations</a>
@@ -7584,45 +7290,8 @@ calculation between the two poses)</api-description>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list resultPose = sim.multiplyPoses(list poseIn1, list poseIn2)</api-synopsis-python>
-        <api-synopsis-lua>float[7] resultPose = sim.multiplyPoses(float[7] poseIn1, float[7] poseIn2)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>poseIn1</strong>: first input pose (array of 7 values [x y z qx qy qz qw])</li>
-                <li><strong>poseIn2</strong>: second input pose (array of 7 values [x y z qx qy qz qw])</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>resultPose</strong>: the result pose (array of 7 values [x y z qx qy qz qw])</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[7] resultPose = sim.multiplyPoses(float[7] poseIn1, float[7] poseIn2)</api-calltip>
     </function>
 
-    <function>
-        <api-function-name>sim.multiplyVector</api-function-name>
-        <api-description>Multiplies a vector with a quaternion, a pose, or a matrix (e.g. v = m * v)</api-description>
-        <api-see-also>
-            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
-        </api-see-also>
-        <api-synopsis-python>list resultVector = sim.multiplyVector(list quaternion/pose/matrix, list vector)</api-synopsis-python>
-        <api-synopsis-lua>float[3*n] resultVector = sim.multiplyVector(float[4]/float[7]/float[12] quaternion/pose/matrix, float[3*n] vector)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>pose/matrix</strong>: a quaternion (array of 4 values [qx qy qz qw]), a pose (array of 7 values [x y z qx qy qz qw]) or a transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>vector</strong>: the original vector: an array of 3 * n values. Each triplet represents one vector to be multiplied</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>resultVector</strong>: the result vector: an array of 3 * n values. Each triplet represents one vector</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[] resultVectors = sim.multiplyVector(float[12] matrix, float[] inVectors)
-float[] resultVectors = sim.multiplyVector(float[7] pose, float[] inVectors)
-float[] resultVectors = sim.multiplyVector(float[4] quaternion, float[] inVectors)</api-calltip>
-    </function>
 
     <function>
         <api-function-name>simOpenTextEditor</api-function-name>
@@ -7894,7 +7563,7 @@ sim.getSimulationState</api-see-also>
     </function>
 
     <function>
-        <api-function-name>sim.poseToMatrix</api-function-name>
+        <api-function-name>simPoseToMatrix</api-function-name>
         <api-description>Converts a pose to a transformation matrix</api-description>
         <api-see-also>
             <a href="../positionOrientationTransformation.htm">positions and orientations</a>
@@ -7911,19 +7580,6 @@ sim.getSimulationState</api-see-also>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list matrix = sim.poseToMatrix(list pose)</api-synopsis-python>
-        <api-synopsis-lua>float[12] matrix = sim.poseToMatrix(float[7] pose)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>pose</strong>: input pose (array of 7 values [x y z qx qy qz qw])</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>matrix</strong>: the output matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[12] matrix = sim.poseToMatrix(float[7] pose)</api-calltip>
     </function>
 
     <function>
@@ -8325,8 +7981,8 @@ sysCall_event <a href="../callbackFunctions.htm">callback function</a> and via t
                 </li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result, list forceVector, list torqueVector = sim.readForceSensor(int objectHandle)</api-synopsis-python>
-        <api-synopsis-lua>int result, float[3] forceVector, float[3] torqueVector = sim.readForceSensor(int objectHandle)</api-synopsis-lua>
+        <api-synopsis-python>vector3 forceVector, vector3 torqueVector = sim.readForceSensor(handle objectHandle)</api-synopsis-python>
+        <api-synopsis-lua>vector3 forceVector, vector3 torqueVector = sim.readForceSensor(handle objectHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object (must be a force sensor). Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_rawvalue</a> (simply add sim.handleflag_rawvalue to objectHandle), if you wish to access the raw values generated by each individual dynamic simulation step (by default, there are 10 dynamic simulation steps for each simulation step). Raw values can only be accessed from inside a <a href="../callbackFunctions.htm">callback function</a> triggered by the physics engine.</li>
@@ -8334,16 +7990,11 @@ sysCall_event <a href="../callbackFunctions.htm">callback function</a> and via t
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>result</strong>: bit-coded:
-                    <ul>
-                        <li>bit 0 set (1): force and torque data is available, otherwise it is not (yet) available (e.g. when not enough values are present for the filter)</li>
-                    </ul>
-                </li>
-                <li><strong>forceVector</strong>: array of 3 values (applied forces along the sensor's x, y and z-axes)</li>
-                <li><strong>torqueVector</strong>: array of 3 values (applied torques about the sensor's x, y and z-axes)</li>
+                <li><strong>forceVector</strong>: applied forces along the sensor's x, y and z-axes</li>
+                <li><strong>torqueVector</strong>: applied torques about the sensor's x, y and z-axes</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result, float[3] forceVector, float[3] torqueVector = sim.readForceSensor(int objectHandle)</api-calltip>
+        <api-calltip>vector3 forceVector, vector3 torqueVector = sim.readForceSensor(handle objectHandle)</api-calltip>
     </function>
 
     <function>
@@ -9016,52 +8667,6 @@ modified with <a href="simChangeEntityColor.htm">sim.changeEntityColor</a>
             </ul>
         </api-input-python-lua>
         <api-calltip>sim.restoreEntityColor(map[] originalColorData)</api-calltip>
-    </function>
-
-    <function>
-        <api-function-name>sim.rotateAroundAxis</api-function-name>
-        <api-description>Rotates a pose or transformation matrix around a random axis in space. This function,
-when used in combination with <a href="simGetRotationAxis.htm">sim.getRotationAxis</a>, can
-be used to build interpolations between poses or transformation matrices</api-description>
-        <api-see-also>
-            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
-        </api-see-also>
-        <api-synopsis-cpp>int simRotateAroundAxis(const double* matrixIn, const double* axis, const double* axisPos,
-                        double angle, double* matrixOut)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>matrixIn</strong>: transformation matrix to rotate (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-                <li><strong>axis</strong>: axis vector in absolute coordinates to rotate around</li>
-                <li><strong>axisPos</strong>: position of the rotation axis in absolute coordinates</li>
-                <li><strong>angle</strong>: amount of rotation to perform</li>
-                <li><strong>matrixOut</strong>: returned transformed (rotated) matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>-1 if operation was not successful</li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>list poseOut/matrixOut = sim.rotateAroundAxis(list poseIn/matrixIn, list axis, list axisPos,
-                                              float angle)</api-synopsis-python>
-        <api-synopsis-lua>float[7]/float[12] poseOut/matrixOut = sim.rotateAroundAxis(float[7]/float[12] poseIn/matrixIn,
-                                                            float[3] axis, float[3] axisPos,
-                                                            float angle)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>poseIn/matrixIn</strong>: the pose (array of 7 values [x y z qx qy qz qw]) or transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]) to rotate</li>
-                <li><strong>axis</strong>: the axis vector in absolute coordinates to rotate around</li>
-                <li><strong>axisPos</strong>: the position of the rotation axis in absolute coordinates</li>
-                <li><strong>angle</strong>: the amount of rotation to perform</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>poseOut/matrixOut</strong>: the transformed (rotated) pose (array of 7 values [x y z qx qy qz qw]) or matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>float[12] matrixOut = sim.rotateAroundAxis(float[12] matrixIn, float[3] axis, float[3] axisPos, float angle)
-float[7] poseOut = sim.rotateAroundAxis(float[7] poseIn, float[3] axis, float[3] axisPos, float angle)</api-calltip>
     </function>
 
     <function>
@@ -10147,6 +9752,57 @@ apply to static shapes)</api-description>
             </ul>
         </api-output-cpp>
     </function>
+    
+    <function>
+        <api-function-name>simGetRotationAxis</api-function-name>
+        <api-description>Retrieves an axis and rotation angle that brings one pose or transformation matrix
+onto another one. The translation part of the poses/matrices is ignored. This function,
+when used in combination with <a href="simRotateAroundAxis.htm">simRotateAroundAxis</a>,
+can be used to build interpolations between transformation matrices</api-description>
+        <api-see-also>
+            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
+        </api-see-also>
+        <api-synopsis-cpp>int simGetRotationAxis(const double* matrixStart, const double* matrixGoal, double* axis, double* angle)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>matrixStart</strong>: the <em>start</em> transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
+                <li><strong>matrixGoal</strong>: the <em>goal</em> transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
+                <li><strong>axis</strong>: the returned rotation axis in absolute coordinates (array of 3 values [Vx Vy Vz])</li>
+                <li><strong>angle</strong>: the returned rotation angle</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>-1 if operation was not successful</li>
+            </ul>
+        </api-output-cpp>
+    </function>
+    
+    <function>
+        <api-function-name>simRotateAroundAxis</api-function-name>
+        <api-description>Rotates a pose or transformation matrix around a random axis in space. This function,
+when used in combination with <a href="simGetRotationAxis.htm">simGetRotationAxis</a>, can
+be used to build interpolations between poses or transformation matrices</api-description>
+        <api-see-also>
+            <a href="../positionOrientationTransformation.htm">positions and orientations</a>
+        </api-see-also>
+        <api-synopsis-cpp>int simRotateAroundAxis(const double* matrixIn, const double* axis, const double* axisPos, double angle, double* matrixOut)</api-synopsis-cpp>
+        <api-input-cpp>
+            <ul>
+                <li><strong>matrixIn</strong>: transformation matrix to rotate (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
+                <li><strong>axis</strong>: axis vector in absolute coordinates to rotate around</li>
+                <li><strong>axisPos</strong>: position of the rotation axis in absolute coordinates</li>
+                <li><strong>angle</strong>: amount of rotation to perform</li>
+                <li><strong>matrixOut</strong>: returned transformed (rotated) matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2])</li>
+            </ul>
+        </api-input-cpp>
+        <api-output-cpp>
+            <ul>
+                <li>-1 if operation was not successful</li>
+            </ul>
+        </api-output-cpp>
+    </function>
+
 
     <function>
         <api-function-name>sim.setObjectParent</api-function-name>

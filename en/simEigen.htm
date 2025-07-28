@@ -140,11 +140,13 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Pose:copy">simEigen.Pose:copy</a>
 <a href="?#Pose:data">simEigen.Pose:data</a>
 <a href="?#Pose:fromtransform">simEigen.Pose:fromtransform</a>
+<a href="?#Pose:interp">simEigen.Pose:interp</a>
 <a href="?#Pose:inv">simEigen.Pose:inv</a>
 <a href="?#Pose:ispose">simEigen.Pose:ispose</a>
 <a href="?#Pose:mul">simEigen.Pose:mul</a>
 <a href="?#Pose:totransform">simEigen.Pose:totransform</a>
 <a href="?#Quaternion">simEigen.Quaternion</a>
+<a href="?#Quaternion:axisangle">simEigen.Quaternion:axisangle</a>
 <a href="?#Quaternion:copy">simEigen.Quaternion:copy</a>
 <a href="?#Quaternion:data">simEigen.Quaternion:data</a>
 <a href="?#Quaternion:fromaxisangle">simEigen.Quaternion:fromaxisangle</a>
@@ -156,6 +158,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Quaternion:inv">simEigen.Quaternion:inv</a>
 <a href="?#Quaternion:isquaternion">simEigen.Quaternion:isquaternion</a>
 <a href="?#Quaternion:mul">simEigen.Quaternion:mul</a>
+<a href="?#Quaternion:random">simEigen.Quaternion:random</a>
 <a href="?#Quaternion:slerp">simEigen.Quaternion:slerp</a>
 <a href="?#Quaternion:toaxisangle">simEigen.Quaternion:toaxisangle</a>
 <a href="?#Quaternion:toeuler">simEigen.Quaternion:toeuler</a>
@@ -2770,6 +2773,35 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="Pose:interp" id="Pose:interp"></a>simEigen.Pose:interp</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">interpolate poses</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Pose:interp(float t, table p)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>t</strong> (float): interpolation factor 0..1</div>
+<div>
+<strong>p</strong> (table): the other pose (Pose)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): a new pose with result (Pose)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="Pose:inv" id="Pose:inv"></a>simEigen.Pose:inv</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2890,6 +2922,34 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
 <strong>q</strong> (table): the new quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:axisangle" id="Quaternion:axisangle"></a>simEigen.Quaternion:axisangle</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the axis/angle to rotate from first quaternion to second</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table axis, float angle = simEigen.Quaternion:axisangle()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>axis</strong> (table): a new vector 3D with rotation axis (Matrix)</div>
+<div>
+<strong>angle</strong> (float): the rotation angle</div>
+</td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -3170,6 +3230,30 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
 <strong>q</strong> (table): a new quaternion with result (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:random" id="Quaternion:random"></a>simEigen.Quaternion:random</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new random quaternion with uniform distribution</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:random()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): the quaternion (Quaternion)</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
