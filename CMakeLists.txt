@@ -15,7 +15,6 @@ find_package(CoppeliaSim 4.5.0.7 REQUIRED)
 
 add_custom_target(genRegularApi ALL
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/genRegularApi.py
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/en/regularApi_deprecated ${CMAKE_CURRENT_SOURCE_DIR}/en/regularApi
 )
 
 file(GLOB HELP_FILES CONFIGURE_DEPENDS *.html *.lua *.class *.css *.txt)
