@@ -420,7 +420,7 @@ wb_usr.tree =
                             {
                                 {
                                     name={en="simGeom API reference"},
-                                    link="simGeom.htm?view=category"
+                                    link="simGeom/simGeom.htm?view=category"
                                 },
                             }
                         },
@@ -437,7 +437,7 @@ wb_usr.tree =
                         },
                         {
                             name={en="simConvex API reference"},
-                            link="simConvex.htm?view=alphabetical",
+                            link="simConvex/simConvex.htm?view=alphabetical",
                             folder=
                             {
                                 {
@@ -452,11 +452,11 @@ wb_usr.tree =
                         },
                         {
                             name={en="simOpenMesh API reference"},
-                            link="simOpenMesh.htm?view=alphabetical"
+                            link="simOpenMesh/simOpenMesh.htm?view=alphabetical"
                         },
                         {
                             name={en="simIGL API reference"},
-                            link="simIGL.htm?view=alphabetical"
+                            link="simIGL/simIGL.htm?view=alphabetical"
                         },
                     }
                 },
@@ -476,7 +476,7 @@ wb_usr.tree =
                             {
                                 {
                                     name={en="simIK API reference"},
-                                    link="simIK.htm?view=category"
+                                    link="simIK/simIK.htm?view=category"
                                 },
                             }
                         },
@@ -509,7 +509,7 @@ wb_usr.tree =
                             {
                                 {
                                     name={en="simMujoco API reference"},
-                                    link="simMujoco.htm"
+                                    link="simMujoco/simMujoco.htm?view=alphabetical"
                                 },
                             }
                         },
@@ -562,7 +562,7 @@ wb_usr.tree =
                                     {
                                         {
                                             name={en="simROS API reference"},
-                                            link="simROS.htm?view=alphabetical"
+                                            link="simROS/simROS.htm?view=alphabetical"
                                         },
                                     }
                                 },
@@ -573,7 +573,7 @@ wb_usr.tree =
                                     {
                                         {
                                             name={en="simROS2 API reference"},
-                                            link="simROS2.htm?view=alphabetical"
+                                            link="simROS2/simROS2.htm?view=alphabetical"
                                         },
                                     }
                                 },
@@ -581,11 +581,11 @@ wb_usr.tree =
                         },
                         {
                             name={en="simZMQ API reference"},
-                            link="simZMQ.htm?view=alphabetical",
+                            link="simZMQ/simZMQ.htm?view=alphabetical",
                         },
                         {
                             name={en="simWS API reference"},
-                            link="simWS.htm?view=alphabetical",
+                            link="simWS/simWS.htm?view=alphabetical",
                         },
                     }
 				},
@@ -600,7 +600,7 @@ wb_usr.tree =
                     {
                         {
                             name={en="simOMPL API reference"},
-                            link="simOMPL.htm?view=alphabetical"
+                            link="simOMPL/simOMPL.htm?view=alphabetical"
                         },
                     }
                 },
@@ -611,11 +611,11 @@ wb_usr.tree =
                     {
                         {
                             name={en="simIM API reference"},
-                            link="simIM.htm?view=alphabetical"
+                            link="simIM/simIM.htm?view=alphabetical"
                         },
                         {
                             name={en="simVision API reference"},
-                            link="simVision.htm?view=category"
+                            link="simVision/simVision.htm?view=category"
                         },
                     }
                 },
@@ -626,15 +626,15 @@ wb_usr.tree =
                     {
                         {
                             name={en="simUI API reference"},
-                            link="simUI.htm?view=alphabetical"
+                            link="simUI/simUI.htm?view=alphabetical"
                         },
                         {
                             name={en="simUI XML syntax"},
-                            link="simUI-widgets.htm"
+                            link="simUI/simUI-widgets.htm"
                         },
                         {
                             name={en="simQML API reference"},
-                            link="simQML.htm?view=alphabetical"
+                            link="simQML/simQML.htm?view=alphabetical"
                         },
                     }
                 },
@@ -654,7 +654,7 @@ wb_usr.tree =
                             {
                                 {
                                     name={en="simURDF API reference"},
-                                    link="simURDF.htm?view=alphabetical"
+                                    link="simURDF/simURDF.htm?view=alphabetical"
                                 },
                             }
                         },
@@ -665,7 +665,7 @@ wb_usr.tree =
                             {
                                 {
                                     name={en="simSDF API reference"},
-                                    link="simSDF.htm?view=alphabetical"
+                                    link="simSDF/simSDF.htm?view=alphabetical"
                                 },
                             }
                         },
@@ -675,15 +675,15 @@ wb_usr.tree =
                         },
                         {
                             name={en="simAssimp API reference"},
-                            link="simAssimp.htm?view=alphabetical"
+                            link="simAssimp/simAssimp.htm?view=alphabetical"
                         },
                         {
                             name={en="simGLTF API reference"},
-                            link="simGLTF.htm?view=alphabetical"
+                            link="simGLTF/simGLTF.htm?view=alphabetical"
                         },
                         {
                             name={en="simLDraw API reference"},
-                            link="simLDraw.htm?view=alphabetical"
+                            link="simLDraw/simLDraw.htm?view=alphabetical"
                         },
                     }
                 },
@@ -694,7 +694,7 @@ wb_usr.tree =
                     {
                         {
                             name={en="simCmd API reference"},
-                            link="simCmd.htm?view=alphabetical"
+                            link="simCmd/simCmd.htm?view=alphabetical"
                         },
                     }
                 },
@@ -705,19 +705,19 @@ wb_usr.tree =
                     {
                         {
                             name={en="simSurfRec API reference"},
-                            link="simSurfRec.htm?view=alphabetical"
+                            link="simSurfRec/simSurfRec.htm?view=alphabetical"
                         },
                         {
                             name={en="simICP API reference"},
-                            link="simICP.htm?view=alphabetical"
+                            link="simICP/simICP.htm?view=alphabetical"
                         },
                         {
                             name={en="simSubprocess API reference"},
-                            link="simSubprocess.htm?view=alphabetical"
+                            link="simSubprocess/simSubprocess.htm?view=alphabetical"
                         },
                         {
                             name={en="simEigen API reference"},
-                            link="simEigen.htm?view=alphabetical"
+                            link="simEigen/simEigen.htm?view=alphabetical"
                         },
                     }
                 },

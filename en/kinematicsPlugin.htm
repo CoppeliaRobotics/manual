@@ -19,7 +19,7 @@
 
 <h1>Kinematics Plugin</h1>
 
-<p>The kinematics plugin for CoppeliaSim (<em>simIK.dll</em> or similar) wraps the <a href="coppeliaKinematicsRoutines.htm">Coppelia Kinematics Routines</a>. It exports <a href="simIK.htm?view=category">several API functions</a> that can be recognized from their simIK-prefix; they allow to create, handle and solve forward/inverse kinematics tasks via Jacobian for any type of mechanism (redundant/non-redundant, containing nested loops, etc.) fully programmatically.</p>
+<p>The kinematics plugin for CoppeliaSim (<em>simIK.dll</em> or similar) wraps the <a href="coppeliaKinematicsRoutines.htm">Coppelia Kinematics Routines</a>. It exports <a href="simIK/simIK.htm?view=category">several API functions</a> that can be recognized from their simIK-prefix; they allow to create, handle and solve forward/inverse kinematics tasks via Jacobian for any type of mechanism (redundant/non-redundant, containing nested loops, etc.) fully programmatically.</p>
 <p>Kinematics tasks can very easily be set up from the scene's content like in following example:</p>
 
 <div class="multi-language-switcher">
@@ -44,7 +44,7 @@ def sysCall_init():
 
 # IK calculation, and application to the scene:
 def sysCall_actuation():
-    simIK.handleGroup(ikEnv, ikGroup, {'syncWorlds': True})</code>
+    simIK.handleGroups(ikEnv, [ikGroup], {'syncWorlds': True})</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
@@ -63,12 +63,12 @@ end
 
 -- IK calculation, and application to the scene:
 function sysCall_actuation()
-    simIK.handleGroup(ikEnv, ikGroup, {syncWorlds = true})
+    simIK.handleGroups(ikEnv, {ikGroup}, {syncWorlds = true})
 end</code>
 
 </div>
 
-<p><a href="simIK.htm#simIK.addElementFromScene">simIK.addElementFromScene</a> will parse the scene given a base, tip and target object, and generate an IK element appropriately, with the given constraints. <a href="simIK.htm#simIK.handleGroup">simIK.handleGroup</a>(ikEnv,ikGroup,{syncWorlds=true}) on the other hand will synchronize the IK world with the sim world, compute IK, then synchronize the sim world with the IK world. One can of course also manually build the kinematic environment, for full control, as in following example:</p>
+<p><a href="simIK/simIK.htm#simIK.addElementFromScene">simIK.addElementFromScene</a> will parse the scene given a base, tip and target object, and generate an IK element appropriately, with the given constraints. <a href="simIK/simIK.htm#simIK.handleGroups">simIK.handleGroups</a>(ikEnv, {ikGroup}, {syncWorlds = true}) on the other hand will synchronize the IK world with the sim world, compute IK, then synchronize the sim world with the IK world. One can of course also manually build the kinematic environment, for full control, as in following example:</p>
 
 <div class="multi-language-switcher">
 
@@ -130,7 +130,7 @@ def sysCall_init():
 def sysCall_actuation():
     # reflect the pose of the target dummy in the IK environment:
     simIK.setObjectPose(self.ikEnv, self.ikTarget, self.ikBase, sim.getObjectPose(self.simTarget, self.simBase))
-    simIK.handleGroup(self.ikEnv, self.ikGroup)  # solve
+    simIK.handleGroups(self.ikEnv, [self.ikGroup])  # solve
     # apply the calculated joint values:
     sim.setJointPosition(self.simJoints[0], simIK.getJointPosition(self.ikEnv, self.ikJoints[0]))
     sim.setJointPosition(self.simJoints[1], simIK.getJointPosition(self.ikEnv, self.ikJoints[1]))</code>
@@ -189,7 +189,7 @@ end
 function sysCall_actuation()
     -- reflect the pose of the target dummy in the IK environment:
     simIK.setObjectPose(ikEnv, ikTarget, ikBase, sim.getObjectPose(simTarget, simBase)) 
-    simIK.handleGroup(ikEnv, ikGroup) -- solve
+    simIK.handleGroups(ikEnv, {ikGroup}) -- solve
     -- apply the calculated joint values:
     sim.setJointPosition(simJoints[1], simIK.getJointPosition(ikEnv, ikJoints[1])) 
     sim.setJointPosition(simJoints[2], simIK.getJointPosition(ikEnv, ikJoints[2]))

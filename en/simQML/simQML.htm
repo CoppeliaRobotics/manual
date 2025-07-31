@@ -1,0 +1,542 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>simQML Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+table { margin-left: 3em; margin-right: 3em; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>simQML Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section">
+<p class="infoBox">API functions for creating QML user interfaces. More info about creating user interfaces in QML can be found at <a href="https://doc.qt.io/qt-5/qtquick-index.html">https://doc.qt.io/</a>.</p>
+<p>In order to load QML components, a QML engine must be created:</p>
+<pre><code class="language-lua">engine = simQML.createEngine()
+simQML.load(engine, '/path/to/Component.qml')
+</code></pre>
+<p>When the engine is not needed anymore, it should be destroyed with:</p>
+<pre><code class="language-lua">simQML.destroyEngine(engine)
+</code></pre>
+<p>Note: destroying the engine would destroy also all components created within that engine, e.g. all the windows.</p>
+<p>It is also possible to load QML inline code, using <code>simQML.loadData</code>.</p>
+<h4><code>PluginWindow</code> component</h4>
+<p>This component can be found in the <code>CoppeliaSimPlugin</code> QML module.</p>
+<p><code>PluginWindow</code> is a subclass of <code>QtQuick.Window</code> which sets some convenience properties and handlers.</p>
+<p>It is possible to use any other component, such as <code>QtQuick.Window</code> as the top-level component, but <code>PluginWindow</code> is what makes sense most of the times.</p>
+<p>Example:</p>
+<pre><code class="language-lua">simQML.loadData(engine, [[
+    import QtQuick 2.12
+    import CoppeliaSimPlugin 1.0
+
+    PluginWindow {
+        id: mainWindow
+        width: 400
+        height: 300
+        title: qsTr(&quot;QML plugin window&quot;)
+    }
+]])
+</code></pre>
+<h4>Communication: QML -&gt; Lua</h4>
+<p>It is possible to send <em>events</em> from QML to Lua using the <code>sendEvent</code> (or <code>sendEventRaw</code>) method of the <code>CoppeliaSimBridge</code> component.</p>
+<p>For convenience, <code>CoppeliaSimBridge</code> is already instantiated in the <code>PluginWindow</code> component and exposed as the property <code>simBridge</code>.</p>
+<p>QML can call <code>simBridge.sendEvent(eventName, eventData)</code> to send an event to Lua.</p>
+<p>In order to receive the event in Lua, an event handler must be registered with <code>simQML.setEventHandler</code>:</p>
+<pre><code class="language-lua">function myEventHandler(engine, eventName, eventData)
+    print('received event', eventName, eventData)
+end
+
+engine = simQML.createEngine()
+simQML.setEventHandler(engine, 'myEventHandler')
+simQML.loadData(engine, [[
+    import QtQuick 2.12
+    import QtQuick.Controls 2.12
+    import CoppeliaSimPlugin 1.0
+
+    PluginWindow {
+        id: mainWindow
+        width: 400
+        height: 300
+        title: qsTr(&quot;QML plugin window&quot;)
+
+        Button {
+            anchors.fill: parent
+            text: &quot;Click me&quot;
+            onClicked: mainWindow.simBridge.sendEvent('click', {someData: 42})
+        }
+    }
+]])
+</code></pre>
+<h4>Communication: Lua -&gt; QML</h4>
+<p>It is possible to send <em>events</em> from Lua to QML using the <code>simQML.sendEvent(engine, name, data)</code> Lua function.</p>
+<p>In order to receive the event in QML, the handler <code>onEventReceived</code> of the <code>CoppeliaSimBridge</code> object must be implemented.</p>
+<p>For convenience, if using the <code>PluginWindow</code> component, that handler is already implemented, and the event will be dispatched as a call to a function defined in the <code>PluginWindow</code> component.</p>
+<pre><code class="language-lua">engine = simQML.createEngine()
+simQML.loadData(engine, [[
+    import QtQuick 2.12
+    import CoppeliaSimPlugin 1.0
+
+    PluginWindow {
+        id: mainWindow
+        width: 400
+        height: 300
+        title: qsTr(&quot;QML plugin window&quot;)
+
+        function myEvent(data) {
+            console.log(&quot;received event 'myEvent', someData=&quot; + data.someData)
+        }
+    }
+]])
+simQML.sendEvent(engine, 'myEvent', {someData = 42})
+</code></pre>
+<h4>Built-in events</h4>
+<p>An <code>onInstanceSwitch</code> event with bool argument is sent each time the scene owning the engine becomes active/inactive.</p>
+<p>The <code>PluginWindow</code> component already implements the handler for this event, setting the <code>visible</code> property of the <code>Window</code>. Set the <code>sticky</code> property to <code>true</code> to override this behavior.</p>
+<h3>QML References</h3>
+<ul>
+<li><a href="https://www.qt.io/product/qt6/qml-book">The QML Book</a></li>
+<li><a href="https://github.com/Furkanzmc/QML-Coding-Guide">QML Coding (style) guide</a></li>
+</ul>
+</td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#createEngine">simQML.createEngine</a>
+<a href="?#destroyEngine">simQML.destroyEngine</a>
+<a href="?#imageDataURL">simQML.imageDataURL</a>
+<a href="?#load">simQML.load</a>
+<a href="?#loadData">simQML.loadData</a>
+<a href="?#qtVersion">simQML.qtVersion</a>
+<a href="?#sendEvent">simQML.sendEvent</a>
+<a href="?#sendEventRaw">simQML.sendEventRaw</a>
+<a href="?#setEventHandler">simQML.setEventHandler</a>
+<a href="?#setEventHandlerRaw">simQML.setEventHandlerRaw</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="createEngine" id="createEngine"></a>simQML.createEngine</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Create a QML engine.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simQML.createEngine()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string): qml engine handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simQML.createEngine()<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="destroyEngine" id="destroyEngine"></a>simQML.destroyEngine</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Destroy the specified QML engine.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simQML.destroyEngine(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string): qml engine handle</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simQML.destroyEngine(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="imageDataURL" id="imageDataURL"></a>simQML.imageDataURL</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Encode image data according to "data" URL scheme (RFC 2397).</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string dataURL = simQML.imageDataURL(buffer data, int width, int height, string format="BMP", int data_format=simqml_image_data_format_rgb888)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>data</strong> (buffer): raw image data</div>
+<div>
+<strong>width</strong> (int): image width</div>
+<div>
+<strong>height</strong> (int): image height</div>
+<div>
+<strong>format</strong> (string, default: "BMP"): encoding format (must be "PNG", "JPG" or "BMP")</div>
+<div>
+<strong>data_format</strong> (int, default: simqml_image_data_format_rgb888): image data format (see <a href="#enum:image_data_format">simQML.image_data_format</a>)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>dataURL</strong> (string): data URL</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string dataURL = simQML.imageDataURL(buffer data, int width, int height, string format="BMP", int data_format=simqml_image_data_format_rgb888)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="load" id="load"></a>simQML.load</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Load a QML file in the specified engine.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simQML.load(string engineHandle, string filename)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>engineHandle</strong> (string): qml engine handle</div>
+<div>
+<strong>filename</strong> (string): qml file path</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simQML.load(string engineHandle, string filename)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="loadData" id="loadData"></a>simQML.loadData</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Load a QML from a string in the specified engine.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simQML.loadData(string engineHandle, string data, string basepath="")<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>engineHandle</strong> (string): qml engine handle</div>
+<div>
+<strong>data</strong> (string): qml data</div>
+<div>
+<strong>basepath</strong> (string, default: ""): base path for imports</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simQML.loadData(string engineHandle, string data, string basepath="")<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="qtVersion" id="qtVersion"></a>simQML.qtVersion</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Returns the version of the Qt library.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int[] version = simQML.qtVersion()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>version</strong> (table of int): version number components as an array</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list version = simQML.qtVersion()<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="sendEvent" id="sendEvent"></a>simQML.sendEvent</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">send an event with an object payload which will be serialized using JSON</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simQML.sendEvent(string engine, string name, table data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>engine</strong> (string): the handle of the QML engine</div>
+<div>
+<strong>name</strong> (string): the name of the event</div>
+<div>
+<strong>data</strong> (table): the object payload</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simQML.sendEvent(string engine, string name, list data)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="sendEventRaw" id="sendEventRaw"></a>simQML.sendEventRaw</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Send an event to QML. In order to receive events in QML, a <code class="code-inline hljs lua">CoppeliaSimBridge</code> object must be created, and its <code class="code-inline hljs lua">onEventReceived(name, data)</code> handler must be implemented.<br><br><strong>Predefined events sent by the plugin:</strong> when the scene is switched, an event with name <code class="code-inline hljs lua">"onInstanceSwitch"</code> and data consisting of a single boolean JSON-serialized value, which will be <code class="code-inline hljs lua">true</code> when the QML component's scene becomes active, and <code class="code-inline hljs lua">false</code> when it becomes inactive.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simQML.sendEventRaw(string engineHandle, string eventName, string eventData)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>engineHandle</strong> (string): qml engine handle</div>
+<div>
+<strong>eventName</strong> (string): event name</div>
+<div>
+<strong>eventData</strong> (string): event data</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simQML.sendEventRaw(string engineHandle, string eventName, string eventData)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setEventHandler" id="setEventHandler"></a>simQML.setEventHandler</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">registers the event handler for the engine, which will deserialize JSON payloads</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simQML.setEventHandler(string engine, string funcName)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>engine</strong> (string): the handle of the QML engine</div>
+<div>
+<strong>funcName</strong> (string): the name of the function, called with args (engineHandle,eventName,eventData)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simQML.setEventHandler(string engine, string funcName)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setEventHandlerRaw" id="setEventHandlerRaw"></a>simQML.setEventHandlerRaw</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the event handler to receive events from QML. In order to send events in QML, a <code class="code-inline hljs lua">CoppeliaSimBridge</code> object must be created, and its <code class="code-inline hljs lua">sendEvent(name, data)</code> method must be called.<br><br>For information about receiving events in QML, see <a href="#sendEvent">simQML.sendEvent</a>.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simQML.setEventHandlerRaw(string engineHandle, string functionName)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>engineHandle</strong> (string): qml engine handle</div>
+<div>
+<strong>functionName</strong> (string): function name to be called when event is received: see <a href="#scriptfun:onEventReceived">onEventReceived</a>
+</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simQML.setEventHandlerRaw(string engineHandle, string functionName)<br>
+</td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section">
+<br><br><h1>Constants</h1>
+<p>Constants used in the various functions. Refer to each constant using <i>enumName.constantName</i>, i.e. <b>simUI.curve_type.xy</b> for <b>xy</b> constant in <b>simUI.curve_type</b> enum.</p>
+<h3 class="subsectionBar">
+<a name="enum:image_data_format" id="enum:image_data_format"></a>simQML.image_data_format</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>gray8</strong></div>
+<div><strong>rgb888</strong></div>
+<div><strong>bgr888</strong></div>
+<div><strong>rgbx8888</strong></div>
+<div><strong>rgb32</strong></div>
+<div><strong>argb32</strong></div>
+</td></tr></tbody></table>
+</td></tr>
+<tr><td id="structs" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section">
+<br><br><h1>Script functions</h1>
+<p>Script functions are used to call some lua code from the plugin side (tipically used for event handlers).</p>
+<h3 class="subsectionBar">
+<a name="scriptfun:onEventReceivedRaw" id="scriptfun:onEventReceivedRaw"></a>onEventReceivedRaw</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Callback for events sent from QML. The event handler must be registered with <a href="#setEventHandlerRaw">simQML.setEventHandlerRaw</a>.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simQML.onEventReceivedRaw(string engineHandle, string eventName, buffer eventData)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>engineHandle</strong> (string): qml engine handle</div>
+<div>
+<strong>eventName</strong> (string): event name</div>
+<div>
+<strong>eventData</strong> (buffer): event data</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simQML.onEventReceivedRaw(string engineHandle, string eventName, buffer eventData)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    See also
+                                                </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css">
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script><script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script><script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script><script src="../../js/hljs/11.8.0/languages/java.min.js"></script><script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script><script src="../../js/hljs/11.8.0/languages/lua.min.js"></script><script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script><script src="../../js/hljs/11.8.0/languages/python.min.js"></script><script src="../../js/hljs/11.8.0/languages/rust.min.js"></script><script src="../../js/hljs/11.8.0/languages/xml.min.js"></script><script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

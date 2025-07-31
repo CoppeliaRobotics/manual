@@ -1,0 +1,3527 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>simEigen Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+table { margin-left: 3em; margin-right: 3em; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>simEigen Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section">
+<p class="infoBox">
+        A plugin wrapping some functions of the <a href="http://eigen.tuxfamily.org">Eigen</a> C++ library.<br>
+        <br>
+        It also contains a Lua class for matrix operations:<br>
+        <code class="code-block hljs lua">
+            a = simEigen.Matrix{{1, 2}, {3, 4}}
+            ainv = a:pinv()
+            a * ainv - simEigen.Matrix.eye(2)
+        </code>
+    </p>
+<!--###PLUGIN_DOC###-->
+</td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#Matrix">simEigen.Matrix</a>
+<a href="?#Matrix:abs">simEigen.Matrix:abs</a>
+<a href="?#Matrix:acos">simEigen.Matrix:acos</a>
+<a href="?#Matrix:add">simEigen.Matrix:add</a>
+<a href="?#Matrix:asin">simEigen.Matrix:asin</a>
+<a href="?#Matrix:atan">simEigen.Matrix:atan</a>
+<a href="?#Matrix:block">simEigen.Matrix:block</a>
+<a href="?#Matrix:blockassign">simEigen.Matrix:blockassign</a>
+<a href="?#Matrix:ceil">simEigen.Matrix:ceil</a>
+<a href="?#Matrix:col">simEigen.Matrix:col</a>
+<a href="?#Matrix:coldata">simEigen.Matrix:coldata</a>
+<a href="?#Matrix:cols">simEigen.Matrix:cols</a>
+<a href="?#Matrix:copy">simEigen.Matrix:copy</a>
+<a href="?#Matrix:cos">simEigen.Matrix:cos</a>
+<a href="?#Matrix:count">simEigen.Matrix:count</a>
+<a href="?#Matrix:cross">simEigen.Matrix:cross</a>
+<a href="?#Matrix:data">simEigen.Matrix:data</a>
+<a href="?#Matrix:deg">simEigen.Matrix:deg</a>
+<a href="?#Matrix:det">simEigen.Matrix:det</a>
+<a href="?#Matrix:div">simEigen.Matrix:div</a>
+<a href="?#Matrix:dot">simEigen.Matrix:dot</a>
+<a href="?#Matrix:exp">simEigen.Matrix:exp</a>
+<a href="?#Matrix:eye">simEigen.Matrix:eye</a>
+<a href="?#Matrix:floor">simEigen.Matrix:floor</a>
+<a href="?#Matrix:horzcat">simEigen.Matrix:horzcat</a>
+<a href="?#Matrix:iabs">simEigen.Matrix:iabs</a>
+<a href="?#Matrix:iacos">simEigen.Matrix:iacos</a>
+<a href="?#Matrix:iadd">simEigen.Matrix:iadd</a>
+<a href="?#Matrix:iasin">simEigen.Matrix:iasin</a>
+<a href="?#Matrix:iatan">simEigen.Matrix:iatan</a>
+<a href="?#Matrix:iceil">simEigen.Matrix:iceil</a>
+<a href="?#Matrix:icos">simEigen.Matrix:icos</a>
+<a href="?#Matrix:ideg">simEigen.Matrix:ideg</a>
+<a href="?#Matrix:idiv">simEigen.Matrix:idiv</a>
+<a href="?#Matrix:iexp">simEigen.Matrix:iexp</a>
+<a href="?#Matrix:ifloor">simEigen.Matrix:ifloor</a>
+<a href="?#Matrix:iintdiv">simEigen.Matrix:iintdiv</a>
+<a href="?#Matrix:ilog">simEigen.Matrix:ilog</a>
+<a href="?#Matrix:ilog10">simEigen.Matrix:ilog10</a>
+<a href="?#Matrix:ilog2">simEigen.Matrix:ilog2</a>
+<a href="?#Matrix:imax">simEigen.Matrix:imax</a>
+<a href="?#Matrix:imin">simEigen.Matrix:imin</a>
+<a href="?#Matrix:imod">simEigen.Matrix:imod</a>
+<a href="?#Matrix:imul">simEigen.Matrix:imul</a>
+<a href="?#Matrix:intdiv">simEigen.Matrix:intdiv</a>
+<a href="?#Matrix:inversetransform">simEigen.Matrix:inversetransform</a>
+<a href="?#Matrix:irad">simEigen.Matrix:irad</a>
+<a href="?#Matrix:isin">simEigen.Matrix:isin</a>
+<a href="?#Matrix:ismatrix">simEigen.Matrix:ismatrix</a>
+<a href="?#Matrix:isorthogonal">simEigen.Matrix:isorthogonal</a>
+<a href="?#Matrix:isqrt">simEigen.Matrix:isqrt</a>
+<a href="?#Matrix:isub">simEigen.Matrix:isub</a>
+<a href="?#Matrix:isvector">simEigen.Matrix:isvector</a>
+<a href="?#Matrix:itan">simEigen.Matrix:itan</a>
+<a href="?#Matrix:item">simEigen.Matrix:item</a>
+<a href="?#Matrix:itimes">simEigen.Matrix:itimes</a>
+<a href="?#Matrix:kron">simEigen.Matrix:kron</a>
+<a href="?#Matrix:linspace">simEigen.Matrix:linspace</a>
+<a href="?#Matrix:log">simEigen.Matrix:log</a>
+<a href="?#Matrix:log10">simEigen.Matrix:log10</a>
+<a href="?#Matrix:log2">simEigen.Matrix:log2</a>
+<a href="?#Matrix:max">simEigen.Matrix:max</a>
+<a href="?#Matrix:maxcoeff">simEigen.Matrix:maxcoeff</a>
+<a href="?#Matrix:maxcoeff">simEigen.Matrix:maxcoeff</a>
+<a href="?#Matrix:maxcoeff">simEigen.Matrix:maxcoeff</a>
+<a href="?#Matrix:min">simEigen.Matrix:min</a>
+<a href="?#Matrix:mod">simEigen.Matrix:mod</a>
+<a href="?#Matrix:mul">simEigen.Matrix:mul</a>
+<a href="?#Matrix:norm">simEigen.Matrix:norm</a>
+<a href="?#Matrix:norm">simEigen.Matrix:norm</a>
+<a href="?#Matrix:normalize">simEigen.Matrix:normalize</a>
+<a href="?#Matrix:normalized">simEigen.Matrix:normalized</a>
+<a href="?#Matrix:pinv">simEigen.Matrix:pinv</a>
+<a href="?#Matrix:print">simEigen.Matrix:print</a>
+<a href="?#Matrix:prod">simEigen.Matrix:prod</a>
+<a href="?#Matrix:prod">simEigen.Matrix:prod</a>
+<a href="?#Matrix:rad">simEigen.Matrix:rad</a>
+<a href="?#Matrix:random">simEigen.Matrix:random</a>
+<a href="?#Matrix:reshaped">simEigen.Matrix:reshaped</a>
+<a href="?#Matrix:row">simEigen.Matrix:row</a>
+<a href="?#Matrix:rowdata">simEigen.Matrix:rowdata</a>
+<a href="?#Matrix:rows">simEigen.Matrix:rows</a>
+<a href="?#Matrix:setcol">simEigen.Matrix:setcol</a>
+<a href="?#Matrix:setcoldata">simEigen.Matrix:setcoldata</a>
+<a href="?#Matrix:setdata">simEigen.Matrix:setdata</a>
+<a href="?#Matrix:setitem">simEigen.Matrix:setitem</a>
+<a href="?#Matrix:setrow">simEigen.Matrix:setrow</a>
+<a href="?#Matrix:setrowdata">simEigen.Matrix:setrowdata</a>
+<a href="?#Matrix:sin">simEigen.Matrix:sin</a>
+<a href="?#Matrix:sqrt">simEigen.Matrix:sqrt</a>
+<a href="?#Matrix:sub">simEigen.Matrix:sub</a>
+<a href="?#Matrix:svd">simEigen.Matrix:svd</a>
+<a href="?#Matrix:tan">simEigen.Matrix:tan</a>
+<a href="?#Matrix:times">simEigen.Matrix:times</a>
+<a href="?#Matrix:trace">simEigen.Matrix:trace</a>
+<a href="?#Matrix:transform">simEigen.Matrix:transform</a>
+<a href="?#Matrix:transpose">simEigen.Matrix:transpose</a>
+<a href="?#Matrix:transposed">simEigen.Matrix:transposed</a>
+<a href="?#Matrix:vertcat">simEigen.Matrix:vertcat</a>
+<a href="?#Pose">simEigen.Pose</a>
+<a href="?#Pose:copy">simEigen.Pose:copy</a>
+<a href="?#Pose:data">simEigen.Pose:data</a>
+<a href="?#Pose:fromtransform">simEigen.Pose:fromtransform</a>
+<a href="?#Pose:interp">simEigen.Pose:interp</a>
+<a href="?#Pose:inv">simEigen.Pose:inv</a>
+<a href="?#Pose:ispose">simEigen.Pose:ispose</a>
+<a href="?#Pose:mul">simEigen.Pose:mul</a>
+<a href="?#Pose:random">simEigen.Pose:random</a>
+<a href="?#Pose:totransform">simEigen.Pose:totransform</a>
+<a href="?#Quaternion">simEigen.Quaternion</a>
+<a href="?#Quaternion:axisangle">simEigen.Quaternion:axisangle</a>
+<a href="?#Quaternion:copy">simEigen.Quaternion:copy</a>
+<a href="?#Quaternion:data">simEigen.Quaternion:data</a>
+<a href="?#Quaternion:fromaxisangle">simEigen.Quaternion:fromaxisangle</a>
+<a href="?#Quaternion:fromeuler">simEigen.Quaternion:fromeuler</a>
+<a href="?#Quaternion:fromrotation">simEigen.Quaternion:fromrotation</a>
+<a href="?#Quaternion:fromtwovectors">simEigen.Quaternion:fromtwovectors</a>
+<a href="?#Quaternion:fromypr">simEigen.Quaternion:fromypr</a>
+<a href="?#Quaternion:imul">simEigen.Quaternion:imul</a>
+<a href="?#Quaternion:inv">simEigen.Quaternion:inv</a>
+<a href="?#Quaternion:isquaternion">simEigen.Quaternion:isquaternion</a>
+<a href="?#Quaternion:mul">simEigen.Quaternion:mul</a>
+<a href="?#Quaternion:random">simEigen.Quaternion:random</a>
+<a href="?#Quaternion:slerp">simEigen.Quaternion:slerp</a>
+<a href="?#Quaternion:toaxisangle">simEigen.Quaternion:toaxisangle</a>
+<a href="?#Quaternion:toeuler">simEigen.Quaternion:toeuler</a>
+<a href="?#Quaternion:torotation">simEigen.Quaternion:torotation</a>
+<a href="?#Quaternion:toypr">simEigen.Quaternion:toypr</a>
+<a href="?#Vector">simEigen.Vector</a>
+<a href="?#Vector:isvector">simEigen.Vector:isvector</a>
+<a href="?#Vector:random">simEigen.Vector:random</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="Matrix" id="Matrix"></a>simEigen.Matrix</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">construct a new matrix; can also use the form: Matrix{{1, 2}, {3, 4}} to construct directly from data, size will be determined automatically</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix(int rows, int cols, float[] data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>rows</strong> (int): number of rows</div>
+<div>
+<strong>cols</strong> (int): number of columns</div>
+<div>
+<strong>data</strong> (table of float): initialization data (optional; can also be a single value)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): the new matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:abs" id="Matrix:abs"></a>simEigen.Matrix:abs</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise absolute value</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:abs()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:acos" id="Matrix:acos"></a>simEigen.Matrix:acos</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise arccosine</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:acos()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:add" id="Matrix:add"></a>simEigen.Matrix:add</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise addition with another matrix or scalar</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:add(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:asin" id="Matrix:asin"></a>simEigen.Matrix:asin</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise arcsine</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:asin()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:atan" id="Matrix:atan"></a>simEigen.Matrix:atan</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise arctangent</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:atan()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:block" id="Matrix:block"></a>simEigen.Matrix:block</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return a block of this matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:block(int i, int j, int p, int q)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>i</strong> (int): start row</div>
+<div>
+<strong>j</strong> (int): start column</div>
+<div>
+<strong>p</strong> (int): block rows</div>
+<div>
+<strong>q</strong> (int): block columns</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:blockassign" id="Matrix:blockassign"></a>simEigen.Matrix:blockassign</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">assign a matrix to a block of this matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:blockassign(table m, int i, int j, int p, int q)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>m</strong> (table): the other matrix (Matrix)</div>
+<div>
+<strong>i</strong> (int): start row</div>
+<div>
+<strong>j</strong> (int): start column</div>
+<div>
+<strong>p</strong> (int): block rows</div>
+<div>
+<strong>q</strong> (int): block columns</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:ceil" id="Matrix:ceil"></a>simEigen.Matrix:ceil</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise ceiling</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:ceil()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:col" id="Matrix:col"></a>simEigen.Matrix:col</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return the j-th column as a new vector</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:col(int j)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>j</strong> (int): column index</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:coldata" id="Matrix:coldata"></a>simEigen.Matrix:coldata</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">get the data of the j-th column</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] a = simEigen.Matrix:coldata(int j)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>j</strong> (int): column index</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>a</strong> (table of float): table of numbers</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:cols" id="Matrix:cols"></a>simEigen.Matrix:cols</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return the number of columns</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int number = simEigen.Matrix:cols()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>number</strong> (int): of columns</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:copy" id="Matrix:copy"></a>simEigen.Matrix:copy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">create a copy of this matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:copy()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with same dimensions and data (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:cos" id="Matrix:cos"></a>simEigen.Matrix:cos</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise cosine</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:cos()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:count" id="Matrix:count"></a>simEigen.Matrix:count</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return the number of data items</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int number = simEigen.Matrix:count()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>number</strong> (int): of data items</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:cross" id="Matrix:cross"></a>simEigen.Matrix:cross</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the vector cross product with 'v2'</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table v = simEigen.Matrix:cross(table v2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>v2</strong> (table): the other vector (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>v</strong> (table): the resulting vector (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:data" id="Matrix:data"></a>simEigen.Matrix:data</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">get the data of this matrix, in row-major order</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] a = simEigen.Matrix:data()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>a</strong> (table of float): table of numbers</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:deg" id="Matrix:deg"></a>simEigen.Matrix:deg</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise radians to degree conversion</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:deg()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:det" id="Matrix:det"></a>simEigen.Matrix:det</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute matrix determinant</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float d = simEigen.Matrix:det()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>d</strong> (float): matrix determinant</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:div" id="Matrix:div"></a>simEigen.Matrix:div</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise division with another matrix or scalar</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:div(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:dot" id="Matrix:dot"></a>simEigen.Matrix:dot</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the dot product with 'v2'</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float the = simEigen.Matrix:dot(table v2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>v2</strong> (table): the other vector (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>the</strong> (float): result</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:exp" id="Matrix:exp"></a>simEigen.Matrix:exp</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise exponential</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:exp()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:eye" id="Matrix:eye"></a>simEigen.Matrix:eye</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new identity matrix of given size</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:eye(int n)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>n</strong> (int): size</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:floor" id="Matrix:floor"></a>simEigen.Matrix:floor</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise floor</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:floor()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:horzcat" id="Matrix:horzcat"></a>simEigen.Matrix:horzcat</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">stack two or more matrices horizontally</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:horzcat(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): matrix to stack (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:iabs" id="Matrix:iabs"></a>simEigen.Matrix:iabs</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise absolute value, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:iabs()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:iacos" id="Matrix:iacos"></a>simEigen.Matrix:iacos</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise arccosine, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:iacos()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:iadd" id="Matrix:iadd"></a>simEigen.Matrix:iadd</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise addition with another matrix or scalar, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:iadd(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:iasin" id="Matrix:iasin"></a>simEigen.Matrix:iasin</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise arcsine, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:iasin()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:iatan" id="Matrix:iatan"></a>simEigen.Matrix:iatan</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise arctangent, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:iatan()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:iceil" id="Matrix:iceil"></a>simEigen.Matrix:iceil</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise ceiling, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:iceil()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:icos" id="Matrix:icos"></a>simEigen.Matrix:icos</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise cosine, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:icos()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:ideg" id="Matrix:ideg"></a>simEigen.Matrix:ideg</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise radians to degrees conversion, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:ideg()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:idiv" id="Matrix:idiv"></a>simEigen.Matrix:idiv</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise division with another matrix or scalar, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:idiv(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:iexp" id="Matrix:iexp"></a>simEigen.Matrix:iexp</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise exponential, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:iexp()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:ifloor" id="Matrix:ifloor"></a>simEigen.Matrix:ifloor</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise floor, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:ifloor()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:iintdiv" id="Matrix:iintdiv"></a>simEigen.Matrix:iintdiv</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise integer division with another matrix or scalar, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:iintdiv(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:ilog" id="Matrix:ilog"></a>simEigen.Matrix:ilog</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise natural logarithm, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:ilog()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:ilog10" id="Matrix:ilog10"></a>simEigen.Matrix:ilog10</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise base-10 logarithm, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:ilog10()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:ilog2" id="Matrix:ilog2"></a>simEigen.Matrix:ilog2</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise base-2 logarithm, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:ilog2()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:imax" id="Matrix:imax"></a>simEigen.Matrix:imax</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise maximum with another matrix or scalar, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:imax(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:imin" id="Matrix:imin"></a>simEigen.Matrix:imin</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise minimum with another matrix or scalar, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:imin(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:imod" id="Matrix:imod"></a>simEigen.Matrix:imod</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise modulo with another matrix or scalar, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:imod(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:imul" id="Matrix:imul"></a>simEigen.Matrix:imul</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute matrix multiplication with another matrix or scalar, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:imul(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:intdiv" id="Matrix:intdiv"></a>simEigen.Matrix:intdiv</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise integer division with another matrix or scalar</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:intdiv(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:inversetransform" id="Matrix:inversetransform"></a>simEigen.Matrix:inversetransform</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the inverse of a 4x4 transform matrix, returns a new matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:inversetransform()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:irad" id="Matrix:irad"></a>simEigen.Matrix:irad</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise degrees to radians conversion, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:irad()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:isin" id="Matrix:isin"></a>simEigen.Matrix:isin</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise sine, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:isin()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:ismatrix" id="Matrix:ismatrix"></a>simEigen.Matrix:ismatrix</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool true = simEigen.Matrix:ismatrix(any m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (any)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>true</strong> (bool): if the argument is an instance of Matrix</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:isorthogonal" id="Matrix:isorthogonal"></a>simEigen.Matrix:isorthogonal</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">check wether the matrix is orthogonal</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool true = simEigen.Matrix:isorthogonal(float tol=1e-6)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>tol</strong> (float, default: 1e-6): tolerance</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>true</strong> (bool): if the matrix is orthogonal</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:isqrt" id="Matrix:isqrt"></a>simEigen.Matrix:isqrt</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise square root, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:isqrt()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:isub" id="Matrix:isub"></a>simEigen.Matrix:isub</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise subtraction with another matrix or scalar, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:isub(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:isvector" id="Matrix:isvector"></a>simEigen.Matrix:isvector</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Nx1 Matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool true = simEigen.Matrix:isvector(any m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (any)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>true</strong> (bool): if the argument is an instance of Matrix of size Nx1</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:itan" id="Matrix:itan"></a>simEigen.Matrix:itan</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise tangent, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:itan()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:item" id="Matrix:item"></a>simEigen.Matrix:item</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return the item at position (i, j)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float value = simEigen.Matrix:item(int i, int j)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>i</strong> (int): row index</div>
+<div>
+<strong>j</strong> (int): column index</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>value</strong> (float)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:itimes" id="Matrix:itimes"></a>simEigen.Matrix:itimes</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise multiplication with another matrix or scalar, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:itimes(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:kron" id="Matrix:kron"></a>simEigen.Matrix:kron</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute kronecker product with another matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:kron(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): the other matrix (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:linspace" id="Matrix:linspace"></a>simEigen.Matrix:linspace</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new matrix of 'count' evenly spaced elements from 'low' to 'high'</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:linspace(float low, float high, int count)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>low</strong> (float): lower bound</div>
+<div>
+<strong>high</strong> (float): upper bound</div>
+<div>
+<strong>count</strong> (int): number of elements</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:log" id="Matrix:log"></a>simEigen.Matrix:log</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise natural logarithm</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:log()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:log10" id="Matrix:log10"></a>simEigen.Matrix:log10</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise base-10 logarithm</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:log10()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:log2" id="Matrix:log2"></a>simEigen.Matrix:log2</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise base-2 logarithm</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:log2()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:max" id="Matrix:max"></a>simEigen.Matrix:max</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise maximum with another matrix or scalar</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:max(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:maxcoeff" id="Matrix:maxcoeff"></a>simEigen.Matrix:maxcoeff</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the maximum value amongst all elements</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.Matrix:maxcoeff()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:maxcoeff" id="Matrix:maxcoeff"></a>simEigen.Matrix:maxcoeff</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the mean value amongst all elements</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.Matrix:maxcoeff()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:maxcoeff" id="Matrix:maxcoeff"></a>simEigen.Matrix:maxcoeff</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the minimum value amongst all elements</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.Matrix:maxcoeff()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:min" id="Matrix:min"></a>simEigen.Matrix:min</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise minimum with another matrix or scalar</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:min(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:mod" id="Matrix:mod"></a>simEigen.Matrix:mod</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise modulo with another matrix or scalar</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:mod(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:mul" id="Matrix:mul"></a>simEigen.Matrix:mul</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise multiplication with another matrix or scalar</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:mul()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:norm" id="Matrix:norm"></a>simEigen.Matrix:norm</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the euclidean norm</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.Matrix:norm()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:norm" id="Matrix:norm"></a>simEigen.Matrix:norm</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the squared euclidean norm</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float result = simEigen.Matrix:norm()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (float)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:normalize" id="Matrix:normalize"></a>simEigen.Matrix:normalize</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">normalize the value of elements, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:normalize()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:normalized" id="Matrix:normalized"></a>simEigen.Matrix:normalized</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return a new matrix with element values normalized</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:normalized()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:pinv" id="Matrix:pinv"></a>simEigen.Matrix:pinv</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the pseudo inverse of this matrix, and if 'b' is passed, return also the 'x' solution to m*x=b</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m, table the = simEigen.Matrix:pinv(table b, float damping)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>b</strong> (table): optional vector to solve for m*x=b</div>
+<div>
+<strong>damping</strong> (float)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div>
+<div>
+<strong>the</strong> (table): solution to m*x=b, if b was passed (Matrix)</div>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:print" id="Matrix:print"></a>simEigen.Matrix:print</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">print the contents of this matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simEigen.Matrix:print()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:prod" id="Matrix:prod"></a>simEigen.Matrix:prod</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the product of all elements of this matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float damping = simEigen.Matrix:prod()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>damping</strong> (float)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:prod" id="Matrix:prod"></a>simEigen.Matrix:prod</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the sum of all elements of this matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float damping = simEigen.Matrix:prod()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>damping</strong> (float)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:rad" id="Matrix:rad"></a>simEigen.Matrix:rad</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise degrees to radians conversion</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:rad()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:random" id="Matrix:random"></a>simEigen.Matrix:random</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) return a matrix of uniformly distributed random values in the given range</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:random(int rows, int cols, float[] range)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>rows</strong> (int): new row count</div>
+<div>
+<strong>cols</strong> (int): new column count</div>
+<div>
+<strong>range</strong> (table of float): {minValue, maxValue}, defaults to {-1, 1}</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix of random values in the given range (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:reshaped" id="Matrix:reshaped"></a>simEigen.Matrix:reshaped</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return a reshaped version of this matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:reshaped(int rows, int cols)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>rows</strong> (int): new row count</div>
+<div>
+<strong>cols</strong> (int): new column count</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:row" id="Matrix:row"></a>simEigen.Matrix:row</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return the i-th row as a new vector</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:row(int i)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>i</strong> (int): row index</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:rowdata" id="Matrix:rowdata"></a>simEigen.Matrix:rowdata</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">get the data of the i-th row</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] a = simEigen.Matrix:rowdata(int i)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>i</strong> (int): row index</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>a</strong> (table of float): table of numbers</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:rows" id="Matrix:rows"></a>simEigen.Matrix:rows</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return the number of rows</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int number = simEigen.Matrix:rows()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>number</strong> (int): of rows</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:setcol" id="Matrix:setcol"></a>simEigen.Matrix:setcol</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">assign a vector to the j-th column</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:setcol(int j, table col)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>j</strong> (int): column index</div>
+<div>
+<strong>col</strong> (table): a column vector</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:setcoldata" id="Matrix:setcoldata"></a>simEigen.Matrix:setcoldata</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">assign data to the j-th column</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:setcoldata(int j, float[] data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>j</strong> (int): column index</div>
+<div>
+<strong>data</strong> (table of float): column data</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:setdata" id="Matrix:setdata"></a>simEigen.Matrix:setdata</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">assign data to the matrix, in row-major order</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:setdata(float[] data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>data</strong> (table of float): matrix data</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:setitem" id="Matrix:setitem"></a>simEigen.Matrix:setitem</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">change one element in the matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:setitem(int i, int j, float[] data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>i</strong> (int): row index</div>
+<div>
+<strong>j</strong> (int): column index</div>
+<div>
+<strong>data</strong> (table of float): element value</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:setrow" id="Matrix:setrow"></a>simEigen.Matrix:setrow</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">assign a vector to the i-th row</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:setrow(int i, table row)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>i</strong> (int): row index</div>
+<div>
+<strong>row</strong> (table): a row vector</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:setrowdata" id="Matrix:setrowdata"></a>simEigen.Matrix:setrowdata</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">assign data to the i-th row</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:setrowdata(int i, float[] data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>i</strong> (int): row index</div>
+<div>
+<strong>data</strong> (table of float): row data</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:sin" id="Matrix:sin"></a>simEigen.Matrix:sin</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise sine</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:sin()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:sqrt" id="Matrix:sqrt"></a>simEigen.Matrix:sqrt</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise square root</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:sqrt()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:sub" id="Matrix:sub"></a>simEigen.Matrix:sub</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise subtraction with another matrix or scalar</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:sub(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:svd" id="Matrix:svd"></a>simEigen.Matrix:svd</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the singular value decomposition</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table s, table u, table v, table x = simEigen.Matrix:svd(bool computeThinU=false, bool computeThinV=false, table b=nil)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>computeThinU</strong> (bool, default: false)</div>
+<div>
+<strong>computeThinV</strong> (bool, default: false)</div>
+<div>
+<strong>b</strong> (table, default: nil): 'b' vector, optional (Matrix)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>s</strong> (table): (Matrix)</div>
+<div>
+<strong>u</strong> (table): (Matrix)</div>
+<div>
+<strong>v</strong> (table): (Matrix)</div>
+<div>
+<strong>x</strong> (table): (Matrix)</div>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:tan" id="Matrix:tan"></a>simEigen.Matrix:tan</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise tangent</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:tan()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:times" id="Matrix:times"></a>simEigen.Matrix:times</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute element-wise multiplication with another matrix or scalar</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:times(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): the other matrix (Matrix) or a scalar (float)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:trace" id="Matrix:trace"></a>simEigen.Matrix:trace</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the matrix trace</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float trace = simEigen.Matrix:trace()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>trace</strong> (float)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:transform" id="Matrix:transform"></a>simEigen.Matrix:transform</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">transform a 3D vector using this 4x4 transform matrix, returns a new vector</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:transform(table v)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>v</strong> (table): a 3D vector (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new vector with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:transpose" id="Matrix:transpose"></a>simEigen.Matrix:transpose</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">transpose the matrix, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:transpose()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:transposed" id="Matrix:transposed"></a>simEigen.Matrix:transposed</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return transposed matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:transposed()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix transposed (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:vertcat" id="Matrix:vertcat"></a>simEigen.Matrix:vertcat</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">stack two or more matrices vertically</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:vertcat(table m2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m2</strong> (table): matrix to stack (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose" id="Pose"></a>simEigen.Pose</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">a combination of a rotation and a translation</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table p = simEigen.Pose(table t, table q)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>t</strong> (table): the translation vector (Matrix)</div>
+<div>
+<strong>q</strong> (table): the rotation quaternion (Quaternion)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>p</strong> (table): the pose (Pose)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose:copy" id="Pose:copy"></a>simEigen.Pose:copy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">create a copy of this pose</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Pose:copy()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new pose with same data (Pose)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose:data" id="Pose:data"></a>simEigen.Pose:data</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">get the data of this pose, in (tx, ty, tz, qx, qy, qz, qw) order</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] data = simEigen.Pose:data()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>data</strong> (table of float): the pose data</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose:fromtransform" id="Pose:fromtransform"></a>simEigen.Pose:fromtransform</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) convert 4x4 transform matrix to new pose</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table p = simEigen.Pose:fromtransform(table m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (table): a 4x4 transform matrix (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>p</strong> (table): a new pose with result (Pose)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose:interp" id="Pose:interp"></a>simEigen.Pose:interp</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">interpolate poses</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Pose:interp(float t, table p)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>t</strong> (float): interpolation factor 0..1</div>
+<div>
+<strong>p</strong> (table): the other pose (Pose)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): a new pose with result (Pose)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose:inv" id="Pose:inv"></a>simEigen.Pose:inv</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return a new pose inverse of this</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table result = simEigen.Pose:inv()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (table): inverse pose (Pose)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose:ispose" id="Pose:ispose"></a>simEigen.Pose:ispose</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Pose</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool true = simEigen.Pose:ispose(any m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (any)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>true</strong> (bool): if the argument is an instance of Pose</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose:mul" id="Pose:mul"></a>simEigen.Pose:mul</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">multiply with another pose/vector, returning new pose/vector</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table p = simEigen.Pose:mul(table o)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>o</strong> (table): the other pose (Pose)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>p</strong> (table): a new pose with result (Pose)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose:random" id="Pose:random"></a>simEigen.Pose:random</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return a random pose, with position in the given range</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table p = simEigen.Pose:random(table minPos={}, table maxPos={})<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>minPos</strong> (table, default: {})</div>
+<div>
+<strong>maxPos</strong> (table, default: {})</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>p</strong> (table): a new random pose</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Pose:totransform" id="Pose:totransform"></a>simEigen.Pose:totransform</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convert pose to 4x4 transform matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Pose:totransform()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new 4x4 transform matrix (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion" id="Quaternion"></a>simEigen.Quaternion</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">construct a new quaternion</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion(float[] data={})<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>data</strong> (table of float, default: {}): initialization data, in (qx, qy, qz, qw) order</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): the new quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:axisangle" id="Quaternion:axisangle"></a>simEigen.Quaternion:axisangle</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">compute the axis/angle to rotate from first quaternion to second</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table axis, float angle = simEigen.Quaternion:axisangle()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>axis</strong> (table): a new vector 3D with rotation axis (Matrix)</div>
+<div>
+<strong>angle</strong> (float): the rotation angle</div>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:copy" id="Quaternion:copy"></a>simEigen.Quaternion:copy</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">create a copy of this quaternion</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Quaternion:copy()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): a new quaternion with same data (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:data" id="Quaternion:data"></a>simEigen.Quaternion:data</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">get the data of this quaternion, in (qx, qy, qz, qw) order</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">float[] data = simEigen.Quaternion:data()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>data</strong> (table of float): the quaternion data</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:fromaxisangle" id="Quaternion:fromaxisangle"></a>simEigen.Quaternion:fromaxisangle</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new quaternion from axis/angle</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:fromaxisangle(table axis, float angle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>axis</strong> (table): the rotation axis vector 3D (Matrix)</div>
+<div>
+<strong>angle</strong> (float): the rotation angle</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): the quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:fromeuler" id="Quaternion:fromeuler"></a>simEigen.Quaternion:fromeuler</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new quaternion from euler angles</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:fromeuler(table euler)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>euler</strong> (table): the Euler angles as 3D vector (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): the quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:fromrotation" id="Quaternion:fromrotation"></a>simEigen.Quaternion:fromrotation</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new quaternion from rotation matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:fromrotation(table r)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>r</strong> (table): the rotation matrix (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): the quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:fromtwovectors" id="Quaternion:fromtwovectors"></a>simEigen.Quaternion:fromtwovectors</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new quaternion from two vectors (v2 = q * v1)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:fromtwovectors(table v1, table v2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>v1</strong> (table): the first vector (Matrix)</div>
+<div>
+<strong>v2</strong> (table): the second vector (Matrix)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): the quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:fromypr" id="Quaternion:fromypr"></a>simEigen.Quaternion:fromypr</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new quaternion from YPR angles</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:fromypr(table ypr)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>ypr</strong> (table): the YPR angles as 3D vector (Matrix)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): the quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:imul" id="Quaternion:imul"></a>simEigen.Quaternion:imul</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">multiply with another quaternion, in place</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table self = simEigen.Quaternion:imul(table o)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>o</strong> (table): the other quaternion (Quaternion)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>self</strong> (table): this quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:inv" id="Quaternion:inv"></a>simEigen.Quaternion:inv</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return a new quaternion inverse of this</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table result = simEigen.Quaternion:inv()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>result</strong> (table): inverted quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:isquaternion" id="Quaternion:isquaternion"></a>simEigen.Quaternion:isquaternion</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Quaternion</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool true = simEigen.Quaternion:isquaternion(any m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (any)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>true</strong> (bool): if the argument is an instance of Quaternion</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:mul" id="Quaternion:mul"></a>simEigen.Quaternion:mul</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">multiply with another quaternion/vector, returning new quaternion/vector</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:mul(table o)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>o</strong> (table): the other quaternion (Quaternion)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): a new quaternion with result (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:random" id="Quaternion:random"></a>simEigen.Quaternion:random</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) create a new random quaternion with uniform distribution</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:random()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): the quaternion (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:slerp" id="Quaternion:slerp"></a>simEigen.Quaternion:slerp</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">interpolate quaternions</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:slerp(float t, table q2)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>t</strong> (float): interpolation factor 0..1</div>
+<div>
+<strong>q2</strong> (table): the other quaternion (Quaternion)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): a new quaternion with result (Quaternion)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:toaxisangle" id="Quaternion:toaxisangle"></a>simEigen.Quaternion:toaxisangle</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convert this quaternion to a axis/angle representation</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table axis, float angle = simEigen.Quaternion:toaxisangle()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>axis</strong> (table): a new vector 3D with rotation axis (Matrix)</div>
+<div>
+<strong>angle</strong> (float): the rotation angle</div>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:toeuler" id="Quaternion:toeuler"></a>simEigen.Quaternion:toeuler</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convert this quaternion to a Euler angles representation</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table euler = simEigen.Quaternion:toeuler()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>euler</strong> (table): a new vector 3D with euler angles (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:torotation" id="Quaternion:torotation"></a>simEigen.Quaternion:torotation</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convert this quaternion to a rotation matrix</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table q = simEigen.Quaternion:torotation()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>q</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:toypr" id="Quaternion:toypr"></a>simEigen.Quaternion:toypr</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convert this quaternion to a YPR angles representation</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table ypr = simEigen.Quaternion:toypr()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>ypr</strong> (table): a new vector 3D with YPR angles (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Vector" id="Vector"></a>simEigen.Vector</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">construct a new vector (that is: a one-column matrix); can also use the form: simEigen.Vector{1, 2, 3, 4} to construct directly from data, size will be determined automatically</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table v = simEigen.Vector(int size, float[] data)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>size</strong> (int): number of elements (matrix rows)</div>
+<div>
+<strong>data</strong> (table of float): initialization data (optional; can also be a single value)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>v</strong> (table): the new vector (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Vector:isvector" id="Vector:isvector"></a>simEigen.Vector:isvector</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">(class method) check wether the argument is a Nx1 Matrix (i.e. a Vector)</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool true = simEigen.Vector:isvector(any m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (any)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>true</strong> (bool): if the argument is an instance of Matrix of size Nx1</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Vector:random" id="Vector:random"></a>simEigen.Vector:random</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">return a vector of uniformly distributed random values in the given range</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table v = simEigen.Vector:random(int size, float[] range)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>size</strong> (int): vector size</div>
+<div>
+<strong>range</strong> (table of float): {minValue, maxValue}, defaults to {-1, 1}</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>v</strong> (table): a new vector of random values in the given range (Vector)</div></td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section"></td></tr>
+<tr><td id="structs" class="section"></td></tr>
+<tr><td id="scriptFunctions" class="section"></td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css">
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script><script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script><script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script><script src="../../js/hljs/11.8.0/languages/java.min.js"></script><script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script><script src="../../js/hljs/11.8.0/languages/lua.min.js"></script><script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script><script src="../../js/hljs/11.8.0/languages/python.min.js"></script><script src="../../js/hljs/11.8.0/languages/rust.min.js"></script><script src="../../js/hljs/11.8.0/languages/xml.min.js"></script><script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>

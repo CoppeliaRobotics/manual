@@ -92,22 +92,24 @@ import numpy</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
--- Get the absolute transformation matrices of an object and its parent:
-local absObj = Matrix4x4:frompose(sim.getObjectPose(objectHandle))
-local absParentObj = Matrix4x4:frompose(sim.getObjectPose(parentHandle))
+import('simEigen', '*')
 
--- Compute the relative transformation matrix of the object:
-local relObj = Matrix4x4:inv(absParentObj) * absObj
+-- Get the absolute poses of an object and its parent:
+local absObj = sim.getObjectPose(objectHandle)
+local absParentObj = sim.getObjectPose(parentHandle)
 
--- Get the relative transformation matrix of the object directly:
-local relObj2 = Matrix4x4:frompose(sim.getObjectPose(objectHandle, parentHandle))
+-- Compute the relative pose of the object:
+local relObj = absParentObj:inv() * absObj
 
--- Check that both matrices are same:
-print(relObj:sub(relObj2):abs():max())</code>
+-- Get the relative pose of the object directly:
+local relObj2 = sim.getObjectPose(objectHandle, parentHandle)
+
+-- Check that both poses are same:
+print( (relObj:totransform() - relObj2:totransform()):abs():maxcoeff() )</code>
 
 </div>
 
-<p>The documentation for the linear algebra functionality for Lua can be found <a href="https://github.com/CoppeliaRobotics/lua/blob/master/matrix.md" target="_blank">here</a>.</p>
+<p>For the full linear algebra functionality, refer to the <a href="simEigen/simEigen.htm">simEigen plugin</a>.</p>
 
 
   

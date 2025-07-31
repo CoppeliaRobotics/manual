@@ -2959,7 +2959,7 @@ Useful for script code auto-completion functionality</api-description>
         <api-input-cpp>
             <ul>
                 <li><strong>scriptHandle</strong>: <a href="simGetScript.htm">handle of the script</a>. Can be -1 to be script agnostic</li>
-                <li><strong>apiWord</strong>: API functions or variable to retrieve the info for, e.g. "sim.getObject"</li>
+                <li><strong>apiWord</strong>: API functions or variable to retrieve the info for, e.g. "sim.getObject". Return is for the latest version of a module by default. For a specific module version, specify its full name, e.g. "sim-1.getObject". Using the wildcard, e.g. "sim-*.getObject", the returned information is prepended by its related module name (e.g. "[sim-1]"), for all available modules</li>
             </ul>
         </api-input-cpp>
         <api-output-cpp>
@@ -2972,7 +2972,7 @@ Useful for script code auto-completion functionality</api-description>
         <api-input-python-lua>
             <ul>
                 <li><strong>scriptHandle</strong>: <a href="simGetScript.htm">handle of the script</a>. Can be -1 to be script agnostic</li>
-                <li><strong>apiWord</strong>: API functions or variable to retrieve the info for, e.g. "sim.getObject"</li>
+                <li><strong>apiWord</strong>: API functions or variable to retrieve the info for, e.g. "sim.getObject". Return is for the latest version of a module by default. For a specific module version, specify its full name, e.g. "sim-1.getObject". Using the wildcard, e.g. "sim-*.getObject", the returned information is prepended by its related module name (e.g. "[sim-1]"), for all available modules</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
@@ -4012,8 +4012,8 @@ sim.getObjectChild</api-see-also>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list pose = sim.getObjectPose(int objectHandle, int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>float[7] pose = sim.getObjectPose(int objectHandle, int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
+        <api-synopsis-python>pose p = sim.getObjectPose(handle objectHandle, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
+        <api-synopsis-lua>pose p = sim.getObjectPose(handle objectHandle, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to retrieve the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
@@ -4022,10 +4022,10 @@ sim.getObjectChild</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>pose</strong>: pose array: [x y z qx qy qz qw]</li>
+                <li><strong>p</strong>: the pose: [x, y, z, qx, qy, qz, qw]</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[7] pose = sim.getObjectPose(int objectHandle, int relativeToObjectHandle=sim.handle_world)</api-calltip>
+        <api-calltip>pose p = sim.getObjectPose(handle objectHandle, handle relativeToObjectHandle=sim.handle_world)</api-calltip>
     </function>
 
     <function>
@@ -4047,10 +4047,8 @@ sim.getObjectChild</api-see-also>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list position = sim.getObjectPosition(int objectHandle,
-                                      int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>float[3] position = sim.getObjectPosition(int objectHandle,
-                                          int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
+        <api-synopsis-python>vector3 pos = sim.getObjectPosition(handle objectHandle, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
+        <api-synopsis-lua>vector3 pos = sim.getObjectPosition(handle objectHandle, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
@@ -4059,10 +4057,10 @@ sim.getObjectChild</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>position</strong>: array of 3 values [x y z]</li>
+                <li><strong>pos</strong>: the position</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[3] position = sim.getObjectPosition(int objectHandle, int relativeToObjectHandle=sim.handle_world)</api-calltip>
+        <api-calltip>vector3 pos = sim.getObjectPosition(handle objectHandle, handle relativeToObjectHandle=sim.handle_world)</api-calltip>
     </function>
 
     <function>
@@ -4084,10 +4082,8 @@ sim.getObjectChild</api-see-also>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list quaternion = sim.getObjectQuaternion(int objectHandle,
-                                          int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>float[4] quaternion = sim.getObjectQuaternion(int objectHandle,
-                                              int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
+        <api-synopsis-python>quaternion quat = sim.getObjectQuaternion(handle objectHandle, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
+        <api-synopsis-lua>quaternion quat = sim.getObjectQuaternion(handle objectHandle, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to retrieve the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe (see next argument)</li>
@@ -4096,10 +4092,10 @@ sim.getObjectChild</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>quaternion</strong>: the quaternion [qx qy qz qw]</li>
+                <li><strong>quat</strong>: the quaternion: [qx, qy, qz, qw]</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[4] quaternion = sim.getObjectQuaternion(int objectHandle, int relativeToObjectHandle=sim.handle_world)</api-calltip>
+        <api-calltip>quaternion quat = sim.getObjectQuaternion(handle objectHandle, handle relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
 
     <function>
@@ -9757,7 +9753,7 @@ apply to static shapes)</api-description>
         <api-function-name>simGetRotationAxis</api-function-name>
         <api-description>Retrieves an axis and rotation angle that brings one pose or transformation matrix
 onto another one. The translation part of the poses/matrices is ignored. This function,
-when used in combination with <a href="simRotateAroundAxis.htm">simRotateAroundAxis</a>,
+when used in combination with <a href="simRotateAroundAxis_cpp.htm">simRotateAroundAxis</a>,
 can be used to build interpolations between transformation matrices</api-description>
         <api-see-also>
             <a href="../positionOrientationTransformation.htm">positions and orientations</a>
@@ -9781,7 +9777,7 @@ can be used to build interpolations between transformation matrices</api-descrip
     <function>
         <api-function-name>simRotateAroundAxis</api-function-name>
         <api-description>Rotates a pose or transformation matrix around a random axis in space. This function,
-when used in combination with <a href="simGetRotationAxis.htm">simGetRotationAxis</a>, can
+when used in combination with <a href="simGetRotationAxis_cpp.htm">simGetRotationAxis</a>, can
 be used to build interpolations between poses or transformation matrices</api-description>
         <api-see-also>
             <a href="../positionOrientationTransformation.htm">positions and orientations</a>
@@ -9855,16 +9851,16 @@ are dynamically reset (this however does not apply to static shapes)</api-descri
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setObjectPose(int objectHandle, list pose, int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>sim.setObjectPose(int objectHandle, float[7] pose, int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
+        <api-synopsis-python>sim.setObjectPose(handle objectHandle, pose p, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
+        <api-synopsis-lua>sim.setObjectPose(handle objectHandle, pose p, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to provide the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe</li>
-                <li><strong>pose</strong>: the pose (array of 7 values [x y z qx qy qz qw])</li>
+                <li><strong>p</strong>: the pose: [x, y, z, qx, qy, qz, qw])</li>
                 <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the pose is specified. Specify sim.handle_world to set the absolute pose, sim.handle_inverse to set the inverse of the absolute pose, sim.handle_parent to set the pose relative to the object's parent, or an object handle relative to whose reference frame the pose is specified. If this handle is the handle of a joint, then the pose is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the pose is applied relative to the joint's base frame)</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.setObjectPose(int objectHandle, float[7] pose, int relativeToObjectHandle = sim.handle_world)</api-calltip>
+        <api-calltip>sim.setObjectPose(handle objectHandle, pose p, handle relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
 
     <function>
@@ -9888,17 +9884,16 @@ to static shapes)</api-description>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setObjectPosition(int objectHandle, list position, int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>sim.setObjectPosition(int objectHandle, float[3] position,
-                      int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
+        <api-synopsis-python>sim.setObjectPosition(handle objectHandle, vector3 pos, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
+        <api-synopsis-lua>sim.setObjectPosition(handle objectHandle, vector3 pos, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
-                <li><strong>position</strong>: coordinates of the object</li>
+                <li><strong>pos</strong>: the object</li>
                 <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify sim.handle_world to set the absolute position, sim.handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified. If this handle is the handle of a joint, then the position is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the position is applied relative to the joint's base frame)</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.setObjectPosition(int objectHandle, float[3] position, int relativeToObjectHandle = sim.handle_world)</api-calltip>
+        <api-calltip>sim.setObjectPosition(handle objectHandle, vector3 pos, handle relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
 
     <function>
@@ -9921,18 +9916,16 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setObjectQuaternion(int objectHandle, list quaternion,
-                        int relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
-        <api-synopsis-lua>sim.setObjectQuaternion(int objectHandle, float[4] quaternion,
-                        int relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
+        <api-synopsis-python>sim.setObjectQuaternion(handle objectHandle, quaternion quat, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-python>
+        <api-synopsis-lua>sim.setObjectQuaternion(handle objectHandle, quaternion quat, handle relativeToObjectHandle = sim.handle_world)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Combine with sim.handleflag_wxyzquat to provide the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe</li>
-                <li><strong>quaternion</strong>: the quaternion (array of 4 values [qx qy qz qw])
-                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame)</li></li>
+                <li><strong>quat</strong>: the quaternion: [qx, qy, qz, qw]</li>
+                <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation, sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the orientation is specified. If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame)</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.setObjectQuaternion(int objectHandle, float[4] quaternion, int relativeToObjectHandle = sim.handle_world)</api-calltip>
+        <api-calltip>sim.setObjectQuaternion(handle objectHandle, quaternion quat, handle relativeToObjectHandle = sim.handle_world)</api-calltip>
     </function>
 
     <function>

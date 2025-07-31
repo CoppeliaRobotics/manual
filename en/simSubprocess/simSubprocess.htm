@@ -1,0 +1,294 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>simSubprocess Plugin API reference</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+<script type="text/javascript">
+//
+function getParameterByName(name, url = window.location.href)
+{
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//
+                </script><style type="text/css">
+td.section { margin: 0; padding: 0; }
+table { margin-left: 3em; margin-right: 3em; }
+                </style>
+</head>
+<body>
+<div align="center"><table class="allEncompassingTable">
+<tr><td id="title" class="section"><h1>simSubprocess Plugin API reference</h1></td></tr>
+<tr><td id="info" class="section">
+<p class="infoBox">API functions for subprocess</p>
+<!--###PLUGIN_DOC###-->
+</td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#exec">simSubprocess.exec</a>
+<a href="?#execAsync">simSubprocess.execAsync</a>
+<a href="?#getpid">simSubprocess.getpid</a>
+<a href="?#isRunning">simSubprocess.isRunning</a>
+<a href="?#kill">simSubprocess.kill</a>
+<a href="?#wait">simSubprocess.wait</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="exec" id="exec"></a>simSubprocess.exec</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Execute a subprocess.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int exitCode, buffer stdOut, buffer stdErr = simSubprocess.exec(string programPath, string[] args, buffer input="", exec_opts opts={})<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>programPath</strong> (string): Program path.</div>
+<div>
+<strong>args</strong> (table of string): Program arguments.</div>
+<div>
+<strong>input</strong> (buffer, default: ""): Data passed to stdin.</div>
+<div>
+<strong>opts</strong> (exec_opts, default: {}): Options. see <a href="#struct:exec_opts">exec_opts</a>
+</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>exitCode</strong> (int)</div>
+<div>
+<strong>stdOut</strong> (buffer)</div>
+<div>
+<strong>stdErr</strong> (buffer)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int exitCode, buffer stdOut, buffer stdErr = simSubprocess.exec(string programPath, list args, buffer input="", exec_opts opts={})<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="execAsync" id="execAsync"></a>simSubprocess.execAsync</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Execute a subprocess without waiting for termination.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string handle = simSubprocess.execAsync(string programPath, string[] args, exec_opts opts={})<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>programPath</strong> (string): Program path.</div>
+<div>
+<strong>args</strong> (table of string): Program arguments.</div>
+<div>
+<strong>opts</strong> (exec_opts, default: {}): Options. see <a href="#struct:exec_opts">exec_opts</a>
+</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string handle = simSubprocess.execAsync(string programPath, list args, exec_opts opts={})<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getpid" id="getpid"></a>simSubprocess.getpid</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get the process identifier (OS-dependent).</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">long pid = simSubprocess.getpid(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>pid</strong> (long)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">long pid = simSubprocess.getpid(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="isRunning" id="isRunning"></a>simSubprocess.isRunning</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Check wether a subprocess previously launched with <a href="#execAsync">simSubprocess.execAsync</a> is running.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">bool running = simSubprocess.isRunning(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>running</strong> (bool)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">bool running = simSubprocess.isRunning(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="kill" id="kill"></a>simSubprocess.kill</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Forcefully terminate a subprocess previously launched with <a href="#execAsync">simSubprocess.execAsync</a>.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int exitCode = simSubprocess.kill(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>exitCode</strong> (int)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int exitCode = simSubprocess.kill(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="wait" id="wait"></a>simSubprocess.wait</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Wait for termination of a subprocess previously launched with <a href="#execAsync">simSubprocess.execAsync</a>. If subprocess terminates, the exit code is returned.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int exitCode = simSubprocess.wait(string handle, float timeout=5)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>timeout</strong> (float, default: 5)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>exitCode</strong> (int)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int exitCode = simSubprocess.wait(string handle, float timeout=5)<br>
+</td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="enums" class="section"></td></tr>
+<tr><td id="structs" class="section">
+<br><br><h1>Data structures</h1>
+<p>Data structures are used to pass complex data around. Create data structures in Lua in the form of a map, e.g.: <code>{line_size=3, add_to_legend=false, selectable=true}</code></p>
+<h3 class="subsectionBar">
+<a name="struct:exec_opts" id="struct:exec_opts"></a>exec_opts</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                Description
+                                            </td>
+<td class="apiTableRightDescr"><br></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Fields</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>useSearchPath</strong> (bool, default: true): Resolve program name searching in PATH entries.</div>
+<div>
+<strong>openNewConsole</strong> (bool, default: false): Win32-specific flag.</div>
+<div>
+<strong>workingDir</strong> (string): Start process in a specific working directory.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                See also
+                                            </td>
+<td class="apiTableRightDescr"></td>
+</tr>
+</table>
+<br>
+</td></tr>
+<tr><td id="scriptFunctions" class="section"></td></tr>
+</table></div>
+<script type="text/javascript">
+//
+view = getParameterByName('view')
+document.getElementById('alphabetical').style.display = view == 'alphabetical' ? 'table-cell' : 'none'
+document.getElementById('commands').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('enums').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('structs').style.display = view == null ? 'table-cell' : 'none'
+document.getElementById('scriptFunctions').style.display = view == null ? 'table-cell' : 'none'
+//
+                </script><link rel="stylesheet" href="../../js/hljs/11.8.0/styles/default.min.css">
+<script src="../../js/hljs/11.8.0/highlight.min.js"></script><script src="../../js/hljs/11.8.0/languages/cmake.min.js"></script><script src="../../js/hljs/11.8.0/languages/cpp.min.js"></script><script src="../../js/hljs/11.8.0/languages/java.min.js"></script><script src="../../js/hljs/11.8.0/languages/javascript.min.js"></script><script src="../../js/hljs/11.8.0/languages/lua.min.js"></script><script src="../../js/hljs/11.8.0/languages/matlab.min.js"></script><script src="../../js/hljs/11.8.0/languages/python.min.js"></script><script src="../../js/hljs/11.8.0/languages/rust.min.js"></script><script src="../../js/hljs/11.8.0/languages/xml.min.js"></script><script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+</html>
