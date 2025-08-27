@@ -144,8 +144,8 @@ was called (or by using the following flag: sim.handleflag_resetforcetorque)</ap
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.addForce(int shapeHandle, vector3 position, vector3 force)</api-synopsis-python>
-        <api-synopsis-lua>sim.addForce(int shapeHandle, vector3 position, vector3 force)</api-synopsis-lua>
+        <api-synopsis-python>sim.addForce(handle shapeHandle, vector3 position, vector3 force)</api-synopsis-python>
+        <api-synopsis-lua>sim.addForce(handle shapeHandle, vector3 position, vector3 force)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of a dynamically enabled shape. Can be combined with sim.handleflag_resetforcetorque in order to clear the accumulated force and torque.</li>
@@ -153,7 +153,7 @@ was called (or by using the following flag: sim.handleflag_resetforcetorque)</ap
                 <li><strong>force</strong>: array of 3 values that represent the force (in relative coordinates) to add.</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.addForce(int shapeHandle, vector3 position, vector3 force)</api-calltip>
+        <api-calltip>sim.addForce(handle shapeHandle, vector3 position, vector3 force)</api-calltip>
     </function>
 
     <function>
@@ -176,8 +176,8 @@ flags: sim.handleflag_resetforce and/or sim.handleflag_resettorque)</api-descrip
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.addForceAndTorque(int shapeHandle, vector3 force = [0.0, 0.0, 0.0], vector3 torque = [0.0, 0.0, 0.0])</api-synopsis-python>
-        <api-synopsis-lua>sim.addForceAndTorque(int shapeHandle, vector3 force = {0.0, 0.0, 0.0}, vector3 torque = {0.0, 0.0, 0.0})</api-synopsis-lua>
+        <api-synopsis-python>sim.addForceAndTorque(handle shapeHandle, vector3 force = [0.0, 0.0, 0.0], vector3 torque = [0.0, 0.0, 0.0])</api-synopsis-python>
+        <api-synopsis-lua>sim.addForceAndTorque(handle shapeHandle, vector3 force = {0.0, 0.0, 0.0}, vector3 torque = {0.0, 0.0, 0.0})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of a dynamically enabled shape. Can be combined with sim.handleflag_resetforce and/or sim.handleflag_resettorque in order to clear the accumulated force or torque.</li>
@@ -185,7 +185,7 @@ flags: sim.handleflag_resetforce and/or sim.handleflag_resettorque)</api-descrip
                 <li><strong>torque</strong>: array of 3 values that represent the torque (in absolute coordinates) to add. Can be None/nil</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.addForceAndTorque(int shapeHandle, vector3 force = {0.0, 0.0, 0.0}, vector3 torque = {0.0, 0.0, 0.0})</api-calltip>
+        <api-calltip>sim.addForceAndTorque(handle shapeHandle, vector3 force = {0.0, 0.0, 0.0}, vector3 torque = {0.0, 0.0, 0.0})</api-calltip>
     </function>
 
     <function>
@@ -217,10 +217,10 @@ flags: sim.handleflag_resetforce and/or sim.handleflag_resettorque)</api-descrip
                 <li>-1 if operation was not successful, otherwise the id of the created/updated curve</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int curveId = sim.addGraphCurve(int graphHandle, string curveName, int dim, list streamIds,
+        <api-synopsis-python>int curveId = sim.addGraphCurve(handle graphHandle, string curveName, int dim, list streamIds,
                                 list defaultValues, string unitStr, int options = 0,
                                 list color = [0 1, 0], int curveWidth = 2)</api-synopsis-python>
-        <api-synopsis-lua>int curveId = sim.addGraphCurve(int graphHandle, string curveName, int dim, int[] streamIds,
+        <api-synopsis-lua>int curveId = sim.addGraphCurve(handle graphHandle, string curveName, int dim, int[] streamIds,
                                 float[] defaultValues, string unitStr, int options = 0,
                                 float[3] color = {0, 1, 0}, int curveWidth = 2)</api-synopsis-lua>
         <api-input-python-lua>
@@ -247,7 +247,7 @@ flags: sim.handleflag_resetforce and/or sim.handleflag_resettorque)</api-descrip
                 <li><strong>curveId</strong>: id of the created/updated curve</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int curveId = sim.addGraphCurve(int graphHandle, string curveName, int dim, int[2..3] streamIds, float[2..3] defaultValues, string unitStr, int options=0, float[3] color={1, 1, 0}, int curveWidth=2)</api-calltip>
+        <api-calltip>int curveId = sim.addGraphCurve(handle graphHandle, string curveName, int dim, int[2..3] streamIds, float[2..3] defaultValues, string unitStr, int options=0, float[3] color={1, 1, 0}, int curveWidth=2)</api-calltip>
     </function>
 
     <function>
@@ -275,9 +275,9 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
                 <li>-1 if operation was not successful, otherwise the id of the created/updated stream</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int streamId = sim.addGraphStream(int graphHandle, string streamName, string unitStr = '',
+        <api-synopsis-python>int streamId = sim.addGraphStream(handle graphHandle, string streamName, string unitStr = '',
                                   int options = 0, list color = [1, 0, 0], cyclicRange = 0)</api-synopsis-python>
-        <api-synopsis-lua>int streamId = sim.addGraphStream(int graphHandle, string streamName, string unitStr = '',
+        <api-synopsis-lua>int streamId = sim.addGraphStream(handle graphHandle, string streamName, string unitStr = '',
                                   int options = 0, float[3] color = {1, 0, 0}, cyclicRange = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -300,7 +300,7 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
                 <li><strong>streamId</strong>: id of the created/updated stream</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int streamId = sim.addGraphStream(int graphHandle, string streamName, string unit, int options=0, float[3] color={1, 0, 0}, float cyclicRange=pi)</api-calltip>
+        <api-calltip>int streamId = sim.addGraphStream(handle graphHandle, string streamName, string unit, int options=0, float[3] color={1, 0, 0}, float cyclicRange=pi)</api-calltip>
     </function>
 
     <function>
@@ -329,8 +329,8 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
                 <li>-1 if operation was not successful.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.addItemToCollection(int collectionHandle, int what, int objectHandle, int options)</api-synopsis-python>
-        <api-synopsis-lua>sim.addItemToCollection(int collectionHandle, int what, int objectHandle, int options)</api-synopsis-lua>
+        <api-synopsis-python>sim.addItemToCollection(handle collectionHandle, int what, handle objectHandle, int options)</api-synopsis-python>
+        <api-synopsis-lua>sim.addItemToCollection(handle collectionHandle, int what, handle objectHandle, int options)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>collectionHandle</strong>: handle of a collection.</li>
@@ -351,7 +351,7 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
                 </li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.addItemToCollection(int collectionHandle, int what, int objectHandle, int options)</api-calltip>
+        <api-calltip>sim.addItemToCollection(handle collectionHandle, int what, handle objectHandle, int options)</api-calltip>
     </function>
 
     <function>
@@ -524,20 +524,15 @@ The shape's inertia properties are unaffected</api-description>
                 <li>-1 if operation was not successful. 0 if the bounding box could not be reoriented (the bounding box of primitive shapes cannot be reoriented), otherwise 1.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>bool result = sim.alignShapeBB(int shapeHandle, list pose)</api-synopsis-python>
-        <api-synopsis-lua>bool result = sim.alignShapeBB(int shapeHandle, float[7] pose)</api-synopsis-lua>
+        <api-synopsis-python>sim.alignShapeBB(handle shapeHandle, pose p)</api-synopsis-python>
+        <api-synopsis-lua>sim.alignShapeBB(handle shapeHandle, pose p)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the shape</li>
-                <li><strong>pose</strong>: pose describing the new orientation of the shape's bounding box. The pose is expressed as [x y z qx qy qz qw], where the positional part is ignored. A pose containing only zeros aligns the bounding box with the mesh's natural bounding box</li>
+                <li><strong>p</strong>: pose describing the new orientation of the shape's bounding box. The pose is expressed as [x y z qx qy qz qw], where the positional part is ignored. A pose containing only zeros aligns the bounding box with the mesh's natural bounding box</li>
             </ul>
         </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>result</strong>: 0 if the bounding box could not be reoriented (the bounding box of primitive shapes cannot be reoriented), otherwise 1.</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int result = sim.alignShapeBB(int shapeHandle, float[7] pose)</api-calltip>
+        <api-calltip>sim.alignShapeBB(handle shapeHandle, pose p)</api-calltip>
     </function>
 
     <function>
@@ -555,14 +550,9 @@ A call to this function has no effect (and doesn't generate any error) when call
                 <li>-1 if operation was not successful, 0 if nothing was memorized, or 1 if changes were memorized.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result = sim.announceSceneContentChange()</api-synopsis-python>
-        <api-synopsis-lua>int result = sim.announceSceneContentChange()</api-synopsis-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>result</strong>: 0 if nothing was memorized, or 1 if changes were memorized.</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int result = sim.announceSceneContentChange()</api-calltip>
+        <api-synopsis-python>sim.announceSceneContentChange()</api-synopsis-python>
+        <api-synopsis-lua>sim.announceSceneContentChange()</api-synopsis-lua>
+        <api-calltip>sim.announceSceneContentChange()</api-calltip>
     </function>
 
     <function>
@@ -613,19 +603,14 @@ A call to this function has no effect (and doesn't generate any error) when call
                 <li>-1 if operation was not successful. 0 if the console doesn't exist (anymore), in which case no error is generated. 1 if the console window was closed.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result = sim.auxiliaryConsoleClose(int consoleHandle)</api-synopsis-python>
-        <api-synopsis-lua>int result = sim.auxiliaryConsoleClose(int consoleHandle)</api-synopsis-lua>
+        <api-synopsis-python>sim.auxiliaryConsoleClose(int consoleHandle)</api-synopsis-python>
+        <api-synopsis-lua>sim.auxiliaryConsoleClose(int consoleHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>consoleHandle</strong>: handle of the console window, previously returned by sim.auxiliaryConsoleOpen</li>
             </ul>
         </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>result</strong>: 0 if the console doesn't exist (anymore), in which case no error is generated. 1 if the console window was closed</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int result = sim.auxiliaryConsoleClose(int consoleHandle)</api-calltip>
+        <api-calltip>sim.auxiliaryConsoleClose(int consoleHandle)</api-calltip>
     </function>
 
     <function>
@@ -711,20 +696,15 @@ sim.addLog</api-see-also>
                 <li>-1 if operation was not successful. 0 if the console doesn't exist (anymore), in which case no error is generated. 1 if the operation was successful.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result = sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-synopsis-python>
-        <api-synopsis-lua>int result = sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-synopsis-lua>
+        <api-synopsis-python>sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-synopsis-python>
+        <api-synopsis-lua>sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>consoleHandle</strong>: handle of the console window, previously returned by the <a href="simAuxiliaryConsoleOpen.htm">sim.auxiliaryConsoleOpen</a></li>
                 <li><strong>text</strong>: text to append, or None/nil to clear the console window</li>
             </ul>
         </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>result</strong>: 0 if the console doesn't exist (anymore), in which case no error is generated. 1 if the operation was successful</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int result = sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-calltip>
+        <api-calltip>sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-calltip>
     </function>
 
     <function>
@@ -744,20 +724,15 @@ sim.auxiliaryConsoleClose</api-see-also>
                 <li>-1 if operation was not successful. 0 if the console doesn't exist (anymore), in which case no error is generated. 1 if the console window's show state was changed.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result = sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-synopsis-python>
-        <api-synopsis-lua>int result = sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-synopsis-lua>
+        <api-synopsis-python>sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-synopsis-python>
+        <api-synopsis-lua>sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>consoleHandle</strong>: handle of the console window, previously returned by <a href="simAuxiliaryConsoleOpen.htm">sim.auxiliaryConsoleOpen</a>. When combined with <em>sim.handleflag_extended</em>, then the function will simply query the visibility state of the console.</li>
                 <li><strong>showState</strong>: indicates whether the console should be hidden (0) or shown (!=0)</li>
             </ul>
         </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>result</strong>: 0 if the console doesn't exist (anymore), in which case no error is generated. 1 if the console window's show state was changed.</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>int result = sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-calltip>
+        <api-calltip>sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-calltip>
     </function>
 
     <function>
@@ -829,8 +804,8 @@ target script must be initialized for this call to succeed, e.g. when calling <a
 then simulation must be running</api-description>
         <api-see-also>sim.getScriptFunctions
 sim.executeScriptString</api-see-also>
-        <api-synopsis-python>... = sim.callScriptFunction(int scriptHandle, string functionName, ...)</api-synopsis-python>
-        <api-synopsis-lua>... = sim.callScriptFunction(int scriptHandle, string functionName, ...)</api-synopsis-lua>
+        <api-synopsis-python>any outArg = sim.callScriptFunction(handle scriptHandle, string functionName, ...)</api-synopsis-python>
+        <api-synopsis-lua>any outArg = sim.callScriptFunction(handle scriptHandle, string functionName, ...)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>scriptHandle</strong>: the handle of the script, or sim.handle_self to target the current script. See <a href="simGetScript.htm">sim.getScript</a></li>
@@ -840,10 +815,10 @@ sim.executeScriptString</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>...</strong>: any number of return values from the called function.</li>
+                <li><strong>outArg</strong>: any number of return values from the called function.</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>any outArg = sim.callScriptFunction(int scriptHandle, string functionName, any inArg=nil)</api-calltip>
+        <api-calltip>any outArg = sim.callScriptFunction(handle scriptHandle, string functionName, any inArg=nil)</api-calltip>
     </function>
 
     <function>
@@ -934,9 +909,9 @@ color. Currently only takes into account <a href="../collections.htm">collection
 and <a href="../shapes.htm">shapes</a>
         </api-description>
         <api-see-also>sim.restoreEntityColor</api-see-also>
-        <api-synopsis-python>list originalColorData = sim.changeEntityColor(int entityHandle, list newColor,
+        <api-synopsis-python>list originalColorData = sim.changeEntityColor(handle entityHandle, color newColor,
                                                int colorComponent = sim.colorcomponent_ambient_diffuse)</api-synopsis-python>
-        <api-synopsis-lua>map[] originalColorData = sim.changeEntityColor(int entityHandle, float[3] newColor,
+        <api-synopsis-lua>map[] originalColorData = sim.changeEntityColor(handle entityHandle, color newColor,
                                                 int colorComponent = sim.colorcomponent_ambient_diffuse)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -950,7 +925,7 @@ and <a href="../shapes.htm">shapes</a>
                 <li><strong>originalColorData</strong>: original color data, to be used as argument with <a href="simRestoreEntityColor.htm">sim.restoreEntityColor</a></li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>map[] originalColorData = sim.changeEntityColor(int entityHandle, float[3] newColor, int colorComponent=sim.colorcomponent_ambient_diffuse)</api-calltip>
+        <api-calltip>map[] originalColorData = sim.changeEntityColor(handle entityHandle, color newColor, int colorComponent=sim.colorcomponent_ambient_diffuse)</api-calltip>
     </function>
 
     <function>
@@ -970,8 +945,8 @@ are overridden if the entities are objects. If the entities are both the same co
                 <li>-1 in case of an error, 0 or 1 to indicate a collision state</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result, list collidingObjectHandles = sim.checkCollision(int entity1Handle, int entity2Handle)</api-synopsis-python>
-        <api-synopsis-lua>int result, int[2] collidingObjectHandles = sim.checkCollision(int entity1Handle, int entity2Handle)</api-synopsis-lua>
+        <api-synopsis-python>bool result, list collidingObjectHandles = sim.checkCollision(handle entity1Handle, handle entity2Handle)</api-synopsis-python>
+        <api-synopsis-lua>bool result, int[2] collidingObjectHandles = sim.checkCollision(handle entity1Handle, handle entity2Handle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>entity1Handle</strong>: handle of entity 1 (can be an object handle or a collection handle)</li>
@@ -980,11 +955,11 @@ are overridden if the entities are objects. If the entities are both the same co
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>result</strong>: 0 or 1 to indicate a collision state</li>
+                <li><strong>result</strong>: indicates the collision state</li>
                 <li><strong>collidingObjectHandles</strong>: array containing the colliding pair</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result, int[2] collidingObjects = sim.checkCollision(int entity1Handle, int entity2Handle)</api-calltip>
+        <api-calltip>bool result, int[2] collidingObjects = sim.checkCollision(handle entity1Handle, handle entity2Handle)</api-calltip>
     </function>
 
     <function>
@@ -1007,12 +982,8 @@ will not be checked against themselve</api-description>
                 <li>0 or 1 if operation was successful (1 if distance is smaller than threshold), -1 otherwise</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result, list distanceData, list objectHandlePair = sim.checkDistance(int entity1Handle,
-                                                                         int entity2Handle,
-                                                                         float threshold = 0)</api-synopsis-python>
-        <api-synopsis-lua>int result, float[7] distanceData, int[2] objectHandlePair = sim.checkDistance(int entity1Handle,
-                                                                               int entity2Handle,
-                                                                               float threshold = 0)</api-synopsis-lua>
+        <api-synopsis-python>bool result, float dist, vector3 p1, vector3 p2, list objectHandlePair = sim.checkDistance(handle entity1Handle, handle entity2Handle, float threshold = 0)</api-synopsis-python>
+        <api-synopsis-lua>bool result, float dist, vector3 p1, vector3 p2, int[2] objectHandlePair = sim.checkDistance(handle entity1Handle, handle entity2Handle, float threshold = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>entity1Handle</strong>: handle of entity 1 (can be an object handle or a collection handle)</li>
@@ -1022,12 +993,14 @@ will not be checked against themselve</api-description>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>result</strong>: 1 if distance is smaller than the threshold</li>
-                <li><strong>distanceData</strong>: array of 7 values: [obj1X obj1Y obj1Z obj2X obj2Y obj2Z dist]</li>
+                <li><strong>result</strong>: true if distance is smaller than the threshold</li>
+                <li><strong>dist</strong>: distance</li>
+                <li><strong>p1</strong>: point on entity 1</li>
+                <li><strong>p2</strong>: point on entity 2</li>
                 <li><strong>objectHandlePair</strong>: array of 2 object handles representing the two objects that hold the minimum distance segment</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result, float[7] distanceData, int[2] objectHandlePair = sim.checkDistance(int entity1Handle, int entity2Handle, float threshold=0.0)</api-calltip>
+        <api-calltip>bool result, float dist, vector3 p1, vector3 p2, int[2] objectHandlePair = sim.checkDistance(handle entity1Handle, handle entity2Handle, float threshold=0.0)</api-calltip>
     </function>
 
     <function>
@@ -1074,9 +1047,9 @@ will not be checked against themselve</api-description>
                 <li>-1 if operation was not successful, 0 if the points do not collide with the voxels, 1 if the points collide with the voxels</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int res, int tag, int locLow, int locHigh = sim.checkOctreePointOccupancy(int octreeHandle,
+        <api-synopsis-python>int res, int tag, int locLow, int locHigh = sim.checkOctreePointOccupancy(handle octreeHandle,
                                                                           int options, list points)</api-synopsis-python>
-        <api-synopsis-lua>int res, int tag, int locLow, int locHigh = sim.checkOctreePointOccupancy(int octreeHandle,
+        <api-synopsis-lua>int res, int tag, int locLow, int locHigh = sim.checkOctreePointOccupancy(handle octreeHandle,
                                                                           int options, float[] points)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -1096,7 +1069,7 @@ will not be checked against themselve</api-description>
                 <li><strong>loc</strong>: value specifying the location of the voxel that collides with a single point. If several points are tested, then this return value should be ignored</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result, int tag, int locationLow, int locationHigh = sim.checkOctreePointOccupancy(int octreeHandle, int options, float[] points)</api-calltip>
+        <api-calltip>int result, int tag, int locationLow, int locationHigh = sim.checkOctreePointOccupancy(handle octreeHandle, int options, float[] points)</api-calltip>
     </function>
 
     <function>
@@ -1118,10 +1091,8 @@ Also, the detectable flags of the entity are overridden if the entity is an obje
                 <li>-1 if operation was not successful, otherwise 0 (no detection) or 1 (detection)</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int res, float dist, list point, int obj, list n = sim.checkProximitySensor(int sensorHandle,
-                                                                            int entityHandle)</api-synopsis-python>
-        <api-synopsis-lua>int res, float dist, float[3] point, int obj, float[3] n = sim.checkProximitySensor(int sensorHandle,
-                                                                                    int entityHandle)</api-synopsis-lua>
+        <api-synopsis-python>bool result, float dist, vector3 point, handle obj, vector3 n = sim.checkProximitySensor(handle sensorHandle, handle entityHandle)</api-synopsis-python>
+        <api-synopsis-lua>bool result, float dist, vector3 point, handle obj, vector3 n = sim.checkProximitySensor(handle sensorHandle, handle entityHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>sensorHandle</strong>: handle of the proximity sensor object</li>
@@ -1130,14 +1101,14 @@ Also, the detectable flags of the entity are overridden if the entity is an obje
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>res</strong>: 0 (not detected) or 1 (detected)</li>
-                <li><strong>dist</strong>: distance from the sensor origin to the detected point. None/nil if result is different from 1</li>
-                <li><strong>point</strong>: position of the detected point relative to the sensor origin. None/nil if result is different from 1</li>
-                <li><strong>obj</strong>: handle of detected object. None/nil if result is different from 1</li>
-                <li><strong>n</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. None/nil if result is different from 1</li>
+                <li><strong>result</strong>: detection state</li>
+                <li><strong>dist</strong>: distance from the sensor origin to the detected point</li>
+                <li><strong>point</strong>: position of the detected point relative to the sensor origin</li>
+                <li><strong>obj</strong>: handle of detected object</li>
+                <li><strong>n</strong>: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result, float distance, float[3] detectedPoint, int detectedObjectHandle, float[3] normalVector = sim.checkProximitySensor(int sensorHandle, int entityHandle)</api-calltip>
+        <api-calltip>bool result, float distance, vector3 detectedPoint, handle detectedObjectHandle, vector3 normalVector = sim.checkProximitySensor(handle sensorHandle, handle entityHandle)</api-calltip>
     </function>
 
     <function>
@@ -4942,8 +4913,8 @@ sim.computeMassAndInertia</api-see-also>
                 <li>-1 in case of an error</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list inertiaMatrix, list com = sim.getShapeInertia(int shapeHandle)</api-synopsis-python>
-        <api-synopsis-lua>float[9] inertiaMatrix, float[12] com = sim.getShapeInertia(int shapeHandle)</api-synopsis-lua>
+        <api-synopsis-python>matrix inertiaMatrix, vector3 com = sim.getShapeInertia(handle shapeHandle)</api-synopsis-python>
+        <api-synopsis-lua>matrix inertiaMatrix, vector3 com = sim.getShapeInertia(handle shapeHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the <a href="../shapes.htm">shape object</a></li>
@@ -4951,11 +4922,11 @@ sim.computeMassAndInertia</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>inertiaMatrix</strong> (output): inertia matrix (9 values), expressed relative to the shape's reference frame orientation. The matrix is symmetric</li>
-                <li><strong>com</strong> (output): a transformation matrix [0 0 0 P0 0 0 0 P1 0 0 0 P2] indicating the center of mass, expressed relative to the shape's reference frame. The matrix does not contain any rotational part (only the positional values are relevant).</li>
+                <li><strong>inertiaMatrix</strong>: inertia matrix (3 x 3 values), expressed relative to the shape's reference frame orientation. The matrix is symmetric</li>
+                <li><strong>com</strong>: the center of mass, expressed relative to the shape's reference frame</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[9] inertiaMatrix, float[12] transformationMatrix = sim.getShapeInertia(int shapeHandle)</api-calltip>
+        <api-calltip>matrix inertiaMatrix, vector3 com = sim.getShapeInertia(handle shapeHandle)</api-calltip>
     </function>
 
     <function>
@@ -7418,8 +7389,7 @@ word4Color = "152 64 0"</comment>
 
     <function>
         <api-function-name>sim.packTable</api-function-name>
-        <api-description>Packs a table into a buffer. The table may contain other nested arrays, maps, None/nil, bool,
-number, string or matrix values. All other types (e.g. functions) will be considered as string or None/nil values. You can also use sim.packTable to quickly compare two tables</api-description>
+        <api-description>Packs a table into a buffer. Functions and other non-serializable items will be packed as string or None/nil values. You can also use sim.packTable to quickly compare two tables</api-description>
         <api-see-also>sim.unpackTable
 <a href="../apiFunctions.htm#packing">packing/unpacking functions</a>
         </api-see-also>
@@ -9889,7 +9859,7 @@ to static shapes)</api-description>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of the object. Can be combined with sim.handleflag_reljointbaseframe</li>
-                <li><strong>pos</strong>: the object</li>
+                <li><strong>pos</strong>: the object position</li>
                 <li><strong>relativeToObjectHandle</strong>: indicates relative to which reference frame the position is specified. Specify sim.handle_world to set the absolute position, sim.handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is specified. If this handle is the handle of a joint, then the position is applied relative to the joint's moving frame (unless <strong>objectHandle</strong> is combined with sim.handleflag_reljointbaseframe, in which case the position is applied relative to the joint's base frame)</li>
             </ul>
         </api-input-python-lua>
@@ -10177,16 +10147,16 @@ sim.computeMassAndInertia</api-see-also>
                 <li>-1 in case of an error</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setShapeInertia(int shapeHandle, list inertiaMatrix, list transformationMatrix)</api-synopsis-python>
-        <api-synopsis-lua>sim.setShapeInertia(int shapeHandle, float[9] inertiaMatrix, float[12] transformationMatrix)</api-synopsis-lua>
+        <api-synopsis-python>sim.setShapeInertia(handle shapeHandle, matrix inertiaMatrix, pose comPose)</api-synopsis-python>
+        <api-synopsis-lua>sim.setShapeInertia(handle shapeHandle, matrix inertiaMatrix, pose comPose)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the <a href="../shapes.htm">shape object</a></li>
-                <li><strong>inertiaMatrix</strong>: new inertia matrix (9 values), expressed relative to <em>transformationMatrix</em> (itself expressed relative to the shape's reference frame)</li>
-                <li><strong>transformationMatrix</strong>: a transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]) expressed relative to the shape's reference frame. The matrix indicates the center of mass of the shape, and is the frame relative to which <em>inertiaMatrix</em> is expressed</li>
+                <li><strong>inertiaMatrix</strong>: new inertia matrix (3 x 3 values), expressed relative to <em>comPose</em> (itself expressed relative to the shape's reference frame)</li>
+                <li><strong>comPose</strong>: a pose expressed relative to the shape's reference frame. The pose indicates the center of mass of the shape, and is the frame relative to which <em>inertiaMatrix</em> is expressed</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.setShapeInertia(int shapeHandle, float[9] inertiaMatrix, float[12] transformationMatrix)</api-calltip>
+        <api-calltip>sim.setShapeInertia(handle shapeHandle, matrix inertiaMatrix, pose comPose)</api-calltip>
     </function>
 
     <function>
