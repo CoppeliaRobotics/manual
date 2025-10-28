@@ -68,12 +68,12 @@ sim.removeDrawingObject</api-see-also>
                 <li>handle of the drawing object if successful, -1 otherwise</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance,
-                                               int parentObjectHandle, int maxItemCount,
-                                               list color = None)</api-synopsis-python>
-        <api-synopsis-lua>int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance,
-                                               int parentObjectHandle, int maxItemCount,
-                                               float[3] color = nil)</api-synopsis-lua>
+        <api-synopsis-python>handle drawingObjectHandle = sim.addDrawingObject(int objectType, float size = 1.0, float duplicateTolerance = 0.0,
+                                               int parentObjectHandle = -1, int maxItemCount = 1000,
+                                               list color = [0.0, 0.0, 0.0])</api-synopsis-python>
+        <api-synopsis-lua>handle drawingObjectHandle = sim.addDrawingObject(int objectType, float size = 1.0, float duplicateTolerance = 0.0,
+                                               int parentObjectHandle = -1, int maxItemCount = 1000,
+                                               float[3] color = {0.0, 0.0, 0.0})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectType</strong>: a <a href="../apiConstants.htm#customDrawingObjects">drawing object type combined with attributes</a></li>
@@ -89,7 +89,7 @@ sim.removeDrawingObject</api-see-also>
                 <li>handle of the drawing object</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int drawingObjectHandle = sim.addDrawingObject(int objectType, float size, float duplicateTolerance, int parentObjectHandle, int maxItemCount, float[3] color=nil)</api-calltip>
+        <api-calltip>handle drawingObjectHandle = sim.addDrawingObject(int objectType, float size = 1.0, float duplicateTolerance = 0.0, int parentObjectHandle = -1, int maxItemCount = 1000, float[3] color = {0.0, 0.0, 0.0})</api-calltip>
     </function>
 
     <function>
@@ -109,8 +109,8 @@ sim.removeDrawingObject</api-see-also>
                 <li>-1 if operation was not successful. If the point was added, then the return value is &gt;0, if it was not added (e.g. drawing object is saturated or the item was merged with an existing item), then the return value will be 0.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result = sim.addDrawingObjectItem(int drawingObjectHandle, list itemData)</api-synopsis-python>
-        <api-synopsis-lua>int result = sim.addDrawingObjectItem(int drawingObjectHandle, float[] itemData)</api-synopsis-lua>
+        <api-synopsis-python>int result = sim.addDrawingObjectItem(handle drawingObjectHandle, list itemData = [])</api-synopsis-python>
+        <api-synopsis-lua>int result = sim.addDrawingObjectItem(handle drawingObjectHandle, float[] itemData = {})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of a previously added drawing object. Can be combined with sim.handleflag_addmultiple to add several drawing items at once, or with sim.handleflag_codedstring, when one wishes to provide data as a float buffer</li>
@@ -122,7 +122,7 @@ sim.removeDrawingObject</api-see-also>
                 <li><strong>result</strong>: If the point was added, the return value is &gt;0, if it was not added the return value is 0</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result = sim.addDrawingObjectItem(int drawingObjectHandle, float[] itemData)</api-calltip>
+        <api-calltip>int result = sim.addDrawingObjectItem(handle drawingObjectHandle, float[] itemData = {})</api-calltip>
     </function>
 
     <function>
@@ -329,8 +329,8 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
                 <li>-1 if operation was not successful.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.addItemToCollection(handle collectionHandle, int what, handle objectHandle, int options)</api-synopsis-python>
-        <api-synopsis-lua>sim.addItemToCollection(handle collectionHandle, int what, handle objectHandle, int options)</api-synopsis-lua>
+        <api-synopsis-python>sim.addItemToCollection(handle collectionHandle, int what, handle objectHandle, int options = 0)</api-synopsis-python>
+        <api-synopsis-lua>sim.addItemToCollection(handle collectionHandle, int what, handle objectHandle, int options = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>collectionHandle</strong>: handle of a collection.</li>
@@ -351,7 +351,7 @@ with <a href="simDestroyGraphCurve.htm">sim.destroyGraphCurve</a>
                 </li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.addItemToCollection(handle collectionHandle, int what, handle objectHandle, int options)</api-calltip>
+        <api-calltip>sim.addItemToCollection(handle collectionHandle, int what, handle objectHandle, int options = 0)</api-calltip>
     </function>
 
     <function>
@@ -388,10 +388,10 @@ are containers that hold several items (particles) of a given type. This can be 
 several different applications (e.g. simulation of air/water jets)</api-description>
         <api-see-also>sim.addParticleObjectItem
 sim.removeParticleObject</api-see-also>
-        <api-synopsis-python>int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density,
+        <api-synopsis-python>handle particleObjectHandle = sim.addParticleObject(int objectType, float size, float density,
                                                  list parameters, float lifeTime, int maxItemCount,
                                                  list color = None)</api-synopsis-python>
-        <api-synopsis-lua>int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density,
+        <api-synopsis-lua>handle particleObjectHandle = sim.addParticleObject(int objectType, float size, float density,
                                                  float[] parameters, float lifeTime,
                                                  int maxItemCount, float[3] color = nil)</api-synopsis-lua>
         <api-input-python-lua>
@@ -432,7 +432,7 @@ sim.removeParticleObject</api-see-also>
                 <li>handle of the particle object</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int particleObjectHandle = sim.addParticleObject(int objectType, float size, float density, float[] params, float lifeTime, int maxItemCount, float[3] color=nil)</api-calltip>
+        <api-calltip>handle particleObjectHandle = sim.addParticleObject(int objectType, float size, float density, float[] params, float lifeTime, int maxItemCount, float[3] color=nil)</api-calltip>
     </function>
 
     <function>
@@ -440,15 +440,15 @@ sim.removeParticleObject</api-see-also>
         <api-description>Adds an item (or clears all items) to a previously inserted particle object</api-description>
         <api-see-also>sim.addParticleObject
 sim.removeParticleObject</api-see-also>
-        <api-synopsis-python>sim.addParticleObjectItem(int particleObjectHandle, list itemData)</api-synopsis-python>
-        <api-synopsis-lua>sim.addParticleObjectItem(int particleObjectHandle, float[] itemData)</api-synopsis-lua>
+        <api-synopsis-python>sim.addParticleObjectItem(handle particleObjectHandle, list itemData)</api-synopsis-python>
+        <api-synopsis-lua>sim.addParticleObjectItem(handle particleObjectHandle, float[] itemData)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: handle of a previously added particle object</li>
                 <li><strong>itemData</strong>: data relative to an item. All items (particles) require at least 6 values: p1x, p1y, p1z, p2x, p2y, p2z with p1 is the particle start position, p2-p1 is the particle initial velocity vector. Auxiliary values might be required depending on the particle object attributes. See the <a href="../apiConstants.htm#particleObjects">particle object type combined with attributes</a> for more information. If None/nil, the particle object is emptied of all its items</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.addParticleObjectItem(int objectHandle, float[] itemData)</api-calltip>
+        <api-calltip>sim.addParticleObjectItem(handle objectHandle, float[] itemData)</api-calltip>
     </function>
 
     <function>
@@ -479,9 +479,9 @@ sim.cameraFitToView</api-see-also>
                 <li>a value &gt;0 in case of success</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int res = sim.adjustView(int viewHandleOrIndex, int objectHandle, int options,
+        <api-synopsis-python>int res = sim.adjustView(int viewHandleOrIndex, handle objectHandle, int options,
                          string viewLabel = None)</api-synopsis-python>
-        <api-synopsis-lua>int res = sim.adjustView(int viewHandleOrIndex, int objectHandle, int options,
+        <api-synopsis-lua>int res = sim.adjustView(int viewHandleOrIndex, handle objectHandle, int options,
                          string viewLabel = nil)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -504,7 +504,7 @@ sim.cameraFitToView</api-see-also>
                 <li><strong>res</strong>: a value &gt;0 in case of success</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>sim.adjustView(int viewHandleOrIndex, int associatedViewableObjectHandle, int options, string viewLabel=nil)</api-calltip>
+        <api-calltip>sim.adjustView(int viewHandleOrIndex, handle associatedViewableObjectHandle, int options, string viewLabel=nil)</api-calltip>
     </function>
 
     <function>
@@ -603,14 +603,14 @@ A call to this function has no effect (and doesn't generate any error) when call
                 <li>-1 if operation was not successful. 0 if the console doesn't exist (anymore), in which case no error is generated. 1 if the console window was closed.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.auxiliaryConsoleClose(int consoleHandle)</api-synopsis-python>
-        <api-synopsis-lua>sim.auxiliaryConsoleClose(int consoleHandle)</api-synopsis-lua>
+        <api-synopsis-python>sim.auxiliaryConsoleClose(handle consoleHandle)</api-synopsis-python>
+        <api-synopsis-lua>sim.auxiliaryConsoleClose(handle consoleHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>consoleHandle</strong>: handle of the console window, previously returned by sim.auxiliaryConsoleOpen</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.auxiliaryConsoleClose(int consoleHandle)</api-calltip>
+        <api-calltip>sim.auxiliaryConsoleClose(handle consoleHandle)</api-calltip>
     </function>
 
     <function>
@@ -646,13 +646,13 @@ sim.addLog</api-see-also>
                 <li>-1 if operation was not successful. Otherwise a console window handle</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines, int mode,
-                                             list position = None, list size = None,
-                                             list textColor = None, list backgroundColor = None)</api-synopsis-python>
-        <api-synopsis-lua>int consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines, int mode,
-                                             int[2] position = nil, int[2] size = nil,
-                                             float[3] textColor = nil,
-                                             float[3] backgroundColor = nil)</api-synopsis-lua>
+        <api-synopsis-python>handle consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines = 50, int mode = 0,
+                                             list position = [100, 100], list size = [640, 200],
+                                             list textColor = [0.0, 0.0, 0.0], list backgroundColor = [1.0, 1.0, 1.0])</api-synopsis-python>
+        <api-synopsis-lua>handle consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines = 50 , int mode = 0,
+                                             int[2] position = {100, 100}, int[2] size = {640, 200},
+                                             float[3] textColor = {0.0, 0.0, 0.0},
+                                             float[3] backgroundColor = {1.0, 1.0, 1.0})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>title</strong>: title of the console window</li>
@@ -666,10 +666,10 @@ sim.addLog</api-see-also>
                         <li>bit4 (16) set indicates that the console will not automatically hide when the user switches to another scene</li>
                     </ul>
                 </li>
-                <li><strong>position</strong>: initial position of the console window (x and y value). Can be None/nil</li>
-                <li><strong>size</strong>: initial size of the console window (x and y value). Can be None/nil</li>
-                <li><strong>textColor</strong>: color of the text (rgb values, 0.0 - 1.0). Can be None/nil</li>
-                <li><strong>backgroundColor</strong>: background color of the console window (rgb values, 0.0 - 1.0 ). Can be None/nil</li>
+                <li><strong>position</strong>: initial position of the console window (x and y value)</li>
+                <li><strong>size</strong>: initial size of the console window (x and y value)</li>
+                <li><strong>textColor</strong>: color of the text (rgb values, 0.0 - 1.0)</li>
+                <li><strong>backgroundColor</strong>: background color of the console window (rgb values, 0.0 - 1.0 )</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
@@ -677,7 +677,7 @@ sim.addLog</api-see-also>
                 <li><strong>consoleHandle</strong>: console window handle</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines, int mode, int[2] position=nil, int[2] size=nil, float[3] textColor=nil, float[3] backgroundColor=nil)</api-calltip>
+        <api-calltip>handle consoleHandle = sim.auxiliaryConsoleOpen(string title, int maxLines = 50, int mode = 0, int[2] position = {100, 100}, int[2] size = {640, 200}, float[3] textColor = {0.0, 0.0, 0.0}, float[3] backgroundColor = {1.0, 1.0, 1.0})</api-calltip>
     </function>
 
     <function>
@@ -696,15 +696,15 @@ sim.addLog</api-see-also>
                 <li>-1 if operation was not successful. 0 if the console doesn't exist (anymore), in which case no error is generated. 1 if the operation was successful.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-synopsis-python>
-        <api-synopsis-lua>sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-synopsis-lua>
+        <api-synopsis-python>sim.auxiliaryConsolePrint(handle consoleHandle, string text = "")</api-synopsis-python>
+        <api-synopsis-lua>sim.auxiliaryConsolePrint(handle consoleHandle, string text = "")</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>consoleHandle</strong>: handle of the console window, previously returned by the <a href="simAuxiliaryConsoleOpen.htm">sim.auxiliaryConsoleOpen</a></li>
-                <li><strong>text</strong>: text to append, or None/nil to clear the console window</li>
+                <li><strong>text</strong>: text to append, or an empty string to clear the console window</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.auxiliaryConsolePrint(int consoleHandle, string text)</api-calltip>
+        <api-calltip>sim.auxiliaryConsolePrint(handle consoleHandle, string text = "")</api-calltip>
     </function>
 
     <function>
@@ -724,15 +724,15 @@ sim.auxiliaryConsoleClose</api-see-also>
                 <li>-1 if operation was not successful. 0 if the console doesn't exist (anymore), in which case no error is generated. 1 if the console window's show state was changed.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-synopsis-python>
-        <api-synopsis-lua>sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-synopsis-lua>
+        <api-synopsis-python>sim.auxiliaryConsoleShow(handle consoleHandle, bool showState)</api-synopsis-python>
+        <api-synopsis-lua>sim.auxiliaryConsoleShow(handle consoleHandle, bool showState)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>consoleHandle</strong>: handle of the console window, previously returned by <a href="simAuxiliaryConsoleOpen.htm">sim.auxiliaryConsoleOpen</a>. When combined with <em>sim.handleflag_extended</em>, then the function will simply query the visibility state of the console.</li>
                 <li><strong>showState</strong>: indicates whether the console should be hidden (0) or shown (!=0)</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.auxiliaryConsoleShow(int consoleHandle, bool showState)</api-calltip>
+        <api-calltip>sim.auxiliaryConsoleShow(handle consoleHandle, bool showState)</api-calltip>
     </function>
 
     <function>
@@ -877,9 +877,9 @@ sim.floatingViewAdd</api-see-also>
                 <li>-1 if operation was not successful. 0 for a silent error (e.g. when the indicated view doesn't exist anymore), 1 for success</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result = sim.cameraFitToView(int viewHandleOrIndex, list objectHandles = None, int options = 0,
+        <api-synopsis-python>int result = sim.cameraFitToView(int viewHandleOrIndex, list objectHandles = [], int options = 0,
                                  float scaling = 1)</api-synopsis-python>
-        <api-synopsis-lua>int result = sim.cameraFitToView(int viewHandleOrIndex, int[] objectHandles = nil, int options = 0,
+        <api-synopsis-lua>int result = sim.cameraFitToView(int viewHandleOrIndex, handle[] objectHandles = {}, int options = 0,
                                  float scaling = 1)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -899,33 +899,46 @@ sim.floatingViewAdd</api-see-also>
                 <li><strong>result</strong>: 0 for a silent error (e.g. when the indicated view doesn't exist anymore), 1 for success</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result = sim.cameraFitToView(int viewHandleOrIndex, int[] objectHandles=nil, int options=0, float scaling=1.0)</api-calltip>
+        <api-calltip>int result = sim.cameraFitToView(int viewHandleOrIndex, handle[] objectHandles = {}, int options = 0, float scaling = 1.0)</api-calltip>
     </function>
 
     <function>
         <api-function-name>sim.changeEntityColor</api-function-name>
-        <api-description>Changes the color of an <a href="../entities.htm">entity</a>, and returns its original
+        <api-description>Changes or restores the color of an <a href="../entities.htm">entity</a>, and returns its original
 color. Currently only takes into account <a href="../collections.htm">collections</a>
 and <a href="../shapes.htm">shapes</a>
         </api-description>
-        <api-see-also>sim.restoreEntityColor</api-see-also>
-        <api-synopsis-python>list originalColorData = sim.changeEntityColor(handle entityHandle, color newColor,
+        <api-synopsis-python>list originalColorData = sim.changeEntityColor(handle entityHandle / list originalColorData, color newColor = {1.0, 0.0, 0.0},
                                                int colorComponent = sim.colorcomponent_ambient_diffuse)</api-synopsis-python>
-        <api-synopsis-lua>map[] originalColorData = sim.changeEntityColor(handle entityHandle, color newColor,
+        <api-synopsis-lua>map[] originalColorData = sim.changeEntityColor(handle entityHandle / map[] originalColorData, color newColor = {1.0, 0.0, 0.0},
                                                 int colorComponent = sim.colorcomponent_ambient_diffuse)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>entityHandle</strong>: handle of a entity</li>
+                <li><strong>entityHandle</strong>: handle of a entity, or the data returned from a previous call to sim.changeEntityColor</li>
                 <li><strong>newColor</strong>: array of 3 rgb values, each between 0.0 and 1.0</li>
                 <li><strong>colorComponent</strong>: a <a href="../apiConstants.htm#colorComponents">color component</a></li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>originalColorData</strong>: original color data, to be used as argument with <a href="simRestoreEntityColor.htm">sim.restoreEntityColor</a></li>
+                <li><strong>originalColorData</strong>: original color data, to be used as first argument in order to restore the previous color</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>map[] originalColorData = sim.changeEntityColor(handle entityHandle, color newColor, int colorComponent=sim.colorcomponent_ambient_diffuse)</api-calltip>
+        <api-calltip>map[] originalColorData = sim.changeEntityColor(handle entityHandle / map[] originalColorData, color newColor = {1.0, 0.0, 0.0}, int colorComponent = sim.colorcomponent_ambient_diffuse)</api-calltip>
+    </function>
+
+    <function>
+        <api-function-name>sim.restoreEntityColor</api-function-name>
+        <api-description>Restores the color of an <a href="../entities.htm">entity</a>, previously modified with <a href="simChangeEntityColor.htm">sim.changeEntityColor</a>
+        </api-description>
+        <api-synopsis-python>sim.restoreEntityColor(list originalColorData)</api-synopsis-python>
+        <api-synopsis-lua>sim.restoreEntityColor(map[] originalColorData)</api-synopsis-lua>
+        <api-input-python-lua>
+            <ul>
+                <li><strong>originalColorData</strong>: the data returned from a call to <a href="simChangeEntityColor.htm">sim.changeEntityColor</a></li>
+            </ul>
+        </api-input-python-lua>
+        <api-calltip>sim.restoreEntityColor(map[] originalColorData)</api-calltip>
     </function>
 
     <function>
@@ -1151,8 +1164,8 @@ if (simCheckVisionSensor(sensorHandle, entityHandle, &amp;auxValues, &amp;auxVal
                 <li>-1 if operation was not successful, otherwise 0 (no detection) or 1 (detection)</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result, list auxPacket1, list auxPacket2, etc. = sim.checkVisionSensor(int sensorHandle, int entityHandle)</api-synopsis-python>
-        <api-synopsis-lua>int result, float[] auxPacket1, float[] auxPacket2, etc. = sim.checkVisionSensor(int sensorHandle, int entityHandle)</api-synopsis-lua>
+        <api-synopsis-python>int result, list auxPacket1, list auxPacket2, etc. = sim.checkVisionSensor(handle sensorHandle, handle entityHandle)</api-synopsis-python>
+        <api-synopsis-lua>int result, float[] auxPacket1, float[] auxPacket2, etc. = sim.checkVisionSensor(handle sensorHandle, handle entityHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>sensorHandle</strong>: handle of the vision sensor object</li>
@@ -1167,7 +1180,7 @@ if (simCheckVisionSensor(sensorHandle, entityHandle, &amp;auxValues, &amp;auxVal
                 <li><strong>auxPacket3</strong>: etc. (the function returns as many tables as there are auxiliary value packets)</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result, float[] auxPacket1, float[] auxPacket2 = sim.checkVisionSensor(int sensorHandle, int entityHandle)</api-calltip>
+        <api-calltip>int result, float[] auxPacket1, float[] auxPacket2 = sim.checkVisionSensor(handle sensorHandle, handle entityHandle)</api-calltip>
     </function>
 
     <function>
@@ -1189,10 +1202,10 @@ will be called on the acquired image. Also, the visibility state of the entity i
                 <li>image or depth buffer, or nullptr in case of an error. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a></li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)
-bytes buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)</api-synopsis-python>
-        <api-synopsis-lua>float[] buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)
-buffer buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)</api-synopsis-lua>
+        <api-synopsis-python>list buff = sim.checkVisionSensorEx(handle sensorHandle, handle entityHandle, bool returnImage)
+bytes buff = sim.checkVisionSensorEx(handle sensorHandle, handle entityHandle, bool returnImage)</api-synopsis-python>
+        <api-synopsis-lua>float[] buff = sim.checkVisionSensorEx(handle sensorHandle, handle entityHandle, bool returnImage)
+buffer buff = sim.checkVisionSensorEx(handle sensorHandle, handle entityHandle, bool returnImage)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>sensorHandle</strong>: handle of the vision sensor object. Can be combined with <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_codedstring</a> if you wish to retrieve the image or depth map coded in a string (much faster)</li>
@@ -1205,8 +1218,8 @@ buffer buff = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool r
                 <li>image or depth buffer</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[] theBuffer = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)
-buffer theBuffer = sim.checkVisionSensorEx(int sensorHandle, int entityHandle, bool returnImage)</api-calltip>
+        <api-calltip>float[] theBuffer = sim.checkVisionSensorEx(handle sensorHandle, handle entityHandle, bool returnImage)
+buffer theBuffer = sim.checkVisionSensorEx(handle sensorHandle, handle entityHandle, bool returnImage)</api-calltip>
     </function>
 
     <function>
@@ -1277,8 +1290,8 @@ sim.convexDecompose</api-see-also>
                 <li>-1 in case of an error, 0 if the shape is not convex, otherwise 1.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result = sim.computeMassAndInertia(int shapeHandle, float density)</api-synopsis-python>
-        <api-synopsis-lua>int result = sim.computeMassAndInertia(int shapeHandle, float density)</api-synopsis-lua>
+        <api-synopsis-python>int result = sim.computeMassAndInertia(handle shapeHandle, float density)</api-synopsis-python>
+        <api-synopsis-lua>int result = sim.computeMassAndInertia(handle shapeHandle, float density)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of shape</li>
@@ -1290,7 +1303,7 @@ sim.convexDecompose</api-see-also>
                 <li><strong>result</strong>: 0 if the shape is not convex, otherwise 1</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result = sim.computeMassAndInertia(int shapeHandle, float density)</api-calltip>
+        <api-calltip>int result = sim.computeMassAndInertia(handle shapeHandle, float density)</api-calltip>
     </function>
 
     <function>
@@ -1375,8 +1388,8 @@ sim.loadModel</api-see-also>
                 <li>-1 if operation was not successful.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list copiedObjectHandles = sim.copyPasteObjects(list objectHandles, int options)</api-synopsis-python>
-        <api-synopsis-lua>int[] copiedObjectHandles = sim.copyPasteObjects(int[] objectHandles, int options)</api-synopsis-lua>
+        <api-synopsis-python>list copiedObjectHandles = sim.copyPasteObjects(list objectHandles, int options = 0)</api-synopsis-python>
+        <api-synopsis-lua>handle[] copiedObjectHandles = sim.copyPasteObjects(handle[] objectHandles, int options = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandles</strong>: array of object handles to copy and paste</li>
@@ -1397,7 +1410,7 @@ sim.loadModel</api-see-also>
                 <li><strong>copiedObjectHandles</strong>: the duplicate object handles, where original and copy have the same location in their respective arrays (when script objects are stripped away, the array could contain -1 values)</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int[1..*] copiedObjectHandles = sim.copyPasteObjects(int[1..*] objectHandles, int options=0)</api-calltip>
+        <api-calltip>handle[] copiedObjectHandles = sim.copyPasteObjects(handle[] objectHandles, int options = 0)</api-calltip>
     </function>
 
     <function>
@@ -1458,8 +1471,8 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li>-1 if operation was not successful, otherwise the handle of the new collection.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int collectionHandle = sim.createCollection(int options)</api-synopsis-python>
-        <api-synopsis-lua>int collectionHandle = sim.createCollection(int options = 0)</api-synopsis-lua>
+        <api-synopsis-python>handle collectionHandle = sim.createCollection(int options = 0)</api-synopsis-python>
+        <api-synopsis-lua>handle collectionHandle = sim.createCollection(int options = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>options</strong>: bit-coded options:
@@ -1474,7 +1487,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li><strong>collectionHandle</strong>: handle of the new collection</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int collectionHandle = sim.createCollection(int options=0)</api-calltip>
+        <api-calltip>handle collectionHandle = sim.createCollection(int options = 0)</api-calltip>
     </function>
 
     <function>
@@ -1492,8 +1505,8 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li>-1 if operation was not successful, otherwise the handle of the dummy</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int dummyHandle = sim.createDummy(float size)</api-synopsis-python>
-        <api-synopsis-lua>int dummyHandle = sim.createDummy(float size)</api-synopsis-lua>
+        <api-synopsis-python>handle dummyHandle = sim.createDummy(float size = 0.005)</api-synopsis-python>
+        <api-synopsis-lua>handle dummyHandle = sim.createDummy(float size = 0.005)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>size</strong>: dummy size</li>
@@ -1504,7 +1517,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li><strong>dummyHandle</strong>: handle of the dummy</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int dummyHandle = sim.createDummy(float size)</api-calltip>
+        <api-calltip>handle dummyHandle = sim.createDummy(float size = 0.005)</api-calltip>
     </function>
 
     <function>
@@ -1528,8 +1541,8 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li>-1 if operation was not successful, otherwise the handle of the script object</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-synopsis-python>
-        <api-synopsis-lua>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-synopsis-lua>
+        <api-synopsis-python>handle scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-synopsis-python>
+        <api-synopsis-lua>handle scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>scriptType</strong>: the <a href="../apiConstants.htm#scriptTypes">script type</a>. Only simulation-, customization- or passive scripts are allowed</li>
@@ -1547,7 +1560,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li><strong>scriptHandle</strong>: handle of the script object</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-calltip>
+        <api-calltip>handle scriptHandle = sim.createScript(int scriptType, string scriptText, int options = 0, string lang = 'lua')</api-calltip>
     </function>
 
     <function>
@@ -1565,8 +1578,8 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li>-1 if operation was not successful, otherwise the position of the object</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(int objectHandle)</api-synopsis-python>
-        <api-synopsis-lua>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(int objectHandle)</api-synopsis-lua>
+        <api-synopsis-python>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(handle objectHandle)</api-synopsis-python>
+        <api-synopsis-lua>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(handle objectHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: the handle of the object</li>
@@ -1578,7 +1591,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li><strong>totalSiblingsCount</strong>: the total siblings count</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(int objectHandle)</api-calltip>
+        <api-calltip>int order, int totalSiblingsCount = sim.getObjectHierarchyOrder(handle objectHandle)</api-calltip>
     </function>
 
     <function>
@@ -1596,8 +1609,8 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setObjectHierarchyOrder(int objectHandle, int order)</api-synopsis-python>
-        <api-synopsis-lua>sim.setObjectHierarchyOrder(int objectHandle, int order)</api-synopsis-lua>
+        <api-synopsis-python>sim.setObjectHierarchyOrder(handle objectHandle, int order)</api-synopsis-python>
+        <api-synopsis-lua>sim.setObjectHierarchyOrder(handle objectHandle, int order)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandle</strong>: the handle of the object</li>
@@ -1606,7 +1619,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
         </api-input-python-lua>
         <api-output-python-lua>
         </api-output-python-lua>
-        <api-calltip>sim.setObjectHierarchyOrder(int objectHandle, int order)</api-calltip>
+        <api-calltip>sim.setObjectHierarchyOrder(handle objectHandle, int order)</api-calltip>
     </function>
 
     <function>
@@ -1648,8 +1661,8 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li>-1 if operation was not successful, otherwise the handle of the force sensor</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int sensorHandle = sim.createForceSensor(int options, list intParams, list floatParams)</api-synopsis-python>
-        <api-synopsis-lua>int sensorHandle = sim.createForceSensor(int options, int[5] intParams, float[5] floatParams)</api-synopsis-lua>
+        <api-synopsis-python>handle sensorHandle = sim.createForceSensor(int options = 0, list intParams = [0, 1, 10, 0, 0], list floatParams = [0.05, 100.0, 10.0, 0.0, 0.0])</api-synopsis-python>
+        <api-synopsis-lua>handle sensorHandle = sim.createForceSensor(int options = 0, int[5] intParams = {0, 1, 10, 0, 0}, float[5] floatParams = {0.05, 100.0, 10.0, 0.0, 0.0})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>options</strong>: bit-coded options:
@@ -1683,7 +1696,7 @@ the <a href="../mainScript.htm">main script</a> are automatically destroyed when
                 <li><strong>sensorHandle</strong>: handle of the force sensor</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int sensorHandle = sim.createForceSensor(int options, int[5] intParams, float[5] floatParams)</api-calltip>
+        <api-calltip>handle sensorHandle = sim.createForceSensor(int options = 0, int[5] intParams = {0, 1, 10, 0, 0}, float[5] floatParams = {0.05, 100.0, 10.0, 0.0, 0.0})</api-calltip>
     </function>
 
     <function>
@@ -1715,9 +1728,9 @@ sim.createShape</api-see-also>
                 <li>-1 if operation was not successful, otherwise the handle of the newly created shape</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int objectHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount,
+        <api-synopsis-python>handle objectHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount,
                                               int yPointCount, float xSize, list heights)</api-synopsis-python>
-        <api-synopsis-lua>int objectHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount,
+        <api-synopsis-lua>handle objectHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount,
                                               int yPointCount, float xSize, float[] heights)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -1740,7 +1753,7 @@ sim.createShape</api-see-also>
                 <li><strong>objectHandle</strong>: handle of the newly created shape</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int shapeHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount, int yPointCount, float xSize, float[] heights)</api-calltip>
+        <api-calltip>handle shapeHandle = sim.createHeightfieldShape(int options, float shadingAngle, int xPointCount, int yPointCount, float xSize, float[] heights)</api-calltip>
     </function>
 
     <function>
@@ -1770,8 +1783,8 @@ sim.createShape</api-see-also>
                 <li>-1 if operation was not successful, otherwise the handle of the joint</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int jointHandle = sim.createJoint(int jointType, int jointMode, int options, list sizes = None)</api-synopsis-python>
-        <api-synopsis-lua>int jointHandle = sim.createJoint(int jointType, int jointMode, int options, float[2] sizes = nil)</api-synopsis-lua>
+        <api-synopsis-python>handle jointHandle = sim.createJoint(int jointType, int jointMode = sim.jointmode_dynamic, int options = 0, list sizes = [0.15, 0.02])</api-synopsis-python>
+        <api-synopsis-lua>handle jointHandle = sim.createJoint(int jointType, int jointMode = sim.jointmode_dynamic, int options = 0, float[2] sizes = {0.15, 0.02})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>jointType</strong>:
@@ -1791,7 +1804,7 @@ sim.createShape</api-see-also>
                 <li><strong>jointHandle</strong>: handle of the joint</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int jointHandle = sim.createJoint(int jointType, int jointMode, int options, float[2] sizes=nil)</api-calltip>
+        <api-calltip>handle jointHandle = sim.createJoint(int jointType, int jointMode = sim.jointmode_dynamic, int options = 0, float[2] sizes = {0.15, 0.02})</api-calltip>
     </function>
 
     <function>
@@ -1823,8 +1836,8 @@ sim.createShape</api-see-also>
                 <li>-1 if operation was not successful, otherwise the handle of the OC tree</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int handle = sim.createOctree(float voxelSize, int options, float pointSize)</api-synopsis-python>
-        <api-synopsis-lua>int handle = sim.createOctree(float voxelSize, int options, float pointSize)</api-synopsis-lua>
+        <api-synopsis-python>handle handle = sim.createOctree(float voxelSize = 0.025, int options = 0, float pointSize = 2.0)</api-synopsis-python>
+        <api-synopsis-lua>handle handle = sim.createOctree(float voxelSize = 0.025, int options = 0, float pointSize = 2.0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>voxelSize</strong>: size of the voxels</li>
@@ -1845,16 +1858,16 @@ sim.createShape</api-see-also>
                 <li><strong>handle</strong>: handle of the OC tree</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int handle = sim.createOctree(float voxelSize, int options, float pointSize)</api-calltip>
+        <api-calltip>handle handle = sim.createOctree(float voxelSize = 0.025, int options = 0, float pointSize = 2.0)</api-calltip>
     </function>
 
     <function>
         <api-function-name>sim.createPath</api-function-name>
         <api-description>Creates a <a href="../paths.htm">path</a>.</api-description>
-        <api-synopsis-python>int pathHandle = sim.createPath(list ctrlPts, int options = 0, int subdiv = 100,
+        <api-synopsis-python>handle pathHandle = sim.createPath(list ctrlPts, int options = 0, int subdiv = 100,
                                 float smoothness = 1.0, int orientationMode = 0,
                                 list upVector = [0, 0, 1])</api-synopsis-python>
-        <api-synopsis-lua>int pathHandle = sim.createPath(float[] ctrlPts, int options = 0, int subdiv = 100,
+        <api-synopsis-lua>handle pathHandle = sim.createPath(float[] ctrlPts, int options = 0, int subdiv = 100,
                                 float smoothness = 1.0, int orientationMode = 0,
                                 float[3] upVector = {0, 0, 1})</api-synopsis-lua>
         <api-input-python-lua>
@@ -1880,7 +1893,7 @@ sim.createShape</api-see-also>
                 <li><strong>pathHandle</strong>: handle of the created path object</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int pathHandle = sim.createPath(float[] ctrlPts, int options=0, int subdiv=100, float smoothness=1.0, int orientationMode=0, float[3] upVector={0, 0, 1})</api-calltip>
+        <api-calltip>handle pathHandle = sim.createPath(float[] ctrlPts, int options = 0, int subdiv = 100, float smoothness = 1.0, int orientationMode = 0, float[3] upVector = {0, 0, 1})</api-calltip>
     </function>
 
     <function>
@@ -1914,10 +1927,10 @@ sim.createShape</api-see-also>
                 <li>-1 if operation was not successful, otherwise the handle of the point cloud</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int handle = sim.createPointCloud(float maxVoxelSize, int maxPtCntPerVoxel, int options,
-                                  float pointSize)</api-synopsis-python>
-        <api-synopsis-lua>int handle = sim.createPointCloud(float maxVoxelSize, int maxPtCntPerVoxel, int options,
-                                  float pointSize)</api-synopsis-lua>
+        <api-synopsis-python>handle handle = sim.createPointCloud(float maxVoxelSize = 0.02, int maxPtCntPerVoxel = 20, int options = 0,
+                                  float pointSize = 4.0)</api-synopsis-python>
+        <api-synopsis-lua>handle handle = sim.createPointCloud(float maxVoxelSize = 0.02, int maxPtCntPerVoxel = 20, int options = 0,
+                                  float pointSize = 4.0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>maxVoxelSize</strong>: maximum size of the OC tree voxels containing points</li>
@@ -1939,7 +1952,7 @@ sim.createShape</api-see-also>
                 <li><strong>handle</strong>: handle of the point cloud</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int handle = sim.createPointCloud(float maxVoxelSize, int maxPtCntPerVoxel, int options, float pointSize)</api-calltip>
+        <api-calltip>handle handle = sim.createPointCloud(float maxVoxelSize = 0.02, int maxPtCntPerVoxel = 20, int options = 0, float pointSize = 4.0)</api-calltip>
     </function>
 
     <function>
@@ -1967,8 +1980,8 @@ sim.createHeightfieldShape</api-see-also>
                 <li>-1 if operation was not successful, otherwise the handle of the newly created shape</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int shapeHandle = sim.createPrimitiveShape(int primitiveType, list sizes, int options = 0)</api-synopsis-python>
-        <api-synopsis-lua>int shapeHandle = sim.createPrimitiveShape(int primitiveType, float[3] sizes, int options = 0)</api-synopsis-lua>
+        <api-synopsis-python>handle shapeHandle = sim.createPrimitiveShape(int primitiveType, list sizes, int options = 0)</api-synopsis-python>
+        <api-synopsis-lua>handle shapeHandle = sim.createPrimitiveShape(int primitiveType, float[3] sizes, int options = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>primitiveType</strong>: the <a href="../apiConstants.htm#primitiveTypes">primitive type</a> of the shape</li>
@@ -1988,7 +2001,7 @@ sim.createHeightfieldShape</api-see-also>
                 <li><strong>shapeHandle</strong>: handle of the newly created shape</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int shapeHandle = sim.createPrimitiveShape(int primitiveType, float[3] sizes, int options=0)</api-calltip>
+        <api-calltip>handle shapeHandle = sim.createPrimitiveShape(int primitiveType, float[3] sizes, int options=0)</api-calltip>
     </function>
 
     <function>
@@ -2053,10 +2066,10 @@ sim.createHeightfieldShape</api-see-also>
                 <li>-1 if operation was not successful, otherwise the handle of the force sensor</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options,
-                                             list intParams, list floatParams)</api-synopsis-python>
-        <api-synopsis-lua>int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options,
-                                             int[8] intParams, float[15] floatParams)</api-synopsis-lua>
+        <api-synopsis-python>handle sensorHandle = sim.createProximitySensor(int sensorType, int subType = 16, int options = 0,
+                                             list intParams = None, list floatParams = None)</api-synopsis-python>
+        <api-synopsis-lua>handle sensorHandle = sim.createProximitySensor(int sensorType, int subType = 16, int options = 0,
+                                             int[8] intParams = nil, float[15] floatParams = nil)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>sensorType</strong>: desired <a href="../apiConstants.htm#sceneObjectSubTypes">proximity sensor type</a> (e.g. sim.proximitysensor_cone)</li>
@@ -2113,7 +2126,7 @@ sim.createHeightfieldShape</api-see-also>
                 <li><strong>sensorHandle</strong>: handle of the force sensor</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options, int[8] intParams, float[15] floatParams)</api-calltip>
+        <api-calltip>handle sensorHandle = sim.createProximitySensor(int sensorType, int subType = 16, int options = 0, int[8] intParams = nil, float[15] floatParams = nil)</api-calltip>
     </function>
 
     <function>
@@ -2156,10 +2169,10 @@ sim.importMesh</api-see-also>
                 <li>-1 if operation was not successful, otherwise the handle of the newly created shape</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int objectHandle = sim.createShape(int options, float shadingAngle, list vertices, list indices,
+        <api-synopsis-python>handle handle = sim.createShape(int options, float shadingAngle, list vertices, list indices,
                                    list normals = None, list textureCoordinates = None,
                                    string/bytes texture = None, list textureResolution = None)</api-synopsis-python>
-        <api-synopsis-lua>int objectHandle = sim.createShape(int options, float shadingAngle, float[] vertices, int[] indices,
+        <api-synopsis-lua>handle handle = sim.createShape(int options, float shadingAngle, float[] vertices, int[] indices,
                                    float[] normals = nil, float[] textureCoordinates = nil,
                                    string/buffer texture = nil, int[2] textureResolution = nil)</api-synopsis-lua>
         <api-input-python-lua>
@@ -2186,10 +2199,10 @@ sim.importMesh</api-see-also>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>objectHandle</strong>: handle of the newly created shape</li>
+                <li><strong>handle</strong>: handle of the newly created shape</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int shapeHandle = sim.createShape(int options, float shadingAngle, float[] vertices, int[] indices, float[] normals, float[] textureCoordinates, buffer texture, int[2] textureResolution)</api-calltip>
+        <api-calltip>handle handle = sim.createShape(int options, float shadingAngle, float[] vertices, int[] indices, float[] normals, float[] textureCoordinates, buffer texture, int[2] textureResolution)</api-calltip>
     </function>
 
     <function>
@@ -2241,12 +2254,12 @@ sim.setShapeTexture</api-see-also>
                 <li>-1 in case of an error, otherwise the object handle of the created planar shape.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int shape, int id, list res = sim.createTexture(string fileName, int options, list planeSizes = None,
-                                                list scalingUV = None, list xy_g = None,
-                                                int fixedResolution = 0, list resolution = None)</api-synopsis-python>
-        <api-synopsis-lua>int shape, int id, int[2] res = sim.createTexture(string fileName, int options, float[2] planeSizes = nil,
-                                                  float[2] scalingUV = nil, float[2] xy_g = nil,
-                                                  int fixedResolution = 0, int[2] resolution = nil)</api-synopsis-lua>
+        <api-synopsis-python>handle handle, int id, list res = sim.createTexture(string fileName, int options = 0, list planeSizes = [0.1, 0.1],
+                                                list scalingUV = None, list xy_g = [0.0, 0.0, 0.0],
+                                                int fixedResolution = 0, list resolution = [512, 512])</api-synopsis-python>
+        <api-synopsis-lua>handle handle, int id, int[2] res = sim.createTexture(string fileName, int options = 0, float[2] planeSizes = {0.1, 0.1},
+                                                  float[2] scalingUV = nil, float[3] xy_g = {0.0, 0.0, 0.0},
+                                                  int fixedResolution = 0, int[2] resolution = {512, 512})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>fileName</strong>: filename of the texure to import, or an empty string if you wish to create a new texture.</li>
@@ -2262,16 +2275,17 @@ sim.setShapeTexture</api-see-also>
                 <li><strong>scalingUV</strong>: array of 2 values: the desired scaling of the texture, along the U and V directions. Can be None/nil for default scalings.</li>
                 <li><strong>xy_g</strong>: array of 3 values: the texture x/y shift, and the texture gamma-rotation. Can be None/nil for default shift/rotation values.</li>
                 <li><strong>fixedResolution</strong>: 0 to import the shape with its original resolution. Otherwise, specify a power of 2 value which will be the maximum texture resolution (the texture will also be applied a power of 2 resolution).</li>
+                <li><strong>resolution</strong>: the desired resolution of the texture resolution</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li><strong>shape</strong>: handle of the created planar shape</li>
+                <li><strong>handle</strong>: handle of the created planar shape</li>
                 <li><strong>id</strong>: new texture ID. If a same texture is already present, the old texture ID will be returned</li>
                 <li><strong>res</strong>: the effective texture resolution</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int shapeHandle, int textureId, int[2] resolution = sim.createTexture(string fileName, int options, float[2] planeSizes=nil, float[2] scalingUV=nil, float[2] xy_g=nil, int fixedResolution=0, int[2] resolution=nil)</api-calltip>
+        <api-calltip>handle handle, int textureId, int[2] resolution = sim.createTexture(string fileName, int options = 0, float[2] planeSizes = {0.1, 0.1}, float[2] scalingUV = nil, float[3] xy_g = {0.0, 0.0, 0.0}, int fixedResolution = 0, int[2] resolution = {512, 512})</api-calltip>
     </function>
 
     <function>
@@ -2324,8 +2338,8 @@ sim.setShapeTexture</api-see-also>
                 <li>-1 if operation was not successful, otherwise the handle of the force sensor</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int sensorHandle = sim.createVisionSensor(int options, list intParams, list floatParams)</api-synopsis-python>
-        <api-synopsis-lua>int sensorHandle = sim.createVisionSensor(int options, int[4] intParams, float[11] floatParams)</api-synopsis-lua>
+        <api-synopsis-python>handle sensorHandle = sim.createVisionSensor(int options = 0, list intParams = None, list floatParams = None)</api-synopsis-python>
+        <api-synopsis-lua>handle sensorHandle = sim.createVisionSensor(int options = 0, int[4] intParams = nil, float[11] floatParams = nil)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>options</strong>: bit-coded options:
@@ -2370,7 +2384,7 @@ sim.setShapeTexture</api-see-also>
                 <li><strong>sensorHandle</strong>: handle of the force sensor</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int sensorHandle = sim.createVisionSensor(int options, int[4] intParams, float[11] floatParams)</api-calltip>
+        <api-calltip>handle sensorHandle = sim.createVisionSensor(int options = 0, int[4] intParams = nil, float[11] floatParams = nil)</api-calltip>
     </function>
 
     <function>
@@ -2411,14 +2425,14 @@ sim.setShapeTexture</api-see-also>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.destroyCollection(int collectionHandle)</api-synopsis-python>
-        <api-synopsis-lua>sim.destroyCollection(int collectionHandle)</api-synopsis-lua>
+        <api-synopsis-python>sim.destroyCollection(handle collectionHandle)</api-synopsis-python>
+        <api-synopsis-lua>sim.destroyCollection(handle collectionHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>collectionHandle</strong>: handle of the collection to remove</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.destroyCollection(int collectionHandle)</api-calltip>
+        <api-calltip>sim.destroyCollection(handle collectionHandle)</api-calltip>
     </function>
 
     <function>
@@ -2439,15 +2453,15 @@ sim.setShapeTexture</api-see-also>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.destroyGraphCurve(int graphHandle, int curveId)</api-synopsis-python>
-        <api-synopsis-lua>sim.destroyGraphCurve(int graphHandle, int curveId)</api-synopsis-lua>
+        <api-synopsis-python>sim.destroyGraphCurve(handle graphHandle, int curveId)</api-synopsis-python>
+        <api-synopsis-lua>sim.destroyGraphCurve(handle graphHandle, int curveId)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>graphHandle</strong>: handle of the graph</li>
                 <li><strong>curveId</strong>: id of the stream or curve, -1 to remove all streams/curves</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.destroyGraphCurve(int graphHandle, int curveId)</api-calltip>
+        <api-calltip>sim.destroyGraphCurve(handle graphHandle, int curveId)</api-calltip>
     </function>
 
     <function>
@@ -2485,9 +2499,9 @@ sim.setShapeTexture</api-see-also>
                 <li>-1 if operation was not successful, otherwise the id of the created static stream or curve</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int staticCurveId = sim.duplicateGraphCurveToStatic(int graphHandle, int curveId,
+        <api-synopsis-python>int staticCurveId = sim.duplicateGraphCurveToStatic(handle graphHandle, int curveId,
                                                     string staticCurveName)</api-synopsis-python>
-        <api-synopsis-lua>int staticCurveId = sim.duplicateGraphCurveToStatic(int graphHandle, int curveId,
+        <api-synopsis-lua>int staticCurveId = sim.duplicateGraphCurveToStatic(handle graphHandle, int curveId,
                                                     string staticCurveName)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -2501,7 +2515,7 @@ sim.setShapeTexture</api-see-also>
                 <li><strong>staticCurveId</strong>: id of the created static stream or curve</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int curveId = sim.duplicateGraphCurveToStatic(int graphHandle, int curveId, string curveName='')</api-calltip>
+        <api-calltip>int curveId = sim.duplicateGraphCurveToStatic(handle graphHandle, int curveId, string curveName='')</api-calltip>
     </function>
 
     <function>
@@ -2528,8 +2542,8 @@ From C/C++, data exchange between a plugin and a script happens via a <a href=".
                 <li>-1 in case of an error</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result, executionResult = sim.executeScriptString(string stringToExecute, int scriptHandle)</api-synopsis-python>
-        <api-synopsis-lua>int result, executionResult = sim.executeScriptString(string stringToExecute, int scriptHandle)</api-synopsis-lua>
+        <api-synopsis-python>int result, executionResult = sim.executeScriptString(string stringToExecute, handle scriptHandle)</api-synopsis-python>
+        <api-synopsis-lua>int result, executionResult = sim.executeScriptString(string stringToExecute, handle scriptHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>stringToExecute</strong>: a string representing the code to execute in the specified script. An optional @python or @lua can be appended, to force a specific language</li>
@@ -2542,7 +2556,7 @@ From C/C++, data exchange between a plugin and a script happens via a <a href=".
                 <li><strong>executionResult</strong>: return value of the executed code</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result, any value = sim.executeScriptString(string stringToExecute, int scriptHandle)</api-calltip>
+        <api-calltip>int result, any value = sim.executeScriptString(string stringToExecute, handle scriptHandle)</api-calltip>
     </function>
 
     <function>
@@ -2716,9 +2730,9 @@ sim.cameraFitToView</api-see-also>
                 <li>Handle of the floating view, or -1 in case of an error.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY,
+        <api-synopsis-python>handle floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY,
                                              int options)</api-synopsis-python>
-        <api-synopsis-lua>int floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY,
+        <api-synopsis-lua>handle floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY,
                                              int options)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -2739,7 +2753,7 @@ sim.cameraFitToView</api-see-also>
                 <li><strong>floatingViewHandle</strong>: handle of the floating view</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY, int options)</api-calltip>
+        <api-calltip>handle floatingViewHandle = sim.floatingViewAdd(float posX, float posY, float sizeX, float sizeY, int options)</api-calltip>
     </function>
 
     <function>
@@ -2756,8 +2770,8 @@ sim.cameraFitToView</api-see-also>
                 <li>-1 in case of an error, 0 if the floating view could not be found (e.g. because closed by the user), or 1 if the floating view was closed.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int result = sim.floatingViewRemove(int floatingViewHandle)</api-synopsis-python>
-        <api-synopsis-lua>int result = sim.floatingViewRemove(int floatingViewHandle)</api-synopsis-lua>
+        <api-synopsis-python>int result = sim.floatingViewRemove(handle floatingViewHandle)</api-synopsis-python>
+        <api-synopsis-lua>int result = sim.floatingViewRemove(handle floatingViewHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>floatingViewHandle</strong>: handle of the floating view to be removed</li>
@@ -2768,7 +2782,7 @@ sim.cameraFitToView</api-see-also>
                 <li><strong>result</strong>: 0 if the floating view could not be found (e.g. because closed by the user), or 1 if the floating view was closed.</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int result = sim.floatingViewRemove(int floatingViewHandle)</api-calltip>
+        <api-calltip>int result = sim.floatingViewRemove(handle floatingViewHandle)</api-calltip>
     </function>
 
     <function>
@@ -2799,9 +2813,9 @@ sim.cameraFitToView</api-see-also>
                 <li><strong>shapeHandle</strong>: the handle of the generated shape</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>int shapeHandle = sim.generateShapeFromPath(list path, list section, int options = 0,
+        <api-synopsis-python>handle shapeHandle = sim.generateShapeFromPath(list path, list section, int options = 0,
                                             list upVector = [0.0, 0.0, 1.0])</api-synopsis-python>
-        <api-synopsis-lua>int shapeHandle = sim.generateShapeFromPath(float[] path, float[] section, int options = 0,
+        <api-synopsis-lua>handle shapeHandle = sim.generateShapeFromPath(float[] path, float[] section, int options = 0,
                                             float[3] upVector = {0.0, 0.0, 1.0})</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
@@ -2821,6 +2835,7 @@ sim.cameraFitToView</api-see-also>
                 <li><strong>shapeHandle</strong>: the handle of the generated shape</li>
             </ul>
         </api-output-python-lua>
+        <<api-calltip>handle shapeHandle = sim.generateShapeFromPath(float[] path, float[] section, int options = 0, float[3] upVector = {0.0, 0.0, 1.0})</<api-calltip>
     </function>
 
     <function>
@@ -2853,13 +2868,13 @@ sim.cameraFitToView</api-see-also>
         <api-see-also>
             <a href="../apiFunctions.htm#paths">path related functions</a>
         </api-see-also>
-        <api-synopsis-python>list outP, list times, int scriptHandle = sim.generateTimeOptimalTrajectory(list path, list pathLengths,
+        <api-synopsis-python>list outP, list times, handle scriptHandle = sim.generateTimeOptimalTrajectory(list path, list pathLengths,
                                                           list minMaxVel, list minMaxAccel,
                                                           int trajPtSamples = 1000,
                                                           string boundaryCondition = 'not-a-knot',
                                                           float timeout = 5,
                                                           int calculationScriptHandle = None)</api-synopsis-python>
-        <api-synopsis-lua>float[] outP, float[] times, int scriptHandle = sim.generateTimeOptimalTrajectory(float[] path,
+        <api-synopsis-lua>float[] outP, float[] times, handle scriptHandle = sim.generateTimeOptimalTrajectory(float[] path,
                                                                 float[] pathLengths,
                                                                 float[] minMaxVel,
                                                                 float[] minMaxAccel,
@@ -2886,7 +2901,7 @@ sim.cameraFitToView</api-see-also>
                 <li><strong>scriptHandle</strong>: the handle of the calculation script for reuse in a subsequent call to this function</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[] path, float[] times, int scriptHandle = sim.generateTimeOptimalTrajectory(float[] path, float[] pathLengths, float[] minMaxVel, float[] minMaxAccel, int trajPtSamples=1000, string boundaryCondition='not-a-knot', float timeout=5, int calculationScriptHandle=nil)</api-calltip>
+        <api-calltip>float[] path, float[] times, handle scriptHandle = sim.generateTimeOptimalTrajectory(float[] path, float[] pathLengths, float[] minMaxVel, float[] minMaxAccel, int trajPtSamples=1000, string boundaryCondition='not-a-knot', float timeout=5, int calculationScriptHandle=nil)</api-calltip>
     </function>
 
     <function>
@@ -2906,8 +2921,8 @@ Useful for script code auto-completion functionality</api-description>
                 <li>nullptr in case of an error, or if there is no match. Otherwise all matching API functions and variables, space-separated. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list funcsAndVars = sim.getApiFunc(int scriptHandle, string apiWord)</api-synopsis-python>
-        <api-synopsis-lua>string[] funcsAndVars = sim.getApiFunc(int scriptHandle, string apiWord)</api-synopsis-lua>
+        <api-synopsis-python>list funcsAndVars = sim.getApiFunc(handle scriptHandle, string apiWord)</api-synopsis-python>
+        <api-synopsis-lua>string[] funcsAndVars = sim.getApiFunc(handle scriptHandle, string apiWord)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>scriptHandleOrType</strong>: <a href="simGetScript.htm">handle of the script</a>. Can be -1 to be script agnostic</li>
@@ -2919,7 +2934,7 @@ Useful for script code auto-completion functionality</api-description>
                 <li><strong>funcsAndVars</strong>: array containing all matching API functions and variables.</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>string[] funcsAndVars = sim.getApiFunc(int scriptHandle, string apiWord)</api-calltip>
+        <api-calltip>string[] funcsAndVars = sim.getApiFunc(handle scriptHandle, string apiWord)</api-calltip>
     </function>
 
     <function>
@@ -4118,13 +4133,13 @@ object handles in the scene</api-description>
             </ul>
         </api-output-cpp>
         <api-synopsis-python>list selectedObjects = sim.getObjectSel()</api-synopsis-python>
-        <api-synopsis-lua>int[] selectedObjects = sim.getObjectSel()</api-synopsis-lua>
+        <api-synopsis-lua>handle[] selectedObjects = sim.getObjectSel()</api-synopsis-lua>
         <api-output-python-lua>
             <ul>
                 <li><strong>selectedObjects</strong>: the handles of selected objects</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int[] objectHandles = sim.getObjectSel()</api-calltip>
+        <api-calltip>handle[] objectHandles = sim.getObjectSel()</api-calltip>
     </function>
 
     <function>
@@ -4947,8 +4962,8 @@ sim.computeMassAndInertia</api-see-also>
                 <li>-1 in case of an error</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>float mass = sim.getShapeMass(int shapeHandle)</api-synopsis-python>
-        <api-synopsis-lua>float mass = sim.getShapeMass(int shapeHandle)</api-synopsis-lua>
+        <api-synopsis-python>float mass = sim.getShapeMass(handle shapeHandle)</api-synopsis-python>
+        <api-synopsis-lua>float mass = sim.getShapeMass(handle shapeHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the <a href="../shapes.htm">shape object</a></li>
@@ -4959,6 +4974,7 @@ sim.computeMassAndInertia</api-see-also>
                 <li><strong>mass</strong>: mass of the shape</li>
             </ul>
         </api-output-python-lua>
+        <api-calltip>float mass = sim.getShapeMass(handle shapeHandle)</api-calltip>
     </function>
 
     <function>
@@ -4984,8 +5000,8 @@ sim.exportMesh</api-see-also>
                 <li>-1 if operation was not successful</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list vertices, list indices, list normals = sim.getShapeMesh(int shapeHandle)</api-synopsis-python>
-        <api-synopsis-lua>float[] vertices, int[] indices, float[] normals = sim.getShapeMesh(int shapeHandle)</api-synopsis-lua>
+        <api-synopsis-python>list vertices, list indices, list normals = sim.getShapeMesh(handle shapeHandle)</api-synopsis-python>
+        <api-synopsis-lua>float[] vertices, int[] indices, float[] normals = sim.getShapeMesh(handle shapeHandle)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the shape. See <a href="simExportMesh.htm">sim.exportMesh</a> for a usage example.</li>
@@ -4998,7 +5014,7 @@ sim.exportMesh</api-see-also>
                 <li><strong>normals</strong>: array of normals</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[] vertices, int[] indices, float[] normals = sim.getShapeMesh(int shapeHandle)</api-calltip>
+        <api-calltip>float[] vertices, int[] indices, float[] normals = sim.getShapeMesh(handle shapeHandle)</api-calltip>
     </function>
 
     <function>
@@ -8621,21 +8637,6 @@ simulated chain needs to be modified during simulation (e.g. joint or shape atta
     </function>
 
     <function>
-        <api-function-name>sim.restoreEntityColor</api-function-name>
-        <api-description>Restores the color of an <a href="../entities.htm">entity</a>, previously
-modified with <a href="simChangeEntityColor.htm">sim.changeEntityColor</a>
-        </api-description>
-        <api-synopsis-python>sim.restoreEntityColor(list originalColorData)</api-synopsis-python>
-        <api-synopsis-lua>sim.restoreEntityColor(map[] originalColorData)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>originalColorData</strong>: the data returned from a call to <a href="simChangeEntityColor.htm">sim.changeEntityColor</a></li>
-            </ul>
-        </api-input-python-lua>
-        <api-calltip>sim.restoreEntityColor(map[] originalColorData)</api-calltip>
-    </function>
-
-    <function>
         <api-function-name>sim.ruckigPos</api-function-name>
         <api-description>Executes a call to the <a href="https://github.com/pantor/ruckig#readme">Ruckig online trajectory generator</a>.
 The Ruckig online trajectory generator provides instantaneous trajectory generation capabilities
@@ -9915,13 +9916,13 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
             </ul>
         </api-output-cpp>
         <api-synopsis-python>sim.setObjectSel(list objectHandles)</api-synopsis-python>
-        <api-synopsis-lua>sim.setObjectSel(int[] objectHandles)</api-synopsis-lua>
+        <api-synopsis-lua>sim.setObjectSel(handle[] objectHandles)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>objectHandles</strong>: handles of objects to be selected</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.setObjectSel(int[] objectHandles)</api-calltip>
+        <api-calltip>sim.setObjectSel(handle[] objectHandles)</api-calltip>
     </function>
 
     <function>
@@ -10178,15 +10179,15 @@ sim.computeMassAndInertia</api-see-also>
                 <li>-1 in case of an error</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setShapeMass(int shapeHandle, float mass)</api-synopsis-python>
-        <api-synopsis-lua>sim.setShapeMass(int shapeHandle, float mass)</api-synopsis-lua>
+        <api-synopsis-python>sim.setShapeMass(handle shapeHandle, float mass)</api-synopsis-python>
+        <api-synopsis-lua>sim.setShapeMass(handle shapeHandle, float mass)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>shapeHandle</strong>: handle of the <a href="../shapes.htm">shape object</a></li>
                 <li><strong>mass</strong>: new mass of the shape</li>
             </ul>
         </api-input-python-lua>
-        <api-calltip>sim.setShapeMass(int shapeHandle, float mass)</api-calltip>
+        <api-calltip>sim.setShapeMass(handle shapeHandle, float mass)</api-calltip>
     </function>
 
     <function>
