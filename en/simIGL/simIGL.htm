@@ -30,6 +30,7 @@ table { margin-left: 3em; margin-right: 3em; }
 </td></tr>
 <tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#adaptiveUpsample">simIGL.adaptiveUpsample</a>
 <a href="?#barycenter">simIGL.barycenter</a>
+<a href="?#boundaryFacets">simIGL.boundaryFacets</a>
 <a href="?#centroid">simIGL.centroid</a>
 <a href="?#closestFacet">simIGL.closestFacet</a>
 <a href="?#convexHull">simIGL.convexHull</a>
@@ -117,6 +118,36 @@ table { margin-left: 3em; margin-right: 3em; }
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
 <td class="apiTableRightPSyn">grid bc = simIGL.barycenter(grid v, grid f)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="boundaryFacets" id="boundaryFacets"></a>simIGL.boundaryFacets</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Compute the boundary facets of a given tet mesh.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">mesh m = simIGL.boundaryFacets(tetmesh m)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>m</strong> (tetmesh): tet mesh</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (mesh): result mesh</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">mesh m = simIGL.boundaryFacets(tetmesh m)<br>
 </td>
 </tr>
 </table>
@@ -710,7 +741,7 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">int result, grid tv, grid tt, grid tf = simIGL.tetrahedralize(mesh m, string switches="")<br>
+<td class="apiTableRightLSyn">int result, tetmesh m, grid tf = simIGL.tetrahedralize(mesh m, string switches="")<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -728,16 +759,14 @@ table { margin-left: 3em; margin-right: 3em; }
 <div>
 <strong>result</strong> (int): Returns status: 0 success; 1 tetgen threw exception; 2 tetgen did not crash but could not create any tets (probably there are holes, duplicate faces etc.); -1 other error</div>
 <div>
-<strong>tv</strong> (grid): vertex position list</div>
+<strong>m</strong> (tetmesh): tet mesh</div>
 <div>
-<strong>tt</strong> (grid): list of tet face indices</div>
-<div>
-<strong>tf</strong> (grid): list of triangle face indices</div>
+<strong>tf</strong> (grid): surface triangles (indices into tetmesh's vertices)</div>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftPSyn">Python synopsis</td>
-<td class="apiTableRightPSyn">int result, grid tv, grid tt, grid tf = simIGL.tetrahedralize(mesh m, string switches="")<br>
+<td class="apiTableRightPSyn">int result, tetmesh m, grid tf = simIGL.tetrahedralize(mesh m, string switches="")<br>
 </td>
 </tr>
 </table>

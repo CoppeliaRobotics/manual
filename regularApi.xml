@@ -4372,10 +4372,8 @@ path's first point, along the path)</api-description>
         <api-see-also>
             <a href="../apiFunctions.htm#paths">path related functions</a>
         </api-see-also>
-        <api-synopsis-python>list pathLengths, float totalLength = sim.getPathLengths(list path, int dof,
-                                                         string distCallback = None)</api-synopsis-python>
-        <api-synopsis-lua>float[] pathLengths, float totalLength = sim.getPathLengths(float[] path, int dof,
-                                                            function/string distCallback = nil)</api-synopsis-lua>
+        <api-synopsis-python>list pathLengths, float totalLength = sim.getPathLengths(list path, int dof, string distCallback = None)</api-synopsis-python>
+        <api-synopsis-lua>float[] pathLengths, float totalLength = sim.getPathLengths(float[] path, int dof, func distCallback = nil)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>path</strong>: the path, specified in row-major order, e.g. a path containing two 3D poses (position+quaternion) would be [x1 y1 z1 qx1 qy1 qz1 qw1 x2 y2 z2 qx2 qy2 qz2 qw2]</li>
@@ -4394,13 +4392,12 @@ path's first point, along the path)</api-description>
 
     <function>
         <api-function-name>sim.getPluginInfo</api-function-name>
-        <api-description>Returns auxiliary information about a loaded plugin</api-description>
-        <api-see-also>sim.setPluginInfo
-sim.getPluginName</api-see-also>
+        <api-description>Returns information about a loaded plugin</api-description>
+        <api-see-also>sim.setPluginInfo</api-see-also>
         <api-synopsis-cpp>int simGetPluginInfo(const char* pluginName, int infoType, char** stringInfo, int* intInfo)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>pluginName</strong>: name of the plugin. See <a href="simGetPluginName.htm">sim.getPluginName</a>.</li>
+                <li><strong>pluginName</strong>: name of the plugin</li>
                 <li><strong>infoType</strong>: <a href="../apiConstants.htm#pluginInfos">type of information</a> to retrieve</li>
                 <li><strong>stringInfo</strong>: pointer to a string information, in case the information type is for a string. The user is in charge of releasing the string buffer with <a href="simReleaseBuffer_cpp.htm">sim.releaseBuffer</a></li>
                 <li><strong>intInfo</strong>: pointer to an integer information, in case the information type is for an integer.</li>
@@ -4408,14 +4405,14 @@ sim.getPluginName</api-see-also>
         </api-input-cpp>
         <api-output-cpp>
             <ul>
-                <li>-1 in case of an error</li>
+                <li>1 in case of success</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>string/int info = sim.getPluginInfo(string pluginName, int infoType)</api-synopsis-python>
-        <api-synopsis-lua>string/int info = sim.getPluginInfo(string pluginName, int infoType)</api-synopsis-lua>
+        <api-synopsis-python>any info = sim.getPluginInfo(string pluginName, int infoType)</api-synopsis-python>
+        <api-synopsis-lua>any info = sim.getPluginInfo(string pluginName, int infoType)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>pluginName</strong>: name of the plugin. See <a href="simGetPluginName.htm">sim.getPluginName</a>.</li>
+                <li><strong>pluginName</strong>: name of the plugin</li>
                 <li><strong>infoType</strong>: <a href="../apiConstants.htm#pluginInfos">type of information</a> to retrieve</li>
             </ul>
         </api-input-python-lua>
@@ -4424,37 +4421,7 @@ sim.getPluginName</api-see-also>
                 <li><strong>info</strong>: the retrieved information</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>string info = sim.getPluginInfo(string pluginName, int infoType)
-number info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
-    </function>
-
-    <function>
-        <api-function-name>sim.getPluginName</api-function-name>
-        <api-description>Retrieves a plugin name based on an index</api-description>
-        <api-synopsis-cpp>char* simGetPluginName(int index)</api-synopsis-cpp>
-        <api-input-cpp>
-            <ul>
-                <li><strong>index</strong>: index to a plugin. To list-up all plugin names, start with index=0 and increment index until return value is nullptr</li>
-            </ul>
-        </api-input-cpp>
-        <api-output-cpp>
-            <ul>
-                <li>Name of the plugin or nullptr if no plugin is available at index position, or in case of an error. The user is in charge of destroying the returned name with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a></li>
-            </ul>
-        </api-output-cpp>
-        <api-synopsis-python>string pluginName = sim.getPluginName(int index)</api-synopsis-python>
-        <api-synopsis-lua>string pluginName = sim.getPluginName(int index)</api-synopsis-lua>
-        <api-input-python-lua>
-            <ul>
-                <li><strong>index</strong>: index to a plugin. To list-up all plugin names, start with index=0 and increment index until return value is None/nil</li>
-            </ul>
-        </api-input-python-lua>
-        <api-output-python-lua>
-            <ul>
-                <li><strong>pluginName</strong>: name of the plugin or None/nil if no plugin is available at that index position.</li>
-            </ul>
-        </api-output-python-lua>
-        <api-calltip>string pluginName = sim.getPluginName(int index)</api-calltip>
+        <api-calltip>any info = sim.getPluginInfo(string pluginName, int infoType)</api-calltip>
     </function>
 
     <function>
@@ -7404,8 +7371,7 @@ word4Color = "152 64 0"</comment>
 <a href="../apiFunctions.htm#packing">packing/unpacking functions</a>
         </api-see-also>
         <api-synopsis-python>bytes data = sim.packDoubleTable(list doubleNumbers, int startDoubleIndex = 0, int doubleCount = 0)</api-synopsis-python>
-        <api-synopsis-lua>buffer data = sim.packDoubleTable(float[] doubleNumbers, int startDoubleIndex = 0,
-                                  int doubleCount = 0)</api-synopsis-lua>
+        <api-synopsis-lua>buffer data = sim.packDoubleTable(float[] doubleNumbers, int startDoubleIndex = 0, int doubleCount = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>doubleNumbers</strong>: array of double floating-point numbers. Non-numbers will be packed as zero values</li>
@@ -7418,7 +7384,7 @@ word4Color = "152 64 0"</comment>
                 <li><strong>data</strong>: a buffer (values between 0 and 255) that contains packed double floating-point numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer data = sim.packDoubleTable(float[] doubleNumbers, int startDoubleIndex=0, int doubleCount=0)</api-calltip>
+        <api-calltip>buffer data = sim.packDoubleTable(float[] doubleNumbers, int startDoubleIndex = 0, int doubleCount = 0)</api-calltip>
     </function>
 
     <function>
@@ -7428,8 +7394,7 @@ word4Color = "152 64 0"</comment>
 <a href="../apiFunctions.htm#packing">packing/unpacking functions</a>
         </api-see-also>
         <api-synopsis-python>bytes data = sim.packFloatTable(list floatingNumbers, int startFloatIndex = 0, int floatCount = 0)</api-synopsis-python>
-        <api-synopsis-lua>buffer data = sim.packFloatTable(float[] floatingNumbers, int startFloatIndex = 0,
-                                 int floatCount = 0)</api-synopsis-lua>
+        <api-synopsis-lua>buffer data = sim.packFloatTable(float[] floatingNumbers, int startFloatIndex = 0, int floatCount = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>floatingNumbers</strong>: array containing floating-point numbers. Non-numbers will be packed as zero values</li>
@@ -7442,7 +7407,7 @@ word4Color = "152 64 0"</comment>
                 <li><strong>data</strong>: a buffer (values between 0 and 255) that contains packed floating-point numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer data = sim.packFloatTable(float[] floatNumbers, int startFloatIndex=0, int floatCount=0)</api-calltip>
+        <api-calltip>buffer data = sim.packFloatTable(float[] floatNumbers, int startFloatIndex = 0, int floatCount = 0)</api-calltip>
     </function>
 
     <function>
@@ -7465,7 +7430,7 @@ word4Color = "152 64 0"</comment>
                 <li><strong>data</strong>: a buffer (values between 0 and 255) that contains packed int32 numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer data = sim.packInt32Table(int[] int32Numbers, int startInt32Index=0, int int32Count=0)</api-calltip>
+        <api-calltip>buffer data = sim.packInt32Table(int[] int32Numbers, int startInt32Index = 0, int int32Count = 0)</api-calltip>
     </function>
 
     <function>
@@ -7486,8 +7451,8 @@ word4Color = "152 64 0"</comment>
                 <li>nullptr in case of an error, otherwise a data buffer. The user is in charge of releasing the returned buffer with <a href="simReleaseBuffer_cpp.htm">simReleaseBuffer</a>.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>bytes buffer = sim.packTable(list/dict aTable, int packingScheme = 0)</api-synopsis-python>
-        <api-synopsis-lua>buffer buffer = sim.packTable(any[]/map aTable, int packingScheme = 0)</api-synopsis-lua>
+        <api-synopsis-python>bytes buffer = sim.packTable(any aTable, int packingScheme = 0)</api-synopsis-python>
+        <api-synopsis-lua>buffer buffer = sim.packTable(any aTable, int packingScheme = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>aTable</strong>: array or map</li>
@@ -7499,8 +7464,7 @@ word4Color = "152 64 0"</comment>
                 <li><strong>buffer</strong>: a data buffer</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer data = sim.packTable(any[] aTable, int scheme=0)
-buffer data = sim.packTable(map aTable, int scheme=0)</api-calltip>
+        <api-calltip>buffer data = sim.packTable(any aTable, int scheme = 0)</api-calltip>
     </function>
 
     <function>
@@ -7523,7 +7487,7 @@ buffer data = sim.packTable(map aTable, int scheme=0)</api-calltip>
                 <li><strong>data</strong>: a buffer (values between 0 and 255) that contains packed uint16 numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer data = sim.packUInt16Table(int[] uint16Numbers, int startUint16Index=0, int uint16Count=0)</api-calltip>
+        <api-calltip>buffer data = sim.packUInt16Table(int[] uint16Numbers, int startUint16Index = 0, int uint16Count = 0)</api-calltip>
     </function>
 
     <function>
@@ -7546,7 +7510,7 @@ buffer data = sim.packTable(map aTable, int scheme=0)</api-calltip>
                 <li><strong>data</strong>: a buffer (values between 0 and 255) that contains packed uint32 numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer data = sim.packUInt32Table(int[] uint32Numbers, int startUInt32Index=0, int uint32Count=0)</api-calltip>
+        <api-calltip>buffer data = sim.packUInt32Table(int[] uint32Numbers, int startUInt32Index = 0, int uint32Count = 0)</api-calltip>
     </function>
 
     <function>
@@ -7569,7 +7533,7 @@ buffer data = sim.packTable(map aTable, int scheme=0)</api-calltip>
                 <li><strong>data</strong>: a buffer (values between 0 and 255) that contains the uint8 numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer data = sim.packUInt8Table(int[] uint8Numbers, int startUint8Index=0, int uint8count=0)</api-calltip>
+        <api-calltip>buffer data = sim.packUInt8Table(int[] uint8Numbers, int startUint8Index = 0, int uint8count = 0)</api-calltip>
     </function>
 
     <function>
@@ -10034,13 +9998,13 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
     </function>
 
     <function>
-        <api-function-name>simSetPluginInfo</api-function-name>
+        <api-function-name>sim.setPluginInfo</api-function-name>
         <api-description>Attaches additional information to a loaded plugin</api-description>
         <api-see-also>sim.getPluginInfo</api-see-also>
         <api-synopsis-cpp>int simSetPluginInfo(const char* pluginName, int infoType, const char* stringInfo, int intInfo)</api-synopsis-cpp>
         <api-input-cpp>
             <ul>
-                <li><strong>pluginName</strong>: name of the plugin. See <a href="simGetPluginName.htm">sim.getPluginName</a>.</li>
+                <li><strong>pluginName</strong>: name of the plugin</li>
                 <li><strong>infoType</strong>: <a href="../apiConstants.htm#pluginInfos">the type of information</a> to set</li>
                 <li><strong>stringInfo</strong>: string information value, in case the information type is for a string.</li>
                 <li><strong>intInfo</strong>: integer information value, in case the information type is for an integer.</li>
@@ -10051,11 +10015,11 @@ hierarchy tree, are dynamically reset (this however does not apply to static sha
                 <li>-1 in case of an error</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>sim.setPluginInfo(string pluginName, int infoType, string/int info)</api-synopsis-python>
-        <api-synopsis-lua>sim.setPluginInfo(string pluginName, int infoType, string/int info)</api-synopsis-lua>
+        <api-synopsis-python>sim.setPluginInfo(string pluginName, int infoType, any info)</api-synopsis-python>
+        <api-synopsis-lua>sim.setPluginInfo(string pluginName, int infoType, any info)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
-                <li><strong>pluginName</strong>: name of the plugin. See <a href="simGetPluginName.htm">sim.getPluginName</a></li>
+                <li><strong>pluginName</strong>: name of the plugin</li>
                 <li><strong>infoType</strong>: <a href="../apiConstants.htm#pluginInfos">the type of information</a> to set</li>
                 <li><strong>info</strong>: string or integer information value</li>
             </ul>
@@ -10676,30 +10640,27 @@ keyword3-col="0 0 255" keyword4-col="152 64 0"&gt;
 
     <function>
         <api-function-name>sim.transformBuffer</api-function-name>
-        <api-description>Modifies a buffer than contains packed data</api-description>
+        <api-description>Modifies a buffer that contains packed data</api-description>
         <api-see-also>
             <a href="../apiFunctions.htm#packing">data packing/unpacking functions</a>
         </api-see-also>
-        <api-synopsis-python>a) bytes outBuff = sim.transformBuffer(bytes inBuff, int inFormat, float mult, float off, int outFormat)
-b) list outBuff = sim.transformBuffer(bytes inBuff, sim.buffer_uint8, 0, int splitSize, sim.buffer_split)</api-synopsis-python>
-        <api-synopsis-lua>a) buffer outBuff = sim.transformBuffer(buffer inBuffer, int inFormat, float mult, float off, int outFormat)
-b) buffer[] outBuff = sim.transformBuffer(buffer inBuffer, sim.buffer_uint8, 0, int splitSize, sim.buffer_split)</api-synopsis-lua>
+        <api-synopsis-python>any outBuff = sim.transformBuffer(bytes inBuff, int inFormat, int outFormat, float mult = 1.0, float offOrSplitSize = 0.0)</api-synopsis-python>
+        <api-synopsis-lua>any outBuff = sim.transformBuffer(buffer inBuffer, int inFormat, int outFormat, float mult = 1.0, float offOrSplitSize = 0.0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>inBuff</strong>: input buffer that contains packed data</li>
                 <li><strong>inFormat</strong>: <a href="../apiConstants.htm#bufferTypes">buffer type</a></li>
-                <li><strong>mult</strong>: multiplier value. We have out = offset + multiplier * in</li>
-                <li><strong>off/splitSize</strong>: offset or split size value. We have out = offset + multiplier * in</li>
                 <li><strong>outFormat</strong>: desired <a href="../apiConstants.htm#bufferTypes">buffer type</a> for the returned buffer</li>
+                <li><strong>mult</strong>: multiplier value. We have out = offset + multiplier * in</li>
+                <li><strong>offOrSplitSize</strong>: offset or split size value. We have out = offset + multiplier * in</li>
             </ul>
         </api-input-python-lua>
         <api-output-python-lua>
             <ul>
-                <li>a) <strong>outBuff</strong>: the modified buffer</li>
-                <li>b) <strong>outBuff</strong>: the various split buffers</li>
+                <li><strong>outBuff</strong>: the modified buffer or the various split buffers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>buffer outBuffer = sim.transformBuffer(buffer inBuffer, int inFormat, float multiplier, float offset, int outFormat)</api-calltip>
+        <api-calltip>any outBuff = sim.transformBuffer(buffer inBuffer, int inFormat, int outFormat, float mult = 1.0, float offOrSplitSize = 0.0)</api-calltip>
     </function>
 
     <function>
@@ -10834,10 +10795,8 @@ sim.relocateShapeFrame</api-see-also>
         <api-see-also>sim.packDoubleTable
 <a href="../apiFunctions.htm#packing">packing/unpacking functions</a>
         </api-see-also>
-        <api-synopsis-python>list doubleNumbers = sim.unpackDoubleTable(bytes data, int startDoubleIndex = 0, int doubleCount = 0,
-                                           int additionalByteOffset = 0)</api-synopsis-python>
-        <api-synopsis-lua>float[] doubleNumbers = sim.unpackDoubleTable(buffer data, int startDoubleIndex = 0,
-                                              int doubleCount = 0, int additionalByteOffset = 0)</api-synopsis-lua>
+        <api-synopsis-python>list doubleNumbers = sim.unpackDoubleTable(bytes data, int startDoubleIndex = 0, int doubleCount = 0, int additionalByteOffset = 0)</api-synopsis-python>
+        <api-synopsis-lua>float[] doubleNumbers = sim.unpackDoubleTable(buffer data, int startDoubleIndex = 0, int doubleCount = 0, int additionalByteOffset = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>data</strong>: string (values between 0 and 255) that contains packed floating-point numbers</li>
@@ -10851,7 +10810,7 @@ sim.relocateShapeFrame</api-see-also>
                 <li><strong>doubleNumbers</strong>: array containing unpacked double floating-point numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[] doubleNumbers = sim.unpackDoubleTable(buffer data, int startDoubleIndex=0, int doubleCount=0, int additionalByteOffset=0)</api-calltip>
+        <api-calltip>float[] doubleNumbers = sim.unpackDoubleTable(buffer data, int startDoubleIndex = 0, int doubleCount = 0, int additionalByteOffset = 0)</api-calltip>
     </function>
 
     <function>
@@ -10860,10 +10819,8 @@ sim.relocateShapeFrame</api-see-also>
         <api-see-also>sim.packFloatTable
 <a href="../apiFunctions.htm#packing">packing/unpacking functions</a>
         </api-see-also>
-        <api-synopsis-python>list floatingNumbers = sim.unpackFloatTable(bytes data, int startFloatIndex = 0, int floatCount = 0,
-                                            int additionalByteOffset = 0)</api-synopsis-python>
-        <api-synopsis-lua>float[] floatingNumbers = sim.unpackFloatTable(buffer data, int startFloatIndex = 0,
-                                               int floatCount = 0, int additionalByteOffset = 0)</api-synopsis-lua>
+        <api-synopsis-python>list floatingNumbers = sim.unpackFloatTable(bytes data, int startFloatIndex = 0, int floatCount = 0, int additionalByteOffset = 0)</api-synopsis-python>
+        <api-synopsis-lua>float[] floatingNumbers = sim.unpackFloatTable(buffer data, int startFloatIndex = 0, int floatCount = 0, int additionalByteOffset = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>data</strong>: string (values between 0 and 255) that contains packed floating-point numbers</li>
@@ -10877,7 +10834,7 @@ sim.relocateShapeFrame</api-see-also>
                 <li><strong>floatingNumbers</strong>: array containing unpacked floating-point numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>float[] floatNumbers = sim.unpackFloatTable(buffer data, int startFloatIndex=0, int floatCount=0, int additionalByteOffset=0)</api-calltip>
+        <api-calltip>float[] floatNumbers = sim.unpackFloatTable(buffer data, int startFloatIndex = 0, int floatCount = 0, int additionalByteOffset = 0)</api-calltip>
     </function>
 
     <function>
@@ -10886,10 +10843,8 @@ sim.relocateShapeFrame</api-see-also>
         <api-see-also>sim.packInt32Table
 <a href="../apiFunctions.htm#packing">packing/unpacking functions</a>
         </api-see-also>
-        <api-synopsis-python>list int32Numbers = sim.unpackInt32Table(bytes data, int startInt32Index = 0, int int32Count = 0,
-                                         int additionalByteOffset = 0)</api-synopsis-python>
-        <api-synopsis-lua>int[] int32Numbers = sim.unpackInt32Table(buffer data, int startInt32Index = 0, int int32Count = 0,
-                                          int additionalByteOffset = 0)</api-synopsis-lua>
+        <api-synopsis-python>list int32Numbers = sim.unpackInt32Table(bytes data, int startInt32Index = 0, int int32Count = 0, int additionalByteOffset = 0)</api-synopsis-python>
+        <api-synopsis-lua>int[] int32Numbers = sim.unpackInt32Table(buffer data, int startInt32Index = 0, int int32Count = 0, int additionalByteOffset = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>data</strong>: string (values between 0 and 255) that contains packed int32 numbers</li>
@@ -10903,7 +10858,7 @@ sim.relocateShapeFrame</api-see-also>
                 <li><strong>int32Numbers</strong>: array containing unpacked int32 numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int[] int32Numbers = sim.unpackInt32Table(buffer data, int startInt32Index=0, int int32Count=0, int additionalByteOffset=0)</api-calltip>
+        <api-calltip>int[] int32Numbers = sim.unpackInt32Table(buffer data, int startInt32Index = 0, int int32Count = 0, int additionalByteOffset = 0)</api-calltip>
     </function>
 
     <function>
@@ -10925,8 +10880,8 @@ sim.relocateShapeFrame</api-see-also>
                 <li>-1 in case of an error.</li>
             </ul>
         </api-output-cpp>
-        <api-synopsis-python>list/dict aTable = sim.unpackTable(bytes buffer, int packingScheme=0)</api-synopsis-python>
-        <api-synopsis-lua>any[]/map aTable = sim.unpackTable(buffer buffer, int packingScheme=0)</api-synopsis-lua>
+        <api-synopsis-python>any aTable = sim.unpackTable(bytes buffer, int packingScheme = 0)</api-synopsis-python>
+        <api-synopsis-lua>any aTable = sim.unpackTable(buffer buffer, int packingScheme = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>buffer</strong>: an input buffer</li>
@@ -10938,7 +10893,7 @@ sim.relocateShapeFrame</api-see-also>
                 <li><strong>aTable</strong>: the unpacked buffer</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>any aTable = sim.unpackTable(buffer buffer)</api-calltip>
+        <api-calltip>any aTable = sim.unpackTable(buffer buffer, int packingScheme = 0)</api-calltip>
     </function>
 
     <function>
@@ -10947,10 +10902,8 @@ sim.relocateShapeFrame</api-see-also>
         <api-see-also>sim.packUInt16Table
 <a href="../apiFunctions.htm#packing">packing/unpacking functions</a>
         </api-see-also>
-        <api-synopsis-python>list uint16Numbers = sim.unpackUInt16Table(bytes data, int starUint16Index = 0, int uint16Count = 0,
-                                           int additionalByteOffset)</api-synopsis-python>
-        <api-synopsis-lua>int[] uint16Numbers = sim.unpackUInt16Table(buffer data, int starUint16Index = 0,
-                                            int uint16Count = 0, int additionalByteOffset)</api-synopsis-lua>
+        <api-synopsis-python>list uint16Numbers = sim.unpackUInt16Table(bytes data, int starUint16Index = 0, int uint16Count = 0, int additionalByteOffset = 0)</api-synopsis-python>
+        <api-synopsis-lua>int[] uint16Numbers = sim.unpackUInt16Table(buffer data, int starUint16Index = 0, int uint16Count = 0, int additionalByteOffset = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>data</strong>: string (values between 0 and 255) that contains packed uint16 numbers</li>
@@ -10964,7 +10917,7 @@ sim.relocateShapeFrame</api-see-also>
                 <li><strong>uint16Numbers</strong>: array containing unpacked uint16 numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int[] uint16Numbers = sim.unpackUInt16Table(buffer data, int startUint16Index=0, int uint16Count=0, int additionalByteOffset=0)</api-calltip>
+        <api-calltip>int[] uint16Numbers = sim.unpackUInt16Table(buffer data, int startUint16Index = 0, int uint16Count = 0, int additionalByteOffset = 0)</api-calltip>
     </function>
 
     <function>
@@ -10973,10 +10926,8 @@ sim.relocateShapeFrame</api-see-also>
         <api-see-also>sim.packUInt32Table
 <a href="../apiFunctions.htm#packing">packing/unpacking functions</a>
         </api-see-also>
-        <api-synopsis-python>list uint32Numbers = sim.unpackUInt32Table(bytes data, int startUint32Index = 0, int uint32Count = 0,
-                                           int additionalByteOffset = 0)</api-synopsis-python>
-        <api-synopsis-lua>int[] uint32Numbers = sim.unpackUInt32Table(buffer data, int startUint32Index = 0,
-                                            int uint32Count = 0, int additionalByteOffset = 0)</api-synopsis-lua>
+        <api-synopsis-python>list uint32Numbers = sim.unpackUInt32Table(bytes data, int startUint32Index = 0, int uint32Count = 0, int additionalByteOffset = 0)</api-synopsis-python>
+        <api-synopsis-lua>int[] uint32Numbers = sim.unpackUInt32Table(buffer data, int startUint32Index = 0, int uint32Count = 0, int additionalByteOffset = 0)</api-synopsis-lua>
         <api-input-python-lua>
             <ul>
                 <li><strong>data</strong>: string (values between 0 and 255) that contains packed uint32 numbers</li>
@@ -10990,7 +10941,7 @@ sim.relocateShapeFrame</api-see-also>
                 <li><strong>integerNumbers</strong>: array containing unpacked uint32 numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int[] uint32Numbers = sim.unpackUInt32Table(buffer data, int startUint32Index=0, int uint32Count=0, int additionalByteOffset=0)</api-calltip>
+        <api-calltip>int[] uint32Numbers = sim.unpackUInt32Table(buffer data, int startUint32Index = 0, int uint32Count = 0, int additionalByteOffset = 0)</api-calltip>
     </function>
 
     <function>
@@ -11013,7 +10964,7 @@ sim.relocateShapeFrame</api-see-also>
                 <li><strong>uint8Numbers</strong>: array containing uint8 numbers</li>
             </ul>
         </api-output-python-lua>
-        <api-calltip>int[] uint8Numbers = sim.unpackUInt8Table(buffer data, int startUint8Index=0, int uint8count=0)</api-calltip>
+        <api-calltip>int[] uint8Numbers = sim.unpackUInt8Table(buffer data, int startUint8Index = 0, int uint8count = 0)</api-calltip>
     </function>
 
     <function>
