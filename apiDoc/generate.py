@@ -2,14 +2,17 @@ import os
 import sys
 import re
 import shutil
+import copy
 import xml.etree.ElementTree as ET
 import minify_html
 from pathlib import Path
 
 currentDir = Path(__file__).absolute().parent
 
-FUNC_VER_INFO = '<a href="../apisOverview.htm">sim-2</a>'
-apiDir_currentVer = currentDir / '..' / 'en' / 'sim-2'
+currentVer = 'sim-2'
+FUNC_VER_INFO = '<a href="../apisOverview.htm">' + currentVer + '</a>'
+apiDir_main = currentDir / '..' / 'en'
+apiDir_currentVer = currentDir / '..' / 'en' / currentVer
 apiDirs_oldVer = [currentDir / '..' / 'en' / 'sim-1'] # older API versions
 apiDir_deprecated_currentVer = currentDir / '..' / 'en' / 'deprecated' # deprecated but in the same API version
 apiDir_all = currentDir / '..' / 'en' / 'sim'
@@ -40,24 +43,43 @@ def parse_params(params_node):
         arguments.append(arg)
     return arguments
     
-def funcname_to_filename(name, isC):
+def funcname_to_filename(name, isC, objName):
     if isC:
         return name + '_cpp.htm'
-    if name.startswith('sim.'):
+    elif name.startswith('sim.'):
         name = name[4:]  # Everything after 'sim.'
         name = 'sim' + name[0].upper() + name[1:]
+    elif objName and len(objName) > 0:
+        name = objName + '_' + name
     return name + '.htm' 
     
-def parse_see_also(see_also_node, isC):
+def parse_see_also(see_also_node, isC, objName):
     references = []
     if see_also_node is None:
         return references
     for func_ref in see_also_node.findall('function-ref'):
         funcname = func_ref.get('name', '').strip()
-        references.append('<a href="' + funcname_to_filename(funcname, isC) + '">' + funcname + '</a>')
+        references.append('<a href="' + funcname_to_filename(funcname, isC, objName) + '">' + funcname + '</a>')
     for link in see_also_node.findall('link'):
         references.append('<a href="' + link.get('href', '') + '">' + link.get('label', '').strip() + '</a>')
     return references
+    
+def parse_categories(cat_node):
+    catList = []
+    if cat_node is None:
+        return catList
+    for cat in cat_node.findall('category'):
+        catList.append(cat.get('name', ''))
+    return catList
+    
+'''def parse_restrict_obj_type(restr_node):
+    tList = []
+    if restr_node is None:
+        return tList
+    for cat in restr_node.findall('object-type'):
+        tList.append(cat.get('name', ''))
+    return tList
+'''
     
 def prepare_synopsis(func_name, input_params, output_params, lang):
     def transform_params_for_language(params, language):
@@ -173,65 +195,6 @@ def addCodeSection(string, lang):
         s = '<code class="hljs language-' + lang + ' coppelia-coppeliasim-script">' + string + '</code>'
     return s
 
-def formatSynopsis(s, maxLength):
-    if s == None:
-        return s
-
-    s = s.replace(' = ','##_##')
-    s = s.replace('= ','_##')
-    s = s.replace(' =','##_')
-    s = s.replace('=',' = ')
-    s = s.replace('##_##',' = ')
-    s = s.replace('##_',' =')
-    s = s.replace('_##','= ')
-
-    s = s.replace(' , ','_##')
-    s = s.replace(', ','_##')
-    s = s.replace(' ,','_##')
-    s = s.replace(',',', ')
-    s = s.replace('_##',', ')
-
-    if s.find('<div>') != -1:
-        return s
-
-    if s.find('\n') != -1:
-        return s
-
-    if len(s) <= maxLength:
-        return s
-
-    # Function to format the content inside parentheses
-    def replacer(match):
-        contents = match.group(1).split(',')
-
-        # Determine the amount of padding needed
-        indent = match.start() + 1
-        indent_str = ' ' * indent
-
-        # Split and join the content based on the maxLength
-        line = ''
-        formatted_contents = []
-        for content in contents:
-            if line and len(line + ', ' + content.strip()) + indent > maxLength:
-                formatted_contents.append(line)
-                line = content.strip()
-            elif not line:
-                line = content.strip()
-            else:
-                line += ', ' + content.strip()
-        if line:
-            formatted_contents.append(line)
-
-        return '(' + ('\n' + indent_str).join(formatted_contents) + ')'
-
-    # Regular expression to match content inside parentheses
-    pattern = r'\(([^)]+)\)'
-
-    # Format the content inside parentheses
-    formatted_string = re.sub(pattern, replacer, s)
-
-    return formatted_string
-    
 def format_synopsis(S, L):
     """
     Formats a programming language synopsis with line breaks to respect max length.
@@ -344,43 +307,81 @@ def format_synopsis(S, L):
     return '\n'.join(result)
     
 def main():
-    try:
-        shutil.rmtree(apiDir_currentVer)
-    except Exception as e:
-        pass
-    os.makedirs(apiDir_currentVer)
+    methodCategories = [
+        {'cat': 'object',           'txt': 'Object',                                        'page': '',                                                 'oldRefs': []},
+        {'cat': 'app',              'txt': 'App',                                           'page': '',                                                 'oldRefs': []},
+        {'cat': 'scene',            'txt': 'Scene',                                         'page': 'scenes.htm',                                       'oldRefs': []},
+        {'cat': 'collection',       'txt': 'Collection',                                    'page': 'collections.htm',                                  'oldRefs': ['collections']},
+        {'cat': 'drawingObject',    'txt': 'Drawing object',                                'page': 'dataVisualizationAndOutput.htm#augmentingScene',   'oldRefs': []},
+        {'cat': 'detachedScript',   'txt': 'Detached script',                               'page': 'scripts.htm',                                      'oldRefs': []},
+        {'cat': 'mesh',             'txt': 'Mesh',                                          'page': 'geometricCalculations.htm',                        'oldRefs': []},
+        {'cat': 'sceneObject',      'txt': 'Scene object',                                  'page': 'objects.htm',                                      'oldRefs': ['sceneObjectFunctionality']},
+        {'cat': 'shape',            'txt': 'Shape',                                         'page': 'shapes.htm',                                       'oldRefs': ['shapeObject']},
+        {'cat': 'joint',            'txt': 'Joint',                                         'page': 'joints.htm',                                       'oldRefs': ['jointObject']},
+        {'cat': 'dummy',            'txt': 'Dummy',                                         'page': 'dummies.htm',                                      'oldRefs': ['dummyObject']},
+        {'cat': 'script',           'txt': 'Script',                                        'page': 'scriptObjects.htm',                                'oldRefs': []},
+        {'cat': 'camera',           'txt': 'Camera',                                        'page': 'cameras.htm',                                      'oldRefs': ['cameraObject']},
+        {'cat': 'light',            'txt': 'Light',                                         'page': 'lights.htm',                                       'oldRefs': ['lightObject']},
+        {'cat': 'graph',            'txt': 'Graph',                                         'page': 'graphs.htm',                                       'oldRefs': ['graphs']},
+        {'cat': 'proximitySensor',  'txt': 'Proximity sensor',                              'page': 'proximitySensors.htm',                             'oldRefs': []},
+        {'cat': 'visionSensor',     'txt': 'Vision sensor',                                 'page': 'visionSensors.htm',                                'oldRefs': []},
+        {'cat': 'forceSensor',      'txt': 'Force sensor',                                  'page': 'forceSensors.htm',                                 'oldRefs': []},
+        {'cat': 'pointCloud',       'txt': 'Point cloud',                                   'page': 'pointClouds.htm',                                  'oldRefs': []},
+        {'cat': 'ocTree',           'txt': 'OC-tree',                                       'page': 'octrees.htm',                                      'oldRefs': ['octree']},
+        {'cat': 'path',             'txt': 'Paths',                                         'page': 'paths.htm',                                        'oldRefs': ['paths']},
+        {'cat': 'file',             'txt': 'File operations',                               'page': '',                                                 'oldRefs': ['fileOperations']},
+        {'cat': 'main',             'txt': 'General functionality handling',                'page': '',                                                 'oldRefs': ['mainFunctionalityHandling']},
+        {'cat': 'handle',           'txt': 'Handles',                                       'page': '',                                                 'oldRefs': ['HandleRetrieval']},
+        {'cat': 'dynamics',         'txt': 'Dynamics',                                      'page': 'dynamicsModule.htm',                               'oldRefs': ['dynamicsFunctionality']},
+        {'cat': 'property',         'txt': 'Properties',                                    'page': 'properties.htm',                                   'oldRefs': ['properties']},
+        {'cat': 'collision',        'txt': 'Collision detection',                           'page': 'collisionDetection.htm',                           'oldRefs': ['collisionDetection']},
+        {'cat': 'distance',         'txt': 'Distance calculation',                          'page': 'distanceCalculation.htm',                          'oldRefs': ['distanceCalculation']},
+        {'cat': 'rendering',        'txt': 'Rendering',                                     'page': 'dataVisualizationAndOutput.htm',                   'oldRefs': []},
+        {'cat': 'customization',    'txt': 'Customization',                                 'page': '',                                                 'oldRefs': ['customizingLuaFunctions', 'customScriptFunctions']},
+        {'cat': 'model',            'txt': 'Models',                                        'page': 'models.htm',                                       'oldRefs': ['modelFunctionality']},
+        {'cat': 'selection',        'txt': 'Selection',                                     'page': '',                                                 'oldRefs': ['sceneObjectSelectionFunctionality']},
+        {'cat': 'creation',         'txt': 'Object creation',                               'page': '',                                                 'oldRefs': ['sceneObjectCreationFunctionality']},
+        {'cat': 'simulation',       'txt': 'Simulation',                                    'page': 'simulation.htm',                                   'oldRefs': ['SimulationFunctionality']},
+        {'cat': 'thread',           'txt': 'Threads',                                       'page': 'threadedAndNonThreadedCode.htm',                   'oldRefs': ['threads', 'threadRelatedFunctionality']},
+        {'cat': 'blocking',         'txt': 'Blocking functions',                            'page': '',                                                 'oldRefs': ['blockingFunctions']},
+        {'cat': 'transformation',   'txt': 'Coordinates and transformations',               'page': 'positionOrientationTransformation.htm',            'oldRefs': ['pose', 'transformations', 'coordinatesAndTransformations']},
+        {'cat': 'messaging',        'txt': 'Messaging',                                     'page': 'meansOfCommunication.htm',                         'oldRefs': []},
+        {'cat': 'texture',          'txt': 'Textures',                                      'page': '',                                                 'oldRefs': ['textures']},
+        {'cat': 'auxConsole',       'txt': 'Auxiliary consoles',                            'page': 'dataVisualizationAndOutput.htm#auxConsoles',       'oldRefs': ['auxiliaryConsoles', 'auxiliaryConsoleFunctions']},
+        {'cat': 'textEditor',       'txt': 'Text/code editor',                              'page': 'dataVisualizationAndOutput.htm#textEditors',       'oldRefs': ['textEditors']},
+        {'cat': 'importExport',     'txt': 'Import/export',                                 'page': 'importExport.htm',                                 'oldRefs': ['importExportFunctions']},
+        {'cat': 'motion',           'txt': 'Motion functionality',                          'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+        {'cat': 'packing',          'txt': 'Packing/unpacking',                             'page': '',                                                 'oldRefs': []},
+        {'cat': 'stack',            'txt': 'Stacks',                                        'page': '',                                                 'oldRefs': ['stacks']},
+        {'cat': 'other',            'txt': 'Other',                                         'page': '',                                                 'oldRefs': []}
+    ]
 
-    # first insert deprecated functions (for the same API version):
-    for filename in os.listdir(apiDir_deprecated_currentVer):
-        if filename.endswith('.htm'):
-            src_path = os.path.join(apiDir_deprecated_currentVer, filename)
-            dst_path = os.path.join(apiDir_currentVer, filename)
-            shutil.copy2(src_path, dst_path)    
+    functionCategories = copy.deepcopy(methodCategories)
 
-    with (templatesDir / 'cFunc.htm').open('r') as file_r:
-        template_cpp = file_r.read()
+    allMethodCategories = {}
+    for item in methodCategories:
+        allMethodCategories[item['cat']] = {'txt': item['txt'], 'api': []}
 
-    with (templatesDir / 'pythonLuaFunc.htm').open('r') as file_r:
-        template = file_r.read()
-
-    tree = ET.parse(currentDir / 'functions.xml')
-    funcs = tree.getroot()
-
-    allCpp = {}
-    allPythonLua = {}
-
-    cnt = 0
-    for func in funcs:
-        cnt += 1
-        funcname = func.get('name').strip()
+    allFunctionCategories = {}
+    for item in functionCategories:
+        allFunctionCategories[item['cat']] = {'txt': item['txt'], 'api': []}
+    
+    def handle_func_or_method(file, func, obj_name, template, template_cpp):
+        funcnameRaw = func.get('name').strip()
+        #print('className:', obj_name, 'funcName:', funcnameRaw)
         lang = func.get('lang').strip()
+        deprecated = (func.get('deprecated') == 'true')
         isC = (lang == 'c')
         funcdescription = getTxt(func, 'description').strip().rstrip('. ')
         more = (getTxt(func, 'more') or '').strip().rstrip('. ')
         input = parse_params(func.find('params'))
         output = parse_params(func.find('returns'))
-        categories_node = func.find('categories')
-        see_also = parse_see_also(func.find('see-also'), isC)
+        
+        see_also = parse_see_also(func.find('see-also'), isC, obj_name)
+        if len(obj_name) > 0:
+            if not see_also:
+                see_also = []
+            see_also.insert(0, '<a href="../apiFunctions.htm#' + obj_name + '">' + obj_name + '</a>') 
         if see_also and (len(see_also) > 0):
             html = '<ul>\n'
             for item in see_also:
@@ -388,7 +389,10 @@ def main():
             see_also = html + '</ul>'
         else:
             see_also = ''
-        filename = funcname_to_filename(funcname, isC)
+        filename = funcname_to_filename(funcnameRaw, isC, obj_name)
+        funcname = funcnameRaw
+        if obj_name and len(obj_name) > 0:
+            funcname = obj_name + ':' + funcname
         synopsis = ''
         for l in lang.split(','):
             if synopsis != '':
@@ -421,15 +425,37 @@ def main():
         else:
             output = ''
 
+        categories = parse_categories(func.find('categories'))
+        for cat in categories:
+            if cat in file['categoriesMap']:
+                file['categoriesMap'][cat]['api'].append({'name': funcnameRaw, 'file': currentVer + '/' + filename, 'c': isC})
+            else:
+                raise Exception("Category '" + cat + "' not found!")
+                
+        #restrictToObjectTypes = parse_restrict_obj_type(func.find('restrict-object-types'))
+        #if len(restrictToObjectTypes) > 0:
+        #    print(restrictToObjectTypes)
+        
         nm = apiDir_currentVer / filename
         with nm.open('w') as file_w:
             if not isC:
                 a = template
             else:
                 a = template_cpp
-            a = a.replace('__funcName__', funcname)
+            funcnamePlus = funcname
+            if deprecated:
+                funcnamePlus += ' (deprecated)'
+            a = a.replace('__funcName__', funcnamePlus)
             a = a.replace('__funcDescription__', funcdescription)
             a = a.replace('__funcVer__', FUNC_VER_INFO)
+            
+            a = a.replace('__seeAlso__', see_also)
+            if len(see_also) > 0:
+                a = a.replace('__seealsoVisibility__', '')
+            else:
+                a = a.replace('__seealsoVisibility__', 'style="display: none;"')
+            
+            
             a = a.replace('__seeAlso__', see_also)
             if len(see_also) > 0:
                 a = a.replace('__seealsoVisibility__', '')
@@ -452,6 +478,65 @@ def main():
             else:
                 a = a.replace('__moreVisibility__', 'style="display: none;"')
             file_w.write(minify_html.minify(a))
+    try:
+        shutil.rmtree(apiDir_currentVer)
+    except Exception as e:
+        pass
+    os.makedirs(apiDir_currentVer)
+
+    # first insert deprecated functions (for the same API version):
+    for filename in os.listdir(apiDir_deprecated_currentVer):
+        if filename.endswith('.htm'):
+            src_path = os.path.join(apiDir_deprecated_currentVer, filename)
+            dst_path = os.path.join(apiDir_currentVer, filename)
+            shutil.copy2(src_path, dst_path)    
+
+    files = [
+        {
+            'inputFile': currentDir / 'functions.xml',
+            'cTemplate': templatesDir / 'cFunc.htm',
+            'pythonLuaTemplate': templatesDir / 'pythonLuaFunc.htm',
+            'categories': functionCategories,
+            'categoriesMap': allFunctionCategories,
+            'type': 'functions'
+        },
+        {
+            'inputFile': currentDir / 'objects.xml',
+            'pythonLuaTemplate': templatesDir / 'pythonLuaMethod.htm',
+            'categories': methodCategories,
+            'categoriesMap': allMethodCategories,
+            'type': 'objects'
+        }
+    ]
+
+    for file in files:
+
+        handleFunctions = (file['type'] == 'functions')
+        
+        if handleFunctions:
+            with (file['cTemplate']).open('r') as file_r:
+                template_cpp = file_r.read()
+
+        with (file['pythonLuaTemplate']).open('r') as file_r:
+            template = file_r.read()
+
+            
+        tree = ET.parse(file['inputFile'])
+        cnt = 0
+        
+        if handleFunctions:
+            funcs = tree.getroot()
+            for func in funcs:
+                handle_func_or_method(file, func, '', template, template_cpp)
+                cnt += 1
+        else:
+            objs = tree.getroot()
+            for obj in objs:
+                obj_name = obj.get('name').strip()
+                for method in obj.findall('method'):
+                    handle_func_or_method(file, method, obj_name, template, template_cpp)
+                    cnt += 1
+        file['cnt'] = cnt
 
     # Now copy ALL functions into apiDir_all:
     try:
@@ -472,8 +557,100 @@ def main():
             src_path = os.path.join(apiDir_currentVer, filename)
             dst_path = os.path.join(apiDir_all, filename)
             shutil.copy2(src_path, dst_path)    
+    cnt1 = files[0]['cnt']     
+    cnt2 = files[1]['cnt']     
+    print(f'\nTotal generated: {cnt1} + {cnt2}')
+
+    # Now generate apiFunctions.htm:
+    with (templatesDir / 'funcList.htm').open('r') as file_r:
+        listTemplate = file_r.read()
+
+    methodCatLinks = ''
+    methodSection = ''
+    for item in methodCategories:
+        cat = item['cat']
+        oldRefs = item['oldRefs']
+        page = item['page']
+        if len(allMethodCategories[cat]['api']):
+            methodLinks = ''
+            title = allMethodCategories[cat]['txt']
+            funcs = allMethodCategories[cat]['api']
+            for e in funcs:
+                name = e['name']
+                file = e['file']
+                if len(methodLinks) != 0:
+                    methodLinks += '\n'
+                methodLinks += '<a href="' + file + '">' + name + '</a>'
+            methodCatLinks += '<li><a href="#' + cat + '">' + title + '</a></li>'
+            methodSection += '<h2><a name="' + cat + '"></a>' 
+            for r in oldRefs:
+                methodSection += '<h2><a name="' + r + '"></a>' 
+            if len(page) > 0:
+                title = '<a href="' + page + '">' + title + '</a>'
+            methodSection += title + ' (methods)</h2>\n'
+            methodSection += '<code class="language-python-lua coppelia-coppeliasim-script api-list">'
+            methodSection += methodLinks
+            methodSection += '</code><br>'
+
+    functionCatLinks = ''
+    functionSection = ''
+    cfunctionCatLinks = ''
+    cfunctionSection = ''
+    for item in functionCategories:
+        cat = item['cat']
+        oldRefs = item['oldRefs']
+        page = item['page']
+        if len(allFunctionCategories[cat]['api']):
+            functionLinks = ''
+            cfunctionLinks = ''
+            title = allFunctionCategories[cat]['txt']
+            funcs = allFunctionCategories[cat]['api']
+            for e in funcs:
+                name = e['name']
+                file = e['file']
+                isC = e['c']
+                if isC:
+                    if len(cfunctionLinks) != 0:
+                        cfunctionLinks += '\n'
+                    cfunctionLinks += '<a href="' + file + '">' + name + '</a>'
+                else:
+                    if len(functionLinks) != 0:
+                        functionLinks += '\n'
+                    functionLinks += '<a href="' + file + '">' + name + '</a>'
+            if len(functionLinks) != 0:
+                functionCatLinks += '<li><a href="#_' + cat + '">' + title + '</a></li>'
+                functionSection += '<h2><a name="_' + cat + '"></a>'
+                for r in oldRefs:
+                    functionSection += '<h2><a name="' + r + '"></a>' 
+                if len(page) > 0:
+                    title = '<a href="' + page + '">' + title + '</a>'
+                functionSection += title + ' (Python/Lua functions)</h2>\n'
+                functionSection += '<code class="language-python-lua coppelia-coppeliasim-script api-list">'
+                functionSection += functionLinks
+                functionSection += '</code><br>'
+            if len(cfunctionLinks) != 0:
+                cfunctionCatLinks += '<li><a href="#c_' + cat + '">' + title + '</a></li>'
+                cfunctionSection += '<h2><a name="c_' + cat + '"></a>'
+                for r in oldRefs:
+                    cfunctionSection += '<h2><a name="' + r + '"></a>' 
+                if len(page) > 0:
+                    title = '<a href="' + page + '">' + title + '</a>'
+                cfunctionSection += title + ' (C-functions)</h2>\n'
+                cfunctionSection += '<code class="language-c++ coppelia-coppeliasim-plugin api-list">'
+                cfunctionSection += cfunctionLinks
+                cfunctionSection += '</code><br>'
+
+    listTemplate = listTemplate.replace('__methodLinks__', methodCatLinks)
+    listTemplate = listTemplate.replace('__methodSection__', methodSection)
+    listTemplate = listTemplate.replace('__functionLinks__', functionCatLinks)
+    listTemplate = listTemplate.replace('__functionSection__', functionSection)
+    listTemplate = listTemplate.replace('__cfunctionLinks__', cfunctionCatLinks)
+    listTemplate = listTemplate.replace('__cfunctionSection__', cfunctionSection)
             
-    print(f'\nTotal generated: {cnt}')
+    nm = apiDir_main / 'apiFunctions.htm'
+    with nm.open('w') as file_w:
+        file_w.write(minify_html.minify(listTemplate))
+
 
 if __name__ == "__main__":
     main()
