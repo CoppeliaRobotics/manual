@@ -28,6 +28,8 @@
 <li>logging data to the status bar via the simple <em>print</em> command</li>
 <li>logging data to the status bar and/or terminal via the <a href="sim/simAddLog.htm">sim.addLog</a> API function</li>
 <li><a href="#loggingToFile">logging data to a file</a></li>
+<li><a href="#auxConsoles">printing text in a console</a></li>
+<li><a href="#textEditors">text editing</a></li>
 
 
 
@@ -202,6 +204,94 @@ function sysCall_cleanup()
 end</code>
 
 </div>  
+
+<br>
+<h2>
+<a name="auxConsoles"></a>Printing text in a console
+</h2>
+<p>Following example illustrates how to create an auxiliary console, and print text into it:</p>
+  
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def sysCall_init():
+    sim = require('sim')
+
+    consoleHandle = sim.auxiliaryConsoleOpen('My console')
+    sim.auxiliaryConsolePrint(consoleHandle, 'Hello\nfrom my new\nconsole, ')
+    # sim.auxiliaryConsolePrint(consoleHandle, '') # clear the console
+    sim.auxiliaryConsolePrint(consoleHandle, 'Some more text')
+
+def sysCall_cleanup():
+    sim.auxiliaryConsoleClose(consoleHandle)</code>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+sim = require('sim')
+
+function sysCall_init()
+    consoleHandle = sim.auxiliaryConsoleOpen('My console')
+    sim.auxiliaryConsolePrint(consoleHandle, 'Hello\nfrom my new\nconsole, ')
+    -- sim.auxiliaryConsolePrint(consoleHandle, '') -- clear the console
+    sim.auxiliaryConsolePrint(consoleHandle, 'Some more text')
+end
+
+function sysCall_cleanup()
+    sim.auxiliaryConsoleClose(consoleHandle)
+end</code>
+
+</div>  
+
+<br>
+<h2>
+<a name="textEditors"></a>Text editing
+</h2>
+<p>Following example illustrates how to edit text in an editor:</p>
+  
+<div class="multi-language-switcher">
+
+<code class="hljs language-python coppelia-coppeliasim-script">#python
+
+def onCloseButtonPressed(a, b, c):
+    text = sim.textEditorClose(self.textEditorHandle)
+    print(text)
+
+
+def sysCall_init():
+    sim = require('sim')
+
+    prop = """&lt;editor
+    title="Window title" editable="true" searchable="true"
+    tab-width="4" toolbar="false" statusbar="false" resizable="true" modal="false"
+    on-close="onCloseButtonPressed" closeable="true" position="100 100" size="800 600"
+    placement="absolute" font="Courier" font-size="14" activate="false" editable="true"
+    line-numbers="true" max-lines="0" lang="lua" wrap-word="false"
+    text-col="50 50 50" background-col="190 190 190" selectionColor="128 128 255"/&gt;"""
+    self.textEditorHandle = sim.textEditorOpen("Hello", prop)</code>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+sim = require('sim')
+
+function onCloseButtonPressed()
+    local text = sim.textEditorClose(textEditorHandle)
+    print(text)
+end
+
+function sysCall_init()
+    local prop = [[&lt;editor
+    title="Window title" editable="true" searchable="true"
+    tab-width="4" toolbar="false" statusbar="false" resizable="true" modal="false"
+    on-close="onCloseButtonPressed" closeable="true" position="100 100" size="800 600"
+    placement="absolute" font="Courier" font-size="14" activate="false" editable="true"
+    line-numbers="true" max-lines="0" lang="lua" wrap-word="false"
+    text-col="50 50 50" background-col="190 190 190" selectionColor="128 128 255"/&gt;]]
+    textEditorHandle = sim.textEditorOpen("Hello", prop)
+end</code>
+
+</div>  
+
 
 <br>
 <br>

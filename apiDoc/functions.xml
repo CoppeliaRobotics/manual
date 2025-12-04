@@ -2,8 +2,7 @@
 <functions>
     <function name="loadPlugin" lang="lua">
         <description>
-            Lua only. Loads a CoppeliaSim 
-            <a href="../plugins.htm"> plugin </a>
+            Lua only. Loads a CoppeliaSim <a href="../plugins.htm"> plugin </a>
         </description>
         <params>
             <param name="pluginName" type="string">
@@ -20,6 +19,7 @@
             </param>
         </returns>
         <categories>
+            <category name="script" />
             <category name="messaging" />
         </categories>
         <see-also>
@@ -31,8 +31,7 @@
 
     <function name="unloadPlugin" lang="lua">
         <description>
-            Lua only. Unloads a CoppeliaSim 
-            <a href="../plugins.htm"> plugin </a>
+            Lua only. Unloads a CoppeliaSim <a href="../plugins.htm"> plugin </a>
         </description>
         <params>
             <param name="namespace" type="map">
@@ -47,6 +46,7 @@
             </param>
         </params>
         <categories>
+            <category name="script" />
             <category name="messaging" />
         </categories>
         <see-also>
@@ -62,10 +62,102 @@
             interruption. Locking is cumulative
         </description>
         <categories>
+            <category name="script" />
             <category name="thread" />
+            <category name="blocking" />
         </categories>
         <see-also>
             <function-ref name="sim.releaseLock" />
+            <function-ref name="sim.setStepping" />
+            <link href="../apiFunctions.htm#threads" label="thread related functions " />
+        </see-also>
+    </function>
+
+    
+
+    <function name="sim.releaseLock" lang="python,lua">
+        <description>
+            Counterpart function to sim.acquireLock(). Unlocking is cumulative
+        </description>
+        <categories>
+            <category name="script" />
+            <category name="thread" />
+        </categories>
+        <see-also>
+            <function-ref name="sim.acquireLock" />
+            <link href="../apiFunctions.htm#threads" label="thread related functions " />
+        </see-also>
+    </function>
+
+    
+
+    <function name="sim.setStepping" lang="python,lua">
+        <description>
+            Enables or disables the stepping operation mode for a threaded script. If enabled, then the current script has
+            to trigger each simulation step explicitly, via sim.step(). Is applied
+            cumulatively, i.e. if the stepping operation mode is enabled n times, it needs to be disabled n times to return
+            to the initial state
+            <br />
+            <br />
+            (Lua specific: in stepping operation mode, automatic thread interruptions, i.e. preemptive threading, is supressed)
+        </description>
+        <params>
+            <param name="enable" type="bool">
+                <description>
+                    enable state of thread interruption
+                </description>
+            </param>
+        </params>
+        <returns>
+            <param name="prevStepLevel" type="int">
+                <description>
+                    previous level of thread interruption. When 0, thread interruption was not enabled previously
+                </description>
+            </param>
+        </returns>
+        <categories>
+            <category name="script" />
+            <category name="thread" />
+        </categories>
+        <see-also>
+            <function-ref name="sim.step" />
+            <link href="../apiFunctions.htm#threads" label="thread related functions" />
+        </see-also>
+    </function>
+
+    
+
+    <function name="sim.step" lang="python,lua">
+        <description>
+            Triggers the next simulation step, when in stepping operation mode. When simulation is running, then sim.step
+            only returns once the simulation time has changed
+        </description>
+        <categories>
+            <category name="script" />
+            <category name="thread" />
+            <category name="blocking" />
+        </categories>
+        <see-also>
+            <function-ref name="sim.yield" />
+            <function-ref name="sim.setStepping" />
+            <link href="../apiFunctions.htm#threads" label="thread related functions" />
+        </see-also>
+    </function>
+
+    
+
+    <function name="sim.yield" lang="python,lua">
+        <description>
+            Same as sim.step()
+        </description>
+        <categories>
+            <category name="script" />
+            <category name="thread" />
+            <category name="blocking" />
+        </categories>
+        <see-also>
+            <function-ref name="sim.step" />
+            <link href="../apiFunctions.htm#threads" label="thread related functions" />
         </see-also>
     </function>
 
@@ -15519,19 +15611,6 @@ word4Color = "152 64 0"</comment>
 
     
 
-    <function name="sim.releaseLock" lang="python,lua">
-        <description>
-            Counterpart function to 
-            <a href="simAcquireLock.htm"> sim.acquireLock </a>
-            . Unlocking is cumulative
-        </description>
-        <categories>
-            <category name="thread" />
-        </categories>
-    </function>
-
-    
-
     <function name="simReleaseStack" lang="c">
         <description>
             Releases a stack object
@@ -19646,42 +19725,6 @@ word4Color = "152 64 0"</comment>
 
     
 
-    <function name="sim.setStepping" lang="python,lua">
-        <description>
-            Enables or disables the stepping operation mode for a threaded script. If enabled, then the current script has
-            to trigger each simulation step explicitly, via 
-            <a href="simStep.htm"> sim.step </a>
-            . Is applied
-            cumulatively, i.e. if the stepping operation mode is enabled n times, it needs to be disabled n times to return
-            to the initial state
-            <br />
-            <br />
-            (Lua specific: in stepping operation mode, automatic thread interruptions, i.e. preemptive threading, is supressed)
-        </description>
-        <params>
-            <param name="enable" type="bool">
-                <description>
-                    enable state of thread interruption
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="prevStepLevel" type="int">
-                <description>
-                    previous level of thread interruption. When 0, thread interruption was not enabled previously
-                </description>
-            </param>
-        </returns>
-        <categories>
-            <category name="thread" />
-        </categories>
-        <see-also>
-            <link href="../apiFunctions.htm#threads" label=" thread related functions " />
-        </see-also>
-    </function>
-
-    
-
     <function name="simSetVisionSensorImg" lang="c">
         <description>
             Writes the image of a vision sensor (and applies any image processing via the
@@ -19774,21 +19817,6 @@ word4Color = "152 64 0"</comment>
             <function-ref name="sim.stopSimulation" />
             <function-ref name="sim.getSimulationState" />
             <link href="../simulation.htm" label=" simulation state diagram " />
-        </see-also>
-    </function>
-
-    
-
-    <function name="sim.step" lang="python,lua">
-        <description>
-            Triggers the next simulation step, when in stepping operation mode. When simulation is running, then sim.step
-            only returns once the simulation time has changed
-        </description>
-        <categories>
-            <category name="thread" />
-        </categories>
-        <see-also>
-            <function-ref name="sim.setStepping" />
         </see-also>
     </function>
 

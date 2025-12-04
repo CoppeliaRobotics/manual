@@ -574,7 +574,7 @@ def main():
         if len(allMethodCategories[cat]['api']):
             methodLinks = ''
             title = allMethodCategories[cat]['txt']
-            funcs = allMethodCategories[cat]['api']
+            funcs = sorted(allMethodCategories[cat]['api'], key=lambda x: x['name'])
             for e in funcs:
                 name = e['name']
                 file = e['file']
@@ -604,7 +604,7 @@ def main():
             functionLinks = ''
             cfunctionLinks = ''
             title = allFunctionCategories[cat]['txt']
-            funcs = allFunctionCategories[cat]['api']
+            funcs = sorted(allFunctionCategories[cat]['api'], key=lambda x: x['name'])
             for e in funcs:
                 name = e['name']
                 file = e['file']
