@@ -1,0 +1,826 @@
+<?xml version='1.0' encoding='utf-8'?>
+<enums>
+    <enum name="jointType" txt="joint types">
+        <item name="sim.joint_revolute" />
+        <item name="sim.joint_prismatic" />
+        <item name="sim.joint_spherical" />
+    </enum>
+
+
+
+    <enum name="jointMode" txt="joint modes">
+        <item name="sim.jointmode_kinematic" />
+        <item name="sim.jointmode_dependent" />
+        <item name="sim.jointmode_dynamic" />
+    </enum>
+    
+    
+    
+    <enum name="dynCtrlMode" txt="joint dynamic control modes">
+        <item name="sim.jointdynctrl_free" />
+        <item name="sim.jointdynctrl_force" />
+        <item name="sim.jointdynctrl_velocity" />
+        <item name="sim.jointdynctrl_position" />
+        <item name="sim.jointdynctrl_spring" />
+        <item name="sim.jointdynctrl_callback" />
+    </enum>
+    
+    
+
+    <enum name="drawingObjectType" txt="drawing object types">
+        <item name="sim.drawing_points" />
+        <item name="sim.drawing_lines" />
+        <item name="sim.drawing_linestrip" />
+        <item name="sim.drawing_triangles" />
+        <item name="sim.drawing_spherepts" />
+        <item name="sim.drawing_cubepts" />
+        <item name="sim.drawing_quadpts" />
+        <item name="sim.drawing_discpts" />
+        <item name="sim.drawing_trianglepts" />
+    </enum>
+
+
+
+    <enum name="proximitySensorType" txt="proximity sensor types">
+        <item name="sim.proximitysensor_ray" />
+        <item name="sim.proximitysensor_pyramid" />
+        <item name="sim.proximitysensor_cylinder" />
+        <item name="sim.proximitysensor_disc" />
+        <item name="sim.proximitysensor_cone" />
+    </enum>
+    
+    
+
+
+   
+</enums>
+
+<!--
+
+<div class="sim.light_omnidirectional">sim.light_omnidirectional</div>
+<div class="sim.light_spot">sim.light_spot</div>
+<div class="sim.light_directional">sim.light_directional</div>
+<div class="sim.shape_simple">sim.shape_simple</div>
+<div class="sim.shape_compound">sim.shape_compound</div>
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>regular API constants</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td>
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>regular API constants</h1>
+
+
+<div class="constantsGroup"><h2><a name="generalObjectTypes"></a>General object types</h2>
+<div class="constList">
+<div class="sim.objecttype_sceneobject">sim.objecttype_sceneobject</div>
+<div class="sim.objecttype_collection">sim.objecttype_collection</div>
+<div class="sim.objecttype_mesh">sim.objecttype_mesh</div>
+<div class="sim.objecttype_texture">sim.objecttype_texture</div>
+<br>
+See also the <a href="sim/simIsHandle.htm">sim.isHandle</a> function
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="sceneObjectTypes"></a>Scene object types</h2>
+<div class="constList">
+<div class="sim.sceneobject_shape">sim.sceneobject_shape</div>
+<div class="sim.sceneobject_joint">sim.sceneobject_joint</div>
+<div class="sim.sceneobject_graph">sim.sceneobject_graph</div>
+<div class="sim.sceneobject_camera">sim.sceneobject_camera</div
+><div class="sim.sceneobject_light">sim.sceneobject_light</div>
+<div class="sim.sceneobject_dummy">sim.sceneobject_dummy</div>
+<div class="sim.sceneobject_proximitysensor">sim.sceneobject_proximitysensor</div>
+<div class="sim.sceneobject_octree">sim.sceneobject_octree</div>
+<div class="sim.sceneobject_pointcloud">sim.sceneobject_pointcloud</div>
+<div class="sim.sceneobject_visionsensor">sim.sceneobject_visionsensor</div>
+<div class="sim.sceneobject_forcesensor">sim.sceneobject_forcesensor</div>
+<div class="sim.sceneobject_script">sim.sceneobject_script</div>
+<br>
+See also the <a href="sim/simGetObjectType.htm">sim.getObjectType</a> and <a href="sim/simGetObjectDescendants.htm">sim.getObjectDescendants</a> functions
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="simulatorMessages"></a>Simulator messages</h2>
+<div class="constList">
+<div>Following messages can be queried from a script, by calling the <a href="sim/simGetSimulatorMessage.htm">sim.getSimulatorMessage</a> function:</div>
+<br>
+<div class="sim.message_model_loaded">sim.message_model_loaded</div>
+<div class="sim.message_scene_loaded">sim.message_scene_loaded</div>
+<div class="sim.message_keypress">sim.message_keypress</div>
+<div class=tab>auxData[0]=key, auxData[1]=ctrl and shift key state</div>
+
+<br>
+<br>
+
+<div>Following messages can be queried from the CoppeliaSim client application (and only from the client application!), by calling the <a href="sim/simGetSimulatorMessage.htm">simGetSimulatorMessage</a> function:</div>
+<br>
+<div>sim_message_simulation_start_resume_request</div>
+<div class=tab>The user wishes to start/resume a simulation. See also the <a href="sim/simStartSimulation.htm">simStartSimulation</a> function</div>
+<div>sim_message_simulation_pause_request</div>
+<div class=tab>The user wishes to pause a simulation. See also the <a href="sim/simPauseSimulation.htm">simPauseSimulation</a> function</div>
+<div>sim_message_simulation_stop_request</div>
+<div class=tab>The user wishes to stop a simulation. See also the <a href="sim/simStopSimulation.htm">simStopSimulation</a> function</div>
+<br>
+<br>
+
+
+<div>Following messages are dispatched to the <a href="plugins.htm">plugins</a> (refer to the plugin <a href="plugins.htm">simMsg entry point</a>):</div>
+<br>
+<div>sim_message_eventcallback_instancepass</div>
+<div class=tab>Called once every main client application loop pass. auxData[0] contains event flags of events that happened since last time. If you react to some of below event flags, make sure you do not react to their equivalent event callback message (e.g. sim_message_eventcallback_sceneloaded is similar to below's bit3 set)</div>
+<div class=tab>bit0 set: object(s) erased</div>
+<div class=tab>bit1 set: object(s) created</div>
+<div class=tab>bit2 set: model loaded</div>
+<div class=tab>bit3 set: scene loaded</div>
+<div class=tab>bit4 set: undo called</div>
+<div class=tab>bit5 set: redo called</div>
+<div class=tab>bit6 set: scene switched (react to this message in a similar way as you would react to a full scene content change)</div>
+<div class=tab>bit7 set: edit mode active. This is not an event flag, but a state flag</div>
+<div class=tab>bit8 set: object(s) scaled</div>
+<div class=tab>bit9 set: selection state changed. (different objects are selected now)</div>
+<div class=tab>bit10 set: key pressed</div>
+<div class=tab>bit11 set: simulation started</div>
+<div class=tab>bit12 set: simulation ended</div>
+<div>sim_message_eventcallback_instanceswitch</div>
+<div class=tab>scene was switched (react to this message in a similar way as you would react to a full scene content change)</div>
+<div class=tab>auxData[0]: do not use</div>
+<div class=tab>auxData[1]=current scene unique ID</div>
+<div class=tab>auxData[2]=previous scene unique ID</div>
+<div>sim_message_eventcallback_instanceabouttoswitch</div>
+<div class=tab>we are about to switch to a different scene</div>
+<div class=tab>auxData[0]: do not use</div>
+<div class=tab>auxData[1]=next scene unique ID</div>
+<div class=tab>auxData[2]=current scene unique ID</div>
+
+<div>sim_message_eventcallback_scriptstateabouttobedestroyed</div>
+<div class=tab>The specified script state is about to be destroyed</div>
+<div class=tab>auxData[0]: script handle</div>
+<div class=tab>auxData[1]: script UID</div>
+
+<div>sim_message_eventcallback_scriptabouttobedestroyed</div>
+<div class=tab>The specified script is about to be destroyed</div>
+<div class=tab>auxData[0]: script handle</div>
+<div class=tab>auxData[1]: script UID</div>
+
+<div>sim_message_eventcallback_menuitemselected (called from the UI thread</div>
+<div class=tab>auxData[0]=handle of the item</div>
+<div class=tab>auxData[1]=state of the item</div>
+<div>sim_message_eventcallback_scenesave</div>
+<div class=tab>about to save a scene</div>
+<div>sim_message_eventcallback_modelsave</div>
+<div class=tab>about to save a model (current selection will be saved)</div>
+<div>sim_message_eventcallback_abouttoundo</div>
+<div class=tab>the undo button was hit and a previous state is about to be restored</div>
+<div>sim_message_eventcallback_undoperformed</div>
+<div class=tab>the undo button was hit and a previous state was restored</div>
+<div>sim_message_eventcallback_abouttoredo</div>
+<div class=tab>the redo button was hit and a future state is about to be restored</div>
+<div>sim_message_eventcallback_redoperformed</div>
+<div class=tab>the redo button was hit and a future state was restored</div>
+<div>sim_message_eventcallback_simulationabouttostart</div>
+<div class=tab>simulation will start</div>
+<div>sim_message_eventcallback_simulationabouttoend</div>
+<div class=tab>simulation will end</div>
+<div>sim_message_eventcallback_simulationended</div>
+<div class=tab>simulation has ended</div>
+<div>sim_message_eventcallback_simulationinit</div>
+<div class=tab>Called just before/after the main script's corresponding init section.</div>
+<div class=tab>auxData[0]: 0 if called before, 1 if called after</div>
+<div>sim_message_eventcallback_simulationactuation</div>
+<div class=tab>Called just before/after the main script's corresponding actuation section.</div>
+<div class=tab>auxData[0]: 0 if called before, 1 if called after</div>
+<div class=tab>auxData[1]: simulation time in ms</div>
+<div>sim_message_eventcallback_simulationsensing</div>
+<div class=tab>Called just before/after the main script's corresponding sensing section.</div>
+<div class=tab>auxData[0]: 0 if called before, 1 if called after</div>
+<div class=tab>auxData[1]: simulation time in ms</div>
+<div>sim_message_eventcallback_simulationcleanup</div>
+<div class=tab>Called just before/after the main script's corresponding cleanup section.</div>
+<div class=tab>auxData[0]: 0 if called before, 1 if called after</div>
+<div>sim_message_eventcallback_keypress (called from the UI thread)</div>
+<div class=tab>auxData[0]=key, auxData[1]=ctrl and shift key state</div>
+<div>sim_message_eventcallback_refreshdialogs (called from the UI thread)</div>
+<div class=tab>called just before dialogs are refreshed in CoppeliaSim.</div>
+<div class=tab>auxData[0]=refresh degree (0=light, 1=medium, 2=full)</div>
+<div>sim_message_eventcallback_sceneloaded</div>
+<div class=tab>called after a scene was loaded</div>
+<div>sim_message_eventcallback_modelloaded</div>
+<div class=tab>called after a model was loaded</div>
+<div>sim_message_eventcallback_mainscriptabouttobecalled</div>
+<div class=tab>Called just before the main script is called. A plugin can write a value different from -1 into auxData[0] to temporarily halt simulation progress (e.g. stepping mode)</div>
+<div>sim_message_eventcallback_moduleentry</div>
+<div class=tab>Called when a custom menu item is selected. auxData[0]=item handle.</div>
+<div>sim_message_eventcallback_events</div>
+<div class=tab>Called to dispatch events. auxPointer is a const unsigned char*, holding the CBOR-coded events, auxData[0] indicates the number of events</div>
+
+</div></div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="customLuaCommandArgumentTypes"></a>Script - plugin data types</h2>
+<div class="constList">
+<div>sim_script_arg_null</div>
+<div class=tab>can be combined with sim_script_arg_table</div>
+<div>sim_script_arg_bool</div>
+<div class=tab>can be combined with sim_script_arg_table</div>
+<div>sim_script_arg_int32</div>
+<div class=tab>can be combined with sim_script_arg_table</div>
+<div>sim_script_arg_float</div>
+<div class=tab>can be combined with sim_script_arg_table</div>
+<div>sim_script_arg_double</div>
+<div class=tab>can be combined with sim_script_arg_table</div>
+<div>sim_script_arg_string</div>
+<div class=tab>can be combined with sim_script_arg_table</div>
+<div>sim_script_arg_charbuff</div>
+<div class=tab>CANNOT be combined with sim_script_arg_table</div>
+<div>sim_script_arg_invalid</div>
+<div>sim_script_arg_table</div>
+<br>
+See also the <a href="sim/simRegisterScriptCallbackFunction_cpp.htm">simRegisterScriptCallbackFunction</a> function.
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="renderingAttributes"></a>Rendering attributes</h2>
+<div class="constList">
+<div class="sim.displayattribute_renderpass">sim.displayattribute_renderpass</div
+><div class="sim.displayattribute_depthpass">sim.displayattribute_depthpass</div
+><div class="sim.displayattribute_pickpass">sim.displayattribute_pickpass</div
+><div class="sim.displayattribute_selected">sim.displayattribute_selected</div
+><div class="sim.displayattribute_groupselection">sim.displayattribute_groupselection</div
+><div class="sim.displayattribute_mainselection">sim.displayattribute_mainselection</div
+><div class="sim.displayattribute_forcewireframe">sim.displayattribute_forcewireframe</div
+><div class="sim.displayattribute_forbidwireframe">sim.displayattribute_forbidwireframe</div
+><div class="sim.displayattribute_forbidedges">sim.displayattribute_forbidedges</div
+><div class="sim.displayattribute_originalcolors">sim.displayattribute_originalcolors</div
+><div class="sim.displayattribute_ignorelayer">sim.displayattribute_ignorelayer</div
+><div class="sim.displayattribute_forvisionsensor">sim.displayattribute_forvisionsensor</div
+><div class="sim.displayattribute_trianglewireframe">sim.displayattribute_trianglewireframe</div
+><div class="sim.displayattribute_simplifyasboundingbox">sim.displayattribute_simplifyasboundingbox</div>
+<div class="sim.displayattribute_thickedges">sim.displayattribute_thickedges</div
+><div class="sim.displayattribute_dynamiccontentonly">sim.displayattribute_dynamiccontentonly</div
+>
+<div class="sim.displayattribute_useauxcomponent">sim.displayattribute_useauxcomponent</div
+><div class="sim.displayattribute_ignorerenderableflag">sim.displayattribute_ignorerenderableflag</div
+><div class="sim.displayattribute_noopenglcallbacks">sim.displayattribute_noopenglcallbacks</div
+><div class="sim.displayattribute_nopointclouds">sim.displayattribute_nopointclouds</div
+><div class="sim.displayattribute_nodrawingobjects">sim.displayattribute_nodrawingobjects</div
+><div class="sim.displayattribute_noparticles">sim.displayattribute_noparticles</div
+><div class="sim.displayattribute_colorcodedtriangles">sim.displayattribute_colorcodedtriangles</div
+>
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="simulationStatus"></a>Simulation status</h2>
+<div class="constList">
+<div class="sim.simulation_stopped">sim.simulation_stopped</div>
+<div class="sim.simulation_paused">sim.simulation_paused</div>
+<div class="sim.simulation_advancing_running">sim.simulation_advancing_running</div>
+<div class="sim.simulation_advancing_lastbeforestop">sim.simulation_advancing_lastbeforestop</div>
+<br>
+See also the <a href="sim/simGetSimulationState.htm">sim.getSimulationState</a> function
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="scriptTypes"></a>Script types</h2>
+<div class="constList">
+<div class="sim.scripttype_main">sim.scripttype_main</div
+><div class="sim.scripttype_simulation">sim.scripttype_simulation</div
+><div class="sim.scripttype_addon">sim.scripttype_addon</div
+><div class="sim.scripttype_customization">sim.scripttype_customization</div
+><div class="sim.scripttype_sandbox">sim.scripttype_sandbox</div
+><div class="sim.scripttype_passive">sim.scripttype_passive</div
+><br>
+See also <a href="properties.htm">properties</a>
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="propertyTypes"></a>Property types</h2>
+<div class="constList">
+<div class="sim.propertytype_null">sim.propertytype_null</div>
+<div class="sim.propertytype_bool">sim.propertytype_bool</div>
+<div class="sim.propertytype_int">sim.propertytype_int</div>
+<div class="sim.propertytype_long">sim.propertytype_long</div>
+<div class="sim.propertytype_float">sim.propertytype_float</div>
+<div class="sim.propertytype_string">sim.propertytype_string</div>
+<div class="sim.propertytype_buffer">sim.propertytype_buffer</div>
+<div class="sim.propertytype_vector2">sim.propertytype_vector2</div>
+<div class="sim.propertytype_vector3">sim.propertytype_vector3</div>
+<div class="sim.propertytype_quaternion">sim.propertytype_quaternion</div>
+<div class="sim.propertytype_pose">sim.propertytype_pose</div>
+<div class="sim.propertytype_matrix">sim.propertytype_matrix</div>
+<div class="sim.propertytype_matrix3x3">sim.propertytype_matrix3x3</div>
+<div class="sim.propertytype_matrix4x4">sim.propertytype_matrix4x4</div>
+<div class="sim.propertytype_color">sim.propertytype_color</div>
+<div class="sim.propertytype_intarray2">sim.propertytype_intarray2</div>
+<div class="sim.propertytype_intarray">sim.propertytype_intarray</div>
+<div class="sim.propertytype_floatarray">sim.propertytype_floatarray</div>
+<div class="sim.propertytype_table">sim.propertytype_table</div>
+<div class="sim.propertytype_array">sim.propertytype_array</div>
+<div class="sim.propertytype_map">sim.propertytype_map</div>
+<br>
+See also <a href="properties.htm">properties</a>
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="propertyFlags"></a>Property flags</h2>
+<div class="constList">
+<div class="sim.propertyinfo_notwritable">sim.propertyinfo_notwritable</div>
+<div class="sim.propertyinfo_notreadable">sim.propertyinfo_notreadable</div>
+<div class="sim.propertyinfo_removable">sim.propertyinfo_removable</div>
+<div class="sim.propertyinfo_modelhashexclude">sim.propertyinfo_modelhashexclude</div>
+<div class="sim.propertyinfo_deprecated">sim.propertyinfo_deprecated</div>
+<div class="sim.propertyinfo_largedata">sim.propertyinfo_largedata</div>
+<br>
+See also <a href="properties.htm">properties</a>
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="scriptExecutionOrder"></a>Script execution priority</h2>
+<div class="constList">
+<div class="sim.scriptexecorder_first">sim.scriptexecorder_first</div
+><div class="sim.scriptexecorder_normal">sim.scriptexecorder_normal</div
+><div class="sim.scriptexecorder_last">sim.scriptexecorder_last</div
+><br>
+See also <a href="properties.htm">properties</a>
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="specialArgumentValues"></a>Special argument values</h2>
+<div class="constList">
+<div class="sim.handle_absolute">sim.handle_absolute</div>
+<div class="sim.handle_all">sim.handle_all</div>
+<div class="sim.handle_all_except_explicit">sim.handle_all_except_explicit</div>
+<div class="sim.handle_self">sim.handle_self</div>
+<div class="sim.handle_main_script">sim.handle_main_script</div>
+<div class="sim.handle_tree">sim.handle_tree</div>
+<div class="sim.handle_chain">sim.handle_chain</div>
+<div class="sim.handle_single">sim.handle_single</div>
+<div class="sim.handle_default">sim.handle_default</div>
+<div class="sim.handle_all_except_self">sim.handle_all_except_self</div>
+<div class="sim.handle_parent">sim.handle_parent</div>
+<div class="sim.handle_scene">sim.handle_scene</div>
+<div class="sim.handle_app">sim.handle_app</div>
+<div class="sim.handle_appstorage">sim.handle_appstorage</div>
+<div class="sim.handle_inverse">sim.handle_inverse</div>
+</div>
+</div>
+<br>
+
+
+
+<div class="constantsGroup"><h2><a name="specialHandleFlags"></a>Special handle flags</h2>
+<div class="constList">
+<div class="sim.handleflag_assembly">sim.handleflag_assembly</div
+><div class="sim.handleflag_model">sim.handleflag_model</div
+><div class="sim.handleflag_rawvalue">sim.handleflag_rawvalue</div
+><div class="sim.handleflag_togglevisibility">sim.handleflag_togglevisibility</div
+><div class="sim.handleflag_greyscale">sim.handleflag_greyscale</div
+><div class="sim.handleflag_depthbuffermeters">sim.handleflag_depthbuffermeters</div
+><div class="sim.handleflag_depthbuffer">sim.handleflag_depthbuffer</div
+><div class="sim.handleflag_abscoords">sim.handleflag_abscoords</div
+><div class="sim.handleflag_codedstring">sim.handleflag_codedstring</div
+><div class="sim.handleflag_keeporiginal">sim.handleflag_keeporiginal</div
+><div class="sim.handleflag_camera">sim.handleflag_camera</div
+><div class="sim.handleflag_axis">sim.handleflag_axis</div
+><div class="sim.handleflag_silenterror">sim.handleflag_silenterror</div>
+<div class="sim.handleflag_resetforce">sim.handleflag_resetforce</div>
+<div class="sim.handleflag_resettorque">sim.handleflag_resettorque</div>
+<div class="sim.handleflag_absolutecoords">sim.handleflag_absolutecoords</div>
+<div class="sim.handleflag_relativecoords">sim.handleflag_relativecoords</div>
+<div class="sim.handleflag_wxyzquat">sim.handleflag_wxyzquat</div>
+<div class="sim.handleflag_reljointbaseframe">sim.handleflag_reljointbaseframe</div>
+<div class="sim.handleflag_addmultiple">sim.handleflag_addmultiple</div>
+</div>
+</div>
+<br>
+
+
+
+
+<div class="constantsGroup"><h2><a name="genericDialogStyles"></a>Generic dialog styles</h2>
+<div class="constList">
+<div class="sim.dlgstyle_message">sim.dlgstyle_message</div
+><div class="sim.dlgstyle_input">sim.dlgstyle_input</div
+><div class="sim.dlgstyle_ok">sim.dlgstyle_ok</div
+><div class="sim.dlgstyle_ok_cancel">sim.dlgstyle_ok_cancel</div
+><div class="sim.dlgstyle_yes_no">sim.dlgstyle_yes_no
+</div>
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="genericDialogReturnValues"></a>Generic dialog return values</h2>
+<div class="constList">
+<div class="sim.dlgret_still_open">sim.dlgret_still_open</div
+><div class="sim.dlgret_ok">sim.dlgret_ok</div
+><div class="sim.dlgret_cancel">sim.dlgret_cancel</div
+><div class="sim.dlgret_yes">sim.dlgret_yes</div
+><div class="sim.dlgret_no">sim.dlgret_no</div
+>
+</div>
+</div>
+<br>
+
+
+
+
+
+
+<div class="constantsGroup"><h2><a name="particleObjects"></a>Particle objects</h2>
+<div class="constList">
+<div>Particle object type (combine with particle object attributes). Each item (particle) requires 6 values: pt1x, pt1y, pt1z, pt2x, pt2y, pt2z (Pt1 is start position, pt2-pt1 is the initial velocity vector)</div>
+<br>
+<div class="sim.particle_points1">sim.particle_points1</div>
+<div class=tab>items are displayed as 1 pixel-sized points (internally handled as a perfect sphere)</div>
+<div class="sim.particle_points2">sim.particle_points2</div>
+<div class=tab>items are displayed as 2 pixel-sized points (internally handled as a perfect sphere)</div>
+<div class="sim.particle_points4">sim.particle_points4</div>
+<div class=tab>items are displayed as 4 pixel-sized points (internally handled as a perfect sphere)</div>
+<div class="sim.particle_roughspheres">sim.particle_roughspheres</div>
+<div class=tab>items are displayed as rough spheres (internally handled as a perfect sphere)</div>
+<div class="sim.particle_spheres">sim.particle_spheres</div>
+<div class=tab>items are displayed as spheres</div>
+<br>
+<div>Particle object attributes:</div>
+<br>
+<div class="sim.particle_respondable1to4">sim.particle_respondable1to4</div>
+<div class=tab>the particles are respondable against shapes that have at least one bit 1-4 activated in the global respondable mask</div>
+<div class="sim.particle_respondable5to8">sim.particle_respondable5to8</div>
+<div class=tab>the particles are respondable against shapes that have at least one bit 5-8 activated in the global respondable mask</div>
+<div class="sim.particle_particlerespondable">sim.particle_particlerespondable</div>
+<div class=tab>the particles are respondable against each other</div>
+<div class="sim.particle_ignoresgravity">sim.particle_ignoresgravity</div>
+<div class=tab>the particles ignore the effect of gravity</div>
+<div class="sim.particle_invisible">sim.particle_invisible</div>
+<div class=tab>the particles are invisible</div>
+<div class="sim.particle_painttag">sim.particle_painttag</div>
+<div class=tab>the particles are visible when seen from vision sensors. sim.particle_invisible must not be set</div>
+<div class="sim.particle_cyclic">sim.particle_cyclic</div>
+<div class=tab>if the max particle count was reached, then the first particles are overwritten</div>
+<div class="sim.particle_water">sim.particle_water</div>
+<div class=tab>particles are water particles (no weight in the water (i.e. when z&lt;0)). In addition to that, particles can have drag coefficients for the water and the air. Not compatible with sim.particle_ignoresgravity</div>
+<br>
+See also the <a href="sim/simAddParticleObject.htm">sim.addParticleObject</a> function.
+</div>
+</div>
+<br>
+
+
+
+
+<div class="constantsGroup"><h2><a name="verbosity"></a>Verbosity</h2>
+<div class="constList">
+<div class="sim.verbosity_useglobal">sim.verbosity_useglobal</div>
+<div class=tab>Use global verbosity (can be used to reset a plugin's verbosity to the global verbosity again)</div>
+<div class="sim.verbosity_none">sim.verbosity_none</div>
+<div class=tab>No verbosity</div>
+<div class="sim.verbosity_errors">sim.verbosity_errors</div>
+<div class=tab>System and plugin error messages</div>
+<div class="sim.verbosity_warnings">sim.verbosity_warnings</div>
+<div class=tab>System and plugin warning messages</div>
+<div class="sim.verbosity_loadinfos">sim.verbosity_loadinfos</div>
+<div class=tab>Messages related to CoppeliaSim start-up and shut-down. Default console verbosity.</div>
+<div class="sim.verbosity_loadinfos">sim.verbosity_questions</div>
+<div class=tab>Messages related to question dialogs.</div>
+<div class="sim.verbosity_scripterrors">sim.verbosity_scripterrors</div>
+<div class=tab>Script error messages</div>
+<div class="sim.verbosity_scriptwarnings">sim.verbosity_scriptwarnings</div>
+<div class=tab>Script warning messages</div>
+<div class="sim.verbosity_scriptinfos">sim.verbosity_scriptinfos</div>
+<div class=tab>Information messages mainly related to scripts. Default status bar verbosity.</div>
+<div class="sim.verbosity_infos">sim.verbosity_infos</div>
+<div class=tab>General information messages</div>
+<div class="sim.verbosity_debug">sim.verbosity_debug</div>
+<div class=tab>Debug messages</div>
+<div class="sim.verbosity_trace">sim.verbosity_trace</div>
+<div class=tab>Plugin trace messages</div>
+<div class="sim.verbosity_tracelua">sim.verbosity_tracelua</div>
+<div class=tab>Script calls to API functions</div>
+<div class="sim.verbosity_traceall">sim.verbosity_traceall</div>
+<div class=tab>Full verbosity</div>
+<div class="sim.verbosity_default">sim.verbosity_default</div>
+<div class=tab>Default verbosity (normally sim.verbosity_loadinfos)</div>
+<br>
+See also <a href="properties.htm">properties</a>
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="moduleInfos"><a name="pluginInfos"></a>Plugin infos</h2>
+<div class="constList">
+<div class="sim.plugininfo_extversionstr">sim.plugininfo_extversionstr</div>
+<div class=tab>Extended version string</a></div>
+<div class="sim.plugininfo_builddatestr">sim.plugininfo_builddatestr</div>
+<div class=tab>Build date string</a></div>
+<div class="sim.plugininfo_extversionint">sim.plugininfo_extversionint</div>
+<div class=tab>Extended version integer</a></div>
+<div class="sim.plugininfo_verbosity">sim.plugininfo_verbosity</div>
+<div class=tab>Console verbosity. see the various <a href="#verbosity">verbosity levels</a></div>
+<div class="sim.plugininfo_statusbarverbosity">sim.plugininfo_statusbarverbosity</div>
+<div class=tab>Status bar verbosity. see the various <a href="#verbosity">verbosity levels</a></div>
+<br>
+See also <a href="sim/simGetPluginInfo.htm">sim.getPluginInfo</a> and <a href="sim/simSetPluginInfo.htm">sim.setPluginInfo</a>.
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="navigationModes"></a>Mouse navigation and selection modes</h2>
+<div class="constList">
+<div class="sim.navigation_passive">sim.navigation_passive</div>
+<div class="sim.navigation_camerashift">sim.navigation_camerashift</div>
+<div class="sim.navigation_camerarotate">sim.navigation_camerarotate</div>
+<div class="sim.navigation_camerazoom">sim.navigation_camerazoom</div>
+<div class="sim.navigation_cameratilt">sim.navigation_cameratilt</div>
+<div class="sim.navigation_cameraangle">sim.navigation_cameraangle</div>
+<div class="sim.navigation_objectshift">sim.navigation_objectshift</div>
+<div class="sim.navigation_objectrotate">sim.navigation_objectrotate</div>
+<br>
+<div>Bit-combine following values and add them to one of above's values for a valid navigation mode: </div>
+<br>
+<div class="sim.navigation_clickselection">sim.navigation_clickselection</div>
+<div class="sim.navigation_ctrlselection">sim.navigation_ctrlselection</div>
+<div class="sim.navigation_shiftselection">sim.navigation_shiftselection</div>
+<div class="sim.navigation_camerazoomwheel">sim.navigation_camerazoomwheel</div>
+<div class="sim.navigation_camerarotatemiddlebutton">sim.navigation_camerarotatemiddlebutton</div>
+<br>
+See also the <a href="sim/simGetNavigationMode.htm">sim.getNavigationMode</a> and <a href="sim/simSetNavigationMode.htm">sim.setNavigationMode</a> functions.
+</div>
+</div>
+<br>
+
+
+<div class="constantsGroup"><h2><a name="startupOptions"></a>Bit-coded start-up options</h2>
+<div class="constList">
+<div>sim_gui_menubar (1)</div>
+<div>sim_gui_popups (2)</div>
+<div>sim_gui_toolbar1 (4)</div>
+<div>sim_gui_toolbar2 (8)</div>
+<div>sim_gui_hierarchy (16)</div>
+<div>sim_gui_infobar (32)</div>
+<div>sim_gui_statusbar (64)</div>
+<div>sim_gui_scripteditor (128)</div>
+<div>sim_gui_scriptsimulationparameters (256)</div>
+<div>sim_gui_dialogs (512)</div>
+<div>sim_gui_browser (1024)</div>
+<div>sim_gui_all (0x0ffff)</div>
+<div>sim_gui_headless (will override all other GUI flags) (65536)</div>
+<br>
+</div>
+</div>
+<br>
+
+
+
+<div class="constantsGroup"><h2><a name="RMLFunctions"></a><a name="ruckigFunctions"></a>Ruckig Online Trajectory Generator constants</h2>
+<div class="constList">
+<div>select exactly one of following:</div>
+<div class=tab>sim.ruckig_phasesync (default)</div>
+<div class=tab>sim.ruckig_timesync</div>
+<div class=tab>sim.ruckig_nosync</div>
+
+</div>
+</div>
+
+<div class="constantsGroup"><h2><a name="pureTypes"><a name="purePrimitiveTypes"></a><a name="primitiveTypes"></a>Primitive shape types</h2>
+<div class="constList">
+<div class="sim.primitiveshape_none">sim.primitiveshape_none</div>
+<div class="sim.primitiveshape_plane">sim.primitiveshape_plane</div>
+<div class="sim.primitiveshape_disc">sim.primitiveshape_disc</div>
+<div class="sim.primitiveshape_cuboid">sim.primitiveshape_cuboid</div>
+<div class="sim.primitiveshape_spheroid">sim.primitiveshape_spheroid</div>
+<div class="sim.primitiveshape_cylinder">sim.primitiveshape_cylinder</div>
+<div class="sim.primitiveshape_cone">sim.primitiveshape_cone</div>
+<div class="sim.primitiveshape_capsule">sim.primitiveshape_capsule</div>
+<div class="sim.primitiveshape_heightfield">sim.primitiveshape_heightfield</div>
+<br>
+See also the <a href="sim/simGetShapeGeomInfo.htm">sim.getShapeGeomInfo</a> and <a href="sim/simCreatePrimitiveShape.htm">sim.createPrimitiveShape</a> functions </div>
+</div>
+
+
+<div class="constantsGroup"><h2><a name="dummyTypes"></a><a name="dummyLinkTypes"></a>Dummy types</h2>
+<div class="constList">
+<div class="sim.dummytype_default">sim.dummytype_default</div>
+<div class="sim.dummytype_assembly">sim.dummytype_assembly</div>
+<div class="sim.dummytype_dynloopclosure">sim.dummytype_dynloopclosure</div>
+<div class="sim.dummytype_dyntendon">sim.dummytype_dyntendon</div>
+</div>
+</div>
+
+
+<div class="constantsGroup"><h2><a name="physicsEngineTypes"></a>Physics engine types</h2>
+<div class="constList">
+<div><a href="dynamicsModule.htm#bullet">sim.physics_bullet</a></div>
+<div><a href="dynamicsModule.htm#ode">sim.physics_ode</a></div>
+<div><a href="dynamicsModule.htm#newton">sim.physics_newton</a></div>
+<div><a href="dynamicsModule.htm#vortex">sim.physics_vortex</a></div>
+<div><a href="dynamicsModule.htm#mujoco">sim.physics_mujoco</a></div>
+</div>
+</div>
+
+
+
+<div class="constantsGroup"><h2><a name="textureMappingModes"></a>Texture mapping modes</h2>
+<div class="constList">
+<div class="sim.texturemap_plane">sim.texturemap_plane</div>
+<div class="sim.texturemap_cylinder">sim.texturemap_cylinder</div>
+<div class="sim.texturemap_sphere">sim.texturemap_sphere</div>
+<div class="sim.texturemap_cube">sim.texturemap_cube</div>
+<br>
+See also the <a href="sim/simSetShapeTexture.htm">sim.setShapeTexture</a> function.
+</div>
+</div>
+
+
+
+
+
+<div class="constantsGroup"><h2><a name="colorComponents"></a>Color components</h2>
+<div class="constList">
+<div class="sim.colorcomponent_ambient_diffuse">sim.colorcomponent_ambient_diffuse (only for objects)</div>
+<div class="sim.colorcomponent_diffuse">sim.colorcomponent_diffuse (only for lights)</div>
+<div class="sim.colorcomponent_specular">sim.colorcomponent_specular</div>
+<div class="sim.colorcomponent_emission">sim.colorcomponent_emission (only for objects)</div>
+<div class="sim.colorcomponent_transparency">sim.colorcomponent_transparency (only for objects)</div>
+<div class="sim.colorcomponent_auxiliary">sim.colorcomponent_auxiliary (only for objects)</div>
+<br>
+See also the <a href="sim/simSetShapeColor.htm">sim.setShapeColor</a> function.
+</div>
+</div>
+
+
+<div class="constantsGroup"><h2><a name="volumeTypes"></a>Proximity sensor volume types</h2>
+<div class="constList">
+<div class="sim.volume_pyramid">sim.volume_pyramid</div>
+<div class="sim.volume_cylinder">sim.volume_cylinder</div>
+<div class="sim.volume_disc">sim.volume_disc</div>
+<div class="sim.volume_cone">sim.volume_cone</div>
+<div class="sim.volume_ray">sim.volume_ray</div>
+<div class="sim.volume_randomizedray">sim.volume_randomizedray</div>
+</div>
+</div>
+
+
+
+<div class="constantsGroup"><h2><a name="bufferTypes"></a>Buffer types with allowed transformations</h2>
+<div class="constList">
+<div class="sim.buffer_uint8">sim.buffer_uint8</div>
+<div class=tab>with sim.buffer_uint8,sim.buffer_uint8rgb,sim.buffer_base64 (multiplier and offset are ignored),sim.buffer_split (multiplier is ignored, offset is the split size)</div>
+<div class="sim.buffer_uint8rgb">sim.buffer_uint8rgb</div>
+<div class=tab>with sim.buffer_uint8rgb,sim.buffer_uint8bgr,sim.buffer_uint8</div>
+<div class="sim.buffer_uint8bgr">sim.buffer_uint8bgr</div>
+<div class=tab>with sim.buffer_uint8bgr,sim.buffer_uint8rgb,sim.buffer_uint8</div>
+<div class="sim.buffer_uint8rgba">sim.buffer_uint8rgba</div>
+<div class=tab>with sim.buffer_uint8rgba,sim.buffer_uint8rgb</div>
+<div class="sim.buffer_uint8argb">sim.buffer_uint8argb</div>
+<div class=tab>with sim.buffer_uint8argb,sim.buffer_uint8rgb</div>
+<div class="sim.buffer_float">sim.buffer_float</div>
+<div class=tab>with sim.buffer_uint8, sim.buffer_int8, sim.buffer_uint16, sim.buffer_int16, sim.buffer_uint32,</div>
+<div class=tab>sim.buffer_int32,sim.buffer_float,sim.buffer_double,sim.buffer_uint8rgb</div>
+<div class="sim.buffer_double">sim.buffer_double</div>
+<div class=tab>with sim.buffer_uint8, sim.buffer_int8, sim.buffer_uint16, sim.buffer_int16, sim.buffer_uint32,</div>
+<div class=tab>sim.buffer_int32,sim.buffer_float,sim.buffer_double,sim.buffer_uint8rgb</div>
+<div class="sim.buffer_base64">sim.buffer_base64 (multiplier and offset are ignored)</div>
+<div class=tab>with sim.buffer_uint8</div>
+<br>
+See also the <a href="sim/simTransformBuffer.htm">sim.transformBuffer</a> function.
+</div>
+</div>
+
+<div class="constantsGroup"><h2><a name="imageCombination"></a>Image combination operations</h2>
+<div class="constList">
+<div class="sim.imgcomb_vertical: vertical concatenation">sim.imgcomb_vertical: vertical concatenation</div>
+<div class="sim.imgcomb_horizontal: horizontal concatenation">sim.imgcomb_horizontal: horizontal concatenation</div>
+<br>
+See also the <a href="sim/simCombineRgbImages.htm">sim.combineRgbImages</a> function.
+</div>
+</div>
+
+<div class="constantsGroup"><h2><a name="streamTransformations"></a>Graph stream transformations</h2>
+<div class="constList">
+<div class="sim.stream_transf_raw">sim.stream_transf_raw</div>
+<div class="sim.stream_transf_derivative">sim.stream_transf_derivative</div>
+<div class="sim.stream_transf_integral">sim.stream_transf_integral</div>
+<div class="sim.stream_transf_cumulative">sim.stream_transf_cumulative</div>
+<br>
+See also the <a href="sim/simSetGraphStreamTransformation.htm">sim.setGraphStreamTransformation</a> function.
+</div>
+</div>
+
+<div class="constantsGroup"><h2><a name="stringTypes"></a>String types</h2>
+<div class="constList">
+<div class="sim_string_text">sim_string_text</div>
+<div class="sim_string_binary">sim_string_binary</div>
+<div class="sim_string_buffer">sim_string_buffer</div>
+</div>
+</div>
+
+<div class="constantsGroup"><h2><a name="stackItemTypes"></a>Stack item types</h2>
+<div class="constList">
+<div class="sim_stackitem_null">sim_stackitem_null</div>
+<div class="sim_stackitem_bool">sim_stackitem_bool</div>
+<div class="sim_stackitem_integer">sim_stackitem_integer</div>
+<div class="sim_stackitem_double">sim_stackitem_double</div>
+<div class="sim_stackitem_string">sim_stackitem_string</div>
+<div class="sim_stackitem_matrix">sim_stackitem_matrix</div>
+<div class="sim_stackitem_table">sim_stackitem_table</div>
+<div class="sim_stackitem_func">sim_stackitem_func</div>
+<div class="sim_stackitem_userdat">sim_stackitem_userdat</div>
+<div class="sim_stackitem_thread">sim_stackitem_thread</div>
+<div class="sim_stackitem_lightuserdat">sim_stackitem_lightuserdat</div>
+</div>
+</div>
+
+
+<div class="constantsGroup"><h2><a name="stackTableInfo"></a>Stack table info</h2>
+<div class="constList">
+<div class="sim_stack_table_circular_ref">sim_stack_table_circular_ref</div>
+<div class="sim_stack_table_not_table">sim_stack_table_not_table</div>
+<div class="sim_stack_table_map">sim_stack_table_map</div>
+<div class="sim_stack_table_empty">sim_stack_table_empty</div>
+</div>
+</div>
+
+
+<div class="constantsGroup"><h2><a name="bulletSolverTypes"></a>Bullet solver types</h2>
+<div class="constList">
+<div class="sim.bullet_constraintsolvertype_sequentialimpulse">sim.bullet_constraintsolvertype_sequentialimpulse</div>
+<div class="sim.bullet_constraintsolvertype_nncg">sim.bullet_constraintsolvertype_nncg</div>
+<div class="sim.bullet_constraintsolvertype_dantzig">sim.bullet_constraintsolvertype_dantzig</div>
+<div class="sim.bullet_constraintsolvertype_projectedgaussseidel">sim.bullet_constraintsolvertype_projectedgaussseidel</div>
+<br>
+See also <a href="properties.htm#engine">engine properties</a>
+</div>
+</div>
+
+<div class="constantsGroup"><h2><a name="vortexFrictionModels"></a>Vortex friction models</h2>
+<div class="constList">
+<div class="sim.vortex_bodyfrictionmodel_box">sim.vortex_bodyfrictionmodel_box</div>
+<div class="sim.vortex_bodyfrictionmodel_scaledbox">sim.vortex_bodyfrictionmodel_scaledbox</div>
+<div class="sim.vortex_bodyfrictionmodel_proplow">sim.vortex_bodyfrictionmodel_proplow</div>
+<div class="sim.vortex_bodyfrictionmodel_prophigh">sim.vortex_bodyfrictionmodel_prophigh</div>
+<div class="sim.vortex_bodyfrictionmodel_scaledboxfast">sim.vortex_bodyfrictionmodel_scaledboxfast</div>
+<div class="sim.vortex_bodyfrictionmodel_neutral">sim.vortex_bodyfrictionmodel_neutral</div>
+<div class="sim.vortex_bodyfrictionmodel_none">sim.vortex_bodyfrictionmodel_none</div>
+<br>
+See also <a href="properties.htm#engine">engine properties</a>
+</div>
+</div>
+
+<div class="constantsGroup"><h2><a name="sceneObjectProperties" id="sceneObjectProperties"></a><a name="engineParameters"></a><a name="arrayParameters"></a><a name="stringParameters"></a><a name="sceneObjectSpecialProperties"></a><a name="floatingParameters"></a><a name="uinteger64Parameters"></a><a name="modelProperties"></a><a name="booleanParameters"></a><a name="integerParameters"></a>Various</h2>
+<p>See: <a href="properties.htm">properties</a></p>
+</div>
+<br>
+
+
+
+<br>
+<br>
+</td>
+ </tr>
+</table> 
+</div>  
+  
+  
+</body>
+
+</html>
+
+-->

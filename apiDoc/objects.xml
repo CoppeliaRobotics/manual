@@ -2137,6 +2137,188 @@
                 <function-ref name="scene:handleEmbeddedScripts" />
             </see-also>
         </method>
+
+
+
+        <method name="scaleObjects" func="sim._scaleObjects" lang="python,lua">
+            <description>
+                Scales specified scene objects in an isometric fashion. All related values are automatically scaled appropriately
+                (e.g. masses, etc.)
+            </description>
+            <params>
+                <param name="objects" type="int[]">
+                    <description>
+                        array containing the scene objects to scale. If an object is a model base, all its children will also be scaled
+                    </description>
+                </param>
+                <param name="scalingFactor" type="float">
+                    <description>
+                        scaling factor
+                    </description>
+                </param>
+                <param name="scalePositionsToo" type="bool" default = "true">
+                    <description>
+                        if true, then the position of the specified scene objects is also scaled
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="sceneObject" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:scale" />
+            </see-also>
+        </method>
+
+
+
+        <method name="createObject" func="sim._createObject" lang="python,lua">
+            <description>
+                Creates one of following objects:
+                <ul>
+                    <li><a href="#collection">collection</a></li>
+                    <li><a href="#drawingObject">drawing object</a></li>
+                    <li><a href="#dummy">dummy</a></li>
+                    <li><a href="#joint">joint</a></li>
+                    <li><a href="#forceSensor">force sensor</a></li>
+                </ul>
+            </description>
+            <params>
+                <param name="params" type="map">
+                    <description>
+                        a map/dict describing the object to create. All fields are optional except for <b>objectType</b>. Fields described hereafter are not exhaustive (all writable properties of the object to create can be specified too): 
+                        <ul>
+                            <li id="collection"><a href="../collections.htm">collection</a> fields:
+                                <ul>
+                                    <li>objectType (string): "collection"</li>
+                                    <li>override (bool): <a href="../collidableObjects.htm">collidable</a>, <a href="../measurableObjects.htm">measurable</a>, <a href="../detecatableObjects.htm">detectable</a> and visibility properties of scene objects are overridden</li>
+                                </ul>
+                            </li>
+                            <li id="drawingObject"><a href="../dataVisualizationAndOutput.htm#augmentingScene">drawing object</a> fields:
+                                <ul>
+                                    <li>objectType (string): "drawingObject"</li>
+                                    <li>itemType (int): the <a href="#drawingObjectType">drawing object type</a></li>
+                                    <li>itemSize (float): size of the item (width of lines or size of points are in pixels, other sizes are in meters)</li>
+                                    <li>duplicateTolerance (float): applicable only to point-items. Indicates a distance threshold under which points are not added</li>
+                                    <li>parentObject (handle): scene object to which the drawing object is attached to</li>
+                                    <li>local (bool): coordinate data is specified locally, if the drawing object has a parent</li>
+                                    <li>itemCnt (int): maximum item count</li>
+                                    <li>cyclic (bool): if the drawing object is full, then the first items are overwritten</li>
+                                    <li>paint (bool): only rendered for vision sensors</li>
+                                    <li>overlay (bool): rendered on top of scene objects</li>
+                                    <li>color (color): item color</li>
+                                </ul>
+                            </li>
+                            <li id="dummy"><a href="../dummies.htm">dummy</a> fields:
+                                <ul>
+                                    <li>objectType (string): "dummy"</li>
+                                    <li>dummySize (float): size of the dummy</li>
+                                </ul>
+                            </li>
+                            <li id="joint"><a href="../joints.htm">joint</a> fields:
+                                <ul>
+                                    <li>objectType (string): "joint"</li>
+                                    <li>jointType (int): the <a href="#jointType">joint type</a></li>
+                                    <li>jointMode (int): the <a href="#jointMode">joint mode</a></li>
+                                    <li>dynCtrlMode (int): the <a href="#dynCtrlMode">joint dynamic control mode</a></li>
+                                    <li>interval (float[]): joint lower and upper bounds, if not cyclic</li>
+                                    <li>cyclic (bool): whether the joint is cyclic. Only revolute joints with a screw lead of 0.0 can be cyclic</li>
+                                    <li>screwLead (float): a revolute joint with a screw lead different than 0.0 is a screw</li>
+                                    <li>jointLength (float): length of the joint</li>
+                                    <li>jointDiameter (float): diameter of the joint</li>
+                                </ul>
+                            </li>
+                            <li id="forceSensor"><a href="../forceSensors.htm">force sensors</a> fields:
+                                <ul>
+                                    <li>objectType (string): "forceSensor"</li>
+                                    <li>sensorSize (float): size of the sensor</li>
+                                    <li>filterType (int): filter type (0 = average, 1 = median)</li>
+                                    <li>filterSampleSize (int): value count the filter operates on</li>
+                                    <li>consecutiveViolationsToTrigger (int): number of consecutive threshold violation for the sensor to trigger</li>
+                                    <li>forceThreshold (float): force threshold</li>
+                                    <li>torqueThreshold (float): torque threshold</li>
+                                </ul>
+                            </li>
+                            <li id="proximitySensor"><a href="../proximitySensors.htm">proximity sensor</a> fields:
+                                <ul>
+                                    <li>objectType (string): "proximitySensor"</li>
+                                    <li>sensorType (int): the <a href="#proximitySensorType">proximity sensor type</a></li>
+                                    <li>sensorPointSize (float): the sensor point size</li>
+                                    <li>explicitHandling (bool): whether the sensor is explicitly handled</li>
+                                    <li>showVolume (bool): whether the detection volume is shown</li>
+                                    <li>frontFaceDetection (bool): whether front faces are detected</li>
+                                    <li>backFaceDetection (bool): whether back faces are detected</li>
+                                    <li>exactMode (bool): whether the sensor operates in exact or fast mode</li>
+                                    <li>randomizedDetection (bool): randomized detection (only with ray-type proximity sensors)</li>
+                                    <li>angleThreshold (float): threshold angle for limited angle detection</li>
+                                    <li>closeThreshold (float): smallest detection distance</li>
+
+                                    <li>volume_faces (int[2]): near and far face count for the detection volume</li>
+                                    <li>volume_subdivisions (int[2]): near and far subdivisions for the detection volume</li>
+                                    <li>xxxxx (int): xxxxxx</li>
+                                    <li>xxxxx (int): xxxxxx</li>
+
+                                    <li>volume_offset (float): offset for the detection volume</li>
+                                    <li>volume_range (float): range for the detection volume</li>
+                                    <li>volume_xSize (float[2]): near and far x size for the detection volume</li>
+                                    <li>volume_ySize (float[2]): near and far y size for the detection volume</li>
+                                    <li>volume_radius (float[2]): near and far radius for the detection volume</li>
+                                    <li>volume_angle (float): angle for the detection volume</li>
+
+
+
+        local volume_faces = extractValueOrDefault('', {32, 0})
+        intParams[1] = volume_faces[1]
+        intParams[2] = volume_faces[2]
+        local volume_subdivisions = extractValueOrDefault('volume_subdivisions', {0, 0})
+        intParams[3] = volume_subdivisions[1]
+        intParams[4] = volume_subdivisions[2]
+        -- FIXME: intParams[i+4]: randomized detection, sample count per reading
+        -- FIXME: intParams[i+5]: randomized detection, individual ray detection count for triggering
+        local floatParams = table.rep(0., 15)
+        floatParams[1] = extractValueOrDefault('volume_offset', 0.1)
+        floatParams[2] = extractValueOrDefault('volume_range', 0.2)
+        local xSize = extractValueOrDefault('volume_xSize', {0.2, 0.4})
+        local ySize = extractValueOrDefault('volume_ySize', {0.1, 0.2})
+        floatParams[3] =  xSize[1]
+        floatParams[4] =  ySize[1]
+        floatParams[5] =  xSize[2]
+        floatParams[6] =  ySize[2]
+        local radius = extractValueOrDefault('volume_radius', {0.1, 0.2})
+
+
+
+                                </ul>
+                            </li>
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        </ul>
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="object" type="handle">
+                    <description>
+                        the created object
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="collection" />
+                <category name="drawingObject" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:removeObject" />
+                <function-ref name="scene:removeObjects" />
+            </see-also>
+        </method>
     </object-class>
     
 
@@ -2413,18 +2595,20 @@
             <params>
                 <param name="relativeToObject" type="handle" default="sim.handle_world">
                     <description>
-                        indicates relative to which reference frame we want the pose. Specify sim.handle_world to retrieve the absolute pose, sim.handle_inverse to retrieve the inverse of the absolute pose, sim.handle_parent to retrieve the pose relative to the object's parent, or an object relative to whose reference frame we want the pose
+                        indicates relative to which reference frame we want the pose. 
+                        Specify sim.handle_world to retrieve the absolute pose, sim.handle_inverse to retrieve the inverse of the absolute pose, 
+                        sim.handle_parent to retrieve the pose relative to the object's parent, or an object relative to whose reference frame we want the pose
                     </description>
                 </param>
                 <param name="relativeToJointBaseFrame" type="bool" default="false">
                     <description>
-                        If argument <b>relativeToObject</b> is a joint, then the pose relative to the joint's moving frame is returned, unless
+                        If <b>relativeToObject</b> is a joint, then the pose relative to the joint's moving frame is returned, unless
                         this argument is true, in which case the pose relative to the joint's base frame is returned
                     </description>
                 </param>
             </params>
             <returns>
-                <param name="p" type="pose">
+                <param name="pose" type="pose">
                     <description>
                         the pose: [x, y, z, qx, qy, qz, qw]
                     </description>
@@ -2434,77 +2618,231 @@
                 <category name="transformation" />
             </categories>
             <see-also>
-                <function-ref name="sim.setObjectPose" />
+                <function-ref name="sceneObject:setPose" />
+                <function-ref name="sceneObject:getPosition" />
+                <function-ref name="sceneObject:getQuaternion" />
             </see-also>
         </method>
 
         
 
-        <method name="getObjectPosition" func="sim.getObjectPosition" lang="python,lua">
+        <method name="getPosition" func="sim._getObjectPosition" lang="python,lua">
             <description>
-                Retrieves the position of an object
+                Retrieves the position of a scene object
             </description>
             <params>
-                <param name="objectHandle" type="handle">
+                <param name="relativeToObject" type="handle" default="sim.handle_world">
                     <description>
-                        handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)
+                        indicates relative to which reference frame we want the position. 
+                        Specify sim.handle_world to retrieve the absolute position, sim.handle_inverse to retrieve the inverse of the absolute position, 
+                        sim.handle_parent to retrieve the position relative to the object's parent, or an object relative to whose reference frame we want the position
                     </description>
                 </param>
-                <param name="relativeToObjectHandle" type="handle" default="sim.handle_world">
+                <param name="relativeToJointBaseFrame" type="bool" default="false">
                     <description>
-                        indicates relative to which reference frame we want the position. Specify sim.handle_world to retrieve the absolute position, sim.handle_parent to retrieve the position relative to the object's parent, or an object handle relative to whose reference frame we want the position. If this handle is the handle of a joint, then the position relative to the joint's moving frame will be returned (unless 
-                        is combined with sim.handleflag_reljointbaseframe, in which case the position relative to the joint's base frame will be returned).
+                        If <b>relativeToObject</b> is a joint, then the position relative to the joint's moving frame is returned, unless
+                        this argument is true, in which case the position relative to the joint's base frame is returned
                     </description>
                 </param>
             </params>
             <returns>
-                <param name="pos" type="vector3">
+                <param name="position" type="vector3">
                     <description>
-                        the position
+                        the position: [x, y, z]
                     </description>
                 </param>
             </returns>
             <categories>
-            <category name="sceneObject" /><category name="transformation" />
-                </categories>
+                <category name="transformation" />
+            </categories>
             <see-also>
-                <function-ref name="sim.setObjectPosition" />
-                <link href="../positionOrientationTransformation.htm" label=" positions and orientations " />
+                <function-ref name="sceneObject:setPosition" />
+                <function-ref name="sceneObject:getPose" />
+                <function-ref name="sceneObject:getQuaternion" />
             </see-also>
         </method>
 
-        
 
-        <method name="getObjectQuaternion" func="sim.getObjectQuaternion" lang="python,lua">
+
+        <method name="getQuaternion" func="sim._getObjectQuaternion" lang="python,lua">
             <description>
-                Retrieves the quaternion of an object
+                Retrieves the quaternion of a scene object
             </description>
             <params>
-                <param name="objectHandle" type="handle">
+                <param name="relativeToObject" type="handle" default="sim.handle_world">
                     <description>
-                        handle of the object. Combine with sim.handleflag_wxyzquat to retrieve the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order. Can also be combined with sim.handleflag_reljointbaseframe (see next argument)
+                        indicates relative to which reference frame we want the quaternion. 
+                        Specify sim.handle_world to retrieve the absolute quaternion, sim.handle_inverse to retrieve the inverse of the absolute quaternion, 
+                        sim.handle_parent to retrieve the quaternion relative to the object's parent, or an object relative to whose reference frame we want the quaternion
                     </description>
                 </param>
-                <param name="relativeToObjectHandle" type="handle" default="sim.handle_world">
+                <param name="relativeToJointBaseFrame" type="bool" default="false">
                     <description>
-                        indicates relative to which reference frame we want the orientation. Specify sim.handle_world to retrieve the absolute orientation, sim.handle_parent to retrieve the orientation relative to the object's parent, or an object handle relative to whose reference frame you want the orientation. If this handle is the handle of a joint, then the quaternion relative to the joint's moving frame will be returned (unless 
-                        is combined with sim.handleflag_reljointbaseframe, in which case the quaternion relative to the joint's base frame will be returned).
+                        If <b>relativeToObject</b> is a joint, then the quaternion relative to the joint's moving frame is returned, unless
+                        this argument is true, in which case the quaternion relative to the joint's base frame is returned
                     </description>
                 </param>
             </params>
             <returns>
-                <param name="quat" type="quaternion">
+                <param name="quaternion" type="quaternion">
                     <description>
                         the quaternion: [qx, qy, qz, qw]
                     </description>
                 </param>
             </returns>
             <categories>
-            <category name="sceneObject" /><category name="transformation" />
-                </categories>
+                <category name="transformation" />
+            </categories>
             <see-also>
-                <function-ref name="sim.setObjectQuaternion" />
-                <link href="../positionOrientationTransformation.htm" label=" positions and orientations " />
+                <function-ref name="sceneObject:setQuaternion" />
+                <function-ref name="sceneObject:getPose" />
+                <function-ref name="sceneObject:getPosition" />
+            </see-also>
+        </method>
+
+
+
+        <method name="setPose" func="sim._setObjectPose" lang="python,lua">
+            <description>
+                Sets the pose of a scene object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not apply to static shapes)
+            </description>
+            <params>
+                <param name="pose" type="pose">
+                    <description>the pose: [x, y, z, qx, qy, qz, qw])</description>
+                </param>
+                <param name="relativeToObject" type="handle" default="sim.handle_world">
+                    <description>
+                        indicates relative to which reference frame the pose is specified. Specify sim.handle_world to set the absolute pose, sim.handle_inverse to
+                        set the inverse of the absolute pose, sim.handle_parent to set the pose relative to the scene object's parent, or a scene object relative to
+                        whose reference frame the pose is specified.
+                    </description>
+                </param>
+                <param name="relativeToJointBaseFrame" type="bool" default="false">
+                    <description>
+                        If <b>relativeToObject</b> is a joint, then the pose relative to the joint's moving frame is set, unless
+                        this argument is true, in which case the pose relative to the joint's base frame is set
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="transformation" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:getPose" />
+                <function-ref name="sceneObject:setPosition" />
+                <function-ref name="sceneObject:setQuaternion" />
+            </see-also>
+        </method>
+
+
+
+        <method name="setPosition" func="sim._setObjectPosition" lang="python,lua">
+            <description>
+                Sets the position of a scene object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not apply to static shapes)
+            </description>
+            <params>
+                <param name="position" type="vector3">
+                    <description>the position: [x, y, z])</description>
+                </param>
+                <param name="relativeToObject" type="handle" default="sim.handle_world">
+                    <description>
+                        indicates relative to which reference frame the position is specified. Specify sim.handle_world to set the absolute position, sim.handle_inverse to
+                        set the inverse of the absolute position, sim.handle_parent to set the position relative to the scene object's parent, or a scene object relative to
+                        whose reference frame the position is specified.
+                    </description>
+                </param>
+                <param name="relativeToJointBaseFrame" type="bool" default="false">
+                    <description>
+                        If <b>relativeToObject</b> is a joint, then the position relative to the joint's moving frame is set, unless
+                        this argument is true, in which case the position relative to the joint's base frame is set
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="transformation" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:getPosition" />
+                <function-ref name="sceneObject:setPose" />
+                <function-ref name="sceneObject:setQuaternion" />
+            </see-also>
+        </method>
+
+
+
+        <method name="setQuaternion" func="sim._setObjectQuaternion" lang="python,lua">
+            <description>
+                Sets the quaternion of a scene object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not apply to static shapes)
+            </description>
+            <params>
+                <param name="quaternion" type="quaternion">
+                    <description>the quaternion: [qx, qy, qz, qw])</description>
+                </param>
+                <param name="relativeToObject" type="handle" default="sim.handle_world">
+                    <description>
+                        indicates relative to which reference frame the quaternion is specified. Specify sim.handle_world to set the absolute quaternion, sim.handle_inverse to
+                        set the inverse of the absolute quaternion, sim.handle_parent to set the quaternion relative to the scene object's parent, or a scene object relative to
+                        whose reference frame the quaternion is specified.
+                    </description>
+                </param>
+                <param name="relativeToJointBaseFrame" type="bool" default="false">
+                    <description>
+                        If <b>relativeToObject</b> is a joint, then the quaternion relative to the joint's moving frame is set, unless
+                        this argument is true, in which case the quaternion relative to the joint's base frame is set
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="transformation" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:getQuaternion" />
+                <function-ref name="sceneObject:setPose" />
+                <function-ref name="sceneObject:setPosition" />
+            </see-also>
+        </method>
+
+
+
+        <method name="setParent" func="sim._setObjectParent" lang="python,lua">
+            <description>
+                Sets a scene object's parent. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not
+                apply to static shapes)
+            </description>
+            <params>
+                <param name="parent" type="handle">
+                    <description>
+                        scene object that should become parent, or nil/None if the object should become an orphan. In an assembly operation, the assembly dummy on
+                        the parent should be specified instead
+                    </description>
+                </param>
+                <param name="inPlace" type="bool" default="true">
+                    <description>indicates whether the scene object's absolute pose should stay same</description>
+                </param>
+            </params>
+            <categories>
+            </categories>
+            <see-also>
+                <link href="../assembly.htm" label="assembly operation" />
+            </see-also>
+        </method>
+
+
+
+        <method name="scale" func="sim._scaleObject" lang="python,lua">
+            <description>
+                Scales the scene object in a non-isometric fashion, if possible. Some scene objects
+                might have some constraints between their axes
+            </description>
+            <params>
+                <param name="scalingFactors" type="vector3">
+                    <description>scaling factors along the object's x, y and z-axis</description>
+                </param>
+            </params>
+            <categories>
+            </categories>
+            <see-also>
+                <function-ref name="scene:scaleObjects" />
             </see-also>
         </method>
     </object-class>
@@ -4034,65 +4372,6 @@ if (simCheckVisionSensor(sensorHandle, entityHandle, &amp;auxValues, &amp;auxVal
             <function-ref name="sim.createShape" />
             <function-ref name="sim.createHeightfieldShape" />
         </see-also>
-    </method>
-
-    
-
-    <method name="createProximitySensor" func="sim.createProximitySensor" lang="python,lua">
-        <description>
-            Creates a 
-            <a href="../proximitySensors.htm"> proximity sensor </a>
-        </description>
-        <params>
-            <param name="sensorType" type="int">
-                <description>
-                    desired 
-                    <a href="../apiConstants.htm#sceneObjectSubTypes"> proximity sensor type </a>
-                    (e.g. sim.proximitysensor_cone)
-                </description>
-            </param>
-            <param name="subType" type="int" default="16">
-                <description>
-                    deprecated. Set to 16
-                </description>
-            </param>
-            <param name="options" type="int" default="0">
-                <description>
-                    bit-coded options:
-                    <ul>
-                        <li> bit0 set (1): the sensor will be explicitly handled </li>
-                        <li> bit1 set (2): reserved. Set to 0 </li>
-                        <li> bit2 set (4): the detection volume is not shown </li>
-                        <li> bit3 set (8): front faces are not detected </li>
-                        <li> bit4 set (16): back faces are not detected </li>
-                        <li> bit5 set (32): fast detection (i.e. not exact detection) </li>
-                        <li> bit6 set (64): the normal of the detected surface with the detection ray will have to lie below a specified threshold angle </li>
-                        <li> bit8 set (256): smallest distance threshold will be active </li>
-                        <li> bit9 set (512): randomized detection (only with ray-type proximity sensors) </li>
-                    </ul>
-                </description>
-            </param>
-            <param name="intParams" type="int[8]" default="nil">
-                <description>
-                    bit0 set (1): the sensor will be explicitly handled
-                </description>
-            </param>
-            <param name="floatParams" type="float[15]" default="nil">
-                <description>
-                    bit1 set (2): reserved. Set to 0
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="sensorHandle" type="handle">
-                <description>
-                    handle of the force sensor
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="proximitySensor" /><category name="creation" />
-            </categories>
     </method>
 
     
@@ -8943,38 +9222,6 @@ end</code>
 
     
 
-    <method name="scaleObjects" func="sim.scaleObjects" lang="python,lua">
-        <description>
-            Scales specified objects. All related values are automatically scaled appropriately
-            (e.g. masses, forces, etc.)
-        </description>
-        <params>
-            <param name="objectHandles" type="int[]">
-                <description>
-                    array containing the handles of the objects to scale. If an object is a model base, all its child objects will also be scaled
-                </description>
-            </param>
-            <param name="scalingFactor" type="float">
-                <description>
-                    scaling factor
-                </description>
-            </param>
-            <param name="scalePositionsToo" type="bool">
-                <description>
-                    if true, selected object's positions will also be scaled
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="sceneObject" />
-            </categories>
-        <see-also>
-            <link href="../apiFunctions.htm#size" label=" size and scaling functions " />
-        </see-also>
-    </method>
-
-    
-
     <method name="serialCheck" func="sim.serialCheck" lang="python,lua">
         <description>
             Reads how many bytes are waiting to be read on a serial port (RS-232)
@@ -10834,38 +11081,6 @@ keyword3-col="0 0 255" keyword4-col="152 64 0"&gt;
 
 
 
-    <method name="scaleObject" func="sim.scaleObject" lang="python,lua">
-        <description>
-            Scales specified objects in a non-isometric fashion, if possible. Only non-compound shapes can be non-isometrically scaled. Some primitive shapes
-            can have some constraints between their axes
-        </description>
-        <params>
-            <param name="objectHandle" type="int">
-                <description>handle of the object to scale</description>
-            </param>
-            <param name="xScale" type="float">
-                <description>scaling factors along the object's x, y and z-axis</description>
-            </param>
-            <param name="yScale" type="float">
-                <description>keep at 0</description>
-            </param>
-            <param name="zScale" type="float">
-                <description />
-            </param>
-            <param name="options" type="int" default="0">
-                <description />
-            </param>
-        </params>
-        <categories>
-        <category name="sceneObject" />
-            </categories>
-        <see-also>
-            <link href="../apiFunctions.htm#size" label="size and scaling functions" />
-        </see-also>
-    </method>
-
-
-
     <method name="setGraphStreamTransformation" func="sim.setGraphStreamTransformation" lang="python,lua">
         <description>
             Applies a transformation to a graph stream
@@ -10985,142 +11200,6 @@ keyword3-col="0 0 255" keyword4-col="152 64 0"&gt;
             </categories>
         <see-also>
             <function-ref name="sim.getJointTargetVelocity" />
-        </see-also>
-    </method>
-
-
-
-    <method name="setObjectParent" func="sim.setObjectParent" lang="python,lua">
-        <description>
-            Sets an object's parent object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not
-            apply to static shapes)
-        </description>
-        <params>
-            <param name="objectHandle" type="handle">
-                <description>
-                    handle of the object that will become child of the parent object. Can be or-combined with
-                    <a href="../apiConstants.htm#specialHandleFlags">sim.handleflag_assembly</a>
-                    if an assembly operation is desired instead (in that case, can't be -1, and should be set to false)
-                </description>
-            </param>
-            <param name="parentObjectHandle" type="handle">
-                <description>
-                    handle of the object that will become parent, or -1 if the object should become parentless. In an assembly operation, the assembly dummy on
-                    the parent object should be specified instead
-                </description>
-            </param>
-            <param name="keepInPlace" type="bool" default="true">
-                <description>indicates whether the object's absolute pose should stay same</description>
-            </param>
-        </params>
-        <categories>
-        <category name="sceneObject" />
-            </categories>
-        <see-also>
-            <link href="../assembly.htm" label="assembly operation" />
-        </see-also>
-    </method>
-
-
-
-    <method name="setObjectPose" func="sim.setObjectPose" lang="python,lua">
-        <description>
-            Sets the pose of an object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not apply to
-            static shapes)
-        </description>
-        <params>
-            <param name="objectHandle" type="handle">
-                <description>
-                    handle of the object. Combine with sim.handleflag_wxyzquat to provide the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order.
-                    Can also be combined with sim.handleflag_reljointbaseframe
-                </description>
-            </param>
-            <param name="p" type="pose">
-                <description>the pose: [x, y, z, qx, qy, qz, qw])</description>
-            </param>
-            <param name="relativeToObjectHandle" type="handle" default="sim.handle_world">
-                <description>
-                    indicates relative to which reference frame the pose is specified. Specify sim.handle_world to set the absolute pose, sim.handle_inverse to
-                    set the inverse of the absolute pose, sim.handle_parent to set the pose relative to the object's parent, or an object handle relative to
-                    whose reference frame the pose is specified. If this handle is the handle of a joint, then the pose is applied relative to the joint's
-                    moving frame (unless is combined with sim.handleflag_reljointbaseframe, in which case the pose is applied relative to the joint's base
-                    frame)
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="sceneObject" /><category name="transformation" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.getObjectPose" />
-            <link href="../positionOrientationTransformation.htm" label="positions and orientations" />
-        </see-also>
-    </method>
-
-
-
-    <method name="setObjectPosition" func="sim.setObjectPosition" lang="python,lua">
-        <description>
-            Sets the position (x, y and z-coordinates) of an object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset
-            (this however does not apply to static shapes)
-        </description>
-        <params>
-            <param name="objectHandle" type="handle">
-                <description>handle of the object. Can be combined with sim.handleflag_reljointbaseframe</description>
-            </param>
-            <param name="pos" type="vector3">
-                <description>the object position</description>
-            </param>
-            <param name="relativeToObjectHandle" type="handle" default="sim.handle_world">
-                <description>
-                    indicates relative to which reference frame the position is specified. Specify sim.handle_world to set the absolute position,
-                    sim.handle_parent to set the position relative to the object's parent, or an object handle relative to whose reference frame the position is
-                    specified. If this handle is the handle of a joint, then the position is applied relative to the joint's moving frame (unless is combined
-                    with sim.handleflag_reljointbaseframe, in which case the position is applied relative to the joint's base frame)
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="sceneObject" /><category name="transformation" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.getObjectPosition" />
-            <link href="../positionOrientationTransformation.htm" label="positions and orientations" />
-        </see-also>
-    </method>
-
-
-
-    <method name="setObjectQuaternion" func="sim.setObjectQuaternion" lang="python,lua">
-        <description>
-            Sets the quaternion of an object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not
-            apply to static shapes)
-        </description>
-        <params>
-            <param name="objectHandle" type="handle">
-                <description>
-                    handle of the object. Combine with sim.handleflag_wxyzquat to provide the quaternion as [qw qx qy qz] order instead of [qx qy qz qw] order.
-                    Can also be combined with sim.handleflag_reljointbaseframe
-                </description>
-            </param>
-            <param name="quat" type="quaternion">
-                <description>the quaternion: [qx, qy, qz, qw]</description>
-            </param>
-            <param name="relativeToObjectHandle" type="handle" default="sim.handle_world">
-                <description>
-                    indicates relative to which reference frame the orientation is specified. Specify sim.handle_world to set the absolute orientation,
-                    sim.handle_parent to set the orientation relative to the object's parent, or an object handle relative to whose reference frame the
-                    orientation is specified. If this handle is the handle of a joint, then the quaternion is applied relative to the joint's moving frame
-                    (unless is combined with sim.handleflag_reljointbaseframe, in which case the quaternion is applied relative to the joint's base frame)
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="sceneObject" /><category name="transformation" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.getObjectQuaternion" />
-            <link href="../positionOrientationTransformation.htm" label="positions and orientations" />
         </see-also>
     </method>
 
@@ -11335,5 +11414,4 @@ keyword3-col="0 0 255" keyword4-col="152 64 0"&gt;
             <function-ref name="sim.createTexture" />
         </see-also>
     </method>
-
 </object-classes>

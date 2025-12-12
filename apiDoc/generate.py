@@ -372,12 +372,20 @@ def main():
         allFunctionCategories[item['cat']] = {'txt': item['txt'], 'api': []}
     
     def handle_func_or_method(file, func, obj_name, template, template_cpp):
+        def addEnums(str, enumsAlreadyFound):
+            patterns = re.findall(r'<a\s+[^>]*href=["\']#([^"\']+)["\']', str)
+            for p in patterns:
+                if p not in enumsAlreadyFound:
+                    enumsAlreadyFound.append(p)
+            return enumsAlreadyFound
+        enums = []            
         funcnameRaw = func.get('name').strip()
         #print('className:', obj_name, 'funcName:', funcnameRaw)
         lang = func.get('lang').strip()
         deprecated = (func.get('deprecated') == 'true')
         isC = (lang == 'c')
         funcdescription = getTxt(func, 'description').strip().rstrip('. ')
+        enums = addEnums(funcdescription, enums)
         more = (getTxt(func, 'more') or '').strip().rstrip('. ')
         input = parse_params(func.find('params'))
         output = parse_params(func.find('returns'))
@@ -412,6 +420,7 @@ def main():
             for param in input:
                 name = param.get('name', '')
                 description = param.get('description', '')
+                enums = addEnums(description, enums)
                 html += f"    <li><strong>{name}</strong>: {description}</li>\n"
             input = html + "</ul>"
         else:
@@ -422,6 +431,7 @@ def main():
             for param in output:
                 name = param.get('name', '')
                 description = param.get('description', '')
+                enums = addEnums(description, enums)
                 if isC:
                     html += f"    <li>{description}</li>\n"
                 else:
@@ -430,6 +440,31 @@ def main():
         else:
             output = ''
 
+        enums = addEnums(more, enums)
+        
+        enumSection = ''
+        enumCnt = 0
+        if 'enums' in file:
+            enumSection = '<ul>'
+            for enumT in enums:
+                if enumT in file['enums']:
+                    if enumCnt > 0:
+                        enumSection += "<br>"
+                    enumCnt += 1
+                    item = file['enums'][enumT]
+                    enumSection += '<li id="' + enumT + '"><b>' + item['txt'] + '</b>:<ul>'
+                    for iitem in item['enums']:
+                        enumSection += "<li>" + iitem['name']
+                        if iitem['val']:
+                            enumSection += " (" + iitem['val'] + ")"
+                        if iitem['descr']:
+                            enumSection += ": " + iitem['descr']
+                        enumSection += "</li>"
+                    enumSection += "</ul></li>"
+            enumSection += "</ul>"
+        if enumCnt == 0:
+            enumSection = ''
+        
         categories = parse_categories(func.find('categories'))
         if obj_name and len(obj_name) > 0:
             categories = [x for x in categories if x != obj_name] # remove possible obj_name listed there
@@ -469,22 +504,33 @@ def main():
                 a = a.replace('__seealsoVisibility__', '')
             else:
                 a = a.replace('__seealsoVisibility__', 'style="display: none;"')
+
             a = a.replace('__synopsis__', synopsis)
+
             a = a.replace('__input__', input)
             if len(input) > 0:
                 a = a.replace('__inputVisibility__', '')
             else:
                 a = a.replace('__inputVisibility__', 'style="display: none;"')
+
             a = a.replace('__output__', output)
             if len(output) > 0:
                 a = a.replace('__outputVisibility__', '')
             else:
                 a = a.replace('__outputVisibility__', 'style="display: none;"')
+
             a = a.replace('__more__', more)
             if len(more) > 0:
                 a = a.replace('__moreVisibility__', '')
             else:
                 a = a.replace('__moreVisibility__', 'style="display: none;"')
+
+            a = a.replace('__enums__', enumSection)
+            if len(enumSection) > 0:
+                a = a.replace('__enumVisibility__', '')
+            else:
+                a = a.replace('__enumVisibility__', 'style="display: none;"')
+                
             file_w.write(minify_html.minify(a))
     try:
         shutil.rmtree(apiDir_currentVer)
@@ -503,6 +549,7 @@ def main():
         {
             'inputFile': currentDir / 'functions.xml',
             'cTemplate': templatesDir / 'cFunc.htm',
+            'enumFile': currentDir / 'enums.xml',
             'pythonLuaTemplate': templatesDir / 'pythonLuaFunc.htm',
             'categories': functionCategories,
             'categoriesMap': allFunctionCategories,
@@ -510,6 +557,7 @@ def main():
         },
         {
             'inputFile': currentDir / 'objects.xml',
+            'enumFile': currentDir / 'enums.xml',
             'pythonLuaTemplate': templatesDir / 'pythonLuaMethod.htm',
             'categories': methodCategories,
             'categoriesMap': allMethodCategories,
@@ -527,6 +575,26 @@ def main():
 
         with (file['pythonLuaTemplate']).open('r') as file_r:
             template = file_r.read()
+
+        if 'enumFile' in file:
+            enumTree = ET.parse(file['enumFile'])
+            enums_node = enumTree.getroot()
+            enums = {}
+            for enum_node in enums_node:
+                enum_name = enum_node.get('name').strip()
+                txt = enum_node.get('txt').strip()
+                enum = []
+                for item_node in enum_node.findall('item'):
+                    n = item_node.get('name').strip()
+                    v = item_node.get('value')
+                    if v:
+                        v.strip()
+                    d = getTxt(item_node, 'description')
+                    if d:
+                        d = d.strip().rstrip('. ')
+                    enum.append({'name': n, 'val': v, 'descr': d})
+                enums[enum_name] = {'txt': txt, 'enums': enum}
+            file['enums'] = enums
 
             
         tree = ET.parse(file['inputFile'])
