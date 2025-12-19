@@ -452,7 +452,7 @@ def main():
                         enumSection += "<br>"
                     enumCnt += 1
                     item = file['enums'][enumT]
-                    enumSection += '<li id="' + enumT + '"><b>' + item['txt'] + '</b>:<ul>'
+                    enumSection += '<li id="' + enumT + '"><b>' + item['label'] + '</b>:<ul>'
                     for iitem in item['enums']:
                         enumSection += "<li>" + iitem['name']
                         if iitem['val']:
@@ -582,7 +582,7 @@ def main():
             enums = {}
             for enum_node in enums_node:
                 enum_name = enum_node.get('name').strip()
-                txt = enum_node.get('txt').strip()
+                txt = enum_node.get('label').strip()
                 enum = []
                 for item_node in enum_node.findall('item'):
                     n = item_node.get('name').strip()
@@ -593,7 +593,7 @@ def main():
                     if d:
                         d = d.strip().rstrip('. ')
                     enum.append({'name': n, 'val': v, 'descr': d})
-                enums[enum_name] = {'txt': txt, 'enums': enum}
+                enums[enum_name] = {'label': txt, 'enums': enum}
             file['enums'] = enums
 
             

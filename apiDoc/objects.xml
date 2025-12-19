@@ -2180,7 +2180,14 @@
                     <li><a href="#drawingObject">drawing object</a></li>
                     <li><a href="#dummy">dummy</a></li>
                     <li><a href="#joint">joint</a></li>
+                    <li><a href="#shape">shape</a></li>
+                    <li><a href="#script">script</a></li>
                     <li><a href="#forceSensor">force sensor</a></li>
+                    <li><a href="#proximitySensor">proximity sensor</a></li>
+                    <li><a href="#visionSensor">vision sensor</a></li>
+                    <li><a href="#ocTree">oc tree</a></li>
+                    <li><a href="#pointCloud">point cloud</a></li>
+                    <li><a href="#path">path</a></li>
                 </ul>
             </description>
             <params>
@@ -2228,6 +2235,100 @@
                                     <li>jointDiameter (float): diameter of the joint</li>
                                 </ul>
                             </li>
+                            <li id="shape"><a href="../shapes.htm">shape</a> fields:
+                                <ul>
+                                    <li>objectType (string): "shape"</li>
+                                    <li>shadingAngle (float): the shading angle</li>
+                                    <li>culling (bool): whether the shape has its back faces culled</li>
+                                    <li>dynamic (bool): whether the shape is dynamically enabled</li>
+                                    <li>showEdges (bool): whether the shape appears with visible edges</li>
+                                    <li>color (color): the shape's color</li>
+                                    <li>cube (map/dict): holds parameters for the creation of a cube:
+                                        <ul>
+                                            <li>size (int[3]): the size of the cube</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>sphere (map/dict): holds parameters for the creation of a sphere:
+                                        <ul>
+                                            <li>radius (float): the radius of the sphere</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>cylinder (map/dict): holds parameters for the creation of a cylinder:
+                                        <ul>
+                                            <li>radius (float): the radius of the cylinder</li>
+                                            <li>length (float): the length of the cylinder</li>
+                                            <li>open (bool): whether the cylinder is open</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>cone (map/dict): holds parameters for the creation of a cone:
+                                        <ul>
+                                            <li>radius (float): the radius of the cone</li>
+                                            <li>height (float): the height of the cone</li>
+                                            <li>open (bool): whether the cone is open</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>capsule (map/dict): holds parameters for the creation of a capsule:
+                                        <ul>
+                                            <li>radius (float): the radius of the capsule</li>
+                                            <li>length (float): the length of the capsule</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>plane (map/dict): holds parameters for the creation of a plane:
+                                        <ul>
+                                            <li>size (int[2]): the size of the plane</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>disc (map/dict): holds parameters for the creation of a disc:
+                                        <ul>
+                                            <li>radius (float): the radius of the disc</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>heightField (map/dict): holds parameters for the creation of a height field:
+                                        <ul>
+                                            <li>heights (matrix): the heights</li>
+                                            <li>cellSize (float): the length/width of a cell</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a height field)</li>
+                                        </ul>
+                                    </li>
+                                    <li>mesh (map/dict): holds parameters for the creation of a mesh:
+                                        <ul>
+                                            <li>vertices (matrix): the vertices organized in a column-major 3*n matrix</li>
+                                            <li>indices (int[]): the zero-based indices</li>
+                                            <li>normals (matrix): the normals organized in a column-major 3*(3*n) matrix</li>
+                                            <li>boundingBoxQuaternion (quaternion): the orientation of the shape's bounding box</li>
+                                            <li>frameOrigin (pose): the pose of the shape's frame</li>
+                                            <li>texture (map/dict): holds parameters for an optional texture:
+                                                <ul>
+                                                    <li>resolution (int[2]): texture resolution</li>
+                                                    <li>image (buffer): texture specified as rgb or rgba</li>
+                                                    <li>rgba (bool): whether the texture is specified as rgba or rgb</li>
+                                                    <li>coordinates (matrix): texture coordinates</li>
+                                                    <li>interpolate (bool): whether adjecent texture pixels are interpolated</li>
+                                                    <li>decal (bool): whether the texture is applied as decal</li>
+                                                    <li>horizFlip (bool): whether the texture is horizontally flipped</li>
+                                                    <li>vertFlip (bool): whether the texture is vertically flipped</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li id="script"><a href="../scriptObjects.htm">script</a> fields:
+                                <ul>
+                                    <li>objectType (string): "script"</li>
+                                    <li>scriptType (int): the <a href="#scriptType">script type</a></li>
+                                    <li>language (string): 'lua' or 'python'</li>
+                                    <li>code (string): the content of the script</li>
+                                    <li>scriptDisabled (bool): the script is initially disabled</li>
+                                </ul>
+                            </li>
                             <li id="forceSensor"><a href="../forceSensors.htm">force sensors</a> fields:
                                 <ul>
                                     <li>objectType (string): "forceSensor"</li>
@@ -2252,53 +2353,66 @@
                                     <li>randomizedDetection (bool): randomized detection (only with ray-type proximity sensors)</li>
                                     <li>angleThreshold (float): threshold angle for limited angle detection</li>
                                     <li>closeThreshold (float): smallest detection distance</li>
-
                                     <li>volume_faces (int[2]): near and far face count for the detection volume</li>
                                     <li>volume_subdivisions (int[2]): near and far subdivisions for the detection volume</li>
-                                    <li>xxxxx (int): xxxxxx</li>
-                                    <li>xxxxx (int): xxxxxx</li>
-
                                     <li>volume_offset (float): offset for the detection volume</li>
                                     <li>volume_range (float): range for the detection volume</li>
                                     <li>volume_xSize (float[2]): near and far x size for the detection volume</li>
                                     <li>volume_ySize (float[2]): near and far y size for the detection volume</li>
                                     <li>volume_radius (float[2]): near and far radius for the detection volume</li>
                                     <li>volume_angle (float): angle for the detection volume</li>
-
-
-
-        local volume_faces = extractValueOrDefault('', {32, 0})
-        intParams[1] = volume_faces[1]
-        intParams[2] = volume_faces[2]
-        local volume_subdivisions = extractValueOrDefault('volume_subdivisions', {0, 0})
-        intParams[3] = volume_subdivisions[1]
-        intParams[4] = volume_subdivisions[2]
-        -- FIXME: intParams[i+4]: randomized detection, sample count per reading
-        -- FIXME: intParams[i+5]: randomized detection, individual ray detection count for triggering
-        local floatParams = table.rep(0., 15)
-        floatParams[1] = extractValueOrDefault('volume_offset', 0.1)
-        floatParams[2] = extractValueOrDefault('volume_range', 0.2)
-        local xSize = extractValueOrDefault('volume_xSize', {0.2, 0.4})
-        local ySize = extractValueOrDefault('volume_ySize', {0.1, 0.2})
-        floatParams[3] =  xSize[1]
-        floatParams[4] =  ySize[1]
-        floatParams[5] =  xSize[2]
-        floatParams[6] =  ySize[2]
-        local radius = extractValueOrDefault('volume_radius', {0.1, 0.2})
-
-
-
                                 </ul>
                             </li>
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+                            <li id="visionSensor"><a href="../visionSensors.htm">vision sensor</a> fields:
+                                <ul>
+                                    <li>objectType (string): "visionSensor"</li>
+                                    <li>explicitHandling (bool): whether the sensor is explicitly handled</li>
+                                    <li>showFrustum (bool): whether the view frustum is shown</li>
+                                    <li>useExtImage (bool): whether the sensor is passive (uses an external image)</li>
+                                    <li>resolution (int[2]): sensor resolution</li>
+                                    <li>clippingPlanes (float[2]): sensor near and far clipping planes</li>
+                                    <li>sensorSize (float): sensor size</li>
+                                    <li>viewAngle (float): the view angle, for a sensor operating in perspective projection mode</li>
+                                    <li>viewSize (float): the view size, for a sensor operating in orthogonal projection mode</li>
+                                    <li>backgroundColor (color): the sensor uses a specific color as default background (i.e. null pixels)</li>
+                                </ul>
+                            </li>
+                            <li id="ocTree"><a href="../ocTrees.htm">oc tree</a> fields:
+                                <ul>
+                                    <li>objectType (string): "ocTree"</li>
+                                    <li>voxelSize (float): the voxel size</li>
+                                    <li>showPoints (bool): whether points should be drawn instead of voxels</li>
+                                    <li>pointSize (int): the point size in pixels, when voxels are rendered as points</li>
+                                </ul>
+                            </li>
+                            <li id="pointCloud"><a href="../pointClouds.htm">point cloud</a> fields:
+                                <ul>
+                                    <li>objectType (string): "pointCloud"</li>
+                                    <li>cellSize (float): the maximum size of the OC tree voxels containing points</li>
+                                    <li>pointSize (int): the point size in pixels</li>
+                                    <li>maxPointsInCell (int): maximum number of points allowed in a same OC tree voxel</li>
+                                </ul>
+                            </li>
+                            <li id="path"><a href="../paths.htm">path</a> fields:
+                                <ul>
+                                    <li>objectType (string): "path"</li>
+                                    <li>ctrlPts (matrix): control points, specified in row-major order, with [x y z qx qy qz qw] values for each path point</li>
+                                    <li>hiddenDuringSim (bool): path is hidden during simulation</li>
+                                    <li>closed (bool): last control point connects to the first control point</li>
+                                    <li>subdiv (int): number of individual path points</li>
+                                    <li>smoothness (float): value between 0.0 (linear interpolation) and 1.0 (100% Bezier interpolation)</li>
+                                    <li>orientationMode (int): value specifiying how the individual path points are oriented along the path:
+                                        <ul>
+                                            <li> 0: x along path, y is up</li>
+                                            <li> 1: x along path, z is up</li>
+                                            <li> 2: y along path, x is up</li>
+                                            <li> 3: y along path, z is up</li>
+                                            <li> 4: z along path, x is up</li>
+                                            <li> 5: z along path, y is up</li>
+                                        </ul></li>
+                                    <li>upVector (vector3): up vector, used for generating an extruded shape and for computing individual path point orientations</li>
+                                </ul>
+                            </li>
                         </ul>
                     </description>
                 </param>
@@ -2313,6 +2427,16 @@
             <categories>
                 <category name="collection" />
                 <category name="drawingObject" />
+                <category name="dummy" />
+                <category name="joint" />
+                <category name="shape" />
+                <category name="script" />
+                <category name="forceSensor" />
+                <category name="proximitySensor" />
+                <category name="visionSensor" />
+                <category name="ocTree" />
+                <category name="pointCloud" />
+                <category name="path" />
             </categories>
             <see-also>
                 <function-ref name="scene:removeObject" />
@@ -2849,6 +2973,52 @@
 
 
 
+    <object-class name="shape">
+        <method name="relocateFrame" func="sim._relocateShapeFrame" lang="python,lua">
+            <description>
+                Repositions and reorients the reference frame of a shape, while keeping the mesh
+                in place. The shape's inertia properties are unaffected
+            </description>
+            <params>
+                <param name="pose" type="pose" default="nil">
+                    <description>
+                        pose for the shape's reference frame. The pose is expressed as [x y z qx qy qz qw]. Ignoring this argument relocates the frame to the center of the mesh's bounding box
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="transformation" />
+            </categories>
+            <see-also>
+                <function-ref name="shape:alignBoundingBox" />
+            </see-also>
+        </method>
+
+
+
+        <method name="alignBoundingBox" func="sim._alignShapeBB" lang="python,lua">
+            <description>
+                Reorients the bounding box of a shape, while keeping the shape frame in place.
+                The shape's inertia properties are unaffected
+            </description>
+            <params>
+                <param name="quaternion" type="quaternion" default="nil">
+                    <description>
+                        quaternion describing the new orientation of the shape's bounding box. The quaternion is expressed as [qx qy qz qw]. Ignoring this argument aligns the bounding box with the mesh's natural bounding box
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="transformation" />
+            </categories>
+            <see-also>
+                <function-ref name="shape:relocatFrame" />
+            </see-also>
+        </method>
+    </object-class>
+
+    
+
     <method name="createDrawingObject" func="sim.createDrawingObject" lang="python,lua">
         <description>
             Creates a drawing object that will be displayed in the scene. Drawing objects are containers
@@ -3264,33 +3434,6 @@
         <see-also>
             <function-ref name="sim.floatingViewAdd" />
             <function-ref name="sim.cameraFitToView" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="alignShapeBB" func="sim.alignShapeBB" lang="python,lua">
-        <description>
-            Reorients the bounding box of a shape, while keeping the shape frame in place.
-            The shape's inertia properties are unaffected
-        </description>
-        <params>
-            <param name="shapeHandle" type="handle">
-                <description>
-                    handle of the shape
-                </description>
-            </param>
-            <param name="p" type="pose">
-                <description>
-                    pose describing the new orientation of the shape's bounding box. The pose is expressed as [x y z qx qy qz qw], where the positional part is ignored. A pose containing only zeros aligns the bounding box with the mesh's natural bounding box
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="shape" /><category name="transformation" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.relocateShapeFrame" />
         </see-also>
     </method>
 
@@ -3917,53 +4060,6 @@ if (simCheckVisionSensor(sensorHandle, entityHandle, &amp;auxValues, &amp;auxVal
 
     
 
-    <method name="createScript" func="sim.createScript" lang="python,lua">
-        <description>
-            Creates a 
-            <a href="../scriptObjects.htm"> script object </a>
-            .
-        </description>
-        <params>
-            <param name="scriptType" type="int">
-                <description>
-                    the 
-                    <a href="../apiConstants.htm#scriptTypes"> script type </a>
-                    . Only simulation-, customization- or passive scripts are allowed
-                </description>
-            </param>
-            <param name="scriptText" type="string">
-                <description>
-                    the content of the script
-                </description>
-            </param>
-            <param name="options" type="int" default="0">
-                <description>
-                    bit-coded options:
-                    <ul>
-                        <li> bit 0 set (1): script is initially disabled </li>
-                    </ul>
-                </description>
-            </param>
-            <param name="lang" type="string" default="'lua'">
-                <description>
-                    bit 0 set (1): script is initially disabled
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="scriptHandle" type="handle">
-                <description>
-                    handle of the script object
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="scriptRelated" /><category name="creation" />
-            </categories>
-    </method>
-
-    
-
     <method name="getObjectHierarchyOrder" func="sim.getObjectHierarchyOrder" lang="python,lua">
         <description>
             Retrieves the zero-based position of an object among its siblings in the scene hierarchy
@@ -4167,53 +4263,6 @@ if (simCheckVisionSensor(sensorHandle, entityHandle, &amp;auxValues, &amp;auxVal
 
     
 
-    <method name="createOctree" func="sim.createOctree" lang="python,lua">
-        <description>
-            Creates an empty 
-            <a href="../octrees.htm"> OC tree </a>
-        </description>
-        <params>
-            <param name="voxelSize" type="float" default="0.025">
-                <description>
-                    size of the voxels
-                </description>
-            </param>
-            <param name="options" type="int" default="0">
-                <description>
-                    bit-coded:
-                    <ul>
-                        <li> bit0 set (1): voxels have random colors </li>
-                        <li> bit1 set (2): show OC tree structure </li>
-                        <li> bit2 set (4): show points instead of voxels </li>
-                        <li> bit3 set (8): reserved. keep unset </li>
-                        <li> bit4 set (16): color is emissive </li>
-                    </ul>
-                </description>
-            </param>
-            <param name="pointSize" type="float" default="2.0">
-                <description>
-                    bit0 set (1): voxels have random colors
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="handle" type="handle">
-                <description>
-                    handle of the OC tree
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="ocTree" /><category name="creation" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.removeObjects" />
-            <link href="../apiFunctions.htm#octree" label=" OC tree related functions " />
-        </see-also>
-    </method>
-
-    
-
     <method name="createPath" func="sim.createPath" lang="python,lua">
         <description>
             Creates a 
@@ -4273,58 +4322,6 @@ if (simCheckVisionSensor(sensorHandle, entityHandle, &amp;auxValues, &amp;auxVal
         <categories>
         <category name="path" />
             </categories>
-    </method>
-
-    
-
-    <method name="createPointCloud" func="sim.createPointCloud" lang="python,lua">
-        <description>
-            Creates an empty 
-            <a href="../pointClouds.htm"> point cloud </a>
-        </description>
-        <params>
-            <param name="maxVoxelSize" type="float" default="0.02">
-                <description>
-                    maximum size of the OC tree voxels containing points
-                </description>
-            </param>
-            <param name="maxPtCntPerVoxel" type="int" default="20">
-                <description>
-                    maximum number of points allowed in a same OC tree voxel
-                </description>
-            </param>
-            <param name="options" type="int" default="0">
-                <description>
-                    bit-coded:
-                    <ul>
-                        <li> bit0 set (1): points have random colors </li>
-                        <li> bit1 set (2): show OC tree structure </li>
-                        <li> bit2 set (4): reserved. keep unset </li>
-                        <li> bit3 set (8): do not use an OC tree structure. When enabled, point cloud operations are limited, and point clouds will not be <a href="../collidableObjects.htm"> collidable </a> , <a href="../measurableObjects.htm"> measurable </a> or <a href="../detectableObjects.htm"> detectable </a> anymore, but adding points will be much faster </li>
-                        <li> bit4 set (16): color is emissive </li>
-                    </ul>
-                </description>
-            </param>
-            <param name="pointSize" type="float" default="4.0">
-                <description>
-                    bit0 set (1): points have random colors
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="handle" type="handle">
-                <description>
-                    handle of the point cloud
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="pointCloud" /><category name="creation" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.removeObjects" />
-            <link href="../apiFunctions.htm#pointCloud" label=" point cloud functions " />
-        </see-also>
     </method>
 
     
@@ -4524,53 +4521,6 @@ if (simCheckVisionSensor(sensorHandle, entityHandle, &amp;auxValues, &amp;auxVal
             <function-ref name="sim.writeTexture" />
             <function-ref name="sim.setShapeTexture" />
         </see-also>
-    </method>
-
-    
-
-    <method name="createVisionSensor" func="sim.createVisionSensor" lang="python,lua">
-        <description>
-            Creates a 
-            <a href="../visionSensors.htm"> vision sensor </a>
-            .
-        </description>
-        <params>
-            <param name="options" type="int" default="0">
-                <description>
-                    bit-coded options:
-                    <ul>
-                        <li> bit 0 set (1): sensor will be explicitly handled </li>
-                        <li> bit 1 set (2): sensor will be in perspective operation mode </li>
-                        <li> bit 2 set (4): view frustum will not be shown </li>
-                        <li> bit 3 set (8): reserved. Set to 0 </li>
-                        <li> bit 4 set (16): sensor will be passive (use an external image) </li>
-                        <li> bit 5 set (32): sensor will use local lights </li>
-                        <li> bit 6 set (64): sensor will not render any fog </li>
-                        <li> bit 7 set (128): sensor will use a specific color for default background (i.e. null pixels) </li>
-                    </ul>
-                </description>
-            </param>
-            <param name="intParams" type="int[4]" default="nil">
-                <description>
-                    bit 0 set (1): sensor will be explicitly handled
-                </description>
-            </param>
-            <param name="floatParams" type="float[11]" default="nil">
-                <description>
-                    bit 1 set (2): sensor will be in perspective operation mode
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="sensorHandle" type="handle">
-                <description>
-                    handle of the force sensor
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="visionSensor" /><category name="creation" />
-            </categories>
     </method>
 
     
@@ -8587,40 +8537,6 @@ end</code>
         <categories>
         <category name="scriptRelated" />
             </categories>
-    </method>
-
-    
-
-    <method name="relocateShapeFrame" func="sim.relocateShapeFrame" lang="python,lua">
-        <description>
-            Repositions and reorients the reference frame of a shape, while keeping the mesh
-            in place. The shape's inertia properties are unaffected.
-        </description>
-        <params>
-            <param name="shapeHandle" type="int">
-                <description>
-                    handle of the shape
-                </description>
-            </param>
-            <param name="pose" type="float[7]">
-                <description>
-                    pose for the shape's reference frame. The pose is expressed as [x y z qx qy qz qw]. A pose containing only zeros relocates the frame to the center of the mesh's bounding box
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="result" type="bool">
-                <description>
-                    0 if the frame could not be relocated (the frame of primitive shapes cannot be relocated), otherwise 1.
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="shape" /><category name="transformation" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.alignShapeBB" />
-        </see-also>
     </method>
 
     
