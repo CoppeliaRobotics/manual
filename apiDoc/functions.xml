@@ -10563,6 +10563,99 @@ end</code>
 
     
 
+    <function name="simGetStackQuaternion" lang="c">
+        <description>
+            Tries to retrieve the value at the top of the stack, if that value is a quaternion
+        </description>
+        <params>
+            <param name="stackHandle" type="int">
+                <description>
+                    a stack handle obtained with 
+                    <a href="simCreateStack_cpp.htm"> simCreateStack </a>
+                    .
+                </description>
+            </param>
+        </params>
+        <returns>
+            <param name="return" type="double*">
+                <description>
+                    if the stack item is not a quaternion, the return value is nullptr. The user is in charge of releasing the returned buffer with 
+                    <a href="simReleaseBuffer_cpp.htm"> simReleaseBuffer </a>
+                </description>
+            </param>
+        </returns>
+        <categories>
+            <category name="stack" />
+        </categories>
+        <see-also>
+            <link href="../apiFunctions.htm#stacks" label=" stack functions " />
+        </see-also>
+    </function>
+
+    
+
+    <function name="simGetStackPose" lang="c">
+        <description>
+            Tries to retrieve the value at the top of the stack, if that value is a pose
+        </description>
+        <params>
+            <param name="stackHandle" type="int">
+                <description>
+                    a stack handle obtained with 
+                    <a href="simCreateStack_cpp.htm"> simCreateStack </a>
+                    .
+                </description>
+            </param>
+        </params>
+        <returns>
+            <param name="return" type="double*">
+                <description>
+                    if the stack item is not a pose, the return value is nullptr. The user is in charge of releasing the returned buffer with 
+                    <a href="simReleaseBuffer_cpp.htm"> simReleaseBuffer </a>
+                </description>
+            </param>
+        </returns>
+        <categories>
+            <category name="stack" />
+        </categories>
+        <see-also>
+            <link href="../apiFunctions.htm#stacks" label=" stack functions " />
+        </see-also>
+    </function>
+
+    
+
+    <function name="simGetStackColor" lang="c">
+        <description>
+            Tries to retrieve the value at the top of the stack, if that value is a color
+        </description>
+        <params>
+            <param name="stackHandle" type="int">
+                <description>
+                    a stack handle obtained with 
+                    <a href="simCreateStack_cpp.htm"> simCreateStack </a>
+                    .
+                </description>
+            </param>
+        </params>
+        <returns>
+            <param name="return" type="float*">
+                <description>
+                    if the stack item is not a color, the return value is nullptr. The user is in charge of releasing the returned buffer with 
+                    <a href="simReleaseBuffer_cpp.htm"> simReleaseBuffer </a>
+                </description>
+            </param>
+        </returns>
+        <categories>
+            <category name="stack" />
+        </categories>
+        <see-also>
+            <link href="../apiFunctions.htm#stacks" label=" stack functions " />
+        </see-also>
+    </function>
+
+    
+
     <function name="simGetStackTableInfo" lang="c">
         <description>
             Tries to retrieve information about a possible table at the top of the stack
@@ -10586,6 +10679,10 @@ end</code>
                         <li> <strong> 4 </strong> : whether the table contains only string values </li>
                         <li> <strong> 5 </strong> : whether the table contains only table values </li>
                         <li> <strong> 6 </strong> : whether the table contains only matrices </li>
+                        <li> <strong> 7 </strong> : whether the table contains only quaternions </li>
+                        <li> <strong> 8 </strong> : whether the table contains only poses </li>
+                        <li> <strong> 9 </strong> : whether the table contains only handles </li>
+                        <li> <strong> 10 </strong> : whether the table contains only colors </li>
                     </ul>
                 </description>
             </param>
@@ -14949,6 +15046,111 @@ word4Color = "152 64 0"</comment>
             <param name="cols" type="int">
                 <description>
                     the number of columns
+                </description>
+            </param>
+        </params>
+        <returns>
+            <param name="return" type="int">
+                <description>
+                    -1 in case of an error.
+                </description>
+            </param>
+        </returns>
+        <categories>
+            <category name="stack" />
+        </categories>
+        <see-also>
+            <link href="../apiFunctions.htm#stacks" label=" stack functions " />
+        </see-also>
+    </function>
+
+    
+
+    <function name="simPushQuaternionOntoStack" lang="c">
+        <description>
+            Pushes a quaternion onto the stack. The quaternion will then be located at the top of the stack
+        </description>
+        <params>
+            <param name="stackHandle" type="int">
+                <description>
+                    stack handle obtained with 
+                    <a href="simCreateStack_cpp.htm"> simCreateStack </a>
+                    .
+                </description>
+            </param>
+            <param name="quaternion" type="const double*">
+                <description>
+                    the quaternion
+                </description>
+            </param>
+        </params>
+        <returns>
+            <param name="return" type="int">
+                <description>
+                    -1 in case of an error.
+                </description>
+            </param>
+        </returns>
+        <categories>
+            <category name="stack" />
+        </categories>
+        <see-also>
+            <link href="../apiFunctions.htm#stacks" label=" stack functions " />
+        </see-also>
+    </function>
+
+    
+
+    <function name="simPushPoseOntoStack" lang="c">
+        <description>
+            Pushes a pose onto the stack. The pose will then be located at the top of the stack
+        </description>
+        <params>
+            <param name="stackHandle" type="int">
+                <description>
+                    stack handle obtained with 
+                    <a href="simCreateStack_cpp.htm"> simCreateStack </a>
+                    .
+                </description>
+            </param>
+            <param name="pose" type="const double*">
+                <description>
+                    the pose
+                </description>
+            </param>
+        </params>
+        <returns>
+            <param name="return" type="int">
+                <description>
+                    -1 in case of an error.
+                </description>
+            </param>
+        </returns>
+        <categories>
+            <category name="stack" />
+        </categories>
+        <see-also>
+            <link href="../apiFunctions.htm#stacks" label=" stack functions " />
+        </see-also>
+    </function>
+
+    
+
+    <function name="simPushColorOntoStack" lang="c">
+        <description>
+            Pushes a color onto the stack. The color will then be located at the top of the stack
+        </description>
+        <params>
+            <param name="stackHandle" type="int">
+                <description>
+                    stack handle obtained with 
+                    <a href="simCreateStack_cpp.htm"> simCreateStack </a>
+                    .
+                </description>
+            </param>
+            <param name="color" type="const float*">
+                <description>
+                    the rgb color
                 </description>
             </param>
         </params>

@@ -1271,913 +1271,14 @@
     
     
     <object-class name="app">
-        <method name="handleSandboxScript" func="sim._handleSandboxScript" lang="lua">
-            <description>
-                Calls a <a href="../callbackFunctions.htm#systemCallbacks"> system callback function </a> in the <a href="../sandboxScript.htm"> sandbox </a>.
-                Should only be called from the <a href="../mainScript.htm"> main script </a>
-            </description>
-            <params>
-                <param name="callType" type="int">
-                    <description>
-                        system call type (e.g. sysCall_actuation)
-                    </description>
-                </param>
-            </params>
-            <categories>
-                <category name="scriptRelated" />
-                <category name="detachedScript" />
-            </categories>
-            <see-also>
-                <function-ref name="app:handleAddOnScripts" />
-                <function-ref name="scene:handleEmbeddedScripts" />
-                <function-ref name="scene:handleSimulationScripts" />
-            </see-also>
-        </method>
-
-
-
-        <method name="handleAddOnScripts" func="sim._handleAddOnScripts" lang="lua">
-            <description>
-                Calls a <a href="../callbackFunctions.htm#systemCallbacks"> system callback function </a> in <a href="../addOns.htm"> add-ons </a>.
-                Should only be called from the <a href="../mainScript.htm"> main script </a>
-            </description>
-            <params>
-                <param name="callType" type="int">
-                    <description>
-                        desired system call type (e.g. sysCall_actuation).
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="count" type="int">
-                    <description>
-                        number of called add-ons
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="scriptRelated" />
-                <category name="detachedScript" />
-            </categories>
-            <see-also>
-                <function-ref name="app:handleSandboxScript" />
-                <function-ref name="scene:handleEmbeddedScripts" />
-                <function-ref name="scene:handleSimulationScripts" />
-            </see-also>
-        </method>
-    </object-class>
-
-    <object-class name="detachedScript">
-        <method name="getApiFunc" func="sim.getApiFunc" lang="python,lua">
-            <description>
-                Retrieves all API functions and variables that match a specific word.
-                Useful for script code auto-completion functionality
-            </description>
-            <params>
-                <param name="apiWord" type="string">
-                    <description>
-                        word that API functions and variables should match, e.g. "sim.getObj". Only matches up to the first dot are returned, if the apiWord does not contain any dot. To retrieve all functions and variables, leave apiWord empty. To retrieve only functions, add '+' as prefix. To retrieve only variables, add '-' as prefix.
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="funcsAndVars" type="string[]">
-                    <description>
-                        array containing all matching API functions and variables.
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="script" />
-                <category name="scriptRelated" />
-            </categories>
-            <see-also>
-                <function-ref name="detachedScript:getApiInfo" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="getApiInfo" func="sim.getApiInfo" lang="python,lua">
-            <description>
-                Returns the call tip (or info text) for an API function
-            </description>
-            <params>
-                <param name="apiWord" type="string">
-                    <description>
-                        API functions or variable to retrieve the info for, e.g. "sim.getObject". Return is for the latest version of a module by default. For a specific module version, specify its full name, e.g. "sim-1.getObject". Using the wildcard, e.g. "sim-*.getObject", the returned information is prepended by its related module name (e.g. "[sim-1]"), for all available modules
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="info" type="string">
-                    <description>
-                        information related to the API function or variable
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="script" />
-                <category name="scriptRelated" />
-            </categories>
-            <see-also>
-                <function-ref name="detachedScript:getApiFunc" />
-            </see-also>
-        </method>
-
-
-
-        <method name="callFunction" func="sim.callScriptFunction" lang="python,lua">
-            <description>
-                Calls a script function. This represents a 
-                <a href="../callbackFunctions.htm"> user callback </a>
-                inside of a script. The
-                target smust be initialized for this call to succeed, e.g. when calling 
-                from <a href="../simulationScripts.htm"> simulation scripts </a>
-                , then simulation must be running
-            </description>
-            <params>
-                <param name="functionName" type="string">
-                    <description>
-                        the function to call.
-                    </description>
-                </param>
-                <param name="inArg" type="any" default="nil">
-                    <description>
-                        argument to be handed over to the called function.
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="outArg" type="any">
-                    <description>
-                        return from the called function.
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="script" />
-                <category name="scriptRelated" />
-                <category name="messaging" />
-            </categories>
-            <see-also>
-                <function-ref name="detachedScript:getFunctions" />
-                <function-ref name="detachedScript:executeString" />
-            </see-also>
-        </method>
-
-
-
-        <method name="getFunctions" func="sim.getScriptFunctions" lang="python,lua">
-            <description>
-                Retrieves a map of the script's functions that can be called
-            </description>
-            <returns>
-                <param name="object" type="map">
-                    <description>
-                        a meta object. Functions can be called with object:functionName()
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="script" />
-                <category name="scriptRelated" />
-                <category name="messaging" />
-            </categories>
-            <see-also>
-                <function-ref name="detachedScript:callFunction" />
-                <function-ref name="detachedScript:executeString" />
-            </see-also>
-        </method>
-
-
-
-        <method name="executeString" func="sim.executeScriptString" lang="python,lua">
-            <description>
-                Executes some code from a string. The target must be initialized for this call to succeed, e.g. when calling
-                from <a href="../simulationScripts.htm"> simulation scripts </a>
-                , then simulation must be running
-                <br />
-                <br />
-            </description>
-            <params>
-                <param name="stringToExecute" type="string">
-                    <description>
-                        a string representing the code to execute in the specified script. An optional @python or @lua can be appended, to force a specific language
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="result" type="int">
-                    <description>
-                        0 or 1
-                    </description>
-                </param>
-                <param name="executionResult" type="any">
-                    <description>
-                        return value of the executed code
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="script" />
-                <category name="scriptRelated" />
-                <category name="messaging" />
-            </categories>
-            <see-also>
-                <function-ref name="detachedScript:callFunction" />
-                <function-ref name="detachedScript:getFunctions" />
-            </see-also>
-        </method>
-
-
-
-        <method name="getStackTraceback" func="sim.getStackTraceback" lang="lua">
-            <description>
-                Retrieves and clears the last generated stack traceback for a script
-            </description>
-            <returns>
-                <param name="stackTraceback" type="string">
-                    <description>
-                        the stack traceback
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="script" />
-                <category name="scriptRelated" />
-            </categories>
-        </method>
-
-
-
-        <method name="init" func="sim.initScript" lang="lua">
-            <description>
-                Initializes/reinitializes a script. Operates in an asynchronous way when called upon the calling script
-            </description>
-            <categories>
-                <category name="script" />
-                <category name="scriptRelated" />
-            </categories>
-        </method>
-    </object-class>
-
-
-
-    <object-class name="collection">
-        <method name="addItem" func="sim._addToColl" lang="python,lua">
-            <description>
-                Adds one or several items to a <a href="../collections.htm">collection</a>
-            </description>
-            <params>
-                <param name="objectHandle" type="handle">
-                    <description>handle of a scene object</description>
-                </param>
-                <param name="what" type="int" default="sim.handle_single">
-                    <description>
-                        type of object (or group of objects) to add. Following are allowed values:
-                        <ul>
-                            <li>
-                                sim.handle_single (for a single object)
-                            </li>
-                            <li>
-                                sim.handle_all (for all objects in the scene)
-                            </li>
-                            <li>
-                                sim.handle_tree (for a tree of objects)
-                            </li>
-                            <li>
-                                sim.handle_chain (for a chain of objects (i.e. an inverted tree)).
-                            </li>
-                        </ul>
-                    </description>
-                </param>
-                <param name="exclude" type="bool" default="false">
-                    <description>
-                        if true, then the specified object is not included in the group of objects to add, if sim.handle_tree or sim.handle_chain is specified (i.e. the tree base or tip is excluded)
-                    </description>
-                </param>
-            </params>
-            <categories>
-            </categories>
-            <see-also>
-                <function-ref name="collection:removeItem" />
-            </see-also>
-        </method>
-
-
-
-        <method name="removeItem" func="sim._removeFromColl" lang="python,lua">
-            <description>
-                Removes one or several items from a <a href="../collections.htm">collection</a>
-            </description>
-            <params>
-                <param name="objectHandle" type="handle">
-                    <description>handle of a scene object</description>
-                </param>
-                <param name="what" type="int" default="sim.handle_single">
-                    <description>
-                        type of object (or group of objects) to remove. Following are allowed values:
-                        <ul>
-                            <li>
-                                sim.handle_single (for a single object)
-                            </li>
-                            <li>
-                                sim.handle_all (for all objects in the scene)
-                            </li>
-                            <li>
-                                sim.handle_tree (for a tree of objects)
-                            </li>
-                            <li>
-                                sim.handle_chain (for a chain of objects (i.e. an inverted tree)).
-                            </li>
-                        </ul>
-                    </description>
-                </param>
-                <param name="exclude" type="bool" default="false">
-                    <description>
-                        if true, then the specified object is not included in the group of objects to remove, if sim.handle_tree or sim.handle_chain is specified (i.e. the tree base or tip is excluded)
-                    </description>
-                </param>
-            </params>
-            <categories>
-            </categories>
-            <see-also>
-                <function-ref name="collection:addItem" />
-            </see-also>
-        </method>
-
-
-
-        <method name="checkCollision" func="sim.checkCollision" lang="python,lua">
-            <description>
-                Checks whether this <a href="../collections.htm">collection</a> collides with another collection or <a href="../objects.htm">scene object</a>. If the entity to check against is a
-                scene object, then its <a href="../collidableObjects.htm">collidable</a> flag is ignored.
-                If the entity to check against is the same collection, then a self-collision check is performed
-            </description>
-            <params>
-                <param name="entityHandle" type="handle" default="sim.handle_all">
-                    <description>
-                        handle of the other entity (can be a scene object or another collection), or sim.handle_all to check this collection against all other collidable scene objects
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="result" type="bool">
-                    <description>
-                        indicates the collision state
-                    </description>
-                </param>
-                <param name="collidingObjectHandles" type="int[2]">
-                    <description>
-                        array containing the colliding scene object pair
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="collision" />
-            </categories>
-            <see-also>
-                <function-ref name="collection:checkDistance" />
-                <function-ref name="sceneObject:checkCollision" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="checkDistance" func="sim.checkDistance" lang="python,lua">
-            <description>
-                Checks the minimum distance between this <a href="../collections.htm">collection</a> and another collection or <a href="../objects.htm">scene object</a>. If the entity to check
-                against is a scene object, then its <a href="../measurableObjects.htm">measurable</a> flag is ignored.
-                If the entity to check against is the same collection, then the minimum distance within this collection is computed
-            </description>
-            <params>
-                <param name="entityHandle" type="handle" default="sim.handle_all">
-                    <description>
-                        handle of the other entity (can be a scene object or another collection), or sim.handle_all to check this collection against all other measurable scene objects
-                    </description>
-                </param>
-                <param name="threshold" type="float" default="0.0">
-                    <description>
-                        if distance is bigger than the threshold, the distance is not calculated and result is false
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="result" type="bool">
-                    <description>
-                        true if distance is smaller than the threshold
-                    </description>
-                </param>
-                <param name="dist" type="float">
-                    <description>
-                        distance
-                    </description>
-                </param>
-                <param name="p1" type="vector3">
-                    <description>
-                        point on entity 1
-                    </description>
-                </param>
-                <param name="p2" type="vector3">
-                    <description>
-                        point on entity 2
-                    </description>
-                </param>
-                <param name="objectHandlePair" type="int[2]">
-                    <description>
-                        array of 2 object handles representing the two objects that hold the minimum distance segment
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="distance" />
-            </categories>
-            <see-also>
-                <function-ref name="collection:checkCollision" />
-                <function-ref name="sceneObject:checkDistance" />
-            </see-also>
-        </method>
-    </object-class>
-    
-    
-    
-    <object-class name="drawingObject">
-        <method name="addItems" func="sim._addDrawingObjectItems" lang="python,lua">
-            <description>
-                Adds items to a drawing object
-            </description>
-            <params>
-                <param name="items" type="matrix">
-                    <description>
-                        data relative to items, in column-major order. If the items are point items, the matrix should be 3 * n in size. If the items are line items, the matrix should be 3 * n in size,
-                        etc
-                    </description>
-                </param>
-            </params>
-            <categories>
-                <category name="rendering" />
-            </categories>
-            <see-also>
-                <function-ref name="drawingObject:addPackedItems" />
-                <function-ref name="drawingObject:clearItems" />
-                <function-ref name="scene:createObject" />
-            </see-also>
-        </method>
-
-
-
-        <method name="addPackedItems" func="sim._addDrawingObjectPackedItems" lang="python,lua">
-            <description>
-                Adds packed items to a drawing object
-            </description>
-            <params>
-                <param name="items" type="buffer">
-                    <description>
-                        a buffer of packed single-precision float values. If the items are point items, there should be 3 * n packed floats. If the items are line items, there should be 3 * n packed floats, etc
-                    </description>
-                </param>
-            </params>
-            <categories>
-                <category name="rendering" />
-            </categories>
-            <see-also>
-                <function-ref name="drawingObject:addItems" />
-                <function-ref name="drawingObject:clearItems" />
-                <function-ref name="scene:createObject" />
-            </see-also>
-        </method>
-
-
-
-        <method name="clearItems" func="sim._clearDrawingObjectItems" lang="python,lua">
-            <description>
-                Clears a drawing object
-            </description>
-            <categories>
-                <category name="rendering" />
-            </categories>
-            <see-also>
-                <function-ref name="drawingObject:addItems" />
-            </see-also>
-        </method>
-    </object-class>
-
-
-    
-    <object-class name="scene">
-        <method name="loadModel" func="sim._loadModel" lang="python,lua">
-            <description>
-                Loads a previously saved model, and selects it
-            </description>
-            <params>
-                <param name="filename" type="string">
-                    <description>
-                        model filename. The filename extension is required (ttm, or simmodel.xml)
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="object" type="handle">
-                    <description>
-                        the model base scene object
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="file" />
-                <category name="model" />
-            </categories>
-            <see-also>
-                <function-ref name="scene:loadModelFromBuffer" />
-                <function-ref name="scene:loadModelThumbnail" />
-                <function-ref name="scene:loadModelThumbnailFromBuffer" />
-                <function-ref name="scene:saveModel" />
-                <function-ref name="sim.loadScene" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="loadModelThumbnail" func="sim._loadModelThumbnail" lang="python,lua">
-            <description>
-                Loads a model thumbnail
-            </description>
-            <params>
-                <param name="filename" type="string">
-                    <description>
-                        model filename. The filename extension is required (ttm, or simmodel.xml)
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="rgbaImage" type="buffer">
-                    <description>
-                        the model thumbnail image (128 x 128 x 4, rgba)
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="file" />
-                <category name="model" />
-            </categories>
-            <see-also>
-                <function-ref name="scene:loadModel" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="loadModelThumbnailFromBuffer" func="sim._loadModelThumbnailFromBuffer" lang="python,lua">
-            <description>
-                Loads a model thumbnail from a buffer
-            </description>
-            <params>
-                <param name="buffer" type="buffer">
-                    <description>
-                        buffer containing the model
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="rgbaImage" type="buffer">
-                    <description>
-                        the model thumbnail image (128 x 128 x 4, rgba)
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="file" />
-                <category name="model" />
-            </categories>
-            <see-also>
-                <function-ref name="scene:loadModel" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="loadModelFromBuffer" func="sim._loadModelFromBuffer" lang="python,lua">
-            <description>
-                Loads a model from buffer, and selects it
-            </description>
-            <params>
-                <param name="buffer" type="buffer">
-                    <description>
-                        a buffer containing the model
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="object" type="handle">
-                    <description>
-                        the model base scene object
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="file" />
-                <category name="model" />
-            </categories>
-            <see-also>
-                <function-ref name="scene:loadModel" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="saveModel" func="sim.__saveModel" lang="python,lua">
-            <description>
-                Saves a model (an object marked as "Object is model base" and all other
-                objects in its hierarchy tree). Any existing file with same name will be overwritten
-            </description>
-            <params>
-                <param name="baseOfModel" type="handle">
-                    <description>
-                        scene object marked as model base
-                    </description>
-                </param>
-                <param name="filename" type="string">
-                    <description>
-                        model filename. The filename extension is required (ttm, or simmodel.xml)
-                    </description>
-                </param>
-            </params>
-            <categories>
-                <category name="file" />
-                <category name="model" />
-            </categories>
-            <see-also>
-                <function-ref name="sceneObject:saveModel" />
-                <function-ref name="scene:loadModel" />
-                <function-ref name="scene:saveModelToBuffer" />
-                <function-ref name="sceneObject:saveModelToBuffer" />
-                <function-ref name="scene:saveScene" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="saveModelToBuffer" func="sim.__saveModelToBuffer" lang="python,lua">
-            <description>
-                Serializes a model to a buffer
-            </description>
-            <params>
-                <param name="baseOfModel" type="handle">
-                    <description>
-                        scene object marked as model base
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="modelData" type="buffer">
-                    <description>
-                        a buffer containing the saved model
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="file" />
-                <category name="model" />
-            </categories>
-            <see-also>
-                <function-ref name="scene:saveModel" />
-                <function-ref name="sceneObject:saveModelToBuffer" />
-                <function-ref name="sceneObject:saveModel" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="removeObjects" func="sim._removeObjects" lang="python,lua">
-            <description>
-                Removes one or several objects from the scene
-            </description>
-            <params>
-                <param name="objects" type="handle[]">
-                    <description>objects to remove</description>
-                </param>
-                <param name="delayedRemoval" type="bool" default="false">
-                    <description>whether the removal of scene objects should be delayed (e.g. when a script destroys itself)</description>
-                </param>
-            </params>
-            <categories>
-                <category name="sceneObject" />
-                <category name="drawingObject" />
-                <category name="collection" />
-            </categories>
-            <see-also>
-                <function-ref name="scene:removeObject" />
-                <function-ref name="scene:removeModel" />
-                <function-ref name="scene:createObject" />
-            </see-also>
-        </method>
-
-
-
-        <method name="removeObject" func="sim._removeObject" lang="python,lua">
-            <description>
-                Removes an object from the scene
-            </description>
-            <params>
-                <param name="object" type="handle">
-                    <description>object to remove</description>
-                </param>
-                <param name="delayedRemoval" type="bool" default="false">
-                    <description>whether the removal of a scene object should be delayed (e.g. when a script destroys itself)</description>
-                </param>
-            </params>
-            <categories>
-                <category name="sceneObject" />
-                <category name="drawingObject" />
-                <category name="collection" />
-            </categories>
-            <see-also>
-                <function-ref name="scene:removeObjects" />
-                <function-ref name="scene:removeModel" />
-                <function-ref name="scene:createObject" />
-            </see-also>
-        </method>
-
-
-
-        <method name="removeModel" func="sim._removeModel" lang="python,lua">
-            <description>
-                Removes a model from the scene
-            </description>
-            <params>
-                <param name="object" type="handle">
-                    <description>
-                        model (i.e. scene object tagged as model) to remove
-                    </description>
-                </param>
-                <param name="delayedRemoval" type="bool" default="false">
-                    <description>
-                        whether the removal should be delayed (e.g. when a script destroys itself)
-                    </description>
-                </param>
-            </params>
-            <categories>
-                <category name="sceneObject" />
-            </categories>
-            <see-also>
-                <function-ref name="scene:removeObject" />
-                <function-ref name="scene:removeObjects" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="duplicateObjects" func="sim._duplicateObjects" lang="python,lua">
-            <description>
-                Duplicates scene objects
-            </description>
-            <params>
-                <param name="objects" type="handle[]">
-                    <description>
-                        array of scene objects to duplicate
-                    </description>
-                </param>
-                <param name="options" type="int" default="0">
-                    <description>
-                        bit-coded options:
-                        <ul>
-                            <li> bit0 is set (i.e. 1): whole models are copied. In that case, all specified scene objects should be flagged as model base</li>
-                            <li> bit1 is set (i.e. 2): all scripts are stripped away </li>
-                            <li> bit2 is set (i.e. 4): all scene object <a href="../properties.htm#customData"> custom data properties </a> are stripped away </li>
-                            <li> bit3 is set (i.e. 8): all scene object references are stripped away </li>
-                            <li> bit4 is set (i.e. 16): all textures are stripped away </li>
-                            <li> bit5 is set (i.e. 32): model tags and DNA information is stripped away </li>
-                        </ul>
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="duplicateObjects" type="handle[]">
-                    <description>
-                        the duplicate scene objects, where original and copy have the same location in their respective arrays (when scripts are stripped away, the array could contain -1 values)
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="sceneObject" />
-            </categories>
-            <see-also>
-                <function-ref name="scene:removeObjects" />
-                <function-ref name="scene:removeModel" />
-                <function-ref name="scene:saveModel" />
-                <function-ref name="scene:loadModel" />
-            </see-also>
-        </method>
-
-        
-
-        <method name="handleEmbeddedScripts" func="sim._handleEmbeddedScripts" lang="lua">
-            <description>
-                Calls a <a href="../callbackFunctions.htm#systemCallbacks"> system callback function </a>
-                in <a href="../simulationScripts.htm"> simulation scripts </a> and 
-                <a href="../customizationScripts.htm"> customization scripts </a>.
-                Simulation- and customization scripts will be executed in a 
-                <a href="../scriptExecution.htm"> precise order </a>. This function should only be called from the 
-                <a href="../mainScript.htm"> main script </a>
-            </description>
-            <params>
-                <param name="callType" type="int">
-                    <description>
-                        desired system call type (e.g. sysCall_actuation)
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="scriptCount" type="int">
-                    <description>
-                        number of called scripts
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="scriptRelated" />
-            </categories>
-            <see-also>
-                <function-ref name="app:handleSandboxScript" />
-                <function-ref name="app:handleAddOnScripts" />
-                <function-ref name="scene:handleSimulationScripts" />
-            </see-also>
-        </method>
-
-
-
-        <method name="handleSimulationScripts" func="sim._handleSimulationScripts" lang="lua">
-            <description>
-                Calls a <a href="../callbackFunctions.htm#systemCallbacks"> system callback function </a>
-                in <a href="../simulationScripts.htm"> simulation scripts </a>. Simulation scripts will be executed in a 
-                <a href="../scriptExecution.htm"> precise order </a>.
-                This function should only be called from the <a href="../mainScript.htm"> main script </a>.
-            </description>
-            <params>
-                <param name="callType" type="int">
-                    <description>
-                        the desired system call type (e.g. sysCall_actuation)
-                    </description>
-                </param>
-            </params>
-            <returns>
-                <param name="scriptCount" type="int">
-                    <description>
-                        number of called simulation scripts
-                    </description>
-                </param>
-            </returns>
-            <categories>
-                <category name="scriptRelated" />
-            </categories>
-            <see-also>
-                <function-ref name="app:handleSandboxScript" />
-                <function-ref name="app:handleAddOnScripts" />
-                <function-ref name="scene:handleEmbeddedScripts" />
-            </see-also>
-        </method>
-
-
-
-        <method name="scaleObjects" func="sim._scaleObjects" lang="python,lua">
-            <description>
-                Scales specified scene objects in an isometric fashion. All related values are automatically scaled appropriately
-                (e.g. masses, etc.)
-            </description>
-            <params>
-                <param name="objects" type="int[]">
-                    <description>
-                        array containing the scene objects to scale. If an object is a model base, all its children will also be scaled
-                    </description>
-                </param>
-                <param name="scalingFactor" type="float">
-                    <description>
-                        scaling factor
-                    </description>
-                </param>
-                <param name="scalePositionsToo" type="bool" default = "true">
-                    <description>
-                        if true, then the position of the specified scene objects is also scaled
-                    </description>
-                </param>
-            </params>
-            <categories>
-                <category name="sceneObject" />
-            </categories>
-            <see-also>
-                <function-ref name="sceneObject:scale" />
-            </see-also>
-        </method>
-
-
-
-        <method name="createObject" func="sim._createObject" lang="python,lua">
+        <method name="createObject" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
             <description>
                 Creates one of following objects:
                 <ul>
                     <li><a href="#collection">collection</a></li>
                     <li><a href="#drawingObject">drawing object</a></li>
+                    <li><a href="#detachedScript">detached script</a></li>
                     <li><a href="#dummy">dummy</a></li>
                     <li><a href="#joint">joint</a></li>
                     <li><a href="#shape">shape</a></li>
@@ -2214,6 +1315,14 @@
                                     <li>paint (bool): only rendered for vision sensors</li>
                                     <li>overlay (bool): rendered on top of scene objects</li>
                                     <li>color (color): item color</li>
+                                </ul>
+                            </li>
+                            <li id="detachedScript"><a href="../scripts.htm">detached script</a> fields:
+                                <ul>
+                                    <li>objectType (string): "detachedScript"</li>
+                                    <li>scriptType (int): the <a href="#scriptType">script type</a>. As of now only sim.scripttype_addon is supported</li>
+                                    <li>lang (string): the script language ("lua" or "python")</li>
+                                    <li>code (string): the script content</li>
                                 </ul>
                             </li>
                             <li id="dummy"><a href="../dummies.htm">dummy</a> fields:
@@ -2427,6 +1536,7 @@
             <categories>
                 <category name="collection" />
                 <category name="drawingObject" />
+                <category name="detachedScript" />
                 <category name="dummy" />
                 <category name="joint" />
                 <category name="shape" />
@@ -2439,7 +1549,1558 @@
                 <category name="path" />
             </categories>
             <see-also>
-                <function-ref name="scene:removeObject" />
+                <function-ref name="sceneObject:remove" />
+                <function-ref name="collection:remove" />
+                <function-ref name="detachedScript:remove" />
+                <function-ref name="drawingObject:remove" />
+                <function-ref name="app:removeObjects" />
+            </see-also>
+        </method>
+        
+        
+
+        <method name="saveScene" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Saves a scene to file. Any existing file with same name will be overwritten
+            </description>
+            <params>
+                <param name="filename" type="string">
+                    <description>
+                        scene filename. The filename extension is required
+                    </description>
+                </param>
+            </params>
+            <categories>
+            <category name="file" />
+                </categories>
+            <see-also>
+                <function-ref name="app:loadScene" />
+                <function-ref name="app:saveSceneToBuffer" />
+                <function-ref name="app:closeScene" />
+                <function-ref name="sceneObject:saveModel" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="saveSceneToBuffer" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Serializes a scene to a buffer
+            </description>
+            <returns>
+                <param name="serializedScene" type="buffer">
+                    <description>
+                        a buffer representing the serialized scene
+                    </description>
+                </param>
+            </returns>
+            <categories>
+            <category name="file" />
+                </categories>
+            <see-also>
+                <function-ref name="app:saveScene" />
+                <function-ref name="app:loadSceneFromBuffer" />
+            </see-also>
+        </method>
+
+    
+
+        <method name="loadScene" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a scene from file
+            </description>
+            <params>
+                <param name="filename" type="string">
+                    <description>
+                        scene filename, including extension. An empty string loads the default scene
+                    </description>
+                </param>
+                <param name="keepScene" type="bool" default="false">
+                    <description>
+                        whether the current scene should be kept or discarded
+                    </description>
+                </param>
+            </params>
+            <categories>
+            <category name="file" />
+                </categories>
+            <see-also>
+                <function-ref name="app:loadSceneFromBuffer" />
+                <function-ref name="app:saveScene" />
+                <function-ref name="app:loadModel" />
+                <function-ref name="app:closeScene" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadSceneFromBuffer" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a scene from buffer
+            </description>
+            <params>
+                <param name="serializedScene" type="buffer">
+                    <description>
+                        the buffer of the serialized scene
+                    </description>
+                </param>
+                 <param name="keepScene" type="bool" default="false">
+                    <description>
+                        whether the current scene should be kept or discarded
+                    </description>
+                </param>
+           </params>
+            <categories>
+            <category name="file" />
+                </categories>
+            <see-also>
+                <function-ref name="app:loadScene" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadModel" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a previously saved model, and selects it
+            </description>
+            <params>
+                <param name="filename" type="string">
+                    <description>
+                        model filename. The filename extension is required (ttm, or simmodel.xml)
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="object" type="handle">
+                    <description>
+                        the model base scene object
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="file" />
+                <category name="model" />
+            </categories>
+            <see-also>
+                <function-ref name="app:loadModelFromBuffer" />
+                <function-ref name="app:loadModelThumbnail" />
+                <function-ref name="app:loadModelThumbnailFromBuffer" />
+                <function-ref name="app:loadScene" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadModelThumbnail" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a model thumbnail
+            </description>
+            <params>
+                <param name="filename" type="string">
+                    <description>
+                        model filename. The filename extension is required (ttm, or simmodel.xml)
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="rgbaImage" type="buffer">
+                    <description>
+                        the model thumbnail image (128 x 128 x 4, rgba)
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="file" />
+                <category name="model" />
+            </categories>
+            <see-also>
+                <function-ref name="app:loadModel" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadModelThumbnailFromBuffer" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a model thumbnail from a buffer
+            </description>
+            <params>
+                <param name="buffer" type="buffer">
+                    <description>
+                        buffer containing the model
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="rgbaImage" type="buffer">
+                    <description>
+                        the model thumbnail image (128 x 128 x 4, rgba)
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="file" />
+                <category name="model" />
+            </categories>
+            <see-also>
+                <function-ref name="app:loadModel" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadModelFromBuffer" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a model from buffer, and selects it
+            </description>
+            <params>
+                <param name="buffer" type="buffer">
+                    <description>
+                        a buffer containing the model
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="object" type="handle">
+                    <description>
+                        the model base scene object
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="file" />
+                <category name="model" />
+            </categories>
+            <see-also>
+                <function-ref name="app:loadModel" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="getObjects" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Retrieves objects of a certain type
+            </description>
+            <params>
+                <param name="types" type="string[]" default="{}">
+                    <description>
+                        a string array specifying the types to retrieve. Allowed values are: "sceneObject", "shape", "joint", "dummy", "script", "mirror", "graph", "light", "camera", "proximitySensor", "visionSensor", "forceSensor", "ocTree", "pointCloud", "drawingObject", "collection", "detachedScript", "mesh"  
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="objects" type="handle[]">
+                    <description>
+                        the retrieved objects
+                    </description>
+                </param>
+            </returns>
+            <categories>
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:getDescendants" />
+                <function-ref name="sceneObject:getAncestors" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="removeObjects" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Removes one or several objects
+            </description>
+            <params>
+                <param name="objects" type="handle[]">
+                    <description>objects to remove</description>
+                </param>
+                <param name="delayedRemoval" type="bool" default="false">
+                    <description>whether the removal of scene objects should be delayed (e.g. when a script destroys itself)</description>
+                </param>
+            </params>
+            <categories>
+                <category name="sceneObject" />
+                <category name="drawingObject" />
+                <category name="collection" />
+                <category name="detachedScript" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:remove" />
+                <function-ref name="collection:remove" />
+                <function-ref name="drawingObject:remove" />
+                <function-ref name="detachedScript:remove" />
+                <function-ref name="sceneObject:removeModel" />
+                <function-ref name="app:createObject" />
+            </see-also>
+        </method>
+
+
+
+        <method name="handleSandboxScript" func="sim.callMethod" lang="lua">
+            <description>
+                Calls a <a href="../callbackFunctions.htm#systemCallbacks"> system callback function </a> in the <a href="../sandboxScript.htm"> sandbox </a>.
+                Should only be called from the <a href="../mainScript.htm"> main script </a>
+            </description>
+            <params>
+                <param name="callType" type="int">
+                    <description>
+                        system call type (e.g. sysCall_actuation)
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="scriptRelated" />
+                <category name="detachedScript" />
+            </categories>
+            <see-also>
+                <function-ref name="app:handleAddOnScripts" />
+                <function-ref name="scene:handleCustomizationScripts" />
+                <function-ref name="scene:handleSimulationScripts" />
+            </see-also>
+        </method>
+
+
+
+        <method name="handleAddOnScripts" func="sim.callMethod" lang="lua">
+            <description>
+                Calls a <a href="../callbackFunctions.htm#systemCallbacks"> system callback function </a> in <a href="../addOns.htm"> add-ons </a>.
+                Should only be called from the <a href="../mainScript.htm"> main script </a>
+            </description>
+            <params>
+                <param name="callType" type="int">
+                    <description>
+                        desired system call type (e.g. sysCall_actuation).
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="count" type="int">
+                    <description>
+                        number of called add-ons
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="scriptRelated" />
+                <category name="detachedScript" />
+            </categories>
+            <see-also>
+                <function-ref name="app:handleSandboxScript" />
+                <function-ref name="scene:handleCustomizationScripts" />
+                <function-ref name="scene:handleSimulationScripts" />
+            </see-also>
+        </method>
+    </object-class>
+
+
+
+    <object-class name="detachedScript">
+        <method name="remove" func="sim.callMethod" lang="python,lua">
+            <info>same method present in several classes</info>
+            <description>
+                Removes the detached script. Currently only add-ons can be removed
+            </description>
+            <categories>
+                <category name="detachedScript" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:removeObjects" />
+            </see-also>
+        </method>
+
+
+
+        <method name="getApiFunc" func="sim.getApiFunc" lang="python,lua">
+            <description>
+                Retrieves all API functions and variables that match a specific word.
+                Useful for script code auto-completion functionality
+            </description>
+            <params>
+                <param name="apiWord" type="string">
+                    <description>
+                        word that API functions and variables should match, e.g. "sim.getObj". Only matches up to the first dot are returned, if the apiWord does not contain any dot. To retrieve all functions and variables, leave apiWord empty. To retrieve only functions, add '+' as prefix. To retrieve only variables, add '-' as prefix.
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="funcsAndVars" type="string[]">
+                    <description>
+                        array containing all matching API functions and variables.
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="script" />
+                <category name="scriptRelated" />
+            </categories>
+            <see-also>
+                <function-ref name="detachedScript:getApiInfo" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="getApiInfo" func="sim.getApiInfo" lang="python,lua">
+            <description>
+                Returns the call tip (or info text) for an API function
+            </description>
+            <params>
+                <param name="apiWord" type="string">
+                    <description>
+                        API functions or variable to retrieve the info for, e.g. "sim.getObject". Return is for the latest version of a module by default. For a specific module version, specify its full name, e.g. "sim-1.getObject". Using the wildcard, e.g. "sim-*.getObject", the returned information is prepended by its related module name (e.g. "[sim-1]"), for all available modules
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="info" type="string">
+                    <description>
+                        information related to the API function or variable
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="script" />
+                <category name="scriptRelated" />
+            </categories>
+            <see-also>
+                <function-ref name="detachedScript:getApiFunc" />
+            </see-also>
+        </method>
+
+
+
+        <method name="callFunction" func="sim.callScriptFunction" lang="python,lua">
+            <description>
+                Calls a script function. This represents a 
+                <a href="../callbackFunctions.htm"> user callback </a>
+                inside of a script. The
+                target smust be initialized for this call to succeed, e.g. when calling 
+                from <a href="../simulationScripts.htm"> simulation scripts </a>
+                , then simulation must be running
+            </description>
+            <params>
+                <param name="functionName" type="string">
+                    <description>
+                        the function to call.
+                    </description>
+                </param>
+                <param name="inArg" type="any" default="nil">
+                    <description>
+                        argument to be handed over to the called function.
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="outArg" type="any">
+                    <description>
+                        return from the called function.
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="script" />
+                <category name="scriptRelated" />
+                <category name="messaging" />
+            </categories>
+            <see-also>
+                <function-ref name="detachedScript:getFunctions" />
+                <function-ref name="detachedScript:executeString" />
+            </see-also>
+        </method>
+
+
+
+        <method name="getFunctions" func="sim.getScriptFunctions" lang="python,lua">
+            <description>
+                Retrieves a map of the script's functions that can be called
+            </description>
+            <returns>
+                <param name="object" type="map">
+                    <description>
+                        a meta object. Functions can be called with object:functionName()
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="script" />
+                <category name="scriptRelated" />
+                <category name="messaging" />
+            </categories>
+            <see-also>
+                <function-ref name="detachedScript:callFunction" />
+                <function-ref name="detachedScript:executeString" />
+            </see-also>
+        </method>
+
+
+
+        <method name="executeString" func="sim.executeScriptString" lang="python,lua">
+            <description>
+                Executes some code from a string. The target must be initialized for this call to succeed, e.g. when calling
+                from <a href="../simulationScripts.htm"> simulation scripts </a>
+                , then simulation must be running
+                <br />
+                <br />
+            </description>
+            <params>
+                <param name="stringToExecute" type="string">
+                    <description>
+                        a string representing the code to execute in the specified script. An optional @python or @lua can be appended, to force a specific language
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="result" type="int">
+                    <description>
+                        0 or 1
+                    </description>
+                </param>
+                <param name="executionResult" type="any">
+                    <description>
+                        return value of the executed code
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="script" />
+                <category name="scriptRelated" />
+                <category name="messaging" />
+            </categories>
+            <see-also>
+                <function-ref name="detachedScript:callFunction" />
+                <function-ref name="detachedScript:getFunctions" />
+            </see-also>
+        </method>
+
+
+
+        <method name="getStackTraceback" func="sim.getStackTraceback" lang="lua">
+            <description>
+                Retrieves and clears the last generated stack traceback for a script
+            </description>
+            <returns>
+                <param name="stackTraceback" type="string">
+                    <description>
+                        the stack traceback
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="script" />
+                <category name="scriptRelated" />
+            </categories>
+        </method>
+
+
+
+        <method name="init" func="sim.initScript" lang="lua">
+            <description>
+                Initializes/reinitializes a script. Operates in an asynchronous way when called upon the calling script
+            </description>
+            <categories>
+                <category name="script" />
+                <category name="scriptRelated" />
+            </categories>
+        </method>
+    </object-class>
+
+
+
+    <object-class name="collection">
+        <method name="remove" func="sim.callMethod" lang="python,lua">
+            <info>same method present in several classes</info>
+            <description>
+                Removes the collection
+            </description>
+            <categories>
+                <category name="collection" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:removeObjects" />
+            </see-also>
+        </method>
+
+
+
+        <method name="addItem" func="sim.callMethod" lang="python,lua">
+            <description>
+                Adds one or several items to this collection
+            </description>
+            <params>
+                <param name="objectHandle" type="handle">
+                    <description>a scene object</description>
+                </param>
+                <param name="what" type="int" default="sim.handle_single">
+                    <description>
+                        type of object (or group of objects) to add. Following are allowed values:
+                        <ul>
+                            <li>
+                                sim.handle_single (for a single object)
+                            </li>
+                            <li>
+                                sim.handle_all (for all objects in the scene)
+                            </li>
+                            <li>
+                                sim.handle_tree (for a tree of objects)
+                            </li>
+                            <li>
+                                sim.handle_chain (for a chain of objects (i.e. an inverted tree)).
+                            </li>
+                        </ul>
+                    </description>
+                </param>
+                <param name="exclude" type="bool" default="false">
+                    <description>
+                        if true, then the specified object is not included in the group of objects to add, if sim.handle_tree or sim.handle_chain is specified (i.e. the tree base or tip is excluded)
+                    </description>
+                </param>
+            </params>
+            <categories>
+            </categories>
+            <see-also>
+                <function-ref name="collection:removeItem" />
+            </see-also>
+        </method>
+
+
+
+        <method name="removeItem" func="sim.callMethod" lang="python,lua">
+            <description>
+                Removes one or several items from this collection
+            </description>
+            <params>
+                <param name="objectHandle" type="handle">
+                    <description>handle of a scene object</description>
+                </param>
+                <param name="what" type="int" default="sim.handle_single">
+                    <description>
+                        type of object (or group of objects) to remove. Following are allowed values:
+                        <ul>
+                            <li>
+                                sim.handle_single (for a single object)
+                            </li>
+                            <li>
+                                sim.handle_all (for all objects in the scene)
+                            </li>
+                            <li>
+                                sim.handle_tree (for a tree of objects)
+                            </li>
+                            <li>
+                                sim.handle_chain (for a chain of objects (i.e. an inverted tree)).
+                            </li>
+                        </ul>
+                    </description>
+                </param>
+                <param name="exclude" type="bool" default="false">
+                    <description>
+                        if true, then the specified object is not included in the group of objects to remove, if sim.handle_tree or sim.handle_chain is specified (i.e. the tree base or tip is excluded)
+                    </description>
+                </param>
+            </params>
+            <categories>
+            </categories>
+            <see-also>
+                <function-ref name="collection:addItem" />
+            </see-also>
+        </method>
+
+
+
+        <method name="checkCollision" func="sim.callMethod" lang="python,lua">
+            <description>
+                Checks whether this <a href="../collections.htm">collection</a> collides with another collection or <a href="../objects.htm">scene object</a>. If the entity to check against is a
+                scene object, then its <a href="../collidableObjects.htm">collidable</a> flag is ignored.
+                If the entity to check against is the same collection, then a self-collision check is performed (in which case the collection self-collision indicators are taken into account)
+            </description>
+            <params>
+                <param name="entityHandle" type="handle" default="sim.handle_all">
+                    <description>
+                        handle of the other entity (can be a scene object or another collection), or sim.handle_all to check this collection against all other collidable scene objects
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="result" type="bool">
+                    <description>
+                        indicates the collision state
+                    </description>
+                </param>
+                <param name="collidingObjectHandles" type="handle[2]">
+                    <description>
+                        array containing the colliding scene object pair
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="collision" />
+            </categories>
+            <see-also>
+                <function-ref name="collection:checkDistance" />
+                <function-ref name="sceneObject:checkCollision" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="checkDistance" func="sim.callMethod" lang="python,lua">
+            <description>
+                Checks the minimum distance between this <a href="../collections.htm">collection</a> and another collection or <a href="../objects.htm">scene object</a>. If the entity to check
+                against is a scene object, then its <a href="../measurableObjects.htm">measurable</a> flag is ignored.
+                If the entity to check against is the same collection, then the minimum distance within this collection is computed
+            </description>
+            <params>
+                <param name="entityHandle" type="handle" default="sim.handle_all">
+                    <description>
+                        handle of the other entity (can be a scene object or another collection), or sim.handle_all to check this collection against all other measurable scene objects
+                    </description>
+                </param>
+                <param name="threshold" type="float" default="0.0">
+                    <description>
+                        if distance is bigger than the threshold, the distance is not calculated and result is false
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="result" type="bool">
+                    <description>
+                        true if distance is smaller than the threshold
+                    </description>
+                </param>
+                <param name="dist" type="float">
+                    <description>
+                        distance
+                    </description>
+                </param>
+                <param name="p1" type="vector3">
+                    <description>
+                        point on entity 1
+                    </description>
+                </param>
+                <param name="p2" type="vector3">
+                    <description>
+                        point on entity 2
+                    </description>
+                </param>
+                <param name="objectHandlePair" type="handle[2]">
+                    <description>
+                        array of 2 object handles representing the two objects that hold the minimum distance segment
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="distance" />
+            </categories>
+            <see-also>
+                <function-ref name="collection:checkCollision" />
+                <function-ref name="sceneObject:checkDistance" />
+            </see-also>
+        </method>
+    </object-class>
+    
+    
+    
+    <object-class name="drawingObject">
+        <method name="remove" func="sim.callMethod" lang="python,lua">
+            <info>same method present in several classes</info>
+            <description>
+                Removes the drawing object
+            </description>
+            <categories>
+                <category name="drawingObject" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:removeObjects" />
+            </see-also>
+        </method>
+
+
+
+        <method name="addItems" func="sim._addDrawingObjectItems" lang="python,lua">
+            <description>
+                Adds items to a drawing object
+            </description>
+            <params>
+                <param name="items" type="matrix">
+                    <description>
+                        data relative to items, in column-major order. If the items are point items, the matrix should be 3 * n in size. If the items are line items, the matrix should be 3 * n in size,
+                        etc
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="rendering" />
+            </categories>
+            <see-also>
+                <function-ref name="drawingObject:addPackedItems" />
+                <function-ref name="drawingObject:clearItems" />
+                <function-ref name="scene:createObject" />
+            </see-also>
+        </method>
+
+
+
+        <method name="addPackedItems" func="sim._addDrawingObjectPackedItems" lang="python,lua">
+            <description>
+                Adds packed items to a drawing object
+            </description>
+            <params>
+                <param name="items" type="buffer">
+                    <description>
+                        a buffer of packed single-precision float values. If the items are point items, there should be 3 * n packed floats. If the items are line items, there should be 3 * n packed floats, etc
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="rendering" />
+            </categories>
+            <see-also>
+                <function-ref name="drawingObject:addItems" />
+                <function-ref name="drawingObject:clearItems" />
+                <function-ref name="scene:createObject" />
+            </see-also>
+        </method>
+
+
+
+        <method name="clearItems" func="sim._clearDrawingObjectItems" lang="python,lua">
+            <description>
+                Clears a drawing object
+            </description>
+            <categories>
+                <category name="rendering" />
+            </categories>
+            <see-also>
+                <function-ref name="drawingObject:addItems" />
+            </see-also>
+        </method>
+    </object-class>
+
+
+    
+    <object-class name="scene">
+        <method name="saveScene" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Saves a scene to file. Any existing file with same name will be overwritten
+            </description>
+            <params>
+                <param name="filename" type="string">
+                    <description>
+                        scene filename. The filename extension is required
+                    </description>
+                </param>
+            </params>
+            <categories>
+            <category name="file" />
+                </categories>
+            <see-also>
+                <function-ref name="scene:loadScene" />
+                <function-ref name="scene:saveSceneToBuffer" />
+                <function-ref name="scene:closeScene" />
+                <function-ref name="sceneObject:saveModel" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="saveSceneToBuffer" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Serializes a scene to a buffer
+            </description>
+            <returns>
+                <param name="serializedScene" type="buffer">
+                    <description>
+                        a buffer representing the serialized scene
+                    </description>
+                </param>
+            </returns>
+            <categories>
+            <category name="file" />
+                </categories>
+            <see-also>
+                <function-ref name="scene:saveScene" />
+                <function-ref name="scene:loadSceneFromBuffer" />
+            </see-also>
+        </method>
+
+    
+
+        <method name="loadScene" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a scene from file
+            </description>
+            <params>
+                <param name="filename" type="string">
+                    <description>
+                        scene filename, including extension. An empty string loads the default scene
+                    </description>
+                </param>
+                <param name="keepScene" type="bool" default="false">
+                    <description>
+                        whether the current scene should be kept or discarded
+                    </description>
+                </param>
+            </params>
+            <categories>
+            <category name="file" />
+                </categories>
+            <see-also>
+                <function-ref name="scene:loadSceneFromBuffer" />
+                <function-ref name="scene:saveScene" />
+                <function-ref name="scene:loadModel" />
+                <function-ref name="scene:closeScene" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadSceneFromBuffer" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a scene from buffer
+            </description>
+            <params>
+                <param name="serializedScene" type="buffer">
+                    <description>
+                        the buffer of the serialized scene
+                    </description>
+                </param>
+                 <param name="keepScene" type="bool" default="false">
+                    <description>
+                        whether the current scene should be kept or discarded
+                    </description>
+                </param>
+           </params>
+            <categories>
+            <category name="file" />
+                </categories>
+            <see-also>
+                <function-ref name="scene:loadScene" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadModel" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a previously saved model, and selects it
+            </description>
+            <params>
+                <param name="filename" type="string">
+                    <description>
+                        model filename. The filename extension is required (ttm, or simmodel.xml)
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="object" type="handle">
+                    <description>
+                        the model base scene object
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="file" />
+                <category name="model" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:loadModelFromBuffer" />
+                <function-ref name="scene:loadModelThumbnail" />
+                <function-ref name="scene:loadModelThumbnailFromBuffer" />
+                <function-ref name="scene:loadScene" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadModelThumbnail" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a model thumbnail
+            </description>
+            <params>
+                <param name="filename" type="string">
+                    <description>
+                        model filename. The filename extension is required (ttm, or simmodel.xml)
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="rgbaImage" type="buffer">
+                    <description>
+                        the model thumbnail image (128 x 128 x 4, rgba)
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="file" />
+                <category name="model" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:loadModel" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadModelThumbnailFromBuffer" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a model thumbnail from a buffer
+            </description>
+            <params>
+                <param name="buffer" type="buffer">
+                    <description>
+                        buffer containing the model
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="rgbaImage" type="buffer">
+                    <description>
+                        the model thumbnail image (128 x 128 x 4, rgba)
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="file" />
+                <category name="model" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:loadModel" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="loadModelFromBuffer" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Loads a model from buffer, and selects it
+            </description>
+            <params>
+                <param name="buffer" type="buffer">
+                    <description>
+                        a buffer containing the model
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="object" type="handle">
+                    <description>
+                        the model base scene object
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="file" />
+                <category name="model" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:loadModel" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="getObjects" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Retrieves objects of a certain type
+            </description>
+            <params>
+                <param name="types" type="string[]" default="{}">
+                    <description>
+                        a string array specifying the types to retrieve. Allowed values are: "sceneObject", "shape", "joint", "dummy", "script", "mirror", "graph", "light", "camera", "proximitySensor", "visionSensor", "forceSensor", "ocTree", "pointCloud", "drawingObject", "collection", "detachedScript", "mesh"  
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="objects" type="handle[]">
+                    <description>
+                        the retrieved objects
+                    </description>
+                </param>
+            </returns>
+            <categories>
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:getDescendants" />
+                <function-ref name="sceneObject:getAncestors" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="removeObjects" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Removes one or several objects
+            </description>
+            <params>
+                <param name="objects" type="handle[]">
+                    <description>objects to remove</description>
+                </param>
+                <param name="delayedRemoval" type="bool" default="false">
+                    <description>whether the removal of scene objects should be delayed (e.g. when a script destroys itself)</description>
+                </param>
+            </params>
+            <categories>
+                <category name="sceneObject" />
+                <category name="drawingObject" />
+                <category name="collection" />
+                <category name="detachedScript" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:remove" />
+                <function-ref name="collection:remove" />
+                <function-ref name="detachedScript:remove" />
+                <function-ref name="drawingObject:remove" />
+                <function-ref name="sceneObject:removeModel" />
+                <function-ref name="scene:createObject" />
+            </see-also>
+        </method>
+
+
+
+        <method name="duplicateObjects" func="sim.callMethod" lang="python,lua">
+            <description>
+                Duplicates scene objects
+            </description>
+            <params>
+                <param name="objects" type="handle[]">
+                    <description>
+                        array of scene objects to duplicate
+                    </description>
+                </param>
+                <param name="options" type="int" default="0">
+                    <description>
+                        bit-coded options:
+                        <ul>
+                            <li> bit0 is set (i.e. 1): whole models are copied. In that case, all specified scene objects should be flagged as model base</li>
+                            <li> bit1 is set (i.e. 2): all scripts are stripped away </li>
+                            <li> bit2 is set (i.e. 4): all scene object <a href="../properties.htm#customData"> custom data properties </a> are stripped away </li>
+                            <li> bit3 is set (i.e. 8): all scene object references are stripped away </li>
+                            <li> bit4 is set (i.e. 16): all textures are stripped away </li>
+                            <li> bit5 is set (i.e. 32): model tags and DNA information is stripped away </li>
+                        </ul>
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="duplicates" type="handle[]">
+                    <description>
+                        the duplicate scene objects, where original and copy have the same location in their respective arrays
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="sceneObject" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:removeObjects" />
+                <function-ref name="scene:loadModel" />
+                <function-ref name="sceneObject:removeModel" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="handleCustomizationScripts" func="sim.callMethod" lang="lua">
+            <description>
+                Calls a <a href="../callbackFunctions.htm#systemCallbacks"> system callback function </a>
+                in <a href="../customizationScripts.htm"> customization scripts </a>.
+                Customization scripts will be executed in a 
+                <a href="../scriptExecution.htm"> precise order </a>. This function should only be called from the 
+                <a href="../mainScript.htm"> main script </a>
+            </description>
+            <params>
+                <param name="callType" type="int">
+                    <description>
+                        desired system call type (e.g. sysCall_actuation)
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="scriptCount" type="int">
+                    <description>
+                        number of called scripts
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="scriptRelated" />
+            </categories>
+            <see-also>
+                <function-ref name="app:handleSandboxScript" />
+                <function-ref name="app:handleAddOnScripts" />
+                <function-ref name="scene:handleSimulationScripts" />
+            </see-also>
+        </method>
+
+
+
+        <method name="handleSimulationScripts" func="sim.callMethod" lang="lua">
+            <description>
+                Calls a <a href="../callbackFunctions.htm#systemCallbacks"> system callback function </a>
+                in <a href="../simulationScripts.htm"> simulation scripts </a>. Simulation scripts will be executed in a 
+                <a href="../scriptExecution.htm"> precise order </a>.
+                This function should only be called from the <a href="../mainScript.htm"> main script </a>.
+            </description>
+            <params>
+                <param name="callType" type="int">
+                    <description>
+                        the desired system call type (e.g. sysCall_actuation)
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="scriptCount" type="int">
+                    <description>
+                        number of called simulation scripts
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="scriptRelated" />
+            </categories>
+            <see-also>
+                <function-ref name="app:handleSandboxScript" />
+                <function-ref name="app:handleAddOnScripts" />
+                <function-ref name="scene:handleCustomizationScripts" />
+            </see-also>
+        </method>
+
+
+
+        <method name="scaleObjects" func="sim._scaleObjects" lang="python,lua">
+            <description>
+                Scales specified scene objects in an isometric fashion. All related values are automatically scaled appropriately
+                (e.g. masses, etc.)
+            </description>
+            <params>
+                <param name="objects" type="int[]">
+                    <description>
+                        array containing the scene objects to scale. If an object is a model base, all its children will also be scaled
+                    </description>
+                </param>
+                <param name="scalingFactor" type="float">
+                    <description>
+                        scaling factor
+                    </description>
+                </param>
+                <param name="scalePositionsToo" type="bool" default = "true">
+                    <description>
+                        if true, then the position of the specified scene objects is also scaled
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="sceneObject" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:scale" />
+            </see-also>
+        </method>
+
+
+
+        <method name="createObject" func="sim.callMethod" lang="python,lua">
+            <info>same method present in both app and scene</info>
+            <description>
+                Creates one of following objects:
+                <ul>
+                    <li><a href="#collection">collection</a></li>
+                    <li><a href="#drawingObject">drawing object</a></li>
+                    <li><a href="#detachedScript">detached script</a></li>
+                    <li><a href="#dummy">dummy</a></li>
+                    <li><a href="#joint">joint</a></li>
+                    <li><a href="#shape">shape</a></li>
+                    <li><a href="#script">script</a></li>
+                    <li><a href="#forceSensor">force sensor</a></li>
+                    <li><a href="#proximitySensor">proximity sensor</a></li>
+                    <li><a href="#visionSensor">vision sensor</a></li>
+                    <li><a href="#ocTree">oc tree</a></li>
+                    <li><a href="#pointCloud">point cloud</a></li>
+                    <li><a href="#path">path</a></li>
+                </ul>
+            </description>
+            <params>
+                <param name="params" type="map">
+                    <description>
+                        a map/dict describing the object to create. All fields are optional except for <b>objectType</b>. Fields described hereafter are not exhaustive (all writable properties of the object to create can be specified too): 
+                        <ul>
+                            <li id="collection"><a href="../collections.htm">collection</a> fields:
+                                <ul>
+                                    <li>objectType (string): "collection"</li>
+                                    <li>override (bool): <a href="../collidableObjects.htm">collidable</a>, <a href="../measurableObjects.htm">measurable</a>, <a href="../detecatableObjects.htm">detectable</a> and visibility properties of scene objects are overridden</li>
+                                </ul>
+                            </li>
+                            <li id="drawingObject"><a href="../dataVisualizationAndOutput.htm#augmentingScene">drawing object</a> fields:
+                                <ul>
+                                    <li>objectType (string): "drawingObject"</li>
+                                    <li>itemType (int): the <a href="#drawingObjectType">drawing object type</a></li>
+                                    <li>itemSize (float): size of the item (width of lines or size of points are in pixels, other sizes are in meters)</li>
+                                    <li>duplicateTolerance (float): applicable only to point-items. Indicates a distance threshold under which points are not added</li>
+                                    <li>parentObject (handle): scene object to which the drawing object is attached to</li>
+                                    <li>local (bool): coordinate data is specified locally, if the drawing object has a parent</li>
+                                    <li>itemCnt (int): maximum item count</li>
+                                    <li>cyclic (bool): if the drawing object is full, then the first items are overwritten</li>
+                                    <li>paint (bool): only rendered for vision sensors</li>
+                                    <li>overlay (bool): rendered on top of scene objects</li>
+                                    <li>color (color): item color</li>
+                                </ul>
+                            </li>
+                            <li id="detachedScript"><a href="../scripts.htm">detached script</a> fields:
+                                <ul>
+                                    <li>objectType (string): "detachedScript"</li>
+                                    <li>scriptType (int): the <a href="#scriptType">script type</a>. As of now only sim.scripttype_addon is supported</li>
+                                    <li>lang (string): the script language ("lua" or "python")</li>
+                                    <li>code (string): the script content</li>
+                                </ul>
+                            </li>
+                            <li id="dummy"><a href="../dummies.htm">dummy</a> fields:
+                                <ul>
+                                    <li>objectType (string): "dummy"</li>
+                                    <li>dummySize (float): size of the dummy</li>
+                                </ul>
+                            </li>
+                            <li id="joint"><a href="../joints.htm">joint</a> fields:
+                                <ul>
+                                    <li>objectType (string): "joint"</li>
+                                    <li>jointType (int): the <a href="#jointType">joint type</a></li>
+                                    <li>jointMode (int): the <a href="#jointMode">joint mode</a></li>
+                                    <li>dynCtrlMode (int): the <a href="#dynCtrlMode">joint dynamic control mode</a></li>
+                                    <li>interval (float[]): joint lower and upper bounds, if not cyclic</li>
+                                    <li>cyclic (bool): whether the joint is cyclic. Only revolute joints with a screw lead of 0.0 can be cyclic</li>
+                                    <li>screwLead (float): a revolute joint with a screw lead different than 0.0 is a screw</li>
+                                    <li>jointLength (float): length of the joint</li>
+                                    <li>jointDiameter (float): diameter of the joint</li>
+                                </ul>
+                            </li>
+                            <li id="shape"><a href="../shapes.htm">shape</a> fields:
+                                <ul>
+                                    <li>objectType (string): "shape"</li>
+                                    <li>shadingAngle (float): the shading angle</li>
+                                    <li>culling (bool): whether the shape has its back faces culled</li>
+                                    <li>dynamic (bool): whether the shape is dynamically enabled</li>
+                                    <li>showEdges (bool): whether the shape appears with visible edges</li>
+                                    <li>color (color): the shape's color</li>
+                                    <li>cube (map/dict): holds parameters for the creation of a cube:
+                                        <ul>
+                                            <li>size (int[3]): the size of the cube</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>sphere (map/dict): holds parameters for the creation of a sphere:
+                                        <ul>
+                                            <li>radius (float): the radius of the sphere</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>cylinder (map/dict): holds parameters for the creation of a cylinder:
+                                        <ul>
+                                            <li>radius (float): the radius of the cylinder</li>
+                                            <li>length (float): the length of the cylinder</li>
+                                            <li>open (bool): whether the cylinder is open</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>cone (map/dict): holds parameters for the creation of a cone:
+                                        <ul>
+                                            <li>radius (float): the radius of the cone</li>
+                                            <li>height (float): the height of the cone</li>
+                                            <li>open (bool): whether the cone is open</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>capsule (map/dict): holds parameters for the creation of a capsule:
+                                        <ul>
+                                            <li>radius (float): the radius of the capsule</li>
+                                            <li>length (float): the length of the capsule</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>plane (map/dict): holds parameters for the creation of a plane:
+                                        <ul>
+                                            <li>size (int[2]): the size of the plane</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>disc (map/dict): holds parameters for the creation of a disc:
+                                        <ul>
+                                            <li>radius (float): the radius of the disc</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a primitive)</li>
+                                        </ul>
+                                    </li>
+                                    <li>heightField (map/dict): holds parameters for the creation of a height field:
+                                        <ul>
+                                            <li>heights (matrix): the heights</li>
+                                            <li>cellSize (float): the length/width of a cell</li>
+                                            <li>rawMesh (bool): whether the shape is registered as a random mesh (i.e. not a height field)</li>
+                                        </ul>
+                                    </li>
+                                    <li>mesh (map/dict): holds parameters for the creation of a mesh:
+                                        <ul>
+                                            <li>vertices (matrix): the vertices organized in a column-major 3*n matrix</li>
+                                            <li>indices (int[]): the zero-based indices</li>
+                                            <li>normals (matrix): the normals organized in a column-major 3*(3*n) matrix</li>
+                                            <li>boundingBoxQuaternion (quaternion): the orientation of the shape's bounding box</li>
+                                            <li>frameOrigin (pose): the pose of the shape's frame</li>
+                                            <li>texture (map/dict): holds parameters for an optional texture:
+                                                <ul>
+                                                    <li>resolution (int[2]): texture resolution</li>
+                                                    <li>image (buffer): texture specified as rgb or rgba</li>
+                                                    <li>rgba (bool): whether the texture is specified as rgba or rgb</li>
+                                                    <li>coordinates (matrix): texture coordinates</li>
+                                                    <li>interpolate (bool): whether adjecent texture pixels are interpolated</li>
+                                                    <li>decal (bool): whether the texture is applied as decal</li>
+                                                    <li>horizFlip (bool): whether the texture is horizontally flipped</li>
+                                                    <li>vertFlip (bool): whether the texture is vertically flipped</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li id="script"><a href="../scriptObjects.htm">script</a> fields:
+                                <ul>
+                                    <li>objectType (string): "script"</li>
+                                    <li>scriptType (int): the <a href="#scriptType">script type</a></li>
+                                    <li>language (string): 'lua' or 'python'</li>
+                                    <li>code (string): the content of the script</li>
+                                    <li>scriptDisabled (bool): the script is initially disabled</li>
+                                </ul>
+                            </li>
+                            <li id="forceSensor"><a href="../forceSensors.htm">force sensors</a> fields:
+                                <ul>
+                                    <li>objectType (string): "forceSensor"</li>
+                                    <li>sensorSize (float): size of the sensor</li>
+                                    <li>filterType (int): filter type (0 = average, 1 = median)</li>
+                                    <li>filterSampleSize (int): value count the filter operates on</li>
+                                    <li>consecutiveViolationsToTrigger (int): number of consecutive threshold violation for the sensor to trigger</li>
+                                    <li>forceThreshold (float): force threshold</li>
+                                    <li>torqueThreshold (float): torque threshold</li>
+                                </ul>
+                            </li>
+                            <li id="proximitySensor"><a href="../proximitySensors.htm">proximity sensor</a> fields:
+                                <ul>
+                                    <li>objectType (string): "proximitySensor"</li>
+                                    <li>sensorType (int): the <a href="#proximitySensorType">proximity sensor type</a></li>
+                                    <li>sensorPointSize (float): the sensor point size</li>
+                                    <li>explicitHandling (bool): whether the sensor is explicitly handled</li>
+                                    <li>showVolume (bool): whether the detection volume is shown</li>
+                                    <li>frontFaceDetection (bool): whether front faces are detected</li>
+                                    <li>backFaceDetection (bool): whether back faces are detected</li>
+                                    <li>exactMode (bool): whether the sensor operates in exact or fast mode</li>
+                                    <li>randomizedDetection (bool): randomized detection (only with ray-type proximity sensors)</li>
+                                    <li>angleThreshold (float): threshold angle for limited angle detection</li>
+                                    <li>closeThreshold (float): smallest detection distance</li>
+                                    <li>volume_faces (int[2]): near and far face count for the detection volume</li>
+                                    <li>volume_subdivisions (int[2]): near and far subdivisions for the detection volume</li>
+                                    <li>volume_offset (float): offset for the detection volume</li>
+                                    <li>volume_range (float): range for the detection volume</li>
+                                    <li>volume_xSize (float[2]): near and far x size for the detection volume</li>
+                                    <li>volume_ySize (float[2]): near and far y size for the detection volume</li>
+                                    <li>volume_radius (float[2]): near and far radius for the detection volume</li>
+                                    <li>volume_angle (float): angle for the detection volume</li>
+                                </ul>
+                            </li>
+                            <li id="visionSensor"><a href="../visionSensors.htm">vision sensor</a> fields:
+                                <ul>
+                                    <li>objectType (string): "visionSensor"</li>
+                                    <li>explicitHandling (bool): whether the sensor is explicitly handled</li>
+                                    <li>showFrustum (bool): whether the view frustum is shown</li>
+                                    <li>useExtImage (bool): whether the sensor is passive (uses an external image)</li>
+                                    <li>resolution (int[2]): sensor resolution</li>
+                                    <li>clippingPlanes (float[2]): sensor near and far clipping planes</li>
+                                    <li>sensorSize (float): sensor size</li>
+                                    <li>viewAngle (float): the view angle, for a sensor operating in perspective projection mode</li>
+                                    <li>viewSize (float): the view size, for a sensor operating in orthogonal projection mode</li>
+                                    <li>backgroundColor (color): the sensor uses a specific color as default background (i.e. null pixels)</li>
+                                </ul>
+                            </li>
+                            <li id="ocTree"><a href="../ocTrees.htm">oc tree</a> fields:
+                                <ul>
+                                    <li>objectType (string): "ocTree"</li>
+                                    <li>voxelSize (float): the voxel size</li>
+                                    <li>showPoints (bool): whether points should be drawn instead of voxels</li>
+                                    <li>pointSize (int): the point size in pixels, when voxels are rendered as points</li>
+                                </ul>
+                            </li>
+                            <li id="pointCloud"><a href="../pointClouds.htm">point cloud</a> fields:
+                                <ul>
+                                    <li>objectType (string): "pointCloud"</li>
+                                    <li>cellSize (float): the maximum size of the OC tree voxels containing points</li>
+                                    <li>pointSize (int): the point size in pixels</li>
+                                    <li>maxPointsInCell (int): maximum number of points allowed in a same OC tree voxel</li>
+                                </ul>
+                            </li>
+                            <li id="path"><a href="../paths.htm">path</a> fields:
+                                <ul>
+                                    <li>objectType (string): "path"</li>
+                                    <li>ctrlPts (matrix): control points, specified in row-major order, with [x y z qx qy qz qw] values for each path point</li>
+                                    <li>hiddenDuringSim (bool): path is hidden during simulation</li>
+                                    <li>closed (bool): last control point connects to the first control point</li>
+                                    <li>subdiv (int): number of individual path points</li>
+                                    <li>smoothness (float): value between 0.0 (linear interpolation) and 1.0 (100% Bezier interpolation)</li>
+                                    <li>orientationMode (int): value specifiying how the individual path points are oriented along the path:
+                                        <ul>
+                                            <li> 0: x along path, y is up</li>
+                                            <li> 1: x along path, z is up</li>
+                                            <li> 2: y along path, x is up</li>
+                                            <li> 3: y along path, z is up</li>
+                                            <li> 4: z along path, x is up</li>
+                                            <li> 5: z along path, y is up</li>
+                                        </ul></li>
+                                    <li>upVector (vector3): up vector, used for generating an extruded shape and for computing individual path point orientations</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="object" type="handle">
+                    <description>
+                        the created object
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="collection" />
+                <category name="drawingObject" />
+                <category name="detachedScript" />
+                <category name="dummy" />
+                <category name="joint" />
+                <category name="shape" />
+                <category name="script" />
+                <category name="forceSensor" />
+                <category name="proximitySensor" />
+                <category name="visionSensor" />
+                <category name="ocTree" />
+                <category name="pointCloud" />
+                <category name="path" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:remove" />
+                <function-ref name="collection:remove" />
+                <function-ref name="detachedScript:remove" />
+                <function-ref name="drawingObject:remove" />
                 <function-ref name="scene:removeObjects" />
             </see-also>
         </method>
@@ -2447,7 +3108,49 @@
     
 
     <object-class name="sceneObject">
-        <method name="saveModel" func="sim._saveModel" lang="python,lua">
+        <method name="remove" func="sim.callMethod" lang="python,lua">
+            <info>same method present in several classes</info>
+            <description>
+                Removes the object from the scene
+            </description>
+            <params>
+                <param name="delayedRemoval" type="bool" default="false">
+                    <description>whether the removal is delayed (e.g. when a script destroys itself)</description>
+                </param>
+            </params>
+            <categories>
+                <category name="sceneObject" />
+            </categories>
+            <see-also>
+                <function-ref name="scene:removeObjects" />
+            </see-also>
+        </method>
+
+
+
+        <method name="removeModel" func="sim.callMethod" lang="python,lua">
+            <description>
+                Removes the model from the scene
+            </description>
+            <params>
+                <param name="delayedRemoval" type="bool" default="false">
+                    <description>
+                        whether the removal should be delayed (e.g. when a script destroys itself)
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="sceneObject" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:remove" />
+                <function-ref name="scene:removeObjects" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="saveModel" func="sim.callMethod" lang="python,lua">
             <description>
                 Saves a model (an object marked as "Object is model base" and all other
                 objects in its hierarchy tree). Any existing file with same name will be overwritten
@@ -2464,17 +3167,15 @@
                 <category name="model" />
             </categories>
             <see-also>
-                <function-ref name="scene:saveModel" />
                 <function-ref name="scene:loadModel" />
                 <function-ref name="sceneObject:saveModelToBuffer" />
-                <function-ref name="scene:saveModelToBuffer" />
                 <function-ref name="scene:saveScene" />
             </see-also>
         </method>
 
         
 
-        <method name="saveModelToBuffer" func="sim._saveModelToBuffer" lang="python,lua">
+        <method name="saveModelToBuffer" func="sim.callMethod" lang="python,lua">
             <description>
                 Serializes a model to a buffer
             </description>
@@ -2491,8 +3192,6 @@
             </categories>
             <see-also>
                 <function-ref name="sceneObject:saveModel" />
-                <function-ref name="scene:saveModel" />
-                <function-ref name="scene:saveModelToBuffer" />
             </see-also>
         </method>
 
@@ -2562,7 +3261,7 @@
 
         
 
-        <method name="checkCollision" func="sim.checkCollision" lang="python,lua">
+        <method name="checkCollision" func="sim.callMethod" lang="python,lua">
             <description>
                 Checks whether this <a href="../objects.htm">scene object</a> collides with another scene object or a <a href="../collections.htm">collection</a>. The
                 <a href="../collidableObjects.htm">collidable</a> flag of this object (and of the other entity if it is also a scene object) is ignored
@@ -2580,7 +3279,7 @@
                         indicates the collision state
                     </description>
                 </param>
-                <param name="collidingObjectHandles" type="int[2]">
+                <param name="collidingObjectHandles" type="handle[2]">
                     <description>
                         array containing the colliding scene object pair
                     </description>
@@ -2597,7 +3296,7 @@
 
         
 
-        <method name="checkDistance" func="sim.checkDistance" lang="python,lua">
+        <method name="checkDistance" func="sim.callMethod" lang="python,lua">
             <description>
                 Checks the minimum distance between this <a href="../objects.htm">scene object</a> and another scene object or a <a href="../collections.htm">collection</a>. The
                 <a href="../measurableObjects.htm">measurable</a> flag of this object (and of the other entity if it is also a scene object) is ignored
@@ -2635,7 +3334,7 @@
                         point on entity 2
                     </description>
                 </param>
-                <param name="objectHandlePair" type="int[2]">
+                <param name="objectHandlePair" type="handle[2]">
                     <description>
                         array of 2 object handles representing the two objects that hold the minimum distance segment
                     </description>
@@ -2712,7 +3411,7 @@
 
 
 
-        <method name="getPose" func="sim._getObjectPose" lang="python,lua">
+        <method name="getPose" func="sim.callMethod" lang="python,lua">
             <description>
                 Retrieves the pose of a scene object
             </description>
@@ -2750,7 +3449,7 @@
 
         
 
-        <method name="getPosition" func="sim._getObjectPosition" lang="python,lua">
+        <method name="getPosition" func="sim.callMethod" lang="python,lua">
             <description>
                 Retrieves the position of a scene object
             </description>
@@ -2788,7 +3487,7 @@
 
 
 
-        <method name="getQuaternion" func="sim._getObjectQuaternion" lang="python,lua">
+        <method name="getQuaternion" func="sim.callMethod" lang="python,lua">
             <description>
                 Retrieves the quaternion of a scene object
             </description>
@@ -2826,7 +3525,7 @@
 
 
 
-        <method name="setPose" func="sim._setObjectPose" lang="python,lua">
+        <method name="setPose" func="sim.callMethod" lang="python,lua">
             <description>
                 Sets the pose of a scene object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not apply to static shapes)
             </description>
@@ -2860,7 +3559,7 @@
 
 
 
-        <method name="setPosition" func="sim._setObjectPosition" lang="python,lua">
+        <method name="setPosition" func="sim.callMethod" lang="python,lua">
             <description>
                 Sets the position of a scene object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not apply to static shapes)
             </description>
@@ -2894,7 +3593,7 @@
 
 
 
-        <method name="setQuaternion" func="sim._setObjectQuaternion" lang="python,lua">
+        <method name="setQuaternion" func="sim.callMethod" lang="python,lua">
             <description>
                 Sets the quaternion of a scene object. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not apply to static shapes)
             </description>
@@ -2928,7 +3627,7 @@
 
 
 
-        <method name="setParent" func="sim._setObjectParent" lang="python,lua">
+        <method name="setParent" func="sim.callMethod" lang="python,lua">
             <description>
                 Sets a scene object's parent. Dynamically simulated objects, together with their hierarchy tree, are dynamically reset (this however does not
                 apply to static shapes)
@@ -2940,8 +3639,8 @@
                         the parent should be specified instead
                     </description>
                 </param>
-                <param name="inPlace" type="bool" default="true">
-                    <description>indicates whether the scene object's absolute pose should stay same</description>
+                <param name="parentingMode" type="int" default="sim.parentingmode_keepworldpose">
+                    <description>describes the <a href="#parentingMode">parenting mode</a></description>
                 </param>
             </params>
             <categories>
@@ -3013,6 +3712,129 @@
             </categories>
             <see-also>
                 <function-ref name="shape:relocatFrame" />
+            </see-also>
+        </method>
+    </object-class>
+
+    
+
+    <object-class name="proximitySensor">
+        <method name="checkSensor" func="sim.callMethod" lang="python,lua">
+            <description>
+                Checks whether this proximity sensor detects the indicated entity. Detection is silent (no visual
+                feedback) and the detectable flags of the entity to detect are overridden, if the entity is a scene object
+            </description>
+            <params>
+                <param name="entity" type="handle" default="sim.handle_all">
+                    <description>
+                        entity to detect (scene object or collection), or sim.handle_all to detect all detectable objects
+                    </description>
+                </param>
+                <param name="options" type="int" default="-1">
+                    <description>
+                        bit-coded options (-1 for sensor defaults):
+                        <ul>
+                            <li> bit0 is set (i.e. 1): front faces are detected</li>
+                            <li> bit1 is set (i.e. 2): back faces are detected</li>
+                            <li> bit2 is set (i.e. 4): approximate mode (a bit faster)</li>
+                        </ul>
+                    </description>
+                </param>
+                <param name="maxNormalAngle" type="float" default="0.0">
+                    <description>
+                        the maximum angle between surface normal and detection ray. 0.0 for sensor default
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="result" type="bool">
+                    <description>
+                        detection state
+                    </description>
+                </param>
+                <param name="dist" type="float">
+                    <description>
+                        distance from the sensor origin to the detected point
+                    </description>
+                </param>
+                <param name="point" type="vector3">
+                    <description>
+                        position of the detected point relative to the sensor reference frame
+                    </description>
+                </param>
+                <param name="detectedObject" type="handle">
+                    <description>
+                        detected object
+                    </description>
+                </param>
+                <param name="n" type="vector3">
+                    <description>
+                        normal vector of the surface where the point was detected. Relative to the sensor reference frame
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="proximitySensor" />
+            </categories>
+            <see-also>
+                <function-ref name="proximitySensor:handleSensor" />
+            </see-also>
+        </method>
+
+
+
+        <method name="handleSensor" func="sim.callMethod" lang="python,lua">
+            <description>
+                Handles this proximity sensor, i.e. does detection. Detection is not silent (i.e. there is visual
+                feedback), and the detectable flags of the scene objects to detect are taken into account
+            </description>
+            <returns>
+                <param name="result" type="bool">
+                    <description>
+                        detection state
+                    </description>
+                </param>
+                <param name="dist" type="float">
+                    <description>
+                        distance from the sensor origin to the detected point
+                    </description>
+                </param>
+                <param name="point" type="vector3">
+                    <description>
+                        position of the detected point relative to the sensor reference frame
+                    </description>
+                </param>
+                <param name="detectedObject" type="handle">
+                    <description>
+                        detected object
+                    </description>
+                </param>
+                <param name="n" type="vector3">
+                    <description>
+                        normal vector of the surface where the point was detected. Relative to the sensor reference frame
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="proximitySensor" />
+            </categories>
+            <see-also>
+                <function-ref name="proximitySensor:resetSensor" />
+                <function-ref name="proximitySensor:checkSensor" />
+            </see-also>
+        </method>
+
+
+
+        <method name="resetSensor" func="sim.callMethod" lang="python,lua">
+            <description>
+                Clears the detection state and visual feedback of this proximity sensor
+            </description>
+            <categories>
+                <category name="proximitySensor" />
+            </categories>
+            <see-also>
+                <function-ref name="proximitySensor:handleSensor" />
             </see-also>
         </method>
     </object-class>
@@ -3751,63 +4573,6 @@
             </categories>
         <see-also>
             <link href="../apiFunctions.htm#octree" label=" OC tree related functions " />
-        </see-also>
-    </method>
-
-    
-
-    <method name="checkProximitySensor" func="sim.checkProximitySensor" lang="python,lua">
-        <description>
-            Checks whether the proximity sensor detects the indicated entity. Detection is silent (no visual
-            feedback) compared to 
-            <a href="simHandleProximitySensor.htm"> sim.handleProximitySensor </a>
-            .
-            Also, the detectable flags of the entity are overridden if the entity is an object
-        </description>
-        <params>
-            <param name="sensorHandle" type="handle">
-                <description>
-                    handle of the proximity sensor object
-                </description>
-            </param>
-            <param name="entityHandle" type="handle">
-                <description>
-                    handle of entity to detect (object or collection), or sim.handle_all to detect all detectable objects
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="result" type="bool">
-                <description>
-                    detection state
-                </description>
-            </param>
-            <param name="dist" type="float">
-                <description>
-                    distance from the sensor origin to the detected point
-                </description>
-            </param>
-            <param name="point" type="vector3">
-                <description>
-                    position of the detected point relative to the sensor origin
-                </description>
-            </param>
-            <param name="obj" type="handle">
-                <description>
-                    handle of detected object
-                </description>
-            </param>
-            <param name="n" type="vector3">
-                <description>
-                    normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="proximitySensor" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.handleProximitySensor" />
         </see-also>
     </method>
 
@@ -7007,55 +7772,6 @@ end</code>
 
     
 
-    <method name="handleProximitySensor" func="sim.handleProximitySensor" lang="python,lua">
-        <description>
-            Handles (performs sensing, etc. of) a registered proximity sensor object
-        </description>
-        <params>
-            <param name="sensorHandle" type="int">
-                <description>
-                    handle of a proximity sensor object, or sim.handle_all or sim.handle_all_except_explicit
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="res" type="int">
-                <description>
-                    0 if nothing was detected
-                </description>
-            </param>
-            <param name="dist" type="float">
-                <description>
-                    distance to the detected point
-                </description>
-            </param>
-            <param name="point" type="float[3]">
-                <description>
-                    array of 3 numbers indicating the relative coordinates of the detected point
-                </description>
-            </param>
-            <param name="obj" type="int">
-                <description>
-                    handle of the object that was detected
-                </description>
-            </param>
-            <param name="n" type="float[3]">
-                <description>
-                    array of normal vector (normalized) of the detected surface. Relative to the sensor reference frame
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="proximitySensor" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.checkProximitySensor" />
-            <function-ref name="sim.resetProximitySensor" />
-        </see-also>
-    </method>
-
-    
-
     <method name="handleSensingStart" func="sim.handleSensingStart" lang="python,lua">
         <description>
             Handles various functionality (e.g. camera tracking during simulation, object velocity calculation, etc.).
@@ -7682,51 +8398,6 @@ end</code>
             </categories>
         <see-also>
             <function-ref name="sim.loadImage" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="loadScene" func="sim.loadScene" lang="python,lua">
-        <description>
-            Loads a scene from file
-        </description>
-        <params>
-            <param name="filename" type="string">
-                <description>
-                    scene filename, including extension. An empty string loads the default scene. By default, the current scene is overwritten (append "@keepCurrent" to the filename to preserve current scene)
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="file" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.loadSceneFromBuffer" />
-            <function-ref name="sim.saveScene" />
-            <function-ref name="sim.loadModel" />
-            <function-ref name="sim.closeScene" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="loadSceneFromBuffer" func="sim.loadSceneFromBuffer" lang="python,lua">
-        <description>
-            Loads a scene from buffer
-        </description>
-        <params>
-            <param name="serializedScene" type="buffer">
-                <description>
-                    buffer. By default, the current scene is overwritten (append "@keepCurrent" to the buffer to preserve current scene)
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="file" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.loadScene" />
         </see-also>
     </method>
 
@@ -8776,27 +9447,6 @@ end</code>
 
     
 
-    <method name="resetProximitySensor" func="sim.resetProximitySensor" lang="python,lua">
-        <description>
-            Clears the detection state, detection color, detection segments, etc. of a proximity sensor object
-        </description>
-        <params>
-            <param name="sensorHandle" type="int">
-                <description>
-                    handle of the proximity sensor object or sim.handle_all or sim.handle_all_except_explicit
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="proximitySensor" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.handleProximitySensor" />
-        </see-also>
-    </method>
-
-    
-
     <method name="resetVisionSensor" func="sim.resetVisionSensor" lang="python,lua">
         <description>
             Clears the detection state, etc. of a proximity sensor object
@@ -9088,51 +9738,6 @@ end</code>
             </categories>
         <see-also>
             <function-ref name="sim.saveImage" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="saveScene" func="sim.saveScene" lang="python,lua">
-        <description>
-            Saves a scene to file. Any existing file with same name will be overwritten
-        </description>
-        <params>
-            <param name="filename" type="string">
-                <description>
-                    scene filename. The filename extension is required
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="file" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.loadScene" />
-            <function-ref name="sim.saveSceneToBuffer" />
-            <function-ref name="sim.closeScene" />
-            <function-ref name="sim.saveModel" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="saveSceneToBuffer" func="sim.saveSceneToBuffer" lang="python,lua">
-        <description>
-            Serializes a scene to a buffer
-        </description>
-        <returns>
-            <param name="serializedScene" type="buffer">
-                <description>
-                    a buffer representing the serialized scene
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="file" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.saveScene" />
         </see-also>
     </method>
 
