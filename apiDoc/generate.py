@@ -324,6 +324,7 @@ def main():
         {'cat': 'shape',            'obj': True,    'txt': 'Shape',                                         'page': 'shapes.htm',                                       'oldRefs': ['shapeObject']},
         {'cat': 'joint',            'obj': True,    'txt': 'Joint',                                         'page': 'joints.htm',                                       'oldRefs': ['jointObject']},
         {'cat': 'dummy',            'obj': True,    'txt': 'Dummy',                                         'page': 'dummies.htm',                                      'oldRefs': ['dummyObject']},
+        {'cat': 'marker',           'obj': True,    'txt': 'Marker',                                        'page': 'markers.htm',                                      'oldRefs': []},
         {'cat': 'script',           'obj': True,    'txt': 'Script',                                        'page': 'scriptObjects.htm',                                'oldRefs': []},
         {'cat': 'camera',           'obj': True,    'txt': 'Camera',                                        'page': 'cameras.htm',                                      'oldRefs': ['cameraObject']},
         {'cat': 'light',            'obj': True,    'txt': 'Light',                                         'page': 'lights.htm',                                       'oldRefs': ['lightObject']},

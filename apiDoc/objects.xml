@@ -1281,6 +1281,7 @@
                     <li><a href="#detachedScript">detached script</a></li>
                     <li><a href="#dummy">dummy</a></li>
                     <li><a href="#joint">joint</a></li>
+                    <li><a href="#marker">marker</a></li>
                     <li><a href="#shape">shape</a></li>
                     <li><a href="#script">script</a></li>
                     <li><a href="#forceSensor">force sensor</a></li>
@@ -1329,6 +1330,22 @@
                                 <ul>
                                     <li>objectType (string): "dummy"</li>
                                     <li>dummySize (float): size of the dummy</li>
+                                </ul>
+                            </li>
+                            <li id="marker"><a href="../markers">marker</a> fields:
+                                <ul>
+                                    <li>objectType (string): "marker"</li>
+                                    <li>itemType (int): the <a href="#markerObjectType">marker object type</a></li>
+                                    <li>cyclic (bool): if the marker is full, then the first items are overwritten</li>
+                                    <li>local (bool): coordinate data is specified locally</li>
+                                    <li>overlay (bool): items are rendered on top of scene objects</li>
+                                    <li>itemSize (vector3): default item size</li>
+                                    <li>duplicateTolerance (float): indicates a distance threshold under which points are not added. Does not apply to line- or triangle items</li>
+                                    <li>itemCnt (int): maximum item count</li>
+                                    <li>color (color): default item color</li>
+                                    <li>mesh.vertices (matrix): vertices for a mesh item type (sim.markertype_custom). Vertices are arranged in a 3 * n matrix</li> 
+                                    <li>mesh.indices (table): indices for a mesh item type (sim.markertype_custom). One zero-based index for each vertex</li> 
+                                    <li>mesh.normals (matrix): normals for a mesh item type (sim.markertype_custom). Normals are arranged in a 3 * n matrix. One normal for each vertex</li>
                                 </ul>
                             </li>
                             <li id="joint"><a href="../joints.htm">joint</a> fields:
@@ -1538,6 +1555,7 @@
                 <category name="drawingObject" />
                 <category name="detachedScript" />
                 <category name="dummy" />
+                <category name="marker" />
                 <category name="joint" />
                 <category name="shape" />
                 <category name="script" />
@@ -2333,7 +2351,7 @@
             <params>
                 <param name="items" type="matrix">
                     <description>
-                        data relative to items, in column-major order. If the items are point items, the matrix should be 3 * n in size. If the items are line items, the matrix should be 3 * n in size,
+                        data relative to items, in column-major order. If the items are point items, the matrix should be 3 X n in size. If the items are line items, the matrix should be 3 X 2n in size,
                         etc
                     </description>
                 </param>
@@ -2357,7 +2375,7 @@
             <params>
                 <param name="items" type="buffer">
                     <description>
-                        a buffer of packed single-precision float values. If the items are point items, there should be 3 * n packed floats. If the items are line items, there should be 3 * n packed floats, etc
+                        a buffer of packed single-precision float values. If the items are point items, there should be 3 X n packed floats. If the items are line items, there should be 3 X 2n packed floats, etc
                     </description>
                 </param>
             </params>
@@ -2829,6 +2847,7 @@
                     <li><a href="#detachedScript">detached script</a></li>
                     <li><a href="#dummy">dummy</a></li>
                     <li><a href="#joint">joint</a></li>
+                    <li><a href="#marker">marker</a></li>
                     <li><a href="#shape">shape</a></li>
                     <li><a href="#script">script</a></li>
                     <li><a href="#forceSensor">force sensor</a></li>
@@ -2877,6 +2896,22 @@
                                 <ul>
                                     <li>objectType (string): "dummy"</li>
                                     <li>dummySize (float): size of the dummy</li>
+                                </ul>
+                            </li>
+                            <li id="marker"><a href="../markers">marker</a> fields:
+                                <ul>
+                                    <li>objectType (string): "marker"</li>
+                                    <li>itemType (int): the <a href="#markerObjectType">marker object type</a></li>
+                                    <li>cyclic (bool): if the marker is full, then the first items are overwritten</li>
+                                    <li>local (bool): coordinate data is specified locally</li>
+                                    <li>overlay (bool): items are rendered on top of scene objects</li>
+                                    <li>itemSize (vector3): default item size</li>
+                                    <li>duplicateTolerance (float): indicates a distance threshold under which points are not added. Does not apply to line- or triangle items</li>
+                                    <li>itemCnt (int): maximum item count</li>
+                                    <li>color (color): default item color</li>
+                                    <li>mesh.vertices (matrix): vertices for a mesh item type (sim.markertype_custom). Vertices are arranged in a 3 * n matrix</li> 
+                                    <li>mesh.indices (table): indices for a mesh item type (sim.markertype_custom). One zero-based index for each vertex</li> 
+                                    <li>mesh.normals (matrix): normals for a mesh item type (sim.markertype_custom). Normals are arranged in a 3 * n matrix. One normal for each vertex</li>
                                 </ul>
                             </li>
                             <li id="joint"><a href="../joints.htm">joint</a> fields:
@@ -3085,6 +3120,7 @@
                 <category name="collection" />
                 <category name="drawingObject" />
                 <category name="detachedScript" />
+                <category name="marker" />
                 <category name="dummy" />
                 <category name="joint" />
                 <category name="shape" />
@@ -3101,7 +3137,7 @@
                 <function-ref name="collection:remove" />
                 <function-ref name="detachedScript:remove" />
                 <function-ref name="drawingObject:remove" />
-                <function-ref name="scene:removeObjects" />
+                <function-ref name="app:removeObjects" />
             </see-also>
         </method>
     </object-class>
@@ -3666,6 +3702,89 @@
             </categories>
             <see-also>
                 <function-ref name="scene:scaleObjects" />
+            </see-also>
+        </method>
+    </object-class>
+
+
+
+    <object-class name="marker">
+        <method name="addItems" func="sim.callMethod" lang="python,lua">
+            <description>
+                Adds items to a marker
+            </description>
+            <params>
+                <param name="points" type="matrix">
+                    <description>
+                        points, in column-major order. If the items are point items, the matrix should be 3 X n in size. If the items are line items, the matrix should be 3 X 2n in size, etc
+                    </description>
+                </param>
+                <param name="colors" type="color[]" default="{}">
+                    <description>
+                        point-specific colors (one color per point)
+                    </description>
+                </param>
+                <param name="quat" type="quaternion[]" default="{}">
+                    <description>
+                        quaternions (one quaternion per item)
+                    </description>
+                </param>
+                <param name="sizes" type="matrix" default="{}">
+                    <description>
+                        x/y/z sizes (one x/y/z per item)
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="ids" type="int[]">
+                    <description>
+                        item-specific ids (one id per item)
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="rendering" />
+            </categories>
+            <see-also>
+                <function-ref name="marker:addPackedItems" />
+                <function-ref name="marker:clearItems" />
+                <function-ref name="marker:removeItems" />
+                <function-ref name="scene:createObject" />
+            </see-also>
+        </method>
+
+
+
+        <method name="clearItems" func="sim.callMethod" lang="python,lua">
+            <description>
+                Clears a marker
+            </description>
+            <categories>
+                <category name="rendering" />
+            </categories>
+            <see-also>
+                <function-ref name="marker:removeItems" />
+                <function-ref name="marker:addItems" />
+            </see-also>
+        </method>
+
+
+
+        <method name="removeItems" func="sim.callMethod" lang="python,lua">
+            <description>
+                Removes specific items from a marker
+            </description>
+                <param name="ids" type="int[]">
+                    <description>
+                        item-specific ids (one id per item to remove)
+                    </description>
+                </param>
+            <categories>
+                <category name="rendering" />
+            </categories>
+            <see-also>
+                <function-ref name="marker:clearItems" />
+                <function-ref name="marker:addItems" />
             </see-also>
         </method>
     </object-class>
