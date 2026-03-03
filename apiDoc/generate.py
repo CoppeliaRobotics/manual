@@ -317,7 +317,6 @@ def main():
         {'cat': 'app',              'obj': True,    'txt': 'App',                                           'page': '',                                                 'oldRefs': []},
         {'cat': 'scene',            'obj': True,    'txt': 'Scene',                                         'page': 'scenes.htm',                                       'oldRefs': []},
         {'cat': 'collection',       'obj': True,    'txt': 'Collection',                                    'page': 'collections.htm',                                  'oldRefs': ['collections']},
-        {'cat': 'drawingObject',    'obj': True,    'txt': 'Drawing object',                                'page': 'dataVisualizationAndOutput.htm#augmentingScene',   'oldRefs': []},
         {'cat': 'detachedScript',   'obj': True,    'txt': 'Detached script',                               'page': 'scripts.htm',                                      'oldRefs': []},
         {'cat': 'mesh',             'obj': True,    'txt': 'Mesh',                                          'page': 'geometricCalculations.htm',                        'oldRefs': []},
         {'cat': 'sceneObject',      'obj': True,    'txt': 'Scene object',                                  'page': 'objects.htm',                                      'oldRefs': ['sceneObjectFunctionality']},
