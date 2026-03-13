@@ -1988,9 +1988,9 @@
 
         
 
-        <method name="addLog" func="sim.callMethod" lang="python,lua">
+        <method name="logInfo" func="sim.callMethod" lang="python,lua">
             <description>
-                Adds a log message that is output in the console or status bar
+                Outputs an information message in the status bar
             </description>
             <params>
                 <param name="message" type="string" default="nil">
@@ -1998,16 +1998,85 @@
                         the message. None/nil clears the status bar
                     </description>
                 </param>
-                <param name="verbosity" type="int" default="sim.verbosity_msgs">
+                <param name="options" type="table" default="{}">
                     <description>
-                        the <a href="../apiConstants.htm#verbosity"> verbosity level </a>
-                        . Most appropriate values are sim.verbosity_scripterrors (for errors), sim.verbosity_scriptwarnings (for warning) and sim.verbosity_msgs. Combine with sim.verbosity_undecorated to output the naked message
+                        optional map:
+                        <ul>
+                            <li> undecorated(bool): an undecorated message is displayed</li>
+                            <li> once(bool): subsequent calls with the same message are ignored</li>
+                        </ul>
                     </description>
                 </param>
             </params>
             <categories>
                 <category name="messaging" />
             </categories>
+            <see-also>
+                <function-ref name="app:logWarn" />
+                <function-ref name="app:logError" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="logWarn" func="sim.callMethod" lang="python,lua">
+            <description>
+                Outputs a warning message in the status bar
+            </description>
+            <params>
+                <param name="message" type="string" default="nil">
+                    <description>
+                        the message. None/nil clears the status bar
+                    </description>
+                </param>
+                <param name="options" type="table" default="{}">
+                    <description>
+                        optional map:
+                        <ul>
+                            <li> undecorated(bool): an undecorated message is displayed</li>
+                            <li> once(bool): subsequent calls with the same message are ignored</li>
+                        </ul>
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="messaging" />
+            </categories>
+            <see-also>
+                <function-ref name="app:logInfo" />
+                <function-ref name="app:logError" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="logError" func="sim.callMethod" lang="python,lua">
+            <description>
+                Outputs an error message in the status bar
+            </description>
+            <params>
+                <param name="message" type="string" default="nil">
+                    <description>
+                        the message. None/nil clears the status bar
+                    </description>
+                </param>
+                <param name="options" type="table" default="{}">
+                    <description>
+                        optional map:
+                        <ul>
+                            <li> undecorated(bool): an undecorated message is displayed</li>
+                            <li> once(bool): subsequent calls with the same message are ignored</li>
+                        </ul>
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="messaging" />
+            </categories>
+            <see-also>
+                <function-ref name="app:logInfo" />
+                <function-ref name="app:logWarn" />
+            </see-also>
         </method>
 
         
@@ -2021,6 +2090,7 @@
                     <li><a href="#detachedScript">detached script</a></li>
                     <li><a href="#dummy">dummy</a></li>
                     <li><a href="#joint">joint</a></li>
+                    <li><a href="#camera">camera</a></li>
                     <li><a href="#marker">marker</a></li>
                     <li><a href="#shape">shape</a></li>
                     <li><a href="#script">script</a></li>
@@ -2055,6 +2125,21 @@
                                 <ul>
                                     <li>objectType (string): "dummy"</li>
                                     <li>dummySize (float): size of the dummy</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
+                                </ul>
+                            </li>
+                            <li id="camera"><a href="../cameras.htm">camera</a> fields:
+                                <ul>
+                                    <li>objectType (string): "camera"</li>
+                                    <li>clippingPlanes (float[2]): camera near and far clipping planes</li>
+                                    <li>cameraSize (float): camera size</li>
+                                    <li>viewAngle (float): the view angle, for a camera operating in perspective projection mode</li>
+                                    <li>viewSize (float): the view size, for a camera operating in orthogonal projection mode</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="marker"><a href="../markers">marker</a> fields:
@@ -2084,6 +2169,9 @@
                                     <li>screwLead (float): a revolute joint with a screw lead different than 0.0 is a screw</li>
                                     <li>jointLength (float): length of the joint</li>
                                     <li>jointDiameter (float): diameter of the joint</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="shape"><a href="../shapes.htm">shape</a> fields:
@@ -2093,7 +2181,9 @@
                                     <li>culling (bool): whether the shape has its back faces culled</li>
                                     <li>dynamic (bool): whether the shape is dynamically enabled</li>
                                     <li>showEdges (bool): whether the shape appears with visible edges</li>
-                                    <li>color (color): the shape's color</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                     <li>cube (map/dict): holds parameters for the creation of a cube:
                                         <ul>
                                             <li>size (int[3]): the size of the cube</li>
@@ -2189,6 +2279,9 @@
                                     <li>consecutiveViolationsToTrigger (int): number of consecutive threshold violation for the sensor to trigger</li>
                                     <li>forceThreshold (float): force threshold</li>
                                     <li>torqueThreshold (float): torque threshold</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="proximitySensor"><a href="../proximitySensors.htm">proximity sensor</a> fields:
@@ -2212,6 +2305,9 @@
                                     <li>volume_ySize (float[2]): near and far y size for the detection volume</li>
                                     <li>volume_radius (float[2]): near and far radius for the detection volume</li>
                                     <li>volume_angle (float): angle for the detection volume</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="visionSensor"><a href="../visionSensors.htm">vision sensor</a> fields:
@@ -2226,6 +2322,9 @@
                                     <li>viewAngle (float): the view angle, for a sensor operating in perspective projection mode</li>
                                     <li>viewSize (float): the view size, for a sensor operating in orthogonal projection mode</li>
                                     <li>backgroundColor (color): the sensor uses a specific color as default background (i.e. null pixels)</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="ocTree"><a href="../ocTrees.htm">oc tree</a> fields:
@@ -4038,6 +4137,7 @@
                     <li><a href="#detachedScript">detached script</a></li>
                     <li><a href="#dummy">dummy</a></li>
                     <li><a href="#joint">joint</a></li>
+                    <li><a href="#camera">camera</a></li>
                     <li><a href="#marker">marker</a></li>
                     <li><a href="#shape">shape</a></li>
                     <li><a href="#script">script</a></li>
@@ -4072,6 +4172,21 @@
                                 <ul>
                                     <li>objectType (string): "dummy"</li>
                                     <li>dummySize (float): size of the dummy</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
+                                </ul>
+                            </li>
+                            <li id="camera"><a href="../cameras.htm">camera</a> fields:
+                                <ul>
+                                    <li>objectType (string): "camera"</li>
+                                    <li>clippingPlanes (float[2]): camera near and far clipping planes</li>
+                                    <li>cameraSize (float): camera size</li>
+                                    <li>viewAngle (float): the view angle, for a camera operating in perspective projection mode</li>
+                                    <li>viewSize (float): the view size, for a camera operating in orthogonal projection mode</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="marker"><a href="../markers">marker</a> fields:
@@ -4101,6 +4216,9 @@
                                     <li>screwLead (float): a revolute joint with a screw lead different than 0.0 is a screw</li>
                                     <li>jointLength (float): length of the joint</li>
                                     <li>jointDiameter (float): diameter of the joint</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="shape"><a href="../shapes.htm">shape</a> fields:
@@ -4110,7 +4228,9 @@
                                     <li>culling (bool): whether the shape has its back faces culled</li>
                                     <li>dynamic (bool): whether the shape is dynamically enabled</li>
                                     <li>showEdges (bool): whether the shape appears with visible edges</li>
-                                    <li>color (color): the shape's color</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                     <li>cube (map/dict): holds parameters for the creation of a cube:
                                         <ul>
                                             <li>size (int[3]): the size of the cube</li>
@@ -4206,6 +4326,9 @@
                                     <li>consecutiveViolationsToTrigger (int): number of consecutive threshold violation for the sensor to trigger</li>
                                     <li>forceThreshold (float): force threshold</li>
                                     <li>torqueThreshold (float): torque threshold</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="proximitySensor"><a href="../proximitySensors.htm">proximity sensor</a> fields:
@@ -4229,6 +4352,9 @@
                                     <li>volume_ySize (float[2]): near and far y size for the detection volume</li>
                                     <li>volume_radius (float[2]): near and far radius for the detection volume</li>
                                     <li>volume_angle (float): angle for the detection volume</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="visionSensor"><a href="../visionSensors.htm">vision sensor</a> fields:
@@ -4243,6 +4369,9 @@
                                     <li>viewAngle (float): the view angle, for a sensor operating in perspective projection mode</li>
                                     <li>viewSize (float): the view size, for a sensor operating in orthogonal projection mode</li>
                                     <li>backgroundColor (color): the sensor uses a specific color as default background (i.e. null pixels)</li>
+                                    <li>color.diffuse (color): diffuse color</li>
+                                    <li>color.specular (color): specular color</li>
+                                    <li>color.emission (color): emission color</li>
                                 </ul>
                             </li>
                             <li id="ocTree"><a href="../ocTrees.htm">oc tree</a> fields:
@@ -4977,7 +5106,7 @@
 
 
 
-    <object-class name="marker" superclass="sceneObject">
+    <object-class name="marker" superclass="object">
         <method name="addItems" func="sim.callMethod" lang="python,lua">
             <description>
                 Adds items to a marker
@@ -5060,7 +5189,7 @@
 
 
 
-    <object-class name="shape" superclass="sceneObject">
+    <object-class name="shape" superclass="object">
         <method name="ungroup" func="sim.callMethod" lang="python,lua">
             <description>
                 Ungroups (decomposes) a compound shape
@@ -5300,7 +5429,7 @@
 
     
 
-    <object-class name="proximitySensor" superclass="sceneObject">
+    <object-class name="proximitySensor" superclass="object">
         <method name="checkSensor" func="sim.callMethod" lang="python,lua">
             <description>
                 Checks whether this proximity sensor detects the indicated entity. Detection is silent (no visual
@@ -5420,7 +5549,7 @@
 
     
 
-    <object-class name="visionSensor" superclass="sceneObject">
+    <object-class name="visionSensor" superclass="object">
         <method name="getDepth" func="sim.callMethod" lang="python,lua">
             <description>
                 Reads the vision sensor's depth buffer (or a portion of it)
