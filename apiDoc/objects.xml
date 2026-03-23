@@ -3289,6 +3289,62 @@
 
 
     <object-class name="detachedScript" superclass="object">
+        <method name="wait" func="sim.callMethod" lang="python,lua">
+            <description>
+                Waits for a certain amount of time
+            </description>
+            <params>
+                <param name="delay" type="float">
+                    <description>
+                        minimum time duration to wait
+                    </description>
+                </param>
+                <param name="simulationTime" type="bool" default="true">
+                    <description>
+                        whether waiting in simulation- or real-time
+                    </description>
+                </param>
+            </params>
+            <returns>
+            </returns>
+            <categories>
+                <category name="blocking" />
+            </categories>
+            <see-also>
+                <function-ref name="detachedScript:waitForSignal" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="waitForSignal" func="sim.callMethod" lang="python,lua">
+            <description>
+                Waits until a signal is set
+            </description>
+            <params>
+                <param name="signalName" type="string">
+                    <description>
+                        The signal name
+                    </description>
+                </param>
+                <param name="object" type="handle", default="sim.app">
+                    <description>
+                        The location of the signal
+                    </description>
+                </param>
+            </params>
+            <returns>
+            </returns>
+            <categories>
+                <category name="blocking" />
+            </categories>
+            <see-also>
+                <function-ref name="detachedScript:wait" />
+            </see-also>
+        </method>
+
+        
+
         <method name="getObject" func="sim.callMethod" lang="python,lua">
             <description>
                 Retrieves an object in the current hierarchy tree, based on its path and name
@@ -10834,183 +10890,6 @@ end</code>
 
     
 
-    <method name="serialCheck" func="sim.serialCheck" lang="python,lua">
-        <description>
-            Reads how many bytes are waiting to be read on a serial port (RS-232)
-        </description>
-        <params>
-            <param name="portHandle" type="int">
-                <description>
-                    handle returned by the 
-                    <a href="simSerialOpen.htm"> simSerialOpen </a>
-                    function
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="result" type="int">
-                <description>
-                    the number of bytes that are waiting to be read
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="messaging" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.serialRead" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="serialClose" func="sim.serialClose" lang="python,lua">
-        <description>
-            Closes a serial port (RS-232)
-        </description>
-        <params>
-            <param name="portHandle" type="int">
-                <description>
-                    handle returned by 
-                    <a href="simSerialOpen.htm"> sim.serialOpen </a>
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="messaging" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.serialOpen" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="serialOpen" func="sim.serialOpen" lang="python,lua">
-        <description>
-            Opens a serial port (RS-232) for communication. When called from a script,
-            the function can only be called when the simulation is running (and in that case the port is
-            automatically closed at simulation stop)
-        </description>
-        <params>
-            <param name="portString" type="string">
-                <description>
-                    string specifying the port to open. Under Windows, use something similar to "\\.\COM1". Under MacOS and Linux, use something similar to "/dev/*" (check the "/dev" folder to know what file to specify). Under Linux, you might have to launch CoppeliaSim with super user priviledges in order to access the serial port
-                </description>
-            </param>
-            <param name="baudRate" type="int">
-                <description>
-                    baudrate
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="result" type="int">
-                <description>
-                    the port handle
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="messaging" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.serialClose" />
-            <function-ref name="sim.serialSend" />
-            <function-ref name="sim.serialCheck" />
-            <function-ref name="sim.serialRead" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="serialRead" func="sim.serialRead" lang="python,lua">
-        <description>
-            Reads from a previously opened serial port (RS-232). The C version of the function cannot
-            be blocking
-        </description>
-        <params>
-            <param name="portHandle" type="int">
-                <description>
-                    handle returned by the 
-                    <a href="simSerialOpen.htm"> sim.serialOpen </a>
-                    function
-                </description>
-            </param>
-            <param name="dataLengthToRead" type="int">
-                <description>
-                    maximum data length that should be read
-                </description>
-            </param>
-            <param name="blockingOperation" type="bool">
-                <description>
-                    if true and the calling script is running in a thread, then the function only returns when the desired data length was read (or if the closingString was met, or if there was a timeout (see next arguments)
-                </description>
-            </param>
-            <param name="closingString" type="string" default="''">
-                <description>
-                    string (containing any byte value) can be specified, that will break from the blocking operation if a match was found in the incoming data. Useful when you know that a data packet is always ended with a given signature. Can be an empty string for default operation.
-                </description>
-            </param>
-            <param name="timeout" type="float" default="0">
-                <description>
-                    duration after which the blocking operation will be aborted, or 0 if the timeout is infinite
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="data" type="string">
-                <description>
-                    a string containing read data (excluding the closingString if it was specified and found)
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="messaging" /><category name="blocking" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.serialCheck" />
-            <function-ref name="sim.serialSend" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="serialSend" func="sim.serialSend" lang="python,lua">
-        <description>
-            Writes data to a previously opened serial port (RS-232)
-        </description>
-        <params>
-            <param name="portHandle" type="int">
-                <description>
-                    handle returned by the 
-                    <a href="simSerialOpen.htm"> sim.serialOpen </a>
-                    function
-                </description>
-            </param>
-            <param name="data" type="buffer">
-                <description>
-                    pointer to the data that should be sent
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="charsSent" type="int">
-                <description>
-                    the effective data length that was written
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="messaging" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.serialRead" />
-        </see-also>
-    </method>
-
-    
-
     <method name="setAutoYieldDelay" func="sim.setAutoYieldDelay" lang="python,lua">
         <description>
             Allows specifying a thread interruption or yield delay, that will be
@@ -11700,109 +11579,6 @@ keyword3-col="0 0 255" keyword4-col="152 64 0"&gt;
             </categories>
         <see-also>
             <link href="../apiFunctions.htm#packing" label=" data packing/unpacking functions " />
-        </see-also>
-    </method>
-
-    
-
-    <method name="wait" func="sim.wait" lang="python,lua">
-        <description>
-            Waits for a certain amount of time
-        </description>
-        <params>
-            <param name="deltaTime" type="float">
-                <description>
-                    minimum time duration to wait
-                </description>
-            </param>
-            <param name="simulationTime" type="bool" default="true">
-                <description>
-                    indicates whether we want to wait in terms of simulation- or real-time
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="deltaTimeLeft" type="float">
-                <description>
-                    "wait resolution" of this function is the simulation time step, and the sim.wait command may overshoot the requested waiting time. deltaTimeLeft is the negative overshoot time. If the function was called at simulation time X, and the function returned at simulation time Y, then deltaTimeLeft is deltaTime-(Y-X). deltaTimeLeft is also memorized internally on a thread-basis and used as compensation or correction factor in subsequent blocking commands. deltaTimeLeft is 0 if the simulationTime argument was false
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="blocking" />
-            </categories>
-    </method>
-
-    
-
-    <method name="scheduleExecution" func="sim.scheduleExecution" lang="python,lua">
-        <description>
-            Schedules execution of a function
-        </description>
-        <params>
-            <param name="f" type="func">
-                <description>
-                    function to call
-                </description>
-            </param>
-            <param name="args" type="any[]">
-                <description>
-                    arguments to the function
-                </description>
-            </param>
-            <param name="timePoint" type="float">
-                <description>
-                    time when the function should execute
-                </description>
-            </param>
-            <param name="simTime" type="bool" default="false">
-                <description>
-                    simulation or real-time scheduling
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="id" type="int">
-                <description>
-                    id of the scheduled execution function
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="other" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.cancelScheduledExecution" />
-            <function-ref name="sim.getSystemTime" />
-            <function-ref name="sim.getSimulationTime" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="cancelScheduledExecution" func="sim.cancelScheduledExecution" lang="python,lua">
-        <description>
-            Cancels a scheduled execution of a function
-        </description>
-        <params>
-            <param name="id" type="int">
-                <description>
-                    id of the scheduled execution function
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="canceled" type="bool">
-                <description>
-                    cancelation status
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="other" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.scheduleExecution" />
         </see-also>
     </method>
 
