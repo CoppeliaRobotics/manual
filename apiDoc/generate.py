@@ -597,7 +597,11 @@ def main():
             file['enums'] = enums
 
             
-        tree = ET.parse(file['inputFile'])
+        try:
+            tree = ET.parse(file['inputFile'])
+        except ET.ParseError as e:
+            raise ET.ParseError(f'{file["inputFile"]}: {e!s}')
+
         cnt = 0
         
         if handleFunctions:
