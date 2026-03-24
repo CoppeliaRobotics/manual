@@ -19,7 +19,11 @@ if(NOT EXISTS "${COPPELIASIM_EXECUTABLE_TEMP}")
 endif()
 
 add_custom_target(genRegularApi ALL
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/apiDoc/generate.py
+    COMMAND ${Python3_EXECUTABLE}
+        ${CMAKE_CURRENT_SOURCE_DIR}/apiDoc/generate.py
+        --objects-xml=${CMAKE_CURRENT_BINARY_DIR}/objects.xml
+        --enums-xml=${CMAKE_CURRENT_BINARY_DIR}/enums.xml
+        --functions-xml=${CMAKE_SOURCE_DIR}/apiDoc/functions.xml
 )
 
 file(GLOB HELP_FILES CONFIGURE_DEPENDS *.html *.lua *.class *.css *.txt)

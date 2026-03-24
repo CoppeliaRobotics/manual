@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import argparse
 import shutil
 import copy
 import xml.etree.ElementTree as ET
@@ -29,6 +30,29 @@ def getTxt(node, n):
         #txt = ' '.join(txt.split()) # remove multiple successive spaces
         return txt
         
+def parse_commandline_args():
+    parser = argparse.ArgumentParser(description="Process XML input files.")
+
+    parser.add_argument(
+        "--enums-xml",
+        required=True,
+        help="Path to enums XML file"
+    )
+
+    parser.add_argument(
+        "--functions-xml",
+        required=True,
+        help="Path to functions XML file"
+    )
+
+    parser.add_argument(
+        "--objects-xml",
+        required=True,
+        help="Path to objects XML file"
+    )
+
+    return parser.parse_args()
+
 def parse_params(params_node):
     arguments = []
     if params_node is None:
@@ -545,19 +569,21 @@ def main():
             dst_path = os.path.join(apiDir_currentVer, filename)
             shutil.copy2(src_path, dst_path)    
 
+    args = parse_commandline_args()
+
     files = [
         {
-            'inputFile': currentDir / 'functions.xml',
+            'inputFile': args.functions_xml,
             'cTemplate': templatesDir / 'cFunc.htm',
-            'enumFile': currentDir / 'enums.xml',
+            'enumFile': args.enums_xml,
             'pythonLuaTemplate': templatesDir / 'pythonLuaFunc.htm',
             'categories': functionCategories,
             'categoriesMap': allFunctionCategories,
             'type': 'functions'
         },
         {
-            'inputFile': currentDir / 'objects-methods.xml',
-            'enumFile': currentDir / 'enums.xml',
+            'inputFile': args.objects_xml,
+            'enumFile': args.enums_xml,
             'pythonLuaTemplate': templatesDir / 'pythonLuaMethod.htm',
             'categories': methodCategories,
             'categoriesMap': allMethodCategories,
