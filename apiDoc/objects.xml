@@ -3353,7 +3353,7 @@
             <params>
                 <param name="objectPath" type="string">
                     <description>
-                        path and name of the object to find
+                        path and name of the object to find, or an object persistent unique id
                     </description>
                 </param>
                 <param name="options" type="map" default="{}">
@@ -3778,6 +3778,65 @@
 
 
     <object-class name="collection" superclass="object">
+        <method name="changeColor" func="sim.callMethod" lang="python,lua">
+            <info>same method present in collection and sceneObject</info>
+            <description>
+                Changes the color of all shapes contained in the collection
+            </description>
+            <params>
+                <param name="color" type="color">
+                    <description>
+                        The desired color
+                    </description>
+                </param>
+                <param name="materialComponent" type="int" default="sim.materialcomponent_diffuse">
+                    <description>
+                        The target <a href="#markerObjectType">material component</a>
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="originalColorData" type="map[]">
+                    <description>
+                        Color data, to be used to restore the original color with restoreColor()
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="rendering" />
+                <category name="shape" />
+            </categories>
+            <see-also>
+                <function-ref name="collection:restoreColor" />
+                <function-ref name="sceneObject:changeColor" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="restoreColor" func="sim.callMethod" lang="python,lua">
+            <info>same method present in collection and sceneObject</info>
+            <description>
+                Restores the color of all shapes contained in the collection 
+            </description>
+            <params>
+                <param name="originalColorData" type="map[]">
+                    <description>
+                        The original color data returned by changeColor()
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="rendering" />
+                <category name="shape" />
+            </categories>
+            <see-also>
+                <function-ref name="collection:changeColor" />
+            </see-also>
+        </method>
+
+        
+
         <method name="remove" func="sim.callMethod" lang="python,lua">
             <info>same method present in several classes</info>
             <description>
@@ -4090,7 +4149,7 @@
             <params>
                 <param name="objectPath" type="string">
                     <description>
-                        path and name of the object to find
+                        path and name of the object to find, or an object persistent unique id
                     </description>
                 </param>
                 <param name="options" type="map" default="{}">
@@ -4914,6 +4973,65 @@
     
 
     <object-class name="sceneObject" superclass="object">
+        <method name="changeColor" func="sim.callMethod" lang="python,lua">
+            <info>same method present in collection and sceneObject</info>
+            <description>
+                Changes the color of the object, if it is a shape
+            </description>
+            <params>
+                <param name="color" type="color">
+                    <description>
+                        The desired color
+                    </description>
+                </param>
+                <param name="materialComponent" type="int" default="sim.materialcomponent_diffuse">
+                    <description>
+                        The target <a href="#markerObjectType">material component</a>
+                    </description>
+                </param>
+            </params>
+            <returns>
+                <param name="originalColorData" type="map[]">
+                    <description>
+                        Color data, to be used to restore the original color with restoreColor()
+                    </description>
+                </param>
+            </returns>
+            <categories>
+                <category name="rendering" />
+                <category name="shape" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:restoreColor" />
+                <function-ref name="collection:changeColor" />
+            </see-also>
+        </method>
+
+        
+
+        <method name="restoreColor" func="sim.callMethod" lang="python,lua">
+            <info>same method present in collection and sceneObject</info>
+            <description>
+                Restores the color of the object, if it is a shape 
+            </description>
+            <params>
+                <param name="originalColorData" type="map[]">
+                    <description>
+                        The original color data returned by changeColor()
+                    </description>
+                </param>
+            </params>
+            <categories>
+                <category name="rendering" />
+                <category name="shape" />
+            </categories>
+            <see-also>
+                <function-ref name="sceneObject:changeColor" />
+            </see-also>
+        </method>
+
+        
+
         <method name="getObject" func="sim.callMethod" lang="python,lua">
             <description>
                 Retrieves an object in the current hierarchy tree, based on its path and name
@@ -6693,75 +6811,6 @@
         <see-also>
             <function-ref name="sim.adjustView" />
             <function-ref name="sim.floatingViewAdd" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="changeEntityColor" func="sim.changeEntityColor" lang="python,lua">
-        <description>
-            Changes or restores the color of an 
-            <a href="../entities.htm"> entity </a>
-            , and returns its original
-            color. Currently only takes into account 
-            <a href="../collections.htm"> collections </a>
-            and 
-            <a href="../shapes.htm"> shapes </a>
-        </description>
-        <params>
-            <param name="entityHandle" type="handle">
-                <description>
-                    handle of an entity
-                </description>
-            </param>
-            <param name="newColor" type="color" default="{1.0, 0.0, 0.0}">
-                <description>
-                    array of 3 rgb values, each between 0.0 and 1.0
-                </description>
-            </param>
-            <param name="colorComponent" type="int" default="sim.colorcomponent_ambient_diffuse">
-                <description>
-                    a 
-                    <a href="../apiConstants.htm#colorComponents"> color component </a>
-                </description>
-            </param>
-        </params>
-        <returns>
-            <param name="originalColorData" type="map[]">
-                <description>
-                    original color data, to be used in a call to 
-                    <a href="simRestoreEntityColor.htm"> sim.restoreEntityColor </a>
-                </description>
-            </param>
-        </returns>
-        <categories>
-        <category name="rendering" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.restoreEntityColor" />
-        </see-also>
-    </method>
-
-    
-
-    <method name="restoreEntityColor" func="sim.restoreEntityColor" lang="python,lua">
-        <description>
-            Restores the color of an 
-            <a href="../entities.htm"> entity </a>
-        </description>
-        <params>
-            <param name="originalColorData" type="map[]">
-                <description>
-                    the data returned from a call to 
-                    <a href="simChangeEntityColor.htm"> sim.changeEntityColor </a>
-                </description>
-            </param>
-        </params>
-        <categories>
-        <category name="rendering" />
-            </categories>
-        <see-also>
-            <function-ref name="sim.changeEntityColor" />
         </see-also>
     </method>
 
