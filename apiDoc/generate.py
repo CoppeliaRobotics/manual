@@ -556,7 +556,7 @@ def main():
             'type': 'functions'
         },
         {
-            'inputFile': currentDir / 'objects.xml',
+            'inputFile': currentDir / 'objects-methods.xml',
             'enumFile': currentDir / 'enums.xml',
             'pythonLuaTemplate': templatesDir / 'pythonLuaMethod.htm',
             'categories': methodCategories,
