@@ -21,9 +21,9 @@ endif()
 add_custom_target(genRegularApi ALL
     COMMAND ${Python3_EXECUTABLE}
         ${CMAKE_CURRENT_SOURCE_DIR}/apiDoc/generate.py
-        --objects-xml=${CMAKE_CURRENT_BINARY_DIR}/objects.xml
-        --enums-xml=${CMAKE_CURRENT_BINARY_DIR}/enums.xml
-        --functions-xml=${CMAKE_SOURCE_DIR}/apiDoc/functions.xml
+        --objects-xml=${COPPELIASIM_INCLUDE_DIR}/sim/objects-methods.xml
+        --enums-xml=${COPPELIASIM_INCLUDE_DIR}/sim/enums.xml
+        --functions-xml=${COPPELIASIM_INCLUDE_DIR}/sim/functions.xml
 )
 
 file(GLOB HELP_FILES CONFIGURE_DEPENDS *.html *.lua *.class *.css *.txt)
@@ -35,40 +35,3 @@ coppeliasim_add_manual_directory(en)
 coppeliasim_add_manual_directory(index)
 coppeliasim_add_manual_directory(wb_img)
 coppeliasim_add_manual_directory(js)
-coppeliasim_add_manual(apiDoc/functions.xml SUBDIR apiDoc)
-
-add_custom_command(
-    OUTPUT
-        ${CMAKE_CURRENT_BINARY_DIR}/objects.xml
-    COMMAND ${COPPELIASIM_EXECUTABLE_TEMP} --headless
-        --param addOns.autoLoad=false
-        --addon ${CMAKE_SOURCE_DIR}/apiDoc/extract_objects_properties.lua
-        --param output_xml=${CMAKE_CURRENT_BINARY_DIR}/objects-properties.xml
-    COMMAND ${Python3_EXECUTABLE}
-        ${CMAKE_SOURCE_DIR}/apiDoc/merge_objects_properties_methods.py
-        ${CMAKE_CURRENT_BINARY_DIR}/objects-properties.xml
-        ${CMAKE_SOURCE_DIR}/apiDoc/objects-methods.xml
-        ${CMAKE_CURRENT_BINARY_DIR}/objects.xml
-    DEPENDS
-        ${CMAKE_SOURCE_DIR}/apiDoc/objects-methods.xml
-        ${CMAKE_SOURCE_DIR}/apiDoc/extract_objects_properties.lua
-        ${CMAKE_SOURCE_DIR}/apiDoc/merge_objects_properties_methods.py
-    COMMENT "Generating merged objects.xml"
-)
-add_custom_target(genObjectsXML DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/objects.xml)
-coppeliasim_add_manual(${CMAKE_CURRENT_BINARY_DIR}/objects.xml SUBDIR apiDoc)
-add_dependencies(genRegularApi genObjectsXML)
-
-add_custom_command(
-    OUTPUT
-        ${CMAKE_CURRENT_BINARY_DIR}/enums.xml
-    COMMAND ${Python3_EXECUTABLE}
-        ${CMAKE_CURRENT_SOURCE_DIR}/apiDoc/extract_enums.py ${COPPELIASIM_INCLUDE_DIR}/simLib/simConst.h > ${CMAKE_CURRENT_BINARY_DIR}/enums.xml
-    DEPENDS
-        ${CMAKE_CURRENT_SOURCE_DIR}/apiDoc/extract_enums.py
-        ${COPPELIASIM_INCLUDE_DIR}/simLib/simConst.h
-    COMMENT "Generating enums.xml"
-)
-add_custom_target(genEnumsXML DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/enums.xml)
-coppeliasim_add_manual(${CMAKE_CURRENT_BINARY_DIR}/enums.xml SUBDIR apiDoc)
-add_dependencies(genRegularApi genEnumsXML)
