@@ -376,7 +376,7 @@ def main():
         {'cat': 'transformation',   'obj': False,   'txt': 'Coordinates and transformations',               'page': 'positionOrientationTransformation.htm',            'oldRefs': ['pose', 'transformations', 'coordinatesAndTransformations']},
         {'cat': 'messaging',        'obj': False,   'txt': 'Messaging',                                     'page': 'meansOfCommunication.htm',                         'oldRefs': []},
         {'cat': 'texture',          'obj': False,   'txt': 'Textures',                                      'page': '',                                                 'oldRefs': ['textures']},
-        {'cat': 'auxConsole',       'obj': False,   'txt': 'Auxiliary consoles',                            'page': 'dataVisualizationAndOutput.htm#auxConsoles',       'oldRefs': ['auxiliaryConsoles', 'auxiliaryConsoleFunctions']},
+        {'cat': 'console',          'obj': False,   'txt': 'Consoles',                                      'page': 'dataVisualizationAndOutput.htm#auxConsoles',       'oldRefs': ['auxiliaryConsoles', 'auxiliaryConsoleFunctions']},
         {'cat': 'textEditor',       'obj': False,   'txt': 'Text/code editor',                              'page': 'dataVisualizationAndOutput.htm#textEditors',       'oldRefs': ['textEditors']},
         {'cat': 'importExport',     'obj': False,   'txt': 'Import/export',                                 'page': 'importExport.htm',                                 'oldRefs': ['importExportFunctions']},
         {'cat': 'motion',           'obj': False,   'txt': 'Motion functionality',                          'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
