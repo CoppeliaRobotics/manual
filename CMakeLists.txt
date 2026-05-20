@@ -19,11 +19,14 @@ if(NOT EXISTS "${COPPELIASIM_EXECUTABLE_TEMP}")
 endif()
 
 add_custom_target(genRegularApi ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/generated
     COMMAND ${Python3_EXECUTABLE}
         ${CMAKE_CURRENT_SOURCE_DIR}/apiDoc/generate.py
         --objects-xml=${COPPELIASIM_INCLUDE_DIR}/sim/objects-methods.xml
         --enums-xml=${COPPELIASIM_INCLUDE_DIR}/sim/enums.xml
         --functions-xml=${COPPELIASIM_INCLUDE_DIR}/sim/functions.xml
+        --output-dir=${CMAKE_CURRENT_BINARY_DIR}/generated
+    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/generated/en
 )
 
 file(GLOB HELP_FILES CONFIGURE_DEPENDS *.html *.lua *.class *.css *.txt)
@@ -35,3 +38,5 @@ coppeliasim_add_manual_directory(en)
 coppeliasim_add_manual_directory(index)
 coppeliasim_add_manual_directory(wb_img)
 coppeliasim_add_manual_directory(js)
+
+coppeliasim_add_manual_directory(${CMAKE_CURRENT_BINARY_DIR}/generated/en)

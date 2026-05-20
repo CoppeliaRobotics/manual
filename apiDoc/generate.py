@@ -51,6 +51,11 @@ def parse_commandline_args():
         help="Path to objects XML file"
     )
 
+    parser.add_argument(
+        "--output-dir",
+        help="Directory where all generated files will be written"
+    )
+
     return parser.parse_args()
 
 def parse_params(params_node):
@@ -560,6 +565,17 @@ def main():
                 a = a.replace('__enumVisibility__', 'style="display: none;"')
                 
             file_w.write(minify_html.minify(a))
+
+    args = parse_commandline_args()
+
+    # If an output directory was provided, redirect all generated files there
+    if args.output_dir:
+        output_base = Path(args.output_dir).resolve()
+        apiDir_main = output_base / 'en'
+        apiDir_currentVer = output_base / 'en' / currentVer
+        apiDir_all = output_base / 'en' / 'sim'
+        # Note: apiDirs_oldVer and apiDir_deprecated_currentVer remain input directories (unchanged)
+
     try:
         shutil.rmtree(apiDir_currentVer)
     except Exception as e:
@@ -571,9 +587,7 @@ def main():
         if filename.endswith('.htm'):
             src_path = os.path.join(apiDir_deprecated_currentVer, filename)
             dst_path = os.path.join(apiDir_currentVer, filename)
-            shutil.copy2(src_path, dst_path)    
-
-    args = parse_commandline_args()
+            shutil.copy2(src_path, dst_path)
 
     files = [
         {
