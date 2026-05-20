@@ -378,10 +378,12 @@ def main():
         {'cat': 'transformation',   'obj': False,   'txt': 'Coordinates and transformations',               'page': 'positionOrientationTransformation.htm',            'oldRefs': ['pose', 'transformations', 'coordinatesAndTransformations']},
         {'cat': 'messaging',        'obj': False,   'txt': 'Messaging',                                     'page': 'meansOfCommunication.htm',                         'oldRefs': []},
         {'cat': 'texture',          'obj': False,   'txt': 'Textures',                                      'page': '',                                                 'oldRefs': ['textures']},
-        {'cat': 'console',          'obj': False,   'txt': 'Consoles',                                      'page': 'dataVisualizationAndOutput.htm#auxConsoles',       'oldRefs': ['auxiliaryConsoles', 'auxiliaryConsoleFunctions']},
+        {'cat': 'Console',          'obj': False,   'txt': 'Consoles',                                      'page': 'dataVisualizationAndOutput.htm#auxConsoles',       'oldRefs': ['auxiliaryConsoles', 'auxiliaryConsoleFunctions']},
         {'cat': 'textEditor',       'obj': False,   'txt': 'Text/code editor',                              'page': 'dataVisualizationAndOutput.htm#textEditors',       'oldRefs': ['textEditors']},
         {'cat': 'importExport',     'obj': False,   'txt': 'Import/export',                                 'page': 'importExport.htm',                                 'oldRefs': ['importExportFunctions']},
-        {'cat': 'motion',           'obj': False,   'txt': 'Motion functionality',                          'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+        {'cat': 'Motion',           'obj': False,   'txt': 'Motion functionality',                          'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+        {'cat': 'MoveToConfig',           'obj': False,   'txt': 'Motion functionality',                          'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+        {'cat': 'MoveToPose',           'obj': False,   'txt': 'Motion functionality',                          'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
         {'cat': 'packing',          'obj': False,   'txt': 'Packing/unpacking',                             'page': '',                                                 'oldRefs': []},
         {'cat': 'stack',            'obj': False,   'txt': 'Stacks',                                        'page': '',                                                 'oldRefs': ['stacks']},
         {'cat': 'other',            'obj': False,   'txt': 'Other',                                         'page': '',                                                 'oldRefs': []}
@@ -499,7 +501,7 @@ def main():
             if cat in file['categoriesMap']:
                 file['categoriesMap'][cat]['api'].append({'fullName': funcname, 'name': funcnameRaw, 'file': currentVer + '/' + filename, 'c': isC})
             else:
-                raise Exception("Category '" + cat + "' not found!")
+                raise Exception("Category '" + cat + "' not found for '" + funcnameRaw + "'")
                 
         #restrictToObjectTypes = parse_restrict_obj_type(func.find('restrict-object-types'))
         #if len(restrictToObjectTypes) > 0:

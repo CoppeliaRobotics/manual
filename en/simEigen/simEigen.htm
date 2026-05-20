@@ -30,9 +30,17 @@ table { margin-left: 3em; margin-right: 3em; }
         <br>
         It also contains a Lua class for matrix operations:<br>
         <code class="code-block hljs lua">
-            a = simEigen.Matrix{{1, 2}, {3, 4}}
-            ainv = a:pinv()
-            a * ainv - simEigen.Matrix.eye(2)
+            import 'simEigen.*' -- imports simEigen.Matrix/Vector/etc into global scope
+
+            v = Vector{2, 0, 0}
+            print(v:norm()) -- 2.
+
+            v * 0.5 + {0, 0, 1} -- second operand is automatically upcasted from table to matrix/vector
+            v * 0.5 + Vector{0, 0, 1} -- same as above
+
+            M = Matrix{{1, 2}, {3, 4}}
+            Minv = M:pinv()
+            M * Minv - Matrix:eye(2)
         </code>
     </p>
 <!--###PLUGIN_DOC###-->
@@ -61,6 +69,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Matrix:exp">simEigen.Matrix:exp</a>
 <a href="?#Matrix:eye">simEigen.Matrix:eye</a>
 <a href="?#Matrix:floor">simEigen.Matrix:floor</a>
+<a href="?#Matrix:freeze">simEigen.Matrix:freeze</a>
 <a href="?#Matrix:horzcat">simEigen.Matrix:horzcat</a>
 <a href="?#Matrix:iabs">simEigen.Matrix:iabs</a>
 <a href="?#Matrix:iacos">simEigen.Matrix:iacos</a>
@@ -131,6 +140,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Matrix:svd">simEigen.Matrix:svd</a>
 <a href="?#Matrix:tan">simEigen.Matrix:tan</a>
 <a href="?#Matrix:times">simEigen.Matrix:times</a>
+<a href="?#Matrix:tomatrix">simEigen.Matrix:tomatrix</a>
 <a href="?#Matrix:trace">simEigen.Matrix:trace</a>
 <a href="?#Matrix:transform">simEigen.Matrix:transform</a>
 <a href="?#Matrix:transpose">simEigen.Matrix:transpose</a>
@@ -145,11 +155,13 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Pose:ispose">simEigen.Pose:ispose</a>
 <a href="?#Pose:mul">simEigen.Pose:mul</a>
 <a href="?#Pose:random">simEigen.Pose:random</a>
+<a href="?#Pose:topose">simEigen.Pose:topose</a>
 <a href="?#Pose:totransform">simEigen.Pose:totransform</a>
 <a href="?#Quaternion">simEigen.Quaternion</a>
 <a href="?#Quaternion:axisangle">simEigen.Quaternion:axisangle</a>
 <a href="?#Quaternion:copy">simEigen.Quaternion:copy</a>
 <a href="?#Quaternion:data">simEigen.Quaternion:data</a>
+<a href="?#Quaternion:freeze">simEigen.Quaternion:freeze</a>
 <a href="?#Quaternion:fromaxisangle">simEigen.Quaternion:fromaxisangle</a>
 <a href="?#Quaternion:fromeuler">simEigen.Quaternion:fromeuler</a>
 <a href="?#Quaternion:fromrotation">simEigen.Quaternion:fromrotation</a>
@@ -163,6 +175,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Quaternion:slerp">simEigen.Quaternion:slerp</a>
 <a href="?#Quaternion:toaxisangle">simEigen.Quaternion:toaxisangle</a>
 <a href="?#Quaternion:toeuler">simEigen.Quaternion:toeuler</a>
+<a href="?#Quaternion:toquaternion">simEigen.Quaternion:toquaternion</a>
 <a href="?#Quaternion:torotation">simEigen.Quaternion:torotation</a>
 <a href="?#Quaternion:toypr">simEigen.Quaternion:toypr</a>
 <a href="?#Vector">simEigen.Vector</a>
@@ -778,6 +791,30 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
 <strong>m</strong> (table): a new matrix with result (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:freeze" id="Matrix:freeze"></a>simEigen.Matrix:freeze</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">flag this matrix as read-only</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix:freeze()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): the original matrix (Matrix)</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -2029,7 +2066,7 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">float damping = simEigen.Matrix:prod()<br>
+<td class="apiTableRightLSyn">float product = simEigen.Matrix:prod()<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2039,7 +2076,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>damping</strong> (float)</div></td>
+<strong>product</strong> (float)</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -2053,7 +2090,7 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">float damping = simEigen.Matrix:prod()<br>
+<td class="apiTableRightLSyn">float sum = simEigen.Matrix:prod()<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2063,7 +2100,7 @@ table { margin-left: 3em; margin-right: 3em; }
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
-<strong>damping</strong> (float)</div></td>
+<strong>sum</strong> (float)</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -2558,6 +2595,38 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="Matrix:tomatrix" id="Matrix:tomatrix"></a>simEigen.Matrix:tomatrix</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">make sure the argument is a matrix, converting it if necessary</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table v, int rows, int cols, table q = simEigen.Matrix:tomatrix()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>v</strong> (table): either a plain table or a matrix</div>
+<div>
+<strong>rows</strong> (int): the required number of rows (can be -1 if cols is not -1, in which case it will automatically be determined)</div>
+<div>
+<strong>cols</strong> (int): the required number of columns (can be -1 if rows is not -1, in which case it will automatically be determined)</div>
+<div>
+<strong>q</strong> (table): the matrix (Matrix)</div>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="Matrix:trace" id="Matrix:trace"></a>simEigen.Matrix:trace</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2914,6 +2983,34 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="Pose:topose" id="Pose:topose"></a>simEigen.Pose:topose</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">make sure the argument is a pose, converting it if necessary</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table v, table q = simEigen.Pose:topose()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>v</strong> (table): either a plain table or a Pose</div>
+<div>
+<strong>q</strong> (table): the pose (Pose)</div>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="Pose:totransform" id="Pose:totransform"></a>simEigen.Pose:totransform</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -3036,6 +3133,30 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
 <strong>data</strong> (table of float): the quaternion data</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:freeze" id="Quaternion:freeze"></a>simEigen.Quaternion:freeze</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">flag this quaternion as read-only</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table m = simEigen.Quaternion:freeze()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>m</strong> (table): the original quaternion (Quaternion)</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -3373,6 +3494,34 @@ table { margin-left: 3em; margin-right: 3em; }
 <td class="apiTableLeftLRet">Lua return values</td>
 <td class="apiTableRightLRet"><div>
 <strong>euler</strong> (table): a new vector 3D with euler angles (Matrix)</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Quaternion:toquaternion" id="Quaternion:toquaternion"></a>simEigen.Quaternion:toquaternion</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">make sure the argument is a quaternion, converting it if necessary</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table v, table q = simEigen.Quaternion:toquaternion()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>v</strong> (table): either a plain table or a Quaternion</div>
+<div>
+<strong>q</strong> (table): the quaternion (Quaternion)</div>
+</td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
