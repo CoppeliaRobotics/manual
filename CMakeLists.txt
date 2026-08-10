@@ -22,7 +22,7 @@ add_custom_target(genRegularApi ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/generated
     COMMAND ${Python3_EXECUTABLE}
         ${CMAKE_CURRENT_SOURCE_DIR}/apiDoc/generate.py
-        --objects-xml=${COPPELIASIM_INCLUDE_DIR}/sim/objects-methods.xml
+        --objects-xml=${COPPELIASIM_INCLUDE_DIR}/sim/objects.xml
         --enums-xml=${COPPELIASIM_INCLUDE_DIR}/sim/enums.xml
         --functions-xml=${COPPELIASIM_INCLUDE_DIR}/sim/functions.xml
         --output-dir=${CMAKE_CURRENT_BINARY_DIR}/generated
