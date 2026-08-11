@@ -140,7 +140,9 @@ table { margin-left: 3em; margin-right: 3em; }
 <a href="?#Matrix:svd">simEigen.Matrix:svd</a>
 <a href="?#Matrix:tan">simEigen.Matrix:tan</a>
 <a href="?#Matrix:times">simEigen.Matrix:times</a>
+<a href="?#Matrix:togrid">simEigen.Matrix:togrid</a>
 <a href="?#Matrix:tomatrix">simEigen.Matrix:tomatrix</a>
+<a href="?#Matrix:totable">simEigen.Matrix:totable</a>
 <a href="?#Matrix:trace">simEigen.Matrix:trace</a>
 <a href="?#Matrix:transform">simEigen.Matrix:transform</a>
 <a href="?#Matrix:transpose">simEigen.Matrix:transpose</a>
@@ -194,7 +196,7 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">table m = simEigen.Matrix(int rows, int cols, float[] data)<br>
+<td class="apiTableRightLSyn">table m = simEigen.Matrix(int rows, int cols, float[] data, int order)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -206,6 +208,8 @@ table { margin-left: 3em; margin-right: 3em; }
 <strong>cols</strong> (int): number of columns</div>
 <div>
 <strong>data</strong> (table of float): initialization data (optional; can also be a single value)</div>
+<div>
+<strong>order</strong> (int): data order: simEigen.dataOrder.rowMajor (default) or simEigen.dataOrder.columnMajor</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -609,12 +613,13 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">float[] a = simEigen.Matrix:data()<br>
+<td class="apiTableRightLSyn">float[] a = simEigen.Matrix:data(int order)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
-<td class="apiTableRightLParam">-</td>
+<td class="apiTableRightLParam"><div>
+<strong>order</strong> (int): data order: simEigen.dataOrder.rowMajor (default) or simEigen.dataOrder.columnMajor</div></td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -2330,13 +2335,17 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLSyn">Lua synopsis</td>
-<td class="apiTableRightLSyn">table self = simEigen.Matrix:setdata(float[] data)<br>
+<td class="apiTableRightLSyn">table self = simEigen.Matrix:setdata(float[] data, int order)<br>
 </td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Lua parameters</td>
-<td class="apiTableRightLParam"><div>
-<strong>data</strong> (table of float): matrix data</div></td>
+<td class="apiTableRightLParam">
+<div>
+<strong>data</strong> (table of float): matrix data</div>
+<div>
+<strong>order</strong> (int): data order: simEigen.dataOrder.rowMajor (default) or simEigen.dataOrder.columnMajor</div>
+</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftLRet">Lua return values</td>
@@ -2595,6 +2604,30 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="Matrix:togrid" id="Matrix:togrid"></a>simEigen.Matrix:togrid</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convert this matrix to the 'grid' interchange format</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table g = simEigen.Matrix:togrid()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>g</strong> (table): the matrix represented as a grid, e.g. {dims = {rows, cols}, data = &lt;row-major data&gt;}</div></td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="Matrix:tomatrix" id="Matrix:tomatrix"></a>simEigen.Matrix:tomatrix</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -2624,6 +2657,30 @@ table { margin-left: 3em; margin-right: 3em; }
 <div>
 <strong>q</strong> (table): the matrix (Matrix)</div>
 </td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="Matrix:totable" id="Matrix:totable"></a>simEigen.Matrix:totable</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">convert this matrix a nested (i.e. 2D) table</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">table t = simEigen.Matrix:totable()<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>t</strong> (table): the matrix represented as a 2D table</div></td>
 </tr>
 </table>
 <br><h3 class="subsectionBar">
@@ -3657,7 +3714,16 @@ table { margin-left: 3em; margin-right: 3em; }
 </table>
 <br>
 </td></tr>
-<tr><td id="enums" class="section"></td></tr>
+<tr><td id="enums" class="section">
+<br><br><h1>Constants</h1>
+<p>Constants used in the various functions. Refer to each constant using <i>enumName.constantName</i>, i.e. <b>simUI.curve_type.xy</b> for <b>xy</b> constant in <b>simUI.curve_type</b> enum.</p>
+<h3 class="subsectionBar">
+<a name="enum:dataOrder" id="enum:dataOrder"></a>simEigen.dataOrder</h3>
+<table class="apiConstantsTable"><tbody><tr><td>
+<div><strong>rowMajor</strong></div>
+<div><strong>columnMajor</strong></div>
+</td></tr></tbody></table>
+</td></tr>
 <tr><td id="structs" class="section"></td></tr>
 <tr><td id="scriptFunctions" class="section"></td></tr>
 </table></div>

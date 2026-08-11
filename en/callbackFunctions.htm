@@ -113,35 +113,33 @@ def sysCall_afterLoad():
 
 def sysCall_selChange(inData):
     # After selection was changed
-    for handle in inData['sel']:
-        print(f"Object with handle {handle} is selected")
+    for object in inData['selection']:
+        print(f"Object with handle {object.handle} is selected")
 
 def sysCall_beforeCopy(inData):
     # Before one or several objects will be copied. Can be reentrant
-    for handle in inData['objects']:
-        print(f"Object with handle {handle} will be copied")
+    for object in inData['objectList']:
+        print(f"Object with handle {object.handle} will be copied")
 
 def sysCall_afterCopy(inData):
     # After one or several objects were copied. Can be reentrant
-    for handle in inData['objects']:
-        print(f"Object with handle {handle} was copied")
+    for object in inData['objectList']:
+        print(f"Object with handle {object.handle} was copied")
 
 def sysCall_afterCreate(inData):
     # After one or several objects were created. Can be reentrant
-    for handle in inData['objects']:
-        print(f"Object with handle {handle} was created")
+    for object in inData['objectList']:
+        print(f"Object with handle {object.handle} was created")
 
 def sysCall_beforeDelete(inData):
     # Before one or several objects will be deleted. Can be reentrant
-    for handle in inData['objects']:
-        print(f"Object with handle {handle} will be deleted")
-    # inData['allObjects'] indicates if all objects in the scene will be deleted
+    for object in inData['objectList']:
+        print(f"Object with handle {object.handle} will be deleted")
 
 def sysCall_afterDelete(inData):
     # After one or several objects were deleted. Can be reentrant
-    for handle in inData['objects']:
-        print(f"Object with handle {handle} was deleted")
-    # inData['allObjects'] indicates if all objects in the scene were deleted
+    for object in inData['objectList']:
+        print(f"Object with handle {object.handle} was deleted")
 
 def sysCall_beforeMainScript():
     # Can be used to step a simulation in a custom manner.
@@ -191,7 +189,7 @@ def sysCall_moduleEntry(inData):
     # See sim.moduleEntry for details.
 
 def sysCall_msg(msg, origin):
-    # Synchronously called when sim.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
+    # Synchronously called when detachedScript.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
     # sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant
     pass
 
@@ -290,46 +288,44 @@ end
 
 function sysCall_selChange(inData)
     -- After selection was changed
-    for i = 1, #inData.sel, 1 do
-        print("Object with handle " .. inData.sel[i] .. " is selected")
+    for i = 1, #inData.selection do
+        print("Object with handle " .. inData.selection[i].handle .. " is selected")
     end
 end
 
 function sysCall_beforeCopy(inData)
     -- Before one or several objects will be copied. Can be reentrant
-    for i = 1, #inData.objects, 1 do
-        print("Object with handle " .. inData.objects[i] .. " will be copied")
+    for i = 1, #inData.objectList do
+        print("Object with handle " .. inData.objectList[i].handle .. " will be copied")
     end
 end
 
 function sysCall_afterCopy(inData)
     -- After one or several objects were copied. Can be reentrant
-    for i = 1, #inData.objects, 1 do
-        print("Object with handle " .. inData.objects[i] .. " was copied")
+    for i = 1, #inData.objectList do
+        print("Object with handle " .. inData.objectList[i].handle .. " was copied")
     end
 end
 
 function sysCall_afterCreate(inData)
     -- After one or several objects were created. Can be reentrant
-    for i = 1, #inData.objects, 1 do
-        print("Object with handle " .. inData.objects[i] .. " was created")
+    for i = 1, #inData.objectList do
+        print("Object with handle " .. inData.objectList[i].handle .. " was created")
     end
 end
 
 function sysCall_beforeDelete(inData)
     -- Before one or several objects will be deleted. Can be reentrant
-    for i = 1, #inData.objects, 1 do
-        print("Object with handle " .. inData.objects[i] .. " will be deleted")
+    for i = 1, #inData.objectList do
+        print("Object with handle " .. inData.objectList[i].handle .. " will be deleted")
     end
-    -- inData.allObjects indicates if all objects in the scene will be deleted
 end
 
 function sysCall_afterDelete(inData)
     -- After one or several objects were deleted. Can be reentrant
-    for i = 1, #inData.objects, 1 do
-        print("Object with handle " .. inData.objects[i] .. " was deleted")
+    for i = 1, #inData.objectList do
+        print("Object with handle " .. inData.objectList[i].handle .. " was deleted")
     end
-    -- inData.allObjects indicates if all objects in the scene were deleted
 end
 
 function sysCall_beforeMainScript()
@@ -387,7 +383,7 @@ function sysCall_moduleEntry(inData)
 end
 
 function sysCall_msg(msg, origin)
-    -- Synchronously called when sim.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
+    -- Synchronously called when detachedScript:broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
     -- sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant 
 end
 
@@ -405,7 +401,7 @@ end
 function sysCall_ext(funcName, inData)
     -- When this function is present, then all external calls to a script function, i.e. user callbacks,
     -- will be intercepted (the original function will be shadowed). If only monitoring is desired,
-    -- then one should use sim.registerScriptFuncHook on this function.
+    -- then one should use detachedScript:registerFunctionHook on this function.
 end</code>
 
 </div>
