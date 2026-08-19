@@ -19,7 +19,7 @@ apiDir_deprecated_currentVer = currentDir / '..' / 'en' / 'deprecated' # depreca
 apiDir_all = currentDir / '..' / 'en' / 'sim'
 templatesDir = currentDir / 'templates'
 
-methodCategories = [
+categories = [
     # Order matters. Keep first 4 in place!
     {'cat': 'c_main',                   'obj': False,   'txt': 'Main',                                          'page': '',                                                 'oldRefs': []},
     {'cat': 'c_property',               'obj': False,   'txt': 'Properties',                                    'page': 'properties.htm',                                   'oldRefs': []},
@@ -62,7 +62,7 @@ methodCategories = [
     {'cat': 'scriptRelated',            'obj': False,   'txt': 'Script related',                                'page': 'scripts.htm',                                      'oldRefs': []},
     {'cat': 'simulation',               'obj': False,   'txt': 'Simulation',                                    'page': 'simulation.htm',                                   'oldRefs': ['SimulationFunctionality']},
     {'cat': 'thread',                   'obj': False,   'txt': 'Threads',                                       'page': 'threadedAndNonThreadedCode.htm',                   'oldRefs': ['threads', 'threadRelatedFunctionality']},
-    {'cat': 'blocking',                 'obj': False,   'txt': 'Blocking functions',                            'page': '',                                                 'oldRefs': ['blockingFunctions']},
+    {'cat': 'blocking',                 'obj': False,   'txt': 'Blocking methods',                              'page': '',                                                 'oldRefs': ['blockingFunctions']},
     {'cat': 'transformation',           'obj': False,   'txt': 'Coordinates and transformations',               'page': 'positionOrientationTransformation.htm',            'oldRefs': ['pose', 'transformations', 'coordinatesAndTransformations']},
     {'cat': 'messaging',                'obj': False,   'txt': 'Messaging',                                     'page': 'meansOfCommunication.htm',                         'oldRefs': []},
     {'cat': 'texture',                  'obj': False,   'txt': 'Textures',                                      'page': '',                                                 'oldRefs': ['textures']},
@@ -140,59 +140,102 @@ def parse_params(params_node):
         arguments.append(arg)
     return arguments
 
-def funcname_to_filename(name, isC, objName):
-    if isC:
-        return name + '_cpp.htm'
-    elif name.startswith('sim.'):
-        name = name[4:]  # Everything after 'sim.'
-        name = 'sim' + name[0].upper() + name[1:]
-    elif objName and len(objName) > 0:
-        name = objName + '_' + name
+def getPropertyFlags(node):
+    retVal = []
+    s = node.find('flags')
+    if s != None:
+        fl = ['deprecated', 'readable', 'writable', 'removable', 'silent', 'constant']
+        for f in fl:
+            v = s.get(f)
+            if v != None:
+                retVal.append(f)
+    if retVal[0] == 'deprecated':
+        return []
+    return retVal
+
+def fmpToFilename(name, docItemType, objName, auxType = None):
+    name = name.replace('.', '_').replace(':', '_')
+    if auxType == None:
+        auxType = docItemType
+    if auxType == 'function':
+        name = name + '_cpp'
+    if auxType == 'method':
+        if objName and len(objName) > 0:
+            name = objName + '_' + name
+    if auxType == 'property':
+        if objName and len(objName) > 0:
+            name = objName + '_' + name
+        name = 'property_' + name
     return name + '.htm'
 
-def parse_see_also(see_also_node, isC, objName):
+def parse_see_also(see_also_node, docItemType, objName):
     references = []
     if see_also_node is None:
         return references
-    for func_ref in see_also_node.findall('function-ref'):
-        fullfuncname = func_ref.get('name', '').strip()
-        funcname = fullfuncname
-        p = fullfuncname.split(':')
-        if len(p) > 1:
-            objName = p[0]
-            funcname = p[1]
-        references.append('<a href="' + funcname_to_filename(funcname, isC, objName) + '">' + fullfuncname + '</a>')
+    for funcProp in ['function', 'property']:
+        if funcProp == 'property':
+            auxType = funcProp
+        if funcProp == 'function':
+            if docItemType == 'function':
+                auxType = docItemType
+            else:
+                auxType = 'method'
+        for funcProp_ref in see_also_node.findall(funcProp + '-ref'):
+            fullfuncPropName = funcProp_ref.get('name', '').strip()
+            funcPropName = fullfuncPropName
+            p = re.split(r'[:.]+', fullfuncPropName)
+            if len(p) > 1:
+                objName = p[0]
+                funcPropName = ''.join(p[1:])
+            references.append('<a href="' + fmpToFilename(funcPropName, docItemType, objName, auxType) + '">' + fullfuncPropName + ' (' + auxType + ')</a>')
     for link in see_also_node.findall('link'):
         references.append('<a href="' + link.get('href', '') + '">' + link.get('label', '').strip() + '</a>')
     return references
 
-def parse_categories(cat_node, isC):
+def parse_categories(cat_node):
     catList = []
     if cat_node is None:
         return catList
     for cat in cat_node.findall('category'):
         nm = cat.get('name', '')
-        '''
-        if isC:
-            if nm in ('c_main', 'c_aux', 'c_property', 'c_stack'):
-                catList = [nm.lower()] # ignore other categories (for now)
-                break
-            else:
-                catList.append(nm.lower())
-        else:
-            catList.append(nm.lower())
-        '''
         catList.append(nm.lower())
     return catList
 
-'''def parse_restrict_obj_type(restr_node):
-    tList = []
-    if restr_node is None:
-        return tList
-    for cat in restr_node.findall('object-type'):
-        tList.append(cat.get('name', ''))
-    return tList
-'''
+def transform_type_for_language(param_type, language):
+    if language == 'lua':
+        return param_type
+    if language == 'python':
+        type_map = {
+            'int[': 'list',
+            'float[': 'list',
+            'string[': 'list',
+            'handle[': 'list',
+            'map[': 'list',
+            'vector': 'vector',
+            'vector3': 'vector3',
+            'quaternion': 'quaternion',
+            'pose': 'pose',
+            'matrix': 'matrix',
+            'color': 'color',
+            'func': 'func',
+            'map': 'dict',
+            'bool': 'bool',
+            'int': 'int',
+            'float': 'float',
+            'string': 'str',
+            'any': 'any',
+            'handle': 'int',
+            'buffer': 'bytes',
+            'IKGroup': 'IKGroup',
+            'IKElement': 'IKElement',
+            'enum': 'int',
+            'object': 'object',
+        }
+        for lua_type, python_type in type_map.items():
+            if param_type.startswith(lua_type):
+                return python_type
+        raise ValueError(f"Unsupported type '{param_type}' for language '{language}'")
+    raise ValueError(f"Unsupported language: '{language}'")
 
 def prepare_synopsis(func_name, input_params, output_params, lang):
     def transform_params_for_language(params, language):
@@ -229,40 +272,6 @@ def prepare_synopsis(func_name, input_params, output_params, lang):
                 if default_value == 'nil':
                     default_value = 'None'
             return default_value
-
-        def transform_type_for_language(param_type, language):
-            if language == 'python':
-                type_map = {
-                    'int[': 'list',
-                    'float[': 'list',
-                    'string[': 'list',
-                    'handle[': 'list',
-                    'map[': 'list',
-                    'vector': 'vector',
-                    'vector3': 'vector3',
-                    'quaternion': 'quaternion',
-                    'pose': 'pose',
-                    'matrix': 'matrix',
-                    'color': 'color',
-                    'func': 'func',
-                    'map': 'dict',
-                    'bool': 'bool',
-                    'int': 'int',
-                    'float': 'float',
-                    'string': 'str',
-                    'any': 'any',
-                    'handle': 'int',
-                    'buffer': 'bytes',
-                    'IKGroup': 'IKGroup',
-                    'IKElement': 'IKElement',
-                    'enum': 'int',
-                    'object': 'object',
-                }
-                for lua_type, python_type in type_map.items():
-                    if param_type.startswith(lua_type):
-                        return python_type
-                raise ValueError(f"Unsupported type '{param_type}' for language '{language}'")
-            raise ValueError(f"Unsupported language: '{language}'")
 
         transformed = []
         for param in params:
@@ -423,21 +432,18 @@ def format_synopsis(S, L):
 
     return '\n'.join(result)
 
+def getRefCategories(docItem, fmpItem, obj_name): # "fmp" for "function, method or property"
+    # Returns a list (with duplicates allowed) of categories that are referenced:
+    itemCategories = parse_categories(fmpItem.find('categories'))
+    if obj_name and len(obj_name) > 0:
+        nm = obj_name.lower()
+        itemCategories = [x for x in itemCategories if x != nm] # remove possible obj_name listed there
+        itemCategories.append(nm)
+    return itemCategories
+
 def main():
-    for item in methodCategories:
-        item['cat'] = item['cat'].lower()
-
-    functionCategories = copy.deepcopy(methodCategories)
-
-    allMethodCategories = {}
-    for item in methodCategories:
-        allMethodCategories[item['cat']] = {'txt': item['txt'], 'api': []}
-
-    allFunctionCategories = {}
-    for item in functionCategories:
-        allFunctionCategories[item['cat']] = {'txt': item['txt'], 'api': []}
-
-    def handle_func_or_method(file, func, obj_name, template):
+    def handleFunctionsMethodsOrProperties(docItem, fmpItem, obj_name, template): # "fmp" for "function, method or property"
+        # Processes each function, method or property, by generating the API file and additional info:
         def addEnums(str, enumsAlreadyFound):
             patterns = re.findall(r'<a\s+[^>]*href=["\']#([^"\']+)["\']', str)
             for p in patterns:
@@ -445,68 +451,109 @@ def main():
                     enumsAlreadyFound.append(p)
             return enumsAlreadyFound
         enums = []
-        funcnameRaw = func.get('name').strip()
+        fmpNameRaw = fmpItem.get('name').strip()
         if debug:
-            print('class:', obj_name, ', func/method:', funcnameRaw)
-        lang = func.get('lang').strip()
-        deprecated = (func.get('deprecated') == 'true')
-        isC = (lang == 'c')
-        funcdescription = getTxt(func, 'description').strip().rstrip('. ')
-        enums = addEnums(funcdescription, enums)
-        more = (getTxt(func, 'more') or '').strip().rstrip('. ')
-        input = parse_params(func.find('params'))
-        output = parse_params(func.find('returns'))
+            print('class:', obj_name, ', func/method/property:', fmpNameRaw)
+        docItemType = docItem['type']
+        if docItemType == 'property':
+            propType = fmpItem.get('type').strip()
+            if propType == 'group':
+                return
+            propType = transform_type_for_language(propType, 'lua')
+        else:
+            lang = fmpItem.get('lang').strip()
+        if docItemType == 'property':
+            propFlags = getPropertyFlags(fmpItem)
+            if propFlags == []:
+                return # means deprecated
+            html = '<ul>\n'
+            for item in propFlags:
+                html += f'    <li>{item}</li>\n'
+            html = html + '</ul>'
+            propFlags = html
 
-        filename = funcname_to_filename(funcnameRaw, isC, obj_name)
-        funcname = funcnameRaw
+        fmpDescription = getTxt(fmpItem, 'description')
+        if fmpDescription == None:
+            fmpDescription = getTxt(fmpItem, 'label')
+        if fmpDescription == None:
+            fmpDescription = 'no description'
+        fmpDescription = fmpDescription.strip().rstrip('. ')
+        enums = addEnums(fmpDescription, enums)
+        more = (getTxt(fmpItem, 'more') or '').strip().rstrip('. ')
+        input = parse_params(fmpItem.find('params'))
+        output = parse_params(fmpItem.find('returns'))
+
+        filename = fmpToFilename(fmpNameRaw, docItemType, obj_name)
+        fmpName = fmpNameRaw
         if obj_name and len(obj_name) > 0:
-            funcname = obj_name + ':' + funcname
+            fmpName = obj_name + ':' + fmpName
 
-        see_also = parse_see_also(func.find('see-also'), isC, obj_name)
+        # Get the see-also items listed:
+        see_also = parse_see_also(fmpItem.find('see-also'), docItemType, obj_name)
         if not see_also:
             see_also = []
-        see_also_cat = []
-        #if len(obj_name) > 0:
-        #    see_also_cat.append(obj_name)
+        see_also_cat1 = []
+        see_also_cat2 = []
 
-        categories = parse_categories(func.find('categories'), isC)
+        # Get the categories that function, property or method relates to:
+        itemCategories = parse_categories(fmpItem.find('categories'))
         if obj_name and len(obj_name) > 0:
             nm = obj_name.lower()
-            categories = [x for x in categories if x != nm] # remove possible obj_name listed there
-            categories.insert(0, nm) # add to front
+            itemCategories = [x for x in itemCategories if x != nm] # remove possible obj_name listed there
+            itemCategories.insert(0, nm) # add to front
 
-        #print(categories)
-        for cat in categories:
+        for cat in itemCategories:
             cat = cat.lower()
-            if cat in file['categoriesMap']:
-                file['categoriesMap'][cat]['api'].append({'fullName': funcname, 'name': funcnameRaw, 'file': currentVer + '/' + filename, 'c': isC})
-                pref = ''
+            if cat in docItem['categoriesMap']:
+                docItem['categoriesMap'][cat]['api'].append({'fullName': fmpName, 'name': fmpNameRaw, 'file': currentVer + '/' + filename, 'c': docItemType == 'function'})
+                # Add see-also items related to the listed categories (but only within the same category type, i.e. method cat for methods, function cat for functions, and property cat for properties):
                 methFunc = 'methods'
-                if isC:
-                    pref = 'c_'
+                if docItemType == 'function':
                     methFunc = 'functions'
-                see_also_cat.append('<a href="../apiFunctions.htm#' + pref + cat + '">' + "all " + methFunc + " in '" + file['categoriesMap'][cat]['txt'] + "' category</a>")
+                if docItemType == 'property':
+                    methFunc = 'properties'
+                pref = methFunc + '_'
+                see_also_cat1.append('<a href="../apiFunctions.htm#' + pref + cat + '">' + docItem['categoriesMap'][cat]['txt'] + ' ' + methFunc + "</a>")
             else:
-                raise Exception("Category '" + cat + "' not found for '" + funcnameRaw + "'")
+                raise Exception("Category '" + cat + "' not found for '" + fmpNameRaw + "'")
 
-        if len(see_also) > 0 or len(see_also_cat) > 0:
+        # Add see-also items related to the listed categories, across a different category type (i.e. method cat for properties, property cat for functions, and property cat for methods):
+        for cat in itemCategories:
+            cat = cat.lower()
+            docItemMap = {'method': propertyDocItem, 'property': methodDocItem, 'function': propertyDocItem}
+            if cat in docItemMap[docItemType]['categoriesMap']:
+                methFunc = 'properties'
+                if docItemType == 'property':
+                    methFunc = 'methods'
+                pref = methFunc + '_'
+                see_also_cat2.append('<a href="../apiFunctions.htm#' + pref + cat + '">' + docItemMap[docItemType]['categoriesMap'][cat]['txt'] + ' ' + methFunc + "</a>")
+
+        # Assemble see-also html string:
+        if len(see_also) > 0 or len(see_also_cat1) or len(see_also_cat2) > 0:
             html = '<ul>\n'
-            for item in see_also_cat:
-                html += f'    <li>{item}</li>\n'
             for item in see_also:
                 html += f'    <li>{item}</li>\n'
+            if len(see_also_cat1) > 0:
+                html = html + '</ul><ul>\n'
+                for item in see_also_cat1:
+                    html += f'    <li>{item}</li>\n'
+            if len(see_also_cat2) > 0:
+                html = html + '</ul><ul>\n'
+                for item in see_also_cat2:
+                    html += f'    <li>{item}</li>\n'
             see_also = html + '</ul>'
         else:
             see_also = ''
 
         synopsis = ''
-        for l in lang.split(','):
-            if synopsis != '':
-                synopsis += '\n\n'
-            syn = format_synopsis(prepare_synopsis(funcname, input, output, l), 100)
-            if l != 'c':
-                syn = addCodeSection(syn, l)
-            synopsis = synopsis + syn
+        if docItemType != 'property':
+            for l in lang.split(','):
+                if synopsis != '':
+                    synopsis += '\n\n'
+                syn = format_synopsis(prepare_synopsis(fmpName, input, output, l), 100)
+                if l != 'c':
+                    syn = addCodeSection(syn, l)
+                synopsis = synopsis + syn
 
         if input and (len(input) > 0):
             html = "<ul>\n"
@@ -525,7 +572,7 @@ def main():
                 name = param.get('name', '')
                 description = param.get('description', '')
                 enums = addEnums(description, enums)
-                if isC:
+                if docItemType == 'function':
                     html += f"    <li>{description}</li>\n"
                 else:
                     html += f"    <li><strong>{name}</strong>: {description}</li>\n"
@@ -537,14 +584,14 @@ def main():
 
         enumSection = ''
         enumCnt = 0
-        if 'enums' in file:
+        if 'enums' in docItem:
             enumSection = '<ul>'
             for enumT in enums:
-                if enumT in file['enums']:
+                if enumT in docItem['enums']:
                     if enumCnt > 0:
                         enumSection += "<br>"
                     enumCnt += 1
-                    item = file['enums'][enumT]
+                    item = docItem['enums'][enumT]
                     enumSection += '<li id="' + enumT + '"><b>' + item['label'] + '</b>:<ul>'
                     for iitem in item['enums']:
                         enumSection += "<li>" + iitem['name']
@@ -558,18 +605,20 @@ def main():
         if enumCnt == 0:
             enumSection = ''
 
-        #restrictToObjectTypes = parse_restrict_obj_type(func.find('restrict-object-types'))
-        #if len(restrictToObjectTypes) > 0:
-        #    print(restrictToObjectTypes)
-
         nm = apiDir_currentVer / filename
         with nm.open('w', encoding='utf-8') as file_w:
             a = template
-            funcnamePlus = funcname
-            if deprecated:
-                funcnamePlus += ' (deprecated)'
-            a = a.replace('__funcName__', funcnamePlus)
-            a = a.replace('__funcDescription__', funcdescription)
+            funcnamePlus = fmpName
+            suff = ' (' + docItemType + ')'
+            if docItemType == 'function':
+                suff = ' (C function)'
+            if docItemType == 'property':
+                a = a.replace('__propName__', funcnamePlus + suff)
+                a = a.replace('__propDescription__', fmpDescription)
+                a = a.replace('__propFlags__', propFlags)
+            else:
+                a = a.replace('__funcName__', funcnamePlus + suff)
+                a = a.replace('__funcDescription__', fmpDescription)
             a = a.replace('__funcVer__', FUNC_VER_INFO)
 
             a = a.replace('__seeAlso__', see_also)
@@ -578,14 +627,10 @@ def main():
             else:
                 a = a.replace('__seealsoVisibility__', 'style="display: none;"')
 
-
-            a = a.replace('__seeAlso__', see_also)
-            if len(see_also) > 0:
-                a = a.replace('__seealsoVisibility__', '')
+            if docItemType == 'property':
+                a = a.replace('__type__', propType)
             else:
-                a = a.replace('__seealsoVisibility__', 'style="display: none;"')
-
-            a = a.replace('__synopsis__', synopsis)
+                a = a.replace('__synopsis__', synopsis)
 
             a = a.replace('__input__', input)
             if len(input) > 0:
@@ -613,6 +658,11 @@ def main():
 
             file_w.write(minify_html.minify(a))
 
+    categoriesMap = {}
+    for item in categories:
+        item['cat'] = item['cat'].lower()
+        categoriesMap[item['cat']] = {'txt': item['txt'], 'api': []}
+
     args = parse_commandline_args()
     debug = (args.debug == 'true') or (args.debug == 'True')
 
@@ -637,80 +687,109 @@ def main():
             dst_path = os.path.join(apiDir_currentVer, filename)
             shutil.copy2(src_path, dst_path)
 
-    files = [
-        {
-            'inputFile': args.functions_xml,
-            'cTemplate': templatesDir / 'cFunc.htm',
-            #'enumFile': args.enums_xml,
-            #'pythonLuaTemplate': templatesDir / 'pythonLuaFunc.htm',
-            'categories': functionCategories,
-            'categoriesMap': allFunctionCategories,
-            'type': 'functions',
-            'skip': False,
-        },
-        {
-            'inputFile': args.objects_xml,
-            #'enumFile': args.enums_xml,
-            'pythonLuaTemplate': templatesDir / 'pythonLuaMethod.htm',
-            'categories': methodCategories,
-            'categoriesMap': allMethodCategories,
-            'type': 'objects',
-            'skip': False,
-        }
-    ]
+    methodDocItem = {
+        'inputFile': args.objects_xml,
+        #'enumFile': args.enums_xml,
+        'apiFileTemplate': templatesDir / 'method.htm',
+        'categoriesMap': copy.deepcopy(categoriesMap),
+        'type': 'method',
+    }
 
-    for file in files:
-        if not file['skip']:
-            handleFunctions = (file['type'] == 'functions')
+    functionDocItem = {
+        'inputFile': args.functions_xml,
+        'apiFileTemplate': templatesDir / 'function.htm',
+        #'enumFile': args.enums_xml,
+        #'methodTemplate': templatesDir / 'pythonLuaFunc.htm',
+        'categoriesMap': copy.deepcopy(categoriesMap),
+        'type': 'function',
+    }
 
-            if handleFunctions:
-                with (file['cTemplate']).open('r') as file_r:
-                    template_cpp = file_r.read()
+    propertyDocItem = {
+        'inputFile': args.objects_xml,
+        #'enumFile': args.enums_xml,
+        'apiFileTemplate': templatesDir / 'property.htm',
+        'categoriesMap': copy.deepcopy(categoriesMap),
+        'type': 'property',
+    }
+
+    docItems = [methodDocItem, functionDocItem, propertyDocItem]
+
+    # First remove unreferenced categories in methodDocItem, functionDocItem and propertyDocItem:
+    for docItem in docItems:
+        docItemType = docItem['type']
+        try:
+            tree = ET.parse(docItem['inputFile'])
+        except ET.ParseError as e:
+            raise ET.ParseError(f'{docItem["inputFile"]}: {e!s}')
+
+        items = tree.getroot()
+
+        usedCategories = {} # can contain duplicates
+        for item in items:
+            if docItemType == 'function':
+                l = getRefCategories(docItem, item, '')
+                for it in l:
+                    usedCategories[it] = True
             else:
-                with (file['pythonLuaTemplate']).open('r') as file_r:
-                    template = file_r.read()
-            '''
-            if 'enumFile' in file:
-                enumTree = ET.parse(file['enumFile'])
-                enums_node = enumTree.getroot()
-                enums = {}
-                for enum_node in enums_node:
-                    enum_name = enum_node.get('name').strip()
-                    txt = enum_node.get('label').strip()
-                    enum = []
-                    for item_node in enum_node.findall('item'):
-                        n = item_node.get('name').strip()
-                        v = item_node.get('value')
-                        if v:
-                            v.strip()
-                        d = getTxt(item_node, 'description')
-                        if d:
-                            d = d.strip().rstrip('. ')
-                        enum.append({'name': n, 'val': v, 'descr': d})
-                    enums[enum_name] = {'label': txt, 'enums': enum}
-                file['enums'] = enums
-            '''
+                obj_name = item.get('name').strip()
+                for subItem in item.findall(docItemType):
+                    l = getRefCategories(docItem, subItem, obj_name)
+                    for it in l:
+                        usedCategories[it] = True
+        toRemove = []
+        for key, val in docItem['categoriesMap'].items():
+            if key not in usedCategories:
+                toRemove.append(key)
+        for item in toRemove:
+            del docItem['categoriesMap'][item]
 
-            try:
-                tree = ET.parse(file['inputFile'])
-            except ET.ParseError as e:
-                raise ET.ParseError(f'{file["inputFile"]}: {e!s}')
+    # Now process methodDocItem, functionDocItem and propertyDocItem:
+    for docItem in docItems:
+        docItemType = docItem['type']
 
-            cnt = 0
+        with (docItem['apiFileTemplate']).open('r') as file_r:
+            templateFile = file_r.read()
+        '''
+        if 'enumFile' in docItem:
+            enumTree = ET.parse(docItem['enumFile'])
+            enums_node = enumTree.getroot()
+            enums = {}
+            for enum_node in enums_node:
+                enum_name = enum_node.get('name').strip()
+                txt = enum_node.get('label').strip()
+                enum = []
+                for item_node in enum_node.findall('item'):
+                    n = item_node.get('name').strip()
+                    v = item_node.get('value')
+                    if v:
+                        v.strip()
+                    d = getTxt(item_node, 'description')
+                    if d:
+                        d = d.strip().rstrip('. ')
+                    enum.append({'name': n, 'val': v, 'descr': d})
+                enums[enum_name] = {'label': txt, 'enums': enum}
+            docItem['enums'] = enums
+        '''
 
-            if handleFunctions:
-                funcs = tree.getroot()
-                for func in funcs:
-                    handle_func_or_method(file, func, '', template_cpp)
+        try:
+            tree = ET.parse(docItem['inputFile'])
+        except ET.ParseError as e:
+            raise ET.ParseError(f'{docItem["inputFile"]}: {e!s}')
+
+        items = tree.getroot()
+
+        cnt = 0
+        # Process each method, function and property:
+        for item in items:
+            if docItemType == 'function':
+                handleFunctionsMethodsOrProperties(docItem, item, '', templateFile)
+                cnt += 1
+            else:
+                obj_name = item.get('name').strip()
+                for subItem in item.findall(docItemType):
+                    handleFunctionsMethodsOrProperties(docItem, subItem, obj_name, templateFile)
                     cnt += 1
-            else:
-                objs = tree.getroot()
-                for obj in objs:
-                    obj_name = obj.get('name').strip()
-                    for method in obj.findall('method'):
-                        handle_func_or_method(file, method, obj_name, template)
-                        cnt += 1
-            file['cnt'] = cnt
+        docItem['cnt'] = cnt
 
     # Now copy ALL functions into apiDir_all:
     try:
@@ -731,29 +810,28 @@ def main():
             src_path = os.path.join(apiDir_currentVer, filename)
             dst_path = os.path.join(apiDir_all, filename)
             shutil.copy2(src_path, dst_path)
-    cnt1 = 0
-    if not files[0]['skip']:
-        cnt1 = files[0]['cnt']
-    cnt2 = 0
-    if not files[1]['skip']:
-        cnt2 = files[1]['cnt']
-    print(f'\nTotal generated: {cnt1} + {cnt2}')
+
+    cnt = [0, 0, 0]
+    for index, docItem in enumerate(docItems):
+        cnt[index] = cnt[index] + docItem['cnt']
+    print(f'\nTotal generated: {cnt}')
 
     # Now generate apiFunctions.htm:
-    with (templatesDir / 'funcList.htm').open('r') as file_r:
+    with (templatesDir / 'apiList.htm').open('r') as file_r:
         listTemplate = file_r.read()
 
+    # First fill items related to methods:
     methodCatLinks = ''
     methodSection = ''
-    for item in methodCategories:
+    for item in categories:
         cat = item['cat']
         oldRefs = item['oldRefs']
         page = item['page']
         obj = item['obj']
-        if len(allMethodCategories[cat]['api']) > 0:
+        if (cat in methodDocItem['categoriesMap']) and (len(methodDocItem['categoriesMap'][cat]['api']) > 0):
             methodLinks = ''
-            title = allMethodCategories[cat]['txt']
-            catApis = allMethodCategories[cat]['api']
+            title = methodDocItem['categoriesMap'][cat]['txt']
+            catApis = methodDocItem['categoriesMap'][cat]['api']
             tfuncs = sorted(catApis, key=lambda x: x['fullName'])
             funcs = []
             funcsEnd = []
@@ -769,10 +847,10 @@ def main():
                 if len(methodLinks) != 0:
                     methodLinks += '\n'
                 methodLinks += '<a href="' + file + '">' + name + '</a>'
-            methodCatLinks += '<li><a href="#' + cat + '">' + title + '</a></li>'
-            methodSection += '<h2><a name="' + cat + '"></a>'
+            methodCatLinks += '<li><a href="#methods_' + cat + '">' + title + '</a></li>'
+            methodSection += '<h2><a name="methods_' + cat + '"></a>'
             for r in oldRefs:
-                methodSection += '<a name="' + r + '"></a>'
+                methodSection += '<a name="methods_' + r + '"></a>'
             if len(page) > 0:
                 title = '<a href="' + page + '">' + title + '</a>'
             methodSection += title + ' (methods)</h2>\n'
@@ -780,68 +858,85 @@ def main():
             methodSection += methodLinks
             methodSection += '</code><br>'
 
-    functionCatLinks = ''
-    functionSection = ''
-    cfunctionCatLinks = ''
-    cfunctionSection = ''
-    listForCFuncs = True
-    for item in functionCategories:
+    # Fill items related to properties:
+    propertyCatLinks = ''
+    propertySection = ''
+    for item in categories:
         cat = item['cat']
-        listForCFuncs = ('c_' in cat)
         oldRefs = item['oldRefs']
         page = item['page']
-        if len(allFunctionCategories[cat]['api']) > 0:
-            functionLinks = ''
-            cfunctionLinks = ''
-            title = allFunctionCategories[cat]['txt']
-            funcs = sorted(allFunctionCategories[cat]['api'], key=lambda x: x['fullName'])
+        obj = item['obj']
+        if (cat in propertyDocItem['categoriesMap']) and (len(propertyDocItem['categoriesMap'][cat]['api']) > 0):
+            propertyLinks = ''
+            title = propertyDocItem['categoriesMap'][cat]['txt']
+            catApis = propertyDocItem['categoriesMap'][cat]['api']
+            tfuncs = sorted(catApis, key=lambda x: x['fullName'])
+            funcs = []
+            funcsEnd = []
+            for c in tfuncs:
+                if obj and c['fullName'].lower().startswith(cat + ':'):
+                    funcs.append(c)
+                else:
+                    funcsEnd.append(c)
+            funcs = funcs + funcsEnd
             for e in funcs:
                 name = e['fullName']
                 file = e['file']
-                isC = e['c']
-                if isC:
-                    if len(cfunctionLinks) != 0:
-                        cfunctionLinks += '\n'
-                    cfunctionLinks += '<a href="' + file + '">' + name + '</a>'
-                else:
-                    if len(functionLinks) != 0:
-                        functionLinks += '\n'
-                    functionLinks += '<a href="' + file + '">' + name + '</a>'
+                if len(propertyLinks) != 0:
+                    propertyLinks += '\n'
+                propertyLinks += '<a href="' + file + '">' + name + '</a>'
+            propertyCatLinks += '<li><a href="#properties_' + cat + '">' + title + '</a></li>'
+            propertySection += '<h2><a name="properties_' + cat + '"></a>'
+            for r in oldRefs:
+                propertySection += '<a name="' + r + '"></a>'
+            if len(page) > 0:
+                title = '<a href="' + page + '">' + title + '</a>'
+            propertySection += title + ' (properties)</h2>\n'
+            propertySection += '<code class="two-cols language-python-lua coppelia-coppeliasim-script api-list">'
+            propertySection += propertyLinks
+            propertySection += '</code><br>'
+
+    # Fill items related to functions:
+    functionCatLinks = ''
+    functionSection = ''
+    for item in categories:
+        cat = item['cat']
+        c_Prefix = ('c_' in cat)
+        oldRefs = item['oldRefs']
+        page = item['page']
+        if (cat in functionDocItem['categoriesMap']) and (len(functionDocItem['categoriesMap'][cat]['api']) > 0):
+            functionLinks = ''
+            title = functionDocItem['categoriesMap'][cat]['txt']
+            funcs = sorted(functionDocItem['categoriesMap'][cat]['api'], key=lambda x: x['fullName'])
+            for e in funcs:
+                name = e['fullName']
+                file = e['file']
+                if len(functionLinks) != 0:
+                    functionLinks += '\n'
+                functionLinks += '<a href="' + file + '">' + name + '</a>'
             if len(functionLinks) != 0:
-                functionCatLinks += '<li><a href="#_' + cat + '">' + title + '</a></li>'
-                functionSection += '<h2><a name="_' + cat + '"></a>'
+                if c_Prefix:
+                    functionCatLinks += '<li><a href="#functions_' + cat + '">' + title + '</a></li>'
+                functionSection += '<h2><a name="functions_' + cat + '"></a>'
                 for r in oldRefs:
                     functionSection += '<a name="' + r + '"></a>'
                 if len(page) > 0:
                     title = '<a href="' + page + '">' + title + '</a>'
-                functionSection += title + ' (Python/Lua functions)</h2>\n'
-                functionSection += '<code class="two-cols language-python-lua coppelia-coppeliasim-script api-list">'
+                functionSection += title + ' (C-functions)</h2>\n'
+                functionSection += '<code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list">'
                 functionSection += functionLinks
                 functionSection += '</code><br>'
-            if len(cfunctionLinks) != 0:
-                if listForCFuncs:
-                    cfunctionCatLinks += '<li><a href="#c_' + cat + '">' + title + '</a></li>'
-                cfunctionSection += '<h2><a name="c_' + cat + '"></a>'
-                for r in oldRefs:
-                    cfunctionSection += '<a name="' + r + '"></a>'
-                if len(page) > 0:
-                    title = '<a href="' + page + '">' + title + '</a>'
-                cfunctionSection += title + ' (C-functions)</h2>\n'
-                cfunctionSection += '<code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list">'
-                cfunctionSection += cfunctionLinks
-                cfunctionSection += '</code><br>'
 
     listTemplate = listTemplate.replace('__methodLinks__', methodCatLinks)
     listTemplate = listTemplate.replace('__methodSection__', methodSection)
+    listTemplate = listTemplate.replace('__propertyLinks__', propertyCatLinks)
+    listTemplate = listTemplate.replace('__propertySection__', propertySection)
     listTemplate = listTemplate.replace('__functionLinks__', functionCatLinks)
     listTemplate = listTemplate.replace('__functionSection__', functionSection)
-    listTemplate = listTemplate.replace('__cfunctionLinks__', cfunctionCatLinks)
-    listTemplate = listTemplate.replace('__cfunctionSection__', cfunctionSection)
 
     nm = apiDir_main / 'apiFunctions.htm'
     with nm.open('w') as file_w:
         file_w.write(minify_html.minify(listTemplate))
-
 
 if __name__ == "__main__":
     main()
