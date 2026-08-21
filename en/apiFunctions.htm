@@ -1,4 +1,4 @@
-<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><meta content=en-us http-equiv=Content-Language><title>regular API reference</title><link href=../style.css rel=stylesheet><body><div align=center><table class=allEncompassingTable><tr><td><p><a href=../index.html target=_top><img src=images/homeImg.png></a></p> <h1>Regular API reference (<a href=apisOverview.htm>sim-2</a>)</h1> <p>This page lists all methods, properties and functions related to the regular API.<br> Unless explicitly stated otherwise, all values passed to or returned from the regular API use SI units: meters, kilograms, seconds, and <b>radians</b>, or combinations thereof:</p> <ul><li><a href=#methods>Methods (Lua/Python)</a><li><a href=#properties>Properties</a><li><a href=#functions>Functions (C/C++)</a></ul> <hr> <p><a name=methods></a>Methods are organized into the following categories:</p> <ul class=two-cols><li><a href=#methods_object>Object</a><li><a href=#methods_app>App</a><li><a href=#methods_scene>Scene</a><li><a href=#methods_collection>Collection</a><li><a href=#methods_customobject>Custom object</a><li><a href=#methods_detachedscript>Detached script</a><li><a href=#methods_mesh>Mesh</a><li><a href=#methods_sceneobject>Scene object</a><li><a href=#methods_shape>Shape</a><li><a href=#methods_joint>Joint</a><li><a href=#methods_dummy>Dummy</a><li><a href=#methods_marker>Marker</a><li><a href=#methods_script>Script</a><li><a href=#methods_camera>Camera</a><li><a href=#methods_light>Light</a><li><a href=#methods_graph>Graph</a><li><a href=#methods_proximitysensor>Proximity sensor</a><li><a href=#methods_visionsensor>Vision sensor</a><li><a href=#methods_forcesensor>Force sensor</a><li><a href=#methods_pointcloud>Point cloud</a><li><a href=#methods_octree>OC-tree</a><li><a href=#methods_customsceneobject>Custom scene object</a><li><a href=#methods_path>Paths</a><li><a href=#methods_file>File operations</a><li><a href=#methods_main>General functionality handling</a><li><a href=#methods_dynamics>Dynamics</a><li><a href=#methods_property>Properties</a><li><a href=#methods_collision>Collision detection</a><li><a href=#methods_distance>Distance calculation</a><li><a href=#methods_rendering>Rendering</a><li><a href=#methods_customization>Customization</a><li><a href=#methods_model>Models</a><li><a href=#methods_creation>Object creation</a><li><a href=#methods_scriptrelated>Script related</a><li><a href=#methods_simulation>Simulation</a><li><a href=#methods_thread>Threads</a><li><a href=#methods_blocking>Blocking methods</a><li><a href=#methods_transformation>Coordinates and transformations</a><li><a href=#methods_messaging>Messaging</a><li><a href=#methods_texture>Textures</a><li><a href=#methods_console>Consoles</a><li><a href=#methods_texteditor>Text/code editor</a><li><a href=#methods_importexport>Import/export</a><li><a href=#methods_motion>Motion functionality</a><li><a href=#methods_movetoconfig>Motion:MoveToConfig</a><li><a href=#methods_movetopose>Motion:MoveToPose</a><li><a href=#methods_timeoptimaltrajectory>Motion:TimeOptimalTrajectory</a><li><a href=#methods_ruckigposition>Motion:RuckigPosition</a><li><a href=#methods_ruckigvelocity>Motion:RuckigVelocity</a><li><a href=#methods_packing>Packing/unpacking</a><li><a href=#methods_ik>Kinematics</a><li><a href=#methods_ikobject>IK task/object</a><li><a href=#methods_ikgroup>IK groups</a><li><a href=#methods_other>Other</a></ul> <hr> <p><a name=properties></a>Properties are organized into the following categories:</p> <ul class=two-cols><li><a href=#properties_object>Object</a><li><a href=#properties_app>App</a><li><a href=#properties_scene>Scene</a><li><a href=#properties_collection>Collection</a><li><a href=#properties_detachedscript>Detached script</a><li><a href=#properties_mesh>Mesh</a><li><a href=#properties_sceneobject>Scene object</a><li><a href=#properties_shape>Shape</a><li><a href=#properties_joint>Joint</a><li><a href=#properties_dummy>Dummy</a><li><a href=#properties_marker>Marker</a><li><a href=#properties_script>Script</a><li><a href=#properties_camera>Camera</a><li><a href=#properties_light>Light</a><li><a href=#properties_graph>Graph</a><li><a href=#properties_proximitysensor>Proximity sensor</a><li><a href=#properties_visionsensor>Vision sensor</a><li><a href=#properties_forcesensor>Force sensor</a><li><a href=#properties_pointcloud>Point cloud</a><li><a href=#properties_octree>OC-tree</a><li><a href=#properties_file>File operations</a><li><a href=#properties_dynamics>Dynamics</a><li><a href=#properties_collision>Collision detection</a><li><a href=#properties_distance>Distance calculation</a><li><a href=#properties_rendering>Rendering</a><li><a href=#properties_customization>Customization</a><li><a href=#properties_model>Models</a><li><a href=#properties_selection>Selection</a><li><a href=#properties_creation>Object creation</a><li><a href=#properties_scriptrelated>Script related</a><li><a href=#properties_simulation>Simulation</a><li><a href=#properties_thread>Threads</a><li><a href=#properties_transformation>Coordinates and transformations</a><li><a href=#properties_messaging>Messaging</a><li><a href=#properties_texture>Textures</a><li><a href=#properties_console>Consoles</a><li><a href=#properties_texteditor>Text/code editor</a><li><a href=#properties_importexport>Import/export</a><li><a href=#properties_ik>Kinematics</a><li><a href=#properties_ikobject>IK task/object</a><li><a href=#properties_ikjoint>IK joints</a><li><a href=#properties_ikgroup>IK groups</a><li><a href=#properties_ikelement>IK elements</a><li><a href=#properties_drawingobject>Drawing objects (deprecated, see markers instead)</a></ul> <hr> <p><a name=functions></a>C-functions are organized into the following categories:</p> <ul class=two-cols><li><a href=#functions_c_main>Main</a><li><a href=#functions_c_property>Properties</a><li><a href=#functions_c_stack>Stack</a><li><a href=#functions_c_aux>Auxiliary functions</a></ul> <p>Keep in mind that <strong>all</strong> methods can also be called from C/C++ via the <a href=sim-2/simCallMethod_cpp.htm>simCallMethod</a> function.</p> <hr> <h2><a name=methods_object></a>Object (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/object_getBoolProperty.htm>object:getBoolProperty</a>
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><meta content=en-us http-equiv=Content-Language><title>regular API reference</title><link href=../style.css rel=stylesheet><body><div align=center><table class=allEncompassingTable><tr><td><p><a href=../index.html target=_top><img src=images/homeImg.png></a></p> <h1>Regular API reference (<a href=apisOverview.htm>sim-2</a>)</h1> <p>This page lists all methods, properties and functions related to the regular API.<br> Unless explicitly stated otherwise, all values passed to or returned from the regular API use SI units: meters, kilograms, seconds, and <b>radians</b>, or combinations thereof:</p> <ul><li><a href=#methods>Methods (Lua/Python)</a><li><a href=#properties>Properties</a><li><a href=#functions>Functions (C/C++)</a></ul> <hr class=short> <p><a name=methods></a>Methods are organized into the following categories:</p> <ul class=two-cols><li><a href=#methods_object>object</a><li><a href=#methods_app>app</a><li><a href=#methods_scene>scene</a><li><a href=#methods_collection>collection</a><li><a href=#methods_customobject>customObject</a><li><a href=#methods_detachedscript>detachedScript</a><li><a href=#methods_mesh>mesh</a><li><a href=#methods_sceneobject>sceneObject</a><li><a href=#methods_shape>sceneObject.shape</a><li><a href=#methods_joint>sceneObject.joint</a><li><a href=#methods_dummy>sceneObject.dummy</a><li><a href=#methods_marker>sceneObject.marker</a><li><a href=#methods_script>sceneObject.script</a><li><a href=#methods_camera>sceneObject.camera</a><li><a href=#methods_light>sceneObject.light</a><li><a href=#methods_graph>sceneObject.graph</a><li><a href=#methods_proximitysensor>sceneObject.proximitySensor</a><li><a href=#methods_visionsensor>sceneObject.visionSensor</a><li><a href=#methods_forcesensor>sceneObject.forceSensor</a><li><a href=#methods_pointcloud>sceneObject.pointCloud</a><li><a href=#methods_octree>sceneObject.ocTree</a><li><a href=#methods_customsceneobject>sceneObject.customSceneObject</a><li><a href=#methods_path>Path</a><li><a href=#methods_file>File operations</a><li><a href=#methods_main>General functionality handling</a><li><a href=#methods_dynamics>Dynamics</a><li><a href=#methods_property>Properties</a><li><a href=#methods_collision>Collision detection</a><li><a href=#methods_distance>Distance calculation</a><li><a href=#methods_rendering>Rendering</a><li><a href=#methods_customization>Customization</a><li><a href=#methods_model>Models</a><li><a href=#methods_creation>Object creation</a><li><a href=#methods_scriptrelated>Script related</a><li><a href=#methods_simulation>Simulation</a><li><a href=#methods_thread>Threads</a><li><a href=#methods_blocking>Blocking methods</a><li><a href=#methods_transformation>Coordinates and transformations</a><li><a href=#methods_messaging>Messaging</a><li><a href=#methods_texture>Textures</a><li><a href=#methods_console>Console</a><li><a href=#methods_texteditor>TextEditor</a><li><a href=#methods_importexport>Import/export</a><li><a href=#methods_motion>Motion functionality</a><li><a href=#methods_movetoconfig>Motion.MoveToConfig</a><li><a href=#methods_movetopose>Motion.MoveToPose</a><li><a href=#methods_timeoptimaltrajectory>Motion.TimeOptimalTrajectory</a><li><a href=#methods_ruckigposition>Motion.RuckigPosition</a><li><a href=#methods_ruckigvelocity>Motion.RuckigVelocity</a><li><a href=#methods_packing>Packing/unpacking</a><li><a href=#methods_ik>Kinematics</a><li><a href=#methods_ikobject>IKObject</a><li><a href=#methods_ikgroup>IKGroup</a><li><a href=#methods_other>Other</a></ul> <hr class=short> <p><a name=properties></a>Properties are organized into the following categories:</p> <ul class=two-cols><li><a href=#properties_object>object</a><li><a href=#properties_app>app</a><li><a href=#properties_scene>scene</a><li><a href=#properties_collection>collection</a><li><a href=#properties_detachedscript>detachedScript</a><li><a href=#properties_mesh>mesh</a><li><a href=#properties_sceneobject>sceneObject</a><li><a href=#properties_shape>sceneObject.shape</a><li><a href=#properties_joint>sceneObject.joint</a><li><a href=#properties_dummy>sceneObject.dummy</a><li><a href=#properties_marker>sceneObject.marker</a><li><a href=#properties_script>sceneObject.script</a><li><a href=#properties_camera>sceneObject.camera</a><li><a href=#properties_light>sceneObject.light</a><li><a href=#properties_graph>sceneObject.graph</a><li><a href=#properties_proximitysensor>sceneObject.proximitySensor</a><li><a href=#properties_visionsensor>sceneObject.visionSensor</a><li><a href=#properties_forcesensor>sceneObject.forceSensor</a><li><a href=#properties_pointcloud>sceneObject.pointCloud</a><li><a href=#properties_octree>sceneObject.ocTree</a><li><a href=#properties_file>File operations</a><li><a href=#properties_dynamics>Dynamics</a><li><a href=#properties_collision>Collision detection</a><li><a href=#properties_distance>Distance calculation</a><li><a href=#properties_rendering>Rendering</a><li><a href=#properties_customization>Customization</a><li><a href=#properties_model>Models</a><li><a href=#properties_selection>Selection</a><li><a href=#properties_creation>Object creation</a><li><a href=#properties_scriptrelated>Script related</a><li><a href=#properties_simulation>Simulation</a><li><a href=#properties_thread>Threads</a><li><a href=#properties_transformation>Coordinates and transformations</a><li><a href=#properties_messaging>Messaging</a><li><a href=#properties_texture>Textures</a><li><a href=#properties_console>Console</a><li><a href=#properties_texteditor>TextEditor</a><li><a href=#properties_importexport>Import/export</a><li><a href=#properties_ik>Kinematics</a><li><a href=#properties_ikobject>IKObject</a><li><a href=#properties_ikjoint>IKObject.IKjoint</a><li><a href=#properties_ikgroup>IKGroup</a><li><a href=#properties_ikelement>IKElement</a><li><a href=#properties_drawingobject>drawingObject (deprecated, see marker instead)</a></ul> <hr class=short> <p><a name=functions></a>C-functions are organized into the following categories:</p> <ul class=two-cols><li><a href=#functions_c_main>Main</a><li><a href=#functions_c_property>Properties</a><li><a href=#functions_c_stack>Stack</a><li><a href=#functions_c_aux>Auxiliary functions</a></ul> <p>Keep in mind that <strong>all</strong> methods can also be called from C/C++ via the <a href=sim-2/simCallMethod_cpp.htm>simCallMethod</a> function.</p> <hr class=short> <h2><a name=methods_object></a><div style="display: flex; justify-content: space-between;"><span>object</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/object_getBoolProperty.htm>object:getBoolProperty</a>
 <a href=sim-2/object_getBufferProperty.htm>object:getBufferProperty</a>
 <a href=sim-2/object_getColorProperty.htm>object:getColorProperty</a>
 <a href=sim-2/object_getEnumProperty.htm>object:getEnumProperty</a>
@@ -51,7 +51,7 @@
 <a href=sim-2/object_setStringProperty.htm>object:setStringProperty</a>
 <a href=sim-2/object_setTableProperty.htm>object:setTableProperty</a>
 <a href=sim-2/object_setVector2Property.htm>object:setVector2Property</a>
-<a href=sim-2/object_setVector3Property.htm>object:setVector3Property</a></code><br><h2><a name=methods_app></a>App (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_cancelScheduledExecution.htm>app:cancelScheduledExecution</a>
+<a href=sim-2/object_setVector3Property.htm>object:setVector3Property</a></code><br><h2><a name=methods_app></a><div style="display: flex; justify-content: space-between;"><span>app</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_cancelScheduledExecution.htm>app:cancelScheduledExecution</a>
 <a href=sim-2/app_createCustomObjectClass.htm>app:createCustomObjectClass</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
 <a href=sim-2/app_deserialize.htm>app:deserialize</a>
@@ -88,7 +88,7 @@
 <a href=sim-2/app_transformBuffer.htm>app:transformBuffer</a>
 <a href=sim-2/app_transformImage.htm>app:transformImage</a>
 <a href=sim-2/app_unpack.htm>app:unpack</a>
-<a href=sim-2/app_unpackArray.htm>app:unpackArray</a></code><br><h2><a name=methods_scene></a><a href=scenes.htm>Scene</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/scene_announceChange.htm>scene:announceChange</a>
+<a href=sim-2/app_unpackArray.htm>app:unpackArray</a></code><br><h2><a name=methods_scene></a><div style="display: flex; justify-content: space-between;"><span><a href=scenes.htm>scene</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/scene_announceChange.htm>scene:announceChange</a>
 <a href=sim-2/scene_createObject.htm>scene:createObject</a>
 <a href=sim-2/scene_duplicateObjects.htm>scene:duplicateObjects</a>
 <a href=sim-2/scene_getContacts.htm>scene:getContacts</a>
@@ -110,7 +110,7 @@
 <a href=sim-2/scene_dynamics_step.htm>scene.dynamics:step</a>
 <a href=sim-2/scene_simulation_pause.htm>scene.simulation:pause</a>
 <a href=sim-2/scene_simulation_start.htm>scene.simulation:start</a>
-<a href=sim-2/scene_simulation_stop.htm>scene.simulation:stop</a></code><br><h2><a name=methods_collection></a><a name=methods_collections></a><a href=collections.htm>Collection</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/collection_addItem.htm>collection:addItem</a>
+<a href=sim-2/scene_simulation_stop.htm>scene.simulation:stop</a></code><br><h2><a name=methods_collection></a><a name=methods_collections></a><div style="display: flex; justify-content: space-between;"><span><a href=collections.htm>collection</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/collection_addItem.htm>collection:addItem</a>
 <a href=sim-2/collection_changeColor.htm>collection:changeColor</a>
 <a href=sim-2/collection_checkCollision.htm>collection:checkCollision</a>
 <a href=sim-2/collection_checkDistance.htm>collection:checkDistance</a>
@@ -120,8 +120,8 @@
 <a href=sim-2/app_createObject.htm>app:createObject</a>
 <a href=sim-2/app_removeObjects.htm>app:removeObjects</a>
 <a href=sim-2/scene_createObject.htm>scene:createObject</a>
-<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_customobject></a><a href=customObjects.htm>Custom object</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/customObject_makeObject.htm>customObject:makeObject</a>
-<a href=sim-2/customObject_remove.htm>customObject:remove</a></code><br><h2><a name=methods_detachedscript></a><a href=scripts.htm>Detached script</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/detachedScript_broadcast.htm>detachedScript:broadcast</a>
+<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_customobject></a><div style="display: flex; justify-content: space-between;"><span><a href=customObjects.htm>customObject</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/customObject_makeObject.htm>customObject:makeObject</a>
+<a href=sim-2/customObject_remove.htm>customObject:remove</a></code><br><h2><a name=methods_detachedscript></a><div style="display: flex; justify-content: space-between;"><span><a href=scripts.htm>detachedScript</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/detachedScript_broadcast.htm>detachedScript:broadcast</a>
 <a href=sim-2/detachedScript_callFunction.htm>detachedScript:callFunction</a>
 <a href=sim-2/detachedScript_executeString.htm>detachedScript:executeString</a>
 <a href=sim-2/detachedScript_getFunctions.htm>detachedScript:getFunctions</a>
@@ -144,9 +144,9 @@
 <a href=sim-2/app_handleSandboxScript.htm>app:handleSandboxScript</a>
 <a href=sim-2/app_removeObjects.htm>app:removeObjects</a>
 <a href=sim-2/scene_createObject.htm>scene:createObject</a>
-<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_mesh></a><a href=geometricCalculations.htm>Mesh</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/mesh_texture_getData.htm>mesh.texture:getData</a>
+<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_mesh></a><div style="display: flex; justify-content: space-between;"><span><a href=geometricCalculations.htm>mesh</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/mesh_texture_getData.htm>mesh.texture:getData</a>
 <a href=sim-2/mesh_texture_set.htm>mesh.texture:set</a>
-<a href=sim-2/mesh_texture_setData.htm>mesh.texture:setData</a></code><br><h2><a name=methods_sceneobject></a><a name=methods_sceneObjectFunctionality></a><a href=objects.htm>Scene object</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/sceneObject_changeColor.htm>sceneObject:changeColor</a>
+<a href=sim-2/mesh_texture_setData.htm>mesh.texture:setData</a></code><br><h2><a name=methods_sceneobject></a><a name=methods_sceneObjectFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=objects.htm>sceneObject</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/sceneObject_changeColor.htm>sceneObject:changeColor</a>
 <a href=sim-2/sceneObject_checkCollision.htm>sceneObject:checkCollision</a>
 <a href=sim-2/sceneObject_checkDistance.htm>sceneObject:checkDistance</a>
 <a href=sim-2/sceneObject_dynamicReset.htm>sceneObject:dynamicReset</a>
@@ -173,7 +173,7 @@
 <a href=sim-2/sceneObject_visitTree.htm>sceneObject:visitTree</a>
 <a href=sim-2/app_removeObjects.htm>app:removeObjects</a>
 <a href=sim-2/scene_duplicateObjects.htm>scene:duplicateObjects</a>
-<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_shape></a><a name=methods_shapeObject></a><a href=shapes.htm>Shape</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/shape_addForce.htm>shape:addForce</a>
+<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_shape></a><a name=methods_shapeObject></a><div style="display: flex; justify-content: space-between;"><span><a href=shapes.htm>sceneObject.shape</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/shape_addForce.htm>shape:addForce</a>
 <a href=sim-2/shape_addTorque.htm>shape:addTorque</a>
 <a href=sim-2/shape_alignBoundingBox.htm>shape:alignBoundingBox</a>
 <a href=sim-2/shape_computeInertia.htm>shape:computeInertia</a>
@@ -199,28 +199,28 @@
 <a href=sim-2/scene_groupShapes.htm>scene:groupShapes</a>
 <a href=sim-2/scene_mergeShapes.htm>scene:mergeShapes</a>
 <a href=sim-2/sceneObject_changeColor.htm>sceneObject:changeColor</a>
-<a href=sim-2/sceneObject_restoreColor.htm>sceneObject:restoreColor</a></code><br><h2><a name=methods_joint></a><a name=methods_jointObject></a><a href=joints.htm>Joint</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/joint_setTargetPosition.htm>joint:setTargetPosition</a>
+<a href=sim-2/sceneObject_restoreColor.htm>sceneObject:restoreColor</a></code><br><h2><a name=methods_joint></a><a name=methods_jointObject></a><div style="display: flex; justify-content: space-between;"><span><a href=joints.htm>sceneObject.joint</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/joint_setTargetPosition.htm>joint:setTargetPosition</a>
 <a href=sim-2/joint_setTargetVelocity.htm>joint:setTargetVelocity</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_dummy></a><a name=methods_dummyObject></a><a href=dummies.htm>Dummy</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_dummy></a><a name=methods_dummyObject></a><div style="display: flex; justify-content: space-between;"><span><a href=dummies.htm>sceneObject.dummy</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
 <a href=sim-2/ocTree_addFromObjects.htm>ocTree:addFromObjects</a>
 <a href=sim-2/ocTree_subtractFromObjects.htm>ocTree:subtractFromObjects</a>
 <a href=sim-2/pointCloud_addFromObjects.htm>pointCloud:addFromObjects</a>
 <a href=sim-2/pointCloud_subtractFromObjects.htm>pointCloud:subtractFromObjects</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_marker></a><a href=markers.htm>Marker</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/marker_addItems.htm>marker:addItems</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_marker></a><div style="display: flex; justify-content: space-between;"><span><a href=markers.htm>sceneObject.marker</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/marker_addItems.htm>marker:addItems</a>
 <a href=sim-2/marker_clearItems.htm>marker:clearItems</a>
 <a href=sim-2/marker_removeItems.htm>marker:removeItems</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_script></a><a href=scriptObjects.htm>Script</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_script></a><div style="display: flex; justify-content: space-between;"><span><a href=scriptObjects.htm>sceneObject.script</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
 <a href=sim-2/detachedScript_callFunction.htm>detachedScript:callFunction</a>
 <a href=sim-2/detachedScript_executeString.htm>detachedScript:executeString</a>
 <a href=sim-2/detachedScript_getFunctions.htm>detachedScript:getFunctions</a>
 <a href=sim-2/detachedScript_getStackTraceback.htm>detachedScript:getStackTraceback</a>
 <a href=sim-2/detachedScript_init.htm>detachedScript:init</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_camera></a><a name=methods_cameraObject></a><a href=cameras.htm>Camera</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/camera_getImage.htm>camera:getImage</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_camera></a><a name=methods_cameraObject></a><div style="display: flex; justify-content: space-between;"><span><a href=cameras.htm>sceneObject.camera</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/camera_getImage.htm>camera:getImage</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_light></a><a name=methods_lightObject></a><a href=lights.htm>Light</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_graph></a><a name=methods_graphs></a><a href=graphs.htm>Graph</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/graph_addCurve.htm>graph:addCurve</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_light></a><a name=methods_lightObject></a><div style="display: flex; justify-content: space-between;"><span><a href=lights.htm>sceneObject.light</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_graph></a><a name=methods_graphs></a><div style="display: flex; justify-content: space-between;"><span><a href=graphs.htm>sceneObject.graph</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/graph_addCurve.htm>graph:addCurve</a>
 <a href=sim-2/graph_addSignal.htm>graph:addSignal</a>
 <a href=sim-2/graph_removeTrace.htm>graph:removeTrace</a>
 <a href=sim-2/graph_reset.htm>graph:reset</a>
@@ -228,19 +228,19 @@
 <a href=sim-2/graph_snapshotTrace.htm>graph:snapshotTrace</a>
 <a href=sim-2/graph_step.htm>graph:step</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_proximitysensor></a><a href=proximitySensors.htm>Proximity sensor</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/proximitySensor_checkSensor.htm>proximitySensor:checkSensor</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_proximitysensor></a><div style="display: flex; justify-content: space-between;"><span><a href=proximitySensors.htm>sceneObject.proximitySensor</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/proximitySensor_checkSensor.htm>proximitySensor:checkSensor</a>
 <a href=sim-2/proximitySensor_handleSensor.htm>proximitySensor:handleSensor</a>
 <a href=sim-2/proximitySensor_resetSensor.htm>proximitySensor:resetSensor</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_visionsensor></a><a href=visionSensors.htm>Vision sensor</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/visionSensor_checkSensor.htm>visionSensor:checkSensor</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_visionsensor></a><div style="display: flex; justify-content: space-between;"><span><a href=visionSensors.htm>sceneObject.visionSensor</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/visionSensor_checkSensor.htm>visionSensor:checkSensor</a>
 <a href=sim-2/visionSensor_getDepth.htm>visionSensor:getDepth</a>
 <a href=sim-2/visionSensor_getImage.htm>visionSensor:getImage</a>
 <a href=sim-2/visionSensor_handleSensor.htm>visionSensor:handleSensor</a>
 <a href=sim-2/visionSensor_resetSensor.htm>visionSensor:resetSensor</a>
 <a href=sim-2/visionSensor_setImage.htm>visionSensor:setImage</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_forcesensor></a><a href=forceSensors.htm>Force sensor</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_pointcloud></a><a href=pointClouds.htm>Point cloud</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/pointCloud_addFromObjects.htm>pointCloud:addFromObjects</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_forcesensor></a><div style="display: flex; justify-content: space-between;"><span><a href=forceSensors.htm>sceneObject.forceSensor</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_pointcloud></a><div style="display: flex; justify-content: space-between;"><span><a href=pointClouds.htm>sceneObject.pointCloud</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/pointCloud_addFromObjects.htm>pointCloud:addFromObjects</a>
 <a href=sim-2/pointCloud_addPackedPoints.htm>pointCloud:addPackedPoints</a>
 <a href=sim-2/pointCloud_addPoints.htm>pointCloud:addPoints</a>
 <a href=sim-2/pointCloud_clear.htm>pointCloud:clear</a>
@@ -252,7 +252,7 @@
 <a href=sim-2/app_createObject.htm>app:createObject</a>
 <a href=sim-2/ocTree_addFromObjects.htm>ocTree:addFromObjects</a>
 <a href=sim-2/ocTree_subtractFromObjects.htm>ocTree:subtractFromObjects</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_octree></a><a name=methods_octree></a><a href=octrees.htm>OC-tree</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/ocTree_addFromObjects.htm>ocTree:addFromObjects</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_octree></a><a name=methods_octree></a><div style="display: flex; justify-content: space-between;"><span><a href=octrees.htm>sceneObject.ocTree</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/ocTree_addFromObjects.htm>ocTree:addFromObjects</a>
 <a href=sim-2/ocTree_addPackedVoxels.htm>ocTree:addPackedVoxels</a>
 <a href=sim-2/ocTree_addVoxels.htm>ocTree:addVoxels</a>
 <a href=sim-2/ocTree_checkPackedPoints.htm>ocTree:checkPackedPoints</a>
@@ -264,8 +264,8 @@
 <a href=sim-2/app_createObject.htm>app:createObject</a>
 <a href=sim-2/pointCloud_addFromObjects.htm>pointCloud:addFromObjects</a>
 <a href=sim-2/pointCloud_subtractFromObjects.htm>pointCloud:subtractFromObjects</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_customsceneobject></a><a href=customSceneObjects.htm>Custom scene object</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_path></a><a name=methods_paths></a><a href=paths.htm>Paths</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/Path_Constructor.htm>Path:Constructor</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_customsceneobject></a><div style="display: flex; justify-content: space-between;"><span><a href=customSceneObjects.htm>sceneObject.customSceneObject</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createObject.htm>app:createObject</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_path></a><a name=methods_paths></a><div style="display: flex; justify-content: space-between;"><span><a href=paths.htm>Path</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/Path_Constructor.htm>Path:Constructor</a>
 <a href=sim-2/Path_appendFromJoints.htm>Path:appendFromJoints</a>
 <a href=sim-2/Path_appendFromObject.htm>Path:appendFromObject</a>
 <a href=sim-2/Path_appendPoints.htm>Path:appendPoints</a>
@@ -285,7 +285,7 @@
 <a href=sim-2/Path_setPoints.htm>Path:setPoints</a>
 <a href=sim-2/Path_toBuffer.htm>Path:toBuffer</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
-<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_file></a><a name=methods_fileOperations></a>File operations (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_loadModelInfo.htm>app:loadModelInfo</a>
+<a href=sim-2/scene_createObject.htm>scene:createObject</a></code><br><h2><a name=methods_file></a><a name=methods_fileOperations></a><div style="display: flex; justify-content: space-between;"><span>File operations</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_loadModelInfo.htm>app:loadModelInfo</a>
 <a href=sim-2/app_loadModelInfoFromBuffer.htm>app:loadModelInfoFromBuffer</a>
 <a href=sim-2/app_loadScene.htm>app:loadScene</a>
 <a href=sim-2/app_loadSceneFromBuffer.htm>app:loadSceneFromBuffer</a>
@@ -295,10 +295,10 @@
 <a href=sim-2/scene_save.htm>scene:save</a>
 <a href=sim-2/scene_saveToBuffer.htm>scene:saveToBuffer</a>
 <a href=sim-2/sceneObject_saveModel.htm>sceneObject:saveModel</a>
-<a href=sim-2/sceneObject_saveModelToBuffer.htm>sceneObject:saveModelToBuffer</a></code><br><h2><a name=methods_main></a><a name=methods_mainFunctionalityHandling></a>General functionality handling (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/detachedScript_getObject.htm>detachedScript:getObject</a>
+<a href=sim-2/sceneObject_saveModelToBuffer.htm>sceneObject:saveModelToBuffer</a></code><br><h2><a name=methods_main></a><a name=methods_mainFunctionalityHandling></a><div style="display: flex; justify-content: space-between;"><span>General functionality handling</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/detachedScript_getObject.htm>detachedScript:getObject</a>
 <a href=sim-2/scene_getObject.htm>scene:getObject</a>
 <a href=sim-2/scene_getObjectFromUid.htm>scene:getObjectFromUid</a>
-<a href=sim-2/sceneObject_getObject.htm>sceneObject:getObject</a></code><br><h2><a name=methods_dynamics></a><a name=methods_dynamicsFunctionality></a><a href=dynamicsModule.htm>Dynamics</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/joint_setTargetPosition.htm>joint:setTargetPosition</a>
+<a href=sim-2/sceneObject_getObject.htm>sceneObject:getObject</a></code><br><h2><a name=methods_dynamics></a><a name=methods_dynamicsFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=dynamicsModule.htm>Dynamics</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/joint_setTargetPosition.htm>joint:setTargetPosition</a>
 <a href=sim-2/joint_setTargetVelocity.htm>joint:setTargetVelocity</a>
 <a href=sim-2/scene_dynamics_step.htm>scene.dynamics:step</a>
 <a href=sim-2/scene_getContacts.htm>scene:getContacts</a>
@@ -308,7 +308,7 @@
 <a href=sim-2/shape_computeInertia.htm>shape:computeInertia</a>
 <a href=sim-2/shape_getContacts.htm>shape:getContacts</a>
 <a href=sim-2/shape_getInertia.htm>shape:getInertia</a>
-<a href=sim-2/shape_setInertia.htm>shape:setInertia</a></code><br><h2><a name=methods_property></a><a name=methods_properties></a><a href=properties.htm>Properties</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/object_getBoolProperty.htm>object:getBoolProperty</a>
+<a href=sim-2/shape_setInertia.htm>shape:setInertia</a></code><br><h2><a name=methods_property></a><a name=methods_properties></a><div style="display: flex; justify-content: space-between;"><span><a href=properties.htm>Properties</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/object_getBoolProperty.htm>object:getBoolProperty</a>
 <a href=sim-2/object_getBufferProperty.htm>object:getBufferProperty</a>
 <a href=sim-2/object_getColorProperty.htm>object:getColorProperty</a>
 <a href=sim-2/object_getEnumProperty.htm>object:getEnumProperty</a>
@@ -360,11 +360,11 @@
 <a href=sim-2/object_setStringProperty.htm>object:setStringProperty</a>
 <a href=sim-2/object_setTableProperty.htm>object:setTableProperty</a>
 <a href=sim-2/object_setVector2Property.htm>object:setVector2Property</a>
-<a href=sim-2/object_setVector3Property.htm>object:setVector3Property</a></code><br><h2><a name=methods_collision></a><a name=methods_collisionDetection></a><a href=collisionDetection.htm>Collision detection</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/collection_checkCollision.htm>collection:checkCollision</a>
+<a href=sim-2/object_setVector3Property.htm>object:setVector3Property</a></code><br><h2><a name=methods_collision></a><a name=methods_collisionDetection></a><div style="display: flex; justify-content: space-between;"><span><a href=collisionDetection.htm>Collision detection</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/collection_checkCollision.htm>collection:checkCollision</a>
 <a href=sim-2/ocTree_checkPackedPoints.htm>ocTree:checkPackedPoints</a>
 <a href=sim-2/ocTree_checkPoints.htm>ocTree:checkPoints</a>
-<a href=sim-2/sceneObject_checkCollision.htm>sceneObject:checkCollision</a></code><br><h2><a name=methods_distance></a><a name=methods_distanceCalculation></a><a href=distanceCalculation.htm>Distance calculation</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/collection_checkDistance.htm>collection:checkDistance</a>
-<a href=sim-2/sceneObject_checkDistance.htm>sceneObject:checkDistance</a></code><br><h2><a name=methods_rendering></a><a href=dataVisualizationAndOutput.htm>Rendering</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/collection_changeColor.htm>collection:changeColor</a>
+<a href=sim-2/sceneObject_checkCollision.htm>sceneObject:checkCollision</a></code><br><h2><a name=methods_distance></a><a name=methods_distanceCalculation></a><div style="display: flex; justify-content: space-between;"><span><a href=distanceCalculation.htm>Distance calculation</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/collection_checkDistance.htm>collection:checkDistance</a>
+<a href=sim-2/sceneObject_checkDistance.htm>sceneObject:checkDistance</a></code><br><h2><a name=methods_rendering></a><div style="display: flex; justify-content: space-between;"><span><a href=dataVisualizationAndOutput.htm>Rendering</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/collection_changeColor.htm>collection:changeColor</a>
 <a href=sim-2/collection_restoreColor.htm>collection:restoreColor</a>
 <a href=sim-2/marker_addItems.htm>marker:addItems</a>
 <a href=sim-2/marker_clearItems.htm>marker:clearItems</a>
@@ -372,15 +372,15 @@
 <a href=sim-2/sceneObject_changeColor.htm>sceneObject:changeColor</a>
 <a href=sim-2/sceneObject_restoreColor.htm>sceneObject:restoreColor</a>
 <a href=sim-2/shape_getAppearance.htm>shape:getAppearance</a>
-<a href=sim-2/shape_setAppearance.htm>shape:setAppearance</a></code><br><h2><a name=methods_customization></a><a name=methods_customizingLuaFunctions></a><a name=methods_customScriptFunctions></a>Customization (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createCustomObjectClass.htm>app:createCustomObjectClass</a>
+<a href=sim-2/shape_setAppearance.htm>shape:setAppearance</a></code><br><h2><a name=methods_customization></a><a name=methods_customizingLuaFunctions></a><a name=methods_customScriptFunctions></a><div style="display: flex; justify-content: space-between;"><span>Customization</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_createCustomObjectClass.htm>app:createCustomObjectClass</a>
 <a href=sim-2/customObject_makeObject.htm>customObject:makeObject</a>
 <a href=sim-2/sceneObject_makeClass.htm>sceneObject:makeClass</a>
-<a href=sim-2/sceneObject_makeObject.htm>sceneObject:makeObject</a></code><br><h2><a name=methods_model></a><a name=methods_modelFunctionality></a><a href=models.htm>Models</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_loadModelInfo.htm>app:loadModelInfo</a>
+<a href=sim-2/sceneObject_makeObject.htm>sceneObject:makeObject</a></code><br><h2><a name=methods_model></a><a name=methods_modelFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=models.htm>Models</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_loadModelInfo.htm>app:loadModelInfo</a>
 <a href=sim-2/app_loadModelInfoFromBuffer.htm>app:loadModelInfoFromBuffer</a>
 <a href=sim-2/scene_loadModel.htm>scene:loadModel</a>
 <a href=sim-2/scene_loadModelFromBuffer.htm>scene:loadModelFromBuffer</a>
 <a href=sim-2/sceneObject_saveModel.htm>sceneObject:saveModel</a>
-<a href=sim-2/sceneObject_saveModelToBuffer.htm>sceneObject:saveModelToBuffer</a></code><br><h2><a name=methods_creation></a><a name=methods_sceneObjectCreationFunctionality></a>Object creation (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/Console_remove.htm>Console:remove</a>
+<a href=sim-2/sceneObject_saveModelToBuffer.htm>sceneObject:saveModelToBuffer</a></code><br><h2><a name=methods_creation></a><a name=methods_sceneObjectCreationFunctionality></a><div style="display: flex; justify-content: space-between;"><span>Object creation</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/Console_remove.htm>Console:remove</a>
 <a href=sim-2/TextEditor_remove.htm>TextEditor:remove</a>
 <a href=sim-2/app_createCustomObjectClass.htm>app:createCustomObjectClass</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
@@ -392,7 +392,7 @@
 <a href=sim-2/scene_createObject.htm>scene:createObject</a>
 <a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a>
 <a href=sim-2/sceneObject_remove.htm>sceneObject:remove</a>
-<a href=sim-2/sceneObject_removeModel.htm>sceneObject:removeModel</a></code><br><h2><a name=methods_scriptrelated></a><a href=scripts.htm>Script related</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_handleAddOnScripts.htm>app:handleAddOnScripts</a>
+<a href=sim-2/sceneObject_removeModel.htm>sceneObject:removeModel</a></code><br><h2><a name=methods_scriptrelated></a><div style="display: flex; justify-content: space-between;"><span><a href=scripts.htm>Script related</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_handleAddOnScripts.htm>app:handleAddOnScripts</a>
 <a href=sim-2/app_handleSandboxScript.htm>app:handleSandboxScript</a>
 <a href=sim-2/detachedScript_broadcast.htm>detachedScript:broadcast</a>
 <a href=sim-2/detachedScript_callFunction.htm>detachedScript:callFunction</a>
@@ -409,14 +409,14 @@
 <a href=sim-2/detachedScript_step.htm>detachedScript:step</a>
 <a href=sim-2/detachedScript_yield.htm>detachedScript:yield</a>
 <a href=sim-2/scene_handleCustomizationScripts.htm>scene:handleCustomizationScripts</a>
-<a href=sim-2/scene_handleSimulationScripts.htm>scene:handleSimulationScripts</a></code><br><h2><a name=methods_simulation></a><a name=methods_SimulationFunctionality></a><a href=simulation.htm>Simulation</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/scene_simulation_pause.htm>scene.simulation:pause</a>
+<a href=sim-2/scene_handleSimulationScripts.htm>scene:handleSimulationScripts</a></code><br><h2><a name=methods_simulation></a><a name=methods_SimulationFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=simulation.htm>Simulation</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/scene_simulation_pause.htm>scene.simulation:pause</a>
 <a href=sim-2/scene_simulation_start.htm>scene.simulation:start</a>
-<a href=sim-2/scene_simulation_stop.htm>scene.simulation:stop</a></code><br><h2><a name=methods_thread></a><a name=methods_threads></a><a name=methods_threadRelatedFunctionality></a><a href=threadedAndNonThreadedCode.htm>Threads</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_handleMessagePump.htm>app:handleMessagePump</a>
+<a href=sim-2/scene_simulation_stop.htm>scene.simulation:stop</a></code><br><h2><a name=methods_thread></a><a name=methods_threads></a><a name=methods_threadRelatedFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=threadedAndNonThreadedCode.htm>Threads</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_handleMessagePump.htm>app:handleMessagePump</a>
 <a href=sim-2/detachedScript_getStepping.htm>detachedScript:getStepping</a>
 <a href=sim-2/detachedScript_lock.htm>detachedScript:lock</a>
 <a href=sim-2/detachedScript_setStepping.htm>detachedScript:setStepping</a>
 <a href=sim-2/detachedScript_step.htm>detachedScript:step</a>
-<a href=sim-2/detachedScript_yield.htm>detachedScript:yield</a></code><br><h2><a name=methods_blocking></a><a name=methods_blockingFunctions></a>Blocking methods (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/MoveToConfig_run.htm>MoveToConfig:run</a>
+<a href=sim-2/detachedScript_yield.htm>detachedScript:yield</a></code><br><h2><a name=methods_blocking></a><a name=methods_blockingFunctions></a><div style="display: flex; justify-content: space-between;"><span>Blocking methods</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/MoveToConfig_run.htm>MoveToConfig:run</a>
 <a href=sim-2/MoveToPose_run.htm>MoveToPose:run</a>
 <a href=sim-2/app_systemLock.htm>app:systemLock</a>
 <a href=sim-2/detachedScript_getStepping.htm>detachedScript:getStepping</a>
@@ -424,7 +424,7 @@
 <a href=sim-2/detachedScript_setStepping.htm>detachedScript:setStepping</a>
 <a href=sim-2/detachedScript_step.htm>detachedScript:step</a>
 <a href=sim-2/detachedScript_wait.htm>detachedScript:wait</a>
-<a href=sim-2/detachedScript_yield.htm>detachedScript:yield</a></code><br><h2><a name=methods_transformation></a><a name=methods_pose></a><a name=methods_transformations></a><a name=methods_coordinatesAndTransformations></a><a href=positionOrientationTransformation.htm>Coordinates and transformations</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/IKObject_getPose.htm>IKObject:getPose</a>
+<a href=sim-2/detachedScript_yield.htm>detachedScript:yield</a></code><br><h2><a name=methods_transformation></a><a name=methods_pose></a><a name=methods_transformations></a><a name=methods_coordinatesAndTransformations></a><div style="display: flex; justify-content: space-between;"><span><a href=positionOrientationTransformation.htm>Coordinates and transformations</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/IKObject_getPose.htm>IKObject:getPose</a>
 <a href=sim-2/IKObject_getPosition.htm>IKObject:getPosition</a>
 <a href=sim-2/IKObject_getQuaternion.htm>IKObject:getQuaternion</a>
 <a href=sim-2/IKObject_setPose.htm>IKObject:setPose</a>
@@ -437,7 +437,7 @@
 <a href=sim-2/sceneObject_setPosition.htm>sceneObject:setPosition</a>
 <a href=sim-2/sceneObject_setQuaternion.htm>sceneObject:setQuaternion</a>
 <a href=sim-2/shape_alignBoundingBox.htm>shape:alignBoundingBox</a>
-<a href=sim-2/shape_relocateFrame.htm>shape:relocateFrame</a></code><br><h2><a name=methods_messaging></a><a href=meansOfCommunication.htm>Messaging</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_getGenesisEvents.htm>app:getGenesisEvents</a>
+<a href=sim-2/shape_relocateFrame.htm>shape:relocateFrame</a></code><br><h2><a name=methods_messaging></a><div style="display: flex; justify-content: space-between;"><span><a href=meansOfCommunication.htm>Messaging</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_getGenesisEvents.htm>app:getGenesisEvents</a>
 <a href=sim-2/app_logError.htm>app:logError</a>
 <a href=sim-2/app_logInfo.htm>app:logInfo</a>
 <a href=sim-2/app_logWarn.htm>app:logWarn</a>
@@ -447,7 +447,7 @@
 <a href=sim-2/detachedScript_callFunction.htm>detachedScript:callFunction</a>
 <a href=sim-2/detachedScript_executeString.htm>detachedScript:executeString</a>
 <a href=sim-2/detachedScript_getFunctions.htm>detachedScript:getFunctions</a>
-<a href=sim-2/detachedScript_setEventFilters.htm>detachedScript:setEventFilters</a></code><br><h2><a name=methods_texture></a><a name=methods_textures></a>Textures (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_loadImage.htm>app:loadImage</a>
+<a href=sim-2/detachedScript_setEventFilters.htm>detachedScript:setEventFilters</a></code><br><h2><a name=methods_texture></a><a name=methods_textures></a><div style="display: flex; justify-content: space-between;"><span>Textures</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_loadImage.htm>app:loadImage</a>
 <a href=sim-2/app_loadImageFromBuffer.htm>app:loadImageFromBuffer</a>
 <a href=sim-2/app_saveImage.htm>app:saveImage</a>
 <a href=sim-2/app_saveImageToBuffer.htm>app:saveImageToBuffer</a>
@@ -455,20 +455,20 @@
 <a href=sim-2/app_transformImage.htm>app:transformImage</a>
 <a href=sim-2/mesh_texture_getData.htm>mesh.texture:getData</a>
 <a href=sim-2/mesh_texture_set.htm>mesh.texture:set</a>
-<a href=sim-2/mesh_texture_setData.htm>mesh.texture:setData</a></code><br><h2><a name=methods_console></a><a name=methods_auxiliaryConsoles></a><a name=methods_auxiliaryConsoleFunctions></a><a href=dataVisualizationAndOutput.htm#auxConsoles>Consoles</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/Console_clear.htm>Console:clear</a>
+<a href=sim-2/mesh_texture_setData.htm>mesh.texture:setData</a></code><br><h2><a name=methods_console></a><a name=methods_auxiliaryConsoles></a><a name=methods_auxiliaryConsoleFunctions></a><div style="display: flex; justify-content: space-between;"><span><a href=dataVisualizationAndOutput.htm#auxConsoles>Console</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/Console_clear.htm>Console:clear</a>
 <a href=sim-2/Console_print.htm>Console:print</a>
 <a href=sim-2/Console_remove.htm>Console:remove</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
 <a href=sim-2/app_removeObjects.htm>app:removeObjects</a>
 <a href=sim-2/scene_createObject.htm>scene:createObject</a>
-<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_texteditor></a><a name=methods_textEditors></a><a href=dataVisualizationAndOutput.htm#textEditors>Text/code editor</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/TextEditor_remove.htm>TextEditor:remove</a>
+<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_texteditor></a><a name=methods_textEditors></a><div style="display: flex; justify-content: space-between;"><span><a href=dataVisualizationAndOutput.htm#textEditors>TextEditor</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/TextEditor_remove.htm>TextEditor:remove</a>
 <a href=sim-2/app_createObject.htm>app:createObject</a>
 <a href=sim-2/app_removeObjects.htm>app:removeObjects</a>
 <a href=sim-2/scene_createObject.htm>scene:createObject</a>
-<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_importexport></a><a name=methods_importExportFunctions></a><a href=importExport.htm>Import/export</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_loadImage.htm>app:loadImage</a>
+<a href=sim-2/scene_removeObjects.htm>scene:removeObjects</a></code><br><h2><a name=methods_importexport></a><a name=methods_importExportFunctions></a><div style="display: flex; justify-content: space-between;"><span><a href=importExport.htm>Import/export</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_loadImage.htm>app:loadImage</a>
 <a href=sim-2/app_loadImageFromBuffer.htm>app:loadImageFromBuffer</a>
 <a href=sim-2/app_saveImage.htm>app:saveImage</a>
-<a href=sim-2/app_saveImageToBuffer.htm>app:saveImageToBuffer</a></code><br><h2><a name=methods_motion></a><a name=methods_rml></a><a name=methods_ruckig></a>Motion functionality (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/MoveToConfig_Constructor.htm>MoveToConfig:Constructor</a>
+<a href=sim-2/app_saveImageToBuffer.htm>app:saveImageToBuffer</a></code><br><h2><a name=methods_motion></a><a name=methods_rml></a><a name=methods_ruckig></a><div style="display: flex; justify-content: space-between;"><span>Motion functionality</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/MoveToConfig_Constructor.htm>MoveToConfig:Constructor</a>
 <a href=sim-2/MoveToConfig_data.htm>MoveToConfig:data</a>
 <a href=sim-2/MoveToConfig_remove.htm>MoveToConfig:remove</a>
 <a href=sim-2/MoveToConfig_run.htm>MoveToConfig:run</a>
@@ -488,23 +488,23 @@
 <a href=sim-2/RuckigVelocity_step.htm>RuckigVelocity:step</a>
 <a href=sim-2/TimeOptimalTrajectory_Constructor.htm>TimeOptimalTrajectory:Constructor</a>
 <a href=sim-2/TimeOptimalTrajectory_generate.htm>TimeOptimalTrajectory:generate</a>
-<a href=sim-2/TimeOptimalTrajectory_remove.htm>TimeOptimalTrajectory:remove</a></code><br><h2><a name=methods_movetoconfig></a><a name=methods_rml></a><a name=methods_ruckig></a>Motion:MoveToConfig (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/MoveToConfig_Constructor.htm>MoveToConfig:Constructor</a>
+<a href=sim-2/TimeOptimalTrajectory_remove.htm>TimeOptimalTrajectory:remove</a></code><br><h2><a name=methods_movetoconfig></a><a name=methods_rml></a><a name=methods_ruckig></a><div style="display: flex; justify-content: space-between;"><span>Motion.MoveToConfig</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/MoveToConfig_Constructor.htm>MoveToConfig:Constructor</a>
 <a href=sim-2/MoveToConfig_data.htm>MoveToConfig:data</a>
 <a href=sim-2/MoveToConfig_remove.htm>MoveToConfig:remove</a>
 <a href=sim-2/MoveToConfig_run.htm>MoveToConfig:run</a>
-<a href=sim-2/MoveToConfig_step.htm>MoveToConfig:step</a></code><br><h2><a name=methods_movetopose></a><a name=methods_rml></a><a name=methods_ruckig></a>Motion:MoveToPose (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/MoveToPose_Constructor.htm>MoveToPose:Constructor</a>
+<a href=sim-2/MoveToConfig_step.htm>MoveToConfig:step</a></code><br><h2><a name=methods_movetopose></a><a name=methods_rml></a><a name=methods_ruckig></a><div style="display: flex; justify-content: space-between;"><span>Motion.MoveToPose</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/MoveToPose_Constructor.htm>MoveToPose:Constructor</a>
 <a href=sim-2/MoveToPose_data.htm>MoveToPose:data</a>
 <a href=sim-2/MoveToPose_remove.htm>MoveToPose:remove</a>
 <a href=sim-2/MoveToPose_run.htm>MoveToPose:run</a>
-<a href=sim-2/MoveToPose_step.htm>MoveToPose:step</a></code><br><h2><a name=methods_timeoptimaltrajectory></a><a name=methods_rml></a><a name=methods_ruckig></a>Motion:TimeOptimalTrajectory (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/TimeOptimalTrajectory_Constructor.htm>TimeOptimalTrajectory:Constructor</a>
+<a href=sim-2/MoveToPose_step.htm>MoveToPose:step</a></code><br><h2><a name=methods_timeoptimaltrajectory></a><a name=methods_rml></a><a name=methods_ruckig></a><div style="display: flex; justify-content: space-between;"><span>Motion.TimeOptimalTrajectory</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/TimeOptimalTrajectory_Constructor.htm>TimeOptimalTrajectory:Constructor</a>
 <a href=sim-2/TimeOptimalTrajectory_generate.htm>TimeOptimalTrajectory:generate</a>
-<a href=sim-2/TimeOptimalTrajectory_remove.htm>TimeOptimalTrajectory:remove</a></code><br><h2><a name=methods_ruckigposition></a><a name=methods_rml></a><a name=methods_ruckig></a>Motion:RuckigPosition (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/RuckigPosition_Constructor.htm>RuckigPosition:Constructor</a>
+<a href=sim-2/TimeOptimalTrajectory_remove.htm>TimeOptimalTrajectory:remove</a></code><br><h2><a name=methods_ruckigposition></a><a name=methods_rml></a><a name=methods_ruckig></a><div style="display: flex; justify-content: space-between;"><span>Motion.RuckigPosition</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/RuckigPosition_Constructor.htm>RuckigPosition:Constructor</a>
 <a href=sim-2/RuckigPosition_data.htm>RuckigPosition:data</a>
 <a href=sim-2/RuckigPosition_remove.htm>RuckigPosition:remove</a>
-<a href=sim-2/RuckigPosition_step.htm>RuckigPosition:step</a></code><br><h2><a name=methods_ruckigvelocity></a><a name=methods_rml></a><a name=methods_ruckig></a>Motion:RuckigVelocity (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/RuckigVelocity_Constructor.htm>RuckigVelocity:Constructor</a>
+<a href=sim-2/RuckigPosition_step.htm>RuckigPosition:step</a></code><br><h2><a name=methods_ruckigvelocity></a><a name=methods_rml></a><a name=methods_ruckig></a><div style="display: flex; justify-content: space-between;"><span>Motion.RuckigVelocity</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/RuckigVelocity_Constructor.htm>RuckigVelocity:Constructor</a>
 <a href=sim-2/RuckigVelocity_data.htm>RuckigVelocity:data</a>
 <a href=sim-2/RuckigVelocity_remove.htm>RuckigVelocity:remove</a>
-<a href=sim-2/RuckigVelocity_step.htm>RuckigVelocity:step</a></code><br><h2><a name=methods_packing></a>Packing/unpacking (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_deserialize.htm>app:deserialize</a>
+<a href=sim-2/RuckigVelocity_step.htm>RuckigVelocity:step</a></code><br><h2><a name=methods_packing></a><div style="display: flex; justify-content: space-between;"><span>Packing/unpacking</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_deserialize.htm>app:deserialize</a>
 <a href=sim-2/app_pack.htm>app:pack</a>
 <a href=sim-2/app_packArray.htm>app:packArray</a>
 <a href=sim-2/app_serialize.htm>app:serialize</a>
@@ -513,21 +513,21 @@
 <a href=sim-2/app_unpack.htm>app:unpack</a>
 <a href=sim-2/app_unpackArray.htm>app:unpackArray</a>
 <a href=sim-2/object_getBufferProperty.htm>object:getBufferProperty</a>
-<a href=sim-2/object_setBufferProperty.htm>object:setBufferProperty</a></code><br><h2><a name=methods_ik></a><a href=kinematics.htm>Kinematics</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/IK_Constructor.htm>IK:Constructor</a>
+<a href=sim-2/object_setBufferProperty.htm>object:setBufferProperty</a></code><br><h2><a name=methods_ik></a><div style="display: flex; justify-content: space-between;"><span><a href=kinematics.htm>Kinematics</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/IK_Constructor.htm>IK:Constructor</a>
 <a href=sim-2/IK_createGroup.htm>IK:createGroup</a>
 <a href=sim-2/IK_remove.htm>IK:remove</a>
 <a href=sim-2/IK_solve.htm>IK:solve</a>
 <a href=sim-2/IK_syncFromScene.htm>IK:syncFromScene</a>
-<a href=sim-2/IK_syncToScene.htm>IK:syncToScene</a></code><br><h2><a name=methods_ikobject></a><a href=solvingIkAndFk.htm>IK task/object</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/IKObject_getPose.htm>IKObject:getPose</a>
+<a href=sim-2/IK_syncToScene.htm>IK:syncToScene</a></code><br><h2><a name=methods_ikobject></a><div style="display: flex; justify-content: space-between;"><span><a href=solvingIkAndFk.htm>IKObject</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/IKObject_getPose.htm>IKObject:getPose</a>
 <a href=sim-2/IKObject_getPosition.htm>IKObject:getPosition</a>
 <a href=sim-2/IKObject_getQuaternion.htm>IKObject:getQuaternion</a>
 <a href=sim-2/IKObject_setPose.htm>IKObject:setPose</a>
 <a href=sim-2/IKObject_setPosition.htm>IKObject:setPosition</a>
-<a href=sim-2/IKObject_setQuaternion.htm>IKObject:setQuaternion</a></code><br><h2><a name=methods_ikgroup></a><a href=solvingIkAndFk.htm>IK groups</a> (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/IKGroup_addElementFromScene.htm>IKGroup:addElementFromScene</a>
+<a href=sim-2/IKObject_setQuaternion.htm>IKObject:setQuaternion</a></code><br><h2><a name=methods_ikgroup></a><div style="display: flex; justify-content: space-between;"><span><a href=solvingIkAndFk.htm>IKGroup</a></span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/IKGroup_addElementFromScene.htm>IKGroup:addElementFromScene</a>
 <a href=sim-2/IKGroup_findConfig.htm>IKGroup:findConfig</a>
 <a href=sim-2/IKGroup_solve.htm>IKGroup:solve</a>
 <a href=sim-2/IKGroup_syncFromScene.htm>IKGroup:syncFromScene</a>
-<a href=sim-2/IKGroup_syncToScene.htm>IKGroup:syncToScene</a></code><br><h2><a name=methods_other></a>Other (methods)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_cancelScheduledExecution.htm>app:cancelScheduledExecution</a>
+<a href=sim-2/IKGroup_syncToScene.htm>IKGroup:syncToScene</a></code><br><h2><a name=methods_other></a><div style="display: flex; justify-content: space-between;"><span>Other</span><span>(methods)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/app_cancelScheduledExecution.htm>app:cancelScheduledExecution</a>
 <a href=sim-2/app_fastIdleLoop.htm>app:fastIdleLoop</a>
 <a href=sim-2/app_getEnumInfo.htm>app:getEnumInfo</a>
 <a href=sim-2/app_getPluginInfo.htm>app:getPluginInfo</a>
@@ -539,12 +539,12 @@
 <a href=sim-2/detachedScript_setModuleEntry.htm>detachedScript:setModuleEntry</a>
 <a href=sim-2/object_isValid.htm>object:isValid</a>
 <a href=sim-2/scene_announceChange.htm>scene:announceChange</a>
-<a href=sim-2/scene_stepKinematicJoints.htm>scene:stepKinematicJoints</a></code><br> <hr> <h2><a name=properties_object></a>Object (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_object_handle.htm>object.handle</a>
+<a href=sim-2/scene_stepKinematicJoints.htm>scene:stepKinematicJoints</a></code><br> <hr class=short> <h2><a name=properties_object></a><div style="display: flex; justify-content: space-between;"><span>object</span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_object_handle.htm>object.handle</a>
 <a href=sim-2/property_object_metaInfo_isClass.htm>object.metaInfo.isClass</a>
 <a href=sim-2/property_object_metaInfo_isSceneObject.htm>object.metaInfo.isSceneObject</a>
 <a href=sim-2/property_object_metaInfo_namespaces.htm>object.metaInfo.namespaces</a>
 <a href=sim-2/property_object_metaInfo_superClass.htm>object.metaInfo.superClass</a>
-<a href=sim-2/property_object_type.htm>object.type</a></code><br><h2><a name=properties_app></a>App (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_addOns.htm>app.addOns</a>
+<a href=sim-2/property_object_type.htm>object.type</a></code><br><h2><a name=properties_app></a><div style="display: flex; justify-content: space-between;"><span>app</span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_addOns.htm>app.addOns</a>
 <a href=sim-2/property_app_args.htm>app.args</a>
 <a href=sim-2/property_app_auxAddOn1.htm>app.auxAddOn1</a>
 <a href=sim-2/property_app_auxAddOn2.htm>app.auxAddOn2</a>
@@ -611,7 +611,7 @@
 <a href=sim-2/property_app_startupCode.htm>app.startupCode</a>
 <a href=sim-2/property_app_statusbarVerbosity.htm>app.statusbarVerbosity</a>
 <a href=sim-2/property_app_statusbarVerbosityStr.htm>app.statusbarVerbosityStr</a>
-<a href=sim-2/property_app_systemTime.htm>app.systemTime</a></code><br><h2><a name=properties_scene></a><a href=scenes.htm>Scene</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_scene_acknowledgment.htm>scene.acknowledgment</a>
+<a href=sim-2/property_app_systemTime.htm>app.systemTime</a></code><br><h2><a name=properties_scene></a><div style="display: flex; justify-content: space-between;"><span><a href=scenes.htm>scene</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_scene_acknowledgment.htm>scene.acknowledgment</a>
 <a href=sim-2/property_scene_ambientLight.htm>scene.ambientLight</a>
 <a href=sim-2/property_scene_collections.htm>scene.collections</a>
 <a href=sim-2/property_scene_customObjects.htm>scene.customObjects</a>
@@ -733,8 +733,8 @@
 <a href=sim-2/property_scene_simulation_timeToPause.htm>scene.simulation.timeToPause</a>
 <a href=sim-2/property_scene_uid.htm>scene.uid</a>
 <a href=sim-2/property_scene_uidString.htm>scene.uidString</a>
-<a href=sim-2/property_scene_visibilityLayers.htm>scene.visibilityLayers</a></code><br><h2><a name=properties_collection></a><a name=collections></a><a href=collections.htm>Collection</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_collection_objects.htm>collection.objects</a>
-<a href=sim-2/property_sceneObject_collectionSelfCollisionIndicator.htm>sceneObject.collectionSelfCollisionIndicator</a></code><br><h2><a name=properties_detachedscript></a><a href=scripts.htm>Detached script</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_detachedScript_addOnMenuPath.htm>detachedScript.addOnMenuPath</a>
+<a href=sim-2/property_scene_visibilityLayers.htm>scene.visibilityLayers</a></code><br><h2><a name=properties_collection></a><a name=collections></a><div style="display: flex; justify-content: space-between;"><span><a href=collections.htm>collection</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_collection_objects.htm>collection.objects</a>
+<a href=sim-2/property_sceneObject_collectionSelfCollisionIndicator.htm>sceneObject.collectionSelfCollisionIndicator</a></code><br><h2><a name=properties_detachedscript></a><div style="display: flex; justify-content: space-between;"><span><a href=scripts.htm>detachedScript</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_detachedScript_addOnMenuPath.htm>detachedScript.addOnMenuPath</a>
 <a href=sim-2/property_detachedScript_addOnPath.htm>detachedScript.addOnPath</a>
 <a href=sim-2/property_detachedScript_autoYieldDelay.htm>detachedScript.autoYieldDelay</a>
 <a href=sim-2/property_detachedScript_code.htm>detachedScript.code</a>
@@ -747,7 +747,7 @@
 <a href=sim-2/property_detachedScript_scriptName.htm>detachedScript.scriptName</a>
 <a href=sim-2/property_detachedScript_state.htm>detachedScript.state</a>
 <a href=sim-2/property_scene_mainScript.htm>scene.mainScript</a>
-<a href=sim-2/property_script_detachedScript.htm>script.detachedScript</a></code><br><h2><a name=properties_mesh></a><a href=geometricCalculations.htm>Mesh</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_mesh_color_diffuse.htm>mesh.color.diffuse</a>
+<a href=sim-2/property_script_detachedScript.htm>script.detachedScript</a></code><br><h2><a name=properties_mesh></a><div style="display: flex; justify-content: space-between;"><span><a href=geometricCalculations.htm>mesh</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_mesh_color_diffuse.htm>mesh.color.diffuse</a>
 <a href=sim-2/property_mesh_color_emission.htm>mesh.color.emission</a>
 <a href=sim-2/property_mesh_color_specular.htm>mesh.color.specular</a>
 <a href=sim-2/property_mesh_color_transparency.htm>mesh.color.transparency</a>
@@ -770,7 +770,7 @@
 <a href=sim-2/property_mesh_texture_repeatV.htm>mesh.texture.repeatV</a>
 <a href=sim-2/property_mesh_texture_resolution.htm>mesh.texture.resolution</a>
 <a href=sim-2/property_mesh_vertices.htm>mesh.vertices</a>
-<a href=sim-2/property_mesh_wireframe.htm>mesh.wireframe</a></code><br><h2><a name=properties_sceneobject></a><a name=sceneObjectFunctionality></a><a href=objects.htm>Scene object</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_sceneObject_angularVelocity.htm>sceneObject.angularVelocity</a>
+<a href=sim-2/property_mesh_wireframe.htm>mesh.wireframe</a></code><br><h2><a name=properties_sceneobject></a><a name=sceneObjectFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=objects.htm>sceneObject</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_sceneObject_angularVelocity.htm>sceneObject.angularVelocity</a>
 <a href=sim-2/property_sceneObject_bbPose.htm>sceneObject.bbPose</a>
 <a href=sim-2/property_sceneObject_cannotDelete.htm>sceneObject.cannotDelete</a>
 <a href=sim-2/property_sceneObject_cannotDeleteInSim.htm>sceneObject.cannotDeleteInSim</a>
@@ -842,7 +842,7 @@
 <a href=sim-2/property_sceneObject_worldEulerAngles.htm>sceneObject.worldEulerAngles</a>
 <a href=sim-2/property_sceneObject_worldPose.htm>sceneObject.worldPose</a>
 <a href=sim-2/property_sceneObject_worldPosition.htm>sceneObject.worldPosition</a>
-<a href=sim-2/property_sceneObject_worldQuaternion.htm>sceneObject.worldQuaternion</a></code><br><h2><a name=properties_shape></a><a name=shapeObject></a><a href=shapes.htm>Shape</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_scene_saveCalculationStructs.htm>scene.saveCalculationStructs</a>
+<a href=sim-2/property_sceneObject_worldQuaternion.htm>sceneObject.worldQuaternion</a></code><br><h2><a name=properties_shape></a><a name=shapeObject></a><div style="display: flex; justify-content: space-between;"><span><a href=shapes.htm>sceneObject.shape</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_scene_saveCalculationStructs.htm>scene.saveCalculationStructs</a>
 <a href=sim-2/property_shape_applyColor_diffuse.htm>shape.applyColor.diffuse</a>
 <a href=sim-2/property_shape_applyColor_emission.htm>shape.applyColor.emission</a>
 <a href=sim-2/property_shape_applyColor_specular.htm>shape.applyColor.specular</a>
@@ -966,7 +966,7 @@
 <a href=sim-2/property_shape_respondable.htm>shape.respondable</a>
 <a href=sim-2/property_shape_respondableMask.htm>shape.respondableMask</a>
 <a href=sim-2/property_shape_setToDynamicWithParent.htm>shape.setToDynamicWithParent</a>
-<a href=sim-2/property_shape_startInDynSleepMode.htm>shape.startInDynSleepMode</a></code><br><h2><a name=properties_joint></a><a name=jointObject></a><a href=joints.htm>Joint</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_joint_averageForce.htm>joint.averageForce</a>
+<a href=sim-2/property_shape_startInDynSleepMode.htm>shape.startInDynSleepMode</a></code><br><h2><a name=properties_joint></a><a name=jointObject></a><div style="display: flex; justify-content: space-between;"><span><a href=joints.htm>sceneObject.joint</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_joint_averageForce.htm>joint.averageForce</a>
 <a href=sim-2/property_joint_bounds.htm>joint.bounds</a>
 <a href=sim-2/property_joint_color_diffuse.htm>joint.color.diffuse</a>
 <a href=sim-2/property_joint_color_emission.htm>joint.color.emission</a>
@@ -1071,7 +1071,7 @@
 <a href=sim-2/property_joint_targetForce.htm>joint.targetForce</a>
 <a href=sim-2/property_joint_targetPosition.htm>joint.targetPosition</a>
 <a href=sim-2/property_joint_targetVelocity.htm>joint.targetVelocity</a>
-<a href=sim-2/property_joint_velocity.htm>joint.velocity</a></code><br><h2><a name=properties_dummy></a><a name=dummyObject></a><a href=dummies.htm>Dummy</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_dummy_assemblyTag.htm>dummy.assemblyTag</a>
+<a href=sim-2/property_joint_velocity.htm>joint.velocity</a></code><br><h2><a name=properties_dummy></a><a name=dummyObject></a><div style="display: flex; justify-content: space-between;"><span><a href=dummies.htm>sceneObject.dummy</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_dummy_assemblyTag.htm>dummy.assemblyTag</a>
 <a href=sim-2/property_dummy_color_diffuse.htm>dummy.color.diffuse</a>
 <a href=sim-2/property_dummy_color_emission.htm>dummy.color.emission</a>
 <a href=sim-2/property_dummy_color_specular.htm>dummy.color.specular</a>
@@ -1090,7 +1090,7 @@
 <a href=sim-2/property_dummy_dynamics_mujoco_springLength.htm>dummy.dynamics.mujoco.springLength</a>
 <a href=sim-2/property_dummy_dynamics_mujoco_springStiffness.htm>dummy.dynamics.mujoco.springStiffness</a>
 <a href=sim-2/property_dummy_linkedDummy.htm>dummy.linkedDummy</a>
-<a href=sim-2/property_dummy_size.htm>dummy.size</a></code><br><h2><a name=properties_marker></a><a href=markers.htm>Marker</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_marker_colors.htm>marker.colors</a>
+<a href=sim-2/property_dummy_size.htm>dummy.size</a></code><br><h2><a name=properties_marker></a><div style="display: flex; justify-content: space-between;"><span><a href=markers.htm>sceneObject.marker</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_marker_colors.htm>marker.colors</a>
 <a href=sim-2/property_marker_cyclic.htm>marker.cyclic</a>
 <a href=sim-2/property_marker_defaultItemSize.htm>marker.defaultItemSize</a>
 <a href=sim-2/property_marker_indices.htm>marker.indices</a>
@@ -1104,14 +1104,14 @@
 <a href=sim-2/property_marker_points.htm>marker.points</a>
 <a href=sim-2/property_marker_quaternions.htm>marker.quaternions</a>
 <a href=sim-2/property_marker_sizes.htm>marker.sizes</a>
-<a href=sim-2/property_marker_vertices.htm>marker.vertices</a></code><br><h2><a name=properties_script></a><a href=scriptObjects.htm>Script</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_sceneObject_model_scriptsNotActive.htm>sceneObject.model.scriptsNotActive</a>
+<a href=sim-2/property_marker_vertices.htm>marker.vertices</a></code><br><h2><a name=properties_script></a><div style="display: flex; justify-content: space-between;"><span><a href=scriptObjects.htm>sceneObject.script</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_sceneObject_model_scriptsNotActive.htm>sceneObject.model.scriptsNotActive</a>
 <a href=sim-2/property_script_color_diffuse.htm>script.color.diffuse</a>
 <a href=sim-2/property_script_color_emission.htm>script.color.emission</a>
 <a href=sim-2/property_script_color_specular.htm>script.color.specular</a>
 <a href=sim-2/property_script_detachedScript.htm>script.detachedScript</a>
 <a href=sim-2/property_script_resetAfterSimError.htm>script.resetAfterSimError</a>
 <a href=sim-2/property_script_script_type.htm>script.script.type</a>
-<a href=sim-2/property_script_size.htm>script.size</a></code><br><h2><a name=properties_camera></a><a name=cameraObject></a><a href=cameras.htm>Camera</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_camera_clippingPlanes.htm>camera.clippingPlanes</a>
+<a href=sim-2/property_script_size.htm>script.size</a></code><br><h2><a name=properties_camera></a><a name=cameraObject></a><div style="display: flex; justify-content: space-between;"><span><a href=cameras.htm>sceneObject.camera</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_camera_clippingPlanes.htm>camera.clippingPlanes</a>
 <a href=sim-2/property_camera_color_diffuse.htm>camera.color.diffuse</a>
 <a href=sim-2/property_camera_color_emission.htm>camera.color.emission</a>
 <a href=sim-2/property_camera_color_specular.htm>camera.color.specular</a>
@@ -1126,7 +1126,7 @@
 <a href=sim-2/property_camera_trackedObject.htm>camera.trackedObject</a>
 <a href=sim-2/property_camera_translationEnabled.htm>camera.translationEnabled</a>
 <a href=sim-2/property_camera_viewAngle.htm>camera.viewAngle</a>
-<a href=sim-2/property_camera_viewSize.htm>camera.viewSize</a></code><br><h2><a name=properties_light></a><a name=lightObject></a><a href=lights.htm>Light</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_light_attenuationFactors.htm>light.attenuationFactors</a>
+<a href=sim-2/property_camera_viewSize.htm>camera.viewSize</a></code><br><h2><a name=properties_light></a><a name=lightObject></a><div style="display: flex; justify-content: space-between;"><span><a href=lights.htm>sceneObject.light</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_light_attenuationFactors.htm>light.attenuationFactors</a>
 <a href=sim-2/property_light_color_diffuse.htm>light.color.diffuse</a>
 <a href=sim-2/property_light_color_emission.htm>light.color.emission</a>
 <a href=sim-2/property_light_color_specular.htm>light.color.specular</a>
@@ -1138,14 +1138,14 @@
 <a href=sim-2/property_light_povray_castShadows.htm>light.povray.castShadows</a>
 <a href=sim-2/property_light_size.htm>light.size</a>
 <a href=sim-2/property_light_spotCutoffAngle.htm>light.spotCutoffAngle</a>
-<a href=sim-2/property_light_spotExponent.htm>light.spotExponent</a></code><br><h2><a name=properties_graph></a><a name=graphs></a><a href=graphs.htm>Graph</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_graph_backgroundColor.htm>graph.backgroundColor</a>
+<a href=sim-2/property_light_spotExponent.htm>light.spotExponent</a></code><br><h2><a name=properties_graph></a><a name=graphs></a><div style="display: flex; justify-content: space-between;"><span><a href=graphs.htm>sceneObject.graph</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_graph_backgroundColor.htm>graph.backgroundColor</a>
 <a href=sim-2/property_graph_bufferSize.htm>graph.bufferSize</a>
 <a href=sim-2/property_graph_color_diffuse.htm>graph.color.diffuse</a>
 <a href=sim-2/property_graph_color_emission.htm>graph.color.emission</a>
 <a href=sim-2/property_graph_color_specular.htm>graph.color.specular</a>
 <a href=sim-2/property_graph_cyclic.htm>graph.cyclic</a>
 <a href=sim-2/property_graph_foregroundColor.htm>graph.foregroundColor</a>
-<a href=sim-2/property_graph_size.htm>graph.size</a></code><br><h2><a name=properties_proximitysensor></a><a href=proximitySensors.htm>Proximity sensor</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_proximitySensor_angleThreshold.htm>proximitySensor.angleThreshold</a>
+<a href=sim-2/property_graph_size.htm>graph.size</a></code><br><h2><a name=properties_proximitysensor></a><div style="display: flex; justify-content: space-between;"><span><a href=proximitySensors.htm>sceneObject.proximitySensor</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_proximitySensor_angleThreshold.htm>proximitySensor.angleThreshold</a>
 <a href=sim-2/property_proximitySensor_backFaceDetection.htm>proximitySensor.backFaceDetection</a>
 <a href=sim-2/property_proximitySensor_closeThreshold.htm>proximitySensor.closeThreshold</a>
 <a href=sim-2/property_proximitySensor_color_diffuse.htm>proximitySensor.color.diffuse</a>
@@ -1175,7 +1175,7 @@
 <a href=sim-2/property_proximitySensor_volume_xSize.htm>proximitySensor.volume.xSize</a>
 <a href=sim-2/property_proximitySensor_volume_ySize.htm>proximitySensor.volume.ySize</a>
 <a href=sim-2/property_sceneObject_detectable.htm>sceneObject.detectable</a>
-<a href=sim-2/property_sceneObject_model_notDetectable.htm>sceneObject.model.notDetectable</a></code><br><h2><a name=properties_visionsensor></a><a href=visionSensors.htm>Vision sensor</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_visionSensor_backgroundColor.htm>visionSensor.backgroundColor</a>
+<a href=sim-2/property_sceneObject_model_notDetectable.htm>sceneObject.model.notDetectable</a></code><br><h2><a name=properties_visionsensor></a><div style="display: flex; justify-content: space-between;"><span><a href=visionSensors.htm>sceneObject.visionSensor</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_visionSensor_backgroundColor.htm>visionSensor.backgroundColor</a>
 <a href=sim-2/property_visionSensor_backgroundColorFromEnvironment.htm>visionSensor.backgroundColorFromEnvironment</a>
 <a href=sim-2/property_visionSensor_clippingPlanes.htm>visionSensor.clippingPlanes</a>
 <a href=sim-2/property_visionSensor_color_diffuse.htm>visionSensor.color.diffuse</a>
@@ -1206,7 +1206,7 @@
 <a href=sim-2/property_visionSensor_triggerState.htm>visionSensor.triggerState</a>
 <a href=sim-2/property_visionSensor_useExtImage.htm>visionSensor.useExtImage</a>
 <a href=sim-2/property_visionSensor_viewAngle.htm>visionSensor.viewAngle</a>
-<a href=sim-2/property_visionSensor_viewSize.htm>visionSensor.viewSize</a></code><br><h2><a name=properties_forcesensor></a><a href=forceSensors.htm>Force sensor</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_forceSensor_color_diffuse.htm>forceSensor.color.diffuse</a>
+<a href=sim-2/property_visionSensor_viewSize.htm>visionSensor.viewSize</a></code><br><h2><a name=properties_forcesensor></a><div style="display: flex; justify-content: space-between;"><span><a href=forceSensors.htm>sceneObject.forceSensor</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_forceSensor_color_diffuse.htm>forceSensor.color.diffuse</a>
 <a href=sim-2/property_forceSensor_color_emission.htm>forceSensor.color.emission</a>
 <a href=sim-2/property_forceSensor_color_specular.htm>forceSensor.color.specular</a>
 <a href=sim-2/property_forceSensor_consecutiveViolationsToTrigger.htm>forceSensor.consecutiveViolationsToTrigger</a>
@@ -1221,7 +1221,7 @@
 <a href=sim-2/property_forceSensor_size.htm>forceSensor.size</a>
 <a href=sim-2/property_forceSensor_torque.htm>forceSensor.torque</a>
 <a href=sim-2/property_forceSensor_torqueThreshold.htm>forceSensor.torqueThreshold</a>
-<a href=sim-2/property_forceSensor_torqueThresholdEnabled.htm>forceSensor.torqueThresholdEnabled</a></code><br><h2><a name=properties_pointcloud></a><a href=pointClouds.htm>Point cloud</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_pointCloud_cellSize.htm>pointCloud.cellSize</a>
+<a href=sim-2/property_forceSensor_torqueThresholdEnabled.htm>forceSensor.torqueThresholdEnabled</a></code><br><h2><a name=properties_pointcloud></a><div style="display: flex; justify-content: space-between;"><span><a href=pointClouds.htm>sceneObject.pointCloud</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_pointCloud_cellSize.htm>pointCloud.cellSize</a>
 <a href=sim-2/property_pointCloud_color_diffuse.htm>pointCloud.color.diffuse</a>
 <a href=sim-2/property_pointCloud_color_emission.htm>pointCloud.color.emission</a>
 <a href=sim-2/property_pointCloud_color_specular.htm>pointCloud.color.specular</a>
@@ -1232,7 +1232,7 @@
 <a href=sim-2/property_pointCloud_pointDisplayFraction.htm>pointCloud.pointDisplayFraction</a>
 <a href=sim-2/property_pointCloud_pointSize.htm>pointCloud.pointSize</a>
 <a href=sim-2/property_pointCloud_points.htm>pointCloud.points</a>
-<a href=sim-2/property_pointCloud_randomColors.htm>pointCloud.randomColors</a></code><br><h2><a name=properties_octree></a><a name=octree></a><a href=octrees.htm>OC-tree</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_ocTree_color_diffuse.htm>ocTree.color.diffuse</a>
+<a href=sim-2/property_pointCloud_randomColors.htm>pointCloud.randomColors</a></code><br><h2><a name=properties_octree></a><a name=octree></a><div style="display: flex; justify-content: space-between;"><span><a href=octrees.htm>sceneObject.ocTree</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_ocTree_color_diffuse.htm>ocTree.color.diffuse</a>
 <a href=sim-2/property_ocTree_color_emission.htm>ocTree.color.emission</a>
 <a href=sim-2/property_ocTree_color_specular.htm>ocTree.color.specular</a>
 <a href=sim-2/property_ocTree_colors.htm>ocTree.colors</a>
@@ -1240,9 +1240,9 @@
 <a href=sim-2/property_ocTree_points.htm>ocTree.points</a>
 <a href=sim-2/property_ocTree_randomColors.htm>ocTree.randomColors</a>
 <a href=sim-2/property_ocTree_showPoints.htm>ocTree.showPoints</a>
-<a href=sim-2/property_ocTree_voxelSize.htm>ocTree.voxelSize</a></code><br><h2><a name=properties_file></a><a name=fileOperations></a>File operations (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_scene_finalSaveRequest.htm>scene.finalSaveRequest</a>
+<a href=sim-2/property_ocTree_voxelSize.htm>ocTree.voxelSize</a></code><br><h2><a name=properties_file></a><a name=fileOperations></a><div style="display: flex; justify-content: space-between;"><span>File operations</span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_scene_finalSaveRequest.htm>scene.finalSaveRequest</a>
 <a href=sim-2/property_scene_locked.htm>scene.locked</a>
-<a href=sim-2/property_scene_saveCalculationStructs.htm>scene.saveCalculationStructs</a></code><br><h2><a name=properties_dynamics></a><a name=dynamicsFunctionality></a><a href=dynamicsModule.htm>Dynamics</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_paths_mujoco.htm>app.paths.mujoco</a>
+<a href=sim-2/property_scene_saveCalculationStructs.htm>scene.saveCalculationStructs</a></code><br><h2><a name=properties_dynamics></a><a name=dynamicsFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=dynamicsModule.htm>Dynamics</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_paths_mujoco.htm>app.paths.mujoco</a>
 <a href=sim-2/property_dummy_dynamics_engineProperties.htm>dummy.dynamics.engineProperties</a>
 <a href=sim-2/property_dummy_dynamics_mujoco_jointProxyHandle.htm>dummy.dynamics.mujoco.jointProxyHandle</a>
 <a href=sim-2/property_dummy_dynamics_mujoco_limitsEnabled.htm>dummy.dynamics.mujoco.limitsEnabled</a>
@@ -1558,10 +1558,10 @@
 <a href=sim-2/property_shape_respondable.htm>shape.respondable</a>
 <a href=sim-2/property_shape_respondableMask.htm>shape.respondableMask</a>
 <a href=sim-2/property_shape_setToDynamicWithParent.htm>shape.setToDynamicWithParent</a>
-<a href=sim-2/property_shape_startInDynSleepMode.htm>shape.startInDynSleepMode</a></code><br><h2><a name=properties_collision></a><a name=collisionDetection></a><a href=collisionDetection.htm>Collision detection</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_sceneObject_collectionSelfCollisionIndicator.htm>sceneObject.collectionSelfCollisionIndicator</a>
+<a href=sim-2/property_shape_startInDynSleepMode.htm>shape.startInDynSleepMode</a></code><br><h2><a name=properties_collision></a><a name=collisionDetection></a><div style="display: flex; justify-content: space-between;"><span><a href=collisionDetection.htm>Collision detection</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_sceneObject_collectionSelfCollisionIndicator.htm>sceneObject.collectionSelfCollisionIndicator</a>
 <a href=sim-2/property_sceneObject_collidable.htm>sceneObject.collidable</a>
-<a href=sim-2/property_sceneObject_model_notCollidable.htm>sceneObject.model.notCollidable</a></code><br><h2><a name=properties_distance></a><a name=distanceCalculation></a><a href=distanceCalculation.htm>Distance calculation</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_sceneObject_measurable.htm>sceneObject.measurable</a>
-<a href=sim-2/property_sceneObject_model_notMeasurable.htm>sceneObject.model.notMeasurable</a></code><br><h2><a name=properties_rendering></a><a href=dataVisualizationAndOutput.htm>Rendering</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_Console_hiddenInSimulation.htm>Console.hiddenInSimulation</a>
+<a href=sim-2/property_sceneObject_model_notCollidable.htm>sceneObject.model.notCollidable</a></code><br><h2><a name=properties_distance></a><a name=distanceCalculation></a><div style="display: flex; justify-content: space-between;"><span><a href=distanceCalculation.htm>Distance calculation</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_sceneObject_measurable.htm>sceneObject.measurable</a>
+<a href=sim-2/property_sceneObject_model_notMeasurable.htm>sceneObject.model.notMeasurable</a></code><br><h2><a name=properties_rendering></a><div style="display: flex; justify-content: space-between;"><span><a href=dataVisualizationAndOutput.htm>Rendering</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_Console_hiddenInSimulation.htm>Console.hiddenInSimulation</a>
 <a href=sim-2/property_Console_visible.htm>Console.visible</a>
 <a href=sim-2/property_TextEditor_hiddenInSimulation.htm>TextEditor.hiddenInSimulation</a>
 <a href=sim-2/property_TextEditor_visible.htm>TextEditor.visible</a>
@@ -1723,7 +1723,7 @@
 <a href=sim-2/property_visionSensor_showFrustum.htm>visionSensor.showFrustum</a>
 <a href=sim-2/property_visionSensor_size.htm>visionSensor.size</a>
 <a href=sim-2/property_visionSensor_viewAngle.htm>visionSensor.viewAngle</a>
-<a href=sim-2/property_visionSensor_viewSize.htm>visionSensor.viewSize</a></code><br><h2><a name=properties_customization></a><a name=customizingLuaFunctions></a><a name=customScriptFunctions></a>Customization (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_addOns.htm>app.addOns</a>
+<a href=sim-2/property_visionSensor_viewSize.htm>visionSensor.viewSize</a></code><br><h2><a name=properties_customization></a><a name=customizingLuaFunctions></a><a name=customScriptFunctions></a><div style="display: flex; justify-content: space-between;"><span>Customization</span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_addOns.htm>app.addOns</a>
 <a href=sim-2/property_app_auxAddOn1.htm>app.auxAddOn1</a>
 <a href=sim-2/property_app_auxAddOn2.htm>app.auxAddOn2</a>
 <a href=sim-2/property_app_customClasses.htm>app.customClasses</a>
@@ -1738,7 +1738,7 @@
 <a href=sim-2/property_scene_customObjects.htm>scene.customObjects</a>
 <a href=sim-2/property_sceneObject_cannotDelete.htm>sceneObject.cannotDelete</a>
 <a href=sim-2/property_sceneObject_cannotDeleteInSim.htm>sceneObject.cannotDeleteInSim</a>
-<a href=sim-2/property_sceneObject_hierarchyColor.htm>sceneObject.hierarchyColor</a></code><br><h2><a name=properties_model></a><a name=modelFunctionality></a><a href=models.htm>Models</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_paths_models.htm>app.paths.models</a>
+<a href=sim-2/property_sceneObject_hierarchyColor.htm>sceneObject.hierarchyColor</a></code><br><h2><a name=properties_model></a><a name=modelFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=models.htm>Models</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_paths_models.htm>app.paths.models</a>
 <a href=sim-2/property_scene_collections.htm>scene.collections</a>
 <a href=sim-2/property_sceneObject_childOrder.htm>sceneObject.childOrder</a>
 <a href=sim-2/property_sceneObject_children.htm>sceneObject.children</a>
@@ -1763,16 +1763,16 @@
 <a href=sim-2/property_sceneObject_parentUid.htm>sceneObject.parentUid</a>
 <a href=sim-2/property_sceneObject_persistentUid.htm>sceneObject.persistentUid</a>
 <a href=sim-2/property_sceneObject_selectModel.htm>sceneObject.selectModel</a>
-<a href=sim-2/property_sceneObject_tree.htm>sceneObject.tree</a></code><br><h2><a name=properties_selection></a><a name=sceneObjectSelectionFunctionality></a>Selection (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_scene_selection.htm>scene.selection</a>
+<a href=sim-2/property_sceneObject_tree.htm>sceneObject.tree</a></code><br><h2><a name=properties_selection></a><a name=sceneObjectSelectionFunctionality></a><div style="display: flex; justify-content: space-between;"><span>Selection</span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_scene_selection.htm>scene.selection</a>
 <a href=sim-2/property_sceneObject_selectInvisible.htm>sceneObject.selectInvisible</a>
 <a href=sim-2/property_sceneObject_selectModel.htm>sceneObject.selectModel</a>
 <a href=sim-2/property_sceneObject_selectable.htm>sceneObject.selectable</a>
-<a href=sim-2/property_sceneObject_selected.htm>sceneObject.selected</a></code><br><h2><a name=properties_creation></a><a name=sceneObjectCreationFunctionality></a>Object creation (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_object_type.htm>object.type</a>
+<a href=sim-2/property_sceneObject_selected.htm>sceneObject.selected</a></code><br><h2><a name=properties_creation></a><a name=sceneObjectCreationFunctionality></a><div style="display: flex; justify-content: space-between;"><span>Object creation</span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_object_type.htm>object.type</a>
 <a href=sim-2/property_scene_objectCreationCounter.htm>scene.objectCreationCounter</a>
 <a href=sim-2/property_scene_objectDestructionCounter.htm>scene.objectDestructionCounter</a>
 <a href=sim-2/property_scene_objects.htm>scene.objects</a>
 <a href=sim-2/property_scene_orphans.htm>scene.orphans</a>
-<a href=sim-2/property_scene_simulation_removeNewObjects.htm>scene.simulation.removeNewObjects</a></code><br><h2><a name=properties_scriptrelated></a><a href=scripts.htm>Script related</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_defaultPython.htm>app.defaultPython</a>
+<a href=sim-2/property_scene_simulation_removeNewObjects.htm>scene.simulation.removeNewObjects</a></code><br><h2><a name=properties_scriptrelated></a><div style="display: flex; justify-content: space-between;"><span><a href=scripts.htm>Script related</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_defaultPython.htm>app.defaultPython</a>
 <a href=sim-2/property_app_execUnsafe.htm>app.execUnsafe</a>
 <a href=sim-2/property_app_execUnsafeExt.htm>app.execUnsafeExt</a>
 <a href=sim-2/property_app_paths_lua.htm>app.paths.lua</a>
@@ -1795,7 +1795,7 @@
 <a href=sim-2/property_proximitySensor_explicitHandling.htm>proximitySensor.explicitHandling</a>
 <a href=sim-2/property_scene_mainScript.htm>scene.mainScript</a>
 <a href=sim-2/property_sceneObject_model_scriptsNotActive.htm>sceneObject.model.scriptsNotActive</a>
-<a href=sim-2/property_visionSensor_explicitHandling.htm>visionSensor.explicitHandling</a></code><br><h2><a name=properties_simulation></a><a name=SimulationFunctionality></a><a href=simulation.htm>Simulation</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_paths_mujoco.htm>app.paths.mujoco</a>
+<a href=sim-2/property_visionSensor_explicitHandling.htm>visionSensor.explicitHandling</a></code><br><h2><a name=properties_simulation></a><a name=SimulationFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=simulation.htm>Simulation</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_paths_mujoco.htm>app.paths.mujoco</a>
 <a href=sim-2/property_scene_dynamics_stepSize.htm>scene.dynamics.stepSize</a>
 <a href=sim-2/property_scene_simulation_pauseAtError.htm>scene.simulation.pauseAtError</a>
 <a href=sim-2/property_scene_simulation_pauseAtTime.htm>scene.simulation.pauseAtTime</a>
@@ -1809,10 +1809,10 @@
 <a href=sim-2/property_scene_simulation_time.htm>scene.simulation.time</a>
 <a href=sim-2/property_scene_simulation_timeStep.htm>scene.simulation.timeStep</a>
 <a href=sim-2/property_scene_simulation_timeToPause.htm>scene.simulation.timeToPause</a>
-<a href=sim-2/property_script_resetAfterSimError.htm>script.resetAfterSimError</a></code><br><h2><a name=properties_thread></a><a name=threads></a><a name=threadRelatedFunctionality></a><a href=threadedAndNonThreadedCode.htm>Threads</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_detachedScript_autoYieldDelay.htm>detachedScript.autoYieldDelay</a>
+<a href=sim-2/property_script_resetAfterSimError.htm>script.resetAfterSimError</a></code><br><h2><a name=properties_thread></a><a name=threads></a><a name=threadRelatedFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=threadedAndNonThreadedCode.htm>Threads</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_detachedScript_autoYieldDelay.htm>detachedScript.autoYieldDelay</a>
 <a href=sim-2/property_scene_dynamics_mujoco_multithreaded.htm>scene.dynamics.mujoco.multithreaded</a>
 <a href=sim-2/property_scene_dynamics_newton_multithreading.htm>scene.dynamics.newton.multithreading</a>
-<a href=sim-2/property_scene_dynamics_vortex_multithreading.htm>scene.dynamics.vortex.multithreading</a></code><br><h2><a name=properties_transformation></a><a name=pose></a><a name=transformations></a><a name=coordinatesAndTransformations></a><a href=positionOrientationTransformation.htm>Coordinates and transformations</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_defaultRotationStepSize.htm>app.defaultRotationStepSize</a>
+<a href=sim-2/property_scene_dynamics_vortex_multithreading.htm>scene.dynamics.vortex.multithreading</a></code><br><h2><a name=properties_transformation></a><a name=pose></a><a name=transformations></a><a name=coordinatesAndTransformations></a><div style="display: flex; justify-content: space-between;"><span><a href=positionOrientationTransformation.htm>Coordinates and transformations</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_defaultRotationStepSize.htm>app.defaultRotationStepSize</a>
 <a href=sim-2/property_app_defaultTranslationStepSize.htm>app.defaultTranslationStepSize</a>
 <a href=sim-2/property_joint_intrinsicPose.htm>joint.intrinsicPose</a>
 <a href=sim-2/property_joint_joint_quaternion.htm>joint.joint.quaternion</a>
@@ -1842,7 +1842,7 @@
 <a href=sim-2/property_sceneObject_worldEulerAngles.htm>sceneObject.worldEulerAngles</a>
 <a href=sim-2/property_sceneObject_worldPose.htm>sceneObject.worldPose</a>
 <a href=sim-2/property_sceneObject_worldPosition.htm>sceneObject.worldPosition</a>
-<a href=sim-2/property_sceneObject_worldQuaternion.htm>sceneObject.worldQuaternion</a></code><br><h2><a name=properties_messaging></a><a href=meansOfCommunication.htm>Messaging</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_consoleVerbosity.htm>app.consoleVerbosity</a>
+<a href=sim-2/property_sceneObject_worldQuaternion.htm>sceneObject.worldQuaternion</a></code><br><h2><a name=properties_messaging></a><div style="display: flex; justify-content: space-between;"><span><a href=meansOfCommunication.htm>Messaging</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_consoleVerbosity.htm>app.consoleVerbosity</a>
 <a href=sim-2/property_app_consoleVerbosityStr.htm>app.consoleVerbosityStr</a>
 <a href=sim-2/property_app_dialogVerbosity.htm>app.dialogVerbosity</a>
 <a href=sim-2/property_app_dialogVerbosityStr.htm>app.dialogVerbosityStr</a>
@@ -1852,20 +1852,20 @@
 <a href=sim-2/property_app_statusbarVerbosityStr.htm>app.statusbarVerbosityStr</a>
 <a href=sim-2/property_sceneObject_modelAcknowledgment.htm>sceneObject.modelAcknowledgment</a>
 <a href=sim-2/property_visionSensor_emitDepthChangedEvent.htm>visionSensor.emitDepthChangedEvent</a>
-<a href=sim-2/property_visionSensor_emitImageChangedEvent.htm>visionSensor.emitImageChangedEvent</a></code><br><h2><a name=properties_texture></a><a name=textures></a>Textures (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_mesh_texture_applyMode.htm>mesh.texture.applyMode</a>
+<a href=sim-2/property_visionSensor_emitImageChangedEvent.htm>visionSensor.emitImageChangedEvent</a></code><br><h2><a name=properties_texture></a><a name=textures></a><div style="display: flex; justify-content: space-between;"><span>Textures</span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_mesh_texture_applyMode.htm>mesh.texture.applyMode</a>
 <a href=sim-2/property_mesh_texture_coordinates.htm>mesh.texture.coordinates</a>
 <a href=sim-2/property_mesh_texture_id.htm>mesh.texture.id</a>
 <a href=sim-2/property_mesh_texture_image.htm>mesh.texture.image</a>
 <a href=sim-2/property_mesh_texture_interpolate.htm>mesh.texture.interpolate</a>
 <a href=sim-2/property_mesh_texture_repeatU.htm>mesh.texture.repeatU</a>
 <a href=sim-2/property_mesh_texture_repeatV.htm>mesh.texture.repeatV</a>
-<a href=sim-2/property_mesh_texture_resolution.htm>mesh.texture.resolution</a></code><br><h2><a name=properties_console></a><a name=auxiliaryConsoles></a><a name=auxiliaryConsoleFunctions></a><a href=dataVisualizationAndOutput.htm#auxConsoles>Consoles</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_Console_hiddenInSimulation.htm>Console.hiddenInSimulation</a>
-<a href=sim-2/property_Console_visible.htm>Console.visible</a></code><br><h2><a name=properties_texteditor></a><a name=textEditors></a><a href=dataVisualizationAndOutput.htm#textEditors>Text/code editor</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_TextEditor_hiddenInSimulation.htm>TextEditor.hiddenInSimulation</a>
-<a href=sim-2/property_TextEditor_visible.htm>TextEditor.visible</a></code><br><h2><a name=properties_importexport></a><a name=importExportFunctions></a><a href=importExport.htm>Import/export</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_paths_importExport.htm>app.paths.importExport</a>
-<a href=sim-2/property_app_paths_scenes.htm>app.paths.scenes</a></code><br><h2><a name=properties_ik></a><a href=kinematics.htm>Kinematics</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IK_groupList.htm>IK.groupList</a>
+<a href=sim-2/property_mesh_texture_resolution.htm>mesh.texture.resolution</a></code><br><h2><a name=properties_console></a><a name=auxiliaryConsoles></a><a name=auxiliaryConsoleFunctions></a><div style="display: flex; justify-content: space-between;"><span><a href=dataVisualizationAndOutput.htm#auxConsoles>Console</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_Console_hiddenInSimulation.htm>Console.hiddenInSimulation</a>
+<a href=sim-2/property_Console_visible.htm>Console.visible</a></code><br><h2><a name=properties_texteditor></a><a name=textEditors></a><div style="display: flex; justify-content: space-between;"><span><a href=dataVisualizationAndOutput.htm#textEditors>TextEditor</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_TextEditor_hiddenInSimulation.htm>TextEditor.hiddenInSimulation</a>
+<a href=sim-2/property_TextEditor_visible.htm>TextEditor.visible</a></code><br><h2><a name=properties_importexport></a><a name=importExportFunctions></a><div style="display: flex; justify-content: space-between;"><span><a href=importExport.htm>Import/export</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_app_paths_importExport.htm>app.paths.importExport</a>
+<a href=sim-2/property_app_paths_scenes.htm>app.paths.scenes</a></code><br><h2><a name=properties_ik></a><div style="display: flex; justify-content: space-between;"><span><a href=kinematics.htm>Kinematics</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IK_groupList.htm>IK.groupList</a>
 <a href=sim-2/property_IK_joints.htm>IK.joints</a>
-<a href=sim-2/property_IK_objects.htm>IK.objects</a></code><br><h2><a name=properties_ikobject></a><a href=solvingIkAndFk.htm>IK task/object</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IKObject_sceneObjectHandle.htm>IKObject.sceneObjectHandle</a>
-<a href=sim-2/property_IKObject_type.htm>IKObject.type</a></code><br><h2><a name=properties_ikjoint></a><a href=solvingIkAndFk.htm>IK joints</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IKJoint_bounds.htm>IKJoint.bounds</a>
+<a href=sim-2/property_IK_objects.htm>IK.objects</a></code><br><h2><a name=properties_ikobject></a><div style="display: flex; justify-content: space-between;"><span><a href=solvingIkAndFk.htm>IKObject</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IKObject_sceneObjectHandle.htm>IKObject.sceneObjectHandle</a>
+<a href=sim-2/property_IKObject_type.htm>IKObject.type</a></code><br><h2><a name=properties_ikjoint></a><div style="display: flex; justify-content: space-between;"><span><a href=solvingIkAndFk.htm>IKObject.IKjoint</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IKJoint_bounds.htm>IKJoint.bounds</a>
 <a href=sim-2/property_IKJoint_jointConfiguration.htm>IKJoint.jointConfiguration</a>
 <a href=sim-2/property_IKJoint_jointPosition.htm>IKJoint.jointPosition</a>
 <a href=sim-2/property_IKJoint_jointQuaternion.htm>IKJoint.jointQuaternion</a>
@@ -1873,18 +1873,18 @@
 <a href=sim-2/property_IKJoint_limitMargin.htm>IKJoint.limitMargin</a>
 <a href=sim-2/property_IKJoint_maxStepSize.htm>IKJoint.maxStepSize</a>
 <a href=sim-2/property_IKJoint_passive.htm>IKJoint.passive</a>
-<a href=sim-2/property_IKJoint_weight.htm>IKJoint.weight</a></code><br><h2><a name=properties_ikgroup></a><a href=solvingIkAndFk.htm>IK groups</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IKGroup_damping.htm>IKGroup.damping</a>
+<a href=sim-2/property_IKJoint_weight.htm>IKJoint.weight</a></code><br><h2><a name=properties_ikgroup></a><div style="display: flex; justify-content: space-between;"><span><a href=solvingIkAndFk.htm>IKGroup</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IKGroup_damping.htm>IKGroup.damping</a>
 <a href=sim-2/property_IKGroup_elementList.htm>IKGroup.elementList</a>
 <a href=sim-2/property_IKGroup_enabled.htm>IKGroup.enabled</a>
 <a href=sim-2/property_IKGroup_maxIterations.htm>IKGroup.maxIterations</a>
-<a href=sim-2/property_IKGroup_method.htm>IKGroup.method</a></code><br><h2><a name=properties_ikelement></a><a href=solvingIkAndFk.htm>IK elements</a> (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IKElement_base.htm>IKElement.base</a>
+<a href=sim-2/property_IKGroup_method.htm>IKGroup.method</a></code><br><h2><a name=properties_ikelement></a><div style="display: flex; justify-content: space-between;"><span><a href=solvingIkAndFk.htm>IKElement</a></span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_IKElement_base.htm>IKElement.base</a>
 <a href=sim-2/property_IKElement_constraints.htm>IKElement.constraints</a>
 <a href=sim-2/property_IKElement_enabled.htm>IKElement.enabled</a>
 <a href=sim-2/property_IKElement_jointList.htm>IKElement.jointList</a>
 <a href=sim-2/property_IKElement_precision.htm>IKElement.precision</a>
 <a href=sim-2/property_IKElement_target.htm>IKElement.target</a>
 <a href=sim-2/property_IKElement_tip.htm>IKElement.tip</a>
-<a href=sim-2/property_IKElement_weights.htm>IKElement.weights</a></code><br><h2><a name=properties_drawingobject></a>Drawing objects (deprecated, see markers instead) (properties)</h2> <code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_drawingObject_appendColors.htm>drawingObject.appendColors</a>
+<a href=sim-2/property_IKElement_weights.htm>IKElement.weights</a></code><br><h2><a name=properties_drawingobject></a><div style="display: flex; justify-content: space-between;"><span>drawingObject (deprecated, see marker instead)</span><span>(properties)</span></div></h2><code class="two-cols language-python-lua coppelia-coppeliasim-script api-list"><a href=sim-2/property_drawingObject_appendColors.htm>drawingObject.appendColors</a>
 <a href=sim-2/property_drawingObject_appendPoints.htm>drawingObject.appendPoints</a>
 <a href=sim-2/property_drawingObject_appendQuaternions.htm>drawingObject.appendQuaternions</a>
 <a href=sim-2/property_drawingObject_colors.htm>drawingObject.colors</a>
@@ -1896,11 +1896,11 @@
 <a href=sim-2/property_drawingObject_parentUid.htm>drawingObject.parentUid</a>
 <a href=sim-2/property_drawingObject_points.htm>drawingObject.points</a>
 <a href=sim-2/property_drawingObject_quaternions.htm>drawingObject.quaternions</a>
-<a href=sim-2/property_drawingObject_size.htm>drawingObject.size</a></code><br> <hr> <h2><a name=functions_c_main></a>Main (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCallMethod_cpp.htm>simCallMethod</a>
+<a href=sim-2/property_drawingObject_size.htm>drawingObject.size</a></code><br> <hr class=short> <h2><a name=functions_c_main></a><div style="display: flex; justify-content: space-between;"><span>Main</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCallMethod_cpp.htm>simCallMethod</a>
 <a href=sim-2/simCreateBuffer_cpp.htm>simCreateBuffer</a>
 <a href=sim-2/simGetLastError_cpp.htm>simGetLastError</a>
 <a href=sim-2/simReleaseBuffer_cpp.htm>simReleaseBuffer</a>
-<a href=sim-2/simSetLastError_cpp.htm>simSetLastError</a></code><br><h2><a name=functions_c_property></a><a href=properties.htm>Properties</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetBoolProperty_cpp.htm>simGetBoolProperty</a>
+<a href=sim-2/simSetLastError_cpp.htm>simSetLastError</a></code><br><h2><a name=functions_c_property></a><div style="display: flex; justify-content: space-between;"><span><a href=properties.htm>Properties</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetBoolProperty_cpp.htm>simGetBoolProperty</a>
 <a href=sim-2/simGetBufferProperty_cpp.htm>simGetBufferProperty</a>
 <a href=sim-2/simGetColor4Property_cpp.htm>simGetColor4Property</a>
 <a href=sim-2/simGetFloatArrayProperty_cpp.htm>simGetFloatArrayProperty</a>
@@ -1939,7 +1939,7 @@
 <a href=sim-2/simSetStringArrayProperty_cpp.htm>simSetStringArrayProperty</a>
 <a href=sim-2/simSetStringProperty_cpp.htm>simSetStringProperty</a>
 <a href=sim-2/simSetTableProperty_cpp.htm>simSetTableProperty</a>
-<a href=sim-2/simSetVector3Property_cpp.htm>simSetVector3Property</a></code><br><h2><a name=functions_c_stack></a>Stack (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCallMethod_cpp.htm>simCallMethod</a>
+<a href=sim-2/simSetVector3Property_cpp.htm>simSetVector3Property</a></code><br><h2><a name=functions_c_stack></a><div style="display: flex; justify-content: space-between;"><span>Stack</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCallMethod_cpp.htm>simCallMethod</a>
 <a href=sim-2/simCopyStack_cpp.htm>simCopyStack</a>
 <a href=sim-2/simCreateStack_cpp.htm>simCreateStack</a>
 <a href=sim-2/simDebugStack_cpp.htm>simDebugStack</a>
@@ -1987,7 +1987,7 @@
 <a href=sim-2/simPushUInt8TableOntoStack_cpp.htm>simPushUInt8TableOntoStack</a>
 <a href=sim-2/simReleaseStack_cpp.htm>simReleaseStack</a>
 <a href=sim-2/simUnfoldStackTable_cpp.htm>simUnfoldStackTable</a>
-<a href=sim-2/simUnpackTable_cpp.htm>simUnpackTable</a></code><br><h2><a name=functions_c_aux></a>Auxiliary functions (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddForce_cpp.htm>simAddForce</a>
+<a href=sim-2/simUnpackTable_cpp.htm>simUnpackTable</a></code><br><h2><a name=functions_c_aux></a><div style="display: flex; justify-content: space-between;"><span>Auxiliary functions</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddForce_cpp.htm>simAddForce</a>
 <a href=sim-2/simAddForceAndTorque_cpp.htm>simAddForceAndTorque</a>
 <a href=sim-2/simAddGraphCurve_cpp.htm>simAddGraphCurve</a>
 <a href=sim-2/simAddGraphStream_cpp.htm>simAddGraphStream</a>
@@ -2198,10 +2198,10 @@
 <a href=sim-2/simTransformVector_cpp.htm>simTransformVector</a>
 <a href=sim-2/simUngroupShape_cpp.htm>simUngroupShape</a>
 <a href=sim-2/simUnpackTable_cpp.htm>simUnpackTable</a>
-<a href=sim-2/simWriteTexture_cpp.htm>simWriteTexture</a></code><br><h2><a name=functions_collection></a><a name=collections></a><a href=collections.htm>Collection</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddItemToCollection_cpp.htm>simAddItemToCollection</a>
+<a href=sim-2/simWriteTexture_cpp.htm>simWriteTexture</a></code><br><h2><a name=functions_collection></a><a name=collections></a><div style="display: flex; justify-content: space-between;"><span><a href=collections.htm>collection</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddItemToCollection_cpp.htm>simAddItemToCollection</a>
 <a href=sim-2/simCreateCollectionEx_cpp.htm>simCreateCollectionEx</a>
 <a href=sim-2/simDestroyCollection_cpp.htm>simDestroyCollection</a>
-<a href=sim-2/simGetCollectionObjects_cpp.htm>simGetCollectionObjects</a></code><br><h2><a name=functions_sceneobject></a><a name=sceneObjectFunctionality></a><a href=objects.htm>Scene object</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCopyPasteObjects_cpp.htm>simCopyPasteObjects</a>
+<a href=sim-2/simGetCollectionObjects_cpp.htm>simGetCollectionObjects</a></code><br><h2><a name=functions_sceneobject></a><a name=sceneObjectFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=objects.htm>sceneObject</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCopyPasteObjects_cpp.htm>simCopyPasteObjects</a>
 <a href=sim-2/simGetObject_cpp.htm>simGetObject</a>
 <a href=sim-2/simGetObjectAlias_cpp.htm>simGetObjectAlias</a>
 <a href=sim-2/simGetObjectChild_cpp.htm>simGetObjectChild</a>
@@ -2236,7 +2236,7 @@
 <a href=sim-2/simSetObjectPosition_cpp.htm>simSetObjectPosition</a>
 <a href=sim-2/simSetObjectQuaternion_cpp.htm>simSetObjectQuaternion</a>
 <a href=sim-2/simSetObjectSel_cpp.htm>simSetObjectSel</a>
-<a href=sim-2/simSetReferencedHandles_cpp.htm>simSetReferencedHandles</a></code><br><h2><a name=functions_shape></a><a name=shapeObject></a><a href=shapes.htm>Shape</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddForce_cpp.htm>simAddForce</a>
+<a href=sim-2/simSetReferencedHandles_cpp.htm>simSetReferencedHandles</a></code><br><h2><a name=functions_shape></a><a name=shapeObject></a><div style="display: flex; justify-content: space-between;"><span><a href=shapes.htm>sceneObject.shape</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddForce_cpp.htm>simAddForce</a>
 <a href=sim-2/simAddForceAndTorque_cpp.htm>simAddForceAndTorque</a>
 <a href=sim-2/simAlignShapeBB_cpp.htm>simAlignShapeBB</a>
 <a href=sim-2/simApplyTexture_cpp.htm>simApplyTexture</a>
@@ -2264,7 +2264,7 @@
 <a href=sim-2/simSetShapeInertia_cpp.htm>simSetShapeInertia</a>
 <a href=sim-2/simSetShapeMass_cpp.htm>simSetShapeMass</a>
 <a href=sim-2/simSetShapeTexture_cpp.htm>simSetShapeTexture</a>
-<a href=sim-2/simUngroupShape_cpp.htm>simUngroupShape</a></code><br><h2><a name=functions_joint></a><a name=jointObject></a><a href=joints.htm>Joint</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateJoint_cpp.htm>simCreateJoint</a>
+<a href=sim-2/simUngroupShape_cpp.htm>simUngroupShape</a></code><br><h2><a name=functions_joint></a><a name=jointObject></a><div style="display: flex; justify-content: space-between;"><span><a href=joints.htm>sceneObject.joint</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateJoint_cpp.htm>simCreateJoint</a>
 <a href=sim-2/simGetJointDependency_cpp.htm>simGetJointDependency</a>
 <a href=sim-2/simGetJointForce_cpp.htm>simGetJointForce</a>
 <a href=sim-2/simGetJointInterval_cpp.htm>simGetJointInterval</a>
@@ -2283,22 +2283,22 @@
 <a href=sim-2/simSetJointTargetForce_cpp.htm>simSetJointTargetForce</a>
 <a href=sim-2/simSetJointTargetPosition_cpp.htm>simSetJointTargetPosition</a>
 <a href=sim-2/simSetJointTargetVelocity_cpp.htm>simSetJointTargetVelocity</a>
-<a href=sim-2/simSetObjectChildPose_cpp.htm>simSetObjectChildPose</a></code><br><h2><a name=functions_dummy></a><a name=dummyObject></a><a href=dummies.htm>Dummy</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateDummy_cpp.htm>simCreateDummy</a>
+<a href=sim-2/simSetObjectChildPose_cpp.htm>simSetObjectChildPose</a></code><br><h2><a name=functions_dummy></a><a name=dummyObject></a><div style="display: flex; justify-content: space-between;"><span><a href=dummies.htm>sceneObject.dummy</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateDummy_cpp.htm>simCreateDummy</a>
 <a href=sim-2/simGetLinkDummy_cpp.htm>simGetLinkDummy</a>
-<a href=sim-2/simSetLinkDummy_cpp.htm>simSetLinkDummy</a></code><br><h2><a name=functions_camera></a><a name=cameraObject></a><a href=cameras.htm>Camera</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAdjustView_cpp.htm>simAdjustView</a>
+<a href=sim-2/simSetLinkDummy_cpp.htm>simSetLinkDummy</a></code><br><h2><a name=functions_camera></a><a name=cameraObject></a><div style="display: flex; justify-content: space-between;"><span><a href=cameras.htm>sceneObject.camera</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAdjustView_cpp.htm>simAdjustView</a>
 <a href=sim-2/simCameraFitToView_cpp.htm>simCameraFitToView</a>
-<a href=sim-2/simGetExtensionString_cpp.htm>simGetExtensionString</a></code><br><h2><a name=functions_light></a><a name=lightObject></a><a href=lights.htm>Light</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetExtensionString_cpp.htm>simGetExtensionString</a></code><br><h2><a name=functions_graph></a><a name=graphs></a><a href=graphs.htm>Graph</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddGraphCurve_cpp.htm>simAddGraphCurve</a>
+<a href=sim-2/simGetExtensionString_cpp.htm>simGetExtensionString</a></code><br><h2><a name=functions_light></a><a name=lightObject></a><div style="display: flex; justify-content: space-between;"><span><a href=lights.htm>sceneObject.light</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetExtensionString_cpp.htm>simGetExtensionString</a></code><br><h2><a name=functions_graph></a><a name=graphs></a><div style="display: flex; justify-content: space-between;"><span><a href=graphs.htm>sceneObject.graph</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddGraphCurve_cpp.htm>simAddGraphCurve</a>
 <a href=sim-2/simAddGraphStream_cpp.htm>simAddGraphStream</a>
 <a href=sim-2/simDestroyGraphCurve_cpp.htm>simDestroyGraphCurve</a>
 <a href=sim-2/simDuplicateGraphCurveToStatic_cpp.htm>simDuplicateGraphCurveToStatic</a>
 <a href=sim-2/simHandleGraph_cpp.htm>simHandleGraph</a>
 <a href=sim-2/simResetGraph_cpp.htm>simResetGraph</a>
 <a href=sim-2/simSetGraphStreamTransformation_cpp.htm>simSetGraphStreamTransformation</a>
-<a href=sim-2/simSetGraphStreamValue_cpp.htm>simSetGraphStreamValue</a></code><br><h2><a name=functions_proximitysensor></a><a href=proximitySensors.htm>Proximity sensor</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCheckProximitySensor_cpp.htm>simCheckProximitySensor</a>
+<a href=sim-2/simSetGraphStreamValue_cpp.htm>simSetGraphStreamValue</a></code><br><h2><a name=functions_proximitysensor></a><div style="display: flex; justify-content: space-between;"><span><a href=proximitySensors.htm>sceneObject.proximitySensor</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCheckProximitySensor_cpp.htm>simCheckProximitySensor</a>
 <a href=sim-2/simCreateProximitySensor_cpp.htm>simCreateProximitySensor</a>
 <a href=sim-2/simHandleProximitySensor_cpp.htm>simHandleProximitySensor</a>
 <a href=sim-2/simReadProximitySensor_cpp.htm>simReadProximitySensor</a>
-<a href=sim-2/simResetProximitySensor_cpp.htm>simResetProximitySensor</a></code><br><h2><a name=functions_visionsensor></a><a href=visionSensors.htm>Vision sensor</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAdjustView_cpp.htm>simAdjustView</a>
+<a href=sim-2/simResetProximitySensor_cpp.htm>simResetProximitySensor</a></code><br><h2><a name=functions_visionsensor></a><div style="display: flex; justify-content: space-between;"><span><a href=visionSensors.htm>sceneObject.visionSensor</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAdjustView_cpp.htm>simAdjustView</a>
 <a href=sim-2/simCheckVisionSensor_cpp.htm>simCheckVisionSensor</a>
 <a href=sim-2/simCheckVisionSensorEx_cpp.htm>simCheckVisionSensorEx</a>
 <a href=sim-2/simCreateVisionSensor_cpp.htm>simCreateVisionSensor</a>
@@ -2309,8 +2309,8 @@
 <a href=sim-2/simHandleVisionSensor_cpp.htm>simHandleVisionSensor</a>
 <a href=sim-2/simReadVisionSensor_cpp.htm>simReadVisionSensor</a>
 <a href=sim-2/simResetVisionSensor_cpp.htm>simResetVisionSensor</a>
-<a href=sim-2/simSetVisionSensorImg_cpp.htm>simSetVisionSensorImg</a></code><br><h2><a name=functions_forcesensor></a><a href=forceSensors.htm>Force sensor</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateForceSensor_cpp.htm>simCreateForceSensor</a>
-<a href=sim-2/simReadForceSensor_cpp.htm>simReadForceSensor</a></code><br><h2><a name=functions_pointcloud></a><a href=pointClouds.htm>Point cloud</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreatePointCloud_cpp.htm>simCreatePointCloud</a>
+<a href=sim-2/simSetVisionSensorImg_cpp.htm>simSetVisionSensorImg</a></code><br><h2><a name=functions_forcesensor></a><div style="display: flex; justify-content: space-between;"><span><a href=forceSensors.htm>sceneObject.forceSensor</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateForceSensor_cpp.htm>simCreateForceSensor</a>
+<a href=sim-2/simReadForceSensor_cpp.htm>simReadForceSensor</a></code><br><h2><a name=functions_pointcloud></a><div style="display: flex; justify-content: space-between;"><span><a href=pointClouds.htm>sceneObject.pointCloud</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreatePointCloud_cpp.htm>simCreatePointCloud</a>
 <a href=sim-2/simGetPointCloudOptions_cpp.htm>simGetPointCloudOptions</a>
 <a href=sim-2/simGetPointCloudPoints_cpp.htm>simGetPointCloudPoints</a>
 <a href=sim-2/simInsertObjectIntoPointCloud_cpp.htm>simInsertObjectIntoPointCloud</a>
@@ -2318,14 +2318,14 @@
 <a href=sim-2/simIntersectPointsWithPointCloud_cpp.htm>simIntersectPointsWithPointCloud</a>
 <a href=sim-2/simRemovePointsFromPointCloud_cpp.htm>simRemovePointsFromPointCloud</a>
 <a href=sim-2/simSetPointCloudOptions_cpp.htm>simSetPointCloudOptions</a>
-<a href=sim-2/simSubtractObjectFromPointCloud_cpp.htm>simSubtractObjectFromPointCloud</a></code><br><h2><a name=functions_octree></a><a name=octree></a><a href=octrees.htm>OC-tree</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCheckOctreePointOccupancy_cpp.htm>simCheckOctreePointOccupancy</a>
+<a href=sim-2/simSubtractObjectFromPointCloud_cpp.htm>simSubtractObjectFromPointCloud</a></code><br><h2><a name=functions_octree></a><a name=octree></a><div style="display: flex; justify-content: space-between;"><span><a href=octrees.htm>sceneObject.ocTree</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCheckOctreePointOccupancy_cpp.htm>simCheckOctreePointOccupancy</a>
 <a href=sim-2/simCreateOctree_cpp.htm>simCreateOctree</a>
 <a href=sim-2/simGetOctreeVoxels_cpp.htm>simGetOctreeVoxels</a>
 <a href=sim-2/simInsertObjectIntoOctree_cpp.htm>simInsertObjectIntoOctree</a>
 <a href=sim-2/simInsertVoxelsIntoOctree_cpp.htm>simInsertVoxelsIntoOctree</a>
 <a href=sim-2/simRemoveVoxelsFromOctree_cpp.htm>simRemoveVoxelsFromOctree</a>
-<a href=sim-2/simSubtractObjectFromOctree_cpp.htm>simSubtractObjectFromOctree</a></code><br><h2><a name=functions_path></a><a name=paths></a><a href=paths.htm>Paths</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGenerateShapeFromPath_cpp.htm>simGenerateShapeFromPath</a>
-<a href=sim-2/simGetClosestPosOnPath_cpp.htm>simGetClosestPosOnPath</a></code><br><h2><a name=functions_file></a><a name=fileOperations></a>File operations (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCloseScene_cpp.htm>simCloseScene</a>
+<a href=sim-2/simSubtractObjectFromOctree_cpp.htm>simSubtractObjectFromOctree</a></code><br><h2><a name=functions_path></a><a name=paths></a><div style="display: flex; justify-content: space-between;"><span><a href=paths.htm>Path</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGenerateShapeFromPath_cpp.htm>simGenerateShapeFromPath</a>
+<a href=sim-2/simGetClosestPosOnPath_cpp.htm>simGetClosestPosOnPath</a></code><br><h2><a name=functions_file></a><a name=fileOperations></a><div style="display: flex; justify-content: space-between;"><span>File operations</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCloseScene_cpp.htm>simCloseScene</a>
 <a href=sim-2/simCreateTexture_cpp.htm>simCreateTexture</a>
 <a href=sim-2/simDoesFileExist_cpp.htm>simDoesFileExist</a>
 <a href=sim-2/simExportMesh_cpp.htm>simExportMesh</a>
@@ -2334,13 +2334,13 @@
 <a href=sim-2/simLoadModel_cpp.htm>simLoadModel</a>
 <a href=sim-2/simLoadScene_cpp.htm>simLoadScene</a>
 <a href=sim-2/simSaveModel_cpp.htm>simSaveModel</a>
-<a href=sim-2/simSaveScene_cpp.htm>simSaveScene</a></code><br><h2><a name=functions_main></a><a name=mainFunctionalityHandling></a>General functionality handling (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetCollectionObjects_cpp.htm>simGetCollectionObjects</a>
+<a href=sim-2/simSaveScene_cpp.htm>simSaveScene</a></code><br><h2><a name=functions_main></a><a name=mainFunctionalityHandling></a><div style="display: flex; justify-content: space-between;"><span>General functionality handling</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetCollectionObjects_cpp.htm>simGetCollectionObjects</a>
 <a href=sim-2/simGetObject_cpp.htm>simGetObject</a>
 <a href=sim-2/simGetObjects_cpp.htm>simGetObjects</a>
 <a href=sim-2/simGetObjectsInTree_cpp.htm>simGetObjectsInTree</a>
 <a href=sim-2/simGetReferencedHandles_cpp.htm>simGetReferencedHandles</a>
 <a href=sim-2/simIsHandle_cpp.htm>simIsHandle</a>
-<a href=sim-2/simSetReferencedHandles_cpp.htm>simSetReferencedHandles</a></code><br><h2><a name=functions_dynamics></a><a name=dynamicsFunctionality></a><a href=dynamicsModule.htm>Dynamics</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddForce_cpp.htm>simAddForce</a>
+<a href=sim-2/simSetReferencedHandles_cpp.htm>simSetReferencedHandles</a></code><br><h2><a name=functions_dynamics></a><a name=dynamicsFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=dynamicsModule.htm>Dynamics</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddForce_cpp.htm>simAddForce</a>
 <a href=sim-2/simAddForceAndTorque_cpp.htm>simAddForceAndTorque</a>
 <a href=sim-2/simComputeMassAndInertia_cpp.htm>simComputeMassAndInertia</a>
 <a href=sim-2/simConvexDecompose_cpp.htm>simConvexDecompose</a>
@@ -2363,12 +2363,12 @@
 <a href=sim-2/simSetJointTargetVelocity_cpp.htm>simSetJointTargetVelocity</a>
 <a href=sim-2/simSetLinkDummy_cpp.htm>simSetLinkDummy</a>
 <a href=sim-2/simSetShapeInertia_cpp.htm>simSetShapeInertia</a>
-<a href=sim-2/simSetShapeMass_cpp.htm>simSetShapeMass</a></code><br><h2><a name=functions_collision></a><a name=collisionDetection></a><a href=collisionDetection.htm>Collision detection</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCheckCollision_cpp.htm>simCheckCollision</a></code><br><h2><a name=functions_distance></a><a name=distanceCalculation></a><a href=distanceCalculation.htm>Distance calculation</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCheckDistance_cpp.htm>simCheckDistance</a></code><br><h2><a name=functions_rendering></a><a href=dataVisualizationAndOutput.htm>Rendering</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetObjectColor_cpp.htm>simGetObjectColor</a>
+<a href=sim-2/simSetShapeMass_cpp.htm>simSetShapeMass</a></code><br><h2><a name=functions_collision></a><a name=collisionDetection></a><div style="display: flex; justify-content: space-between;"><span><a href=collisionDetection.htm>Collision detection</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCheckCollision_cpp.htm>simCheckCollision</a></code><br><h2><a name=functions_distance></a><a name=distanceCalculation></a><div style="display: flex; justify-content: space-between;"><span><a href=distanceCalculation.htm>Distance calculation</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCheckDistance_cpp.htm>simCheckDistance</a></code><br><h2><a name=functions_rendering></a><div style="display: flex; justify-content: space-between;"><span><a href=dataVisualizationAndOutput.htm>Rendering</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetObjectColor_cpp.htm>simGetObjectColor</a>
 <a href=sim-2/simGetShapeColor_cpp.htm>simGetShapeColor</a>
 <a href=sim-2/simSetObjectColor_cpp.htm>simSetObjectColor</a>
-<a href=sim-2/simSetShapeColor_cpp.htm>simSetShapeColor</a></code><br><h2><a name=functions_model></a><a name=modelFunctionality></a><a href=models.htm>Models</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simLoadModel_cpp.htm>simLoadModel</a>
-<a href=sim-2/simSaveModel_cpp.htm>simSaveModel</a></code><br><h2><a name=functions_selection></a><a name=sceneObjectSelectionFunctionality></a>Selection (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetObjectSel_cpp.htm>simGetObjectSel</a>
-<a href=sim-2/simSetObjectSel_cpp.htm>simSetObjectSel</a></code><br><h2><a name=functions_creation></a><a name=sceneObjectCreationFunctionality></a>Object creation (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateDummy_cpp.htm>simCreateDummy</a>
+<a href=sim-2/simSetShapeColor_cpp.htm>simSetShapeColor</a></code><br><h2><a name=functions_model></a><a name=modelFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=models.htm>Models</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simLoadModel_cpp.htm>simLoadModel</a>
+<a href=sim-2/simSaveModel_cpp.htm>simSaveModel</a></code><br><h2><a name=functions_selection></a><a name=sceneObjectSelectionFunctionality></a><div style="display: flex; justify-content: space-between;"><span>Selection</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetObjectSel_cpp.htm>simGetObjectSel</a>
+<a href=sim-2/simSetObjectSel_cpp.htm>simSetObjectSel</a></code><br><h2><a name=functions_creation></a><a name=sceneObjectCreationFunctionality></a><div style="display: flex; justify-content: space-between;"><span>Object creation</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateDummy_cpp.htm>simCreateDummy</a>
 <a href=sim-2/simCreateForceSensor_cpp.htm>simCreateForceSensor</a>
 <a href=sim-2/simCreateHeightfieldShape_cpp.htm>simCreateHeightfieldShape</a>
 <a href=sim-2/simCreateJoint_cpp.htm>simCreateJoint</a>
@@ -2380,7 +2380,7 @@
 <a href=sim-2/simCreateShape_cpp.htm>simCreateShape</a>
 <a href=sim-2/simCreateTexture_cpp.htm>simCreateTexture</a>
 <a href=sim-2/simCreateVisionSensor_cpp.htm>simCreateVisionSensor</a>
-<a href=sim-2/simGenerateShapeFromPath_cpp.htm>simGenerateShapeFromPath</a></code><br><h2><a name=functions_scriptrelated></a><a href=scripts.htm>Script related</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCallScriptFunctionEx_cpp.htm>simCallScriptFunctionEx</a>
+<a href=sim-2/simGenerateShapeFromPath_cpp.htm>simGenerateShapeFromPath</a></code><br><h2><a name=functions_scriptrelated></a><div style="display: flex; justify-content: space-between;"><span><a href=scripts.htm>Script related</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCallScriptFunctionEx_cpp.htm>simCallScriptFunctionEx</a>
 <a href=sim-2/simCreateScript_cpp.htm>simCreateScript</a>
 <a href=sim-2/simExecuteScriptString_cpp.htm>simExecuteScriptString</a>
 <a href=sim-2/simGetApiFunc_cpp.htm>simGetApiFunc</a>
@@ -2391,12 +2391,12 @@
 <a href=sim-2/simRegisterScriptCallbackFunction_cpp.htm>simRegisterScriptCallbackFunction</a>
 <a href=sim-2/simRegisterScriptFuncHook_cpp.htm>simRegisterScriptFuncHook</a>
 <a href=sim-2/simRegisterScriptVariable_cpp.htm>simRegisterScriptVariable</a>
-<a href=sim-2/simResetScript_cpp.htm>simResetScript</a></code><br><h2><a name=functions_simulation></a><a name=SimulationFunctionality></a><a href=simulation.htm>Simulation</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetSimulationState_cpp.htm>simGetSimulationState</a>
+<a href=sim-2/simResetScript_cpp.htm>simResetScript</a></code><br><h2><a name=functions_simulation></a><a name=SimulationFunctionality></a><div style="display: flex; justify-content: space-between;"><span><a href=simulation.htm>Simulation</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetSimulationState_cpp.htm>simGetSimulationState</a>
 <a href=sim-2/simGetSimulationTime_cpp.htm>simGetSimulationTime</a>
 <a href=sim-2/simGetSimulationTimeStep_cpp.htm>simGetSimulationTimeStep</a>
 <a href=sim-2/simPauseSimulation_cpp.htm>simPauseSimulation</a>
 <a href=sim-2/simStartSimulation_cpp.htm>simStartSimulation</a>
-<a href=sim-2/simStopSimulation_cpp.htm>simStopSimulation</a></code><br><h2><a name=functions_transformation></a><a name=pose></a><a name=transformations></a><a name=coordinatesAndTransformations></a><a href=positionOrientationTransformation.htm>Coordinates and transformations</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAlignShapeBB_cpp.htm>simAlignShapeBB</a>
+<a href=sim-2/simStopSimulation_cpp.htm>simStopSimulation</a></code><br><h2><a name=functions_transformation></a><a name=pose></a><a name=transformations></a><a name=coordinatesAndTransformations></a><div style="display: flex; justify-content: space-between;"><span><a href=positionOrientationTransformation.htm>Coordinates and transformations</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAlignShapeBB_cpp.htm>simAlignShapeBB</a>
 <a href=sim-2/simBuildMatrix_cpp.htm>simBuildMatrix</a>
 <a href=sim-2/simBuildPose_cpp.htm>simBuildPose</a>
 <a href=sim-2/simGetEulerAnglesFromMatrix_cpp.htm>simGetEulerAnglesFromMatrix</a>
@@ -2422,13 +2422,13 @@
 <a href=sim-2/simSetObjectPose_cpp.htm>simSetObjectPose</a>
 <a href=sim-2/simSetObjectPosition_cpp.htm>simSetObjectPosition</a>
 <a href=sim-2/simSetObjectQuaternion_cpp.htm>simSetObjectQuaternion</a>
-<a href=sim-2/simTransformVector_cpp.htm>simTransformVector</a></code><br><h2><a name=functions_messaging></a><a href=meansOfCommunication.htm>Messaging</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddLog_cpp.htm>simAddLog</a>
+<a href=sim-2/simTransformVector_cpp.htm>simTransformVector</a></code><br><h2><a name=functions_messaging></a><div style="display: flex; justify-content: space-between;"><span><a href=meansOfCommunication.htm>Messaging</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAddLog_cpp.htm>simAddLog</a>
 <a href=sim-2/simCallScriptFunctionEx_cpp.htm>simCallScriptFunctionEx</a>
 <a href=sim-2/simExecuteScriptString_cpp.htm>simExecuteScriptString</a>
 <a href=sim-2/simGetLastError_cpp.htm>simGetLastError</a>
 <a href=sim-2/simGetObjectUid_cpp.htm>simGetObjectUid</a>
 <a href=sim-2/simGetSimulatorMessage_cpp.htm>simGetSimulatorMessage</a>
-<a href=sim-2/simSetLastError_cpp.htm>simSetLastError</a></code><br><h2><a name=functions_texture></a><a name=textures></a>Textures (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simApplyTexture_cpp.htm>simApplyTexture</a>
+<a href=sim-2/simSetLastError_cpp.htm>simSetLastError</a></code><br><h2><a name=functions_texture></a><a name=textures></a><div style="display: flex; justify-content: space-between;"><span>Textures</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simApplyTexture_cpp.htm>simApplyTexture</a>
 <a href=sim-2/simCreateTexture_cpp.htm>simCreateTexture</a>
 <a href=sim-2/simGetScaledImage_cpp.htm>simGetScaledImage</a>
 <a href=sim-2/simGetShapeTextureId_cpp.htm>simGetShapeTextureId</a>
@@ -2438,18 +2438,18 @@
 <a href=sim-2/simSaveImage_cpp.htm>simSaveImage</a>
 <a href=sim-2/simSetShapeTexture_cpp.htm>simSetShapeTexture</a>
 <a href=sim-2/simTransformImage_cpp.htm>simTransformImage</a>
-<a href=sim-2/simWriteTexture_cpp.htm>simWriteTexture</a></code><br><h2><a name=functions_importexport></a><a name=importExportFunctions></a><a href=importExport.htm>Import/export</a> (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateTexture_cpp.htm>simCreateTexture</a>
+<a href=sim-2/simWriteTexture_cpp.htm>simWriteTexture</a></code><br><h2><a name=functions_importexport></a><a name=importExportFunctions></a><div style="display: flex; justify-content: space-between;"><span><a href=importExport.htm>Import/export</a></span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simCreateTexture_cpp.htm>simCreateTexture</a>
 <a href=sim-2/simExportMesh_cpp.htm>simExportMesh</a>
 <a href=sim-2/simImportMesh_cpp.htm>simImportMesh</a>
 <a href=sim-2/simImportShape_cpp.htm>simImportShape</a>
 <a href=sim-2/simLoadImage_cpp.htm>simLoadImage</a>
-<a href=sim-2/simSaveImage_cpp.htm>simSaveImage</a></code><br><h2><a name=functions_motion></a><a name=rml></a><a name=ruckig></a>Motion functionality (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simRuckigPos_cpp.htm>simRuckigPos</a>
+<a href=sim-2/simSaveImage_cpp.htm>simSaveImage</a></code><br><h2><a name=functions_motion></a><a name=rml></a><a name=ruckig></a><div style="display: flex; justify-content: space-between;"><span>Motion functionality</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simRuckigPos_cpp.htm>simRuckigPos</a>
 <a href=sim-2/simRuckigRemove_cpp.htm>simRuckigRemove</a>
 <a href=sim-2/simRuckigStep_cpp.htm>simRuckigStep</a>
-<a href=sim-2/simRuckigVel_cpp.htm>simRuckigVel</a></code><br><h2><a name=functions_packing></a>Packing/unpacking (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetBufferProperty_cpp.htm>simGetBufferProperty</a>
+<a href=sim-2/simRuckigVel_cpp.htm>simRuckigVel</a></code><br><h2><a name=functions_packing></a><div style="display: flex; justify-content: space-between;"><span>Packing/unpacking</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simGetBufferProperty_cpp.htm>simGetBufferProperty</a>
 <a href=sim-2/simPackTable_cpp.htm>simPackTable</a>
 <a href=sim-2/simSetBufferProperty_cpp.htm>simSetBufferProperty</a>
-<a href=sim-2/simUnpackTable_cpp.htm>simUnpackTable</a></code><br><h2><a name=functions_other></a>Other (C-functions)</h2> <code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAnnounceSceneContentChange_cpp.htm>simAnnounceSceneContentChange</a>
+<a href=sim-2/simUnpackTable_cpp.htm>simUnpackTable</a></code><br><h2><a name=functions_other></a><div style="display: flex; justify-content: space-between;"><span>Other</span><span>(C-functions)</span></div></h2><code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list"><a href=sim-2/simAnnounceSceneContentChange_cpp.htm>simAnnounceSceneContentChange</a>
 <a href=sim-2/simCreateBuffer_cpp.htm>simCreateBuffer</a>
 <a href=sim-2/simFloatingViewAdd_cpp.htm>simFloatingViewAdd</a>
 <a href=sim-2/simFloatingViewRemove_cpp.htm>simFloatingViewRemove</a>
