@@ -21,66 +21,69 @@ templatesDir = currentDir / 'templates'
 
 categories = [
     # Order matters. Keep first 4 in place!
-    {'cat': 'c_main',                   'obj': False,   'txt': 'Main',                                          'page': '',                                                 'oldRefs': []},
-    {'cat': 'c_property',               'obj': False,   'txt': 'Properties',                                    'page': 'properties.htm',                                   'oldRefs': []},
-    {'cat': 'c_stack',                  'obj': False,   'txt': 'Stack',                                         'page': '',                                                 'oldRefs': []},
-    {'cat': 'c_aux',                    'obj': False,   'txt': 'Auxiliary functions',                           'page': '',                                                 'oldRefs': []},
-    {'cat': 'object',                   'obj': True,    'txt': 'Object',                                        'page': '',                                                 'oldRefs': []},
-    {'cat': 'app',                      'obj': True,    'txt': 'App',                                           'page': '',                                                 'oldRefs': []},
-    {'cat': 'scene',                    'obj': True,    'txt': 'Scene',                                         'page': 'scenes.htm',                                       'oldRefs': []},
-    {'cat': 'collection',               'obj': True,    'txt': 'Collection',                                    'page': 'collections.htm',                                  'oldRefs': ['collections']},
-    {'cat': 'customObject',             'obj': True,    'txt': 'Custom object',                                 'page': 'customObjects.htm',                                'oldRefs': []},
-    {'cat': 'detachedScript',           'obj': True,    'txt': 'Detached script',                               'page': 'scripts.htm',                                      'oldRefs': []},
-    {'cat': 'mesh',                     'obj': True,    'txt': 'Mesh',                                          'page': 'geometricCalculations.htm',                        'oldRefs': []},
-    {'cat': 'sceneObject',              'obj': True,    'txt': 'Scene object',                                  'page': 'objects.htm',                                      'oldRefs': ['sceneObjectFunctionality']},
-    {'cat': 'shape',                    'obj': True,    'txt': 'Shape',                                         'page': 'shapes.htm',                                       'oldRefs': ['shapeObject']},
-    {'cat': 'joint',                    'obj': True,    'txt': 'Joint',                                         'page': 'joints.htm',                                       'oldRefs': ['jointObject']},
-    {'cat': 'dummy',                    'obj': True,    'txt': 'Dummy',                                         'page': 'dummies.htm',                                      'oldRefs': ['dummyObject']},
-    {'cat': 'marker',                   'obj': True,    'txt': 'Marker',                                        'page': 'markers.htm',                                      'oldRefs': []},
-    {'cat': 'script',                   'obj': True,    'txt': 'Script',                                        'page': 'scriptObjects.htm',                                'oldRefs': []},
-    {'cat': 'camera',                   'obj': True,    'txt': 'Camera',                                        'page': 'cameras.htm',                                      'oldRefs': ['cameraObject']},
-    {'cat': 'light',                    'obj': True,    'txt': 'Light',                                         'page': 'lights.htm',                                       'oldRefs': ['lightObject']},
-    {'cat': 'graph',                    'obj': True,    'txt': 'Graph',                                         'page': 'graphs.htm',                                       'oldRefs': ['graphs']},
-    {'cat': 'proximitySensor',          'obj': True,    'txt': 'Proximity sensor',                              'page': 'proximitySensors.htm',                             'oldRefs': []},
-    {'cat': 'visionSensor',             'obj': True,    'txt': 'Vision sensor',                                 'page': 'visionSensors.htm',                                'oldRefs': []},
-    {'cat': 'forceSensor',              'obj': True,    'txt': 'Force sensor',                                  'page': 'forceSensors.htm',                                 'oldRefs': []},
-    {'cat': 'pointCloud',               'obj': True,    'txt': 'Point cloud',                                   'page': 'pointClouds.htm',                                  'oldRefs': []},
-    {'cat': 'ocTree',                   'obj': True,    'txt': 'OC-tree',                                       'page': 'octrees.htm',                                      'oldRefs': ['octree']},
-    {'cat': 'customSceneObject',        'obj': True,    'txt': 'Custom scene object',                           'page': 'customSceneObjects.htm',                           'oldRefs': []},
-    {'cat': 'Path',                     'obj': False,   'txt': 'Paths',                                         'page': 'paths.htm',                                        'oldRefs': ['paths']},
-    {'cat': 'file',                     'obj': False,   'txt': 'File operations',                               'page': '',                                                 'oldRefs': ['fileOperations']},
-    {'cat': 'main',                     'obj': False,   'txt': 'General functionality handling',                'page': '',                                                 'oldRefs': ['mainFunctionalityHandling']},
-    {'cat': 'dynamics',                 'obj': False,   'txt': 'Dynamics',                                      'page': 'dynamicsModule.htm',                               'oldRefs': ['dynamicsFunctionality']},
-    {'cat': 'property',                 'obj': False,   'txt': 'Properties',                                    'page': 'properties.htm',                                   'oldRefs': ['properties']},
-    {'cat': 'collision',                'obj': False,   'txt': 'Collision detection',                           'page': 'collisionDetection.htm',                           'oldRefs': ['collisionDetection']},
-    {'cat': 'distance',                 'obj': False,   'txt': 'Distance calculation',                          'page': 'distanceCalculation.htm',                          'oldRefs': ['distanceCalculation']},
-    {'cat': 'rendering',                'obj': False,   'txt': 'Rendering',                                     'page': 'dataVisualizationAndOutput.htm',                   'oldRefs': []},
-    {'cat': 'customization',            'obj': False,   'txt': 'Customization',                                 'page': '',                                                 'oldRefs': ['customizingLuaFunctions', 'customScriptFunctions']},
-    {'cat': 'model',                    'obj': False,   'txt': 'Models',                                        'page': 'models.htm',                                       'oldRefs': ['modelFunctionality']},
-    {'cat': 'selection',                'obj': False,   'txt': 'Selection',                                     'page': '',                                                 'oldRefs': ['sceneObjectSelectionFunctionality']},
-    {'cat': 'creation',                 'obj': False,   'txt': 'Object creation',                               'page': '',                                                 'oldRefs': ['sceneObjectCreationFunctionality']},
-    {'cat': 'scriptRelated',            'obj': False,   'txt': 'Script related',                                'page': 'scripts.htm',                                      'oldRefs': []},
-    {'cat': 'simulation',               'obj': False,   'txt': 'Simulation',                                    'page': 'simulation.htm',                                   'oldRefs': ['SimulationFunctionality']},
-    {'cat': 'thread',                   'obj': False,   'txt': 'Threads',                                       'page': 'threadedAndNonThreadedCode.htm',                   'oldRefs': ['threads', 'threadRelatedFunctionality']},
-    {'cat': 'blocking',                 'obj': False,   'txt': 'Blocking methods',                              'page': '',                                                 'oldRefs': ['blockingFunctions']},
-    {'cat': 'transformation',           'obj': False,   'txt': 'Coordinates and transformations',               'page': 'positionOrientationTransformation.htm',            'oldRefs': ['pose', 'transformations', 'coordinatesAndTransformations']},
-    {'cat': 'messaging',                'obj': False,   'txt': 'Messaging',                                     'page': 'meansOfCommunication.htm',                         'oldRefs': []},
-    {'cat': 'texture',                  'obj': False,   'txt': 'Textures',                                      'page': '',                                                 'oldRefs': ['textures']},
-    {'cat': 'Console',                  'obj': False,   'txt': 'Consoles',                                      'page': 'dataVisualizationAndOutput.htm#auxConsoles',       'oldRefs': ['auxiliaryConsoles', 'auxiliaryConsoleFunctions']},
-    {'cat': 'TextEditor',               'obj': False,   'txt': 'Text/code editor',                              'page': 'dataVisualizationAndOutput.htm#textEditors',       'oldRefs': ['textEditors']},
-    {'cat': 'importExport',             'obj': False,   'txt': 'Import/export',                                 'page': 'importExport.htm',                                 'oldRefs': ['importExportFunctions']},
-    {'cat': 'Motion',                   'obj': False,   'txt': 'Motion functionality',                          'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'MoveToConfig',             'obj': False,   'txt': 'Motion:MoveToConfig',                           'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'MoveToPose',               'obj': False,   'txt': 'Motion:MoveToPose',                             'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'TimeOptimalTrajectory',    'obj': False,   'txt': 'Motion:TimeOptimalTrajectory',             'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'RuckigPosition',           'obj': False,   'txt': 'Motion:RuckigPosition',                         'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'RuckigVelocity',           'obj': False,   'txt': 'Motion:RuckigVelocity',                         'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'packing',                  'obj': False,   'txt': 'Packing/unpacking',                             'page': '',                                                 'oldRefs': []},
-    {'cat': 'stack',                    'obj': False,   'txt': 'Stacks',                                        'page': '',                                                 'oldRefs': ['stacks']},
-    {'cat': 'ik',                       'obj': False,   'txt': 'Kinematics',                                    'page': 'kinematics.htm',                                   'oldRefs': []},
-    {'cat': 'ikObject',                 'obj': False,   'txt': 'IK task/object',                                'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
-    {'cat': 'ikGroup',                  'obj': False,   'txt': 'IK groups',                                     'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
-    {'cat': 'other',                    'obj': False,   'txt': 'Other',                                         'page': '',                                                 'oldRefs': []},
+    {'cat': 'c_main',                   'obj': False,   'txt': 'Main',                                              'page': '',                                                 'oldRefs': []},
+    {'cat': 'c_property',               'obj': False,   'txt': 'Properties',                                        'page': 'properties.htm',                                   'oldRefs': []},
+    {'cat': 'c_stack',                  'obj': False,   'txt': 'Stack',                                             'page': '',                                                 'oldRefs': []},
+    {'cat': 'c_aux',                    'obj': False,   'txt': 'Auxiliary functions',                               'page': '',                                                 'oldRefs': []},
+    {'cat': 'object',                   'obj': True,    'txt': 'Object',                                            'page': '',                                                 'oldRefs': []},
+    {'cat': 'app',                      'obj': True,    'txt': 'App',                                               'page': '',                                                 'oldRefs': []},
+    {'cat': 'scene',                    'obj': True,    'txt': 'Scene',                                             'page': 'scenes.htm',                                       'oldRefs': []},
+    {'cat': 'collection',               'obj': True,    'txt': 'Collection',                                        'page': 'collections.htm',                                  'oldRefs': ['collections']},
+    {'cat': 'customObject',             'obj': True,    'txt': 'Custom object',                                     'page': 'customObjects.htm',                                'oldRefs': []},
+    {'cat': 'detachedScript',           'obj': True,    'txt': 'Detached script',                                   'page': 'scripts.htm',                                      'oldRefs': []},
+    {'cat': 'mesh',                     'obj': True,    'txt': 'Mesh',                                              'page': 'geometricCalculations.htm',                        'oldRefs': []},
+    {'cat': 'sceneObject',              'obj': True,    'txt': 'Scene object',                                      'page': 'objects.htm',                                      'oldRefs': ['sceneObjectFunctionality']},
+    {'cat': 'shape',                    'obj': True,    'txt': 'Shape',                                             'page': 'shapes.htm',                                       'oldRefs': ['shapeObject']},
+    {'cat': 'joint',                    'obj': True,    'txt': 'Joint',                                             'page': 'joints.htm',                                       'oldRefs': ['jointObject']},
+    {'cat': 'dummy',                    'obj': True,    'txt': 'Dummy',                                             'page': 'dummies.htm',                                      'oldRefs': ['dummyObject']},
+    {'cat': 'marker',                   'obj': True,    'txt': 'Marker',                                            'page': 'markers.htm',                                      'oldRefs': []},
+    {'cat': 'script',                   'obj': True,    'txt': 'Script',                                            'page': 'scriptObjects.htm',                                'oldRefs': []},
+    {'cat': 'camera',                   'obj': True,    'txt': 'Camera',                                            'page': 'cameras.htm',                                      'oldRefs': ['cameraObject']},
+    {'cat': 'light',                    'obj': True,    'txt': 'Light',                                             'page': 'lights.htm',                                       'oldRefs': ['lightObject']},
+    {'cat': 'graph',                    'obj': True,    'txt': 'Graph',                                             'page': 'graphs.htm',                                       'oldRefs': ['graphs']},
+    {'cat': 'proximitySensor',          'obj': True,    'txt': 'Proximity sensor',                                  'page': 'proximitySensors.htm',                             'oldRefs': []},
+    {'cat': 'visionSensor',             'obj': True,    'txt': 'Vision sensor',                                     'page': 'visionSensors.htm',                                'oldRefs': []},
+    {'cat': 'forceSensor',              'obj': True,    'txt': 'Force sensor',                                      'page': 'forceSensors.htm',                                 'oldRefs': []},
+    {'cat': 'pointCloud',               'obj': True,    'txt': 'Point cloud',                                       'page': 'pointClouds.htm',                                  'oldRefs': []},
+    {'cat': 'ocTree',                   'obj': True,    'txt': 'OC-tree',                                           'page': 'octrees.htm',                                      'oldRefs': ['octree']},
+    {'cat': 'customSceneObject',        'obj': True,    'txt': 'Custom scene object',                               'page': 'customSceneObjects.htm',                           'oldRefs': []},
+    {'cat': 'Path',                     'obj': False,   'txt': 'Paths',                                             'page': 'paths.htm',                                        'oldRefs': ['paths']},
+    {'cat': 'file',                     'obj': False,   'txt': 'File operations',                                   'page': '',                                                 'oldRefs': ['fileOperations']},
+    {'cat': 'main',                     'obj': False,   'txt': 'General functionality handling',                    'page': '',                                                 'oldRefs': ['mainFunctionalityHandling']},
+    {'cat': 'dynamics',                 'obj': False,   'txt': 'Dynamics',                                          'page': 'dynamicsModule.htm',                               'oldRefs': ['dynamicsFunctionality']},
+    {'cat': 'property',                 'obj': False,   'txt': 'Properties',                                        'page': 'properties.htm',                                   'oldRefs': ['properties']},
+    {'cat': 'collision',                'obj': False,   'txt': 'Collision detection',                               'page': 'collisionDetection.htm',                           'oldRefs': ['collisionDetection']},
+    {'cat': 'distance',                 'obj': False,   'txt': 'Distance calculation',                              'page': 'distanceCalculation.htm',                          'oldRefs': ['distanceCalculation']},
+    {'cat': 'rendering',                'obj': False,   'txt': 'Rendering',                                         'page': 'dataVisualizationAndOutput.htm',                   'oldRefs': []},
+    {'cat': 'customization',            'obj': False,   'txt': 'Customization',                                     'page': '',                                                 'oldRefs': ['customizingLuaFunctions', 'customScriptFunctions']},
+    {'cat': 'model',                    'obj': False,   'txt': 'Models',                                            'page': 'models.htm',                                       'oldRefs': ['modelFunctionality']},
+    {'cat': 'selection',                'obj': False,   'txt': 'Selection',                                         'page': '',                                                 'oldRefs': ['sceneObjectSelectionFunctionality']},
+    {'cat': 'creation',                 'obj': False,   'txt': 'Object creation',                                   'page': '',                                                 'oldRefs': ['sceneObjectCreationFunctionality']},
+    {'cat': 'scriptRelated',            'obj': False,   'txt': 'Script related',                                    'page': 'scripts.htm',                                      'oldRefs': []},
+    {'cat': 'simulation',               'obj': False,   'txt': 'Simulation',                                        'page': 'simulation.htm',                                   'oldRefs': ['SimulationFunctionality']},
+    {'cat': 'thread',                   'obj': False,   'txt': 'Threads',                                           'page': 'threadedAndNonThreadedCode.htm',                   'oldRefs': ['threads', 'threadRelatedFunctionality']},
+    {'cat': 'blocking',                 'obj': False,   'txt': 'Blocking methods',                                  'page': '',                                                 'oldRefs': ['blockingFunctions']},
+    {'cat': 'transformation',           'obj': False,   'txt': 'Coordinates and transformations',                   'page': 'positionOrientationTransformation.htm',            'oldRefs': ['pose', 'transformations', 'coordinatesAndTransformations']},
+    {'cat': 'messaging',                'obj': False,   'txt': 'Messaging',                                         'page': 'meansOfCommunication.htm',                         'oldRefs': []},
+    {'cat': 'texture',                  'obj': False,   'txt': 'Textures',                                          'page': '',                                                 'oldRefs': ['textures']},
+    {'cat': 'Console',                  'obj': False,   'txt': 'Consoles',                                          'page': 'dataVisualizationAndOutput.htm#auxConsoles',       'oldRefs': ['auxiliaryConsoles', 'auxiliaryConsoleFunctions']},
+    {'cat': 'TextEditor',               'obj': False,   'txt': 'Text/code editor',                                  'page': 'dataVisualizationAndOutput.htm#textEditors',       'oldRefs': ['textEditors']},
+    {'cat': 'importExport',             'obj': False,   'txt': 'Import/export',                                     'page': 'importExport.htm',                                 'oldRefs': ['importExportFunctions']},
+    {'cat': 'Motion',                   'obj': False,   'txt': 'Motion functionality',                              'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'MoveToConfig',             'obj': False,   'txt': 'Motion:MoveToConfig',                               'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'MoveToPose',               'obj': False,   'txt': 'Motion:MoveToPose',                                 'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'TimeOptimalTrajectory',    'obj': False,   'txt': 'Motion:TimeOptimalTrajectory',                      'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'RuckigPosition',           'obj': False,   'txt': 'Motion:RuckigPosition',                             'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'RuckigVelocity',           'obj': False,   'txt': 'Motion:RuckigVelocity',                             'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'packing',                  'obj': False,   'txt': 'Packing/unpacking',                                 'page': '',                                                 'oldRefs': []},
+    {'cat': 'stack',                    'obj': False,   'txt': 'Stacks',                                            'page': '',                                                 'oldRefs': ['stacks']},
+    {'cat': 'ik',                       'obj': False,   'txt': 'Kinematics',                                        'page': 'kinematics.htm',                                   'oldRefs': []},
+    {'cat': 'ikObject',                 'obj': False,   'txt': 'IK task/object',                                    'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
+    {'cat': 'ikJoint',                  'obj': False,   'txt': 'IK joints',                                         'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
+    {'cat': 'ikGroup',                  'obj': False,   'txt': 'IK groups',                                         'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
+    {'cat': 'ikElement',                'obj': False,   'txt': 'IK elements',                                       'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
+    {'cat': 'other',                    'obj': False,   'txt': 'Other',                                             'page': '',                                                 'oldRefs': []},
+    {'cat': 'drawingObject',            'obj': False,   'txt': 'Drawing objects (deprecated, see markers instead)', 'page': '',                                                 'oldRefs': []},
 ]
 
 def getTxt(node, n):
@@ -183,10 +186,18 @@ def parse_see_also(see_also_node, docItemType, objName):
         for funcProp_ref in see_also_node.findall(funcProp + '-ref'):
             fullfuncPropName = funcProp_ref.get('name', '').strip()
             funcPropName = fullfuncPropName
+            tmp = fullfuncPropName.replace(':', '.')
+            p = tmp.find('.')
+            if p != -1:
+                objName = fullfuncPropName[:p]
+                funcPropName = fullfuncPropName[p + 1:]
+            '''
             p = re.split(r'[:.]+', fullfuncPropName)
+            print(fullfuncPropName, '     ', p)
             if len(p) > 1:
                 objName = p[0]
                 funcPropName = ''.join(p[1:])
+            '''
             references.append('<a href="' + fmpToFilename(funcPropName, docItemType, objName, auxType) + '">' + fullfuncPropName + ' (' + auxType + ')</a>')
     for link in see_also_node.findall('link'):
         references.append('<a href="' + link.get('href', '') + '">' + link.get('label', '').strip() + '</a>')
@@ -211,6 +222,7 @@ def transform_type_for_language(param_type, language):
             'string[': 'list',
             'handle[': 'list',
             'map[': 'list',
+            'object[': 'list',
             'vector': 'vector',
             'vector3': 'vector3',
             'quaternion': 'quaternion',
@@ -226,8 +238,6 @@ def transform_type_for_language(param_type, language):
             'any': 'any',
             'handle': 'int',
             'buffer': 'bytes',
-            'IKGroup': 'IKGroup',
-            'IKElement': 'IKElement',
             'enum': 'int',
             'object': 'object',
         }
@@ -486,7 +496,15 @@ def main():
         filename = fmpToFilename(fmpNameRaw, docItemType, obj_name)
         fmpName = fmpNameRaw
         if obj_name and len(obj_name) > 0:
-            fmpName = obj_name + ':' + fmpName
+            fmpName = fmpName.replace(':', '.')
+            if docItemType == 'property':
+                fmpName = obj_name + '.' + fmpName
+            else:
+                p = fmpName.rfind('.')
+                if p != -1:
+                    fmpName = obj_name + '.' + fmpName[:p] + ':' + fmpName[p + 1:]
+                else:
+                    fmpName = obj_name + ':' + fmpName
 
         # Get the see-also items listed:
         see_also = parse_see_also(fmpItem.find('see-also'), docItemType, obj_name)
