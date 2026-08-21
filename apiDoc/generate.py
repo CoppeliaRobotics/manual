@@ -452,7 +452,7 @@ def getRefCategories(docItem, fmpItem, obj_name): # "fmp" for "function, method 
     return itemCategories
 
 def main():
-    def handleFunctionsMethodsOrProperties(docItem, fmpItem, obj_name, superclass, template): # "fmp" for "function, method or property"
+    def handleFunctionsMethodsOrProperties(docItem, fmpItem, obj_name, superclass, namespace, template): # "fmp" for "function, method or property"
         # Processes each function, method or property, by generating the API file and additional info:
         def addEnums(str, enumsAlreadyFound):
             patterns = re.findall(r'<a\s+[^>]*href=["\']#([^"\']+)["\']', str)
@@ -505,9 +505,10 @@ def main():
                     fmpName = obj_name + '.' + fmpName[:p] + ':' + fmpName[p + 1:]
                 else:
                     fmpName = obj_name + ':' + fmpName
+        fmpName = namespace + fmpName
         superclassFmpName = fmpName
-        if superclass and (len(superclass) > 0) and (superclass != 'object'):
-            superclassFmpName = superclass + '.' + fmpName
+        #if superclass and (len(superclass) > 0) and (superclass != 'object'):
+        #    superclassFmpName = superclass + '.' + fmpName
 
         # Get the see-also items listed:
         see_also = parse_see_also(fmpItem.find('see-also'), docItemType, obj_name)
@@ -800,13 +801,18 @@ def main():
         # Process each method, function and property:
         for item in items:
             if docItemType == 'function':
-                handleFunctionsMethodsOrProperties(docItem, item, '', '', templateFile)
+                handleFunctionsMethodsOrProperties(docItem, item, '', '', '', templateFile)
                 cnt += 1
             else:
                 obj_name = item.get('name').strip()
+                namespace = item.get('singleton')
+                if namespace != None and len(namespace) > 0:
+                    namespace = namespace.strip().split('.')[0] + '.'
+                else:
+                    namespace = ''
                 superclass = item.get('superclass').strip()
                 for subItem in item.findall(docItemType):
-                    handleFunctionsMethodsOrProperties(docItem, subItem, obj_name, superclass, templateFile)
+                    handleFunctionsMethodsOrProperties(docItem, subItem, obj_name, superclass, namespace, templateFile)
                     cnt += 1
         docItem['cnt'] = cnt
 
