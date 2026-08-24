@@ -212,40 +212,100 @@ def parse_categories(cat_node):
         catList.append(nm.lower())
     return catList
 
+def transform_type_for_languages(param_type, languages):
+    retVal = ''
+    cnt = 0
+    if 'lua' in languages:
+        cnt += 1
+        retVal += transform_type_for_language(param_type, 'lua')
+    if 'python' in languages:
+        cnt += 1
+        pt = transform_type_for_language(param_type, 'python')
+        if pt != retVal:
+            if cnt == 2:
+                retVal += '/'
+            retVal += pt
+    if len(retVal) == 0:
+        retVal = param_type
+    return retVal
+
 def transform_type_for_language(param_type, language):
-    if language == 'lua':
-        return param_type
-    if language == 'python':
-        type_map = {
-            'int[': 'list',
-            'float[': 'list',
-            'string[': 'list',
-            'handle[': 'list',
-            'map[': 'list',
-            'object[': 'list',
-            'vector': 'vector',
-            'vector3': 'vector3',
-            'quaternion': 'quaternion',
-            'pose': 'pose',
-            'matrix': 'matrix',
-            'color': 'color',
-            'func': 'func',
-            'map': 'dict',
-            'bool': 'bool',
-            'int': 'int',
-            'float': 'float',
-            'string': 'str',
-            'any': 'any',
-            'handle': 'int',
-            'buffer': 'bytes',
-            'enum': 'int',
-            'object': 'object',
-        }
-        for lua_type, python_type in type_map.items():
-            if param_type.startswith(lua_type):
-                return python_type
+    retVal = ''
+    param_python = ''
+    type_map = {
+        'vector': 'vector',
+        'vector3': 'vector3',
+        'quaternion': 'quaternion',
+        'pose': 'pose',
+        'matrix': 'matrix',
+        'color': 'color',
+        'func': 'func',
+        'map': 'dict',
+        'bool': 'bool',
+        'int': 'int',
+        'float': 'float',
+        'string': 'str',
+        'any': 'any',
+        'handle': 'int',
+        'buffer': 'bytes',
+        'enum': 'int',
+        'object': 'object',
+    }
+    for lua_type, python_type in type_map.items():
+        if param_type == lua_type:
+            param_python = python_type
+            break
+        else:
+            if ('[' in param_type) and param_type.startswith(lua_type):
+                param_python = 'list'
+                break
+    if len(param_python) == 0:
         raise ValueError(f"Unsupported type '{param_type}' for language '{language}'")
-    raise ValueError(f"Unsupported language: '{language}'")
+
+    if language == 'lua':
+        retVal = param_type
+    if language == 'python':
+        retVal = param_python
+
+    if len(retVal) == 0:
+        raise ValueError(f"Unsupported language: '{language}'")
+
+    return retVal
+
+def transformTypeValueForHyperlink(name, param_type):
+    retVal = name
+    a=retVal
+    descrpt_map = {
+        'vector': "vector",
+        'vector3': "vector3",
+        'quaternion': "quaternion",
+        'pose': "pose",
+        'matrix': "matrix",
+        'color': "color",
+        'func': "function",
+        'map': "map",
+        'bool': "bool",
+        'int': "int",
+        'float': "float",
+        'string': "string",
+        'any': "any",
+        'handle': "handle",
+        'buffer': "buffer",
+        'enum': "enum",
+        'object': "object",
+    }
+    for lua_type, lua_descr in descrpt_map.items():
+        if param_type == lua_type:
+            retVal = '<a href="../commonTypes.htm#' + lua_descr + '">' + retVal + "</a>"
+            break
+        else:
+            if ('[' in param_type) and param_type.startswith(lua_type):
+                retVal = '<a href="../commonTypes.htm#' + lua_descr + 'Array">' + retVal + "</a>"
+                break
+    b=retVal
+    if a == b:
+        print("b",retVal, param_type)
+    return retVal
 
 def prepare_synopsis(func_name, input_params, output_params, lang):
     def transform_params_for_language(params, language):
@@ -296,7 +356,7 @@ def prepare_synopsis(func_name, input_params, output_params, lang):
             transformed.append(new_param)
         return transformed
 
-    if (lang != 'c') and (lang != 'lua'):
+    if (lang != 'c'):
         input_params = transform_params_for_language(input_params, lang)
         output_params = transform_params_for_language(output_params, lang)
     output_part = ""
@@ -469,7 +529,7 @@ def main():
             propType = fmpItem.get('type').strip()
             if propType == 'group':
                 return
-            propType = transform_type_for_language(propType, 'lua')
+            propType = transformTypeValueForHyperlink(transform_type_for_language(propType, 'lua'), propType)
         else:
             lang = fmpItem.get('lang').strip()
         if docItemType == 'property':
@@ -581,9 +641,12 @@ def main():
             html = "<ul>\n"
             for param in input:
                 name = param.get('name', '')
+                tp = param.get('type', '')
+                if docItemType != 'function':
+                    name = transformTypeValueForHyperlink(name, tp) + ' (' + transform_type_for_languages(tp, lang) + ')'
                 description = param.get('description', '')
                 enums = addEnums(description, enums)
-                html += f"    <li><strong>{name}</strong>: {description}</li>\n"
+                html += f"    <li>{name}: {description}</li>\n"
             input = html + "</ul>"
         else:
             input = ''
@@ -592,12 +655,15 @@ def main():
             html = "<ul>\n"
             for param in output:
                 name = param.get('name', '')
+                tp = param.get('type', '')
+                if docItemType != 'function':
+                    name = transformTypeValueForHyperlink(name, tp) + ' (' + transform_type_for_languages(tp, lang) + ')'
                 description = param.get('description', '')
                 enums = addEnums(description, enums)
                 if docItemType == 'function':
                     html += f"    <li>{description}</li>\n"
                 else:
-                    html += f"    <li><strong>{name}</strong>: {description}</li>\n"
+                    html += f"    <li>{name}: {description}</li>\n"
             output = html + "</ul>"
         else:
             output = ''
@@ -675,6 +741,7 @@ def main():
             else:
                 a = a.replace('__enumVisibility__', 'style="display: none;"')
 
+            #file_w.write(a)
             file_w.write(minify_html.minify(a))
 
     categoriesMap = {}
