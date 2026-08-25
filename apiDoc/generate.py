@@ -643,7 +643,7 @@ def main():
                 name = param.get('name', '')
                 tp = param.get('type', '')
                 if docItemType != 'function':
-                    name = transformTypeValueForHyperlink(name, tp) + ' (' + transform_type_for_languages(tp, lang) + ')'
+                    name = '<strong>' + name + '</strong>' + ' (' + transformTypeValueForHyperlink(transform_type_for_languages(tp, lang), tp) + ')'
                 description = param.get('description', '')
                 enums = addEnums(description, enums)
                 html += f"    <li>{name}: {description}</li>\n"
@@ -657,7 +657,7 @@ def main():
                 name = param.get('name', '')
                 tp = param.get('type', '')
                 if docItemType != 'function':
-                    name = transformTypeValueForHyperlink(name, tp) + ' (' + transform_type_for_languages(tp, lang) + ')'
+                    name = '<strong>' + name + '</strong>' + ' (' + transformTypeValueForHyperlink(transform_type_for_languages(tp, lang), tp) + ')'
                 description = param.get('description', '')
                 enums = addEnums(description, enums)
                 if docItemType == 'function':
