@@ -1,0 +1,15 @@
+name: sim.checkProximitySensorEx2
+description: Deprecated. See sim.checkProximitySensor instead
+luaSynopsis: int res, float dist, list point, list n = sim.checkProximitySensorEx2(int sensorHandle, list vertices, int itemType, int itemCount, int mode, float threshold, float maxAngle)
+pythonSynopsis: int res, float dist, float[3] point, float[3] n = sim.checkProximitySensorEx2(int sensorHandle, float[] vertices, int itemType, int itemCount, int mode, float threshold, float maxAngle)
+inputs:
+1. sensorHandle: handle of the proximity sensor object
+2. vertices: an array containing vertices
+3. itemType: 0 for points, 1 for segments and 2 for triangles
+4. itemCount: the number of items that the 'vertices' array contains
+5. For the other parameters, see the description in sim.checkProximitySensorEx. (sim.checkProximitySensorEx2 doesn't support occlusion checking)
+outputs:
+1. res: 0 (not detected) or 1 (detected)
+2. dist: distance from the sensor origin to the detected point. None/nil if res is different from 1
+3. point: position of the detected point relative to the sensor origin. None/nil if res is different from 1
+4. n: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. None/nil if res is different from 1

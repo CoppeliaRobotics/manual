@@ -1,0 +1,34 @@
+name: sim.moveToPose_init
+description: Initiates an object motion using the Ruckig online trajectory generator, by performing interpolations between two poses. The function can operate by handling 4 motion variables (x,y,z and angle between the two poses), or a single movement variable (t, which requires a metric to be specified for distance calculation between the two poses)
+luaSynopsis: dict motionObject = sim.moveToPose_init(dict params)
+pythonSynopsis: table motionObject = sim.moveToPose_init(table params)
+inputs:
+1. params: parameters of the function:
+    - pose: mandatory if neither object nor ik are specified. Specifies current pose
+    - object: mandatory if neither pose nor ik are specified. Specifies the handle of the object to move
+    - ik: mandatory if neither pose nor object are specified. Contains IK-relevant informations, if a kinematic chain should move via IK to a target:
+        - tip: specifies the handle of the tip object (on the end-effector)
+        - target: specifies the handle of the target object (the object to reach)
+        - base: optional. Specifies the handle of the base object (the base of the kinematic chain). Defaults to -1
+        - joints: optional. Specifies the handles of the joints involved in IK calculations. Defaults to all joints within tip and base
+        - method: optional. Specifies the resolution method. Defaults to simIK.method_damped_least_squares
+        - damping: optional. Specifies the resolution damping. Defaults to 0.02
+        - iterations: optional. Specifies the max. number of iterations. Defaults to 20
+        - constraints: optional. Specifies the constraints. Defaults to simIK.constraint_pose
+        - precision: optional. Specifies the desired precision. Defaults to [0.001, 0.5 * math.pi / 180.0]
+        - allowError: optional. Specifies whether a resolution with precision values over what is allowed will be applied anyway. Defaults to params.ik.allowError
+        - breakFlags: optional. Specified the reasons-flags required for simIK.handleGroup to fail Defaults to 0
+    - targetPose: specifies the target pose
+    - targetVel: optional. Specifies the target velocity. Defaults to [0, ...] if omitted
+    - flags: optional. Ruckig flags, -1 for default flags.
+    - metric: optional. A metric to compute a pose-pose distance. If omitted, the motion calculation happens in the 4-dimensional space (dim = 4: x, y, z, angle), otherwise it happens in the 1-dimensional space (dim = 1: t)
+    - maxVel: optional. Specifies the maximum allowed velocity as a vector with one value per dim, or as a scalar (scaled to a dim-vector). Defaults to [inf, ...] if omitted
+    - minVel: optional. Specifies the minimum allowed velocity as a vector with one value per dim, or as a scalar (scaled to a dim-vector). Defaults to -maxVel if omitted
+    - maxAccel: optional. Specifies the maximum allowed acceleration as a vector with one value per dim, or as a scalar (scaled to a dim-vector). Defaults to [inf, ...] if omitted
+    - minAccel: optional. Specifies the minimum allowed acceleration as a vector with one value per dim, or as a scalar (scaled to a dim-vector). Defaults to -maxAccel if omitted
+    - maxJerk: optional. Specifies the maximum allowed jerk as a vector with one value per dim, or as a scalar (scaled to a dim-vector). Defaults to [inf, ...] if omitted
+    - callback: optional. Callback function called for each motion step. The argument provided to the callback function is the current motion state
+    - auxData: optional. Data to be forwarded to the callback function
+    - timeStep: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted
+outputs:
+1. motionObject: a motion object

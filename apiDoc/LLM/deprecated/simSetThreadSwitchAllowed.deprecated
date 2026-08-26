@@ -1,0 +1,9 @@
+name: sim.setThreadSwitchAllowed
+description: 
+luaSynopsis: int switchForbidLevel=sim.setThreadSwitchAllowed(bool allowSwitch / int forbidLevel)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. allowSwitch: if false, then the thread will not be interrupted anymore (i.e. thread switching will be temporarily disabled). Calling n times sim.setThreadSwitchAllowed(false) requires to call n times sim.setThreadSwitchAllowed(true) to restore the initial behaviour.
+2. forbidLevel: allows to set a switch forbid level: a level > 0 indicates that thread interruption is disabled.
+3. Best is to always use following to temporarily forbid thread interruptions:
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. switchForbidLevel: the forbid switch level before calling the function, i.e. the forbid switch level that should be restored later on.

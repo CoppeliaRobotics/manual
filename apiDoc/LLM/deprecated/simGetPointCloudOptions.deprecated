@@ -1,0 +1,16 @@
+name: sim.getPointCloudOptions
+description: Gets various properties of a point cloud
+luaSynopsis: float maxVoxelS, int maxPtCntPerVoxel, int opt, float ps = sim.getPointCloudOptions(int pcHandle)
+pythonSynopsis: float maxVoxelS, int maxPtCntPerVoxel, int opt, float ps = sim.getPointCloudOptions(int pcHandle)
+inputs:
+1. pcHandle: handle of the point cloud
+outputs:
+1. maxVoxelS: maximum size of the OC tree voxels containing points
+2. maxPtCntPerVoxel: maximum number of points allowed in a same OC tree voxel
+3. opt: bit-coded:
+    - bit0 set (1): points have random colors
+    - bit1 set (2): show OC tree structure
+    - bit2 set (4): reserved. keep unset
+    - bit3 set (8): do not use an OC tree structure. When enabled, point cloud operations are limited, and point clouds will not be collidable, measurable or detectable anymore, but adding points will be much faster
+    - bit4 set (16): color is emissive
+4. ps: size of the points, in pixels

@@ -1,0 +1,9 @@
+name: sim.alignShapeBB
+description: Reorients the bounding box of a shape, while keeping the shape frame in place. The shape's inertia properties are unaffected
+luaSynopsis: bool result = sim.alignShapeBB(int shapeHandle, list pose)
+pythonSynopsis: bool result = sim.alignShapeBB(int shapeHandle, float[7] pose)
+inputs:
+1. shapeHandle: handle of the shape
+2. pose: pose describing the new orientation of the shape's bounding box. The pose is expressed as [x y z qx qy qz qw], where the positional part is ignored. A pose containing only zeros aligns the bounding box with the mesh's natural bounding box
+outputs:
+1. result: 0 if the bounding box could not be reoriented (the bounding box of primitive shapes cannot be reoriented), otherwise 1.

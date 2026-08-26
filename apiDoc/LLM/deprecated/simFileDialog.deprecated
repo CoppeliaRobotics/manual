@@ -1,0 +1,12 @@
+name: sim.fileDialog
+description: filedialog instead.
+luaSynopsis: string pathAndName=sim.fileDialog(int mode,string title,string startPath,string initName,string extName,string ext)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. dlgType: the file dialog type.
+2. title: title of the dialog
+3. startPath: the initial path. Indicate an empty string for the path to CoppeliaSim's application
+4. initName: the initial name. Can be an empty string
+5. extName: the extension name, e.g. "text file". Should be an empty string with dlgType=sim.filedlg_type_folder.
+6. ext: the extension, e.g. "txt". Can contain several extensions, separated by semicolons, with dlgType=sim.filedlg_type_load or dlgType=sim.filedlg_type_load_multiple. Should be an empty string with dlgType=sim.filedlg_type_folder.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. pointer to a string representing the selected file name and path, or folder name and path. In case several files were selected for a load operation, then they will be separated by a semicolon. The user is in charge of releasing the buffer with simReleaseBuffer.

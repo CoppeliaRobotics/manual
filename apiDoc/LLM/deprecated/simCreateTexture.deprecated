@@ -1,0 +1,19 @@
+name: sim.createTexture
+description: Creates a planar shape, that will be textured with a new, or imported texture
+luaSynopsis: int shape, int id, list res = sim.createTexture(string fileName, int options, list planeSizes = None, list scalingUV = None, list xy_g = None, int fixedResolution = 0, list resolution = None)
+pythonSynopsis: int shape, int id, int[2] res = sim.createTexture(string fileName, int options, float[2] planeSizes = nil, float[2] scalingUV = nil, float[2] xy_g = nil, int fixedResolution = 0, int[2] resolution = nil)
+inputs:
+1. fileName: filename of the texure to import, or an empty string if you wish to create a new texture.
+2. options: bit-coded:
+    - bit0 set (1): do not interpolate adjacent color patches.
+    - bit1 set (2): apply the texture in decal-mode.
+    - bit2 set (4): repeat the texture along the U direction.
+    - bit3 set (8): repeat the texture along the V direction.
+3. planeSizes: array of 2 values: the dimensions of the planar shape that will be generated. Can be None/nil for default dimensions.
+4. scalingUV: array of 2 values: the desired scaling of the texture, along the U and V directions. Can be None/nil for default scalings.
+5. xy_g: array of 3 values: the texture x/y shift, and the texture gamma-rotation. Can be None/nil for default shift/rotation values.
+6. fixedResolution: 0 to import the shape with its original resolution. Otherwise, specify a power of 2 value which will be the maximum texture resolution (the texture will also be applied a power of 2 resolution).
+outputs:
+1. shape: handle of the created planar shape
+2. id: new texture ID. If a same texture is already present, the old texture ID will be returned
+3. res: the effective texture resolution

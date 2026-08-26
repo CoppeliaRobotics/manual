@@ -1,0 +1,12 @@
+name: sim.getObjectsInTree
+description: Retrieves object handles in a given hierarchy tree
+luaSynopsis: list objects = sim.getObjectsInTree(int treeBaseHandle, int objectType = sim.handle_all, int options = 0)
+pythonSynopsis: int[] objects = sim.getObjectsInTree(int treeBaseHandle, int objectType = sim.handle_all, int options = 0)
+inputs:
+1. treeBaseHandle: handle of the object that describes the hierarchy tree, or sim.handle_scene for all objects in the scene.
+2. objectType: object type to retrieve or sim.handle_all for any type of object in the tree
+3. options: bit-coded:
+    - bit0 set (1): exclude the tree base from the returned array
+    - bit1 set (2): include in the returned array only the object's first children. If treeBaseHandle is sim.handle_scene, then only parentless objects will be included.
+outputs:
+1. objects: an array containing object handles

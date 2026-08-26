@@ -1,0 +1,26 @@
+name: sim.getShapeViz
+description: Retrieves a shape's visual information.
+luaSynopsis: dict data = sim.getShapeViz(int shapeHandle, int index)
+pythonSynopsis: table data = sim.getShapeViz(int shapeHandle, int index)
+inputs:
+1. shapeHandle: handle of the shape.
+2. index: 0-based index of the shape element to retrieve (compound shapes contain more than one shape element)
+outputs:
+1. data.vertices: array containing the vertices, relative to the shape's reference frame
+2. data.indices: array containing the indices
+3. data.normals: array containing the normals, relative to the shape's reference frame
+4. data.colors: array containing the colors: RGB for ambient-diffuse, specular, and emission.
+5. data.shadingAngle: the gouraud shading angle
+6. data.transparency: 1=transparent, 0= opaque
+7. data.options: bit-coded:
+    - bit0 set (1): backface culling
+    - bit1 set (2): wireframe
+8. data.texture.texture: string-coded RGBA texture. See also sim.transformBuffer
+9. data.texture.id: texture id (to identify textures shared among several shapes)
+10. data.texture.resolution: resolution of the texture
+11. data.texture.coordinates: texture coordinates
+12. data.texture.applyMode: 0=modulate, 1=decal, 2=add
+13. data.texture.options: bit-coded:
+    - bit0 set (1): repeat U
+    - bit1 set (2): repeat V
+    - bit2 set (4): interpolate colors

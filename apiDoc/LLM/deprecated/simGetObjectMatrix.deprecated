@@ -1,0 +1,9 @@
+name: sim.getObjectMatrix
+description: Retrieves the transformation matrix of an object
+luaSynopsis: list matrix = sim.getObjectMatrix(int objectHandle, int relativeToObjectHandle = sim.handle_world)
+pythonSynopsis: float[12] matrix = sim.getObjectMatrix(int objectHandle, int relativeToObjectHandle = sim.handle_world)
+inputs:
+1. objectHandle: handle of the object. Can be combined with sim.handleflag_reljointbaseframe (see next argument)
+2. relativeToObjectHandle: indicates relative to which reference frame we want the matrix. Specify sim.handle_world to retrieve the absolute transformation matrix, sim.handle_inverse to retrieve the inverse of the absolute transformation matrix, sim.handle_parent to retrieve the transformation matrix relative to the object's parent, or an object handle relative to whose reference frame we want the transformation matrix. If this handle is the handle of a joint, then the matrix relative to the joint's moving frame will be returned (unless objectHandle is combined with sim.handleflag_reljointbaseframe, in which case the matrix relative to the joint's base frame will be returned).
+outputs:
+1. matrix: array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]

@@ -1,0 +1,17 @@
+name: sim.getShapeGeomInfo
+description: Retrieves geometric information related to a shape
+luaSynopsis: int result, int pureType, list dimensions = sim.getShapeGeomInfo(int shapeHandle)
+pythonSynopsis: int result, int pureType, float[4] dimensions = sim.getShapeGeomInfo(int shapeHandle)
+inputs:
+1. shapeHandle: handle of the shape
+outputs:
+1. result: bit-coded:
+    - bit0 set (1): shape is a compound shape
+    - bit1 set (2): shape is a primitive
+    - bit2 set (4): shape is convex
+2. pureType: the primitive type of the shape. Undefined if the shape is a compound shape.
+3. dimensions: array of 4 values giving information about the shape's dimensions (indexing (i) starts from 0 for Python and 1 for Lua):
+    - dimensions[i+0]: X-size or diameter of the primitive shape. Undefined if the shape is a compound shape or not primitive
+    - dimensions[i+1]: Y-size of the primitive shape. Undefined if the shape is a compound shape or not primitive
+    - dimensions[i+2]: Z-size or height of the primitive shape. Undefined if the shape is a compound shape or not primitive
+    - dimensions[i+3]: Inside scaling. Undefined if the shape is a compound shape or not primitive

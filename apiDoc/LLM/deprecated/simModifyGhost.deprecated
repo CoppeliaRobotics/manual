@@ -1,0 +1,34 @@
+name: sim.modifyGhost
+description: 
+luaSynopsis: int result=sim.modifyGhost(int ghostGroup,int ghostId,int operation,float floatValue,int options=nil,int optionsMask=nil,float[] colorOrTransformation=nil)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. ghostGroup: an identifier that allows, together with ghostId, identifying which ghosts to modify.
+2. ghostId: an identifier that allows, together with ghostGroup, identifying which ghosts to modify. If -1, then all ghosts that match ghostGroup will be modified.
+3. operation: a value indicating the operation to perform:
+4. 0: no operation is performed, and the return value indicates the number of ghosts that match the identifiers.
+5. 1: removes the specified ghosts. The return value indicates the number of removed ghosts.
+6. 2: sets the start time (via floatValue) of the specified ghosts. The return value indicates the number of modified ghosts.
+7. 3: sets the end time (via floatValue) of the specified ghosts. The return value indicates the number of modified ghosts.
+8. 4: shifts the start time (via floatValue) of the specified ghosts. The return value indicates the number of modified ghosts.
+9. 5: shifts the end time (via floatValue) of the specified ghosts. The return value indicates the number of modified ghosts.
+10. 6: shifts the start and end times (via floatValue) of the specified ghosts. The return value indicates the number of modified ghosts.
+11. 7: scales the start time (via floatValue) of the specified ghosts. The return value indicates the number of modified ghosts.
+12. 8: scales the end time (via floatValue) of the specified ghosts. The return value indicates the number of modified ghosts.
+13. 9: scales the start and end times (via floatValue) of the specified ghosts. The return value indicates the number of modified ghosts.
+14. 10: modifies the attributes (via options and optionsMask) of the specified ghosts. The return value indicates the number of modified ghosts.
+15. 11: pre-multiplies (via colorOrTransformation) the transformations of the specified ghosts. The return value indicates the number of modified ghosts.
+16. 12: post-multiplies (via colorOrTransformation) the transformations of the specified ghosts. The return value indicates the number of modified ghosts.
+17. 13: modifies (via colorOrTransformation) the color of the specified ghosts. The return value indicates the number of modified ghosts.
+18. 14: sets the transparency factor (via floatValue) of the specified ghosts. Only ghosts with custom colors will be influenced. The return value indicates the number of modified ghosts.
+19. floatValue: a floating point value that is used to modify the specified ghosts. See operation here above.
+20. options: the attributes used to modify the specified ghosts (see operation here above). Attributes are bit-coded:
+21. bit0 reserved
+    - bit1 set (2)=the provided start- and end-times will be played-back in real-time
+    - bit2 set (4)=preserve the original colors
+    - bit3 reserved
+    - bit4 set (16)=create an invisible ghost
+    - bit5 set (32)=backface culling for the ghost (only when using custom colors)
+    - optionsMask: a mask allowing to select options to set.
+    - colorOrTransformation: a pointer to 7 or 12 double values: when operation is 11 or 12, 7 values indicating a transformation should be provided (x,y,z,qx,qy,qz,qw). when operation is 13, 12 values indicating a color should be provided (ambient_diffuse RGB, 3 reserved values (set to zero), specular RGB and emissive RGB). Can be nullptr when operation is different from 11, 12 or 13.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. -1 if operation was not successful, otherwise a value depending on the operation performed.

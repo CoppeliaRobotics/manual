@@ -1,0 +1,15 @@
+name: sim.rmlPos
+description: 
+luaSynopsis: If you wish to use this function in a blocking mode, consider using sim.moveToPose and sim.moveToConfig instead.
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. dofs: the number of degrees of freedom (N).
+2. smallestTimeStep: the smallest expected cycle time. Use a value of 0.0001 (0.1ms).
+3. flags: RML flags. -1 for default flags.
+4. currentPosVelAccel: the current position, velocity and acceleration. Arrange values as {pos1,pos2,..,posN,vel1,vel2,..,velN,accel1,accel2,..,accelN}
+5. maxVelAccelJerk: the maximum allowed velocity, acceleration and jerk. Arrange values as {vel1,vel2,..,velN,accel1,accel2,..,accelN,jerk1,jerk2,..,jerkN}. With the RML type II plugin, the max. jerk will however always be infinite.
+6. selection: the selection vector (one value for each DoF). For a default behaviour, fill the vector with non-zero values.
+7. targetPosVel: the target position and velocity. Arrange values as {pos1,pos2,..,posN,vel1,vel2,..,velN}
+8. auxData: can be nullptr. Otherwise in/out extension data. The first byte indicates how many additional in/out values we wish to set/get. Following auxiliary values can be set/get:
+9. value 1 : Bytes 2-5 (int): set to 1 if you wish this object to be automatically destroyed at simulation end (which is the default case when called from the main script or a child script).
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. -1 in case of an error, otherwise the handle of the created object.

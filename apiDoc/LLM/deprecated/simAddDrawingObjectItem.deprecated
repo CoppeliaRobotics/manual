@@ -1,0 +1,9 @@
+name: sim.addDrawingObjectItem
+description: Adds an item (or clears all items) to a previously inserted drawing object
+luaSynopsis: int result = sim.addDrawingObjectItem(int drawingObjectHandle, list itemData)
+pythonSynopsis: int result = sim.addDrawingObjectItem(int drawingObjectHandle, float[] itemData)
+inputs:
+1. objectHandle: handle of a previously added drawing object. Can be combined with sim.handleflag_addmultiple to add several drawing items at once, or with sim.handleflag_codedstring, when one wishes to provide data as a float buffer
+2. itemData: data relative to an item. If the item is a point item, 3 values are required [x y z]. If the item is a line item, 6 values are required, etc. None/nil to empty the drawing object
+outputs:
+1. result: If the point was added, the return value is >0, if it was not added the return value is 0

@@ -1,0 +1,16 @@
+name: sim.addItemToCollection
+description: Adds an item to a collection
+luaSynopsis: sim.addItemToCollection(int collectionHandle, int what, int objectHandle, int options)
+pythonSynopsis: sim.addItemToCollection(int collectionHandle, int what, int objectHandle, int options)
+inputs:
+1. collectionHandle: handle of a collection.
+2. what: type of object (or group of objects) to add. Following are allowed values:
+    - sim.handle_single (for a single object)
+    - sim.handle_all (for all objects in the scene)
+    - sim.handle_tree (for a tree of objects)
+    - sim.handle_chain (for a chain of objects (i.e. an inverted tree)).
+3. objectHandle: handle of an object
+4. options: bit-coded options:
+    - bit 0 set (1): the specified object (or group of objects) is removed from the collection. Otherwise it is added.
+    - bit 1 set (2): the specified object is not included in the group of objects, if sim.handle_tree or sim.handle_chain is specified (i.e. the tree base or tip is excluded).
+outputs:

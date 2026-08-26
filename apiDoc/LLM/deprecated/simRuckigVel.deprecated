@@ -1,0 +1,14 @@
+name: sim.ruckigVel
+description: Executes a call to the Ruckig online trajectory generator. The Ruckig online trajectory generator provides instantaneous trajectory generation capabilities for motion control systems. This function prepares a velocity-based trajectory generation object, that can then be calculated with sim.ruckigStep. When this object is not needed anymore, remove it with sim.ruckigRemove
+luaSynopsis: int handle = sim.ruckigVel(int dofs, float baseCycleTime, int flags, list currentPosVelAccel, list maxAccelJerk, list selection, list targetVel)
+pythonSynopsis: int handle = sim.ruckigVel(int dofs, float baseCycleTime, int flags, float[] currentPosVelAccel, float[] maxAccelJerk, int[] selection, float[] targetVel)
+inputs:
+1. dofs: number of degrees of freedom (n).
+2. baseCycleTime: smallest expected cycle time. The cycle time should always be a multiple of baseCycleTime. Use a value of 0.0001 (0.1ms).
+3. flags: Ruckig flags. -1 for default flags.
+4. currentPosVelAccel: current position, velocity and acceleration: [pos_1 ... pos_n vel_1 ... vel_n accel_1 ... accel_n] (one value for each DoF)
+5. maxAccelJerk: maximum allowed acceleration and jerk: [maxA_1 ... maxA_n maxJ_1 ... maxJ_n]. If sim.ruckig_minaccel is specified in flags, then maxAccelJerk should contain following additional values: [minA_1 ... minA_n]
+6. selection: selection vector (one value for each DoF). For a default behaviour, fill the vector with non-zero values.
+7. targetVel: target velocity (one value for each DoF)
+outputs:
+1. handle: the handle of the created object

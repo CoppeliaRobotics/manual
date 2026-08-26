@@ -1,0 +1,12 @@
+name: sim.checkVisionSensor
+description: Checks whether the vision sensor detects the indicated entity. Detection is silent (no visual feedback) compared to sim.handleVisionSensor. The vision callback functions will be called on the acquired image. Also, the visibility state of the entity is overridden if the entity is an object
+luaSynopsis: int result, list auxPacket1, list auxPacket2, etc. = sim.checkVisionSensor(int sensorHandle int entityHandle)
+pythonSynopsis: int result, float[] auxPacket1, float[] auxPacket2, etc. = sim.checkVisionSensor(int sensorHandle int entityHandle)
+inputs:
+1. sensorHandle: handle of the vision sensor object
+2. entityHandle: handle of entity to detect (object or collection), or sim.handle_all to detect all detectable objects
+outputs:
+1. result: 0 (no detection) or 1 (detection)
+2. auxPacket1: packet of 15 auxiliary values: the minimum of intensity, red, green, blue, depth value, the maximum of intensity, red, green, blue, depth value, and the average of intensity, red, green, blue, depth value
+3. auxPacket2: additional auxiliary value packet (e.g. from an image processing component)
+4. auxPacket3: etc. (the function returns as many tables as there are auxiliary value packets)

@@ -1,0 +1,9 @@
+name: sim.setShapeInertia
+description: Applies a new inertia matrix to a shape. If simulation is running, the shape is dynamically reset (similar to calling sim.resetDynamicObject right after)
+luaSynopsis: sim.setShapeInertia(int shapeHandle, list inertiaMatrix, list transformationMatrix)
+pythonSynopsis: sim.setShapeInertia(int shapeHandle, float[9] inertiaMatrix, float[12] transformationMatrix)
+inputs:
+1. shapeHandle: handle of the shape object
+2. inertiaMatrix: new inertia matrix (9 values), expressed relative to transformationMatrix (itself expressed relative to the shape's reference frame)
+3. transformationMatrix: a transformation matrix (array of 12 values [Vx0 Vy0 Vz0 P0 Vx1 Vy1 Vz1 P1 Vx2 Vy2 Vz2 P2]) expressed relative to the shape's reference frame. The matrix indicates the center of mass of the shape, and is the frame relative to which inertiaMatrix is expressed
+outputs:

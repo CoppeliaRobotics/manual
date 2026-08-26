@@ -1,0 +1,9 @@
+name: sim.getObjectVelocity
+description: Retrieves the linear and/or angular velocity of an object, in absolute coordinates. The velocity is a measured velocity (i.e. from one simulation step to the next), and is available for all objects in the scene
+luaSynopsis: list linearVelocity, list angularVelocity = sim.getObjectVelocity(int objectHandle)
+pythonSynopsis: float[3] linearVelocity, float[3] angularVelocity = sim.getObjectVelocity(int objectHandle)
+inputs:
+1. objectHandle: handle of a scene object. It is highly recommended to add sim.handleflag_axis to the object handle, in order to obtain the regular angular velocity for the object, i.e. the rotation axis and the rotation velocity that is represented by the axis' length. If sim.handleflag_axis is omitted, then a derivative of Euler angles expressed relative to previous' simulation frame will be returned for the angular velocity
+outputs:
+1. linearVelocity: array of 3 values that represent the linear velocity
+2. angularVelocity: array of 3 values that represent the angular velocity

@@ -1,0 +1,11 @@
+name: sim.serialRead
+description: Reads from a previously opened serial port (RS-232). The C version of the function cannot be blocking
+pythonSynopsis: string data = sim.serialRead(int portHandle, int dataLengthToRead, bool blockingOperation, string closingString = '', float timeout = 0)
+inputs:
+1. portHandle: handle returned by the sim.serialOpen function
+2. dataLengthToRead: maximum data length that should be read
+3. blockingOperation: if true and the calling script is running in a thread, then the function only returns when the desired data length was read (or if the closingString was met, or if there was a timeout (see next arguments)
+4. closingString: string (containing any byte value) can be specified, that will break from the blocking operation if a match was found in the incoming data. Useful when you know that a data packet is always ended with a given signature. Can be an empty string for default operation.
+5. timeout: duration after which the blocking operation will be aborted, or 0 if the timeout is infinite
+outputs:
+1. data: a string containing read data (excluding the closingString if it was specified and found)

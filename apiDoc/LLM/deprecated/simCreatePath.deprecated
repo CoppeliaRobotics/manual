@@ -1,0 +1,18 @@
+name: sim.createPath
+description: Creates a path.
+luaSynopsis: int pathHandle = sim.createPath(list ctrlPts, int options = 0, int subdiv = 100, float smoothness = 1.0, int orientationMode = 0, list upVector = [0, 0, 1])
+pythonSynopsis: int pathHandle = sim.createPath(float[] ctrlPts, int options = 0, int subdiv = 100, float smoothness = 1.0, int orientationMode = 0, float[3] upVector = {0, 0, 1})
+inputs:
+1. ctrlPts: control points, specified in row-major order, with [x y z qx qy qz qw] values for each path point
+2. options: bit-coded:
+    - bit0 set (1): path is hidden during simulation
+    - bit1 set (2): path is closed
+    - bit2 set (4): generates an extruded shape
+    - bit3 set (8): show individual path points
+    - bit4 set (16): the path points' orientation is computed according to the orientationMode below
+3. subdiv: number of individual path points
+4. smoothness: value between 0.0 (linear interpolation) and 1.0 (100% Bezier interpolation)
+5. orientationMode: value specifiying how the individual path points are oriented along the path, if bit16 of options is set: 0: x along path, y is up, 1: x along path, z is up, 2: y along path, x is up, 3: y along path, z is up, 4: z along path, x is up, 5: z along path, y is up
+6. upVector: up vector, used for generating an extruded shape and for computing individual path point orientations
+outputs:
+1. pathHandle: handle of the created path object

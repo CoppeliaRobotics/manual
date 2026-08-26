@@ -1,0 +1,12 @@
+name: sim.getIkGroupMatrix
+description: Retrieves various information from an IK group, such as the Jacobian. For the result to be valid, the Jacobian must previously have been computed.
+luaSynopsis: float[] matrix,int[2] matrixSize=sim.getIkGroupMatrix(int ikGroupHandle,int options)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. ikGroupHandle: handle of an IK group
+2. options: a value indicating what kind of information to retrieve:
+3. 0: to retrieve the last calculated Jacobian. matrixSize[0] is the number of rows (the number of DoFs), matrixSize[1] is the number of columns. See further down how to extract the Jacobian.
+4. 1: to retrieve the manipulability value, i.e. sqrt(det(J*JT)), where J is the Jacobian, and JT the Jacobian transpose. The returned pointer points onto a single value.
+5. matrixSize: the dimensions of the returned matrix (x=rows, y=columns)
+6. USAGE EXAMPLE (to correctly interpret the Jacobian):
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. A pointer to x*y double values. The values should be copied since the pointer might not remain valid.

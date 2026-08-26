@@ -1,0 +1,33 @@
+name: sim.createVisionSensor
+description: Creates a vision sensor.
+luaSynopsis: int sensorHandle = sim.createVisionSensor(int options, list intParams, list floatParams)
+pythonSynopsis: int sensorHandle = sim.createVisionSensor(int options, int[4] intParams, float[11] floatParams)
+inputs:
+1. options: bit-coded options:
+    - bit 0 set (1): sensor will be explicitly handled
+    - bit 1 set (2): sensor will be in perspective operation mode
+    - bit 2 set (4): view frustum will not be shown
+    - bit 3 set (8): reserved. Set to 0
+    - bit 4 set (16): sensor will be passive (use an external image)
+    - bit 5 set (32): sensor will use local lights
+    - bit 6 set (64): sensor will not render any fog
+    - bit 7 set (128): sensor will use a specific color for default background (i.e. null pixels)
+2. intParams: 4 integer parameters (indexing (i) starts from 0 for Python and 1 for Lua):
+    - intParams[i+0]: sensor resolution x
+    - intParams[i+1]: sensor resolution y
+    - intParams[i+2]: reserved. Set to 0
+    - intParams[i+3]: reserved. Set to 0
+3. floatParams: 11 floating point parameters (indexing (i) starts from 0 for Python and 1 for Lua):
+    - floatParams[i+0]: near clipping plane
+    - floatParams[i+1]: far clipping plane
+    - floatParams[i+2]: view angle / ortho view size
+    - floatParams[i+3]: sensor size x
+    - floatParams[i+4]: reserved. Set to 0.0
+    - floatParams[i+5]: reserved. Set to 0.0
+    - floatParams[i+6]: null pixel red-value
+    - floatParams[i+7]: null pixel green-value
+    - floatParams[i+8]: null pixel blue-value
+    - floatParams[i+9]: reserved. Set to 0.0
+    - floatParams[i+10]: reserved. Set to 0.0
+outputs:
+1. sensorHandle: handle of the force sensor

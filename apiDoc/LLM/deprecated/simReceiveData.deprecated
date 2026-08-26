@@ -1,0 +1,13 @@
+name: sim.receiveData
+description: 
+luaSynopsis: string data,int senderID,int dataHeader,string dataName=sim.receiveData(int dataHeader=-1,string dataName=nil,int antennaHandle=sim.handle_self,int index=-1)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. dataHeader: number indicating who "designed" the communication message. Can also be -1, in which case messages with any dataHeader will be retrieved (not recommended, unless index is different from -1). This value can be omitted (-1 will be used).
+2. dataName: name indicating the type of message. Can be nil, in which case messages with any dataName will be retrieved (not recommended, unless index is different from -1). This value can be omitted (nill will be used)
+3. antennaHandle: handle of the scene object that should operate as the antenna for this reception. If sim.handle_default is specified, a reception antenna at (0,0,0) is simulated. If sim.handle_self is specified, the object associated with the current child script is used as the antenna. This value can be omitted (sim.handle_self will be used)
+4. index: zero-based index of the message to read. If -1 is indicated, the first message that matches the dataHeader and dataName is read and removed. Otherwise messages are just read. This value can be omitted (-1 will be used)
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. data: string containing the received data, or nil if no data is present. If received data is packed, see also the data packing/unpacking functions
+2. senderID: identifier of the sender. Can be the handle of a script if the message was sent from a script, or can be 0 if the message was sent from the non-Lua API.
+3. dataHeader: dataHeader of the data that was read.
+4. dataName: dataName of the data that was read.

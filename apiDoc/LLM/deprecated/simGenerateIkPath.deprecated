@@ -1,0 +1,14 @@
+name: sim.generateIkPath
+description: Generates a path that drives a robot from its current configuration to its target dummy in a straight line (i.e. shortest path in Cartesian space). The function returns nullptr if the robot is not able to perform the movement with its end-effector, the reasons can be: there are collisions on the way, or some of the points on the line cannot be reached (e.g. out of reach, or due to joint limits)
+luaSynopsis: float[] path=sim.generateIkPath(int ikGroupHandle,int[] jointHandles,int ptCnt,int[] collisionPairs=nil,int[] jointOptions=nil)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. ikGroupHandle: the handle of an IK group that is in charge of bringing the manipulator's tip onto a target. The IK group can also be marked as explicit handling if needed. See also simGetIkGroupHandle.
+2. jointCnt: the number of joint handles provided in the jointHandles array.
+3. jointHandles : an array with jointCnt entries, that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.
+4. ptCnt: the desired number of path points. Each path point contains a robot configuration. A minimum of two path points is required. If the tip-target dummy distance is large, a larger number for ptCnt leads to better results for this function.
+5. collisionPairCnt: the number of collision pairs. Can be 0 if collision checking is not required.
+6. collisionPairs: an array containing 2 entity handles for each collision pair. A collision pair is represented by a collider and a collidee, that will be tested against each other. The first pair could be used for robot self-collision testing, and a second pair could be used for robot-environment collision testing. The collider can be an object or a collection handle. The collidee can be an object or collection handle, or sim.handle_all, in which case the collider will be checked agains all other collidable objects in the scene. Can be nullptr if collision checking is not required.
+7. jointOptions: a bit-coded value corresponding to each specified joint handle. Bit 0 (i.e. 1) indicates the corresponding joint is dependent of another joint. Can be nullptr.
+8. reserved: reserved for future extension. Set to nullptr.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. a pointer to the computed path, or nullptr if no path could be computed. The pointer points to ptCnt*jointCnt values, representing ptCnt robot configurations. The user is in charge of releasing the returned array with simReleaseBuffer.

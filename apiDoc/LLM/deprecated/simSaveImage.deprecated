@@ -1,0 +1,13 @@
+name: sim.saveImage
+description: Saves an image to file or to memory
+luaSynopsis: bytes imgBuffer = sim.saveImage(bytes image, list resolution, int options, string filename, int quality)
+pythonSynopsis: buffer imgBuffer = sim.saveImage(buffer image, int[2] resolution, int options, string filename, int quality)
+inputs:
+1. image: image (in rgb, rgba or greyscale format)
+2. resolution: x/y resolution of the provided image.
+3. options: bit-coded:
+    - bit0 - bit1: format of the provided image (0=rgb, 1=rgba, 2=greyscale)
+4. filename: name of the file to write. The file extension indicates the format. If the filename only contains '.ext', where ext represents the file format, then the image will be saved to memory
+5. quality: quality of the written image: 0 for best compression, 100 for largest file. Use -1 for default behaviour.
+outputs:
+1. imgBuffer: a buffer containing the image in packed format (e.g. png, jpg, etc.), if the image was specified to be saved to memory.

@@ -1,0 +1,13 @@
+name: sim.getVisionSensorDepth
+description: Reads the depth buffer of a vision sensor. The returned data doesn't make sense if sim.handleVisionSensor wasn't called previously
+luaSynopsis: bytes depth = sim.getVisionSensorDepth(int sensorHandle, int options = 0, list pos = [0, 0], list size = [0, 0])
+pythonSynopsis: buffer depth, int[2] resolution = sim.getVisionSensorDepth(int sensorHandle, int options = 0, int[2] pos = {0, 0}, int[2] size = {0, 0})
+inputs:
+1. sensorHandle: handle of the vision sensor
+2. options: options, bit-coded:
+    - bit0 set (1): the returned values indicate distances in meters, otherwise return values are in the range of 0.0 - 1.0 (0.0 = closest to sensor (i.e. close clipping plane), 1.0 = farthest from sensor (i.e. far clipping plane))
+3. pos: position of the depth buffer portion to retrieve. Defaults to [0 0]
+4. size: size of the depth buffer portion to retrieve. Defaults to [0 0], which corresponds to [resolutionX resolutionY]
+outputs:
+1. depth: the depth buffer. Use sim.unpackFloatTable to obtain an array of values
+2. resolution: the vision sensor resolution

@@ -1,0 +1,9 @@
+name: sim.setStepping
+description: Enables or disables the stepping operation mode for a threaded script. If enabled, then the current script has to trigger each simulation step explicitly, via sim.step. Is applied cumulatively, i.e. if the stepping operation mode is enabled n times, it needs to be disabled n times to return to the initial state (Lua specific: in stepping operation mode, automatic thread interruptions, i.e. preemptive threading, is supressed)
+luaSynopsis: int prevStepLevel = sim.setStepping(bool enable)
+pythonSynopsis: int prevStepLevel = sim.setStepping(bool enable / int desiredStepLevel)
+inputs:
+1. enable: enable state of thread interruption
+2. desiredStepLevel: the desired level of thread interruption
+outputs:
+1. prevStepLevel: previous level of thread interruption. When 0, thread interruption was not enabled previously

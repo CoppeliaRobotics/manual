@@ -1,0 +1,12 @@
+name: sim.removePointsFromPointCloud
+description: Removes points from a point cloud. When a point cloud doesn't use an OC tree calculation structure, then individual points cannot be removed, only all points can be removed in that case
+luaSynopsis: int totalPointCnt = sim.removePointsFromPointCloud(int pointCloudHandle, int options, list points, float tolerance)
+pythonSynopsis: int totalPointCnt = sim.removePointsFromPointCloud(int pointCloudHandle, int options, float[] points, float tolerance)
+inputs:
+1. pointCloudHandle: handle of the point cloud
+2. options: bit-coded:
+    - bit0 set (1): specified points are relative to the point cloud reference frame, otherwise they are relative to the world reference frame
+3. points: point positions specified as x/y/z coordinates. Set to None/nil to remove all points
+4. tolerance: distance used as a tolerance value
+outputs:
+1. totalPointCnt: total number of points in the point cloud

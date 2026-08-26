@@ -1,0 +1,11 @@
+name: sim.handleVisionSensor
+description: Handles (performs sensing, etc. of) a vision sensor object. It (1) clear previous computed image processing data, (2) reads an image and (3) performs image processing via the vision callback functions (if the vision sensor is using an external input only (1) is performed)
+luaSynopsis: int detectionCount, list packet1, list packet2, etc. = sim.handleVisionSensor(int visionSensorHandle)
+pythonSynopsis: int detectionCount, float[] packet1, float[] packet2, etc. = sim.handleVisionSensor(int visionSensorHandle)
+inputs:
+1. visionSensorHandle: handle of a vision sensor object or sim.handle_all or sim.handle_all_except_explicit
+outputs:
+1. detectionCount: number of detections (number of vision sensors that triggered a detection)
+2. packet1: default auxiliary value packet (15 auxiliary values: the minimum of [intensity red green blue depth], the maximum of [intensity red green blue depth], and the average of [intensity red green blue depth])
+3. packet2: additional auxiliary value packet (e.g. from an image processing component)
+4. packet3: etc. (the function returns as many arrays as there are auxiliary value packets)

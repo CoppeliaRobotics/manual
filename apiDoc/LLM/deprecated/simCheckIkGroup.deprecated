@@ -1,0 +1,11 @@
+name: sim.checkIkGroup
+description: Solves a registered IK group, but unlike the sim.handleIkGroup function, sim.checkIkGroup will not apply the calculated joint values, but instead return them in an array.
+luaSynopsis: int ikCalculationResult,float[] jointValues=sim.checkIkGroup(int ikGroupHandle,int[] jointHandles,int[] jointOptions=nil)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. ikGroupHandle: handle of the IK group. Only IK groups that are flagged as explicitly handled will be considered as valid handles for this function. See also simGetIkGroupHandle
+2. jointCnt: the number of joint handles provided in the jointHandles array.
+3. jointHandles : an array with jointCnt entries, that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.
+4. jointOptions: a bit-coded value corresponding to each specified joint handle. Can also be nullptr. Bit 0 (i.e. (1) indicates the corresponding joint is dependent of another joint.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. -1 in case of an error, otherwise an IK calculation result.
+2. jointValues : an array with jointCnt entries, that will receive the IK calculated joint values, as specified by the jointHandles array.

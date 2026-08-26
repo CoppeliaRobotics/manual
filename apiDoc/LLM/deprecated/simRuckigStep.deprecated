@@ -1,0 +1,16 @@
+name: sim.ruckigStep
+description: Executes a call to the Ruckig online trajectory generator. The Ruckig online trajectory generator provides instantaneous trajectory generation capabilities for motion control systems. This function steps forward a trajectory generation algorithm previously prepared via sim.ruckigPos or sim.ruckigVel
+luaSynopsis: int result, list newPosVelAccel, float synchronizationTime = sim.ruckigStep(int handle, float cycleTime)
+pythonSynopsis: int result, float[] newPosVelAccel, float synchronizationTime = sim.ruckigStep(int handle, float cycleTime)
+inputs:
+1. handle: handle of the object created via sim.ruckigPos or sim.ruckigVel.
+2. cycleTime: cycle time or simulation step. Should always be a multiple of the base cycle time
+outputs:
+1. result: return value of the update function in the motion library:
+    - 1: Result::Finished (final state reached)
+    - 0: Result::Working (final state not yet reached)
+    - -100: Result::ErrorInvalidInput
+    - -101: Result::ErrorTrajectoryDuration
+    - -110: Result::ErrorExecutionTimeCalculation
+    - -111: Result::ErrorSynchronizationCalculation
+2. newPosVelAccel: new positions, velocities and accelerations, i.e. [p0 ... pn v0 ... vn a0 ... an]

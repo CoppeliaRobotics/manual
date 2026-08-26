@@ -1,0 +1,16 @@
+name: sim.checkProximitySensorEx
+description: Deprecated. See sim.checkProximitySensor instead
+luaSynopsis: int res, float dist, list point, int object, list n = sim.checkProximitySensorEx(int handle, int entityHandle, int detectionMode, float detectionthreshold, float maxAngle)
+pythonSynopsis: int res, float dist, float[3] point, int object, float[3] n = sim.checkProximitySensorEx(int handle, int entityHandle, int detectionMode, float detectionthreshold, float maxAngle)
+inputs:
+1. handle: handle of the proximity sensor object
+2. entityHandle: handle of entity to detect (object or collection), or sim.handle_all to detect all detectable objects
+3. detectionMode: bit coded: bit0 (1) for front face detection, bit1 (2) for back face detection (bit0|bit1 needs to be true), bit2 (4) for fast detection (doesn't search for the closest point, just any point in the detection volume), bit3 (8) for limited angle detection (if set, maxAngle is taken into account).
+4. detectionThreshold: doesn't detect objects farther than detectionThreshold distance from sensor origin
+5. maxAngle: maximum detection angle (angle between detection ray and normal vector of the surface). Can be (0;pi/2). Only if bit3 of detectionMode is set will this parameter have an effect. Use this to realistically simulate ultrasonic sensors.
+outputs:
+1. res: 0 (not detected) or 1 (detected)
+2. dist: distance from the sensor origin to the detected point. None/nil if result is different from 1
+3. point: position of the detected point relative to the sensor origin. None/nil if result is different from 1
+4. object: handle of detected object. None/nil if result is different from 1
+5. n: normal vector of the surface where the point was detected. Normalized. Relative to the sensor reference frame. None/nil if result is different from 1

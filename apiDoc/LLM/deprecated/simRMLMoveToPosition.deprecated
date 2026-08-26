@@ -1,0 +1,22 @@
+name: sim.rmlMoveToPosition
+description: 
+luaSynopsis: int result,float[3] newPos,float[4] newQuaternion,float[4] newVel,float[4] newAccel,float timeLeft=sim.rmlMoveToPosition(int objectHandle,int relativeToObjectHandle,int flags,float[4] currentVel,float[4] currentAccel,float[4] maxVel,float[4] maxAccel,float[4] maxJerk,float[3] targetPosition,float[4] targetQuaternion,float[4] targetVel)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. objectHandle: handle of the object to be moved
+2. relativeToObjectHandle: indicates relative to which reference frame the movement data is specified. Specify -1 for a movement relative to the absolute reference frame, sim.handle_parent for a movement relative to the object's parent frame, or an object handle relative to whose reference frame the movement should be performed.
+3. flags: RML flags. -1 for default flags.
+4. currentVel: the current velocity of the object (velX, velY, velZ, velAngle). Can be nil in which case a velocity vector of 0 is used.
+5. currentAccel: the current acceleration of the object (accelX, accelY, accelZ, accelAngle). Can be nil in which case an acceleration vector of 0 is used.
+6. maxVel: the maximum allowed velocity of the object (maxVelX, maxVelY, maxVelZ, maxVelAngle)
+7. maxAccel: the maximum allowed acceleration of the object (maxAccelX, maxAccelY, maxAccelZ, maxAccelAngle)
+8. maxJerk: the maximum allowed jerk of the object (maxJerkX, maxJerkY, maxJerkZ, maxJerkAngle). With the RML type II plugin, the max. jerk will however always be infinite.
+9. targetPosition: the desired target position of the object (expressed relative to relativeToObjectHandle). Can be nil, in which case the position of the object will stay constant
+10. targetQuaternion: the desired target orientation of the object (expressed relative to relativeToObjectHandle). Can be nil, in which case the orientation of the object will stay constant
+11. targetVel: the desired velocity of the object at the target (targetVelX, targetVelY, targetVelZ, targetVelAngle). Can be nil in which case a velocity vector of 0 is used.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. result: 1 if the function call was successful
+2. newPos: the new relative position of the object
+3. newQuaternion: the new relative orientation of the object
+4. newVel: the new velocity vector (velX, velY, velZ, velAngle)
+5. newAccel: the new acceleration vector (accelX, accelY, accelZ, accelAngle)
+6. timeLeft: the time left for additional calculations in current simulation time step

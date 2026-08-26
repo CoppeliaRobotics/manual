@@ -1,0 +1,20 @@
+name: sim.rmlMoveToJointPositions
+description: 
+luaSynopsis: int result,float[] newPos,float[] newVel,float[] newAccel,float timeLeft=sim.rmlMoveToJointPositions(int[] jointHandles,int flags,float[] currentVel,float[] currentAccel,float[] maxVel,float[] maxAccel,float[] maxJerk,float[] targetPos,float[] targetVel,float[] direction)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. jointHandles: handles of the joints to actuate
+2. flags: RML flags. -1 for default flags.
+3. currentVel: the current velocity of the joints. Can be nil in which case a velocity vector of 0 is used.
+4. currentAccel: the current acceleration of the joints. Can be nil in which case an acceleration vector of 0 is used.
+5. maxVel: the maximum allowed velocity of the joints
+6. maxAccel: the maximum allowed acceleration of the joints
+7. maxJerk: the maximum allowed jerk of the joints. With the RML type II plugin, the max. jerk will however always be infinite.
+8. targetPos: the desired target positions of the joints
+9. targetVel: the desired velocity of the joints at the target. Can be nil in which case a velocity vector of 0 is used.
+10. direction: the desired rotation direction for cyclic revolute joints: 0 for the shortest distance, -x for a movement towards negative values, +x for a movement towards positive values (n=(x-1) represents the number of additional turns). Can be nil or omitted, in which case a value of 0 is used for all joints.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. result: 1 if the function call was successful
+2. newPos: the new positions of the joints
+3. newVel: the new velocities of the joints
+4. newAccel: the new accelerations of the joints
+5. timeLeft: the time left for additional calculations in current simulation time step

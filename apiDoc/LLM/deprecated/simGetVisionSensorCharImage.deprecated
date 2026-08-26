@@ -1,0 +1,11 @@
+name: sim.getVisionSensorCharImage
+description: 
+luaSynopsis: buffer imageBuffer,int resolutionX,int resolutionY=sim.getVisionSensorCharImage(int sensorHandle,int posX=0,int posY=0,int sizeX=0,int sizeY=0,float rgbaCutOff=0)
+pythonSynopsis: bytes imageBuffer,int resolutionX,int resolutionY=sim.getVisionSensorCharImage(int sensorHandle,int posX=0,int posY=0,int sizeX=0,int sizeY=0,float rgbaCutOff=0)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. sensorHandle: handle of the vision sensor. Can be combined with sim.handleflag_greyscale (simply add sim.handleflag_greyscale to sensorHandle), if you wish to retrieve the grey scale equivalent.
+2. posX / posY: position of the image portion to retrieve. Zero by default.
+3. sizeX / sizeY: size of the image portion to retrieve. Zero by default, which means that the full image should be retrieved
+4. rgbaCutOff: when different from zero, then an RGBA image is returned, where the alpha component will be 255 for all depth values below rgbaCutOff, and 0 for all depth values above rgbaCutOff. 0 corresponds to the near clipping plane, 1 to the far clipping plane. Zero by default.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. imageBuffer: a string containing rgb (or rgba) values (sizeX*sizeY*3 (or sizeX*sizeY*4 in case of rgba), rgb(a) values in the range 0-255). In case of a grey scale image retrieval, the image buffer will contain grey values or grey+alpha values in the range 0-255.

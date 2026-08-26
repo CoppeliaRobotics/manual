@@ -1,0 +1,12 @@
+name: sim.createPureShape
+description: 
+luaSynopsis: int objectHandle=sim.createPureShape(int primitiveType,int options,float[3] sizes,float mass,int[2] precision=nil)
+pythonSynopsis: int objectHandle=sim.createPureShape(int primitiveType,int options,list sizes,float mass,list precision=None)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. primitiveType: 0 for a cuboid, 1 for a sphere, 2 for a cylinder and 3 for a cone
+2. options: Bit-coded: if bit0 is set (1), backfaces are culled. If bit1 is set (2), edges are visible. If bit2 is set (4), the shape appears smooth. If bit3 is set (8), the shape is respondable. If bit4 is set (16), the shape is static. If bit5 is set (32), the cylinder has open ends
+3. sizes: 3 values indicating the size of the shape
+4. mass: the mass of the shape
+5. precision: 2 values that allow specifying the number of sides and faces of a cylinder or sphere. Can be nullptr for default values
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. -1 if operation was not successful, otherwise the handle of the newly created shape

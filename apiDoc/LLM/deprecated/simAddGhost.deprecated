@@ -1,0 +1,18 @@
+name: sim.addGhost
+description: 
+luaSynopsis: int ghostId=sim.addGhost(int ghostGroup,int objectHandle,int options,float startTime,float endTime,float[12] color=nil)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. ghostGroup: an identifier that allows grouping several ghosts
+2. objectHandle: the handle of a shape, or the handle of a model base. Only currently visible shapes can be duplicated as ghosts.
+3. options: bit-coded:
+4. bit0 (1) set=the provided objectHandle is a model base, and all visible shapes in the model will be duplicated as ghosts
+5. bit1 (2) set=the provided start- and end-times will be played-back in real-time
+6. bit2 (4) set=preserve the original colors
+7. bit3 (8) set=force invisible objects to appear too
+8. bit4 (16) set=create an invisible ghost
+9. bit5 (32) set=backface culling for the ghost (only when using custom colors)
+10. startTime: the time at which the ghost should appear.
+11. endTime: the time at which the ghost should disappear.
+12. color: 12 values that represent the color of the ghost (ambient_diffuse RGB, 3 reserved values (set to zero), specular RGB and emissive RGB). Can be nullptr for default colors.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. -1 if operation was not successful, otherwise a ghost ID. Several ghosts might share the same ID (e.g. when a ghost was added with bit0 of options set)

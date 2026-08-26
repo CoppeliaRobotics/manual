@@ -1,0 +1,15 @@
+name: sim.getScaledImage
+description: Generates a scaled-up or scaled down version of the input image
+luaSynopsis: bytes imageOut, list effectiveRolutionOut = sim.getScaledImage(bytes imageIn, list resolutionIn, list desiredResolutionOut, int options)
+pythonSynopsis: buffer imageOut, int[2] effectiveResolutionOut = sim.getScaledImage(buffer imageIn, int[2] resolutionIn, int[2] desiredResolutionOut, int options)
+inputs:
+1. imageIn: image buffer (rgb or rgba values)
+2. resolutionIn: resolution of the input image
+3. options: bit-coded:
+    - bit0 set (1): the input image is rgba, otherwise it is rgb
+    - bit1 set (2): the returned image is rgba, otherwise it is rgb
+    - bit2-3: 0:ignore aspect ratio, 4:keep aspect ratio (the effective resolution of the returned image will be different), 8:keep aspect ratio by expanding (the effective resolution of the returned image will be different)
+    - bit4 set (16): no smooth transformation
+outputs:
+1. imageOut: buffer containing the output image data
+2. effectiveResolutionOut: resolution of the generated image

@@ -1,0 +1,13 @@
+name: sim.setScriptVariable
+description: 
+luaSynopsis: sim.setScriptVariable(string variableNameAtScriptName,int scriptHandleOrType,variable)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. scriptHandleOrType: the handle of the script, otherwise the type of the script:
+2. sim.scripttype_mainscript (0): the main script is the target.
+3. sim.scripttype_childscript (1): a child script is the target. In that case, arrayNameAtScriptName should also contain the name of the object associated with the script.
+4. sim.scripttype_customizationscript (6): a customization script is the target. In that case, arrayNameAtScriptName should also contain the name of the object associated with the script.
+5. sim.scripttype_sandboxscript (8): the sandbox script is the target.
+6. sim.scripttype_addonscript (2): an add-on script is the target (the add-on needs to be running). In that case,arrayNameAtScriptNameshould also contain the name of the script
+7. variableNameAtScriptName: the name of the variable. If scriptHandleOrType is sim.scripttype_childscript, or sim.scripttype_customizationscript, then variableNameAtScriptName should also contain the name of the object associated with the script: "variableName@scriptName".
+8. stackHandle: the handle of a stack object. The top stack item represents the variable value. If the handle is 0, then the variable will be assigned the value nil. See also the available stack functions.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):

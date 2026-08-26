@@ -1,0 +1,13 @@
+name: sim.setVisionSensorImg
+description: Writes the image of a vision sensor (and applies any image processing via the vision callback functions). Make sure the vision sensor is flagged as external input
+luaSynopsis: sim.setVisionSensorImg(int sensorHandle, bytes image, int options = 0, list pos = [0, 0], list size = [0, 0])
+pythonSynopsis: sim.setVisionSensorImg(int sensorHandle, buffer image, int options, int[2] pos = {0, 0}, int[2] size = {0, 0})
+inputs:
+1. sensorHandle: handle of the vision sensor object
+2. img: buffer containing the image
+3. options: options, bit-coded:
+    - bit0 set (1): the provided image is a greyscale image (1 byte per pixel), otherwise an RGB image (3 bytes per pixel)
+    - bit1 set (2): the provided image has one additional byte per pixel, as alpha channel (RGBA or greyscale+A)
+4. pos: position of the image portion to write, defaults to [0 0]
+5. size: size of the image portion to write, defaults to [0 0], which corresponds to [resolutionX resolutionY]
+outputs:

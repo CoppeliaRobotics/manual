@@ -1,0 +1,15 @@
+name: sim.copyPasteObjects
+description: Copies and pastes objects
+luaSynopsis: list copiedObjectHandles = sim.copyPasteObjects(list objectHandles, int options)
+pythonSynopsis: int[] copiedObjectHandles = sim.copyPasteObjects(int[] objectHandles, int options)
+inputs:
+1. objectHandles: array of object handles to copy and paste
+2. options: bit-coded:
+    - bit0 is set (i.e. 1): whole models are copied. In that case, all specified objects should be flagged as model base
+    - bit1 is set (i.e. 2): all simulation and customization scripts are stripped away
+    - bit2 is set (i.e. 4): all object custom data properties are stripped away
+    - bit3 is set (i.e. 8): all object references are stripped away
+    - bit4 is set (i.e. 16): all textures are stripped away
+    - bit5 is set (i.e. 32): model tags and DNA information is stripped away
+outputs:
+1. copiedObjectHandles: the duplicate object handles, where original and copy have the same location in their respective arrays (when script objects are stripped away, the array could contain -1 values)

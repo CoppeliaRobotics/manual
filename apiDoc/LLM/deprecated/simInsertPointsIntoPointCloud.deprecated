@@ -1,0 +1,14 @@
+name: sim.insertPointsIntoPointCloud
+description: Inserts points into a point cloud
+luaSynopsis: int totalPointCnt = sim.insertPointsIntoPointCloud(int pcHandle, int options, list points, list color = None, float duplicateTolerance = None)
+pythonSynopsis: int totalPointCnt = sim.insertPointsIntoPointCloud(int pcHandle, int options, float[] points, int[] color = nil, float duplicateTolerance = nil)
+inputs:
+1. pcHandle: handle of the point cloud, can be combined with sim.handleflag_codedstring, when one wishes to provide point data as a float buffer, and color data as a char buffer
+2. options: bit-coded:
+    - bit0 set (1): specified points are relative to the point cloud reference frame, otherwise they are relative to the world reference frame
+    - bit1 set (2): the color array contains one RGB triple per point. Otherwise it contains a single RGB triple
+3. points: array of point positions specified as x/y/z coordinates
+4. color: array of one or several RGB triplets, specifying the red, green and blue color components (0-255). Can be None/nil
+5. duplicateTolerance: a minimum distance tolerance value that is used to avoid duplicate points
+outputs:
+1. totalPointCnt: the total number of points in the point cloud

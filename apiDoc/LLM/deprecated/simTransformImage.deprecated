@@ -1,0 +1,13 @@
+name: sim.transformImage
+description: Transforms an image in various ways
+luaSynopsis: bytes newImage = sim.transformImage(bytes image, list resolution, int options)
+pythonSynopsis: buffer newImage = sim.transformImage(buffer image, int[2] resolution, int options)
+inputs:
+1. image: buffer to rgb or rgba values of the image. Beware that in Lua, this image buffer will be modified!
+2. resolution: resolution of the image
+3. options: bit-coded:
+    - bit0 set (1): the provided image is rgba (or a depth buffer, i.e. one double per image pixel), otherwise it is rgb
+    - bit1 set (2): the image will be flipped on its x-axis
+    - bit2 set (4): the image will be flipped on its y-axis
+outputs:
+1. newImage: buffer of the transformed image

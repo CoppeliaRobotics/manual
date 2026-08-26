@@ -1,0 +1,9 @@
+name: sim.setReferencedHandles
+description: Attaches a list of custom handles to a given scene object. Those custom handles are handles of other scene objects, that are linked to the given scene object (for whatever purpose). The advantage of storing references to other objects with this function is that CoppeliaSim will take care of correctly adjusting the references if needed: For instance, imagine objectA storing the handle of objectB via this function. If objectB is deleted, then the stored handle becomes -1. If objectA and objectB are duplicated at the same time, then the duplicate of objectA stores the handle of the duplicate of objectB. Optionally, if sim.handleflag_keeporiginal is specified, then linking to original objects is guaranteed, e.g. in above example, after a duplication of objectA, the duplicate of objectA will store the handle of the original objectB (if objectB still exists)
+luaSynopsis: sim.setReferencedHandles(int objectHandle, list referencedHandles, string tag = '')
+pythonSynopsis: sim.setReferencedHandles(int objectHandle, int[] referencedHandles, string tag = '')
+inputs:
+1. objectHandle: handle of the scene object that will store the list of handles. Can be optionally combined with sim.handleflag_keeporiginal, in which case the handles that link to originals are retrieved
+2. referencedHandles: list of scene object handles.
+3. tag: a tag: handles will be stored under this tag. Defaults to an empty tag
+outputs:

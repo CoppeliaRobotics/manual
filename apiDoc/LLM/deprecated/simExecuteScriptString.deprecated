@@ -1,0 +1,10 @@
+name: sim.executeScriptString
+description: Executes some code in a specific script (from a plugin, the main client application, or from another script). The target script must be initialized for this call to succeed, e.g. when calling simulation scripts, then simulation must be running From C/C++, data exchange between a plugin and a script happens via a stack. Reading and writing arguments from/to the stack gives you a maximum of flexibility, and you wil be able to exchange also complex data structures. But it can also be tedious and error prone. Use instead the helper classes located in programming/include/simStack
+luaSynopsis: int result, executionResult = sim.executeScriptString(string stringToExecute, int scriptHandle)
+pythonSynopsis: int result, executionResult = sim.executeScriptString(string stringToExecute, int scriptHandle)
+inputs:
+1. stringToExecute: a string representing the code to execute in the specified script. An optional @python or @lua can be appended, to force a specific language
+2. scriptHandle: handle of the script, or sim.handle_self to target the script itself.
+outputs:
+1. result: 0 or 1
+2. executionResult: return value of the executed code

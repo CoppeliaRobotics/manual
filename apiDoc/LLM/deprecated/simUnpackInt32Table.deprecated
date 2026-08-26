@@ -1,0 +1,11 @@
+name: sim.unpackInt32Table
+description: Unpacks a string (or part of it) into an array of int32 numbers
+luaSynopsis: list int32Numbers = sim.unpackInt32Table(bytes data, int startInt32Index = 0, int int32Count = 0, int additionalByteOffset = 0)
+pythonSynopsis: int[] int32Numbers = sim.unpackInt32Table(buffer data, int startInt32Index = 0, int int32Count = 0, int additionalByteOffset = 0)
+inputs:
+1. data: string (values between 0 and 255) that contains packed int32 numbers
+2. startInt32Index: zero-based index from which on data should be unpacked (from data[4*startInt32Index+1+additionalByteOffset]). Can be omitted in which case 0 is used
+3. int32Count: amount of int32s that should be unpacked. Can be omitted in which case 0 is used (which indicates that the maximum of int32s should be unpacked from the indicated startInt32Index)
+4. additionalByteOffset: byte offset that will be added before reading the int32s. Can be omitted, in which case 0 is used.
+outputs:
+1. int32Numbers: array containing unpacked int32 numbers

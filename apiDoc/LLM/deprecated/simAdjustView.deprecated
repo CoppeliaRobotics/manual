@@ -1,0 +1,16 @@
+name: sim.adjustView
+description: Adjusts parameters of a view
+luaSynopsis: int res = sim.adjustView(int viewHandleOrIndex, int objectHandle, int options, string viewLabel = None)
+pythonSynopsis: int res = sim.adjustView(int viewHandleOrIndex, int objectHandle, int options, string viewLabel = nil)
+inputs:
+1. viewHandleOrIndex: handle of the view (can also be a floating view), or the index of the view.
+2. objectHandle: handle of the object that you wish to associate with the view. Must be a viewable object. Can also be -1, in which case the view is emptied
+3. options: bit-coded:
+    - bit0-bit5= 0
+    - bit6 (64) set=floating view is removed at simulation end
+    - bit7 (128) set=floating view is ignored during a scene save operation
+    - bit8 (256) set=the view is not modified. The return value of the function indicates if the view still exists (2), or does not exist anymore (1). No error is generated.
+    - bit9 (512) set=the view is not modified. The return value of the function represents the object associated with the view.
+4. viewLabel: a label that will be displayed at the top of a floating view. If None/nil is specified, then the name of the associated viewable object is taken as label.
+outputs:
+1. res: a value >0 in case of success

@@ -542,11 +542,27 @@ def main():
             html = html + '</ul>'
             propFlags = html
 
-        fmpDescription = getTxt(fmpItem, 'description')
-        if fmpDescription == None:
-            fmpDescription = getTxt(fmpItem, 'label')
+
+        if docItemType == 'property':
+            fmpDescription = getTxt(fmpItem, 'description')
+            if fmpDescription == None:
+                fmpDescription = getTxt(fmpItem, 'label')
+            shortDescription = getTxt(fmpItem, 'label')
+            if shortDescription == None:
+                shortDescription = getTxt(fmpItem, 'label')
+        else:
+            fmpDescription = getTxt(fmpItem, 'description')
+            shortDescription = getTxt(fmpItem, 'short-description')
+            if fmpDescription == None:
+                fmpDescription = shortDescription
+            if shortDescription == None:
+                shortDescription = fmpDescription
         if fmpDescription == None:
             fmpDescription = 'no description'
+        if shortDescription == None:
+            shortDescription = ''
+        else:
+            shortDescription = '     ' + shortDescription
         fmpDescription = fmpDescription.strip().rstrip('. ')
         enums = addEnums(fmpDescription, enums)
         more = (getTxt(fmpItem, 'more') or '').strip().rstrip('. ')
@@ -587,28 +603,25 @@ def main():
         for cat in itemCategories:
             cat = cat.lower()
             if cat in docItem['categoriesMap']:
-                docItem['categoriesMap'][cat]['api'].append({'fullName': fmpName, 'name': fmpNameRaw, 'file': currentVer + '/' + filename, 'c': docItemType == 'function'})
-                # Add see-also items related to the listed categories (but only within the same category type, i.e. method cat for methods, function cat for functions, and property cat for properties):
-                methFunc = 'methods'
+                docItem['categoriesMap'][cat]['api'].append({'fullName': fmpName, 'name': fmpNameRaw, 'file': currentVer + '/' + filename, 'c': docItemType == 'function', 'short': shortDescription})
+                # Add see-also items related to the listed categories (but only within the same category type, i.e. method/prop cat for methods, function cat for functions, and method/property cat for properties):
+                methFunc = 'methodsAndProperties'
+                methFuncNm = 'methods &amp; properties'
                 if docItemType == 'function':
                     methFunc = 'functions'
-                if docItemType == 'property':
-                    methFunc = 'properties'
+                    methFuncNm = 'functions'
                 pref = methFunc + '_'
-                see_also_cat1.append('<a href="../apiFunctions.htm#' + pref + cat + '">' + docItem['categoriesMap'][cat]['txt'] + ' ' + methFunc + "</a>")
+                see_also_cat1.append('<a href="../apiFunctions.htm#' + pref + cat + '">' + docItem['categoriesMap'][cat]['txt'] + ' (' + methFuncNm + ")</a>")
             else:
                 raise Exception("Category '" + cat + "' not found for '" + fmpNameRaw + "'")
 
-        # Add see-also items related to the listed categories, across a different category type (i.e. method cat for properties, property cat for functions, and property cat for methods):
-        for cat in itemCategories:
-            cat = cat.lower()
-            docItemMap = {'method': propertyDocItem, 'property': methodDocItem, 'function': propertyDocItem}
-            if cat in docItemMap[docItemType]['categoriesMap']:
-                methFunc = 'properties'
-                if docItemType == 'property':
-                    methFunc = 'methods'
-                pref = methFunc + '_'
-                see_also_cat2.append('<a href="../apiFunctions.htm#' + pref + cat + '">' + docItemMap[docItemType]['categoriesMap'][cat]['txt'] + ' ' + methFunc + "</a>")
+        # Add see-also items related to the listed categories, across a different category type (method/property cat for functions):
+
+        if docItemType == 'function':
+            for cat in itemCategories:
+                cat = cat.lower()
+                if (cat in methodDocItem['categoriesMap']) or (cat in propertyDocItem['categoriesMap']):
+                    see_also_cat2.append('<a href="../apiFunctions.htm#' + 'methodsAndProperties_' + cat + '">' + categoriesMap[cat]['txt'] + " (methods &amp; properties)</a>")
 
         # Assemble see-also html string:
         if len(see_also) > 0 or len(see_also_cat1) or len(see_also_cat2) > 0:
@@ -912,83 +925,69 @@ def main():
     with (templatesDir / 'apiList.htm').open('r') as file_r:
         listTemplate = file_r.read()
 
-    # First fill items related to methods:
-    methodCatLinks = ''
-    methodSection = ''
+    # First fill items related to methods and properties:
+    methodPropCatLinks = ''
+    methodPropSection = ''
     for item in categories:
         cat = item['cat']
         oldRefs = item['oldRefs']
         page = item['page']
         obj = item['obj']
-        if (cat in methodDocItem['categoriesMap']) and (len(methodDocItem['categoriesMap'][cat]['api']) > 0):
+        if ( (cat in methodDocItem['categoriesMap']) and (len(methodDocItem['categoriesMap'][cat]['api']) > 0) ) or ( (cat in propertyDocItem['categoriesMap']) and (len(propertyDocItem['categoriesMap'][cat]['api']) > 0) ):
+            title = categoriesMap[cat]['txt']
+
             methodLinks = ''
-            title = methodDocItem['categoriesMap'][cat]['txt']
-            catApis = methodDocItem['categoriesMap'][cat]['api']
-            tfuncs = sorted(catApis, key=lambda x: x['fullName'])
-            funcs = []
-            funcsEnd = []
-            for c in tfuncs:
-                if obj and c['fullName'].lower().startswith(cat + ':'):
-                    funcs.append(c)
-                else:
-                    funcsEnd.append(c)
-            funcs = funcs + funcsEnd
-            for e in funcs:
-                name = e['fullName']
-                file = e['file']
-                if len(methodLinks) != 0:
-                    methodLinks += '\n'
-                methodLinks += '<a href="' + file + '">' + name + '</a>'
-            methodCatLinks += '<li><a href="#methods_' + cat + '">' + title + '</a></li>'
-            methodSection += '<h2><a name="methods_' + cat + '"></a>'
-            for r in oldRefs:
-                methodSection += '<a name="methods_' + r + '"></a>'
-            if len(page) > 0:
-                title = '<a href="' + page + '">' + title + '</a>'
-            methodSection += '<div style="display: flex; justify-content: space-between;"><span>' + title + '</span><span>(methods)</span></div></h2>'
-            #methodSection += title + ' (methods)</h2>\n'
-            methodSection += '<code class="two-cols language-python-lua coppelia-coppeliasim-script api-list">'
-            methodSection += methodLinks
-            methodSection += '</code><br>'
+            if (cat in methodDocItem['categoriesMap']) and (len(methodDocItem['categoriesMap'][cat]['api']) > 0):
+                catApis = methodDocItem['categoriesMap'][cat]['api']
+                tfuncs = sorted(catApis, key=lambda x: x['fullName'])
+                funcs = []
+                funcsEnd = []
+                for c in tfuncs:
+                    if obj and c['fullName'].lower().startswith(cat + ':'):
+                        funcs.append(c)
+                    else:
+                        funcsEnd.append(c)
+                funcs = funcs + funcsEnd
+                for e in funcs:
+                    name = e['fullName']
+                    file = e['file']
+                    if len(methodLinks) != 0:
+                        methodLinks += '\n'
+                    methodLinks += '<a href="' + file + '">' + name + '</a>' + e['short']
 
-    # Fill items related to properties:
-    propertyCatLinks = ''
-    propertySection = ''
-    for item in categories:
-        cat = item['cat']
-        oldRefs = item['oldRefs']
-        page = item['page']
-        obj = item['obj']
-        if (cat in propertyDocItem['categoriesMap']) and (len(propertyDocItem['categoriesMap'][cat]['api']) > 0):
             propertyLinks = ''
-            title = propertyDocItem['categoriesMap'][cat]['txt']
-            catApis = propertyDocItem['categoriesMap'][cat]['api']
-            tfuncs = sorted(catApis, key=lambda x: x['fullName'])
-            funcs = []
-            funcsEnd = []
-            for c in tfuncs:
-                if obj and c['fullName'].lower().startswith(cat + ':'):
-                    funcs.append(c)
-                else:
-                    funcsEnd.append(c)
-            funcs = funcs + funcsEnd
-            for e in funcs:
-                name = e['fullName']
-                file = e['file']
-                if len(propertyLinks) != 0:
-                    propertyLinks += '\n'
-                propertyLinks += '<a href="' + file + '">' + name + '</a>'
-            propertyCatLinks += '<li><a href="#properties_' + cat + '">' + title + '</a></li>'
-            propertySection += '<h2><a name="properties_' + cat + '"></a>'
+            if (cat in propertyDocItem['categoriesMap']) and (len(propertyDocItem['categoriesMap'][cat]['api']) > 0):
+                if len(methodLinks) > 0:
+                    methodLinks += '\n'
+                title = propertyDocItem['categoriesMap'][cat]['txt']
+                catApis = propertyDocItem['categoriesMap'][cat]['api']
+                tfuncs = sorted(catApis, key=lambda x: x['fullName'])
+                funcs = []
+                funcsEnd = []
+                for c in tfuncs:
+                    if obj and c['fullName'].lower().startswith(cat + ':'):
+                        funcs.append(c)
+                    else:
+                        funcsEnd.append(c)
+                funcs = funcs + funcsEnd
+                for e in funcs:
+                    name = e['fullName']
+                    file = e['file']
+                    if len(propertyLinks) != 0:
+                        propertyLinks += '\n'
+                    propertyLinks += '<a href="' + file + '">' + name + '</a>' + e['short']
+
+            methodPropCatLinks += '<li><a href="#methodsAndProperties_' + cat + '">' + title + '</a></li>'
+            methodPropSection += '<h2><a name="methodsAndProperties_' + cat + '"></a>'
             for r in oldRefs:
-                propertySection += '<a name="' + r + '"></a>'
+                methodPropSection += '<a name="methodsAndProperties_' + r + '"></a>'
             if len(page) > 0:
                 title = '<a href="' + page + '">' + title + '</a>'
-
-            propertySection += '<div style="display: flex; justify-content: space-between;"><span>' + title + '</span><span>(properties)</span></div></h2>'
-            propertySection += '<code class="two-cols language-python-lua coppelia-coppeliasim-script api-list">'
-            propertySection += propertyLinks
-            propertySection += '</code><br>'
+            methodPropSection += '<div style="display: flex; justify-content: space-between;"><span>' + title + '</span><span>(methods &amp; properties)</span></div></h2>'
+            #methodPropSection += title + ' (methods and categories)</h2>\n'
+            methodPropSection += '<code class="language-python-lua coppelia-coppeliasim-script api-list">'
+            methodPropSection += methodLinks + propertyLinks
+            methodPropSection += '</code><br>'
 
     # Fill items related to functions:
     functionCatLinks = ''
@@ -1018,14 +1017,12 @@ def main():
                     title = '<a href="' + page + '">' + title + '</a>'
                 functionSection += '<div style="display: flex; justify-content: space-between;"><span>' + title + '</span><span>(C-functions)</span></div></h2>'
                 #functionSection += title + ' (C-functions)</h2>\n'
-                functionSection += '<code class="two-cols language-c++ coppelia-coppeliasim-plugin api-list">'
+                functionSection += '<code class="language-c++ coppelia-coppeliasim-plugin api-list">'
                 functionSection += functionLinks
                 functionSection += '</code><br>'
 
-    listTemplate = listTemplate.replace('__methodLinks__', methodCatLinks)
-    listTemplate = listTemplate.replace('__methodSection__', methodSection)
-    listTemplate = listTemplate.replace('__propertyLinks__', propertyCatLinks)
-    listTemplate = listTemplate.replace('__propertySection__', propertySection)
+    listTemplate = listTemplate.replace('__methodPropLinks__', methodPropCatLinks)
+    listTemplate = listTemplate.replace('__methodPropSection__', methodPropSection)
     listTemplate = listTemplate.replace('__functionLinks__', functionCatLinks)
     listTemplate = listTemplate.replace('__functionSection__', functionSection)
 

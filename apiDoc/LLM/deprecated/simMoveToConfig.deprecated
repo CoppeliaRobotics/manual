@@ -1,0 +1,24 @@
+name: sim.moveToConfig
+description: Executes a n-DoF motion using the Ruckig online trajectory generator. This function can only be called from scripts running in a thread, since this is a blocking operation
+luaSynopsis: dict data = sim.moveToConfig(dict params)
+pythonSynopsis: table data = sim.moveToConfig(table params)
+inputs:
+1. params: parameters of the function:
+    - pos: mandatory if joints is not specified. Specifies the current configuration as a vector with one value per DoF
+    - joints: mandatory if pos is not specified. Specifies the joint handles as a vector with one handle per DoF
+    - targetPos: specifies the target configuration as a vector with one value per DoF
+    - flags: optional. Ruckig flags, -1 for default flags.
+    - vel: optional. Specifies current velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted
+    - accel: optional. Specifies current acceleration as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted
+    - maxVel: optional. Specifies the maximum allowed velocity as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to [inf, inf, ...] if omitted
+    - minVel: optional. Specifies the minimum allowed velocity as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to -maxVel if omitted
+    - maxAccel: optional. Specifies the maximum allowed acceleration as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to [inf, inf, ...] if omitted
+    - minAccel: optional. Specifies the minimum allowed acceleration as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to -maxAccel if omitted
+    - maxJerk: optional. Specifies the maximum allowed jerk as a vector with one value per DoF, or as a scalar (scaled to a DoF-vector). Defaults to [inf, inf, ...] if omitted
+    - targetVel: optional. Specifies the target velocity as a vector with one value per DoF. Defaults to [0, 0, ...] if omitted
+    - callback: optional. Callback function called for each motion step. The argument provided to the callback function is the current motion state
+    - auxData: optional. Data to be forwarded to the callback function
+    - cyclicJoints: optional. Indicates which joint is cyclic (for cyclic joints, the movement always goes in the direction that represents the shortest distance to the goal). Defaults to [false, false, ...] is omitted
+    - timeStep: optional. The desired time step size. A value of 0 indicates that the current simulation time step is used. Defaults to 0 if omitted
+outputs:
+1. data: current motion state

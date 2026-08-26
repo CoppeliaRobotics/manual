@@ -1,0 +1,22 @@
+name: sim.createIkGroup
+description: Creates an IK group.
+luaSynopsis: int ikGroupHandle=sim.createIkGroup(int options,int[] intParams=nil,float[] floatParams=nil)
+inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. options: bit-coded options:
+2. bit 0 set (1): the group is inactive.
+3. bit 1 set (2): joint limits are taken into account during calculation (i.e. only for redundant kinematics).
+4. bit 2 set (4): restore if position not reached.
+5. bit 3 set (8): restore if orientation not reached.
+6. bit 4 set (16): do not ignore the joint's max. step sizes.
+7. bit 5 set (32): the group is explicitly handled.
+8. intParams: an optional array of 2 integer parameters (i.e. array can be nullptr):
+9. intParams[0]: the IK calculation method.
+10. intParams[1]: the maximum number of iterations.
+11. floatParams: an optional array of 4 double parameters (i.e. array can be nullptr):
+12. floatParams[0]: the damping factor.
+13. floatParams[1]: the joint limit weight.
+14. floatParams[2]: the prismatic joint limit threshold.
+15. floatParams[3]: the revolute joint limit threshold.
+16. reserved: reserved. Set to nullptr.
+outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
+1. -1 if operation was not successful, otherwise the IK group handle.

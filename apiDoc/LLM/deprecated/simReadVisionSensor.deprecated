@@ -1,0 +1,11 @@
+name: sim.readVisionSensor
+description: Reads the state of a vision sensor. This function doesn't perform detection, it merely reads the result from a previous call to sim.handleVisionSensor
+luaSynopsis: int result, list packet1, list packet2, etc. = sim.readVisionSensor(int visionSensorHandle)
+pythonSynopsis: int result, float[] packet1, float[] packet2, etc. = sim.readVisionSensor(int visionSensorHandle)
+inputs:
+1. visionSensorHandle: handle of a vision sensor object
+outputs:
+1. result: detection state (0 or 1), or -1 if sim.handleVisionSensor was never called, or if sim.resetVisionSensor was previously called.
+2. packet1: default auxiliary packet of 15 auxiliary values: the minimum of [intensity red green blue depth], the maximum of [intensity red green blue depth], and the average of [intensity red green blue depth]
+3. packet2: additional auxiliary value packet (e.g. from an image processing component)
+4. packet3: etc. (the function returns as many tables as there are auxiliary value packets)

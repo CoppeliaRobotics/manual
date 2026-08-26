@@ -1,0 +1,45 @@
+name: sim.createProximitySensor
+description: Creates a proximity sensor
+luaSynopsis: int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options, list intParams, list floatParams)
+pythonSynopsis: int sensorHandle = sim.createProximitySensor(int sensorType, int subType, int options, int[8] intParams, float[15] floatParams)
+inputs:
+1. sensorType: desired proximity sensor type (e.g. sim.proximitysensor_cone)
+2. subType: deprecated. Set to 16
+3. options: bit-coded options:
+    - bit0 set (1): the sensor will be explicitly handled
+    - bit1 set (2): reserved. Set to 0
+    - bit2 set (4): the detection volume is not shown
+    - bit3 set (8): front faces are not detected
+    - bit4 set (16): back faces are not detected
+    - bit5 set (32): fast detection (i.e. not exact detection)
+    - bit6 set (64): the normal of the detected surface with the detection ray will have to lie below a specified threshold angle
+    - bit8 set (256): smallest distance threshold will be active
+    - bit9 set (512): randomized detection (only with ray-type proximity sensors)
+4. intParams: 8 integer parameters (indexing (i) starts from 0 for Python and 1 for Lua):
+    - intParams[i+0]: face count (volume description)
+    - intParams[i+1]: face count far (volume description)
+    - intParams[i+2]: subdivisions (volume description)
+    - intParams[i+3]: subdivisions far (volume description)
+    - intParams[i+4]: randomized detection, sample count per reading
+    - intParams[i+5]: randomized detection, individual ray detection count for triggering
+    - intParams[i+6]: reserved. Set to 0
+    - intParams[i+7]: reserved. Set to 0
+5. floatParams: 15 floating point parameters (indexing (i) starts from 0 for Python and 1 for Lua):
+    - floatParams[i+0]: offset (volume description)
+    - floatParams[i+1]: range (volume description)
+    - floatParams[i+2]: x size (volume description)
+    - floatParams[i+3]: y size (volume description)
+    - floatParams[i+4]: x size far (volume description)
+    - floatParams[i+5]: y size far (volume description)
+    - floatParams[i+6]: inside gap (volume description)
+    - floatParams[i+7]: radius (volume description)
+    - floatParams[i+8]: radius far (volume description)
+    - floatParams[i+9]: angle (volume description)
+    - floatParams[i+10]: threshold angle for limited angle detection (see bit 6 above)
+    - floatParams[i+11]: smallest detection distance (see bit 8 above)
+    - floatParams[i+12]: sensing point size
+    - floatParams[i+13]: reserved. Set to 0.0
+    - floatParams[i+14]: reserved. Set to 0.0
+6. reserved: set to nullptr
+outputs:
+1. sensorHandle: handle of the force sensor
