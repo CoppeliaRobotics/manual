@@ -7,6 +7,7 @@ import copy
 import xml.etree.ElementTree as ET
 import minify_html
 from pathlib import Path
+from bs4 import BeautifulSoup, Tag
 
 currentDir = Path(__file__).absolute().parent
 
@@ -18,6 +19,7 @@ apiDirs_oldVer = [currentDir / '..' / 'en' / 'sim-1'] # older API versions
 apiDir_deprecated_currentVer = currentDir / '..' / 'en' / 'deprecated' # deprecated but in the same API version
 apiDir_all = currentDir / '..' / 'en' / 'sim'
 templatesDir = currentDir / 'templates'
+deprecatedLLMDir = [currentDir / 'LLM' / 'deprecated']
 
 categories = [
     # Order matters. Keep first 4 in place!
@@ -85,6 +87,68 @@ categories = [
     {'cat': 'other',                    'obj': False,   'txt': 'Other',                                             'page': '',                                                 'oldRefs': []},
     {'cat': 'drawingObject',            'obj': False,   'txt': 'drawingObject (deprecated, see marker instead)',    'page': '',                                                 'oldRefs': []},
 ]
+
+def stripHtml(txt):
+    txt = BeautifulSoup(txt, 'html.parser')
+    txt = txt.get_text().strip()
+    lines = [line.strip() for line in txt.splitlines()]
+    lines = [line for line in lines if line]
+
+    if not lines:
+        return ''
+
+    result = lines[0]
+    for line in lines[1:]:
+        if result.endswith('.') or result.endswith(':'):
+            separator = ' '
+        else:
+            separator = ', '
+        result += separator + line
+
+    # Collapse any accidental double spaces (e.g. if line already had trailing space)
+    return re.sub(r' +', ' ', result)
+
+def ul_to_text(html_str, indent_level=0):
+    """
+    Converts an HTML string containing a <ul> (with <li> items, possibly
+    containing nested <ul> elements and <a> links) into a plain indented
+    text block.
+
+    Each <li> line is prefixed with '    - ', with an additional 4 spaces
+    per nesting level. Links are unwrapped (only their visible text kept).
+
+    If no <ul> is found, returns the plain text (HTML stripped) of the input.
+    """
+    soup = BeautifulSoup(html_str, 'html.parser')
+    ul_elem = soup.find('ul') if soup.name != 'ul' else soup
+
+    if ul_elem is None:
+        return soup.get_text().strip()
+
+    return _ul_to_text(ul_elem, indent_level)
+
+def _ul_to_text(ul_elem, indent_level=0):
+    lines = []
+    indent = '    ' * indent_level
+
+    for li in ul_elem.find_all('li', recursive=False):
+        text_parts = []
+        nested_uls = []
+
+        for child in li.children:
+            if isinstance(child, Tag) and child.name == 'ul':
+                nested_uls.append(child)
+            else:
+                text = child.get_text() if isinstance(child, Tag) else str(child)
+                text_parts.append(text.strip())
+
+        line_text = ' '.join(p for p in text_parts if p)
+        lines.append(f"{indent}    - {line_text}")
+
+        for nested_ul in nested_uls:
+            lines.append(_ul_to_text(nested_ul, indent_level + 1))
+
+    return '\n'.join(lines)
 
 def getTxt(node, n):
     node = node.find(n)
@@ -525,19 +589,24 @@ def main():
         if debug:
             print('class:', obj_name, ', func/method/property:', fmpNameRaw)
         docItemType = docItem['type']
+        propTypeRaw = ''
         if docItemType == 'property':
-            propType = fmpItem.get('type').strip()
-            if propType == 'group':
+            propTypeRaw = fmpItem.get('type').strip()
+            if propTypeRaw == 'group':
                 return
-            propType = transformTypeValueForHyperlink(transform_type_for_language(propType, 'lua'), propType)
+            propType = transformTypeValueForHyperlink(transform_type_for_language(propTypeRaw, 'lua'), propTypeRaw)
         else:
             lang = fmpItem.get('lang').strip()
+        propFlagsStr = ''
         if docItemType == 'property':
             propFlags = getPropertyFlags(fmpItem)
             if propFlags == []:
                 return # means deprecated
             html = '<ul>\n'
             for item in propFlags:
+                if len(propFlagsStr) != 0:
+                    propFlagsStr += ', '
+                propFlagsStr += item
                 html += f'    <li>{item}</li>\n'
             html = html + '</ul>'
             propFlags = html
@@ -566,8 +635,8 @@ def main():
         fmpDescription = fmpDescription.strip().rstrip('. ')
         enums = addEnums(fmpDescription, enums)
         more = (getTxt(fmpItem, 'more') or '').strip().rstrip('. ')
-        input = parse_params(fmpItem.find('params'))
-        output = parse_params(fmpItem.find('returns'))
+        rawInput = parse_params(fmpItem.find('params'))
+        rawOutput = parse_params(fmpItem.find('returns'))
 
         filename = fmpToFilename(fmpNameRaw, docItemType, obj_name)
         fmpName = fmpNameRaw
@@ -603,7 +672,7 @@ def main():
         for cat in itemCategories:
             cat = cat.lower()
             if cat in docItem['categoriesMap']:
-                docItem['categoriesMap'][cat]['api'].append({'fullName': fmpName, 'name': fmpNameRaw, 'file': currentVer + '/' + filename, 'c': docItemType == 'function', 'short': shortDescription})
+                docItem['categoriesMap'][cat]['api'].append({'fullName': fmpName, 'name': fmpNameRaw, 'file': currentVer + '/' + filename, 'c': docItemType == 'function', 'short': shortDescription, 'class': namespace + obj_name})
                 # Add see-also items related to the listed categories (but only within the same category type, i.e. method/prop cat for methods, function cat for functions, and method/property cat for properties):
                 methFunc = 'methodsAndProperties'
                 methFuncNm = 'methods &amp; properties'
@@ -641,18 +710,24 @@ def main():
             see_also = ''
 
         synopsis = ''
+        luaSynopsis = ''
+        pythonSynopsis = ''
         if docItemType != 'property':
             for l in lang.split(','):
                 if synopsis != '':
                     synopsis += '\n\n'
-                syn = format_synopsis(prepare_synopsis(fmpName, input, output, l), 100)
+                syn = format_synopsis(prepare_synopsis(fmpName, rawInput, rawOutput, l), 100)
                 if l != 'c':
+                    if l == 'lua':
+                        luaSynopsis = syn
+                    if l == 'python':
+                        pythonSynopsis = syn
                     syn = addCodeSection(syn, l)
                 synopsis = synopsis + syn
-
-        if input and (len(input) > 0):
+        input = ''
+        if rawInput and (len(rawInput) > 0):
             html = "<ul>\n"
-            for param in input:
+            for param in rawInput:
                 name = param.get('name', '')
                 tp = param.get('type', '')
                 if docItemType != 'function':
@@ -661,12 +736,11 @@ def main():
                 enums = addEnums(description, enums)
                 html += f"    <li>{name}: {description}</li>\n"
             input = html + "</ul>"
-        else:
-            input = ''
 
-        if output and (len(output) > 0):
+        output = ''
+        if rawOutput and (len(rawOutput) > 0):
             html = "<ul>\n"
-            for param in output:
+            for param in rawOutput:
                 name = param.get('name', '')
                 tp = param.get('type', '')
                 if docItemType != 'function':
@@ -678,8 +752,6 @@ def main():
                 else:
                     html += f"    <li>{name}: {description}</li>\n"
             output = html + "</ul>"
-        else:
-            output = ''
 
         enums = addEnums(more, enums)
 
@@ -757,6 +829,39 @@ def main():
             #file_w.write(a)
             file_w.write(minify_html.minify(a))
 
+        if docItemType != 'function':
+            llmItem = ''
+            if docItemType == 'method':
+                fn = filename.replace('.htm', '.method')
+            if docItemType == 'property':
+                fn = filename.replace('property_', '')
+                fn = fn.replace('.htm', '.property')
+            nm = LLM_dir / fn
+            with nm.open('w', encoding='utf-8') as file_w:
+                llmItem += 'name: ' + fmpNameRaw
+                llmItem += '\nclass: ' + namespace + obj_name
+                llmItem += '\ndescription: ' + stripHtml(fmpDescription)
+                if docItemType == 'method':
+                    llmItem += '\nlua synopsis: ' + luaSynopsis
+                    llmItem += '\npython synopsis: ' + pythonSynopsis
+                    llmItem += '\ninputs:'
+                    for index, item in enumerate(rawInput):
+                        txt = ul_to_text(item['description'])
+                        if txt.startswith('    -'):
+                            txt = '\n' + txt
+                        llmItem += '\n' + str(index + 1) + '. ' + item['name'] + ': ' + txt
+                    llmItem += '\noutputs:'
+                    for index, item in enumerate(rawOutput):
+                        txt = ul_to_text(item['description'])
+                        if txt.startswith('    -'):
+                            txt = '\n' + txt
+                        llmItem += '\n' + str(index + 1) + '. ' + item['name'] + ': ' + txt
+                if docItemType == 'property':
+                    llmItem += '\ntype: ' + propTypeRaw
+                    llmItem += '\nflags: ' + propFlagsStr
+
+                file_w.write(llmItem)
+
     categoriesMap = {}
     for item in categories:
         item['cat'] = item['cat'].lower()
@@ -771,6 +876,10 @@ def main():
         apiDir_main = output_base / 'en'
         apiDir_currentVer = output_base / 'en' / currentVer
         apiDir_all = output_base / 'en' / 'sim'
+        LLM_dir = output_base / 'en' / 'LLM'
+        if os.path.exists(LLM_dir):
+            shutil.rmtree(LLM_dir)
+        os.makedirs(LLM_dir)
         # Note: apiDirs_oldVer and apiDir_deprecated_currentVer remain input directories (unchanged)
 
     try:
@@ -925,6 +1034,7 @@ def main():
     with (templatesDir / 'apiList.htm').open('r') as file_r:
         listTemplate = file_r.read()
 
+    llm_categories = ''
     # First fill items related to methods and properties:
     methodPropCatLinks = ''
     methodPropSection = ''
@@ -934,8 +1044,17 @@ def main():
         page = item['page']
         obj = item['obj']
         if ( (cat in methodDocItem['categoriesMap']) and (len(methodDocItem['categoriesMap'][cat]['api']) > 0) ) or ( (cat in propertyDocItem['categoriesMap']) and (len(propertyDocItem['categoriesMap'][cat]['api']) > 0) ):
+            llm_category = ''
             title = categoriesMap[cat]['txt']
-
+            if len(llm_categories) != 0:
+                llm_categories += '\n'
+            llm_categories += 'name: ' + cat
+            ti = title
+            p = ti.find('.')
+            if p != -1:
+                ti = ti[p + 1:]
+            llm_categories += '\ndescription: ' + ti
+            llm_categories += '\nfile: ' + cat + '.category\n'
             methodLinks = ''
             if (cat in methodDocItem['categoriesMap']) and (len(methodDocItem['categoriesMap'][cat]['api']) > 0):
                 catApis = methodDocItem['categoriesMap'][cat]['api']
@@ -949,11 +1068,20 @@ def main():
                         funcsEnd.append(c)
                 funcs = funcs + funcsEnd
                 for e in funcs:
-                    name = e['fullName']
+                    fullname = e['fullName']
+                    rawname = e['name']
                     file = e['file']
                     if len(methodLinks) != 0:
                         methodLinks += '\n'
-                    methodLinks += '<a href="' + file + '">' + name + '</a>' + e['short']
+                    methodLinks += '<a href="' + file + '">' + fullname + '</a>' + e['short']
+
+                    if len(llm_category) > 0:
+                        llm_category += '\n'
+                    llm_category += 'name: ' + rawname + '\n'
+                    llm_category += 'class: ' + e['class'] + '\n'
+                    llm_category += 'type: method\n'
+                    llm_category += 'description: ' + e['short'] + '\n'
+                    llm_category += 'file: ' + Path(file).stem + '.method\n'
 
             propertyLinks = ''
             if (cat in propertyDocItem['categoriesMap']) and (len(propertyDocItem['categoriesMap'][cat]['api']) > 0):
@@ -971,11 +1099,20 @@ def main():
                         funcsEnd.append(c)
                 funcs = funcs + funcsEnd
                 for e in funcs:
-                    name = e['fullName']
+                    fullname = e['fullName']
+                    rawname = e['name']
                     file = e['file']
                     if len(propertyLinks) != 0:
                         propertyLinks += '\n'
-                    propertyLinks += '<a href="' + file + '">' + name + '</a>' + e['short']
+                    propertyLinks += '<a href="' + file + '">' + fullname + '</a>' + e['short']
+
+                    if len(llm_category) > 0:
+                        llm_category += '\n'
+                    llm_category += 'name: ' + rawname + '\n'
+                    llm_category += 'class: ' + e['class'] + '\n'
+                    llm_category += 'type: property\n'
+                    llm_category += 'description: ' + e['short'] + '\n'
+                    llm_category += 'file: ' + Path(file).stem + '.property\n'
 
             methodPropCatLinks += '<li><a href="#methodsAndProperties_' + cat + '">' + title + '</a></li>'
             methodPropSection += '<h2><a name="methodsAndProperties_' + cat + '"></a>'
@@ -988,6 +1125,10 @@ def main():
             methodPropSection += '<code class="language-python-lua coppelia-coppeliasim-script api-list">'
             methodPropSection += methodLinks + propertyLinks
             methodPropSection += '</code><br>'
+
+            nm = LLM_dir / str(cat +'.category')
+            with nm.open('w') as file_w:
+                file_w.write(llm_category)
 
     # Fill items related to functions:
     functionCatLinks = ''
@@ -1002,11 +1143,11 @@ def main():
             title = functionDocItem['categoriesMap'][cat]['txt']
             funcs = sorted(functionDocItem['categoriesMap'][cat]['api'], key=lambda x: x['fullName'])
             for e in funcs:
-                name = e['fullName']
+                fullname = e['fullName']
                 file = e['file']
                 if len(functionLinks) != 0:
                     functionLinks += '\n'
-                functionLinks += '<a href="' + file + '">' + name + '</a>'
+                functionLinks += '<a href="' + file + '">' + fullname + '</a>'
             if len(functionLinks) != 0:
                 if c_Prefix:
                     functionCatLinks += '<li><a href="#functions_' + cat + '">' + title + '</a></li>'
@@ -1029,6 +1170,17 @@ def main():
     nm = apiDir_main / 'apiFunctions.htm'
     with nm.open('w') as file_w:
         file_w.write(minify_html.minify(listTemplate))
+
+    nm = LLM_dir / 'categories.cat'
+    with nm.open('w') as file_w:
+        file_w.write(llm_categories)
+
+    # now copy the deprecated functions for the LLMs:
+    for item in deprecatedLLMDir:
+        for filename in os.listdir(item):
+            if filename.endswith('.deprecated'):
+                src_path = os.path.join(item, filename)
+                shutil.copy2(src_path, LLM_dir)
 
 if __name__ == "__main__":
     main()
