@@ -1,5 +1,5 @@
 name: sim.getVisionSensorDepthBuffer
-description: 
+description:
 luaSynopsis: float[]/buffer depthBuffer=sim.getVisionSensorDepthBuffer(int sensorHandle,int posX=0,int posY=0,int sizeX=0,int sizeY=0)
 pythonSynopsis: list/bytes depthBuffer=sim.getVisionSensorDepthBuffer(int sensorHandle,int posX=0,int posY=0,int sizeX=0,int sizeY=0)
 inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
@@ -8,3 +8,7 @@ inputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
 3. sizeX / sizeY: size of the depth buffer portion to retrieve. Zero by default, which means that the full depth buffer should be retrieved
 outputs (possibly taken/adapted from C-function counterpart. Adjust accordingly):
 1. depthBuffer: table containing depth values (sizeX*sizeY), or a string containing coded depth values. Returned values are in the range of 0-1 (0=closest to sensor (i.e. close clipping plane), 1=farthest from sensor (i.e. far clipping plane)). If the sim.handleflag_depthbuffermeters was specified, then individual values are expressed as distances in meters.
+replacedBy:
+- name: depth, class: visionSensor, file: visionSensor_depth.property
+- name: packedDepth, class: visionSensor, file: visionSensor_packedDepth.property
+- name: getDepth, class: visionSensor, file: visionSensor_getDepth.method
