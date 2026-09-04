@@ -1,0 +1,32 @@
+CoppeliaSim offers various scene objects that can be created within a scene.
+A scene object is of type 'sceneObject' with base class 'object'. Each sceneObject has properties/methods on its own, e.g.:
+
+'sceneObject.pose' (local pose)
+'sceneObject.position' (local position)
+'sceneObject.quaternion' (local quaternion)
+
+a sceneObject can be arranged in a parent-child relation. Additional useful properties/methods are then, e.g.:
+
+'sceneObject.worldPose' (absolute pose)
+'sceneObject.worldPosition' (absolute position)
+'sceneObject.worldQuaternion' (absolute quaternion)
+'sceneObject:getPose' (pose relative to another sceneObject)
+'sceneObject:getPosition' (position relative to another sceneObject)
+'sceneObject:worldQuaternion' (quaternion relative to another sceneObject)
+'sceneObject:setParent'
+
+Following sceneObject types are supported and can be created via sim.scene:createObject:
+- 'shape': is a mesh or compound of meshes. Holds geometric and dynamic properties (e.g. mass and interia)
+- 'camera': is an object allowing to visualize the scene content. Has no specific resolution and cannot perform image processing
+- 'joint': is an object that allows for a 1 or 3 DoF movement between its neighbours. Holds kinematic and dynamic properties
+- 'light': is an object used to illuminate a scene
+- 'proximitySensor': is an object allowing to detect 'detectable' objects within its sensing volume
+- 'dummy': is a multi-purpose object, often used as reference frame or model base
+- 'visionSensor': is a vision sensor with a specific resolution, allowing to generate synthetic images and perform image processing
+- 'pointCloud': is an object holding a point cloud
+- 'forceSensor': is an object allowing to measure a force or torque between connected shapes
+- 'graph': is an object that can be used to vidualize data point
+- 'ocTree': is a object holding an OC-tree
+- 'marker': object allowing to display points, lines, cubes, and other items in the scene
+- 'script': object wrapping a detached script of type simulation or customization
+- 'path': a model that displays a path in the scene. This is not a sceneObject per se, but rather a model instead. Not to be mixed up with the 'Path' class

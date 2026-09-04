@@ -20,42 +20,42 @@
 <h1>Properties</h1>
 
 <p>In CoppeliaSim, all internal variables or states can be handled as properties: those can be queried or modified via <a href="apiFunctions.htm#properties">dedicated API functions</a>.</p>
-<p>Properties relate to a <em>target</em>, such as CoppeliaSim in general (sim.handle_app), a scene (sim.handle_scene), or a specific object (e.g. a scene object):</p>
+<p>Properties relate to an <a href="mainObjectTypes.htm#object">object</a>, e.g. sim.app, sim.scene, sim.self, a detachedScript instance, a sceneObject instance, etc.:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
-sim.getStringProperty(sim.handle_app, 'settingsPath') # get location of user settings file usrset.txt
-sim.setVector3Property(sim.handle_scene, 'gravity', [0.0, 0.0, 0.0]) # set zero-gravity
-sim.getFloatArrayProperty(jointHandle, 'interval') # get joint lower and upper limits
-sim.getIntArrayProperty(shapeHandle, 'meshes') # get handles of meshes composing the shape
-sim.getFloatArrayProperty(meshHandle, 'vertices') # get vertices of a mesh</code>
+sim.app.paths.settings # get location of user settings file usrset.txt
+sim.scene.dynamics.gravity # set zero-gravity
+jointObject.bounds # get joint lower and upper limits
+shapeObject.meshes # get meshes composing the shape
+meshObject.vertices # get vertices of a mesh</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim.getStringProperty(sim.handle_app, 'settingsPath') -- get location of user settings file usrset.txt
-sim.setVector3Property(sim.handle_scene, 'gravity', {0.0, 0.0, 0.0}) -- set zero-gravity
-sim.getFloatArrayProperty(jointHandle, 'interval') -- get joint lower and upper limits
-sim.getIntArrayProperty(shapeHandle, 'meshes') -- get handles of meshes composing the shape
-sim.getFloatArrayProperty(meshHandle, 'vertices') -- get vertices of a mesh</code>
+sim.app.paths.settings -- get location of user settings file usrset.txt
+sim.scene.dynamics.gravity -- set zero-gravity
+jointObject.bounds -- get joint lower and upper limits
+shapeObject.meshes -- get meshes composing the shape
+meshObject.vertices -- get vertices of a mesh</code>
 
 </div>
 
 
-<p><a href="propertiesReference.htm">This page lists all available targets and properties</a>. A property usually is readable and writable, but depending on the property, it can also be read-only or write-only. Other properties can be removable:</p>
+<p><a href="apiFunctions.htm#methodsAndProperties">This page lists all available properties and methods</a>. A property usually is readable and writable, but depending on the property, it can also be read-only or write-only. Other properties can be removable, are constant, etc.:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
-sim.getIntArrayProperty(shapeHandle, 'meshes') # read-only property
-sim.setBoolProperty(shapeHandle, 'applyCulling', true) # write-only property
-sim.removeProperty(objectHandle, 'customData.myFloatArray') # removable property</code>
+shapeObject.meshes # read-only property
+shapeObject.applyColor.diffuse = [1, 0, 0, 1] # write-only property
+sceneObject:removeProperty('customData.myFloatArray') # removable property</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim.getIntArrayProperty(shapeHandle, 'meshes') -- read-only property
-sim.setBoolProperty(shapeHandle, 'applyCulling', true) -- write-only property
-sim.removeProperty(objectHandle, 'customData.myFloatArray') -- removable property</code>
+shapeObject.meshes -- read-only property
+shapeObject.applyColor.diffuse = Color('red') -- write-only property
+sceneObject:removeProperty('customData.myFloatArray') -- removable property</code>
 
 </div>
 
@@ -67,14 +67,13 @@ sim.removeProperty(objectHandle, 'customData.myFloatArray') -- removable propert
 <li><a href="#customData">custom data</a></li>
 <li><a href="#signals">signals</a></li>
 <li><a href="#namedParams">named parameters</a></li>
-<li><a href="#engines">engine-related properties</a></li>
 </ul>
 <br>
 
 <h2><a name="customData"></a>Custom data</h2>
 
 
-<p>Custom data properties can be seen as persistent data (stored to disk) with different scopes: globally (i.e., sim.handle_app), within the current scene (sim.handle_scene), or locally, specific to a scene object (where the <em>target</em> is the scene object's handle). Custom data properties are identified with a &quot;customData.&quot;-prefix, and they can be created/set, modified and removed. For example:</p>
+<p>Custom data properties can be seen as persistent data (stored in an object, sometimes also to disk) with different scopes: globally (i.e., sim.app (stored to disk), within the current scene (sim.scene), or locally, specific to a scene object. Custom data properties are identified with a &quot;customData.&quot;-prefix, and they can be created/set, modified and removed. For example:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
@@ -83,14 +82,16 @@ sim.removeProperty(objectHandle, 'customData.myFloatArray') -- removable propert
 # script 1 writes the data to a scene object:
 
 myData = [1, 2, [&quot;Hello&quot;, &quot;world&quot;, True, {&quot;value1&quot;: 63, &quot;value2&quot;: &quot;aString&quot;}]]
-sim.setBufferProperty(objectHandle, &quot;customData.myTag&quot;, sim.packTable(myData))</code>
+sceneObject.customData.myTag = sim.app:pack(myData)
+sceneObject:setBufferProperty('customData.myTag', myData) # same effect as above, but by using the related method</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- script 1 writes the data to a scene object:
 
 local myData = {1, 2, {&quot;Hello&quot;, &quot;world&quot;, true, {value1 = 63, value2 = &quot;aString&quot;}}}
-sim.setBufferProperty(objectHandle, &quot;customData.myTag&quot;, sim.packTable(myData))</code>
+sceneObject.customData.myTag = sim.app:pack(myData)
+sceneObject:setBufferProperty('customData.myTag', myData) -- same effect as above, but by using the related method</code>
 
 </div>
 
@@ -100,18 +101,18 @@ sim.setBufferProperty(objectHandle, &quot;customData.myTag&quot;, sim.packTable(
 
 # script 2 reads the data from the scene object:
 
-myData = sim.getBufferProperty(objectHandle, &quot;customData.myTag&quot;, {'noError' : True})
+myData = sceneObject.customData.myTag
 if myData:
-    myData = sim.unpackTable(myData)
+    myData = sim.app:unpack(myData)
     # do something with the data</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- script 2 reads the data from the scene object:
 
-local myData = sim.getBufferProperty(objectHandle, &quot;customData.myTag&quot;, {noError = true})
+local myData = sceneObject.customData.myTag
 if myData then
-    myData = sim.unpackTable(myData)
+    myData = sim.app:unpack(myData)
     -- do something with the data
 end</code>
 </div>
@@ -123,7 +124,7 @@ end</code>
 
 <h2><a name="signals"></a>Signals</h2>
 
-<p>Signal properties can be seen as variables with different scopes: globally (i.e., sim.handle_app), within the current scene (sim.handle_scene), or locally, specific to a scene object (where the <em>target</em> is the scene object's handle). Signal properties are identified with a &quot;signal.&quot;-prefix, and they can be created/set, modified and removed. For example:</p>
+<p>Signal properties can be seen as variables with different scopes: globally (i.e., sim.app), within the current scene (sim.scene), or locally, specific to a scene object. Signal properties are identified with a &quot;signal.&quot;-prefix, and they can be created/set, modified and removed. For example:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
@@ -131,12 +132,14 @@ end</code>
 
 # script 1 writes the data to int signal 'myIntSignal':
 
-sim.setIntProperty(sim.handle_scene, &quot;signal.myIntSignal&quot;, 37)</code>
+sim.scene.signal.myIntSignal = 37
+sim.scene:setIntProperty('signal.myIntSignal', 37) # same effect as above, but by using the related method</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 -- script 1 writes the data to int signal 'myIntSignal':
 
-sim.setIntProperty(sim.handle_scene, &quot;signal.myIntSignal&quot;, 37)</code>
+sim.scene.signal.myIntSignal = 37
+sim.scene:setIntProperty('signal.myIntSignal', 37) -- same effect as above, but by using the related method</code>
 
 </div>
 
@@ -146,7 +149,7 @@ sim.setIntProperty(sim.handle_scene, &quot;signal.myIntSignal&quot;, 37)</code>
 
 # script 2 reads the data from int signal 'myIntSignal':
 
-myData = sim.getIntProperty(sim.handle_scene, &quot;signal.myIntSignal&quot;, {'noError' : True})
+myData = sim.scene.signal.myIntSignal
 if myData != None:
     # do something with the data</code>
 
@@ -154,7 +157,7 @@ if myData != None:
 
 -- script 2 reads the data from int signal 'myIntSignal':
 
-myData = sim.getIntProperty(sim.handle_scene, &quot;signal.myIntSignal&quot;, {noError = true})
+local myData = sim.scene.signal.myIntSignal
 if myData then
     -- do something with the data
 end</code>
@@ -167,26 +170,18 @@ end</code>
 
 <h2><a name="namedParams"></a>Named parameters</h2>
 
-<p>Named parameters are volatile string properties related to CoppeliaSim in general (i.e. target is sim.handle_app). Named parameters are usually <a href="commandLine.htm#settingsFile">user settings</a>, or user arguments set via the -G <a href="commandLine.htm#commandLine">command line</a> switch. For instance:</p>
+<p>Named parameters are volatile string properties related to CoppeliaSim in general (i.e. the target object is always sim.app). Named parameters are usually <a href="commandLine.htm#settingsFile">user settings</a>, or user arguments set via the -G <a href="commandLine.htm#commandLine">command line</a> switch. For instance:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
-arg = sim.getStringProperty(sim.handle_app, &quot;namedParam.myCustomArgument&quot;)</code>
+arg = sim.app.namedParam.myCustomArgument</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-local arg = sim.getStringProperty(sim.handle_app, &quot;namedParam.myCustomArgument&quot;)</code>
+local arg = sim.app.namedParam.myCustomArgument</code>
 
 </div>
-<br>
-
-<h2><a name="engines"></a><a name="engine"></a>Engine-related properties</h2>
-
-<p>Engine-related properties are properties relative to physics engines. Those properties can easily be identified from their "bullet.", "ode.", "newton.", "vortex.", or "mujoco." prefix.</p>
-<br>
-
-
 <br>
 <br>
 

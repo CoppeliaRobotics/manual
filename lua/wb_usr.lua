@@ -790,11 +790,11 @@ wb_usr.tree =
                         {
                             name={en="Script execution order"},
                             link="scriptExecution.htm"
-                        },                                
+                        },
                         {
                             name={en="Buffers"},
                             link="buffers.htm"
-                        },                                
+                        },
                         {
                             name={en="Lua vs Python scripts"},
                             link="luaPythonDifferences.htm"
@@ -833,17 +833,6 @@ wb_usr.tree =
                         {
                             name={en="Regular API constants"},
                             link="apiConstants.htm"
-                        },
-                        {
-                            name={en="Properties"},
-                            link="properties.htm",
-                            folder=
-                            {
-                                {
-                                    name={en="Properties reference"},
-                                    link="propertiesReference.htm"
-                                },
-                            }
                         },
                     }
                 },

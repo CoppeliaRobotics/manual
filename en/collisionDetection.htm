@@ -34,27 +34,27 @@
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 def sysCall_init():
-    sim = require('sim')
-    robotBase = sim.getObject('/robotModelAlias')
-    self.robotCollection = sim.createCollection(0)
-    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
+    sim = require('sim-2')
+    robotBase = sim.self:getObject('/robotModelAlias')
+    self.robotCollection = sim.scene:createObject({'type': 'collection'})
+    self.robotCollection:addItem(robotBase, {'mode': 'tree'})
 
 def sysCall_sensing():
-    result, pairHandles = sim.checkCollision(self.robotCollection, sim.handle_all)
+    result, pairHandles = self.robotCollection:checkCollision(sim.handle_all)
     if result &gt; 0:
         print(f'Robot is colliding. Colliding pair is {getAsString(pairHandles)}')</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
-    local robotBase = sim.getObject('/robotModelAlias')
-    robotCollection = sim.createCollection(0)
-    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
+    sim = require('sim-2')
+    local robotBase = sim.self:getObject('/robotModelAlias')
+    robotCollection = sim.scene:createObject({type = 'collection'})
+    robotCollection:addItem(robotBase, {mode = 'tree'})
 end
 
 function sysCall_sensing()
-    local result, pairHandles = sim.checkCollision(robotCollection, sim.handle_all)
+    local result, pairHandles = robotCollection:checkCollision(sim.handle_all)
     if result &gt; 0 then
         print('Robot is colliding. Colliding pair is ' .. getAsString(pairHandles))
     end
@@ -67,32 +67,31 @@ end</code>
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
-
 def change_pair_color(entity_pair, color_pair):
     self.original_color_data = []
-    self.original_color_data.append(sim.changeEntityColor(entity_pair[0], color_pair[0]))
-    self.original_color_data.append(sim.changeEntityColor(entity_pair[1], color_pair[1]))
+    self.original_color_data.append(entity_pair[0])
+    self.original_color_data.append(entity_pair[0]:changeColor(color_pair[0]))
+    self.original_color_data.append(entity_pair[1])
+    self.original_color_data.append(entity_pair[1]:changeColor(color_pair[1]))
 
 def restore_pair_color():
     if hasattr(self,'original_color_data'):
-        sim.restoreEntityColor(self.original_color_data[0])
-        sim.restoreEntityColor(self.original_color_data[1])
+        self.original_color_data[0]:restoreColor(self.original_color_data[1])
+        self.original_color_data[2]:restoreColor(self.original_color_data[3])
 
 def sysCall_init():
-    sim = require('sim')
-    robot_base = sim.getObject('/irb360')
-    self.robot_collection = sim.createCollection(0)
-    sim.addItemToCollection(self.robot_collection, sim.handle_tree, robot_base, 0)
-    self.collision_colors = [[1, 0, 0], [1, 0, 1]]  # collider and collidee
+    sim = require('sim-2')
+    robot_base = sim.self:getObject('/irb360')
+    self.robot_collection = sim.scene:createObject({'type': 'collection'})
+    self.robot_collection:addItem(robot_base, {'mode': 'tree'})
+    self.collision_colors = [[1, 0, 0, 255], [1, 0, 1, 255]]  # collider and collidee
 
 def sysCall_sensing():
-    result, pair_handles = sim.checkCollision(self.robot_collection, sim.handle_all)
+    result, pair_handles = self.robot_collection:checkCollision(sim.handle_all)
     restore_pair_color()
-    if result &gt; 0:
-        # Change color of the collection and the collidee:
-        change_pair_color([self.robot_collection, pair_handles[1]], self.collision_colors)
+    if result:
         # Change color of the collider and collidee objects:
-        # change_pair_color([pair_handles[0], pair_handles[1]], self.collision_colors)
+        change_pair_color([pair_handles[0], pair_handles[1]], self.collision_colors)
 
 def sysCall_cleanup():
     restore_pair_color()</code>
@@ -101,34 +100,34 @@ def sysCall_cleanup():
 
 function changePairColor(entityPair, colorPair)
     originalColorData = {}
-    originalColorData[1] = sim.changeEntityColor(entityPair[1], colorPair[1])
-    originalColorData[2] = sim.changeEntityColor(entityPair[2], colorPair[2])
+    originalColorData[1] = entityPair[1]
+    originalColorData[2] = entityPair[1]:changeColor(colorPair[1])
+    originalColorData[3] = entityPair[2]
+    originalColorData[4] = entityPair[2]:changeColor(colorPair[2])
 end
 
 function restorePairColor()
     if originalColorData then
-        sim.restoreEntityColor(originalColorData[1])
-        sim.restoreEntityColor(originalColorData[2])
+        originalColorData[1]:restoreColor(originalColorData[2])
+        originalColorData[3]:restoreColor(originalColorData[4])
         originalColorData = nil
     end
 end
 
 function sysCall_init()
-    sim = require('sim')
-    local robotBase = sim.getObject('/irb360')
-    robotCollection = sim.createCollection(0)
-    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
-    collisionColors = {{1, 0, 0}, {1, 0, 1}}  -- collider and collidee
+    sim = require('sim-2')
+    local robotBase = sim.self:getObject('/irb360')
+    robotCollection = sim.scene:createObject({type = 'collection'})
+    robotCollection:addItem(robotBase, {mode = 'tree'})
+    collisionColors = {Color('red'), Color('green)}  -- collider and collidee
 end
 
 function sysCall_sensing()
-    local result, pairHandles = sim.checkCollision(robotCollection, sim.handle_all)
+    local result, pairHandles = robotCollection:checkCollision(sim.handle_all)
     restorePairColor()
-    if result &gt; 0 then
-        -- Change color of the collection and the collidee:
-        changePairColor({robotCollection, pairHandles[2]}, collisionColors)
+    if result then
         -- Change color of the collider and collidee objects:
-        -- changePairColor({pairHandles[1], pairHandles[2]}, collisionColors)
+        changePairColor({pairHandles[1], pairHandles[2]}, collisionColors)
     end
 end
 

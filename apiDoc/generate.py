@@ -66,6 +66,7 @@ categories = [
     {'cat': 'thread',                   'obj': False,   'txt': 'Threads',                                           'page': 'threadedAndNonThreadedCode.htm',                   'oldRefs': ['threads', 'threadRelatedFunctionality']},
     {'cat': 'blocking',                 'obj': False,   'txt': 'Blocking methods',                                  'page': '',                                                 'oldRefs': ['blockingFunctions']},
     {'cat': 'transformation',           'obj': False,   'txt': 'Coordinates and transformations',                   'page': 'positionOrientationTransformation.htm',            'oldRefs': ['pose', 'transformations', 'coordinatesAndTransformations']},
+    {'cat': 'hierarchy',                'obj': False,   'txt': 'Scene hierarchy',                                   'page': '',                                                 'oldRefs': []},
     {'cat': 'messaging',                'obj': False,   'txt': 'Messaging',                                         'page': 'meansOfCommunication.htm',                         'oldRefs': []},
     {'cat': 'texture',                  'obj': False,   'txt': 'Textures',                                          'page': '',                                                 'oldRefs': ['textures']},
     {'cat': 'Console',                  'obj': False,   'txt': 'Console',                                           'page': 'dataVisualizationAndOutput.htm#auxConsoles',       'oldRefs': ['auxiliaryConsoles', 'auxiliaryConsoleFunctions']},
@@ -297,12 +298,12 @@ def transform_type_for_language(param_type, language):
     retVal = ''
     param_python = ''
     type_map = {
-        'vector': 'vector',
-        'vector3': 'vector3',
-        'quaternion': 'quaternion',
-        'pose': 'pose',
-        'matrix': 'matrix',
-        'color': 'color',
+        'vector': 'ndarray<float>[]',
+        'vector3': 'ndarray<float>[3,1]',
+        'quaternion': 'ndarray<float>[4]',
+        'pose': 'ndarray<float>[7]',
+        'matrix': 'ndarray<float>[,]',
+        'color': 'tuple[4]',
         'func': 'func',
         'map': 'dict',
         'bool': 'bool',
@@ -310,10 +311,10 @@ def transform_type_for_language(param_type, language):
         'float': 'float',
         'string': 'str',
         'any': 'any',
-        'handle': 'int',
+        'sim.Object': 'sim.Object',
         'buffer': 'bytes',
         'enum': 'int',
-        'object': 'object',
+        'middleclassObject': 'middleclassObject',
     }
     for lua_type, python_type in type_map.items():
         if param_type == lua_type:
@@ -353,10 +354,10 @@ def transformTypeValueForHyperlink(name, param_type):
         'float': "float",
         'string': "string",
         'any': "any",
-        'handle': "handle",
+        'sim.Object': "handle",
         'buffer': "buffer",
         'enum': "enum",
-        'object': "object",
+        'middleclassObject': "middleclassobject",
     }
     for lua_type, lua_descr in descrpt_map.items():
         if param_type == lua_type:
@@ -368,10 +369,10 @@ def transformTypeValueForHyperlink(name, param_type):
                 break
     b=retVal
     if a == b:
-        print("b",retVal, param_type)
+        print("Error",retVal, param_type)
     return retVal
 
-def prepare_synopsis(func_name, input_params, output_params, lang):
+def prepare_synopsis(func_name, input_params, output_params, lang, module = None):
     def transform_params_for_language(params, language):
         def transform_default_for_language(default_value, param_type, language):
             def transform_map_default(lua_map):
@@ -446,6 +447,8 @@ def prepare_synopsis(func_name, input_params, output_params, lang):
 
     # Combine everything
     synopsis = f"{output_part}{func_name}({input_part})"
+    if module != None:
+        synopsis = module + " = require('" + module + "')\n" + synopsis
 
     return synopsis
 
@@ -712,11 +715,19 @@ def main():
         synopsis = ''
         luaSynopsis = ''
         pythonSynopsis = ''
+        callCmd = fmpItem.get('callCmd')
+        if callCmd != None:
+            callCmd = callCmd.strip()
+        else:
+            callCmd = fmpName
+        module = fmpItem.get('module')
+        if module != None:
+            module = module.strip()
         if docItemType != 'property':
             for l in lang.split(','):
                 if synopsis != '':
                     synopsis += '\n\n'
-                syn = format_synopsis(prepare_synopsis(fmpName, rawInput, rawOutput, l), 100)
+                syn = format_synopsis(prepare_synopsis(callCmd, rawInput, rawOutput, l, module), 100)
                 if l != 'c':
                     if l == 'lua':
                         luaSynopsis = syn

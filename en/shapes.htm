@@ -20,37 +20,37 @@
 <h1>Shapes <img src="images/shapes1.jpg"></h1>
 
 
-<p>Shapes are rigid mesh <a href="objects.htm">objects</a> that are composed of triangular faces. They can be <a href="importExport.htm">imported/exported</a> and <a href="shapeEditModes.htm">edited</a>. They come in four different sub-types:
+<p>A shape is an instance of <a href="mainObjectTypes.htm#shape">type shape</a>, which derives from <a href="mainObjectTypes.htm#sceneObject">type sceneObject</a>. A shape holds one or more instances of <a href="mainObjectTypes.htm#mesh">type mesh</a>. A shape is a rigid collection of meshes that are composed of triangular faces. They can be <a href="importExport.htm">imported/exported</a> and <a href="shapeEditModes.htm">edited</a>. They come in four different sub-types:
 </p>
 
-<li><img src="images/shapes2.jpg"> <strong>Simple shape</strong>: can represent any mesh. It has one color and one set of visual attributes. Not optimised nor recommended for <a href="dynamicsModule.htm">dynamics collision response calculation</a> (since very slow and unstable).</li>
+<li><img src="images/shapes2.jpg"> <strong>Simple shape</strong>: it is not convex nor a primitive shape, and has one set of visual attributes. Not optimised nor recommended for <a href="dynamicsModule.htm">dynamics collision response calculation</a> (since very slow and unstable).</li>
 
-<li><img src="images/shapes3.jpg"> <strong>Compound  shape</strong>: can represent any mesh. It has several colors and sets of visual attributes. Not optimised nor recommended for dynamics collision response calculation (since very slow and unstable). </li>
+<li><img src="images/shapes3.jpg"> <strong>Compound  shape</strong>: it is a compound of simple shapes that can have several sets of visual attributes. Not optimised nor recommended for dynamics collision response calculation (since very slow and unstable). </li>
 
-<li><img src="images/shapes8.jpg"> <strong>Convex shape</strong>: represents a convex mesh with  one color and one set of visual attributes. Optimized for dynamics collision response calculation (but primitive shapes are recommended).
+<li><img src="images/shapes8.jpg"> <strong>Convex shape</strong>: it is convex but not a primitive shape, and has one set of visual attributes. Optimized for dynamics collision response calculation (but primitive shapes are recommended).
 </li>
 
-<li><img src="images/shapes9.jpg"> <strong>Compound convex shape</strong>: represents a group of convex meshes with several colors and sets of visual attributes. Optimized for dynamics collision response calculation (but primitive compound shapes are recommended).
+<li><img src="images/shapes9.jpg"> <strong>Compound convex shape</strong>: it is a compound of convex shapes that can have several sets of visual attributes. Optimized for dynamics collision response calculation (but primitive compound shapes are recommended).
 </li>
 
-<li><img src="images/shapes4.jpg"> <strong>Primitive shape</strong>: represents a primitive shape (cuboid, cylinder or sphere (with additional variations depending on the used physics engine). A primitive  shape (or primitive compound shape) is best suited for dynamics collision response calculation, since it will perform very fast and is stable. See the <a href="dynamicsModule.htm">dynamics</a> section for more information.<br>
+<li><img src="images/shapes4.jpg"> <strong>Primitive shape</strong>: it is a primitive shape (cuboid, cylinder, sphere, etc.), and has one set of visual attributes. It is best suited for dynamics collision response calculation, since it will perform very fast and is stable. See the <a href="dynamicsModule.htm">dynamics</a> section for more information.<br>
 </li>
 
-<li><img src="images/shapes5.jpg"> <strong>Primitive compound shape</strong>: represents a group of primitive shapes (cuboid, cylinder or sphere). A primitive compound shape (or primitive  shape) is best suited for dynamics collision response calculation, since it will perform very fast and is stable. See the <a href="dynamicsModule.htm">dynamics </a>section for more information.<br>
+<li><img src="images/shapes5.jpg"> <strong>Primitive compound shape</strong>: it is a compound of primitive shapes that can have several sets of visual attributes. It is best suited for dynamics collision response calculation, since it will perform very fast and is stable. See the <a href="dynamicsModule.htm">dynamics </a>section for more information.<br>
 </li>
 
-<li><img src="images/shapes6.jpg"> <strong>Heightfield shape</strong>: can represent a terrain as a regular grid, where only the heights change. Heightfields can also be considered as primitive shapes, and are optimized for dynamics collision response calculation.<br>
+<li><img src="images/shapes6.jpg"> <strong>Heightfield shape</strong>: it represents a terrain as a regular grid, where only the heights change. It has one set of visual attributes and can sometimes also be considered as primitive shapes: they are usually also optimized for dynamics collision response calculation.<br>
 </li>
 
-<p>By default, all imported shapes are simple shapes. Two or more shapes or compound shapes can however be grouped/ungrouped with [Edit &gt; Shape grouping/merging &gt; group/ungroup]. Simple shapes can also be merged/divided with [Edit &gt; Shape grouping/merging &gt; merge/divide]. Refer also to the <a href="buildingAModelTutorial.htm">model tutorial</a>. which illustrates how to correctly import and prepare shapes for a simulation model.<br>
+<p>By default, all imported shapes are simple shapes. Two or more shapes or compound shapes can however be grouped/ungrouped with [Edit &gt; Shape grouping/merging &gt; group/ungroup]. Simple shapes can also be merged/divided with [Edit &gt; Shape grouping/merging &gt; merge/divide]. Refer also to the <a href="buildingAModelTutorial.htm">model tutorial</a>. which illustrates how to correctly import and prepare shapes for a simulation model. See also <a href="sim/scene_groupShapes.htm">scene:groupShapes</a>, <a href="sim/shape_ungroup.htm">shape:ungroup</a>, <a href="sim/scene_mergeShapes.htm">scene:mergeShapes</a> and <a href="sim/shape_divide.htm">shape:divide</a><br>
 </p>
 
 <p>
-Primitive shapes are mainly functional shapes. They are most of the time only used by the physics engine that performs on them much better and faster than on non-primitive shapes (e.g. random or convex meshes). For that reason, primitive shapes are often hidden in an invisible layer (e.g. layer 9). Refer to the<a href="layerSelectionDialog.htm"> layer selection dialog</a> and  the section on <a href="designingDynamicSimulations.htm">how to design dynamic simulations</a> for more information.</p>
+Primitive shapes are mainly functional shapes. They are most of the time only used by the physics engine that performs on them much better and faster than on non-primitive shapes (e.g. random or convex meshes). For that reason, primitive shapes are often hidden in an invisible layer (e.g. layer 9). Refer to the<a href="layerSelectionDialog.htm"> layer selection dialog</a> and  the section on <a href="designingDynamicSimulations.htm">how to design dynamic simulations</a> for more information. See also <a href="sim/property_sceneObject_layer.htm">sceneObject.layer</a></p>
 
 
 <p align=center><img src="images/shapes7.jpg"></p>
-<p class=imageLabel>[(a) 5  shapes (e.g. after import), (b) 1  shape (after merging), (c) 1 compound shape (composed by 5 simple shapes)]</p>
+<p class=imageLabel>[(a) 5  shapes (e.g. after import), (b) 1  shape (after merging), (c) 1 compound shape (composed of 5 simple shapes)]</p>
 <br>
 
 <p>Primitive  shapes can also be grouped, the resulting compound shape will however only be primitive if all of its composing elements are also primitives. Merging primitive  shapes will result in a non-primitive shape.</p>
@@ -62,9 +62,9 @@ Primitive shapes are mainly functional shapes. They are most of the time only us
 <li>can be used in <a href="distanceCalculation.htm">minimum distance calculations</a> with other measurable objects.</li>
 <li>can be detected by <a href="proximitySensors.htm">proximity sensors</a>. </li>
 
-<p>The collidable, measurable and detectable properties of a shape can be altered in the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a>. Additionally, those properties can be overridden if the shape is part of a <a href="models.htm">model</a> which overrides them. Refer to the <a href="modelDialog.htm">model dialog</a> for more information.</p>
+<p>The collidable, measurable and detectable properties of a shape can be altered in the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a>. Additionally, those properties can be overridden if the shape is part of a <a href="models.htm">model</a> which overrides them. Refer to the <a href="modelDialog.htm">model dialog</a> for more information. Refer also to <a href="sim/property_sceneObject_collidable.htm">sceneObject.collidable</a>, <a href="sim/property_sceneObject_measurable.htm">sceneObject.measurable</a> and <a href="sim/property_sceneObject_detectable.htm">sceneObject.detectable</a>.</p>
 
-<p>The shape calculations (i.e. collision, distance and proximity sensor calculations) available in CoppeliaSim are also available as stand-alone routines via the <a href="coppeliaGeometricRoutines.htm">Coppelia geometric routines</a>.</p>
+<p>The shape calculations (i.e. collision, distance and proximity sensor calculations) available in CoppeliaSim are also available as stand-alone routines via the <a href="coppeliaGeometricRoutines.htm">Coppelia geometric routines</a>. See also <a href="sim/sceneObject_checkCollision.htm">sceneObject:checkCollision</a>, <a href="sim/collection_checkCollision.htm">collection:checkCollision</a>, <a href="sim/sceneObject_checkDistance.htm">sceneObject:checkDistance</a>, <a href="sim/collection_checkDistance.htm">collection:checkDistance</a> and <a href="sim/proximitySensor_checkSensor.htm">proximitySensor:checkSensor</a>.</p>
 
 <br>
 <br>

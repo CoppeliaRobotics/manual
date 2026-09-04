@@ -20,51 +20,19 @@
 <h1>Paths</h1>
 
 
-<p>A path is a pseudo <a href="objects.htm">object</a>, representing a succession of points with orientation in space. <em>pseudo </em>object, since it is built using merely <a href="dummies.htm">dummies</a> and a <a href="customizationScripts.htm">customization script</a> that describes its functionality and behaviour.</p>
+<p>A path is a <em>pseudo</em> <a href="objects.htm">scene object</a>, representing a succession of points with orientation in space: it is rather a <a href="models.htm">model</a> built using <a href="dummies.htm">dummies</a> and a <a href="customizationScripts.htm">customization script</a> that describes its functionality and behaviour.</p>
 <p align=center><img src="images/nakedPath.jpg"></p>
 <p class=imageLabel>[Simple path containing 4 control points]</p>
 <br>
 
 
-<p>Path objects can be added to the <a href="scenes.htm">scene</a> with [Add &gt; Path]. A path is composed by control points that define its curve in space. Control points can be shifted, copy/pasted or deleted. A path's basic properties are accessed and adjusted via its user parameters (implemented via a <a href="userConfigCallbackFunctions.htm">user config callback function</a>), in the scene hierarchy:</p>
-<p align=center><img src="images/scriptSimParams1.jpg"></p>
-<p class=imageLabel>[User parameter icon]</p>
-<br>
+<p>Path objects can be added to the <a href="scenes.htm">scene</a> with [Add &gt; Path]. Refer also to <a href="sim/scene_createObject.htm">sim.scene:createObject</a>. A path is composed by control points that define its curve in space. Control points can be shifted, copy/pasted or deleted.</p>
 
-<p>A path can also automatically generate extruded <a href="shapes.htm">shapes</a>; this functionality is enabled via its user parameters, and the shape profile, color and other details can be adjusted in its <a href="customizationScripts.htm">customization script</a>, which uses the API function <a href="sim/simGenerateShapeFromPath.htm">sim.generateShapefromPath</a>: </p>
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
-
-function path.shaping(path, pathIsClosed, upVector)
-    -- following section generates a square extrusion shape:
-    local section = {0.02, -0.02, 0.02, 0.02, -0.02, 0.02, -0.02, -0.02, 0.02, -0.02}
-    local color={0.7, 0.9, 0.9}
-    local options = 0
-    if pathIsClosed then
-        options = options | 4
-    end
-    local shape = sim.generateShapeFromPath(path, section, options, upVector)
-    sim.setShapeColor(shape, nil, sim.colorcomponent_ambient_diffuse, color)
-    return shape
-end</code>
+<p>A path properties are set in its customization script. See also the <a href="mainObjectTypes.htm#path">Path class</a>, <a href="sim/Path_Constructor.htm">Path</a> and <a href="sim/Path_createShape.htm">Path:createShape</a>: </p>
 <p align=center><img src="images/squarePath.jpg"></p>
 <p class=imageLabel>[Simple path generating an extruded square shape]</p>
 <br>
 
-
-<p>To generate an extruded circular shape, use following code to create the section data:</p>
-<code class="hljs language-lua coppelia-coppeliasim-script">--lua
-
-local section = {}
-local radius = 0.02
-local sides = 32
-local da = math.pi * 2 / sides
-for i = 0, sides - 1 do
-    section[2 * i + 1] = radius * math.cos(da * i)
-    section[2 * i + 2] = radius * math.sin(da * i)
-end
--- the section shoujld be closed (first and last points perfect overlap):
-section[#section + 1] = section[1]
-section[#section + 1] = section[2]</code>
 <p align=center><img src="images/circularPath.jpg"></p>
 <p class=imageLabel>[Simple path generating an extruded circular shape]</p>
 <br>
@@ -92,7 +60,7 @@ local pathData = sim.unpackDoubleTable(sim.getBufferProperty(pathHandle, 'custom
 
 <br>
 
-<p>Various <a href="apiFunctions.htm#paths">API functions related to paths</a> are available, e.g. in order to have an object follow a path in position and orientation, one could use following script:</p>
+<p>In order to have an object follow a path in position and orientation, one could use following script:</p>
 
 <div class=multi-language-switcher data-default="lua">
 

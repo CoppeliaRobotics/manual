@@ -19,7 +19,7 @@
 
 <h1>Accessing scene objects programmatically</h1>
 
-<p>When programming in and around CoppeliaSim, you will always need to reference <a href="objects.htm">scene objects</a>. You do this with handles, that you obtain via <a href="sim/simGetObject.htm">sim.getObject</a>, which expects an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner in case of <a href="#fromScriptObject">script object code</a>.</p>
+<p>When programming in and around CoppeliaSim, you will always need to reference <a href="objects.htm">scene objects</a>. You do this with handles, that you obtain via <a href="sim/detachedScript_getObject.htm">detachedScript:getObject</a> or <a href="sim/sceneObject_getObject.htm">sceneObject:getObject</a>, which expects an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner in case of <a href="#fromScriptObject">script object code</a>.</p>
 
 <p>In both cases, the path to the object can often be simplified. You may also use wildcards, and optionally specify the object sequence or order, in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path/alias.</p>
 
@@ -96,84 +96,79 @@ robotHandle = sim.getObject(&quot;/Robot{4}&quot;)</code>
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
-# from within a simulation- or customization script:
+# from within a simulation- or customization script, using sim-2:
 
-# returns the current script's handle:
-objectHandle = sim.getObject(&quot;.&quot;) 
+# returns the current script object:
+object = sim.self:getObject(&quot;.&quot;) 
 
 # returns the parent of this script:
-parentHandle = sim.getObject(&quot;..&quot;) 
+parent = sim.self:getObject(&quot;..&quot;) 
 
 # returns the model this script is contained in:
-modelHandle = sim.getObject(&quot;:&quot;) 
+model = sim.self:getObject(&quot;:&quot;) 
 
 # returns the parent model this script is contained in:
-parentModelHandle = sim.getObject(&quot;::&quot;) 
+parentModel = sim.self:getObject(&quot;::&quot;) 
 
 # returns the first object in the current hierarchy, that starts with <em>Object</em>:
-objectHandle = sim.getObject(&quot;./Object*&quot;) 
+object = sim.self:getObject(&quot;./Object*&quot;) 
 
-# returns the first object with alias <em>Object</em>, in the current model hierarchy:
-objectHandle = sim.getObject(&quot;:/Object&quot;) 
+# returns the first object with name <em>Object</em>, in the current model hierarchy:
+object = sim.self:getObject(&quot;:/Object&quot;) 
 
-# returns the 4th object with alias <em>Leg</em>, within a same hierarchy level, in the current model hierarchy:
-legHandle = sim.getObject(&quot;:/Leg[3]&quot;) 
+# returns the 4th object with name <em>Leg</em>, within a same hierarchy level, in the current model hierarchy:
+leg = sim.self:getObject(&quot;:/Leg[3]&quot;) 
 
-# returns the 5th object with alias <em>Leg</em>, in the current model hierarchy:
-legHandle = sim.getObject(&quot;:/Leg{4}&quot;) 
+# returns the 5th object with name <em>Leg</em>, in the current model hierarchy:
+leg = sim.self:getObject(&quot;:/Leg{4}&quot;) 
 
 # parse through all <em>Leg</em> objects in the current model hierarchy:
 i = 0
 while True:
-    legHandle = sim.getObject(&quot;:/Leg&quot;, {'index': i, 'noError': True})
-    if legHandle &lt; 0:
+    leg = sim.self:getObject(&quot;:/Leg&quot;, {'index': i, 'noError': True})
+    if leg == None:
         break
-    i = i + 1
-
-# returns the first object with alias <em>Object</em>, in the hierarchy of <em>anotherObject</em>:
-local objectHandle = sim.getObject(&quot;./Object&quot;, {'proxy': anotherObject}) </code>
+    i = i + 1</code>
 
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 # from within a simulation- or customization script:
+sim = require('sim-2')
 
--- returns the current script's handle:
-local objectHandle = sim.getObject(&quot;.&quot;) 
+-- returns the current script:
+object = sim.self:getObject(&quot;.&quot;) 
 
 -- returns the parent of this script:
-local parentHandle = sim.getObject(&quot;..&quot;) 
+parent = sim.self:getObject(&quot;..&quot;) 
 
 -- returns the model this script is contained in:
-local modelHandle = sim.getObject(&quot;:&quot;) 
+model = sim.self:getObject(&quot;:&quot;) 
 
 -- returns the parent model this script is contained in:
-local parentModelHandle = sim.getObject(&quot;::&quot;) 
+parentModel = sim.self:getObject(&quot;::&quot;) 
 
 -- returns the first object in the current hierarchy, that starts with <em>Object</em>:
-local objectHandle = sim.getObject(&quot;./Object*&quot;) 
+object = sim.self:getObject(&quot;./Object*&quot;) 
 
--- returns the first object with alias <em>Object</em>, in the current model hierarchy:
-local objectHandle = sim.getObject(&quot;:/Object&quot;) 
+-- returns the first object with name <em>Object</em>, in the current model hierarchy:
+object = sim.self:getObject(&quot;:/Object&quot;) 
 
--- returns the 4th object with alias <em>Leg</em>, within a same hierarchy level, in the current model hierarchy:
-legHandle = sim.getObject(&quot;:/Leg[3]&quot;) 
+-- returns the 4th object with name <em>Leg</em>, within a same hierarchy level, in the current model hierarchy:
+leg = sim.self:getObject(&quot;:/Leg[3]&quot;) 
 
--- returns the 5th object with alias <em>Leg</em>, in the current model hierarchy:
-legHandle = sim.getObject(&quot;:/Leg{4}&quot;) 
+-- returns the 5th object with name <em>Leg</em>, in the current model hierarchy:
+leg = sim.self:getObject(&quot;:/Leg{4}&quot;) 
 
 -- parse through all <em>Leg</em> objects in the current model hierarchy:
 local i = 0
 while true do
-    local legHandle = sim.getObject(&quot;:/Leg&quot;, {index = i, noError = true})
-    if legHandle &lt; 0 then
+    local leg = sim.self:getObject(&quot;:/Leg&quot;, {index = i, noError = true})
+    if legHandle == nil then
         break
     end
     i = i + 1
-end
-
--- returns the first object with alias <em>Object</em>, in the hierarchy of <em>anotherObject</em>:
-local objectHandle = sim.getObject(&quot;./Object&quot;, {proxy = anotherObject})</code>
+end</code>
 
 
 </div>

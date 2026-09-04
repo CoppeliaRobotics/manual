@@ -33,6 +33,7 @@
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2:
 
 # Refer to the various Python packages, e.g.:
 import struct
@@ -40,20 +41,21 @@ import base64
 import cbor2 as cbor
 
 # One can also use some built-in functions:
-base64Buffer = sim.transformBuffer(binaryPackedData, sim.buffer_uint8, 1, 0, sim.buffer_base64)
-originalBuffer = sim.transformBuffer(base64Buffer, sim.buffer_base64, 1, 0, sim.buffer_uint8)
+base64Buffer = sim.app:transformBuffer(binaryPackedData, 'uint8', 'base64')
+originalBuffer = sim.app:transformBuffer(base64Buffer, 'base64', 'uint8')
 
 # Packing/unpacking random data, in CoppeliaSim format:
 data = [1, 'hello', {'value': 'world'}, [1, [2, 3]]]
-binaryPackedData = sim.packTable(data)
-data = sim.unpackTable(binaryPackedData)</code>
+binaryPackedData = sim.app:pack(data)
+data = sim.app:unpack(binaryPackedData)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+sim = require('sim-2')
 
 -- Packing/unpacking specific type of data:
 local data = {1, 2, 3}
-local binaryPackedData = sim.packDoubleTable(data) -- binary packing
-data = sim.unpackDoubleTable(binaryPackedData) -- binary unpacking
+local binaryPackedData = sim.app:packArray(data, {type = 'double'}) -- binary packing
+data = sim.unpackArray(binaryPackedData, {type = 'double'}) -- binary unpacking
 
 base16 = require('base16')
 local base16PackedData = base16.encode(binaryPackedData) -- base16 encoding
@@ -63,14 +65,14 @@ base64 = require('base64')
 local base64PackedData = base64.encode(binaryPackedData) -- base64 encoding
 binaryPackedData = base64.decode(base64PackedData) -- base64 decoding
 
-local base64Buffer = sim.transformBuffer(binaryPackedData, sim.buffer_uint8, 1, 0, sim.buffer_base64)
-local originalBuffer = sim.transformBuffer(base64Buffer, sim.buffer_base64, 1, 0, sim.buffer_uint8)
+local base64Buffer = sim.app:transformBuffer(binaryPackedData, 'uint8', 'base64')
+local originalBuffer = sim.app:transformBuffer(base64Buffer, 'base64', 'uint8')
 
 
 -- Packing/unpacking random data:
 local data = {1, 'hello', {value = 'world'}, {1, {2, 3}}}
-local binaryPackedData = sim.packTable(data) -- binary packing
-data = sim.unpackTable(binaryPackedData) -- binary unpacking
+local binaryPackedData = sim.app:pack(data) -- binary packing
+data = sim.app:unpack(binaryPackedData) -- binary unpacking
 
 cbor = require('org.conman.cbor')
 local cborPackedData = cbor.encode(data) -- cbor encoding
@@ -91,18 +93,18 @@ data = cbor.decode(cborPackedData) -- cbor decoding</code>
 import numpy</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
-
+sim = require('sim-2')
 import('simEigen', '*')
 
 -- Get the absolute poses of an object and its parent:
-local absObj = sim.getObjectPose(objectHandle)
-local absParentObj = sim.getObjectPose(parentHandle)
+local absObj = object.worldPose
+local absParentObj = object.parent.worldPose
 
 -- Compute the relative pose of the object:
 local relObj = absParentObj:inv() * absObj
 
 -- Get the relative pose of the object directly:
-local relObj2 = sim.getObjectPose(objectHandle, parentHandle)
+local relObj2 = object:getPose({relativeToObject = object.parent})
 
 -- Check that both poses are same:
 print( (relObj:totransform() - relObj2:totransform()):abs():maxcoeff() )</code>

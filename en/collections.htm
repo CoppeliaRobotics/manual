@@ -19,7 +19,7 @@
 
 <h1>Collections</h1>
 
-<p>A collection is a user-defined collection of <a href="objects.htm">scene objects</a>. Both collections and scene objects are <a href="entities.htm">entities</a>. Collections are useful when referring to several objects like a robot for instance, when performing a specific operation, such as <a href="collisionDetection.htm">checking for collision</a> between two robots: if a collision detection pair was defined as (collectionRobot1; collectionRobot2), then the collision checking algorithm would check whether any object from the first collection interferes with any object from the second collection.<br>
+<p>A collection is a user-defined collection of <a href="objects.htm">scene objects</a>. Both collections and scene objects are <a href="entities.htm">entities</a>. Collections are useful when referring to several objects like a robot for instance, when performing a specific operation, such as <a href="collisionDetection.htm">checking for collision</a> between two robots: if a collision detection pair was defined as (collectionRobot1, collectionRobot2), then the collision checking algorithm would check whether any object from the first collection interferes with any object from the second collection.<br>
 </p>
 
 <p>Collections are <a href="collidableObjects.htm">collidable</a>, <a href="measurableObjects.htm">measurable</a> and <a href="detectableObjects.htm">detectable</a> entities. This means that collections:</p>
@@ -62,32 +62,34 @@
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2:
 
 # Collection defined as: &lt;object2&gt; + &lt;object4&gt; + &lt;object6&gt; + &lt;object7&gt;
 
-object2 = sim.getObject('/object2')
-object4 = sim.getObject('/object4')
-object6 = sim.getObject('/object6')
-object7 = sim.getObject('/object7')
-collectionHandle = sim.createCollection(0)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object2, 0)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object4, 0)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object6, 0)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object7, 0)</code>
+object2 = sim.self:getObject('/object2')
+object4 = sim.self:getObject('/object4')
+object6 = sim.self:getObject('/object6')
+object7 = sim.self:getObject('/object7')
+collection = sim.scene:createObject({'type': 'collection'})
+collection:addItem(object2)
+collection:addItem(object4)
+collection:addItem(object6)
+collection:addItem(object7)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+sim = require('sim-2')
 
 -- Collection defined as: &lt;object2&gt; + &lt;object4&gt; + &lt;object6&gt; + &lt;object7&gt;
 
-local object2 = sim.getObject('/object2')
-local object4 = sim.getObject('/object4')
-local object6 = sim.getObject('/object6')
-local object7 = sim.getObject('/object7')
-collectionHandle = sim.createCollection(0)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object2, 0)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object4, 0)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object6, 0)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object7, 0)</code>
+local object2 = sim.self:getObject('/object2')
+local object4 = sim.self:getObject('/object4')
+local object6 = sim.self:getObject('/object6')
+local object7 = sim.self:getObject('/object7')
+local collection = sim.scene:createObject({type = 'collection'})
+collection:addItem(object2)
+collection:addItem(object4)
+collection:addItem(object6)
+collection:addItem(object7)</code>
 
 </div>
 
@@ -96,26 +98,28 @@ sim.addItemToCollection(collectionHandle, sim.handle_single, object7, 0)</code>
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2:
 
 # Collection defined as: &lt;all objects&gt; - &lt;tree starting at object1&gt; + &lt;object6&gt;
 
-object1 = sim.getObject('/object1')
-object6 = sim.getObject('/object6')
-collectionHandle = sim.createCollection(0)
-sim.addItemToCollection(collectionHandle, sim.handle_all, -1, 0)
-sim.addItemToCollection(collectionHandle, sim.handle_tree, object1, 1)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object6, 0)</code>
+object1 = sim.self:getObject('/object1')
+object6 = sim.self:getObject('/object6')
+collection = sim.scene:createObject({'type': 'collection'})
+collection:addItem(-1, {'mode': 'all'}
+collection:removeItem(object1, {'mode': 'tree'}
+collection:addItem(object6, {'mode': 'single'}</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+sim = require('sim-2')
 
 -- Collection defined as: &lt;all objects&gt; - &lt;tree starting at object1&gt; + &lt;object6&gt;
 
 local object1 = sim.getObject('/object1')
 local object6 = sim.getObject('/object6')
-collectionHandle = sim.createCollection(0)
-sim.addItemToCollection(collectionHandle, sim.handle_all, -1, 0)
-sim.addItemToCollection(collectionHandle, sim.handle_tree, object1, 1)
-sim.addItemToCollection(collectionHandle, sim.handle_single, object6, 0)</code>
+local collection = sim.scene:createObject({type = 'collection'})
+collection:addItem(-1, {mode = 'all'})
+collection:removeItem(object1, {mode = 'tree'})
+collection:addItem(object6, {mode = 'single'})</code>
 
 </div>
 

@@ -1,0 +1,241 @@
+CoppeliaSim offers 5 types of detachedScripts, natively running on Lua 5.4:
+
+- 'sandbox' script (bound to the app. The sandbox mainly runs individual commands from the user)
+- 'addOn' script (bound to the app. An add-on can be automatically loaded at app start, or started/created afterwards)
+- 'main' script (bound to a scene. 1 main script per scene. Should ideally not be modified)
+- 'simulation' script (as a scene object of type 'script'. Only initializes and runs when simulation is running)
+- 'customization' script (as a scene object of type 'script'. Initializes as soon as created (whether simulation runs or not)
+
+sandbox, addOn and main are naked scripts, i.e. of basic type 'detachedScript', itself of base class 'object'. simulation and customization have a 'sceneObject' of type 'script' wrapping them.
+
+Scripts and detachedScripts can be created via sim.app:createObject
+
+DetachedScripts run via system callbacks. Code running in system callbacks are supposed to be concise and execute relatively fast,
+as system callbacks are blocking. An exception to this is the thread system callback, that effectively behaves as a coroutine:
+it is called once just after script initialization. Code in a thread callback is preemptively interrupted at regular intervals,
+typically 1-2 ms, but can always yield with the 'detachedScript:step' method. Automatic yielding can also be disabled via
+'detachedScript:setStepping' method. After a step or yield, the thread function will resume in next simulation step (i.e. at t = t + dt).
+Methods that are typically supposed to execute over several simulation steps, such as motion functionality e.g.
+'MoveToConfig:run', 'MoveToPose:run', should be exclusively ran in the thread callback
+
+Python can also be executed in one of the 5 detachedScript types, in a very similar way as with Lua. In that case make sure the script/detachedScript is
+created with Python language specified.
+
+Following lists the types of system callback functions available:
+
+function sysCall_info()
+    -- Lua only. Can be used to specify initial configuration data. E.g. in case of an add-on:
+    return {autoStart = false, menu = 'menu1\nmenu2\nadd-on name', menuEnabled = true}
+end
+
+function sysCall_init()
+    -- Do some initialization here.
+end
+
+function sysCall_thread()
+    -- Entry point for threaded detachedScripts, i.e. coroutine code
+end
+
+function sysCall_cleanup()
+    -- Do some clean-up here.
+end
+
+function sysCall_nonSimulation()
+    -- Is called on a regular basis when simulation is not running.
+    -- Not for simulation scripts or the main script.
+end
+
+function sysCall_beforeSimulation()
+    -- Simulation is about to start.
+    -- Not for simulation scripts or the main script.
+end
+
+function sysCall_afterSimulation()
+    -- Simulation has just ended.
+    -- Not for simulation scripts or the main script.
+end
+
+function sysCall_actuation()
+    -- Put some actuation code here.
+end
+
+function sysCall_sensing()
+    -- Put some sensing code here.
+end
+
+function sysCall_suspend()
+    -- Simulation is about to be suspended.
+end
+
+function sysCall_suspended()
+    -- Simulation is suspended.
+end
+
+function sysCall_resume()
+    -- Simulation is about to resume.
+end
+
+function sysCall_realTimeIdle()
+    -- Is executed when idle in real-time mode
+end
+
+function sysCall_beforeInstanceSwitch()
+    -- About to switch to another scene.
+    -- Not for simulation scripts or the main script.
+end
+
+function sysCall_afterInstanceSwitch()
+    -- Switched to another scene.
+    -- Not for simulation scripts or the main script.
+end
+
+function sysCall_beforeSave(inData)
+    -- About to save the scene, or about to set an undo/redo point
+    print(inData.regularSave, inData.file)
+end
+
+function sysCall_afterSave(inData)
+    -- After the scene was saved , or after an undo/redo point was set
+    print(inData.regularSave, inData.file)
+end
+
+function sysCall_afterLoad()
+    -- After the scene was loaded
+end
+
+function sysCall_selChange(inData)
+    -- After selection was changed
+    for i = 1, #inData.sel, 1 do
+        print("Object with handle " .. inData.sel[i] .. " is selected")
+    end
+end
+
+function sysCall_beforeCopy(inData)
+    -- Before one or several objects will be copied. Can be reentrant
+    for i = 1, #inData.objects, 1 do
+        print("Object with handle " .. inData.objects[i] .. " will be copied")
+    end
+end
+
+function sysCall_afterCopy(inData)
+    -- After one or several objects were copied. Can be reentrant
+    for i = 1, #inData.objects, 1 do
+        print("Object with handle " .. inData.objects[i] .. " was copied")
+    end
+end
+
+function sysCall_afterCreate(inData)
+    -- After one or several objects were created. Can be reentrant
+    for i = 1, #inData.objects, 1 do
+        print("Object with handle " .. inData.objects[i] .. " was created")
+    end
+end
+
+function sysCall_beforeDelete(inData)
+    -- Before one or several objects will be deleted. Can be reentrant
+    for i = 1, #inData.objects, 1 do
+        print("Object with handle " .. inData.objects[i] .. " will be deleted")
+    end
+    -- inData.allObjects indicates if all objects in the scene will be deleted
+end
+
+function sysCall_afterDelete(inData)
+    -- After one or several objects were deleted. Can be reentrant
+    for i = 1, #inData.objects, 1 do
+        print("Object with handle " .. inData.objects[i] .. " was deleted")
+    end
+    -- inData.allObjects indicates if all objects in the scene were deleted
+end
+
+function sysCall_beforeMainScript()
+    -- Can be used to step a simulation in a custom manner.
+    local outData = {doNotRunMainScript = false} -- when true, then the main script won't be executed
+    return outData
+end
+
+function sysCall_addOnScriptSuspend()
+    -- Add-on execution is about to be suspended.
+    -- Only for add-ons.
+end
+
+function sysCall_addOnScriptResume()
+    -- Add-on execution is about to be resumed.
+    -- Only for add-ons.
+end
+
+function sysCall_dyn(inData)
+    -- See the dynamics callback function section for details
+    return outData
+end
+
+function sysCall_joint(inData)
+    -- See the joint callback function section for details
+    return outData
+end
+
+function sysCall_contact(inData)
+    -- See the contact callback function section for details
+    return outData
+end
+
+function sysCall_vision(inData)
+    -- See the vision callback function section for details
+    -- Only for customization scripts and simulation scripts.
+    return outData
+end
+
+function sysCall_trigger(inData)
+    -- See the trigger callback function section for details
+    -- Only for customization scripts and simulation scripts.
+    return outData
+end
+
+function sysCall_userConfig()
+    -- See the user config callback function section for details.
+    -- Only for customization scripts.
+end
+
+function sysCall_moduleEntry(inData)
+    -- Called when a user module menu entry is selected, e.g.
+    print('Following module menu entry was selected: ' .. inData.handle)
+    -- See sim.moduleEntry for details.
+end
+
+function sysCall_msg(msg, origin)
+    -- Synchronously called when sim.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
+    -- sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant
+end
+
+function sysCall_data(inData)
+    -- Asynchronously called when custom data properties attached to this script's parent object are modified
+    -- Only for simulation- and customization scripts
+end
+
+function sysCall_event(cborBuffer)
+    -- Asynchronously called when an internal variable or state changes. Can be reentrant
+    -- Mainly used to synchronize an external GUI/viewer/renderer with CoppeliaSim.
+    -- See also 'app:getGenesisEvents' and 'detachedScript:setEventFilters'
+end
+
+function sysCall_ext(funcName, inData)
+    -- When this function is present, then all external calls to a detachedScript function, i.e. user callbacks,
+    -- will be intercepted (the original function will be shadowed). If only monitoring is desired,
+    -- then one should use 'detachedScript:registerFunctionHook' on this function.
+end
+
+A simple simulation script would typically have following callbacks (but other callbacks are also possible):
+- sysCall_init
+- sysCall_actuation
+- sysCall_sensing
+- sysCall_thread
+- sysCall_cleanup
+
+A simple customization script would typically have additional callbacks:
+- sysCall_nonSimulation
+- sysCall_beforeSimulation
+- sysCall_afterSimulation
+
+A simple add-on would typically have additional callbacks:
+- sysCall_info
+- sysCall_beforeInstanceSwitch
+- sysCall_afterInstanceSwitch

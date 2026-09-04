@@ -28,37 +28,37 @@
 <p align=center><img src="images/distanceCalculation1.jpg"></p>
 <p class=imageLabel>[Minimum distance calculation between two manipulators]</p>
 <br>
-<p>Using the API function <a href="sim/simCheckDistance.htm">sim.checkDistance</a>, one can easily calculate the minimum distance between entities, for instance between a robot and its environment, from within a <a href="simulationScripts.htm">simulation script</a>, in each simulation step:</p>
+<p>Using the API methods <a href="sim/sceneObject_checkDistance.htm">sceneObject:checkDistance</a> and <a href="sim/collection_checkDistance.htm">collection:checkDistance</a>, one can easily calculate the minimum distance between entities, for instance between a robot and its environment, from within a <a href="simulationScripts.htm">simulation script</a>, in each simulation step:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 def sysCall_init():
-    sim = require('sim')
-    robotBase = sim.getObject('/robotModelAlias')
-    self.robotCollection = sim.createCollection(0)
-    sim.addItemToCollection(self.robotCollection, sim.handle_tree, robotBase, 0)
+    sim = require('sim-2')
+    robotBase = sim.self:getObject('/robotModelName')
+    self.robotCollection = sim.scene:createObject({'type': 'collection'})
+    self.robotCollection:addItem(robotBase, {'mode': 'tree'})
 
 def sysCall_sensing():
-    result, distData, objectPair = sim.checkDistance(self.robotCollection, sim.handle_all)
-    if result &gt; 0:
-        txt = 'Robot clearance is ' + str(distData[6]) + 'm, minimum distance object pair is ' + str(objectPair)
+    result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle_all)
+    if result:
+        txt = 'Robot clearance is ' + str(distance) + 'm, minimum distance object pair is ' + str(objectPair)
         print(txt)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
-    local robotBase = sim.getObject('/robotModelAlias')
-    robotCollection = sim.createCollection(0)
-    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
+    sim = require('sim-2')
+    local robotBase = sim.self:getObject('/robotModelName')
+    robotCollection = sim.scene:createObject({type = 'collection'})
+    robotCollection:addItem(robotBase, {mode = 'tree'})
 end
 
 function sysCall_sensing()
-    local result, distData, objectPair = sim.checkDistance(robotCollection, sim.handle_all)
-    if result &gt; 0 then
-        local txt = 'Robot clearance is '..distData[7]
+    local result, distance, dist1, dist2, objectPair = robotCollection:checkDistance(sim.handle_all)
+    if result then
+        local txt = 'Robot clearance is '.. distance
         txt = txt..'m, minimum distance object pair is '..getAsString(objectPair)
         print(txt)
     end
@@ -73,33 +73,33 @@ end</code>
 <code class="hljs language-python coppelia-coppeliasim-script">#python
 
 def sysCall_init():
-    sim = require('sim')
-    robotBase = sim.getObject('/robotModelAlias')
-    self.robotCollection = sim.createCollection(0)
-    sim.addItemToCollection(self.robotCollection, sim.handle_tree, robotBase, 0)
-    self.distanceSegment = sim.addDrawingObject(sim.drawing_lines, 4, 0, -1, 1, [0, 1, 0])
+    sim = require('sim-2')
+    robotBase = sim.scene:getObject('/robotModelName')
+    self.robotCollection = sim.scene:createObject({'type': 'collection'})
+    self.robotCollection:addItem(robotBase, {'mode': 'tree'})
+    self.distanceSegment = sim.scene:createObject({'type': 'marker', ['marker.type']: 'lines', 'itemColor': [0.0, 1.0, 0.0, 1.0]})
 
 def sysCall_sensing():
-    result, distData, objectPair = sim.checkDistance(self.robotCollection, sim.handle_all)
-    if result > 0:
-        sim.addDrawingObjectItem(self.distanceSegment, None)
-        sim.addDrawingObjectItem(self.distanceSegment, distData)</code>
+    result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle_all)
+    if result:
+    	self.distanceSegment:clearItems()
+        self.distanceSegment:addItems(dist1:horzcat(dist2)) TODO</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
-    local robotBase = sim.getObject('/robotModelAlias')
-    robotCollection = sim.createCollection(0)
-    sim.addItemToCollection(robotCollection, sim.handle_tree, robotBase, 0)
-    distanceSegment = sim.addDrawingObject(sim.drawing_lines, 4, 0, -1, 1, {0, 1, 0})
+    sim = require('sim-2')
+    local robotBase = sim.self:getObject('/robotModelName')
+    robotCollection = sim.scene:createObject({type = 'collection'})
+    robotCollection:addItem(robotBase, {mode = 'tree'})
+    distanceSegment = sim.scene:createObject({type = 'marker', ['marker.type'] = 'lines', itemColor = Color('green')})
 end
 
 function sysCall_sensing()
-    local result, distData, objectPair = sim.checkDistance(robotCollection, sim.handle_all)
-    if result &gt; 0 then
-        sim.addDrawingObjectItem(distanceSegment, nil)
-        sim.addDrawingObjectItem(distanceSegment, distData)
+    local result, distance, dist1, dist2, objectPair = robotCollection:checkDistance(sim.handle_all)
+    if result then
+    	distanceSegment:clearItems()
+        distanceSegment:addItems(dist1:horzcat(dist2))
     end
 end</code>
 

@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Main object types</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<style>
+.classTree, .classTree ul, .classTree li {
+    list-style: none !important;
+    list-style-type: none !important;
+}
+.classTree li::marker {
+    content: "" !important;
+}
+.classTree, .classTree ul {
+    margin: 0;
+    padding-left: 5px;
+}
+.classTree {
+    padding-left: 0;
+    font-family: monospace;
+    font-size: 15px;
+    text-align: left;
+    display: inline-block;
+}
+.classTree li {
+    position: relative;
+    padding: 3px 0 3px 8px;
+    line-height: 1.4;
+}
+/* vertical connector line */
+.classTree li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 1px solid #bbb;
+    height: 100%;
+}
+.classTree li:last-child::before {
+    height: 16px;
+}
+/* horizontal connector line */
+.classTree li::after {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 0;
+    width: 6px;
+    border-top: 1px solid #bbb;
+}
+/* remove connectors on the root item */
+.classTree > li::before,
+.classTree > li::after {
+    display: none;
+}
+.classNode {
+    background: #f2f2f2;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 1px 14px;
+    white-space: nowrap;
+    color: #666;
+}
+.rootNode {
+    font-weight: bold;
+}
+.singleton {
+    font-style: italic;
+    color: #666;
+}
+.tag {
+    font-size: 11px;
+    color: #999;
+}
+</style>
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+<h1>Main object types</h1>
+
+<br>
+<br>
+
+<!-- ==================== CLASS HIERARCHY ==================== -->
+<ul class="classTree">
+  <li>
+    <span class="classNode rootNode" id="middleclass">middleclass</span>
+    <ul>
+      <li>
+        <span class="classNode rootNode" id="object">object</span>
+        <ul>
+          <li><span class="classNode" id="app">sim.app <span class="singleton">(singleton)</span></span></li>
+          <li><span class="classNode" id="scene">sim.scene <span class="singleton">(singleton)</span></span></li>
+          <li><span class="classNode" id="collection">collection</span></li>
+          <li>
+            <span class="classNode" id="customobject">customObject</span>
+            <ul>
+              <li><span class="classNode" id="console">Console</span></li>
+              <li><span class="classNode" id="texteditor">TextEditor</span></li>
+            </ul>
+          </li>
+          <li><span class="classNode" id="detachedscript">detachedScript (or object sim.self within that detachedScript)</span></li>
+          <li><span class="classNode" id="mesh">mesh</span></li>
+          <li>
+            <span class="classNode" id="sceneobject">sceneObject</span>
+            <ul>
+              <li><span class="classNode" id="shape">shape</span></li>
+              <li><span class="classNode" id="joint">joint</span></li>
+              <li><span class="classNode" id="dummy">dummy</span></li>
+              <li><span class="classNode" id="marker">marker</span></li>
+              <li><span class="classNode" id="script">script (wraps a detachedScript)</span></li>
+              <li><span class="classNode" id="camera">camera</span></li>
+              <li><span class="classNode" id="light">light</span></li>
+              <li><span class="classNode" id="graph">graph</span></li>
+              <li><span class="classNode" id="proximitysensor">proximitySensor</span></li>
+              <li><span class="classNode" id="visionsensor">visionSensor</span></li>
+              <li><span class="classNode" id="forcesensor">forceSensor</span></li>
+              <li><span class="classNode" id="pointcloud">pointCloud</span></li>
+              <li><span class="classNode" id="octree">ocTree</span></li>
+              <li><span class="classNode" id="customsceneobject">customSceneObject</span></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><span class="classNode" id="path">Path</span></li>
+      <li>
+        <span class="classNode" id="motion">Motion</span>
+        <ul>
+          <li><span class="classNode" id="movetoconfig">MoveToConfig</span></li>
+          <li><span class="classNode" id="movetopose">MoveToPose</span></li>
+          <li><span class="classNode" id="timeoptimaltrajectory">TimeOptimalTrajectory</span></li>
+          <li><span class="classNode" id="ruckigposition">RuckigPosition</span></li>
+          <li><span class="classNode" id="ruckigvelocity">RuckigVelocity</span></li>
+        </ul>
+      </li>
+      <li><span class="classNode" id="ik">IK</span></li>
+      <li>
+        <span class="classNode" id="ikobject">IKObject</span>
+        <ul>
+          <li><span class="classNode" id="ikjoint">IKJoint</span></li>
+        </ul>
+      </li>
+      <li><span class="classNode" id="ikgroup">IKGroup</span></li>
+      <li><span class="classNode" id="ikelement">IKElement</span></li>
+    </ul>
+  </li>
+</ul>
+<!-- ================== END CLASS HIERARCHY ================== -->
+
+<br>
+<br>
+ </tr>
+ <tr>
+   <td >
+ </tr>
+</table>
+</div>
+
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+
+</html>
