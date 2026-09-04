@@ -4,6 +4,7 @@ import re
 import argparse
 import shutil
 import copy
+import html
 import xml.etree.ElementTree as ET
 import minify_html
 from pathlib import Path
@@ -296,46 +297,71 @@ def transform_type_for_languages(param_type, languages):
 
 def transform_type_for_language(param_type, language):
     retVal = ''
-    param_python = ''
-    type_map = {
-        'vector': 'ndarray<float>[]',
-        'vector3': 'ndarray<float>[3,1]',
-        'quaternion': 'ndarray<float>[4]',
-        'pose': 'ndarray<float>[7]',
-        'matrix': 'ndarray<float>[,]',
-        'color': 'tuple[4]',
-        'func': 'func',
-        'map': 'dict',
-        'bool': 'bool',
-        'int': 'int',
-        'float': 'float',
-        'string': 'str',
-        'any': 'any',
-        'sim.Object': 'sim.Object',
-        'buffer': 'bytes',
-        'enum': 'int',
-        'middleclassObject': 'middleclassObject',
-    }
-    for lua_type, python_type in type_map.items():
-        if param_type == lua_type:
-            param_python = python_type
-            break
-        else:
-            if ('[' in param_type) and param_type.startswith(lua_type):
-                param_python = 'list'
+    baseParam_type = param_type.split('[', 1)[0]
+    if language == 'python':
+        type_map = {
+            'vector': 'numpy.ndarray<float>[]',
+            'vector3': 'numpy.ndarray<float>[3,1]',
+            'quaternion': 'numpy.ndarray<float>[4]',
+            'pose': 'numpy.ndarray<float>[7]',
+            'matrix': 'numpy.ndarray<float>[,]',
+            'color': 'tuple[4]',
+            'func': 'function',
+            'map': 'dict',
+            'bool': 'bool',
+            'int': 'int',
+            'float': 'float',
+            'string': 'str',
+            'any': 'any',
+            'handle': 'sim.Object',
+            'buffer': 'bytes',
+            'enum': 'int',
+            'luaObject': 'luaObject',
+        }
+        for generic_type, lang_type in type_map.items():
+            if baseParam_type == generic_type:
+                retVal = lang_type
                 break
-    if len(param_python) == 0:
-        raise ValueError(f"Unsupported type '{param_type}' for language '{language}'")
+        if len(retVal) == 0:
+            raise ValueError(f"Unsupported type '{param_type}' for language '{language}'")
+        if baseParam_type != param_type: # we have an array
+            if (baseParam_type == 'int') or (baseParam_type == 'float'):
+                retVal = 'numpy.ndarray<' + retVal + '>[' + param_type.split('[', 1)[1]
+            else:
+                retVal = 'list<' + retVal + '>[' + param_type.split('[', 1)[1]
 
     if language == 'lua':
-        retVal = param_type
-    if language == 'python':
-        retVal = param_python
+        type_map = {
+            'vector': 'simEigen.Vector',
+            'vector3': 'simEigen.Vector<3>',
+            'quaternion': 'simEigen.quaternion',
+            'pose': 'simEigen.pose',
+            'matrix': 'simEigen.Matrix',
+            'color': 'Color',
+            'func': 'function',
+            'map': 'table',
+            'bool': 'bool',
+            'int': 'int',
+            'float': 'float',
+            'string': 'string',
+            'any': 'any',
+            'handle': 'sim.Object',
+            'buffer': 'buffer',
+            'enum': 'int',
+            'luaObject': 'luaObject',
+        }
+        for generic_type, lang_type in type_map.items():
+            if baseParam_type == generic_type:
+                retVal = lang_type
+                break
+        if len(retVal) == 0:
+            raise ValueError(f"Unsupported type '{param_type}' for language '{language}'")
+        if baseParam_type != param_type: # we have an array
+            retVal = retVal + '[' + param_type.split('[', 1)[1]
 
     if len(retVal) == 0:
         raise ValueError(f"Unsupported language: '{language}'")
-
-    return retVal
+    return html.escape(retVal) # escape for html
 
 def transformTypeValueForHyperlink(name, param_type):
     retVal = name
@@ -354,10 +380,10 @@ def transformTypeValueForHyperlink(name, param_type):
         'float': "float",
         'string': "string",
         'any': "any",
-        'sim.Object': "handle",
+        'handle': "handle",
         'buffer': "buffer",
         'enum': "enum",
-        'middleclassObject': "middleclassobject",
+        'luaObject': "luaobject",
     }
     for lua_type, lua_descr in descrpt_map.items():
         if param_type == lua_type:
@@ -675,7 +701,7 @@ def main():
         for cat in itemCategories:
             cat = cat.lower()
             if cat in docItem['categoriesMap']:
-                docItem['categoriesMap'][cat]['api'].append({'fullName': fmpName, 'name': fmpNameRaw, 'file': currentVer + '/' + filename, 'c': docItemType == 'function', 'short': shortDescription, 'class': namespace + obj_name})
+                docItem['categoriesMap'][cat]['api'].append({'fullName': fmpName, 'name': fmpNameRaw, 'file': 'sim/' + filename, 'c': docItemType == 'function', 'short': shortDescription, 'class': namespace + obj_name})
                 # Add see-also items related to the listed categories (but only within the same category type, i.e. method/prop cat for methods, function cat for functions, and method/property cat for properties):
                 methFunc = 'methodsAndProperties'
                 methFuncNm = 'methods &amp; properties'
@@ -715,7 +741,7 @@ def main():
         synopsis = ''
         luaSynopsis = ''
         pythonSynopsis = ''
-        callCmd = fmpItem.get('callCmd')
+        callCmd = fmpItem.get('call-cmd')
         if callCmd != None:
             callCmd = callCmd.strip()
         else:
