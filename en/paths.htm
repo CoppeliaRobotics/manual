@@ -26,9 +26,9 @@
 <br>
 
 
-<p>Path objects can be added to the <a href="scenes.htm">scene</a> with [Add &gt; Path]. Refer also to <a href="sim/scene_createObject.htm">sim.scene:createObject</a>. A path is composed by control points that define its curve in space. Control points can be shifted, copy/pasted or deleted.</p>
+<p>Paths can be added to the <a href="scenes.htm">scene</a> with [Add &gt; Path]. Refer also to <a href="sim/scene_createObject.htm">sim.scene:createObject</a>. A path is composed by control points that define its curve in space. Control points can be shifted, copy/pasted or deleted.</p>
 
-<p>A path properties are set in its customization script. See also the <a href="mainObjectTypes.htm#path">Path class</a>, <a href="sim/Path_new.htm">Path:new</a> and <a href="sim/Path_createShape.htm">Path:createShape</a>: </p>
+<p>Path properties are set in its customization script. See also the <a href="mainObjectTypes.htm#path">Path class</a>, <a href="sim/Path_new.htm">Path:new</a> and <a href="sim/Path_createShape.htm">Path:createShape</a>: </p>
 <p align=center><img src="images/squarePath.jpg"></p>
 <p class=imageLabel>[Simple path generating an extruded square shape]</p>
 <br>
@@ -37,7 +37,7 @@
 <p class=imageLabel>[Simple path generating an extruded circular shape]</p>
 <br>
 
-<p>Path data is stored inside of the path object, as a custom data property of type buffer. It can be accessed with:</p>
+<p>Path data is stored inside of the path, as a custom data property of type buffer. It can be accessed with:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
@@ -75,7 +75,6 @@ function sysCall_init()
     pathObj = sim.self:getObject('/Path')
     velocity = 0.04 -- m/s
     posAlongPath = 0
-    previousSimulationTime = 0
     sim.self:setStepping(true)
 
     local pathInfo = sim.app:unpack(pathObj.customData.pathInfo)
@@ -96,12 +95,10 @@ end
 
 function sysCall_thread()
     while true do
-        local t = sim.scene.simulation.time
-        posAlongPath = posAlongPath + velocity * (t - previousSimulationTime)
+        posAlongPath = posAlongPath + velocity * sim.scene.simulation.timeStep
         local pointData = path:getPoint((posAlongPath / totalLength) % 1.0)
         local pose = simEigen.Pose(pointData:data())
         objectToFollowPath:setPose(pose, {relativeToObject = pathObj})
-        previousSimulationTime = t
         sim.self:step()
     end
 end</code>

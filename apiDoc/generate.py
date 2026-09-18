@@ -40,7 +40,7 @@ categories = [
     {'cat': 'joint',                    'obj': True,    'txt': 'sceneObject.joint',                                             'page': 'joints.htm',                                       'oldRefs': ['jointObject']},
     {'cat': 'dummy',                    'obj': True,    'txt': 'sceneObject.dummy',                                             'page': 'dummies.htm',                                      'oldRefs': ['dummyObject']},
     {'cat': 'marker',                   'obj': True,    'txt': 'sceneObject.marker',                                            'page': 'markers.htm',                                      'oldRefs': []},
-    {'cat': 'scriptObject',             'obj': True,    'txt': 'sceneObject.scriptObject',                                      'page': 'scriptObjects.htm',                                'oldRefs': []},
+    {'cat': 'scriptObject',             'obj': True,    'txt': 'sceneObject.scriptObject',                                      'page': 'scriptObjects.htm',                                'oldRefs': ['scriptObject']},
     {'cat': 'camera',                   'obj': True,    'txt': 'sceneObject.camera',                                            'page': 'cameras.htm',                                      'oldRefs': ['cameraObject']},
     {'cat': 'light',                    'obj': True,    'txt': 'sceneObject.light',                                             'page': 'lights.htm',                                       'oldRefs': ['lightObject']},
     {'cat': 'graph',                    'obj': True,    'txt': 'sceneObject.graph',                                             'page': 'graphs.htm',                                       'oldRefs': ['graphs']},
@@ -54,7 +54,7 @@ categories = [
     {'cat': 'file',                     'obj': False,   'txt': 'File operations',                                   'page': '',                                                 'oldRefs': ['fileOperations']},
     {'cat': 'main',                     'obj': False,   'txt': 'General functionality handling',                    'page': '',                                                 'oldRefs': ['mainFunctionalityHandling']},
     {'cat': 'dynamics',                 'obj': False,   'txt': 'Dynamics',                                          'page': 'dynamicsModule.htm',                               'oldRefs': ['dynamicsFunctionality']},
-    {'cat': 'property',                 'obj': False,   'txt': 'Properties',                                        'page': 'properties.htm',                                   'oldRefs': ['properties']},
+    {'cat': 'property',                 'obj': False,   'txt': 'Properties',                                        'page': 'properties.htm',                                   'oldRefs': ['properties', 'scriptParameters']},
     {'cat': 'collision',                'obj': False,   'txt': 'Collision detection',                               'page': 'collisionDetection.htm',                           'oldRefs': ['collisionDetection']},
     {'cat': 'distance',                 'obj': False,   'txt': 'Distance calculation',                              'page': 'distanceCalculation.htm',                          'oldRefs': ['distanceCalculation']},
     {'cat': 'rendering',                'obj': False,   'txt': 'Rendering',                                         'page': 'dataVisualizationAndOutput.htm',                   'oldRefs': []},
@@ -81,11 +81,11 @@ categories = [
     {'cat': 'RuckigVelocity',           'obj': False,   'txt': 'Motion.RuckigVelocity',                             'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
     {'cat': 'packing',                  'obj': False,   'txt': 'Packing/unpacking',                                 'page': '',                                                 'oldRefs': []},
     {'cat': 'stack',                    'obj': False,   'txt': 'Stacks',                                            'page': '',                                                 'oldRefs': ['stacks']},
-    {'cat': 'ik',                       'obj': False,   'txt': 'Kinematics',                                        'page': 'kinematics.htm',                                   'oldRefs': []},
-    {'cat': 'ikObject',                 'obj': False,   'txt': 'IKObject',                                          'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
-    {'cat': 'ikJoint',                  'obj': False,   'txt': 'IKObject.IKjoint',                                  'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
-    {'cat': 'ikGroup',                  'obj': False,   'txt': 'IKGroup',                                           'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
-    {'cat': 'ikElement',                'obj': False,   'txt': 'IKElement',                                         'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
+    {'cat': 'IK',                       'obj': False,   'txt': 'Kinematics',                                        'page': 'kinematics.htm',                                   'oldRefs': []},
+    {'cat': 'IKObject',                 'obj': False,   'txt': 'IKObject',                                          'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
+    {'cat': 'IKJoint',                  'obj': False,   'txt': 'IKObject.IKjoint',                                  'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
+    {'cat': 'IKGroup',                  'obj': False,   'txt': 'IKGroup',                                           'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
+    {'cat': 'IKElement',                'obj': False,   'txt': 'IKElement',                                         'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
     {'cat': 'other',                    'obj': False,   'txt': 'Other',                                             'page': '',                                                 'oldRefs': []},
     {'cat': 'drawingObject',            'obj': False,   'txt': 'drawingObject (deprecated, see marker instead)',    'page': '',                                                 'oldRefs': []},
 ]
@@ -275,7 +275,8 @@ def parse_categories(cat_node):
         return catList
     for cat in cat_node.findall('category'):
         nm = cat.get('name', '')
-        catList.append(nm.lower())
+        #catList.append(nm.lower())
+        catList.append(nm)
     return catList
 
 def transform_type_for_languages(param_type, languages):
@@ -599,7 +600,8 @@ def getRefCategories(docItem, fmpItem, obj_name): # "fmp" for "function, method 
     # Returns a list (with duplicates allowed) of categories that are referenced:
     itemCategories = parse_categories(fmpItem.find('categories'))
     if obj_name and len(obj_name) > 0:
-        nm = obj_name.lower()
+        #nm = obj_name.lower()
+        nm = obj_name
         itemCategories = [x for x in itemCategories if x != nm] # remove possible obj_name listed there
         itemCategories.append(nm)
     return itemCategories
@@ -694,12 +696,12 @@ def main():
         # Get the categories that function, property or method relates to:
         itemCategories = parse_categories(fmpItem.find('categories'))
         if obj_name and len(obj_name) > 0:
-            nm = obj_name.lower()
+            #nm = obj_name.lower()
+            nm = obj_name
             itemCategories = [x for x in itemCategories if x != nm] # remove possible obj_name listed there
             itemCategories.insert(0, nm) # add to front
-
         for cat in itemCategories:
-            cat = cat.lower()
+            #cat = cat.lower()
             if cat in docItem['categoriesMap']:
                 docItem['categoriesMap'][cat]['api'].append({'fullName': fmpName, 'name': fmpNameRaw, 'file': 'sim/' + filename, 'c': docItemType == 'function', 'short': shortDescription, 'class': namespace + obj_name})
                 # Add see-also items related to the listed categories (but only within the same category type, i.e. method/prop cat for methods, function cat for functions, and method/property cat for properties):
@@ -711,7 +713,7 @@ def main():
                 pref = methFunc + '_'
                 see_also_cat1.append('<a href="../apiFunctions.htm#' + pref + cat + '">' + docItem['categoriesMap'][cat]['txt'] + ' (' + methFuncNm + ")</a>")
             else:
-                raise Exception("Category '" + cat + "' not found for '" + fmpNameRaw + "'")
+                raise Exception("Category '" + cat + "' not found for '" + fmpNameRaw + "' (filename: '" + filename + "')")
 
         # Add see-also items related to the listed categories, across a different category type (method/property cat for functions):
 
@@ -901,7 +903,7 @@ def main():
 
     categoriesMap = {}
     for item in categories:
-        item['cat'] = item['cat'].lower()
+        #item['cat'] = item['cat'].lower()
         categoriesMap[item['cat']] = {'txt': item['txt'], 'api': []}
 
     args = parse_commandline_args()

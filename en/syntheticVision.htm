@@ -51,7 +51,7 @@ function sysCall_vision(inData)
     simVision.uniformImgToWorkImg(inData.sensor.handle, {0.5, 0.25, 0})
     simVision.addBuffer1ToWorkImg(inData.sensor.handle)
     simVision.workImgToSensorImg(inData.sensor.handle)
-    
+
     -- and/or, use more powerful functions from the image plugin (simIM):
     local imgHandle = simIM.readFromVisionSensor(inData.sensor.handle)
     local center = {inData.resolution[1] / 2, inData.resolution[2] / 2}
@@ -65,25 +65,25 @@ function sysCall_vision(inData)
     image = sim.app:transformImage(image, inData.resolution, inData.resolution, {flipAxisY = true})
     image = sim.app:transformBuffer(image, 'rgb', 'bgr')
     inData.sensor.image = image
-    
+
     outData = {}
     outData.trigger = true -- whether the sensor should trigger
     -- filters may append packets (in packed form, use sim.packFloatTable to pack) to this table:
-    outData.packedPackets = {sim.app:packArray({1, 42, 57}, {type = 'float'})} 
+    outData.packedPackets = {sim.app:packArray({1, 42, 57}, {type = 'float'})}
     return outData
 end</code>
 </div>
 <br>
-<p>Refer also to <a href="sim/scene_createObject.htm">sim.scene:createObject</a> and <a href="apiFunctions.htm#methodsAndProperties_visionsensor">vision sensor-related methods and properties</a>.</p>
+<p>Refer also to <a href="sim/scene_createObject.htm">sim.scene:createObject</a> and <a href="apiFunctions.htm#methodsAndProperties_visionSensor">vision sensor-related methods and properties</a>.</p>
 
 <br>
 <br>
 
  </tr>
-</table> 
-</div>  
-  
-  
+</table>
+</div>
+
+
 <link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
 <script src="../js/hljs/11.8.0/highlight.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>

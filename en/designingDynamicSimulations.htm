@@ -19,7 +19,7 @@
 
 <h1>Designing dynamic simulations</h1>
 
-<p>In CoppeliaSim, only a limited number of <a href="objects.htm">objects</a> will be dynamically simulated. Those are <a href="shapes.htm">shapes</a>, <a href="joints.htm">joints</a> and <a href="forceSensors.htm">force sensors</a>, but it will depend on the <a href="scenes.htm">scene</a> structure and object properties, whether a given object will be dynamically simulated. Dynamically simulated objects can be easily recognized during <a href="simulation.htm">simulation</a>, since following icon will appear next to the object's alias in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:<br>
+<p>In CoppeliaSim, only a limited number of <a href="objects.htm">objects</a> will be dynamically simulated. Those are <a href="shapes.htm">shapes</a>, <a href="joints.htm">joints</a> and <a href="forceSensors.htm">force sensors</a>, but it depends on the <a href="scenes.htm">scene</a> structure and object properties, whether a given object is dynamically simulated. Dynamically simulated objects are easily recognized during <a href="simulation.htm">simulation</a>, since following icon appears next to the object's name in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:<br>
 </p>
 
 
@@ -27,7 +27,7 @@
 <p class=imageLabel>[Icon marking dynamically simulated objects]</p>
 <br>
 
-<p>Double-clicking the icon in the scene hierarchy (during simulation only) will display some information related to the object's dynamic behavior. Objects that are supposed to by dynamically simulated but which, for a reason or another cannot be dynamically simulated, will display following icon instead:<br>
+<p>Double-clicking the icon in the scene hierarchy (during simulation only) displays some information related to the object's dynamic behavior. Objects that are supposed to by dynamically simulated but which, for a reason or another cannot be dynamically simulated, display following icon instead:<br>
 </p>
 
 
@@ -48,7 +48,8 @@
 <p class=imageLabel>[Dynamic simulation main shape types]</p>
 <br>
 
-<p>During dynamic simulation, static shapes will not be influenced (i.e. their position relative to their parent object is fixed), whereas non-static shapes will be directly influenced by gravity or other constraints (e.g. dynamically enabled joints, see hereafter). Respondable shapes influence each other during dynamic collision (i.e. they produce a mutual <em>collision reaction</em>, they will bounce off each other). Following figure illustrates the static/non-static, respondable/non-respondable behaviors:<br>
+<p>During dynamic simulation, static shapes are not influenced (i.e. their position relative to their parent object is fixed), whereas non-static shapes are directly influenced by gravity or other constraints (e.g. dynamically enabled joints, see hereafter). See also <a href="sim/property_shape_dynamic.htm">shape.dynamic</a>.</p>
+<p>Respondable shapes influence each other during dynamic collision (i.e. they produce a mutual <em>collision reaction</em>, they bounce off each other). Following figure illustrates the static/non-static, respondable/non-respondable behaviors:<br>
 </p>
 
 
@@ -56,9 +57,9 @@
 <p class=imageLabel>[Static/non-static, respondable/non-respondable shape behaviors and interactions]</p>
 <br>
 
-<p>Two respondable shapes will always produce a collision reaction, unless their respective collision masks don't overlap. Static/non-static, respondable/non-respondable shape properties, as well as collision masks can be set in the <a href="shapeDynamicsProperties.htm">shape dynamics dialog</a>.</p>
+<p>Two respondable shapes always produce a collision reaction, unless their respective collision masks don't overlap. Static/non-static, respondable/non-respondable shape properties, as well as collision masks can be set in the <a href="shapeDynamicsProperties.htm">shape dynamics dialog</a>. See also <a href="sim/property_shape_respondable.htm">shape.respondable</a> and <a href="sim/property_shape_respondableMask.htm">shape.respondableMask</a>.</p>
 
-<p>Note: in MuJoCo, static shapes (<em>mocap</em> bodies) do not transmit friction forces. For that reason will static shapes in MuJoCo always be represented as a <em>mocap</em> body linked to a non-static free body via a <em>weld</em> constraint (unless the static shape's <a href="sim/property_shape_kinematic.htm">shape.kinematic</a> property is set to false).</p>
+<p>Note: in MuJoCo, static shapes (<em>mocap</em> bodies) do not transmit friction forces. For that reason will static shapes in MuJoCo always be represented as a <em>mocap</em> body linked to a non-static free body via a <em>weld</em> constraint (unless <a href="sim/property_shape_kinematic.htm">shape.kinematic</a> is set to false).</p>
 
 <br>
 
@@ -67,7 +68,7 @@
 </h2>
 
 
-<p>Non-static shapes will fall (i.e. be influenced by gravity) if they are not otherwise constrained. Dynamic constraints between shapes can be set-up by attaching two shapes together via a <em>dynamically enabled</em> <a href="joints.htm">joint</a>, a <em>dynamically enabled</em> <a href="forceSensors.htm">force sensor</a>, or via a <a href="dummies.htm">dummy</a>-dummy <a href="#overlap">dynamic overlap constraint</a>. </p>
+<p>Non-static shapes fall (i.e. are influenced by gravity) if they are not otherwise constrained. Dynamic constraints between shapes can be set up by attaching two shapes together via a <em>dynamically enabled</em> <a href="joints.htm">joint</a>, a <em>dynamically enabled</em> <a href="forceSensors.htm">force sensor</a>, or via a <a href="dummies.htm">dummy</a>-dummy <a href="#overlap">dynamic overlap constraint</a>. </p>
 <p>Following represent a simple constraint between two shapes:</p>
 
 <p align=center><img src="images/dynamicsDesign5.jpg"></p>
@@ -96,13 +97,14 @@
 <p class=imageLabel>[Dynamic overlap constraint, that rigidly binds two shapes]</p>
 <br>
 
-<p>Note: in MuJoCo, loop closures are handled via <em>weld</em> constraints that can appear soft or wobbly, depending on the setup. Stiffness/rigidity of the related <em>weld</em> constraint can be adjusted via the <a href="sim/property_dynamics_mujoco_overlapConstrSolref.htm">dummy.dynamics.mujoco.overlapConstrSolref</a>, <a href="sim/property_dynamics_mujoco_overlapConstrSolimp.htm">dummy.dynamics.mujoco.overlapConstrSolimp</a> and <a href="sim/property_dynamics_mujoco_overlapConstrTorquescale.htm">dummy.dynamics.mujoco.overlapConstrTorquescale</a> (the average values are taken between both dummy properties).</p>
+<p>See also <a href="sim/property_dummy_dummy_type.htm">dummy.dummy.type</a> and <a href="sim/property_dummy_linkedDummy.htm">dummy.linkedDummy</a>.</p>
+<p>Note: in MuJoCo, loop closures are handled via <em>weld</em> constraints that can appear soft or wobbly, depending on the setup. Stiffness/rigidity of the related <em>weld</em> constraint can be adjusted via the <a href="sim/property_dummy_dynamics_mujoco_overlapConstrSolref.htm">dummy.dynamics.mujoco.overlapConstrSolref</a>, <a href="sim/property_dummy_dynamics_mujoco_overlapConstrSolimp.htm">dummy.dynamics.mujoco.overlapConstrSolimp</a> and <a href="sim/property_dummy_dynamics_mujoco_overlapConstrTorquescale.htm">dummy.dynamics.mujoco.overlapConstrTorquescale</a> (the average values are taken between both dummy properties).</p>
 
 <h2>
 <a name="rigidCompounds"></a>Rigid compounds
 </h2>
 
-<p>Two non-static <a href="shapes.htm">shapes</a> that are not linked through dynamically enabled joints or force sensors will move independently from each other during dynamic simulation. If you want two or more shapes to behave as one single shape, you will have to group them ([Edit &gt; Shape grouping/merging &gt; group]). Make sure you adjust the inertia matrix of the final shape appropriately. Make sure you also read the <a href="#pureShapes">section about primitive shapes</a> further down:<br>
+<p>Two non-static <a href="shapes.htm">shapes</a> that are not linked through dynamically enabled joints or force sensors move independently from each other during dynamic simulation. If you want two or more shapes to behave as one single shape, you have to group them ([Edit &gt; Shape grouping/merging &gt; group]). Make sure you adjust the inertia matrix of the final shape appropriately. See also <a href="sim/scene_groupShapes.htm">sim.scene:groupShapes</a> , <a href="sim/property_shape_dynamics_inertiaMatrix.htm">shape.dynamics.inertiaMatrix</a>, <a href="sim/property_shape_dynamics_centerOfMass.htm">shape.dynamics.centerOfMass</a>, <a href="sim/property_shape_dynamics_mass.htm">shape.dynamics.mass</a>, and make sure you also read the <a href="#pureShapes">section about primitive shapes</a> further down:<br>
 </p>
 
 
@@ -110,7 +112,7 @@
 <p class=imageLabel>[Compound of several non-static shapes to obtain a single non-static shape]</p>
 <br>
 
-<p>Compound shapes will behave as a rigid entity and also share identical dynamic properties (e.g. friction coefficient). Sometimes a rigid entity with differentiated dynamic properties is needed. In that case, shapes can be rigidly linked via a force sensor.</p>
+<p>Compound shapes behave as rigid entities and also share identical dynamic properties (e.g. friction coefficient). Sometimes a rigid entity with differentiated dynamic properties is needed. In that case, shapes can be rigidly linked via a force sensor.</p>
 
 <br>
 
@@ -127,7 +129,7 @@
 <p class=imageLabel>[Dynamic robot model (left) and underlying primitive non-static shapes used for dynamic simulation (right)]</p>
 <br>
 
-<p>When a body can collide, but not constantly, or does not play a important role in the stability of a mechanism/robot, then it is not absolutely necessary to use primitive shapes, and convex shapes could be a viable alternative too:</p>
+<p>See also <a href="sim/scene_createObject.htm">sim.scene:createObject</a>. When a body can collide, but not constantly, or does not play a important role in the stability of a mechanism/robot, then it is not absolutely necessary to use primitive shapes, and convex shapes could be a viable alternative too:</p>
 <br>
 
 

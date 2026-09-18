@@ -42,7 +42,7 @@
 </h2>
 
 
-<p><a href="scripts.htm">Detached scripts</a> can call specific <a href="plugins.htm">plugin</a> functions, so-called callback functions: in order to be able to do this, the plugin must  first register its callback functions via <a href="sim/simRegisterScriptCallbackFunction_cpp.htm">simRegisterScriptCallbackFunction</a>. This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. Following illustrates a very simple plugin function and its registration:</p>
+<p><a href="scripts.htm">Scripts</a> can call specific <a href="plugins.htm">plugin</a> functions, so-called callback functions: in order to be able to do this, the plugin must  first register its callback functions via <a href="sim/simRegisterScriptCallbackFunction_cpp.htm">simRegisterScriptCallbackFunction</a>. This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. Following illustrates a very simple plugin function and its registration:</p>
 
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">void myCallbackFunc(SScriptCallBack* p)
 {
@@ -76,8 +76,8 @@ simRegisterScriptCallbackFunction(&quot;func&quot;, nullptr, myCallbackFunc);</c
 </h2>
 
 
-<p>A <a href="scripts.htm">detached script</a> function can obviously be called from within the same detached script, but also:</p>
-<li>across detached scripts, refer to e.g. <a href="sim/script_callFunction.htm">script:callFunction</a>, <a href="sim/script_getFunctions.htm">script:getFunctions</a> and <a href="sim/script_executeString.htm">script:executeString</a>.</li>
+<p>A <a href="scripts.htm">script</a> function can obviously be called from within the same script, but also:</p>
+<li>across scripts, refer to e.g. <a href="sim/script_callFunction.htm">script:callFunction</a>, <a href="sim/script_getFunctions.htm">script:getFunctions</a> and <a href="sim/script_executeString.htm">script:executeString</a>.</li>
 <li>from a plugin, refer to <a href="sim/simCallScriptFunctionEx_cpp.htm">simCallScriptFunctionEx</a>.</li>
 <li>from a <a href="rosInterfaces.htm">ROS</a> client (via a callback mechanism)
 <li>or from a <a href="remoteApiOverview.htm">remote API</a> client</li>
@@ -93,7 +93,7 @@ simRegisterScriptCallbackFunction(&quot;func&quot;, nullptr, myCallbackFunc);</c
 </h2>
 
 
-<p>A <a href="scripts.htm">detached script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all detached scripts at once, via <a href="sim/script_broadcast.htm">script:broadcast</a>. For instance, following constantly broadcasts a message to all scripts, while printing other broadcasted messages:</p>
+<p>A <a href="scripts.htm">script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all scripts at once, via <a href="sim/script_broadcast.htm">script:broadcast</a>. For instance, following constantly broadcasts a message to all scripts, while printing other broadcasted messages:</p>
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
@@ -109,7 +109,7 @@ end
 
 function sysCall_msg(msg, origin)
     print("Received following: ", msg)
-    print("From detached script: ", origin)
+    print("From script: ", origin)
 end</code>
 
 </div>
@@ -121,7 +121,7 @@ end</code>
 <h2><a name="events"></a>Events</h2>
 
 
-<p>A <a href="scripts.htm">detached script</a> or a <a href="plugins.htm">plugin</a> can receive notifications for everything that happens in CoppeliaSim itself, e.g. when an object is created, modified, removed, or when an internal state changed. A detached script can use the sysCall_event <a href="callbackFunctions.htm">callback function</a> to that end, coupled with some filtering for efficiency's sake. For instance, following script tracks a pose change with any scene object, and a change in scene object selection:</p>
+<p>A <a href="scripts.htm">script</a> or a <a href="plugins.htm">plugin</a> can receive notifications for everything that happens in CoppeliaSim itself, e.g. when an object is created, modified, removed, or when an internal state changed. A script can use the sysCall_event <a href="callbackFunctions.htm">callback function</a> to that end, coupled with some filtering for efficiency's sake. For instance, following script tracks a pose change with any scene object, and a change in scene object selection:</p>
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
@@ -293,7 +293,7 @@ page = http.request('http://www.google.com')</code>
 </h2>
 
 
-<p>Many other means of communication can be directly supported from within a detached script, via a Lua extension library or via a Python package. Indirectly, by passing via a <a href="plugins.htm">plugin</a>, there are even more possibilities, since a plugin can virtually link to any type of c/c++ communication library.</p>
+<p>Many other means of communication can be directly supported from within a script, via a Lua extension library or via a Python package. Indirectly, by passing via a <a href="plugins.htm">plugin</a>, there are even more possibilities, since a plugin can virtually link to any type of c/c++ communication library.</p>
 
 
 <br>
