@@ -47,16 +47,16 @@
 <p>The original shape was divided into several sub-shapes (see also the scene hierarchy). The shape division algorithm operates by grouping all triangles that are linked by common edges. Depending on how the original mesh was created or exported, such a division procedure cannot be performed. In that case you will have to manually extract shapes in the <a href="triangleEditMode.htm">triangle edit mode</a> or in an external editor.<br>
 </p>
 
-<p>Next, we will change colors of the various objects so as to have a nice visual appearance. First double-click a shape icon in the scene hierarchy. The <a href="shapeProperties.htm">shape dialog</a> opens. While a shape is selected, click on <strong>Adjust  color</strong> in the dialog: this will allow you to adjust the various color components of the  selected shape. For now, just adjust the ambient/diffuse color component of your shapes. To transfer the color of one shape to another shape, select both shapes and make sure the last selected shape (indicated with a white bounding box) is the one you want to take the color from, then simply click the <strong>Apply to selection</strong> button in the <strong>Colors</strong> section of the shape dialog. Once you finished coloring, you might have following situation:<br>
+<p>Next, we will change colors of the various objects so as to have a nice visual appearance. First double-click a shape icon in the scene hierarchy. The <a href="shapeProperties.htm">shape dialog</a> opens. While a shape is selected, click on <strong>Adjust  color</strong> in the dialog: this allows you to adjust the various color components of the  selected shape. For now, just adjust the ambient/diffuse color component of your shapes. To transfer the color of one shape to another shape, select both shapes and make sure the last selected shape (indicated with a white bounding box) is the one you want to take the color from, then simply click the <strong>Apply to selection</strong> button in the <strong>Colors</strong> section of the shape dialog. Once you finished coloring, you might have following situation:<br>
 </p>
 
 <p align=center><img src="images/ikTut3.jpg"></p>
 <br>
 
-<p>In next step, we will add the 7 <a href="joints.htm">joints</a> of the manipulator. One way of doing this is to add the joints into the scene, then specify their appropriate pose (through the <a href="positionDialog.htm">position dialog</a> and the <a href="orientationDialog.htm">orientation dialog</a>). This is however not possible, when you don't know the exact joint linear/angular positions as in our case, and so we will have to <em>extract</em> them from the shapes that we have:<br>
+<p>In next step, we add the 7 <a href="joints.htm">joints</a> of the manipulator. One way of doing this is to add the joints into the scene, then specify their appropriate pose (through the <a href="positionDialog.htm">position dialog</a> and the <a href="orientationDialog.htm">orientation dialog</a>). This is however not possible, when you don't know the exact joint linear/angular positions as in our case, and so we will have to <em>extract</em> them from the shapes that we have:<br>
 </p>
 
-<p>Select all imported shapes and click [Edit &gt; Shape bounding box &gt; align with world]. This operation guarantees that our <a href="shapeReferenceFrames.htm">bounding boxes</a> are aligned with the absolute reference frame, and given the current manipulator configuration, represents the smallest bounding boxes. Click [Add &gt; Joint &gt; Revolute] to insert a revolute joint into the scene. The default position is at (0;0;0) and its default orientation is vertical, and so the joint is hidden by the manipulator's base cylinder. While the joint is still selected, ctrl-select the base cylinder, then open the <a href="positionDialog.htm">position dialog</a> on the <strong>position</strong> tab and click the <strong>Apply to selection</strong>. This just positioned the joint at the exact same coordinates as the base cylinder (this operation however only slightly adjusted the joint's vertical position since it was already almost in position). Now repeat the procedure for all other joints in the manipulator (remember there should be a total of 7). All joints are in position now, however, some of them have the wrong orientation. Select all joints that should be aligned with the world's Y-axis, then enter (90,0,0) for the <strong>Alpha</strong>, <strong>Beta</strong> and <strong>Gamma</strong> items in the <a href="orientationDialog.htm">orientation dialog</a>, on the <strong>orientation</strong> tab,  then click the <strong>Apply to selection</strong> button. Next, select the joint that should be aligned with the world's X-axis, then enter (0,90,0) for  <strong>Alpha</strong>, <strong>Beta</strong> and <strong>Gamma</strong>. All joints have the right pose now. <br>
+<p>Select all imported shapes and click [Edit &gt; Shape bounding box &gt; align with world]. This operation aligns <a href="shapeReferenceFrames.htm">bounding boxes</a> with the absolute reference frame, and given the current manipulator configuration, represents the smallest bounding boxes. Click [Add &gt; Joint &gt; Revolute] to insert a revolute joint into the scene. The default position is at (0;0;0) and its default orientation is vertical, and so the joint is hidden by the manipulator's base cylinder. While the joint is still selected, ctrl-select the base cylinder, then open the <a href="positionDialog.htm">position dialog</a> on the <strong>position</strong> tab and click the <strong>Apply to selection</strong>. This just positioned the joint at the exact same coordinates as the base cylinder (this operation however only slightly adjusted the joint's vertical position since it was already almost in position). Now repeat the procedure for all other joints in the manipulator (remember there should be a total of 7). All joints are in position now, however, some of them have the wrong orientation. Select all joints that should be aligned with the world's Y-axis, then enter (90,0,0) for the <strong>Alpha</strong>, <strong>Beta</strong> and <strong>Gamma</strong> items in the <a href="orientationDialog.htm">orientation dialog</a>, on the <strong>orientation</strong> tab,  then click the <strong>Apply to selection</strong> button. Next, select the joint that should be aligned with the world's X-axis, then enter (0,90,0) for  <strong>Alpha</strong>, <strong>Beta</strong> and <strong>Gamma</strong>. All joints have the right pose now. <br>
 </p>
 
 <p>You can now adjust the joint sizes (check the <strong>Length</strong> and <strong>Diameter</strong> items) in the <a href="jointProperties.htm">joint dialog</a> (that you can open by double-clicking a joint icon in the scene hierarchy). Make sure that all joints are clearly visible. This is what you should have:<br>
@@ -65,7 +65,7 @@
 <p align=center><img src="images/ikTut5.jpg"></p>
 <br>
 
-<p>The next step in this tutorial is to group shapes that belong to the same rigid entity. Select the 5 shapes that are part of link 1 (the base cylinder being link 0), then click [Edit &gt; Shape grouping/merging &gt; group]. Once the shapes are grouped in a compound shape, you could re-align its bounding box with the world, but this step is not required (and has only a visual effect). Repeat the same procedure with all shapes that logically belong together. In this tutorial we will not actuate the gripper's fingers, and so simply rigidly group them with the last link. When all shapes that are meant to be grouped share the same visual attributes, try merging them together instead: [Edit &gt; Shape grouping/merging &gt; merge].<br>
+<p>The next step in this tutorial is to group shapes that belong to the same rigid entity. Select the 5 shapes that are part of link 1 (the base cylinder being link 0), then click [Edit &gt; Shape grouping/merging &gt; group]. Once the shapes are grouped in a compound shape, you could re-align its bounding box with the world, but this step is not required (and has only a visual effect). Repeat the same procedure with all shapes that logically belong together. In this tutorial we do not actuate the gripper's fingers, and so simply rigidly group them with the last link. When all shapes that are meant to be grouped share the same visual attributes, try merging them together instead: [Edit &gt; Shape grouping/merging &gt; merge].<br>
 </p>
 
 <p>At this point you can rename all objects in the scene in following way, when going from base to tip: <em>redundantRobot</em> -  <em>redundantRob_joint1</em>  - <em>redundantRob_link1</em> - <em>redundantRob_joint2</em>, etc. Just double-click an object's alias in the scene hierarchy to edit it.<br>
@@ -80,17 +80,17 @@
 <p>Select all joints, then in the joint dialog, select <strong>kinematic mode</strong>, then click <strong>Apply to selection</strong>. Keep the joints selected, then open the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a> and in the<strong> Visibility layers</strong> section, disable layer 2 and enable layer 10, then click the related <strong>Apply to selection</strong> button. This just sent all joints to the visibility layer 10, effectively making them invisible. Have a look at the <a href="layerSelectionDialog.htm">layer selection dialog</a> if you wish to temporarily enable/disable some layers.</p>
 <p>In CoppeliaSim, an IK task requires specifying at least following elements:</p>
 <li>a kinematic chain described with a <em>tip</em> dummy and a <em>base</em> object. </li>
-<li>a <em>target</em> dummy that the <em>tip</em> dummy will be constrained to follow. </li>
+<li>a <em>target</em> dummy that the <em>tip</em> dummy is constrained to follow. </li>
 <p>We already have the base object (object <em>redundantRobot</em>). Let's add a <a href="dummies.htm">dummy object</a>, rename it to <em>redundantRob_tip</em> and set its position to (0.324,0,0.62) using the coordinate and transformation dialog. Next, attach the dummy to <em>redundantRob_link7</em> (select <em>redundantRob_tip</em>, then <em>redundantRob_link7</em>, then [Edit &gt; Set parent, keep pose(s)]. The <em>tip</em> dummy is ready!<br>
 </p>
 <p>Now let's prepare the <em>target</em> dummy: copy and paste <em>redundantRob_tip</em> and rename the copy to <em>redundantRob_target</em>. The <em>target</em> dummy is ready.</p>
-<p>Now we will  add a way to easily manipulate the robot, without having to worry about breaking it by shifting the wrong objects around. We will therefore define it as a <a href="models.htm">model</a>. First, move <em>redundantRob_tip</em> and <em>redundantRob_target</em> to layer 11 to make both dummies invisible. Then shift-select all visible objects in the scene view, ctrl-click the object <em>redundantRobot</em> in the scene hierarchy to remove it from the selection, then open the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a>. Check the <strong>Select base of model instead</strong> item, then the related <strong>Apply to selection</strong> button. Clear the selection with &lt;ESC&gt;, then select <em>redundantRobot</em>. In the same dialog, check the <strong>Object is model base</strong> item, then close the dialogs. Notice how a stippled bounding box now encompasses the whole manipulator:<br>
+<p>Now we add a way to easily manipulate the robot, without having to worry about breaking it by shifting the wrong objects around. We therefore define it as a <a href="models.htm">model</a>. First, move <em>redundantRob_tip</em> and <em>redundantRob_target</em> to layer 11 to make both dummies invisible. Then shift-select all visible objects in the scene view, ctrl-click the object <em>redundantRobot</em> in the scene hierarchy to remove it from the selection, then open the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a>. Check the <strong>Select base of model instead</strong> item, then the related <strong>Apply to selection</strong> button. Clear the selection with &lt;ESC&gt;, then select <em>redundantRobot</em>. In the same dialog, check the <strong>Object is model base</strong> item, then close the dialogs. Notice how a stippled bounding box now encompasses the whole manipulator:<br>
 </p>
 <p align=center><img src="images/ikTut9.jpg"></p>
 <br>
 <p>Click any object on the manipulator and notice how the base object <em>redundantRobot</em> always gets selected instead.<br>
 </p>
-<p>Next, we add a <em>manipulation sphere</em> that we will use to manipulate the robot's gripper position/orientation. Click [Add &gt; Primitive shape &gt; Sphere] to open the <a href="primitiveShapes.htm">primitive shape dialog</a>, indicate 0.05 for the <strong>X-Size</strong>, <strong>Y-Size</strong> and <strong>Z-Size</strong>, then uncheck the <strong>Create dynamic and respondable shape</strong> item and click <strong>OK</strong>. Adjust the newly added sphere's position to be the same as <em>redundantRob_target</em> (using the coordinate and transformation dialog). The sphere now appears at the tip of the manipulator. Rename the sphere to <em>redundantRob_manipSphere</em>, then make it parent of <em>redundantRob_target</em>. Make <em> redundantRobot</em> parent of <em>rendundantRob_manipSphere</em>: the target dummy and the manipulation sphere are now also part of the robot model. Collapse the <em>redundantRobot</em> tree in the scene hierarchy. The redundant manipulator model is ready!</p>
+<p>Next, we add a <em>manipulation sphere</em> that we use to manipulate the robot's gripper position/orientation. Click [Add &gt; Primitive shape &gt; Sphere] to open the <a href="primitiveShapes.htm">primitive shape dialog</a>, indicate 0.05 for the <strong>X-Size</strong>, <strong>Y-Size</strong> and <strong>Z-Size</strong>, then uncheck the <strong>Create dynamic and respondable shape</strong> item and click <strong>OK</strong>. Adjust the newly added sphere's position to be the same as <em>redundantRob_target</em> (using the coordinate and transformation dialog). The sphere now appears at the tip of the manipulator. Rename the sphere to <em>redundantRob_manipSphere</em>, then make it parent of <em>redundantRob_target</em>. Make <em> redundantRobot</em> parent of <em>rendundantRob_manipSphere</em>: the target dummy and the manipulation sphere are now also part of the robot model. Collapse the <em>redundantRobot</em> tree in the scene hierarchy. The redundant manipulator model is ready!</p>
 
 
 <br>
@@ -102,237 +102,47 @@
 
 
 
-<p>Inverse kinematics is entirely set up by having a script calling appropriate API commands: the idea is to build an equivalent kinematic model via the  functions provided by the <a href="kinematicsPlugin.htm">kinematics plugin</a>. The approach uses the concept and terminology of <a href="solvingIkAndFk.htm">IK groups and IK elements</a>.</p>
-<p>The easiest would be to use generic IK code prepared via the add-on [Modules &gt; Kinematics &gt; Inverse kinematics generator...], however, for the purpose of this tutorial, we'll go the longer path:</p>
-<p>Select object <em>redundantRobot</em>, then [Add &gt; Script &gt; simulation script &gt; Non-threaded &gt; Lua/Python] to attach a <a href="simulationScripts.htm">simulation script</a> to that object. Double-click the new script icon in the scene hierarchy, and replace the script content with following code:</p>
+<p>Inverse kinematics is entirely set up by having a script calling appropriate methods: the idea is to build an equivalent kinematic model via the  methods provided by the <a href="sim/IK_new.htm">IK class</a>. The approach uses the concept and terminology of <a href="solvingIkAndFk.htm">IK groups and IK elements</a>.</p>
+<p>Select object <em>redundantRobot</em>, then [Add &gt; Script &gt; simulation script &gt; Non-threaded &gt; Lua] to attach a <a href="simulationScripts.htm">simulation script</a> to that object. Double-click the new script icon in the scene hierarchy, and replace the script content with following code:</p>
 
 <div class=multi-language-switcher data-default="lua">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-#python
-
-def sysCall_init():
-    sim = require('sim')
-    simIK = require('simIK')
-    
-    # Build a kinematic chain and 2 IK groups (undamped and damped) inside of the IK plugin environment,
-    # based on the kinematics of the robot in the scene:
-    
-    simBase = sim.getObject('..')
-    simTip = sim.getObject('../redundantRob_tip')
-    simTarget = sim.getObject('../redundantRob_target')
-
-    # Simple way:
-    self.ikEnv = simIK.createEnvironment()
-    self.ikGroup_undamped = simIK.createGroup(self.ikEnv)
-    simIK.setGroupCalculation(self.ikEnv, self.ikGroup_undamped, simIK.method_pseudo_inverse, 0, 6)
-    simIK.addElementFromScene(self.ikEnv, self.ikGroup_undamped, simBase, simTip, simTarget, simIK.constraint_pose)
-
-    self.ikGroup_damped = simIK.createGroup(self.ikEnv)
-    simIK.setGroupCalculation(self.ikEnv, self.ikGroup_damped, simIK.method_damped_least_squares, 1, 99)
-    simIK.addElementFromScene(self.ikEnv, self.ikGroup_damped, simBase, simTip, simTarget, simIK.constraint_pose)
-
-    # Elaborate way:
-    '''
-    simBase = sim.getObject('..')
-    simTip = sim.getObject('../redundantRob_tip')
-    simTarget = sim.getObject('../redundantRob_target')
-    simJoints = [sim.getObject(f'../redundantRob_joint{i}') for i in range(1, 8)]
-    ikJoints = []
-
-    self.ikEnv = simIK.createEnvironment()
-    ikBase = simIK.createDummy(self.ikEnv)
-    simIK.setObjectPose(self.ikEnv, ikBase, -1, sim.getObjectPose(simBase)) 
-    parent = ikBase
-    
-    for i in range(len(simJoints)):
-        ikJoints.append(simIK.createJoint(self.ikEnv, simIK.jointtype_revolute))
-        simIK.setJointMode(self.ikEnv, ikJoints[i], simIK.jointmode_ik)
-        cyclic, interv = sim.getJointInterval(simJoints[i])
-        simIK.setJointInterval(self.ikEnv, ikJoints[i], cyclic, interv)
-        simIK.setJointPosition(self.ikEnv, ikJoints[i], sim.getJointPosition(simJoints[i]))
-        simIK.setObjectPose(self.ikEnv, ikJoints[i], -1, sim.getObjectPose(simJoints[i]))
-        simIK.setObjectParent(self.ikEnv, ikJoints[i], parent, True) 
-        parent = ikJoints[i]
-        
-    ikTip = simIK.createDummy(self.ikEnv)
-    simIK.setObjectPose(self.ikEnv, ikTip, -1, sim.getObjectPose(simTip))
-    simIK.setObjectParent(self.ikEnv, ikTip, parent, True)
-    
-    ikTarget = simIK.createDummy(self.ikEnv)
-    simIK.setObjectPose(self.ikEnv, ikTarget, -1, sim.getObjectPose(simTarget))
-    simIK.setTargetDummy(self.ikEnv, ikTip, ikTarget)
-
-    self.ikGroup_undamped = simIK.createGroup(self.ikEnv)
-    simIK.setGroupCalculation(self.ikEnv, self.ikGroup_undamped, simIK.method_pseudo_inverse, 0, 6)
-    ikElementHandle = simIK.addElement(self.ikEnv, self.ikGroup_undamped, ikTip)
-    simIK.setElementBase(self.ikEnv, self.ikGroup_undamped, ikElementHandle, ikBase)
-    simIK.setElementConstraints(self.ikEnv, self.ikGroup_undamped, ikElementHandle, simIK.constraint_pose)
-    
-    self.ikGroup_damped = simIK.createGroup(self.ikEnv)
-    simIK.setGroupCalculation(self.ikEnv, self.ikGroup_damped, simIK.method_damped_least_squares, 1, 99)
-    ikElementHandle = simIK.addElement(self.ikEnv, self.ikGroup_damped, ikTip)
-    simIK.setElementBase(self.ikEnv, self.ikGroup_damped, ikElementHandle, ikBase)
-    simIK.setElementConstraints(self.ikEnv, self.ikGroup_damped, ikElementHandle, simIK.constraint_pose)
-    '''
-
-def sysCall_actuation():
-    # There is a simple way, and a more elaborate way (but which gives you more options/flexibility):
-    
-    # Simple way:
-    res, *_ = simIK.handleGroup(self.ikEnv, self.ikGroup_undamped, {'syncWorlds': True})
-    if res != simIK.result_success:
-        simIK.handleGroup(self.ikEnv, self.ikGroup_damped, {'syncWorlds': True})
-        sim.addLog(sim.verbosity_scriptwarnings, "IK solver failed.")
-
-    # Elaborate way:
-    '''
-    simIK.setObjectPose(self.ikEnv, ikTarget, ikBase, sim.getObjectPose(simTarget, simBase)) 
-    res, *_ = simIK.handleGroup(self.ikEnv, self.ikGroup_undamped)
-    if res != simIK.result_success:
-        simIK.handleGroup(self.ikEnv, self.ikGroup_damped)
-        sim.addLog(sim.verbosity_scriptwarnings, "IK solver failed.") 
-
-    for i in range(len(simJoints)):
-        sim.setJointPosition(simJoints[i], simIK.getJointPosition(self.ikEnv, ikJoints[i])) 
-    '''</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    -- Build a kinematic chain and 2 IK groups (undamped and damped) inside of the IK plugin environment,
+    -- Build a kinematic chain and 2 IK groups (undamped and damped)
     -- based on the kinematics of the robot in the scene:
-    -- There is a simple way, and a more elaborate way (but which gives you more options/flexibility):
 
-    sim = require('sim')
-    simIK = require('simIK')
+    sim = require('sim-2')
+    simIK = require('simIK-2')
 
-    -- Simple way:
-    local simBase = sim.getObject('..')
-    local simTip = sim.getObject('../redundantRob_tip')
-    local simTarget = sim.getObject('../redundantRob_target')
+    local simBase = sim.self:getObject('..')
+    local simTip = sim.self:getObject('../redundantRob_tip')
+    local simTarget = sim.self:getObject('../redundantRob_target')
     -- create an IK environment:
-    ikEnv = simIK.createEnvironment()
-    -- create an IK group: 
-    ikGroup_undamped = simIK.createGroup(ikEnv)
-    -- set its resolution method to undamped: 
-    simIK.setGroupCalculation(ikEnv, ikGroup_undamped, simIK.method_pseudo_inverse, 0, 6)
-    -- create an IK element based on the scene content: 
-    simIK.addElementFromScene(ikEnv, ikGroup_undamped, simBase, simTip, simTarget, simIK.constraint_pose)
-    -- create another IK group: 
-    ikGroup_damped = simIK.createGroup(ikEnv)
-    -- set its resolution method to damped: 
-    simIK.setGroupCalculation(ikEnv, ikGroup_damped, simIK.method_damped_least_squares, 1, 99)
-    -- create an IK element based on the scene content: 
-    simIK.addElementFromScene(ikEnv, ikGroup_damped, simBase, simTip, simTarget, simIK.constraint_pose) 
+    ik = simIK()
+    -- create an undamped IK group, with an IK element: 
+    ikGroup_undamped = ik:createGroup({method = 'pseudoInverse', maxIterations = 6})
+    ikGroup_undamped:addElementFromScene(simBase, simTip, simTarget, ik.constraint_pose)
+
+    -- create another IK group (with IK element), this time damped: 
+    ikGroup_damped = ik:createGroup({method = 'dampedLeastSquares', damping = 1.0, maxIterations = 100})
+    ikGroup_damped:addElementFromScene(simBase, simTip, simTarget, ik.constraint_pose, {weights = {1.0, 0.001}}) 
     
-    -- Elaborate way:
-    --[[
-    simBase = sim.getObject('..')
-    simTip = sim.getObject('../redundantRob_tip')
-    simTarget = sim.getObject('../redundantRob_target')
-    simJoints = {}
-    for i = 1, 7, 1 do
-        simJoints[i] = sim.getObject('../redundantRob_joint'..i)
-    end
-    ikJoints = {}
-    -- create an IK environment:
-    ikEnv = simIK.createEnvironment()
-    -- create a dummy in the IK environment: 
-    ikBase = simIK.createDummy(ikEnv)
-    -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectPose(ikEnv, ikBase, -1, sim.getObjectPose(simBase)) 
-    local parent = ikBase
-    for i = 1, #simJoints, 1 do -- loop through all joints
-        -- create a joint in the IK environment:
-        ikJoints[i] = simIK.createJoint(ikEnv, simIK.jointtype_revolute)
-        -- set it into IK mode: 
-        simIK.setJointMode(ikEnv, ikJoints[i], simIK.jointmode_ik)
-        -- set the same joint limits as its CoppeliaSim counterpart joint: 
-        local cyclic, interv = sim.getJointInterval(simJoints[i])
-        simIK.setJointInterval(ikEnv, ikJoints[i], cyclic, interv)
-        -- set the same joint lin./ang. position as its CoppeliaSim counterpart joint: 
-        simIK.setJointPosition(ikEnv, ikJoints[i], sim.getJointPosition(simJoints[i]))
-        -- set the same object pose as its CoppeliaSim counterpart joint: 
-        simIK.setObjectPose(ikEnv, ikJoints[i], -1, sim.getObjectPose(simJoints[i]))
-        -- set its corresponding parent: 
-        simIK.setObjectParent(ikEnv, ikJoints[i], parent, true) 
-        parent = ikJoints[i]
-    end
-    -- create the tip dummy in the IK environment:
-    ikTip = simIK.createDummy(ikEnv)
-    -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectPose(ikEnv, ikTip, -1, sim.getObjectPose(simTip))
-    -- attach it to the kinematic chain: 
-    simIK.setObjectParent(ikEnv, ikTip, parent, true)
-    -- create the target dummy in the IK environment: 
-    ikTarget = simIK.createDummy(ikEnv)
-    -- set that dummy into the same pose as its CoppeliaSim counterpart: 
-    simIK.setObjectPose(ikEnv, ikTarget, -1, sim.getObjectPose(simTarget))
-    -- link the two dummies: 
-    simIK.setTargetDummy(ikEnv, ikTip, ikTarget)
-    -- create an IK group: 
-    ikGroup_undamped = simIK.createGroup(ikEnv)
-    -- set its resolution method to undamped: 
-    simIK.setGroupCalculation(ikEnv, ikGroup_undamped, simIK.method_pseudo_inverse, 0, 6)
-    -- make sure the robot doesn't shake if the target position/orientation wasn't reached: 
-    simIK.setGroupFlags(ikEnv, ikGroup_undamped, simIK.group_enabled | 
-        simIK.group_ignoremaxsteps | simIK.group_restoreonbadlintol | simIK.group_restoreonbadangtol)
-    -- add an IK element to that IK group: 
-    local ikElementHandle = simIK.addElement(ikEnv, ikGroup_undamped, ikTip)
-    -- specify the base of that IK element: 
-    simIK.setElementBase(ikEnv, ikGroup_undamped, ikElementHandle, ikBase)
-    -- specify the constraints of that IK element: 
-    simIK.setElementConstraints(ikEnv, ikGroup_undamped, ikElementHandle, simIK.constraint_pose)
-    -- create another IK group: 
-    ikGroup_damped = simIK.createGroup(ikEnv)
-    -- set its resolution method to damped: 
-    simIK.setGroupCalculation(ikEnv, ikGroup_damped, simIK.method_damped_least_squares, 1, 99)
-    -- add an IK element to that IK group: 
-    local ikElementHandle = simIK.addElement(ikEnv, ikGroup_damped, ikTip)
-    -- specify the base of that IK element: 
-    simIK.setElementBase(ikEnv, ikGroup_damped, ikElementHandle, ikBase)
-    -- specify the constraints of that IK element: 
-    simIK.setElementConstraints(ikEnv, ikGroup_damped, ikElementHandle, simIK.constraint_pose) 
-    --]]
 end
 
 function sysCall_actuation()
-    -- There is a simple way, and a more elaborate way (but which gives you more options/flexibility):
-    
-    -- Simple way:
     -- try to solve with the undamped method:
-    if simIK.handleGroup(ikEnv, ikGroup_undamped, {syncWorlds = true}) ~= simIK.result_success then 
+    if not ikGroup_undamped:solve() then 
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
-        simIK.handleGroup(ikEnv, ikGroup_damped, {syncWorlds = true})
-        -- We display a IK failure report message:
-        sim.addLog(sim.verbosity_scriptwarnings, "IK solver failed.") 
+        ikGroup_damped:solve({ignoreTolerance = true})
     end
-    
-    -- Elaborate way:
-    --[[
-    -- reflect the pose of the target dummy to its counterpart in the IK environment:
-    simIK.setObjectPose(ikEnv, ikTarget, ikBase, sim.getObjectPose(simTarget, simBase)) 
-    -- try to solve with the undamped method:
-    if simIK.handleGroup(ikEnv, ikGroup_undamped) ~= simIK.result_success then 
-        -- the position/orientation could not be reached.
-        -- try to solve with the damped method:
-        simIK.handleGroup(ikEnv, ikGroup_damped)
-        -- We display a IK failure report message: 
-        sim.addLog(sim.verbosity_scriptwarnings, "IK solver failed.") 
-    end
-    -- apply the joint values computed in the IK environment to their CoppeliaSim joint counterparts:
-    for i = 1, #simJoints, 1 do
-        sim.setJointPosition(simJoints[i], simIK.getJointPosition(ikEnv, ikJoints[i])) 
-    end
-    --]]
 end 
 
 function sysCall_cleanup()
     -- erase the IK environment: 
-    simIK.eraseEnvironment(ikEnv) 
+    ik:remove() 
 end</code>
 
 </div>

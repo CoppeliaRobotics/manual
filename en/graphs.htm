@@ -20,48 +20,32 @@
 <h1>Graphs <img src="images/graphs1.jpg"></h1>
 
 
-<p>Graphs are <a href="objects.htm">scene objects</a> that can record and visualize data from a <a href="simulation.htm">simulation</a>. Data is recorded in data streams, which are sequential lists of values associated with time stamps.</p>
-<p>Data streams can directly be visualized as time plots. By combining 2 or 3 data streams, one can obtain x/y curves, or 3D curves in the scene.
-  Following figure illustrates a time plot, showing 6 data streams visualizing joint velocities:</p>
+<p>Graphs are <a href="objects.htm">scene objects</a> that can record and visualize data from a <a href="simulation.htm">simulation</a>. Data is recorded in data signals, which are lists of sequential values associated with time stamps.</p>
+<p>Signals can directly be visualized as time plots. By combining 2 or 3 signals, one can obtain x/y curves, or 3D curves in the scene.
+  Following figure illustrates a time plot, showing 6 signals visualizing joint velocities:</p>
 <p align=center><img src="images/graphs2.jpg"></p>
 <p class=imageLabel>[Examples of a time plot]</p>
 <br>
 
 <p>A graph is an instance of <a href="mainObjectTypes.htm#graph">type graph</a>, which derives from <a href="mainObjectTypes.htm#sceneObject">type sceneObject</a>. It is added to the scene with [Add &gt; Graph]. Its basic properties are accessed and adjusted in the <a href="graphPropertiesDialog.htm">graph dialog</a>. Refer also to <a href="sim/scene_createObject.htm">sim.scene:createObject</a> and <a href="apiFunctions.htm#methodsAndProperties_graph">graph-related methods and properties</a>.</p>
-<p>The user is in charge of defining data streams, curves, and feeding them with appropriate data on a regular basis (usually once per simulation step). Following illustrates how to record and visualize 2 data streams (the velocity of two joints over time):</p>
+<p>The user is in charge of defining signals, curves, and feeding them with appropriate data on a regular basis (usually once per simulation step). Following illustrates how to record and visualize 2 signals (the velocity of two joints over time):</p>
 
 <div class=multi-language-switcher data-default="lua">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-#import math
-
-def sysCall_init():
-    sim = require('sim')
-    self.joint1Handle = sim.getObject('/joint1')
-    self.joint2Handle = sim.getObject('/joint2')
-    self.graph = sim.getObject('/Graph')
-    self.joint1Vel = sim.addGraphStream(self.graph, 'joint 1 velocity', 'deg/s', 0, [1, 0, 0])
-    self.joint2Vel = sim.addGraphStream(self.graph, 'joint 2 velocity', 'deg/s', 0, [0, 1, 0])
-
-def sysCall_sensing():
-    sim.setGraphStreamValue(self.graph, self.joint1Vel, 180 * sim.getJointVelocity(self.joint1Handle) / math.pi)
-    sim.setGraphStreamValue(self.graph, self.joint2Vel, 180 * sim.getJointVelocity(self.joint2Handle) / math.pi)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
-    joint1Handle = sim.getObject('/joint1')
-    joint2Handle = sim.getObject('/joint2')
-    graph = sim.getObject('/Graph')
-    joint1Vel = sim.addGraphStream(graph, 'joint 1 velocity', 'deg/s', 0, {1, 0, 0})
-    joint2Vel = sim.addGraphStream(graph, 'joint 2 velocity', 'deg/s', 0, {0, 1, 0})
+    sim = require('sim-2')
+    joint1 = sim.self:getObject('/joint1')
+    joint2 = sim.self:getObject('/joint2')
+    graph = sim.self:getObject('/Graph')
+    joint1Vel = graph:addSignal({name = 'joint 1 velocity', unit = 'deg/s', color = Color'red', drawLine = true})
+    joint2Vel = graph:addSignal({name = 'joint 2 velocity', unit = 'deg/s', color = Color'green', drawLine = true})
 end
 
 function sysCall_sensing()
-    sim.setGraphStreamValue(graph, joint1Vel, 180 * sim.getJointVelocity(joint1Handle) / math.pi)
-    sim.setGraphStreamValue(graph, joint2Vel, 180 * sim.getJointVelocity(joint2Handle) / math.pi)
+	graph:setSignalPoint(joint1Vel, 180.0 * joint1.velocity / math.pi)
+	graph:setSignalPoint(joint2Vel, 180.0 * joint2.velocity / math.pi)
 end</code>
 
 </div>
@@ -70,36 +54,21 @@ end</code>
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_init():
-    sim = require('sim')
-    self.objectHandle = sim.getObject('/object')
-    self.graph = sim.getObject('/Graph')
-    self.objectPosX = sim.addGraphStream(self.graph, 'object pos x', 'm', 1)
-    self.objectPosY = sim.addGraphStream(self.graph, 'object pos y', 'm', 1)
-    sim.addGraphCurve(self.graph, 'object pos x/y', 2, [objectPosX, objectPosY], [0, 0], 'm by m')
-
-def sysCall_sensing():
-    pos = sim.getObjectPosition(self.objectHandle)
-    sim.setGraphStreamValue(self.graph, self.objectPosX, pos[0])
-    sim.setGraphStreamValue(self.graph, self.objectPosY, pos[1])</code>
-
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
-    objectHandle = sim.getObject('/object')
-    graph = sim.getObject('/Graph')
-    objectPosX = sim.addGraphStream(graph, 'object pos x', 'm', 1)
-    objectPosY = sim.addGraphStream(graph, 'object pos y', 'm', 1)
-    sim.addGraphCurve(graph, 'object pos x/y', 2, {objectPosX, objectPosY}, {0, 0}, 'm by m')
+    sim = require('sim-2')
+    object = sim.self:getObject('/object')
+    graph = sim.self:getObject('/Graph')
+    objectPosX = graph:addSignal()
+    objectPosY = graph:addSignal()
+    graph:addCurve({objectPosX, objectPosY}, {name = 'object pos x/y', unit = 'm by m', color = Color'red'})
 end
 
 function sysCall_sensing()
-    local pos = sim.getObjectPosition(objectHandle)
-    sim.setGraphStreamValue(graph, objectPosX, pos[1])
-    sim.setGraphStreamValue(graph, objectPosY, pos[2])
+    local pos = object.worldPosition
+	graph:setSignalPoint(objectPosX, pos[1])
+	graph:setSignalPoint(objectPosY, pos[2])
 end</code>
 
 </div>

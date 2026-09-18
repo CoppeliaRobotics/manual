@@ -58,66 +58,19 @@ $ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release</code>
 <p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="simulationScripts.htm">simulation script</a> to it with [Add &gt; Script &gt; simulation script &gt; Non threaded &gt; Lua/Python]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
 
 <div class=multi-language-switcher data-default="lua">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def subscriber_callback(msg):
-    # This is the subscriber callback function
-    log_message = f'subscriber receiver following Float32: {msg["data"]}'
-    sim.addLog(sim.verbosity_scriptinfos, log_message)
-
-def getTransformStamped(objHandle, name, relTo, relToName):
-    # This function retrieves the stamped transform for a specific object
-    t = simROS2.getSystemTime()
-    p = sim.getObjectPosition(objHandle, relTo)
-    o = sim.getObjectQuaternion(objHandle, relTo)
-    return {
-        'header': {
-            'stamp': t,
-            'frame_id': relToName
-        },
-        'child_frame_id': name,
-        'transform': {
-            'translation': {'x': p[0], 'y': p[1], 'z': p[2]},
-            'rotation': {'x': o[0], 'y': o[1], 'z': o[2], 'w': o[3]}
-        }
-    }
-
-def sysCall_init():
-    sim = require('sim')
-    simROS2 = require('simROS2')
-
-    # The simulation script initialization
-    self.objectHandle = sim.getObject('..')
-    self.objectAlias = sim.getObjectAlias(self.objectHandle, 3)
-    
-    # Prepare the float32 publisher and subscriber (we subscribe to the topic we publish):
-    self.publisher = simROS2.createPublisher('/simulationTime', 'std_msgs/msg/Float32')
-    self.subscriber = simROS2.createSubscription('/simulationTime', 'std_msgs/msg/Float32', subscriber_callback)
-
-def sysCall_actuation():
-    # Send an updated simulation time message, and send the transform of the object attached to this script:
-    simROS2.publish(self.publisher, {'data': sim.getSimulationTime()})
-    simROS2.sendTransform(getTransformStamped(self.objectHandle, self.objectAlias, -1, 'world'))
-    # To send several transforms at once, use simROS2.sendTransforms instead
-
-def sysCall_cleanup():
-    # Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
-    simROS2.shutdownPublisher(self.publisher)
-    simROS2.shutdownSubscription(self.subscriber)</code>
     
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function subscriber_callback(msg)
     -- This is the subscriber callback function
-    sim.addLog(sim.verbosity_scriptinfos, 'subscriber receiver following Float32: '..msg.data)
+    sim.app:logInfo('subscriber receiver following Float32: ' .. msg.data)
 end
 
-function getTransformStamped(objHandle, name, relTo, relToName)
+function getTransformStamped(object, name, relToName)
     -- This function retrieves the stamped transform for a specific object
     local t = simROS2.getSystemTime()
-    local p = sim.getObjectPosition(objHandle,relTo)
-    local o = sim.getObjectQuaternion(objHandle,relTo)
+    local p = object.worldPosition
+    local q = object.worldQuaternion
     return {
         header = {
             stamp = t,
@@ -126,18 +79,18 @@ function getTransformStamped(objHandle, name, relTo, relToName)
         child_frame_id = name,
         transform = {
             translation = {x = p[1], y = p[2], z = p[3]},
-            rotation = {x = o[1], y = o[2], z = o[3], w = o[4]}
+            rotation = {x = q[1], y = q[2], z = q[3], w = q[4]}
         }
     }
 end
 
 function sysCall_init()
-    sim = require('sim')
+    sim = require('sim-2')
     simROS2 = require('simROS2')
 
     -- The simulation script initialization
-    objectHandle = sim.getObject('..')
-    objectAlias = sim.getObjectAlias(objectHandle, 3)
+    object = sim.self:getObject('..')
+    objectName = object:getName({mode = 'nameHandle'})
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we publish):
     publisher = simROS2.createPublisher('/simulationTime', 'std_msgs/msg/Float32')
@@ -146,8 +99,8 @@ end
 
 function sysCall_actuation()
     -- Send an updated simulation time message, and send the transform of the object this script is attached to:
-    simROS2.publish(publisher, {data = sim.getSimulationTime()})
-    simROS2.sendTransform(getTransformStamped(objectHandle, objectAlias, -1, 'world'))
+    simROS2.publish(publisher, {data = sim.scene.simulation.time})
+    simROS2.sendTransform(getTransformStamped(object, objectName, 'world'))
     -- To send several transforms at once, use simROS2.sendTransforms instead
 end
 
@@ -162,7 +115,7 @@ end</code>
 
 
 
-<p>Above script will publish the simulation time, and subscribe to it at the same time. It will also publish the transform of the object the script is attached to. You should be able to see the simulation time topic with:</p>
+<p>Above script publishes the simulation time, and subscribes to it at the same time. It also publishes the transform of the object the script is attached to. You should be able to see the simulation time topic with:</p>
 
 <code class="hljs coppelia-terminal">$ ros2 topic list</code>
 
@@ -171,7 +124,7 @@ end</code>
 <code class="hljs coppelia-terminal">$ ros2 topic echo /simulationTime</code>
 
 
-<p>Now load the demo scene <em>messaging/ros2InterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="simulationScripts.htm">simulation script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
+<p>Now load the demo scene <em>messaging/ros2InterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="simulationScripts.htm">simulation script</a> attached to <em>Vision_sensor</em> enables a publisher to stream the vision sensor's image, and also enables a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data. This is what is happening:</p>
 
 <p align=center><img src="images/rosTut1.jpg"></p>
 <p class=imageLabel>[Image publisher and image subscriber demo]</p>
@@ -199,12 +152,12 @@ end</code>
 
 <p>The simulation script attached to the  robot, and running in a non-threaded fashion, is in charge of following:</p>
 
-<li>determine some object handles (e.g. motor joint handles and proximity sensor handle)</li>
+<li>determine some objects (e.g. motor joints and proximity sensor)</li>
 <li>Launch motor speed subscribers</li>
 <li>Launch a sensor publisher and a simulation time publisher</li>
 <li> and finally launch a client application. The application is called with some topic names as arguments, so that it will know which topics to listen to and to subscribe. The client application (<em>ros2BubbleRob</em>) is then taking over the control of the  robot via ROS2.</li>
 
-<p>While simulation is running, copy and paste a few times the   robot. Notice that every copy is directly operational and independent. This is one of the many strengths of CoppeliaSim.</p>
+<p>While simulation is running, copy and paste a few times the   robot. Notice that every copy is directly operational and independent.</p>
 
 <p>Now stop the simulation and open a new scene, then drag following model into it: <em>Models/tools/ros2Interface helper tool.ttm</em>. This model is constituted by a single <a href="customizationScripts.htm">customization script</a> that offers following topic publishers and subscribers:</p>
 

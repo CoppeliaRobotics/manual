@@ -25,77 +25,16 @@
 <br>
 
 
-<p> For convenience, the icon is also displayed for the customization script's parent. When double-clicked, the user config callback function is triggered. This can be used as a convenient way of displaying a <a href="customUserInterfaces.htm">custom user interface</a>, that is specific to the <a href="objects.htm">object</a>/<a href="models.htm">model</a> the customization script refers to. User data can be read and written to objects with <a href="properties.htm#customData">custom data properties</a> for instance:</p>
-
-<p align=center><img src="images/userConfigCallback.jpg"></p>
-<p class=imageLabel>[Custom configuration dialog]</p>
-<br>
+<p> For convenience, the icon is also displayed for the customization script's parent. When double-clicked, the user config callback function is triggered. This can be used as a convenient way of displaying a <a href="customUserInterfaces.htm">custom user interface</a>, that is specific to the <a href="objects.htm">object</a>/<a href="models.htm">model</a> the customization script refers to. User data can be read and written as customData, e.g. sceneObject.customData.myData = sim.app:pack(...).</p>
 
 <div class=multi-language-switcher data-default="lua">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_init():
-    sim = require('sim')
-    simUI = require('simUI')
-    self.modelHandle = sim.getObject('..')
-
-def sysCall_userConfig():
-    xml = '''&lt;ui title="Robot" closeable="true" modal="true" layout="form" on-close="customUiClosed"&gt;
-            &lt;label text="Max. velocity:" /&gt;
-            &lt;edit id="1" value="-" on-editing-finished="velocityChanged"/&gt;
-            &lt;label text="Max. acceleration:" /&gt;
-            &lt;edit id="2" value="-" on-editing-finished="accelerationChanged"/&gt;
-            &lt;/ui&gt;'''
-    ui = simUI.create(xml)
-    data = readData()
-    simUI.setEditValue(ui, 1, str(data['maxVel']))
-    simUI.setEditValue(ui, 2, str(data['maxAccel']))
-
-def customUiClosed(ui):
-    simUI.destroy(ui)
-
-def velocityChanged(ui, id, val):
-    data = readData()
-    val = float(val)
-    if val:
-        if val < 0.1:
-            val = 0.1
-        if val > 0.5:
-            val = 0.5 
-        data['maxVel'] = val
-    simUI.setEditValue(ui, id, str(data['maxVel']))
-    writeData(data)
-
-def accelerationChanged(ui, id, val):
-    data = readData()
-    val = float(val)
-    if val:
-        if val < 0.01:
-            val = 0.01
-        if val > 0.2:
-            val = 0.2 
-        data['maxAccel'] = val
-    simUI.setEditValue(ui, id, str(data['maxAccel']))
-    writeData(data)
-
-def readData():
-    data = sim.unpackTable(sim.getBufferProperty(self.modelHandle, 'customData.RobotParams'))
-    if data == [] or data == {}:
-        data = {}
-        data['maxVel'] = 0.2
-        data['maxAccel'] = 0.05
-    return data
-
-def writeData(data):
-    sim.setBufferProperty(self.modelHandle, 'customData.RobotParams', sim.packTable(data))</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
+    sim = require('sim-2')
     simUI = require('simUI')
-    modelHandle = sim.getObject('..')
+    model = sim.self:getObject('..')
 end
 
 function sysCall_userConfig()
@@ -148,16 +87,17 @@ function accelerationChanged(ui, id, val)
 end
 
 function readData()
-    local data = sim.unpackTable(sim.getBufferProperty(modelHandle, 'customData.RobotParams'))
-    if next(data) == nil then
-        data.maxVel = 0.2
-        data.maxAccel = 0.05
+    local data = model.customData.robotParams
+    if data then
+        data = sim.app:unpack(data)
+    else
+        data = {maxVel = 0.2, maxAccel = 0.05}
     end
     return data
 end
 
 function writeData(data)
-    sim.setBufferProperty(modelHandle, 'customData.RobotParams', sim.packTable(data))
+    model.customData.robotParams = sim.app:pack(data)
 end</code>
 
 </div>
@@ -172,9 +112,11 @@ end</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
+sim = require('sim-2')
 require('configUi')
 
 function sysCall_init()
+    object = sim.self:getObject('..')
     local schema = {
         floatInput = {
             default = 0.1,
@@ -265,14 +207,13 @@ function sysCall_init()
             },
         },
     }
-    sim.setBufferProperty(sim.getObject('..'), 'customData.__schema__', sim.packTable(schema))
+    object:setBufferProperty('customData.__schema__', sim.app:pack(schema, {compatibility = 'sim-1'}))
     configUi = ConfigUI('myModelType', nil, modificationCallback)
-    configUi.getObjectCallback = function() return sim.getObject '..' end
+    configUi.getObjectCallback = function() return object.handle end
 end
 
 function modificationCallback(config)
-    local objectHandle = sim.getObject('..')
-    local txt = "Object '"..sim.getObjectAlias(objectHandle,5).."' just changed.\nNew parameters are:"
+    local txt = "Object '" .. object:getName({mode = 'printPath'}) .. "' just changed.\nNew parameters are:"
     print(txt)
     print(config)
 end</code>

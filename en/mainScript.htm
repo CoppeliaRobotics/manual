@@ -19,7 +19,7 @@
 
 <h1>The main script <img src="images/mainScript1.jpg"></h1>
 
-<p>By default, each <a href="scenes.htm">scene</a> in CoppeliaSim has one main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without main script, a running simulation won't do anything significant.</p>
+<p>By default, each <a href="scenes.htm">scene</a> in CoppeliaSim has one main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without main script, a running simulation won't do anything significant. See also <a href="sim/property_scene_mainScript.htm">sim.scene.mainScript</a>.</p>
 
 <p>The main script contains a collection of <a href="callbackFunctions.htm">callbacks functions</a> that are appropriately called by CoppeliaSim. The default main script is typically segmented in 4  callback functions: </p>
 
@@ -27,10 +27,10 @@
 <li>the initialization function: <strong>sysCall_init</strong>. It is called one time, just at the beginning of a simulation<br>
 </li>
 
-<li>the actuation function: <strong>sysCall_actuation</strong>. It is called in each simulation pass. The code is in charge of handling all the actuation functionality of the simulation. One command is of particular interest: <a href="sim/simHandleSimulationScripts.htm">sim.handleSimulationScripts</a>, which calls <a href="simulationScripts.htm">simulation scripts'</a> <em>sysCall_actuation</em> callback functions. Without that commands, <a href="simulationScripts.htm">simulation scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
+<li>the actuation function: <strong>sysCall_actuation</strong>. It is called in each simulation pass. The code is in charge of handling all the actuation functionality of the simulation. One command is of particular interest: <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a>, which calls <a href="simulationScripts.htm">simulation scripts'</a> <em>sysCall_actuation</em> callback functions. Without that commands, <a href="simulationScripts.htm">simulation scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
 </li>
 
-<li>the sensing function: <strong>sysCall_sensing</strong>. It is called in each simulation pass. The code is in charge of handling all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One command is of particular interest:<a href="sim/simHandleSimulationScripts.htm"> sim.handleSimulationScripts</a>, which  calls <a href="simulationScripts.htm">simulation scripts'</a> <em>sysCall_sensing</em> callback functions. Without that commands, <a href="simulationScripts.htm">simulation scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
+<li>the sensing function: <strong>sysCall_sensing</strong>. It is called in each simulation pass. The code is in charge of handling all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One command is of particular interest: <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a><a href="sim/simHandleSimulationScripts.htm"></a>, which  calls <a href="simulationScripts.htm">simulation scripts'</a> <em>sysCall_sensing</em> callback functions. Without that commands, <a href="simulationScripts.htm">simulation scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
 </li>
 
 <li>the restoration function: <strong>sysCall_cleanup</strong>. It is executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">object's</a> initial poses, clearing sensor states, etc.<br>
@@ -42,101 +42,86 @@ Following is the typical main script, slightly simplified:
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_init():
-    sim = require('sim')
-    # Initialization part
-
-def sysCall_actuation():
-    # Actuation part:
-    sim.handleEmbeddedScripts(sim.syscb_actuation)
-    sim.handleAddOnScripts(sim.syscb_actuation)
-    sim.handleSandboxScript(sim.syscb_actuation)
-    sim.handleDynamics(sim.getSimulationTimeStep())
-
-def sysCall_sensing():
-    # Sensing part:
-    sim.handleProximitySensor(sim.handle_all_except_explicit)
-    sim.handleVisionSensor(sim.handle_all_except_explicit)
-    sim.handleEmbeddedScripts(sim.syscb_sensing)
-    sim.handleAddOnScripts(sim.syscb_sensing)
-    sim.handleSandboxScript(sim.syscb_sensing)
-
-def sysCall_cleanup():
-    # Clean-up part:
-    sim.handleSimulationScripts(sim.syscb_cleanup)
-    sim.resetProximitySensor(sim.handle_all_except_explicit)
-    sim.resetVisionSensor(sim.handle_all_except_explicit)
-
-def sysCall_suspend():
-    sim.handleEmbeddedScripts(sim.syscb_suspend)
-    sim.handleAddOnScripts(sim.syscb_suspend)
-    sim.handleSandboxScript(sim.syscb_suspend)
-
-def sysCall_suspended():
-    sim.handleEmbeddedScripts(sim.syscb_suspended)
-    sim.handleAddOnScripts(sim.syscb_suspended)
-    sim.handleSandboxScript(sim.syscb_suspended)
-
-def sysCall_resume():
-    sim.handleEmbeddedScripts(sim.syscb_resume)
-    sim.handleAddOnScripts(sim.syscb_resume)
-    sim.handleSandboxScript(sim.syscb_resume)</code>
-
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
+sim = require('sim-2')
+
 function sysCall_init()
-    sim = require('sim')
-    -- Initialization part
 end
 
 function sysCall_actuation()
-    -- Actuation part:
-    sim.handleEmbeddedScripts(sim.syscb_actuation)
-    sim.handleAddOnScripts(sim.syscb_actuation)
-    sim.handleSandboxScript(sim.syscb_actuation)
-    sim.handleDynamics(sim.getSimulationTimeStep())
+    sim.scene:handleSimulationScripts(sim.syscb_actuation)
+    sim.scene:handleCustomizationScripts(sim.syscb_actuation)
+    sim.app:handleAddOnScripts(sim.syscb_actuation)
+    sim.app:handleSandboxScript(sim.syscb_actuation)
+    sim.scene:stepKinematicJoints()
+    sim.scene.dynamics:step()
 end
 
 function sysCall_sensing()
-    -- Sensing part:
-    sim.handleProximitySensor(sim.handle_all_except_explicit)
-    sim.handleVisionSensor(sim.handle_all_except_explicit)
-    sim.handleEmbeddedScripts(sim.syscb_sensing)
-    sim.handleAddOnScripts(sim.syscb_sensing)
-    sim.handleSandboxScript(sim.syscb_sensing)
+    local proxSensors = sim.scene:getObjects({types = {'proximitySensor'}})
+    for i = 1, #proxSensors do
+        local s = proxSensors[i]
+        if not s.explicitHandling then
+            s:handleSensor()
+        end
+    end
+    local visionSensors = sim.scene:getObjects({types = {'visionSensor'}})
+    for i = 1, #visionSensors do
+        local s = visionSensors[i]
+        if not s.explicitHandling then
+            s:handleSensor()
+        end
+    end
+    sim.scene:handleSimulationScripts(sim.syscb_sensing)
+    sim.scene:handleCustomizationScripts(sim.syscb_sensing)
+    sim.app:handleAddOnScripts(sim.syscb_sensing)
+    sim.app:handleSandboxScript(sim.syscb_sensing)
 end
 
 function sysCall_cleanup()
-    -- Clean-up part:
-    sim.handleSimulationScripts(sim.syscb_cleanup)
-    sim.resetProximitySensor(sim.handle_all_except_explicit)
-    sim.resetVisionSensor(sim.handle_all_except_explicit)
+    sim.scene:handleSimulationScripts(sim.syscb_cleanup)
+    local proxSensors = sim.scene:getObjects({types = {'proximitySensor'}})
+    for i = 1, #proxSensors do
+        local s = proxSensors[i]
+        if not s.explicitHandling then
+            s:resetSensor()
+        end
+    end
+    local visionSensors = sim.scene:getObjects({types = {'visionSensor'}})
+    for i = 1, #visionSensors do
+        local s = visionSensors[i]
+        if not s.explicitHandling then
+            s:resetSensor()
+        end
+    end
 end
 
 function sysCall_suspend()
-    sim.handleEmbeddedScripts(sim.syscb_suspend)
-    sim.handleAddOnScripts(sim.syscb_suspend)
-    sim.handleSandboxScript(sim.syscb_suspend)
+    sim.scene:handleSimulationScripts(sim.syscb_suspend)
+    sim.scene:handleCustomizationScripts(sim.syscb_suspend)
+    sim.app:handleAddOnScripts(sim.syscb_suspend)
+    sim.app:handleSandboxScript(sim.syscb_suspend)
 end
 
 function sysCall_suspended()
-    sim.handleEmbeddedScripts(sim.syscb_suspended)
-    sim.handleAddOnScripts(sim.syscb_suspended)
-    sim.handleSandboxScript(sim.syscb_suspended)
+    sim.scene:handleSimulationScripts(sim.syscb_suspended)
+    sim.scene:handleCustomizationScripts(sim.syscb_suspended)
+    sim.app:handleAddOnScripts(sim.syscb_suspended)
+    sim.app:handleSandboxScript(sim.syscb_suspended)
 end
 
 function sysCall_resume()
-    sim.handleEmbeddedScripts(sim.syscb_resume)
-    sim.handleAddOnScripts(sim.syscb_resume)
-    sim.handleSandboxScript(sim.syscb_resume)
+    sim.scene:handleSimulationScripts(sim.syscb_resume)
+    sim.scene:handleCustomizationScripts(sim.syscb_resume)
+    sim.app:handleAddOnScripts(sim.syscb_resume)
+    sim.app:handleSandboxScript(sim.syscb_resume)
 end</code>
 </div>
 
 <p>There are however many more <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> the main script can use to react to various events.</p>
 
-<p>The main script is not supposed to be modified. The reason for this is following: one of CoppeliaSim's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command <a href="sim/simHandleSimulationScripts.htm">sim.handleSimulationScripts</a> then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality.<br>
+<p>The main script is not supposed to be modified. The reason for this is following: one of CoppeliaSim's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command e.g.<a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a> then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality.<br>
 </p>
 
 <p>If however, for a reason or another you really need to modify the main script of a scene, you can do this by double-clicking the light-red script icon next to the world icon at the top of the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:<br>
@@ -149,8 +134,8 @@ end</code>
 <p class=imageLabel>[Main script icon]</p>
 <br>
 
-<p>Most of simulation script's system callback functions are called from the main script, via the <a href="sim/simHandleSimulationScripts.htm">sim.handleSimulationScripts</a> function, which <a href="scriptExecution.htm">operates in a cascading fashion</a> upon the scene hierarchy and the simulation scripts. </p>
-<p>If you look at the default main script, you can notice that the actuation function allows actuating or modifying the scene content (e.g. <a href="sim/simHandleDynamics.htm">sim.handleDynamics</a>, etc.), while the sensing function allows sensing and probing the scene content (e.g. <a href="sim/simHandleProximitySensor.htm">sim.handleProximitySensor</a>, etc.). Following illustrates what happens in the default main script when a mobile robot equipped with a <a href="proximitySensors.htm">proximity sensor</a> is simulated:<br>
+<p>Most of simulation script's system callback functions are called from the main script, via <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a>, which <a href="scriptExecution.htm">operates in a cascading fashion</a> upon the scene hierarchy and the simulation/customization scripts. </p>
+<p>If you look at the default main script, you can notice that the actuation function allows actuating or modifying the scene content (e.g. <a href="sim/scene_dynamics_step.htm">sim.scene.dynamics:step</a>, etc.), while the sensing function allows sensing and probing the scene content (e.g. <a href="sim/proximitySensor_handleSensor.htm">proximitySensor:handleSensor</a>, etc.). Following illustrates what happens in the default main script when a mobile robot equipped with a <a href="proximitySensors.htm">proximity sensor</a> is simulated:<br>
 </p>
 
 
@@ -159,14 +144,14 @@ end</code>
 <br>
 
 
-<p>With above's sequence in mind, <a href="simulationScripts.htm">simulation scripts</a> will always read (with <a href="sim/simReadProximitySensor.htm">sim.readProximitySensor</a>) the proximity sensor's state from previous sensing (which happened at the end of previous simulation pass, inside of the main script, with <a href="sim/simHandleProximitySensor.htm">sim.handleProximitySensor</a>), then react to obstacles.</p>
+<p>With above's sequence in mind, <a href="simulationScripts.htm">simulation scripts</a> will always read (e.g. with <a href="sim/property_proximitySensor_detectedObject.htm">proximitySensor.detactedObject</a>) the proximity sensor's state from previous sensing, then react to obstacles.</p>
 <p>If you need to explicitly handle a sensor, then make sure to always do it while in the sensing section, otherwise you might end-up with situations where the display appears wrong as illustrated in following figure:<br>
 </p>
 <p align=center><img src="images/mainScript4.jpg"></p>
 <p class=imageLabel>[Sensing - actuation - display sequence]</p>
 <br>
 
-<p>Just as the main script has an actuation-sensing sequence, so do the <a href="simulationScripts.htm">simulation scripts</a>.</p>
+<p>Just as the main script has an actuation-sensing sequence, so do <a href="simulationScripts.htm">simulation scripts</a> and <a href="customizationScripts.htm">customization scripts</a>.</p>
 <br>
 <br>
  </tr>

@@ -23,100 +23,59 @@
 
 <li><a href="simIM/simIM.htm?view=alphabetical">image processing with OpenCV</a> (via the <a href="https://github.com/CoppeliaRobotics/simIM" target="_blank">image plugin</a>)</li>
 <li><a href="simVision/simVision.htm?view=category">simple image processing</a> via the <a href="https://github.com/CoppeliaRobotics/simVision" target="_blank">vision plugin</a></li>
-<li><a href="sim/simTransformImage.htm">sim.transformImage</a></li>
-<li><a href="sim/simTransformBuffer.htm">sim.transformBuffer</a></li>
+<li><a href="sim/app_transformImage.htm">sim.app:transformImage</a></li>
+<li><a href="sim/app_transformBuffer.htm">sim.app:transformBuffer</a></li>
 
 <p>Following shows a vision callback function that illustrates 3 different ways to modify an acquired image:</p>
 <div class=multi-language-switcher data-default="lua">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_init():
-    sim = require('sim')
-    simVision = require('simVision')
-    simIM = require('simIM')
-    
-def sysCall_vision(inData):
-    # inData['handle']: handle of the vision sensor
-    # inData['resolution']: resolution of the vision sensor
-    # inData['clippingPlanes']: near and far clipping plane of the vision sensor
-    # inData['viewAngle']: the view angle if the vision sensor is in perspective operation
-    # inData['orthoSize']: the size of the view if the vision sensor is in orthogonal operation
-    # inData['perspectiveOperation']: whether the vision sensor is in perspective operation
-
-    # e.g. use very simple functions from the vision plugin (simVision):
-    simVision.sensorImgToWorkImg(inData['handle'])
-    simVision.edgeDetectionOnWorkImg(inData['handle'], 0.2)
-    simVision.swapWorkImgWithBuffer1(inData['handle'])
-    simVision.uniformImgToWorkImg(inData['handle'], [0.5, 0.25, 0])
-    simVision.addBuffer1ToWorkImg(inData['handle'])
-    simVision.workImgToSensorImg(inData['handle'])
-
-    # and/or, use more powerful functions from the image plugin (simImage):
-    imgHandle = simIM.readFromVisionSensor(inData['handle'])
-    center = [inData['resolution'][0] / 2, inData['resolution'][1] / 2]
-    radius = (inData['resolution'][0] + inData['resolution'][1]) / 8
-    simIM.circle(imgHandle, center, radius, [255, 255, 0], 4)
-    simIM.writeToVisionSensor(imgHandle, inData['handle'])
-    simIM.destroy(imgHandle)
-
-    # Or you can directly operate on the image buffer:
-    image = sim.getVisionSensorImg(inData['handle'])
-    sim.transformImage(image, inData['resolution'], 4)
-    image = sim.transformBuffer(image, sim.buffer_uint8rgb, 1, 0, sim.buffer_uint8bgr)
-    sim.setVisionSensorImg(inData['handle'], image)
-
-    outData = {}
-    outData['trigger'] = True  # whether the sensor should trigger
-    # filters may append packets (in packed form, use sim.packFloatTable to pack) to this table:
-    outData['packedPackets'] = [sim.packFloatTable([1, 42, 57])]
-    return outData</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
+    sim = require('sim-2')
     simVision = require('simVision')
     simIM = require('simIM')
 end
 
 function sysCall_vision(inData)
-    -- inData.handle: handle of the vision sensor
+    -- inData.sensor: the vision sensor
     -- inData.resolution: resolution of the vision sensor
     -- inData.clippingPlanes: near and far clipping plane of the vision sensor
     -- inData.viewAngle: the view angle if the vision sensor is in perspective operation
     -- inData.orthoSize: the size of the view if the vision sensor is in orthogonal operation
-    -- inData.perspectiveOperation: whether the vision sensor is in perspective operation
+    -- inData.perspective: whether the vision sensor is in perspective operation
 
     -- e.g. use very simple functions from the vision plugin (simVision):
-    simVision.sensorImgToWorkImg(inData.handle)
-    simVision.edgeDetectionOnWorkImg(inData.handle, 0.2)
-    simVision.swapWorkImgWithBuffer1(inData.handle)
-    simVision.uniformImgToWorkImg(inData.handle, {0.5, 0.25, 0})
-    simVision.addBuffer1ToWorkImg(inData.handle)
-    simVision.workImgToSensorImg(inData.handle)
+    simVision.sensorImgToWorkImg(inData.sensor.handle)
+    simVision.edgeDetectionOnWorkImg(inData.sensor.handle, 0.2)
+    simVision.swapWorkImgWithBuffer1(inData.sensor.handle)
+    simVision.uniformImgToWorkImg(inData.sensor.handle, {0.5, 0.25, 0})
+    simVision.addBuffer1ToWorkImg(inData.sensor.handle)
+    simVision.workImgToSensorImg(inData.sensor.handle)
     
     -- and/or, use more powerful functions from the image plugin (simIM):
-    local imgHandle = simIM.readFromVisionSensor(inData.handle)
+    local imgHandle = simIM.readFromVisionSensor(inData.sensor.handle)
     local center = {inData.resolution[1] / 2, inData.resolution[2] / 2}
     local radius = (inData.resolution[1] + inData.resolution[2]) / 8
     simIM.circle(imgHandle, center, radius, {255, 255, 0}, 4)
-    simIM.writeToVisionSensor(imgHandle, inData.handle)
+    simIM.writeToVisionSensor(imgHandle, inData.sensor.handle)
     simIM.destroy(imgHandle)
 
     -- Or you can directly operate on the image buffer:
-    local image = sim.getVisionSensorImg(inData.handle)
-    sim.transformImage(image, inData.resolution, 4)
-    image = sim.transformBuffer(image, sim.buffer_uint8rgb, 1, 0, sim.buffer_uint8bgr)
-    sim.setVisionSensorImg(inData.handle, image)
+    local image = inData.sensor.image
+    image = sim.app:transformImage(image, inData.resolution, inData.resolution, {flipAxisY = true})
+    image = sim.app:transformBuffer(image, 'rgb', 'bgr')
+    inData.sensor.image = image
     
     outData = {}
     outData.trigger = true -- whether the sensor should trigger
     -- filters may append packets (in packed form, use sim.packFloatTable to pack) to this table:
-    outData.packedPackets = {sim.packFloatTable({1, 42, 57})} 
+    outData.packedPackets = {sim.app:packArray({1, 42, 57}, {type = 'float'})} 
     return outData
 end</code>
 </div>
-  
+<br>
+<p>Refer also to <a href="sim/scene_createObject.htm">sim.scene:createObject</a> and <a href="apiFunctions.htm#methodsAndProperties_visionsensor">vision sensor-related methods and properties</a>.</p>
+
 <br>
 <br>
 

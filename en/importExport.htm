@@ -43,10 +43,10 @@
 
 
 <p>The mesh import/export functionality is handled via the <a href="https://github.com/CoppeliaRobotics/simAssimp" target="_blank">Assimp plugin for CoppeliaSim</a>. More formats can be supported if the Assimp library (and Assimp plugin) are recompiled with the required flags. The plugin's functionality is exposed to CoppeliaSim's GUI and can be reached at [File &gt; Import &gt; Meshes...] or [File &gt; Export &gt; Selected shapes...].</p>
-<p>If after the import operation you can't see any shapes in the <a href="scenes.htm">scene</a>, but the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> indicates the presence of newly added shapes, then most probably your shapes are either too big or too small to be seen. You can then proceed to a scaling operation. Additionally, you can subdivide imported meshes via [Edit &gt; Shape grouping/merging &gt; divide]. </p>
+<p>If after the import operation you can't see any shapes in the <a href="scenes.htm">scene</a>, but the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> indicates the presence of newly added shapes, then most probably your shapes are either too big or too small to be seen. You can then proceed to a scaling operation. Additionally, you can subdivide imported meshes via [Edit &gt; Shape grouping/merging &gt; divide]. See also <a href="sim/shape_divide.htm">shape:divide</a>.</p>
 <p>Make sure that imported meshes do not contain too many triangles (for a robot, typically between 10'000-20'000 triangles in total), otherwise CoppeliaSim could be slowed down. You can decimate an imported mesh via [Modules &gt; Geometry / Mesh &gt; Mesh decimation...]</p>
 <p>Heightfields in CoppeliaSim are also meshes, and can be imported via [File &gt; Import &gt; Heightfield...]. Supported formats are image formats (the color or grey tone components represent elevations), or csv or txt formats (comma-separated values (y rows with x values)).</p>
-<p>See also the <a href="simAssimp/simAssimp.htm?view=alphabetical">API functions related to mesh import/export</a>.</p>
+<p>See also the<a href="apiFunctions.htm#methodsAndProperties_importexport"> import/export-related methods and properties</a>.</p>
 <br>
 
 
@@ -85,9 +85,7 @@
 </h2>
 
 
-<p>Images can be imported/exported with <a href="sim/simLoadImage.htm">sim.loadImage</a> and <a href="sim/simSaveImage.htm">sim.saveImage</a>. </p>
-<p>See also <a href="sim/simGetScaledImage.htm">sim.getScaledImage</a>, <a href="sim/simTransformImage.htm">sim.transformImage</a>, <a href="sim/simTransformBuffer.htm">sim.transformBuffer</a> and the <a href="simIM/simIM.htm?view=alphabetical">OpenCV plugin API reference</a>.</p>
-
+<p>Images can be imported/exported with <a href="sim/app_loadImage.htm">sim.app:loadImage</a> and <a href="sim/app_saveImage.htm">sim.app:saveImage</a>. See also <a href="sim/app_transformImage.htm">sim.app:transformImage</a>, <a href="sim/app_transformBuffer.htm">sim.app:transformBuffer</a> and the <a href="simIM/simIM.htm?view=alphabetical">OpenCV plugin API reference</a>.</p>
 <br>
 
 <h2>
@@ -99,33 +97,33 @@
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 import math
 
 def sysCall_init():
-    sim = require('sim')
-    self.jointHandle = sim.getObject('/Joint')
+    self.joint = sim.self:getObject('/Joint')
     with open('jointAngles.txt', 'w+') as file:
         file.write('Joint angles for each simulation step:\n\n')
 
 def sysCall_sensing():
-    v = 180 * sim.getJointPosition(self.jointHandle) / math.pi
+    v = 180 * self.joint.joint.position / math.pi
     with open('jointAngles.txt', 'a') as file:
-        file.write(f'time: {sim.getSimulationTime() + sim.getSimulationTimeStep():.3f} [s]')
+        file.write(f'time: {sim.scene.simulation.time + sim.scene.simulation.step:.3f} [s]')
         file.write(f', joint angle: {v:.1f} [deg]\n')</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
-    jointHandle = sim.getObject('/Joint')
+    sim = require('sim-2')
+    joint = sim.self:getObject('/Joint')
     file = io.open('jointAngles.txt', 'w+')
     file:write('Joint angles for each simulation step:\n\n')
 end
 
 function sysCall_sensing()
-    local v = 180 * sim.getJointPosition(jointHandle) / math.pi
-    file:write(string.format('time: %.3f [s]', sim.getSimulationTime() + sim.getSimulationTimeStep()))
+    local v = 180 * joint.joint.position / math.pi
+    file:write(string.format('time: %.3f [s]', sim.scene.simulation.time + sim.scene.simulation.step))
     file:write(string.format(', joint angle: %.1f [deg]\n', v))
 end
 

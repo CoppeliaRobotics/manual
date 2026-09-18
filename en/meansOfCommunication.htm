@@ -31,7 +31,6 @@
 <li><a href="rosInterfaces.htm">ROS</a></li>
 <li><a href="#zmq">ZeroMQ</a></li>
 <li><a href="#ws">WebSocket</a></li>
-<li><a href="#serialPort">serial port</a></li>
 <li><a href="#sockets">sockets</a></li>
 <li><a href="#other">other</a></li>
 
@@ -43,20 +42,20 @@
 </h2>
 
 
-<p><a href="scripts.htm">Scripts</a> can call specific <a href="plugins.htm">plugin</a> functions, so-called callback functions: in order to be able to do this, the plugin must  first register its callback functions via <a href="apiFunctions.htm#customScriptFunctions">simRegisterScriptFunction</a>. This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. Following illustrates a very simple plugin function and its registration:</p>
+<p><a href="scripts.htm">Detached scripts</a> can call specific <a href="plugins.htm">plugin</a> functions, so-called callback functions: in order to be able to do this, the plugin must  first register its callback functions via <a href="sim/simRegisterScriptCallbackFunction_cpp.htm">simRegisterScriptCallbackFunction</a>. This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. Following illustrates a very simple plugin function and its registration:</p>
 
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">void myCallbackFunc(SScriptCallBack* p)
 {
     int stack = p -&gt; stackID;
     CStackArray inArguments;
     inArguments.buildFromStack(stack);
-    
+
     if ( (inArguments.getSize() > 0) &amp;&amp; inArguments.isString(0) )
     {
         std::string tmp(&quot;we received a string: &quot;);
         tmp += inArguments.getString(0);
         simAddLog(&quot;ABC&quot;, sim_verbosity_msgs,tmp.c_str());
-        
+
         CStackArray outArguments;
         outArguments.pushString(&quot;Hello to you too!&quot;);
         outArguments.buildOntoStack(stack);
@@ -77,12 +76,12 @@ simRegisterScriptCallbackFunction(&quot;func&quot;, nullptr, myCallbackFunc);</c
 </h2>
 
 
-<p>A <a href="scripts.htm">script</a> function can obviously be called from within the same script, but also:</p>
-<li>across scripts (via <a href="sim/simCallScriptFunction.htm">sim.callScriptFunction</a> or <a href="sim/simGetScriptFunctions.htm">sim.getScriptFunctions</a>)</li>
-<li>from a plugin (via <a href="sim/simCallScriptFunctionEx_cpp.htm">simCallScriptFunctionEx</a>)</li>
+<p>A <a href="scripts.htm">detached script</a> function can obviously be called from within the same detached script, but also:</p>
+<li>across detached scripts, refer to e.g. <a href="sim/script_callFunction.htm">script:callFunction</a>, <a href="sim/script_getFunctions.htm">script:getFunctions</a> and <a href="sim/script_executeString.htm">script:executeString</a>.</li>
+<li>from a plugin, refer to <a href="sim/simCallScriptFunctionEx_cpp.htm">simCallScriptFunctionEx</a>.</li>
 <li>from a <a href="rosInterfaces.htm">ROS</a> client (via a callback mechanism)
 <li>or from a <a href="remoteApiOverview.htm">remote API</a> client</li>
-<p>The called script function can perform various tasks, then send back data to the caller. This is also a simple way to extend the functionality of an external application in a quick manner. It is however important that the called script doesn't perform lengthly tasks, otherwise everything will come to a halt (lengthly tasks should rather be triggered externally, and processed at an appropriate moment by the script itself when called from the regular <a href="callbackFunctions.htm">system callbacks</a>).</p>
+<p>The called script function can perform various tasks, then return some data to the caller. It is however important not to perform lengthly tasks within the called function, as everything comes to a halt during that time. Lengthly tasks should rather only be triggered via <a href="sim/script_callFunction.htm">script:callFunction</a>, then processed within a sysCall_thread <a href="callbackFunctions.htm">system callback</a> section.</p>
 
 
 
@@ -94,40 +93,23 @@ simRegisterScriptCallbackFunction(&quot;func&quot;, nullptr, myCallbackFunc);</c
 </h2>
 
 
-<p>A <a href="scripts.htm">script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all scripts at once, via the <a href="sim/simBroadcastMsg.htm">sim.broadcastMsg</a> function. For instance, following will constantly broadcast a message to all scripts:</p>
+<p>A <a href="scripts.htm">detached script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all detached scripts at once, via <a href="sim/script_broadcast.htm">script:broadcast</a>. For instance, following constantly broadcasts a message to all scripts, while printing other broadcasted messages:</p>
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_init():
-    sim = require('sim')
-    self.objectHandle = sim.getObject('.')
-
-def sysCall_sensing():
-    message = {'id': 'greetingMessage', 'data': {'msg': 'Hello!'}}
-    sim.broadcastMsg(message)
-
-def sysCall_msg(msg, origin):
-    if origin != self.objectHandle and msg.id == 'greetingMessage':
-        print("Received following message from script {}:".format(origin))
-        print(msg['data']['msg'])</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
-    scriptHandle = sim.getObject('.')
+    sim = require('sim-2')
 end
 
 function sysCall_sensing()
     local message = {id = 'greetingMessage', data = {msg = 'Hello!'}}
-    sim.broadcastMsg(message)
+    sim.self:broadcast(message)
 end
 
 function sysCall_msg(msg, origin)
-    if origin ~= scriptHandle and msg.id == 'greetingMessage' then
-        print(string.format("Received following message from script %i:", origin))
-        print(msg.data.msg)
-    end
+    print("Received following: ", msg)
+    print("From detached script: ", origin)
 end</code>
 
 </div>
@@ -139,33 +121,18 @@ end</code>
 <h2><a name="events"></a>Events</h2>
 
 
-<p>A <a href="scripts.htm">script</a> or a <a href="plugins.htm">plugin</a> can receive notifications for everything that happens in CoppeliaSim itself, e.g. when an object is created, modified, removed, or when an internal state changed. A script can use the sysCall_event <a href="callbackFunctions.htm">callback function</a> to that end, coupled with some filtering for efficiency's sake. For instance, following script tracks a pose change with any scene object, and a change in scene object selection:</p>
+<p>A <a href="scripts.htm">detached script</a> or a <a href="plugins.htm">plugin</a> can receive notifications for everything that happens in CoppeliaSim itself, e.g. when an object is created, modified, removed, or when an internal state changed. A detached script can use the sysCall_event <a href="callbackFunctions.htm">callback function</a> to that end, coupled with some filtering for efficiency's sake. For instance, following script tracks a pose change with any scene object, and a change in scene object selection:</p>
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-#luaExec eventCallback = true      -- enable event callback
-
-import cbor2 as cbor
-
-def sysCall_init():
-    sim = require('sim')
-    filters = {}
-    filters[sim.handle_sceneobject] = ['pose']
-    filters[sim.handle_scene] = ['selectionHandles']
-    sim.setEventFilters(filters)
-
-def sysCall_event(events):
-    ev = cbor.loads(events)
-    print(ev)</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
-    cbor = require('org.conman.cbor')
+    sim = require('sim-2')
+    cbor = require 'simCBOR'
     local filters = {}
-    filters[sim.handle_sceneobject] = {'pose'}
-    filters[sim.handle_scene] = {'selectionHandles'}
-    sim.setEventFilters(filters)
+    filters['sceneObject'] = {'pose'}
+    filters[sim.scene] = {'selection'}
+    sim.self:setEventFilters(filters)
 end
 
 function sysCall_event(events)
@@ -174,7 +141,7 @@ function sysCall_event(events)
 end</code>
 
 </div>
-<p>Most <a href="properties.htm">properties</a> generate an event when changed (i.e. modified explicitly or internally by CoppeliaSim). See also the event viewer add-on located at [Modules &gt; Developer tools &gt; Event viewer].</p>
+<p>See also the event viewer add-on located at [Modules &gt; Developer tools &gt; Event viewer] and the property explorer add-on located at [Modules &gt; Developer tools &gt; Property explorer].</p>
 <br>
 
 
@@ -188,41 +155,19 @@ end</code>
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_thread():
-    sim = require('sim')
-    simZMQ = require('simZMQ') # suppose we do not use the pyzmq package
-    print('Connecting to hello world server...')
-    self.context = simZMQ.ctx_new()
-    self.requester = simZMQ.socket(self.context, simZMQ.REQ)
-    simZMQ.connect(self.requester, 'tcp://localhost:5555')
-
-    for request_nbr in range(11):
-        print('-----------------------------------------')
-        data = 'Hello'
-        print(f'[requester] Sending "{data}"...')
-        simZMQ.send(self.requester, data, 0)
-        rc, data = simZMQ.recv(self.requester, 0)
-        print(f'[requester] Received "{data}"')
-
-def sysCall_cleanup():
-    simZMQ.close(self.requester)
-    simZMQ.ctx_term(self.context)</code>
-    
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_thread()
-    sim = require('sim')
+    sim = require('sim-2')
     simZMQ = require('simZMQ')
-    print('Connecting to hello world server...')
+    print('Connecting to responder server...')
     context = simZMQ.ctx_new()
     requester = simZMQ.socket(context, simZMQ.REQ)
     simZMQ.connect(requester, 'tcp://localhost:5555')
 
     for request_nbr = 0, 10 do
         print('-----------------------------------------')
-        local data = 'Hello'
+        local data = 'Hello ' .. request_nbr
         printf('[requester] Sending "%s"...', data)
         simZMQ.send(requester, data, 0)
         local rc, data = simZMQ.recv(requester, 0)
@@ -240,32 +185,10 @@ end</code>
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_thread():
-    sim = require('sim')
-    simZMQ = require('simZMQ') # suppose we do not use the pyzmq package
-    self.context = simZMQ.ctx_new()
-    self.responder = simZMQ.socket(self.context, simZMQ.REP)
-    rc = simZMQ.bind(self.responder, 'tcp://*:5555')
-    if rc != 0:
-        raise Exception('failed bind')
-    
-    while True:
-        rc, data = simZMQ.recv(self.responder, 0)
-        print(f'[responder] Received "{data}"')
-        data = 'World'
-        print(f'[responder] Sending "{data}"...')
-        simZMQ.send(self.responder, data, 0)
-
-def sysCall_cleanup():
-    simZMQ.close(self.responder)
-    simZMQ.ctx_term(self.context)</code>
-    
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_thread()
-    sim = require('sim')
+    sim = require('sim-2')
     simZMQ = require('simZMQ')
     context = simZMQ.ctx_new()
     responder = simZMQ.socket(context, simZMQ.REP)
@@ -273,7 +196,7 @@ function sysCall_thread()
     if rc ~= 0 then
         error('failed bind')
     end
-    
+
     while true do
         local rc, data = simZMQ.recv(responder, 0)
         printf('[responder] Received "%s"', data)
@@ -297,16 +220,6 @@ end</code>
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def onMessage(server, connection, data):
-    simWS.send(server, connection, data)
-
-def sysCall_init():
-    simWS = require('simWS') # suppose one is not using any specific Python package related to WS
-    server = simWS.start(9000)
-    simWS.setMessageHandler(server, 'onMessage')</code>
-
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function onMessage(server, connection, data)
@@ -322,27 +235,6 @@ end</code>
 <p>And following is a simple broadcaster:</p>
 
 <div class=multi-language-switcher data-default="lua">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def onOpen(server, connection):
-    if server not in clients:
-        clients[server] = {}
-    clients[server][connection] = 1
-
-def onClose(server, connection):
-    del clients[server][connection]
-
-def broadcast(server, data):
-    for connection in clients.get(server, {}):
-        simWS.send(server, connection, data)
-
-def sysCall_init():
-    simWS = require('simWS') # suppose one is not using any specific Python package related to WS
-    clients = {}
-    server = simWS.start(9000)
-    simWS.setOpenHandler(server, onOpen)
-    simWS.setCloseHandler(server, onClose)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
@@ -370,14 +262,6 @@ function sysCall_init()
 end</code>
 </div>
 
-<br>
-
-<h2>
-<a name="serialPort"></a>Serial port</a>
-</h2>
-
-
-<p>CoppeliaSim implements several <a href="apiFunctions.htm#serialPort">serial port API functions</a> for Lua. With Python, use the <a href="https://pypi.org/project/pyserial/" target="_blank">Python serial port package</a>.</p>
 <br>
 
 <h2>
@@ -409,16 +293,16 @@ page = http.request('http://www.google.com')</code>
 </h2>
 
 
-<p>Many other means of communication can be directly supported from within a script, via a Lua extension library or via a Python package. Indirectly, by passing via a <a href="plugins.htm">plugin</a>, there are even more possibilities, since a plugin can virtually link to any type of c/c++ communication library.</p>
+<p>Many other means of communication can be directly supported from within a detached script, via a Lua extension library or via a Python package. Indirectly, by passing via a <a href="plugins.htm">plugin</a>, there are even more possibilities, since a plugin can virtually link to any type of c/c++ communication library.</p>
 
 
 <br>
 <br>
  </tr>
-</table> 
-</div>  
-  
-  
+</table>
+</div>
+
+
 <link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
 <script src="../js/hljs/11.8.0/highlight.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>

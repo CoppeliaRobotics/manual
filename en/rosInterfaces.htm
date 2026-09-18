@@ -25,12 +25,12 @@
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+#using sim-2
 
 def sysCall_init():
-    sim = require('sim')
     simROS = require('simROS')
 
-    self.visionSensor = sim.getObject('/Vision_sensor')
+    self.visionSensor = sim.self:getObject('/Vision_sensor')
 
     # Enable an image publisher:
     self.pub = simROS2.createPublisher('/image', 'sensor_msgs/msg/Image')
@@ -38,7 +38,8 @@ def sysCall_init():
 
 def sysCall_sensing():
     # Publish the image of the vision sensor:
-    img, resolution = sim.getVisionSensorImg(self.visionSensor)
+    img = visionSensor.image
+    resolution = visionSensor.resolution
     data = {}
     data['header'] = {'stamp': simROS2.getTime(), 'frame_id': 'a'}
     data['height'] = resolution[1]
@@ -54,9 +55,9 @@ def sysCall_cleanup():
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
+    sim = require('sim-2')
     simROS = require('simROS')
-    visionSensor = sim.getObject('/Vision_sensor')
+    visionSensor = sim.self:getObject('/Vision_sensor')
 
     -- Enable an image publisher:
     pub = simROS2.createPublisher('/image', 'sensor_msgs/msg/Image')
@@ -65,8 +66,9 @@ end
 
 function sysCall_sensing()
     -- Publish the image of the vision sensor:
-    local img, resolution = sim.getVisionSensorImg(visionSensor)
-    data = {}
+    local img = visionSensor.image
+    local resolution = visionSensor.resolution
+    local data = {}
     data.header = {stamp = simROS2.getTime(), frame_id = 'a'}
     data.height = resolution[2]
     data.width = resolution[1]
@@ -86,9 +88,9 @@ end</code>
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+#using sim-2
 
 def sysCall_init():
-    sim = require('sim')
     simROS = require('simROS')
     
     # Enable an image subscriber:
@@ -104,7 +106,7 @@ def sysCall_cleanup():
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
+    sim = require('sim-2')
     simROS = require('simROS')
     
     -- Enable an image subscriber:

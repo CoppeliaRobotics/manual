@@ -27,9 +27,6 @@
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-simROS = require('simROS')</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 simROS = require('simROS')</code>
@@ -69,66 +66,19 @@ $ catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release</code>
 <p>In an empty CoppeliaSim scene, select an object, then attach a non-threaded <a href="simulationScripts.htm">simulation script</a> to it with [Add &gt; Script &gt; simulation script &gt; Non threaded &gt; Lua/Python]. Open the <a href="scriptEditor.htm">script editor</a> for that script and replace the content with following:</p>
 
 <div class=multi-language-switcher data-default="lua">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def subscriber_callback(msg):
-    # This is the subscriber callback function
-    sim.addLog(sim.verbosity_scriptinfos, f'subscriber receiver following Float32: {str(msg["data"])}')
-
-def get_transform_stamped(obj_handle, name, rel_to, rel_to_name):
-    # This function retrieves the stamped transform for a specific object
-    t = sim.getSystemTime()
-    p = sim.getObjectPosition(obj_handle, rel_to)
-    o = sim.getObjectQuaternion(obj_handle, rel_to)
-    
-    return {
-        'header': {
-            'stamp': t,
-            'frame_id': rel_to_name
-        },
-        'child_frame_id': name,
-        'transform': {
-            'translation': {'x': p[0], 'y': p[1], 'z': p[2]},
-            'rotation': {'x': o[0], 'y': o[1], 'z': o[2], 'w': o[3]}
-        }
-    }
-
-def sysCall_init():
-    sim = require('sim')
-    simROS = require('simROS')
-    
-    # The simulation script initialization
-    self.object_handle = sim.getObject('..')
-    self.object_alias = sim.getObjectAlias(object_handle, 3)
-
-    # Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
-    self.publisher = simROS.advertise('/simulationTime', 'std_msgs/Float32')
-    self.subscriber = simROS.subscribe('/simulationTime', 'std_msgs/Float32', subscriber_callback)
-
-def sysCall_actuation():
-    # Send an updated simulation time message and send the transform of the object attached to this script
-    simROS.publish(self.publisher, {'data': sim.getSimulationTime()})
-    simROS.sendTransform(get_transform_stamped(self.object_handle, self.object_alias, -1, 'world'))
-    # To send several transforms at once, use simROS.sendTransforms instead (if such a method exists in Python's simROS)
-
-def sysCall_cleanup():
-    # Following not really needed in a simulation script (i.e. automatically shut down at simulation end):
-    simROS.shutdownPublisher(self.publisher)
-    simROS.shutdownSubscriber(self.subscriber)</code>
     
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function subscriber_callback(msg)
     -- This is the subscriber callback function
-    sim.addLog(sim.verbosity_scriptinfos, 'subscriber receiver following Float32: '..msg.data)
+    sim.app:logInfo('subscriber receiver following Float32: ' .. msg.data)
 end
 
-function getTransformStamped(objHandle, name, relTo, relToName)
+function getTransformStamped(object, name, relToName)
     -- This function retrieves the stamped transform for a specific object
-    local t = sim.getSystemTime()
-    local p = sim.getObjectPosition(objHandle, relTo)
-    local o = sim.getObjectQuaternion(objHandle, relTo)
+    local t = sim.app.systemTime
+    local p = object.worldPosition
+    local q = object.worldQuaternion
     return {
         header = {
             stamp = t,
@@ -137,18 +87,18 @@ function getTransformStamped(objHandle, name, relTo, relToName)
         child_frame_id = name,
         transform = {
             translation = {x = p[1], y = p[2], z = p[3]},
-            rotation = {x = o[1], y = o[2], z = o[3], w = o[4]}
+            rotation = {x = q[1], y = q[2], z = q[3], w = q[4]}
         }
     }
 end
 
 function sysCall_init()
-    sim = require('sim')
+    sim = require('sim-2')
     simROS = require('simROS')
 
     -- The simulation script initialization
-    objectHandle = sim.getObject('..')
-    objectAlias = sim.getObjectAlias(objectHandle, 3)
+    object = sim.self:getObject('..')
+    objectName = object:getName({mode = 'nameHandle'})
 
     -- Prepare the float32 publisher and subscriber (we subscribe to the topic we advertise):
     publisher = simROS.advertise('/simulationTime', 'std_msgs/Float32')
@@ -157,8 +107,8 @@ end
 
 function sysCall_actuation()
     -- Send an updated simulation time message, and send the transform of the object attached to this script:
-    simROS.publish(publisher, {data = sim.getSimulationTime()})
-    simROS.sendTransform(getTransformStamped(objectHandle, objectAlias, -1, 'world'))
+    simROS.publish(publisher, {data = sim.scene.simulation.time})
+    simROS.sendTransform(getTransformStamped(object, objectName, 'world'))
     -- To send several transforms at once, use simROS.sendTransforms instead
 end
 
@@ -173,7 +123,7 @@ end</code>
 
 
 
-<p>Above script will publish the simulation time, and subscribe to it at the same time. It will also publish the transform of the object the script is attached to. You should be able to see the simulation time topic with:</p>
+<p>Above script publishes the simulation time, and subscribes to it at the same time. It also publishes the transform of the object the script is attached to. You should be able to see the simulation time topic with:</p>
 
 <code class="hljs coppelia-terminal">$ rostopic list</code>
 
@@ -182,7 +132,7 @@ end</code>
 <code class="hljs coppelia-terminal">$ rostopic echo /simulationTime</code>
 
 
-<p>Now load the demo scene <em>messaging/rosInterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="simulationScripts.htm">simulation script</a> attached to <em>Vision_sensor</em> will enable a publisher to stream the vision sensor's image, and also enable a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data! This is what is happening:</p>
+<p>Now load the demo scene <em>messaging/rosInterfaceTopicPublisherAndSubscriber.ttt</em>, and run the simulation. The code in the <a href="simulationScripts.htm">simulation script</a> attached to <em>Vision_sensor</em> enables a publisher to stream the vision sensor's image, and also enables a subscriber to listen to that same stream. The subscriber applies the read data to the  passive vision sensor, that is only used as a data container. So CoppeliaSim is streaming data, while listening to the same data. This is what is happening:</p>
 
 <p align=center><img src="images/rosTut1.jpg"></p>
 <p class=imageLabel>[Image publisher and image subscriber demo]</p>
@@ -210,12 +160,12 @@ end</code>
 
 <p>The simulation script attached to the  robot, and running in a non-threaded fashion, is in charge of following:</p>
 
-<li>determine some object handles (e.g. motor joint handles and proximity sensor handle)</li>
+<li>determine some objects  (e.g. motor joints and proximity sensor)</li>
 <li>Launch motor speed subscribers</li>
 <li>Launch a sensor publisher and a simulation time publisher</li>
 <li> and finally launch a client application. The application is called with some topic names as arguments, so that it will know which topics to listen to and to subscribe. The client application (<em>rosBubbleRob</em>) is then taking over the control of the  robot via ROS.</li>
 
-<p>While simulation is running, copy and paste a few times the   robot. Notice that every copy is directly operational and independent. This is one of the many strengths of CoppeliaSim.</p>
+<p>While simulation is running, copy and paste a few times the   robot. Notice that every copy is directly operational and independent.</p>
 
 <p>Now stop the simulation and open a new scene, then drag following model into it: <em>Models/tools/rosInterface helper tool.ttm</em>. This model is constituted by a single <a href="customizationScripts.htm">customization script</a> that offers following topic publishers and subscribers:</p>
 

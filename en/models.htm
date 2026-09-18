@@ -18,10 +18,10 @@
 
 <h1>Models <img src="images/models0.jpg"></h1>
 
-<p>A model is a sub-element of a <a href="scenes.htm">scene</a>. A model by itself cannot exist, except in a file (&quot;*.ttm&quot;-file type), nor can it be simulated by itself. A model has to be contained in a scene in order to be operational.
+<p>A model is a sub-element of a <a href="scenes.htm">scene</a>. A model by itself cannot exist, except in a file (&quot;*.ttm&quot;-file type) or a buffer, nor can it be simulated by itself: a model has to be contained in a scene in order to be operational.
 </p>
 
-<p>Models are defined by a selection of <a href="objects.htm">scene objects</a> built on a same hierarchy tree, where the base of the tree has to be an object tagged as <strong>model</strong>. They can be loaded with [File &gt; Load model...]. It is however much easier and convenient to load a model with a drag-and-drop operation between the<a href="userInterface.htm#ModelBrowser"> model browser</a> and a <a href="pagesAndViews.htm">scene view</a>. Models can be saved with [File &gt; Save model as...], just  make sure one single object tagged as <strong>model </strong> is selected, otherwise the <strong>Save model as...</strong>-menu item will not be available. Make also sure to follow the <a href="buildingAModelTutorial.htm">tutorial on how to build a clean simulation model</a>.</p>
+<p>Models are defined by a selection of <a href="objects.htm">scene objects</a> built on a same hierarchy tree, where the base of the tree has to be an object tagged as <strong>model</strong>. They can be loaded with [File &gt; Load model...]. It is however much easier and convenient to load a model with a drag-and-drop operation between the<a href="userInterface.htm#ModelBrowser"> model browser</a> and a <a href="pagesAndViews.htm">scene view</a>. Models can be saved with [File &gt; Save model as...], just  make sure one single object tagged as <strong>model </strong> is selected, otherwise the <strong>Save model as...</strong>-menu item will not be available. Make also sure to follow the <a href="buildingAModelTutorial.htm">tutorial on how to build a clean simulation model</a>. See also <a href="sim/property_sceneObject_modelBase.htm">sceneObject.modelbase</a>, <a href="sim/scene_loadModel.htm">scene:loadModel</a>, <a href="sim/scene_loadModelFromBuffer.htm">scene:loadModelFromBuffer</a>, <a href="sim/sceneObject_saveModel.htm">sceneObject:saveModel</a> and <a href="sim/sceneObject_saveModelToBuffer.htm">sceneObject:saveModelToBuffer</a>.</p>
 
 <p>
 A model is defined in following steps:
@@ -30,16 +30,16 @@ A model is defined in following steps:
 
 <li>
   attach (directly or indirectly) all objects that logically belong to the model to the base of the model tree</li>
-<li>check <strong>Object is model </strong>in the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a></li>
+<li>check <strong>Object is model </strong>in the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a>. See also <a href="sim/property_sceneObject_modelBase.htm">sceneObject.modelbase</a></li>
 
-<li>in the same dialog, clicking <strong>Model properties</strong>, you can define special overriding properties (e.g. make the whole model invisible, non-collidable, etc.). That allows to quickly disable some properties for all objects in the model</li>
+<li>in the same dialog, clicking <strong>Model properties</strong>, you can define special overriding properties (e.g. make the whole model invisible, non-collidable, etc.). That allows to quickly disable some properties for all objects in the model. Refer also to <a href="sim/property_sceneObject_model_notCollidable.htm">sceneObject.model.notCollidable</a>,<a href="sim/property_sceneObject_model_notDetectable.htm"> sceneObject.mode.notDetectable</a>, <a href="sim/property_sceneObject_model_notMeasurable.htm">sceneObject.model.notMeasurable</a>, <a href="sim/property_sceneObject_model_notDynamic.htm">sceneObject.model.notDynamic</a>, <a href="sim/property_sceneObject_model_notRespondable.htm">sceneObject.model.notRespondable</a>, <a href="sim/property_sceneObject_model_notVisible.htm">sceneObject.model.notVisible</a>, <a href="sim/property_sceneObject_model_scriptsNotActive.htm">sceneObject.model.scriptsNotActive</a> and <a href="sim/property_sceneObject_model_notInParentBB.htm">sceneObject.model.notInParentBB</a>.</li>
 
 <li>
-  for all objects in the model, except for the base object, check <strong>select base of model instead</strong> in the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a>. This protects your model: you won't be able to directly select individual objects in your model</li>
+  for all objects in the model, except for the base object, check <strong>select base of model instead</strong> in the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a>. This protects your model: you won't be able to directly select individual objects in your model. See also <a href="sim/property_sceneObject_selectModel.htm">sceneObject.selectModel</a>.</li>
 
-<li>for all objects that are normally not visible, check <strong>Ignored by model bounding box</strong>. This makes the model bounding box appear in the right size around the model</li>  
+<li>for all objects that are normally not visible, check <strong>Ignored by model bounding box</strong>. This makes the model bounding box appear in the right size around the model. See also <a href="sim/property_sceneObject_hideFromModelBB.htm">sceneObject.hideFromModelBB</a>.</li>  
 
-<li>think about the role of the model: will you be able to attach it to some other object? (e.g. your model is a gripper that you could attach to a manipulator wrist). Or will you be able to attach some other model to it? (e.g. your model is a manipulator that could accept a gripper model). Once the role is decided, define the model's <a href="assembly.htm">assembling behaviour</a>. Refer also to this <a href="designingDynamicSimulations.htm#modelBaseSelection">dynamics design consideration</a></li>
+<li>think about the role of the model: will you be able to attach it to some other object? (e.g. your model is a gripper that you could attach to a manipulator wrist). Or will you be able to attach some other model to it? (e.g. your model is a manipulator that could accept a gripper model). Once the role is decided, define the model's <a href="assembly.htm">assembling behaviour</a>. Refer also to this <a href="designingDynamicSimulations.htm#modelBaseSelection">dynamics design consideration</a> and <a href="sim/sceneObject_setParent.htm">sceneObject:setParent</a>.</li>
 
 <p>Now, individual objects build on the model base cannot be selected anymore in the scene (selecting them selects the base of the model instead), however they can still be individually selected by holding down the ctrl- and shift-key during selection, or by selecting them in the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>. In addition to that, when the base object is selected, a stippled bounding box encompassing the whole model is displayed as can be seen in following figure:
 </p>
@@ -55,9 +55,9 @@ A model is defined in following steps:
 <br>
 
 
-<p>A double-click on a model tag opens the <a href="modelDialog.htm">model dialog</a>, where model properties can be adjusted. It is also good practice to collapse a model's hierarchy once the model was edited in order to easily identify the number of logically grouped elements/models.</p>
+<p>A double-click on a model tag opens the <a href="modelDialog.htm">model dialog</a>, where model properties can be adjusted. It is also good practice to collapse a model's hierarchy once the model was edited in order to easily identify the number of logically grouped elements/models. See also <a href="sim/property_sceneObject_collapsed.htm">sceneObject.collapsed</a>.</p>
 
-<p>Copy and pasting a model behaves exactly like saving the model, then loading it (using however a memory buffer instead of the disk space). Models can be copied from one scene to another like any other object. Model files (&quot;*.ttm&quot;-files) also support drag-and-drop operations between the explorer window and the application window.</p>
+<p>Copy and pasting a model behaves exactly like saving the model, then loading it (using however a memory buffer instead of the disk space). Models can be copied from one scene to another like any other object. Model files (&quot;*.ttm&quot;-files) also support drag-and-drop operations between the explorer window and the application window. See also <a href="sim/scene_duplicateObjects.htm">sim.scene:duplicateObjects</a>, <a href="sim/scene_copyObjects.htm">sim.scene:copyObjects</a>, <a href="sim/scene_cutObjects.htm">sim.scene:cutObjects</a> and <a href="sim/scene_pasteObjects.htm">sim.scene:pasteObjects</a>.</p>
 
 <br>
 <br>

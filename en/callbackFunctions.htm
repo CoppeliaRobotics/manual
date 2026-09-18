@@ -21,7 +21,7 @@
 
 <p>Callbacks or callback functions are script functions that are triggered by a specific event. They represent the only entrance into script code. They can be categorized into user callbacks, and system callbacks:</p>
 
-<li>user callback functions are directly triggered by user code, or a plugin. This happens for instance when the user calls a script function in a different script via <a href="sim/detachedScript_callFunction.htm">detachedScript:callFunction</a>, or when the user clicks a <a href="customUserInterfaces.htm">custom UI</a> button, which triggers a custom event. User callback functions can usually run in <a href="scripts.htm">any type of script</a>.</li>
+<li>user callback functions are directly triggered by user code, or a plugin. This happens for instance when the user calls a script function in a different script via <a href="sim/script_callFunction.htm">script:callFunction</a>, or when the user clicks a <a href="customUserInterfaces.htm">custom UI</a> button, which triggers a custom event. User callback functions can usually run in <a href="scripts.htm">any type of script</a>.</li>
 <li>system callback functions on the other hand are triggered by CoppeliaSim when a certain event happens, for instance when a script is initialized, or before switching to another scene. System callback functions have fixed function names, such as <em>sysCall_init</em> or <em>sysCall_beforeInstanceSwitch</em>. Not all system callback functions are supported by all types of scripts, e.g. some can only run in an <a href="addOns.htm">add-on</a> (e.g. <em>sysCall_addOnScriptSuspend</em>).</li>
 <p>While most system callback functions operate in a relatively straight-forward manner and are easy to understand (see further down for a complete list of system callback functions), some require a little bit more explanations:</p>
 <li><a href="dynCallbackFunctions.htm">Dynamics callback functions</a> are called by the physics engine  before and after each dynamics simulation step</li>
@@ -190,7 +190,7 @@ def sysCall_moduleEntry(inData):
     # See sim.moduleEntry for details.
 
 def sysCall_msg(msg, origin):
-    # Synchronously called when detachedScript.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
+    # Synchronously called when script.broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
     # sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant
     pass
 
@@ -209,12 +209,12 @@ def sysCall_event(cborBuffer):
 sim = require('sim-2')
 
 function sysCall_info()
-    -- Lua only. Can be used to specify initial configuration data. E.g. in case of an add-on: 
+    -- Lua only. Can be used to specify initial configuration data. E.g. in case of an add-on:
     return {autoStart = false, menu = 'menu1\nmenu2\nadd-on name', menuEnabled = true}
 end
 
 function sysCall_init()
-    -- Do some initialization here. 
+    -- Do some initialization here.
 end
 
 function sysCall_thread()
@@ -226,17 +226,17 @@ function sysCall_cleanup()
 end
 
 function sysCall_nonSimulation()
-    -- Is executed when simulation is not running. 
+    -- Is executed when simulation is not running.
     -- Not for simulation scripts or the main script.
 end
 
 function sysCall_beforeSimulation()
-    -- Simulation is about to start. 
+    -- Simulation is about to start.
     -- Not for simulation scripts or the main script.
 end
 
 function sysCall_afterSimulation()
-    -- Simulation has just ended. 
+    -- Simulation has just ended.
     -- Not for simulation scripts or the main script.
 end
 
@@ -270,7 +270,7 @@ function sysCall_beforeInstanceSwitch()
 end
 
 function sysCall_afterInstanceSwitch()
-    -- Switched to another scene. 
+    -- Switched to another scene.
     -- Not for simulation scripts or the main script.
 end
 
@@ -385,8 +385,8 @@ function sysCall_moduleEntry(inData)
 end
 
 function sysCall_msg(msg, origin)
-    -- Synchronously called when detachedScript:broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
-    -- sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant 
+    -- Synchronously called when script:broadcastMsg is called, or when sysCall_init, sysCall_cleanup,
+    -- sysCall_addOnScriptSuspend, sysCall_addOnScriptResume or sysCall_userConfig is called. Can be reentrant
 end
 
 function sysCall_data(inData)
@@ -403,7 +403,7 @@ end
 function sysCall_ext(funcName, inData)
     -- When this function is present, then all external calls to a script function, i.e. user callbacks,
     -- will be intercepted (the original function will be shadowed). If only monitoring is desired,
-    -- then one should use detachedScript:registerFunctionHook on this function.
+    -- then one should use script:registerFunctionHook on this function.
 end</code>
 
 </div>
@@ -411,10 +411,10 @@ end</code>
 <br>
 <br>
  </tr>
-</table> 
-</div>  
-  
-  
+</table>
+</div>
+
+
 <link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
 <script src="../js/hljs/11.8.0/highlight.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>

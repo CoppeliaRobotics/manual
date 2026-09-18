@@ -19,34 +19,17 @@
 
 <h1>Trigger callback functions</h1>
 
-<p><a href="scriptObjects.htm">Script objects</a> can include a trigger callback function (which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>), when the script object's parent is a <a href="visionSensors.htm">vision sensor</a> or a <a href="proximitySensors.htm">proximity sensor</a>. </p>
+<p><a href="scriptObjects.htm">Scripts</a> can include a trigger callback function (which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>), when the script parent is a <a href="visionSensors.htm">vision sensor</a> or a <a href="proximitySensors.htm">proximity sensor</a>. </p>
 <p>A vision sensor can generate the trigger signal inside of the <a href="visionCallbackFunctions.htm">vision callback function</a>. The trigger callback (if present) is then called as in following example:<br>
 </p>
 <div class=multi-language-switcher data-default="lua">
-  
-  <code class="hljs language-python coppelia-coppeliasim-script">#python
-    
-    def sysCall_trigger(inData):
-    """
-    We have:
-    inData['handle'] : the handle of the vision sensor.
-    inData['packedPackets'] : an array of data packets, packed (use sim.unpackFloatTable to unpack)
-    the first data packet always contains 15 auxiliary values about the acquired image:
-    - minimum of {intensity, red, green blue and depth value}
-    - maximum of {intensity, red, green blue and depth value}
-    - average of {intensity, red, green blue and depth value}
-    """
-    
-    outData = {}
-    outData['trigger'] = True
-    return outData</code>
   
   <code class="hljs language-lua coppelia-coppeliasim-script">--lua
     
     function sysCall_trigger(inData)
     -- We have:
-    -- inData.handle : the handle of the vision sensor.
-    -- inData.packedPackets : an array of data packets, packed (use sim.unpackFloatTable to unpack)
+    -- inData.visionSensor : the vision sensor.
+    -- inData.packedPackets : an array of data packets, packed (use sim.app:unpackArray to unpack to doubles)
     --    the first data packet always contains 15 auxiliary values about the acquired image:
     --    - minimum of {intensity, red, green blue and depth value}
     --    - maximum of {intensity, red, green blue and depth value}
@@ -65,29 +48,15 @@
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_trigger(inData):
-    """
-    We have:
-    inData['handle'] : the handle of the proximity sensor.
-    inData['detectedObjectHandle'] : handle of detected object
-    inData['detectedPoint'] : detected point, relative to sensor frame
-    inData['normalVector'] : normal vector at detected point, relative to sensor frame
-    """
-
-    outData = {}
-    outData['trigger'] = True
-    return outData</code>
-
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_trigger(inData)
     -- We have:
-    -- inData.handle : the handle of the proximity sensor.
-    -- inData.detectedObjectHandle : handle of detected object
-    -- inData.detectedPoint : detected point, relative to sensor frame
-    -- inData.normalVector : normal vector at detected point, relative to sensor frame
+    -- inData.proximitySensor : the proximity sensor.
+    -- inData.object : detected object
+    -- inData.distance : detected distance
+    -- inData.point : detected point, relative to sensor frame
+    -- inData.normal : normal vector at detected point, relative to sensor frame
 
     local outData = {}
     outData.trigger = true
