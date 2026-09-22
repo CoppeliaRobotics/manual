@@ -19,7 +19,7 @@
 
 <h1>Joint callback functions</h1>
 
-<p><a href="scriptObjects.htm">Scripts</a> can include a joint callback function, which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>. When present and the script's parent is a <a href="joints.htm">joint</a> or a descendant of a joint, then it is called by CoppeliaSim in various situations: </p>
+<p><a href="scripts.htm">Scripts</a> can include a joint callback function, which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>. When present and the script's parent is a <a href="joints.htm">joint</a> or a descendant of a joint, then it is called by CoppeliaSim in various situations: </p>
 
 <li>When the joint is in kinematic mode: modifying <a href="sim/property_joint_targetPosition.htm">joint.targetPosition</a> or <a href="sim/property_joint_targetVelocity.htm">joint.targetVelocity</a> triggers the joint callback function. The <a href="mainScript.htm">main script</a> contains such a joint callback function, that offers a default behaviour, i.e. a specific motion profile will be applied</li>
 <li>When the joint is in dynamic mode, is <a href="designingDynamicSimulations.htm#dynamicallyEnabled">dynamically enabled</a>, and is set to custom control: the physics engine triggers the joint callback function for each dynamics simulation step, which is quite often, normally 10 times per simulation step for a given joint</li>
@@ -31,6 +31,7 @@
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 def sysCall_joint(inData):
     # inData['mode'] : sim.jointmode_kinematic or sim.jointmode_dynamic
@@ -52,7 +53,6 @@ def sysCall_joint(inData):
     # inData['first'] : whether this is the first call from the physics engine, since the joint
     #                was initialized (or re-initialized) in it.
     # inData['passCnt'] : the current dynamics calculation pass. 1-10 by default
-    # inData['rk4pass'] : if Runge-Kutta 4 solver is selected, will loop from 1 to 4 for each inData['passCnt']
     # inData['totalPasses'] : the number of dynamics calculation passes for each "regular" simulation pass.
     # inData['effort'] : the last force or torque that acted on this joint along/around its axis. With Bullet,
     #                 torques from joint limits are not taken into account
@@ -80,6 +80,7 @@ def sysCall_joint(inData):
     # outData = {'force': f, 'vel': vel}</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+-- using sim-2
 
 function sysCall_joint(inData)
     -- inData.mode : sim.jointmode_kinematic or sim.jointmode_dynamic
@@ -102,7 +103,6 @@ function sysCall_joint(inData)
     -- inData.first : whether this is the first call from the physics engine, since the joint
     --                was initialized (or re-initialized) in it.
     -- inData.passCnt : the current dynamics calculation pass. 1-10 by default
-    -- inData.rk4pass : if Runge-Kutta 4 solver is selected, will loop from 1 to 4 for each inData.passCnt
     -- inData.totalPasses : the number of dynamics calculation passes for each "regular" simulation pass.
     -- inData.effort : the last force or torque that acted on this joint along/around its axis. With Bullet,
     --                 torques from joint limits are not taken into account

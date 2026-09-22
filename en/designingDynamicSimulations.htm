@@ -129,7 +129,7 @@
 <p class=imageLabel>[Dynamic robot model (left) and underlying primitive non-static shapes used for dynamic simulation (right)]</p>
 <br>
 
-<p>See also <a href="sim/scene_createObject.htm">sim.scene:createObject</a>. When a body can collide, but not constantly, or does not play a important role in the stability of a mechanism/robot, then it is not absolutely necessary to use primitive shapes, and convex shapes could be a viable alternative too:</p>
+<p>See also <a href="sim/scene_createObject.htm">sim.scene:createObject</a>. When a body can collide, but not constantly, or does not play an important role in the stability of a mechanism/robot, then it is not necessary to use primitive shapes, and convex shapes could be a viable alternative too:</p>
 <br>
 
 
@@ -139,8 +139,8 @@
 </h2>
 
 
-<p><strong>Use convex shapes instead of random shapes. </strong>Whenever possible, try using primitive<a href="shapes.htm"> shapes</a> as respondable shapes (see <a href="#pureShapes">design consideration 1</a>). This is however not always easy to do, or practical (think of a torus for instance). In that case, you can generate a convex shape, or a convex decomposed shape. Convex shapes perform faster and are more stable than random shapes.</p>
-<p>Select the shapes you wish to simplify as convex shapes, then select [Modules &gt; Geometry / Mesh &gt; Convex hull...].  Refer also to the item [Modules &gt; Geometry / Mesh &gt; Convex decomposition]. Following figure illustrates a convex decomposition:<br>
+<p><strong>Use convex shapes instead of random shapes. </strong>When using a respondable primitive<a href="shapes.htm"> shape</a> is not possible or practical (think of a torus for instance), one can generate a convex shape, or a convex decomposed shape. Convex shapes perform faster and are more stable than random shapes.</p>
+<p>Select the shapes, then select [Modules &gt; Geometry / Mesh &gt; Convex hull...].  Refer also to the item [Modules &gt; Geometry / Mesh &gt; Convex decomposition]. Following figure illustrates a convex decomposition:<br>
 </p>
 
 <p align=center><img src="images/dynamicsDesign15.jpg"></p>
@@ -172,7 +172,7 @@
 <p class=imageLabel>[Color coding for dynamic objects (in dynamic content visualization mode)]</p>
 <br>
 
-<p>Notice in above's figure the appearance of non-primitive shapes: they have their triangular mesh contour represented in green or grey color. Dynamically simulated non-primitive shapes should be avoided at all cost, since they require much longer calculation times, and present a not very stable behaviour (convex shapes are however faster and more stable than non-convex shapes). Refer also to the <a href="#pureShapes">design consideration 1</a> here above. </p>
+<p>Notice in above's figure non-primitive shapes: they have their triangular mesh contour represented in green or grey color. Dynamically simulated non-primitive shapes should be avoided at all cost, since they require much longer calculation times, and present a not very stable behaviour (convex shapes are however faster and more stable than non-convex shapes). Refer also to the <a href="#pureShapes">design consideration 1</a> here above. </p>
 
 
 <br>
@@ -203,14 +203,14 @@
 
 
 <p><strong>Carefully chose the model base object</strong>. When building a dynamic <a href="models.htm">model</a>, actually also when building a static model, always carefulls consider what role the model will be playing. Will it be used on its own? Can it be built on top of another model or object? Or can it accept other models or objects to be built on top of it? Consider following example:</p>
-<p>You have created a model of a mobile robot. You have also created a model of a gripper. Clearly you want to be able to easily attach the gripper model on top of the robot model. The other way round will never make sense (attaching the robot model on top of the gripper model). You might also want to use the robot model and the gripper model on their own. Following is the view of the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> of a possible model definition:</p>
+<p>You have created a model of a mobile robot. You have also created a model of a gripper that you want to be able to attach to the robot model. The other way round will never make sense (attaching the robot model on top of the gripper model). You might also want to use the robot model and the gripper model on their own. Following is the view of the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a> of a possible model definition:</p>
 
 <p align=center><img src="images/dynamicsDesign12.jpg"></p>
 <p class=imageLabel>[Example model definition of a robot and a gripper]</p>
 <br>
 
 <p>
-Notice the model icon next to the 'robot' and 'gripper' shape objects. This indicates that all objects built on top of them are part of the same model definition. The two models operate well on their own. However if you try to attach the gripper on top of the robot (by selecting the gripper model, then the robot model, then clicking [Edit &gt; Set parent, keep pose(s)]), the gripper will not be staying fixed on the robot during simulation. Following is the scene hierarchy of above two models, where the gripper has been attached to the robot:
+Notice the model icon next to the 'robot' and 'gripper' shape objects. This indicates that all objects built on top of them are part of the same model definition. The two models operate well on their own. However if you try to attach the gripper on top of the robot (by selecting the gripper model, then the robot model, then clicking [Edit &gt; Set parent, keep pose(s)]), the gripper does not stay fixed on the robot during simulation. Following is the scene hierarchy of above two models, where the gripper has been attached to the robot:
 </p>
 
 <p align=center><img src="images/dynamicsDesign13.jpg"></p>
@@ -218,7 +218,7 @@ Notice the model icon next to the 'robot' and 'gripper' shape objects. This indi
 <br>
 
 <p>
-Notice in above scene hierarchy how the <a href="shapes.htm">primitive shape</a> &quot;gripper&quot; is built on top of the primitive shape &quot;robot&quot;. And remember that non-static shapes will fall if not otherwise constrained by a <a href="joints.htm">joint</a> of <a href="forceSensors.htm">force sensor</a>... exactly, we need a force sensor in-between &quot;gripper&quot; and &quot;robot&quot; in order to have a rigid connection between both!</p>
+Notice in above scene hierarchy how the <a href="shapes.htm">primitive shape</a> <em>gripper</em> is built on top of the primitive shape <em>robot</em>. Remembering that non-static shapes fall if not otherwise constrained by a <a href="joints.htm">joint</a> of <a href="forceSensors.htm">force sensor</a>, we see that we need a force sensor in-between <em>gripper</em> and <em>robot</em> in order to have a rigid connection between both.</p>
 <p>The correct model definition of the robot would have to include an attachment point (or several of them) for the gripper as illustrated in following figure:</p>
 
 <p align=center><img src="images/dynamicsDesign14.jpg"></p>
@@ -233,7 +233,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <br>
 
 
-<p> To simplify the assembly procedure even more, you can customize the behaviour of the <a href="userInterface.htm#toolbars"><em>assembling</em> toolbar button</a>, in order to automatically put the gripper onto the attachment point, with the correct relative position/orientation. For further details refer to the <a href="models.htm">section on models</a> and the dialog item <strong>Assembling</strong> in the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a>.</p>
+<p> To simplify the assembly procedure even more, one can customize the behaviour of the <a href="userInterface.htm#toolbars"><em>assembling</em> toolbar button</a>, in order to automatically put the gripper onto the attachment point, with the correct relative position/orientation. For further details refer to the <a href="models.htm">section on models</a> and the dialog item <strong>Assembling</strong> in the <a href="commonPropertiesDialog.htm">scene object common properties</a>.</p>
 <br>
 
 
@@ -242,7 +242,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 </h2>
 
 
-<p><strong>Use reasonable sizes</strong>. Shapes that are very long and thin, or that are too small might behave strangely (jittering, jumping). Try keeping sizes above 3 centimeters if possible. </p>
+<p><strong>Use reasonable sizes</strong>. Shapes that are very long and thin, or that are too small might behave strangely (jittering, jumping). </p>
 <p>This requirement can be loosened <a href="physicsEngineDifferences.htm">depending on the physics engine</a>.</p>
 <br>
 
@@ -250,7 +250,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <a name="7"></a><a name="masses"></a>Design consideration 7
 </h2>
 
-<p><strong>Keep masses similar and not too light</strong>. When linking two shapes with a dynamically enabled joint or a dynamically enabled force sensor, make sure the two shape's masses are not too different (m1&lt;10*m2 and m2&lt;10*m1), otherwise the joint or force sensor might be very <em>soft</em> and <em>wobbly</em> and present large positional/orientational errors (this effect can however also be used as a <em>natural damping</em> sometimes). Additionally, very low mass shapes should be avoided since they won't be able to exert very large forces onto other shapes (even if propelled by high force actuators!).</p>
+<p><strong>Keep masses similar and not too light</strong>. When linking two shapes with a dynamically enabled joint or a dynamically enabled force sensor, make sure the two shape's masses are not too different (m1&lt;10*m2 and m2&lt;10*m1), otherwise the joint or force sensor might be very <em>soft</em> and <em>wobbly</em> and present large positional/orientational errors (this effect can however also be used as a <em>natural damping</em> sometimes). Additionally, very low mass shapes should be avoided since they won't be able to exert large forces onto other shapes (even if propelled by high force actuators). See also <a href="sim/property_shape_dynamics_mass.htm">shape.dynamics.mass</a>.</p>
 <p>This requirement can be loosened <a href="physicsEngineDifferences.htm">depending on the physics engine</a>.<br>
 </p>
 <br>
@@ -260,7 +260,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 </h2>
 
 
-<p><strong>Keep inertia matrices relatively large</strong>. Try keeping the <em>inertia matrix</em> relatively large, otherwise mechanical chains might be difficult to control and/or might behave in a strange way. <em></em>Refer to the <a href="shapeDynamicsProperties.htm">shape dynamics dialog</a>.</p>
+<p><strong>Keep inertia matrices relatively large</strong>. Try keeping the <em>inertia matrix</em> relatively large, otherwise mechanical chains might be difficult to control and/or might behave in a strange way. <em></em>Refer to the <a href="shapeDynamicsProperties.htm">shape dynamics dialog</a>. See also<a href="sim/property_shape_dynamics_inertiaMatrix.htm">shape.dynamics.inertiaMatrix</a> and <a href="sim/property_shape_dynamics_centerOfMass.htm">shape.dynamics.centerOfMass</a>.<a href="sim/property_shape_dynamics_mass.htm"></a></p>
 <p>This requirement can be loosened <a href="physicsEngineDifferences.htm">depending on the physics engine</a>.<br>
 </p>
 <br>
@@ -269,7 +269,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <a name="9"></a><a name="layers"></a>Design consideration 9
 </h2>
 
-<p><strong>Assign dynamic shapes to layer 9</strong>. Assign all dynamic shapes which are supposed to be hidden to layer 9 (refer to the <a href="commonPropertiesDialog.htm">general scene object properties dialog</a>): in CoppeliaSim, by default, all layers are visible, except for layers 9-16. When editing or testing a <a href="scenes.htm">scene</a>, you can then quickly visualize all hidden  shapes in the scene by temporarily enabling layer 9 (refer also to the <a href="layerSelectionDialog.htm">layer selection dialog</a>).<br>
+<p><strong>Assign dynamic shapes to layer 9</strong>. Assign all dynamic shapes which are supposed to be hidden to layer 9 (refer to the <a href="commonPropertiesDialog.htm">scene object common properties</a>): in CoppeliaSim, by default, all layers are visible, except for layers 9-16. When editing or testing a <a href="scenes.htm">scene</a>, you can then quickly visualize all hidden  shapes in the scene by temporarily enabling layer 9 (refer also to the <a href="layerSelectionDialog.htm">layer selection dialog</a>). See also <a href="sim/property_sceneObject_layer.htm">sceneObject.layer</a>.<br>
 </p>
 <br>
 
@@ -278,7 +278,7 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <a name="10"></a><a name="dynamicStaticDynamic"></a>Design consideration 10
 </h2>
 
-<p><strong>Never have a static shape between two dynamic items</strong>. The static shape will interrupt the logical behaviour of the dynamic chain:</p>
+<p><strong>Never have a static shape between two dynamic items</strong> as it interrupts the logical behaviour of the dynamic chain:</p>
 <p align=center><img src="images/dynamicsDesign16.jpg"></p>
 <p class=imageLabel>[Wrong and correct construction]</p>
 <br>
@@ -287,11 +287,11 @@ The attachment point is a simple force sensor. Assembling the gripper model with
 <a name="11"></a><a name="dynamicStaticRespondable"></a>Design consideration 11
 </h2>
 
-<p><strong>Never have a static respondable shape on top of a dynamic item</strong>. Static means the shape's trajectory cannot be influenced by any collision, but if at the same time it is respondable, this means that it can itself influence other shapes' trajectories via collision. The simulation result would be unpredictable.<br>
+<p><strong>Never build a static respondable shape on top of a dynamic item</strong> as the simulation result would be unpredictable.<br>
 </p>
 <br>
 
-<p>Finally keep in mind that there are more or less large <a href="physicsEngineDifferences.htm">differences between physics engines</a>.</p>
+<p>Finally, refer also to the <a href="physicsEngineDifferences.htm">differences between physics engines</a>.</p>
 
 
 

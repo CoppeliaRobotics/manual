@@ -148,7 +148,7 @@ wb_usr.tree =
                     folder=
                     {
                         {
-                            name={en="General scene object properties dialog"},
+                            name={en="Scene object common properties"},
                             link="commonPropertiesDialog.htm"
                         },
                     }

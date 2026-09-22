@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<title>Forward/backward compatibility</title>
+<link rel="stylesheet" type="text/css" href="../style.css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<div align="center">
+<table class=allEncompassingTable >
+ <tr>
+  <td >
+<p><a href="../index.html" TARGET="_top"><img src="images/homeImg.png"></a></p>
+
+
+
+<h1>
+sim-2
+</h1>
+
+<p>
+sim-2 was introduced in CoppeliaSim V4.11 and is an object-oriented version of the CoppeliaSim API, entirely based on properties and methods. Following compares a simple example in sim-1 and sim-2: </p>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">-- lua
+sim = require('sim-1')
+
+local robotHandle = sim.getObject('/robot')
+local obstacleHandle = sim.getObject('/obstacle')
+local worldPos = sim.getObjectPosition(robotHandle)
+local relPos = sim.getObjectPosition(robotHandle, obstacleHandle)
+local collectionHandle = sim.createCollection()
+sim.addItemToCollection(collectionHandle, sim.handle_tree, robotHandle, 0)
+local result, objPair = sim.checkCollision(collectionHandle, sim.handle_all)
+if result then
+    print('Following objects collide: ' .. 
+          sim.getObjectAlias(objPair[1], 5) ..
+          ' with ' .. sim.getObjectAlias(objPair[2], 5))
+end</code>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">-- lua
+sim = require('sim-2')
+
+local robot = sim.self:getObject('/robot')
+local obstacle = sim.self:getObject('/obstacle')
+local worldPos = robot.worldPosition
+local relPos = robot:getPosition({relativeToObject = obstacle})
+local collection = sim.scene:createObject({type = 'collection'})
+collection:addItem(robot, {mode = 'tree'})
+local result, objPair = collection:checkCollision()
+if result then
+    print('Following objects collide: ' .. 
+          objPair[1]:getName({mode = 'printPath'}) ..
+          ' with ' .. objPair[2]:getName({mode = 'printPath'}))
+end</code>
+
+<p>sim-2 is meant to replace sim-1; sim-1 is declared deprecated and one should favor sim-2 over sim-1. One may however use sim-1 and sim-2 in the same script, as shown in following example: </p>
+
+<code class="hljs language-lua coppelia-coppeliasim-script">-- lua
+sim1 = require('sim-1')
+sim = require('sim-2')
+
+local robot = sim.self:getObject('/robot')
+local worldPos = sim1.getObjectPosition(robot.handle)</code>
+
+<p>All objects derive from a common base class <a href="apiFunctions.htm#methodsAndProperties_object">object</a>, as can be see from the <a href="mainObjectTypes.htm">class overview</a>. <a href="apiFunctions.htm#methodsAndProperties_app">sim.app</a> (a singleton) refers to the running CoppeliaSim instance, whereas <a href="apiFunctions.htm#methodsAndProperties_scene">sim.scene</a>, also a singleton, refers to the current scene. From within a <a href="scripts.htm">script</a>, <a href="apiFunctions.htm#methodsAndProperties_script">sim.self</a> points to the script itself.</p>
+<p>This user manual was adjusted to reflect the usage of sim-2.</p>
+<p>&nbsp;</p>
+
+
+
+<br>
+<br>
+  
+  </td>
+ </tr>
+</table> 
+</div>  
+  
+  
+<link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
+<script src="../js/hljs/11.8.0/highlight.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/cpp.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/java.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/javascript.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/lua.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/matlab.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/python.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/rust.min.js"></script>
+<script src="../js/hljs/11.8.0/languages/xml.min.js"></script>
+<script src="../js/multi-language-switcher.js"></script>
+<script>document.querySelectorAll('code.hljs').forEach(el => {hljs.highlightElement(el);})</script>
+</body>
+
+</html>

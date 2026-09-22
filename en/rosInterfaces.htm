@@ -24,34 +24,6 @@
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-#using sim-2
-
-def sysCall_init():
-    simROS = require('simROS')
-
-    self.visionSensor = sim.self:getObject('/Vision_sensor')
-
-    # Enable an image publisher:
-    self.pub = simROS2.createPublisher('/image', 'sensor_msgs/msg/Image')
-    simROS2.publisherTreatUInt8ArrayAsString(self.pub)
-
-def sysCall_sensing():
-    # Publish the image of the vision sensor:
-    img = visionSensor.image
-    resolution = visionSensor.resolution
-    data = {}
-    data['header'] = {'stamp': simROS2.getTime(), 'frame_id': 'a'}
-    data['height'] = resolution[1]
-    data['width'] = resolution[0]
-    data['encoding'] = 'rgb8'
-    data['is_bigendian'] = 1
-    data['step'] = resolution[0] * 3
-    data['data'] = img
-    simROS2.publish(self.pub, data)
-
-def sysCall_cleanup():
-    simROS2.shutdownPublisher(self.pub)</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
@@ -87,22 +59,6 @@ end</code>
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-#using sim-2
-
-def sysCall_init():
-    simROS = require('simROS')
-    
-    # Enable an image subscriber:
-    self.sub = simROS2.createSubscription('/image', 'sensor_msgs/msg/Image', image_callback)
-    simROS2.subscriptionTreatUInt8ArrayAsString(self.sub)
-
-def image_callback(msg):
-    # Here we have received an image
-    pass
-
-def sysCall_cleanup():
-    simROS2.shutdownSubscription(self.sub)</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()

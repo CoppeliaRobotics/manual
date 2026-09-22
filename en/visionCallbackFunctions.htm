@@ -19,7 +19,7 @@
 
 <h1>Vision callback functions</h1>
 
-<p><a href="scriptObjects.htm"> Scripts</a> can include a vision callback function (which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>), when the script's parent is a <a href="visionSensors.htm">vision sensor</a>. When present, then the system calls the callback function everytime a new image was acquired or applied, allowing the user to perform image processing. This is the case with following: <a href="sim/visionSensor_handleSensor.htm">visionSensor:handleSensor</a>, <a href="sim/visionSensor_checkSensor.htm">visionSensor:checkSensor</a>, <a href="sim/visionSensor_setImage.htm">visionSensor:setImage</a> and <a href="sim/property_visionSensor_image.htm">visionSensor.image</a>.</p>
+<p><a href="scriptObjects.htm"> Script objects</a> can include a vision callback function (which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>), when the script object parent is a <a href="visionSensors.htm">vision sensor</a>. When present, then the system calls the callback function everytime a new image was acquired or applied, allowing the user to perform image processing. This is the case with following: <a href="sim/visionSensor_handleSensor.htm">visionSensor:handleSensor</a>, <a href="sim/visionSensor_checkSensor.htm">visionSensor:checkSensor</a>, <a href="sim/visionSensor_setImage.htm">visionSensor:setImage</a> and <a href="sim/property_visionSensor_image.htm">visionSensor.image</a>.</p>
 
 <p>Following represents an empty  vision callback function:<br>
 </p>
@@ -40,7 +40,8 @@ def sysCall_vision(inData):
 
     outData = {}
     outData['trigger'] = False  # True if the sensor should trigger
-    outData['packedPackets'] = []  # a list of packed packets. Can be accessed via e.g. visionSensor.packet1, visionSensor.packet2
+    outData['packedPackets'] = []  # a list of packed packets (packed as single precision floats).
+                                   # Can be accessed via e.g. visionSensor.packet1, visionSensor.packet2
     return outData</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
@@ -57,7 +58,8 @@ function sysCall_vision(inData)
 
     local outData = {}
     outData.trigger = false -- true if the sensor should trigger
-    outData.packedPackets = {} -- a table of packed packets. Can be accessed via e.g. visionSensor.packet1, visionSensor.packet2
+    outData.packedPackets = {} -- a table of packed packets (packed as single precision floats). 
+                               -- Can be accessed via e.g. visionSensor.packet1, visionSensor.packet2
     return outData
 end</code>
 

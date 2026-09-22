@@ -19,7 +19,7 @@
 
 <h1>Trigger callback functions</h1>
 
-<p><a href="scriptObjects.htm">Scripts</a> can include a trigger callback function (which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>), when the script parent is a <a href="visionSensors.htm">vision sensor</a> or a <a href="proximitySensors.htm">proximity sensor</a>. </p>
+<p><a href="scriptObjects.htm">Script objects</a> can include a trigger callback function (which is one of many <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>), when the script object parent is a <a href="visionSensors.htm">vision sensor</a>,  a <a href="proximitySensors.htm">proximity sensor</a>, or a <a href="forceSensors.htm">force sensor</a>.</p>
 <p>A vision sensor can generate the trigger signal inside of the <a href="visionCallbackFunctions.htm">vision callback function</a>. The trigger callback (if present) is then called as in following example:<br>
 </p>
 <div class=multi-language-switcher data-default="lua">
@@ -67,6 +67,26 @@ end</code>
 
 <br>
 
+<p>A force sensor generates the trigger signal when the sensor trigger conditions are met. The trigger callback (if present) is then called as in following example:</p>
+
+<div class=multi-language-switcher data-default="lua">
+
+<code class="hljs language-lua coppelia-coppeliasim-script">--lua
+
+function sysCall_trigger(inData)
+    -- We have:
+    -- inData.forceSensor : the force sensor.
+    -- inData.forceVector : the force vector
+    -- inData.torqueVector : the torque vector
+    -- inData.filteredForceVector : the filtered force vector
+    -- inData.filteredTorqueVector : the filtered torque vector
+    --
+    -- The callback does not expect a return value
+end</code>
+
+</div>
+
+<br>
 <br>
 <br>
  </tr>

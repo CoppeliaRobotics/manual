@@ -19,9 +19,9 @@
 
 <h1>Accessing scene objects programmatically</h1>
 
-<p>When programming in and around CoppeliaSim, you will always need to reference <a href="objects.htm">scene objects</a>. You do this with handles, that you obtain via <a href="sim/script_getObject.htm">script:getObject</a> or <a href="sim/sceneObject_getObject.htm">sceneObject:getObject</a>, which expects an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner in case of <a href="#fromScriptObject">script object code</a>.</p>
+<p>When programming in and around CoppeliaSim, you will always need to reference <a href="objects.htm">scene objects</a>. You do this via <a href="sim/script_getObject.htm">script:getObject</a> or <a href="sim/sceneObject_getObject.htm">sceneObject:getObject</a>, which expect an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner when called from a <a href="#fromScriptObject">script object</a>.</p>
 
-<p>In both cases, the path to the object can often be simplified. You may also use wildcards, and optionally specify the object sequence or order, in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path/alias.</p>
+<p>In both cases, the path to the object can often be simplified. You may also use wildcards, and optionally specify the object sequence or order, in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path/name. See also <a href="sim/property_sceneObject_name.htm">sceneObject.name</a> and <a href="sim/sceneObject_getName.htm">sceneObject:getName</a>.</p>
 
 
 <br>
@@ -32,28 +32,28 @@
 
 <p><em>Unassociated</em> code is code that is not from a <a href="scriptObjects.htm">script object</a>. This includes all the code written for <a href="plugins.htm">plugins</a>, <a href="addOns.htm">add-ons</a>, <a href="remoteApiOverview.htm">remote API</a> clients, external <a href="rosInterfaces.htm">ROS</a> nodes, and <a href="mainScript.htm">the main script</a>.</p>
 
-<p>In that case, you simply specify the object's <strong>absolute</strong> path, in order to retrieve its handle. If the object alias is unique, the path to the object can be simplified. You may also use wildcards, and optionally specify the object sequence in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path:</p>
+<p>In that case, you simply specify the object's <strong>absolute</strong> path, in order to retrieve it:</p>
 
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">// e.g. from within a c/c++ plugin:
 
-// using the full <em>Object</em> path:
-int objectHandle = simGetObject(&quot;/Path/to/Object&quot;, -1, -1, 0);
+// using the full object path:
+int objectHandle = simGetObject(&quot;/path/to/object&quot;, -1, -1, 0);
 
-// if object has unique alias <em>Object</em>:
-int objectHandle = simGetObject(&quot;/Object&quot;, -1, -1, 0);
+// if the object has a unique name:
+int objectHandle = simGetObject(&quot;/objectName&quot;, -1, -1, 0);
 
-// handle of the first object with alias <em>Robot</em>, in a given hierarchy level:
-int robotHandle = simGetObject(&quot;/Robot[0]&quot;, -1, -1, 0);
+// handle of the first object with a specific name, in a given hierarchy level:
+int robotHandle = simGetObject(&quot;/objectName[0]&quot;, -1, -1, 0);
 
-// handle of the second object with alias <em>Robot</em>, in a given hierarchy level:
-int robotHandle = simGetObject(&quot;/Robot[1]&quot;, -1, -1, 0);
+// handle of the second object with a specific name, in a given hierarchy level:
+int robotHandle = simGetObject(&quot;/objectName[1]&quot;, -1, -1, 0);
 
-// handle of the fifth object with alias <em>Robot</em>, in the scene:
-int robotHandle = simGetObject(&quot;/Robot{4}&quot;, -1, -1, 0);
+// handle of the fifth object with a specific name, in the scene:
+int robotHandle = simGetObject(&quot;/objectName{4}&quot;, -1, -1, 0);
 // or
-int robotHandle = simGetObject(&quot;/Robot&quot;, 4, -1, 0);
+int robotHandle = simGetObject(&quot;/objectName&quot;, 4, -1, 0);
 
-// find all objects starting with alias prefix <em>Mobile</em>:
+// find all objects starting with a specific prefix:
 int i = 0;
 while (true)
 {
@@ -62,22 +62,22 @@ while (true)
         break;
 } </code>
 
-<code class="hljs language-python coppelia-zmq-remote-api-client"># e.g. from within a Python ZeroMQ remote API client:
+<code class="hljs language-python coppelia-zmq-remote-api-client"># e.g. from within a Python ZeroMQ remote API 2 client:
 
-# using the full <em>Object</em> path:
-objectHandle = sim.getObject(&quot;/Path/to/Object&quot;)
+# using the full object path:
+object = sim.scene.getObject(&quot;/path/to/object&quot;)
 
-# if object has unique alias <em>Object</em>:
-objectHandle = sim.getObject(&quot;/Object&quot;)
+# if object has a unique name:
+object = sim.scene.getObject(&quot;/objectName&quot;)
 
-# handle of the first object with alias <em>Robot</em>, in a given hierarchy level:
-robotHandle = sim.getObject(&quot;/Robot[0]&quot;)
+# the first object with a specific name, in a given hierarchy level:
+object = sim.scene.getObject(&quot;/objectName[0]&quot;)
 
-# handle of the second object with alias <em>Robot</em>, in a given hierarchy level:
-robotHandle = sim.getObject(&quot;/Robot[1]&quot;)
+# the second object with a specific name, in a given hierarchy level:
+object = sim.scene.getObject(&quot;/objectName[1]&quot;)
 
-# handle of the fifth object with alias <em>Robot</em>, in the scene:
-robotHandle = sim.getObject(&quot;/Robot{4}&quot;)</code>
+# the fifth object with a specific name, in the scene:
+object = sim.scene.getObject(&quot;/objectName{4}&quot;)</code>
 
 <br>
 <br>
@@ -88,15 +88,15 @@ robotHandle = sim.getObject(&quot;/Robot{4}&quot;)</code>
 
 <p><em>Associated</em> code is code that runs in a <a href="scriptObjects.htm">script object</a>, i.e. code that runs in a <a href="simulationScripts.htm">simulation-</a> or <a href="customizationScripts.htm">customization script</a>.</p>
 
-<p>In that case, objects can also be accessed in an <strong>absolute</strong> manner as described above, but additionally, object access can also happen in a <strong>relative</strong> manner (relative to the current script object (<em> ./ </em>), or relative to the model containing current script ( <em>:/</em> ) ):</p>
+<p>In that case, in addition to accessing objects in an <strong>absolute</strong> manner as described above, one can also access them in a <strong>relative</strong> manner (relative to the current script object (<em> ./ </em>), or relative to the model containing current script ( <em>:/</em> ) ):</p>
 
 
 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
-
-# from within a simulation- or customization script, using sim-2:
+# using sim-2
+# from within a simulation- or customization script
 
 # returns the current script object:
 object = sim.self:getObject(&quot;.&quot;)

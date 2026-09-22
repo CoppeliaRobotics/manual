@@ -21,7 +21,7 @@
 
 <p>By default, each <a href="scenes.htm">scene</a> in CoppeliaSim has one main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without main script, a running simulation won't do anything significant. See also <a href="sim/property_scene_mainScript.htm">sim.scene.mainScript</a>.</p>
 
-<p>The main script contains a collection of <a href="callbackFunctions.htm">callbacks functions</a> that are appropriately called by CoppeliaSim. The default main script is typically segmented in 4  callback functions: </p>
+<p>The main script contains a collection of <a href="callbackFunctions.htm">callbacks functions</a> that are appropriately called by CoppeliaSim. The default main script is typically segmented in four  callback functions: </p>
 
 
 <li>the initialization function: <strong>sysCall_init</strong>. It is called one time, just at the beginning of a simulation<br>
@@ -33,7 +33,7 @@
 <li>the sensing function: <strong>sysCall_sensing</strong>. It is called in each simulation pass. The code is in charge of handling all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One command is of particular interest: <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a><a href="sim/simHandleSimulationScripts.htm"></a>, which  calls <a href="simulationScripts.htm">simulation scripts'</a> <em>sysCall_sensing</em> callback functions. Without that commands, <a href="simulationScripts.htm">simulation scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
 </li>
 
-<li>the restoration function: <strong>sysCall_cleanup</strong>. It is executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">object's</a> initial poses, clearing sensor states, etc.<br>
+<li>the restoration function: <strong>sysCall_cleanup</strong>. It is executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">scene object</a>'s initial poses, clearing sensor states, etc.<br>
 </li>
 
 <p>
@@ -121,7 +121,7 @@ end</code>
 
 <p>There are however many more <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> the main script can use to react to various events.</p>
 
-<p>The main script is not supposed to be modified. The reason for this is following: one of CoppeliaSim's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command e.g.<a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a> then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality.<br>
+<p>The main script is not supposed to be modified. The reason for this is following: one of CoppeliaSim's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command e.g. <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a> then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality.<br>
 </p>
 
 <p>If however, for a reason or another you really need to modify the main script of a scene, you can do this by double-clicking the light-red script icon next to the world icon at the top of the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:<br>

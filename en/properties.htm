@@ -25,6 +25,7 @@
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 sim.app.paths.settings # get location of user settings file usrset.txt
 sim.scene.dynamics.gravity # set zero-gravity
@@ -32,6 +33,7 @@ jointObject.bounds # get joint lower and upper limits
 shapeObject.meshes # get meshes composing the shape
 meshObject.vertices # get vertices of a mesh</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+-- using sim-2
 
 sim.app.paths.settings -- get location of user settings file usrset.txt
 sim.scene.dynamics.gravity -- set zero-gravity
@@ -42,16 +44,18 @@ meshObject.vertices -- get vertices of a mesh</code>
 </div>
 
 
-<p><a href="apiFunctions.htm#methodsAndProperties">This page lists all available properties and methods</a>. A property usually is readable and writable, but depending on the property, it can also be read-only or write-only. Other properties can be removable, are constant, etc.:</p>
+<p><a href="apiFunctions.htm#methodsAndProperties">This page lists all available properties and methods</a>. A property is usually readable and writable, but depending on the property, it can also be read-only or write-only. Other properties can be removable, are constant, etc.:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 shapeObject.meshes # read-only property
 shapeObject.applyColor.diffuse = [1, 0, 0, 1] # write-only property
 sceneObject:removeProperty('customData.myFloatArray') # removable property</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+-- using sim-2
 
 shapeObject.meshes -- read-only property
 shapeObject.applyColor.diffuse = Color('red') -- write-only property
@@ -62,7 +66,7 @@ sceneObject:removeProperty('customData.myFloatArray') -- removable property</cod
 <p>Properties can conveniently be inspected via the Property Explorer add-on located at [Modules &gt; Developer tools &gt; Property explorer].</p>
 <p>Most properties, when changed (explicitly or internally by CoppeliaSim), trigger an event, <a href="meansOfCommunication.htm#events">which can be listened to via an event callback function</a>.</p>
 
-<p>There are particular types of properties:</p>
+<p>Following are particular types of properties:</p>
 <ul>
 <li><a href="#customData">custom data</a></li>
 <li><a href="#signals">signals</a></li>
@@ -73,11 +77,12 @@ sceneObject:removeProperty('customData.myFloatArray') -- removable property</cod
 <h2><a name="customData"></a>Custom data</h2>
 
 
-<p>Custom data properties can be seen as persistent data (stored in an object, sometimes also to disk) with different scopes: globally (i.e., sim.app (stored to disk), within the current scene (sim.scene), or locally, specific to a scene object. Custom data properties are identified with a &quot;customData.&quot;-prefix, and they can be created/set, modified and removed. For example:</p>
+<p>Custom data properties can be seen as persistent data (stored in an object, sometimes also to disk) with different scopes: globally (i.e., sim.app (stored to disk), within the current scene (sim.scene), or locally, specific to a scene object. Custom data properties are identified with a <em>customData.</em>-prefix, and they can be created/set, modified and removed. For example:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 # script 1 writes the data to a scene object:
 
@@ -86,6 +91,7 @@ sceneObject.customData.myTag = sim.app:pack(myData)
 sceneObject:setBufferProperty('customData.myTag', myData) # same effect as above, but by using the related method</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+-- using sim-2
 
 -- script 1 writes the data to a scene object:
 
@@ -98,6 +104,7 @@ sceneObject:setBufferProperty('customData.myTag', myData) -- same effect as abov
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 # script 2 reads the data from the scene object:
 
@@ -107,6 +114,7 @@ if myData:
     # do something with the data</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+-- using sim-2
 
 -- script 2 reads the data from the scene object:
 
@@ -124,17 +132,19 @@ end</code>
 
 <h2><a name="signals"></a>Signals</h2>
 
-<p>Signal properties can be seen as variables with different scopes: globally (i.e., sim.app), within the current scene (sim.scene), or locally, specific to a scene object. Signal properties are identified with a &quot;signal.&quot;-prefix, and they can be created/set, modified and removed. For example:</p>
+<p>Signal properties can be seen as variables with different scopes: globally (i.e., sim.app), within the current scene (sim.scene), or locally, specific to a scene object. Signal properties are identified with a <em>signal.</em>-prefix, and they can be created/set, modified and removed. For example:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 # script 1 writes the data to int signal 'myIntSignal':
 
 sim.scene.signal.myIntSignal = 37
 sim.scene:setIntProperty('signal.myIntSignal', 37) # same effect as above, but by using the related method</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+-- using sim-2
 
 -- script 1 writes the data to int signal 'myIntSignal':
 
@@ -146,6 +156,7 @@ sim.scene:setIntProperty('signal.myIntSignal', 37) -- same effect as above, but 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 # script 2 reads the data from int signal 'myIntSignal':
 
@@ -154,6 +165,7 @@ if myData != None:
     # do something with the data</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+-- using sim-2
 
 -- script 2 reads the data from int signal 'myIntSignal':
 
@@ -175,9 +187,11 @@ end</code>
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 arg = sim.app.namedParam.myCustomArgument</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
+-- using sim-2
 
 local arg = sim.app.namedParam.myCustomArgument</code>
 
