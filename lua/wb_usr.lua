@@ -144,14 +144,7 @@ wb_usr.tree =
                 },
                 {
                     name={en="Scene object dialog"},
-                    link="sceneObjectPropertiesDialog.htm",
-                    folder=
-                    {
-                        {
-                            name={en="Scene object common properties"},
-                            link="commonPropertiesDialog.htm"
-                        },
-                    }
+                    link="sceneObjectPropertiesDialog.htm"
                 },
                 {
                     name={en="Collidable objects"},

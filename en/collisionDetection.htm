@@ -20,21 +20,21 @@
 <h1>Collision detection</h1>
 
 
-<p>CoppeliaSim can detect collisions between two <a href="collidableObjects.htm">collidable</a> <a href="entities.htm">entities</a> in a flexible way. The calculation is an exact interference calculation. Collision detection, as its name states, only detect collisions; it does however not directly react to them (for collision response, refer to the <a href="dynamicsModule.htm">dynamics module</a>).<br>
+<p>CoppeliaSim can detect collisions between two <a href="collidableObjects.htm">collidable</a> <a href="entities.htm">entities</a> in a flexible way. The calculation is an exact interference calculation. Collision detection only detect collisions and does not react to them (for collision response, refer to the <a href="dynamicsModule.htm">dynamics module</a>).<br>
 </p>
 
 <p align=center><img src="images/collisionDetection1.jpg"></p>
 <p class=imageLabel>[Collision detection between two manipulators]</p>
 <br>
 
-<p>Using the API function <a href="sim/simCheckCollision.htm">sim.checkCollision</a>, one can easily detect collision between entities, for instance collision detection between a robot and its environment, from within a <a href="simulationScripts.htm">simulation script</a>, in each simulation step:</p>
+<p>Using <a href="sim/sceneObject_checkCollision.htm">sceneObject:checkCollision</a> and <a href="sim/collection_checkCollision.htm">collection:checkCollision</a>, one can easily check for collision between entities, for instance between a robot and its environment, from within a <a href="simulationScripts.htm">simulation script</a>, in each simulation step:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 def sysCall_init():
-    sim = require('sim-2')
     robotBase = sim.self:getObject('/robotModelName')
     self.robotCollection = sim.scene:createObject({'type': 'collection'})
     self.robotCollection:addItem(robotBase, {'mode': 'tree'})

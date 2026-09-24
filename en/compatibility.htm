@@ -23,7 +23,7 @@ Forward/backward compatibility
 </h1>
 
 <p>
-CoppeliaSim is developed by a small team. Unlike larger entities, we embrace an agile development methodology, which means a more frequent update cycle and rapid deployment of fixes. This approach may lead to occasional issues, but allows for swift resolution and the introduction of new features. User feedback, particularly through bug reports on the <a href="https://forum.coppeliarobotics.com/" target="_blank">CoppeliaSim forum</a>, is crucial to this process and is an important means of identifying and addressing problems. </p>
+CoppeliaSim is developed by a small team, and as such, we embrace an agile development methodology, which means a more frequent update cycle and rapid deployment of fixes. This approach may lead to occasional issues, but allows for swift resolution and the introduction of new features. User feedback and bug reports are crucial to this process and are an important way of identifying and addressing problems. </p>
 
 <br>
 
@@ -37,11 +37,6 @@ CoppeliaSim is developed by a small team. Unlike larger entities, we embrace an 
 
 <h3>Backward compatibility</h3>
 <p>Scenes and models containing script objects can be converted back to scenes and models containing only associated scripts, by setting the <a href="commandLine.htm#settingsFile">user settings</a> parameter <em>scriptConversion</em> to -1. The related script code is however not touched by this conversion, and manual adjustments will have to be done.</p>
-
-<br>
-
-<p>In case of serious unexpected problems with script objects, one can revert to using old associated scripts, by setting the <a href="commandLine.htm#settingsFile">user settings</a> parameter <em>useSceneObjectScripts</em> to false.</p>
-
 
 <br>
 
@@ -60,11 +55,13 @@ CoppeliaSim is developed by a small team. Unlike larger entities, we embrace an 
     end
 end</code>
 
-<li>Most API methods/properties that clearly return binary data (e.g. sim.getVisionSensorImg) now return the data as a buffer. Comparing that buffer with a string will always resolve to <em>false</em>,   e.g.:</li>
-<code class="hljs language-lua coppelia-coppeliasim-script">print(sim.getVisionSensorImg(h) == anyStringData) -- always prints false</code>
+<li>Most API methods/properties that clearly return binary data (e.g. <a href="sim/property_visionSensor_image.htm">visionSensor.image</a>) now return the data as a buffer. Comparing that buffer with a string always resolve to <em>false</em>,   e.g.:</li>
+<code class="hljs language-lua coppelia-coppeliasim-script">print(visionSensor.image == anyStringData) -- always prints false</code>
 
-<li>sim.packTable now returns a buffer of different length from previous CoppeliaSim versions (text/strings and buffers are now differentiated and this is reflected in the packed data),   e.g.:</li>
-<code class="hljs language-lua coppelia-coppeliasim-script">local packedTable1 = sim.packTable({'Txt'})
+<li>In sim-1, sim.packTable now returns a buffer of different length from previous CoppeliaSim versions (text/strings and buffers are now differentiated and this is reflected in the packed data),   e.g.:</li>
+<code class="hljs language-lua coppelia-coppeliasim-script">-- Lua
+sim = require('sim-1')
+local packedTable1 = sim.packTable({'Txt'})
 local packedTable2 = sim.packTable({'Txt\0'})
 local packedTable3 = sim.packTable({tobuffer('Txt')})
 print(packedTable1) -- prints: [buffer (16 bytes)]
@@ -83,7 +80,6 @@ print(sim.unpackTable(packedTable3)) -- prints: {[buffer (3 bytes)]}</code>
 <ul>
 <li>Converting a buffer to string via <em>tostring</em>, before handing it to a code base that is not aware of buffers, is the best way to avoid potential problems </li>
 <li>Where a buffer is compared to a string (and vice-versa), convert one or the other via <em>tostring</em> or <em>tobuffer</em>, otherwise comparison always resolves to <em>false</em></li>
-<li>Usage of buffers can be disabled in the <a href="commandLine.htm#settingsFile">user settings file</a> with variable <em>useBuffers</em></li>
 </ul>
 
 <h3>Backward compatibility</h3>

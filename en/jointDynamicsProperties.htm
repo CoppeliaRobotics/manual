@@ -19,7 +19,7 @@
 
 <h1>Joint dynamics dialog</h1>
 
-<p>The joint dynamics dialog are part of the <a href="jointProperties.htm">joint dialog</a>. Its dialog displays the dynamics settings and parameters of the last selected <a href="joints.htm">joint</a>. If no joint is selected, or the joint is not dynamic, then the dialog is inactive. If more than one joint is selected, then some parameters can be copied from the last selected joint to the other selected joints:<br>
+<p>The joint dynamics dialog is part of the <a href="jointProperties.htm">joint dialog</a> and displays the dynamics settings and parameters of the last selected <a href="joints.htm">joint</a>. If no joint is selected, or the joint is not dynamic, then the dialog is inactive. If more than one joint is selected, then some parameters can be copied from the last selected joint to the other selected joints:<br>
 </p>
 <p align=center><img src="images/jointDynamicsProperties1.jpg"></p>
 <p class=imageLabel>[Joint dynamics dialog]</p>
@@ -33,18 +33,18 @@
 
 <li><strong>Free</strong> <strong>(no control)</strong>: the joint is free, i.e. non-motorized</li>
 
-<li><strong>Force/torque control</strong>: the joint is controlled in force/torque, i.e. a constant force/torque is applied. Can be modulated with <a href="sim/simSetJointTargetForce.htm">sim.setJointTargetForce</a></li>
+<li><strong>Force/torque control</strong>: the joint is controlled in force/torque, i.e. a constant force/torque is applied. Can be modulated with <a href="sim/property_joint_dynamics_targetForce.htm">joint.dynamics.targetForce</a></li>
 
-<li><strong>Velocity control</strong>: the joint is controlled in velocity: the specified force/torque is applied until the desired velocity is reached. Optionally, a specific motion profile for the velocity can be applied. Can be modulated with <a href="sim/simSetJointTargetVelocity.htm">sim.setJointTargetVelocity</a> and <a href="sim/simSetJointTargetForce.htm">sim.setJointTargetForce</a></li>
+<li><strong>Velocity control</strong>: the joint is controlled in velocity: the specified force/torque is applied until the desired velocity is reached. Optionally, a specific motion profile for the velocity can be applied. Can be modulated with <a href="sim/property_joint_targetVelocity.htm">joint.targetVelocity</a> and <a href="sim/joint_setTargetVelocity.htm">joint.setTargetVelocity</a></li>
 
-<li><strong>Position control</strong>: the joint is controlled in position: the specified force/torque is applied and the velocity is modulated accordingly, until the target position/angle is reached. Parameters can be adjusted with <a href="sim/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a>, <a href="sim/simSetJointTargetForce.htm">sim.setJointTargetForce</a> and in general via <a href="apiFunctions.htm#methodsAndProperties_joint">joint methods and properties</a></li>
+<li><strong>Position control</strong>: the joint is controlled in position: the specified force/torque is applied and the velocity is modulated accordingly, until the target position/angle is reached. Can be modulated with <a href="sim/property_joint_targetPosition.htm">joint.targetPosition</a> and <a href="sim/joint_setTargetPosition.htm">joint.setTargetPosition</a></li>
 
-<li><strong>Spring-damper control</strong>: the joint is controlled in position by modulating the exerted force/torque via a simple KC controller, trying to reach the zero displacement position/angle. Parameters can be adjusted with <a href="sim/simSetJointTargetPosition.htm">sim.setJointTargetPosition</a>, <a href="sim/simSetJointTargetForce.htm">sim.setJointTargetForce</a> and in general via <a href="apiFunctions.htm#methodsAndProperties_joint">joint methods and properties</a></li>
+<li><strong>Spring-damper control</strong>: the joint is controlled in position by modulating the exerted force/torque via a simple KC controller, trying to reach the zero displacement position/angle. Parameters can be adjusted with <a href="sim/property_joint_targetPosition.htm">joint.targetPosition</a> and <a href="sim/property_joint_dynamics_springDamper.htm">joint.dynamics.springDamper</a></li>
 
 
-<li><strong>Custom control</strong>: the joint calls a <a href="jointCallbackFunctions.htm">joint callback function</a> for control, where the user can decide of a force/torque and target velocity in a flexible way</li>
+<li><strong>Custom control</strong>: the joint calls a <a href="jointCallbackFunctions.htm">joint callback function</a> for control, where the return value is a computed force/torque</li>
 
-<p>In addition to above settings, joints have specific parameters related to each physics engine that can be adjusted with <strong>Engine properties</strong>. Make sure to read the respective engine documentations to achieve best parameter settings.</p>
+<p>See also <a href="sim/property_joint_dynamics_ctrlMode.htm">joint.dynamics.ctrlMode</a>. In addition to above settings, joints have specific parameters related to each physics engine that can be adjusted with <strong>Engine properties</strong> or via <a href="apiFunctions.htm#methodsAndProperties_joint">joint-related methods and properties</a>. Make sure to read the respective engine documentations to achieve best parameter settings.</p>
 
 <br>
 <br>
