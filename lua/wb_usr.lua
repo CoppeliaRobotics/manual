@@ -872,10 +872,6 @@ wb_usr.tree =
                     link="pluginTutorial.htm"
                 },
                 {
-                    name={en="Robot language interpreter integration tutorial"},
-                    link="robotLanguageIntegrationTutorial.htm"
-                },
-                {
                     name={en="ROS tutorials"},
                     link="rosTutorial.htm",
                     folder=

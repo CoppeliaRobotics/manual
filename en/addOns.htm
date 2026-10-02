@@ -36,7 +36,7 @@ def sysCall_init():
 
 def sysCall_addOnScriptSuspend():
     print(&quot;Ending... (triggered by the user)&quot;)
-    return {'cmd': 'cleanup'} # end this add-on. The cleanup section will be called
+    sim.self.reset() # end this add-on. The cleanup section will be called
 
 def sysCall_cleanup():
     print(&quot;Executing the clean-up section&quot;)</code>  
@@ -50,7 +50,7 @@ end
 
 function sysCall_addOnScriptSuspend()
     print(&quot;Ending... (triggered by the user)&quot;)
-    return {cmd='cleanup'} -- end this add-on. The cleanup section will be called
+    sim.self:reset() -- end this add-on. The cleanup section will be called
 end
 
 function sysCall_cleanup()
@@ -78,7 +78,7 @@ def sysCall_init():
 
 def sysCall_addOnScriptSuspend():
     print(&quot;Ending... (triggered by the user)&quot;)
-    return {'cmd': 'cleanup'} # end this add-on.</code>
+    sim.self.reset() # end this add-on. The cleanup section will be called
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 sim = require('sim-2')
@@ -93,7 +93,7 @@ end
 
 function sysCall_addOnScriptSuspend()
     print(&quot;Ending... (triggered by the user)&quot;)
-    return {cmd = 'cleanup'} -- end this add-on.
+    sim.self:reset() -- end this add-on. The cleanup section will be called
 end</code>
 </div>
 
@@ -151,7 +151,7 @@ end
 def sysCall_init():
     print(&quot;Executing the initialization section. Start triggered by the user&quot;)
     # execute some functions here, e.g. import something
-    return {'cmd': 'cleanup'} # end this add-on.</code>
+    sim.self.reset() # end this add-on.</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 sim = require('sim-2')
@@ -163,7 +163,7 @@ end
 function sysCall_init()
     print(&quot;Executing the initialization section. Start triggered by the user&quot;)
     -- execute some functions here, e.g. import something
-    return {cmd = 'cleanup'} -- end this add-on.
+    sim.self:reset() -- end this add-on.
 end</code>
 
 </div>

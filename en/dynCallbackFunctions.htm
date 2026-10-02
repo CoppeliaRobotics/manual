@@ -25,26 +25,6 @@
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_dyn(inData):
-    # This function gets called often, so it might slow down the simulation
-    # This is called twice at each dynamic simulation step, by default 20x more often than a simulation script
-    # We have:
-    # inData["passCnt"] : the current dynamics calculation pass. 1-10 by default. See next item for details.
-    # inData["totalPasses"] : the number of dynamics calculation passes for each "regular" simulation pass.
-    #                        10 by default (i.e. 10*5ms=50ms which is the default simulation time step)
-    # inData["dt"] : the step size used for the dynamics calculations (by default 5ms)
-    # inData["afterStep"] : false when called before, and true after a dynamics step was computed.
-
-    txt = " the {}th dynamics calculation step (out of {} steps)".format(inData["passCnt"], inData["totalPasses"])
-    if inData["afterStep"]:
-        txt = "After" + txt
-    else:
-        txt = "Before" + txt
-    print(txt)
-</code>
-
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_dyn(inData)

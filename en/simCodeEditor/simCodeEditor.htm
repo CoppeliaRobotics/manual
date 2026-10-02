@@ -25,8 +25,255 @@ table { margin-left: 3em; margin-right: 3em; }
 <div align="center"><table class="allEncompassingTable">
 <tr><td id="title" class="section"><h1>simCodeEditor Plugin API reference</h1></td></tr>
 <tr><td id="info" class="section"><!--###PLUGIN_DOC###--></td></tr>
-<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"></pre></td></tr>
-<tr><td id="commands" class="section"></td></tr>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#close">simCodeEditor.close</a>
+<a href="?#getText">simCodeEditor.getText</a>
+<a href="?#open">simCodeEditor.open</a>
+<a href="?#openFile">simCodeEditor.openFile</a>
+<a href="?#openModal">simCodeEditor.openModal</a>
+<a href="?#setText">simCodeEditor.setText</a>
+<a href="?#show">simCodeEditor.show</a>
+</pre></td></tr>
+<tr><td id="commands" class="section">
+<h3 class="subsectionBar">
+<a name="close" id="close"></a>simCodeEditor.close</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Close a code editor window.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int[] positionAndSize = simCodeEditor.close(int handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (int): handle to the code editor window</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>positionAndSize</strong> (table of int): position and size of the editor window</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list positionAndSize = simCodeEditor.close(int handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="getText" id="getText"></a>simCodeEditor.getText</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Get the text of a code editor window.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string text, int[] positionAndSize = simCodeEditor.getText(int handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (int): handle to the code editor window</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>text</strong> (string): current text</div>
+<div>
+<strong>positionAndSize</strong> (table of int): position and size of the editor window</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string text, list positionAndSize = simCodeEditor.getText(int handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="open" id="open"></a>simCodeEditor.open</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Open a new code editor window.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int handle = simCodeEditor.open(string initText, string properties="")<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>initText</strong> (string): initial text</div>
+<div>
+<strong>properties</strong> (string, default: ""): properties XML string</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (int): handle to the code editor window</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int handle = simCodeEditor.open(string initText, string properties="")<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="openFile" id="openFile"></a>simCodeEditor.openFile</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Open a new code editor window editing an external file.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">int handle = simCodeEditor.openFile(string filePath, string properties="")<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>filePath</strong> (string): path of the external file</div>
+<div>
+<strong>properties</strong> (string, default: ""): properties XML string</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet"><div>
+<strong>handle</strong> (int): handle to the code editor window</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">int handle = simCodeEditor.openFile(string filePath, string properties="")<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="openModal" id="openModal"></a>simCodeEditor.openModal</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Open a new code editor window, in "speaicl modal" mode (blocks until dialog closed).</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string text, int[] positionAndSize = simCodeEditor.openModal(string initText, string properties="")<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>initText</strong> (string): initial text</div>
+<div>
+<strong>properties</strong> (string, default: ""): properties XML string</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>text</strong> (string): final text</div>
+<div>
+<strong>positionAndSize</strong> (table of int): position and size of the editor window</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">string text, list positionAndSize = simCodeEditor.openModal(string initText, string properties="")<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="setText" id="setText"></a>simCodeEditor.setText</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Set the text of a code editor window.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simCodeEditor.setText(int handle, string text, int insertMode=0)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (int): handle to the code editor window</div>
+<div>
+<strong>text</strong> (string): new text</div>
+<div>
+<strong>insertMode</strong> (int, default: 0): insert mode</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simCodeEditor.setText(int handle, string text, int insertMode=0)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="show" id="show"></a>simCodeEditor.show</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Show or hide a code editor window.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simCodeEditor.show(int handle, int showState)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (int): handle to the code editor window</div>
+<div>
+<strong>showState</strong> (int): </div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simCodeEditor.show(int handle, int showState)<br>
+</td>
+</tr>
+</table>
+<br>
+</td></tr>
 <tr><td id="enums" class="section"></td></tr>
 <tr><td id="structs" class="section"></td></tr>
 <tr><td id="scriptFunctions" class="section"></td></tr>

@@ -19,14 +19,14 @@
 
 <h1>Data visualization/output</h1>
 
-<p>Data in CoppeliaSim can be visualized or output/logged in various ways:</p>
+<p>Data in can be visualized or output/logged in various ways:</p>
 
 <li><a href="externalFrontEnd.htm">web-browser based front-end</a></li>
 <li>visualizing data in <a href="graphs.htm">graphs</a></li>
 <li>displaying data in <a href="customUIPlugin.htm">custom user interfaces</a></li>
 <li><a name="augmentingScene"></a><a href="markers.htm">augmenting the scene with visual items</a></li>
 <li>logging data to the status bar via the simple <em>print</em> command</li>
-<li>logging data to the status bar and/or terminal via the <a href="sim/simAddLog.htm">sim.addLog</a> API function</li>
+<li>logging data to the status bar and/or terminal via <a href="sim/app_logInfo.htm">sim.app:logInfo</a>, <a href="sim/app_logWarn.htm">sim.app:logWarn</a> and <a href="sim/app_logError.htm">sim.app:logError</a></li>
 <li><a href="#loggingToFile">logging data to a file</a></li>
 <li><a href="#auxConsoles">printing text in a console</a></li>
 <li><a href="#textEditors">text editing</a></li>
@@ -38,13 +38,13 @@
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 import math
 
 def sysCall_init():
-    sim = require('sim')
     simUI = require('simUI')
-    self.jointHandle = sim.getObject('/Joint')
+    self.joint = sim.self:getObject('/Joint')
     xml = """
         &lt;ui title=&quot;Example&quot; closeable=&quot;false&quot; layout=&quot;form&quot;&gt;
             &lt;label text=&quot;joint angle:&quot; /&gt;
@@ -54,7 +54,7 @@ def sysCall_init():
     self.ui = simUI.create(xml)
 
 def sysCall_sensing():
-    v = 180 * sim.getJointPosition(self.jointHandle) / math.pi
+    v = 180 * self.joint.joint.position / math.pi
     simUI.setLabelText(self.ui, "1", '{:.3f}'.format(v))
 
 def sysCall_cleanup():
@@ -63,9 +63,9 @@ def sysCall_cleanup():
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
+    sim = require('sim-2')
     simUI = require('simUI')
-    jointHandle = sim.getObject('/Joint')
+    joint = sim.self:getObject('/Joint')
     local xml =[[&lt;ui title=&quot;Example&quot; closeable=&quot;false&quot; layout=&quot;form&quot;&gt;
         &lt;label text=&quot;joint angle:&quot; /&gt;
         &lt;label id=&quot;1&quot; text=&quot;-&quot; /&gt;
@@ -74,7 +74,7 @@ function sysCall_init()
 end
 
 function sysCall_sensing()
-    local v = 180 * sim.getJointPosition(jointHandle) / math.pi
+    local v = 180 * joint.joint.position / math.pi
     simUI.setLabelText(ui, 1, string.format('%.3f', v))
 end
 
@@ -84,45 +84,30 @@ end</code>
 
 </div> 
 
-<p>More complex items, such as random meshes can be created on the fly via <a href="sim/simLoadModel.htm">sim.loadModel</a>, <a href="simAssimp/simAssimp.htm">simAssimp.importShapes</a>, <a href="sim/simCreatePrimitiveShape.htm">sim.createPrimitiveShape</a>, <a href="sim/simCreateShape.htm">sim.createShape</a> and/or <a href="sim/simCopyPasteObjects.htm">sim.copyPasteObjects</a>. To avoid surcharching the scene with too many additional objects, make sure to group them with <a href="sim/simGroupShapes.htm">sim.groupShapes</a>. For example:</p>
+<p>More complex items, such as random meshes can be created on the fly via <a href="sim/scene_loadModel.htm">sim.scene:loadModel</a>, <a href="sim/scene_createObject.htm">sim.scene:createObject</a> and/or <a href="sim/scene_duplicateObjects.htm">sim.scene:duplicateObjects</a>. To avoid surcharching the scene with too many additional objects, make sure to group shapes with <a href="sim/scene_groupShapes.htm">sim.scene:groupShapes</a> or <a href="sim/scene_mergeShapes.htm">sim.scene:mergeShapes</a>. For example:</p>
   
 <div class=multi-language-switcher data-default="lua">
-
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-import math
-
-def sysCall_init():
-    sim = require('sim')
-    individualShapes = []
-    for i in range(360):
-        shape = sim.createPrimitiveShape(sim.primitiveshape_cylinder, [0.005, 0.005, 0.02])
-        coord = [math.cos(math.radians(i)), math.sin(math.radians(i)), 0.01]
-        sim.setObjectPosition(shape, coord)
-        sim.setShapeColor(shape, None, sim.colorcomponent_ambient_diffuse, [1, 0, 0])
-        individualShapes.append(shape)
-    
-    # Group individual shapes:
-    masterShape = sim.groupShapes(individualShapes, True)
-    # Make it invisible to collision detection, sensors, etc.:
-    sim.setObjectSpecialProperty(masterShape, 0)</code>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
+    sim = require('sim-2')
     local individualShapes = {}
     for i = 0, 359, 1 do
-        local shape = sim.createPrimitiveShape(sim.primitiveshape_cylinder, {0.005, 0.005, 0.02})
-        local coord = {math.cos(i * math.pi / 180), math.sin(i * math.pi / 180), 0.01}
-        sim.setObjectPosition(shape, coord)
-        sim.setShapeColor(shape, nil, sim.colorcomponent_ambient_diffuse, {1, 0, 0})
+        local shape = sim.scene:createObject({type = 'shape',
+                      ['color.diffuse'] = Color('red'), 
+                      cylinder = {radius = 0.0025, length = 0.02}})
+        local coord = {math.cos(i * math.pi / 180),
+                       math.sin(i * math.pi / 180), 0.01}
+        shape.worldPosition = coord
         individualShapes[i + 1] = shape
     end
-    -- Group individual shapes:
-    local masterShape = sim.groupShapes(individualShapes, true)
+    -- Merge the shapes:
+    local masterShape = sim.scene:mergeShapes(individualShapes)
     -- Make it invisible to collision detection, sensors, etc.:
-    sim.setObjectSpecialProperty(masterShape, 0)
+    masterShape.collidable = false
+    masterShape.measurable = false
+    masterShape.detectable = false
 end</code>  
 
 </div>  
@@ -136,18 +121,18 @@ end</code>
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-python coppelia-coppeliasim-script">#python
+# using sim-2
 
 import math
 
 def sysCall_init():
-    sim = require('sim')
-    self.jointHandle = sim.getObject('/Joint')
+    self.joint = sim.self.getObject('/Joint')
     self.file = open('jointAngles.txt', 'w+')
     self.file.write('Joint angles for each simulation step:\n\n')
 
 def sysCall_sensing():
-    v = 180 * sim.getJointPosition(self.jointHandle) / math.pi
-    self.file.write('time: {:.3f} [s]'.format(sim.getSimulationTime() + sim.getSimulationTimeStep()))
+    v = 180 * self.joint.joint.position / math.pi
+    self.file.write('time: {:.3f} [s]'.format(sim.scene.simulation.time + sim.scene.simulation.timeStep))
     self.file.write(', joint angle: {:.1f} [deg]\n'.format(v))
 
 def sysCall_cleanup():
@@ -156,15 +141,15 @@ def sysCall_cleanup():
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_init()
-    sim = require('sim')
-    jointHandle = sim.getObject('/Joint')
+    sim = require('sim-2')
+    joint = sim.self:getObject('/Joint')
     file = io.open('jointAngles.txt', 'w+')
     file:write('Joint angles for each simulation step:\n\n')
 end
 
 function sysCall_sensing()
-    local v = 180 * sim.getJointPosition(jointHandle) / math.pi
-    file:write(string.format('time: %.3f [s]', sim.getSimulationTime() + sim.getSimulationTimeStep()))
+    local v = 180 * joint.joint.position / math.pi
+    file:write(string.format('time: %.3f [s]', sim.scene.simulation.time + sim.scene.simulation.timeStep))
     file:write(string.format(', joint angle: %.1f [deg]\n', v))
 end
 
@@ -182,32 +167,23 @@ end</code>
   
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_init():
-    sim = require('sim')
-
-    consoleHandle = sim.auxiliaryConsoleOpen('My console')
-    sim.auxiliaryConsolePrint(consoleHandle, 'Hello\nfrom my new\nconsole, ')
-    # sim.auxiliaryConsolePrint(consoleHandle, '') # clear the console
-    sim.auxiliaryConsolePrint(consoleHandle, 'Some more text')
-
-def sysCall_cleanup():
-    sim.auxiliaryConsoleClose(consoleHandle)</code>
-
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim = require('sim')
-
 function sysCall_init()
-    consoleHandle = sim.auxiliaryConsoleOpen('My console')
-    sim.auxiliaryConsolePrint(consoleHandle, 'Hello\nfrom my new\nconsole, ')
-    -- sim.auxiliaryConsolePrint(consoleHandle, '') -- clear the console
-    sim.auxiliaryConsolePrint(consoleHandle, 'Some more text')
+    sim = require('sim-2')
+    console = sim.app:createObject({type = 'console'})
+end
+
+function sysCall_sensing()
+    if console:isValid() then
+        console:print('sim. time: ' .. sim.scene.simulation.time .. '\n')
+    end
 end
 
 function sysCall_cleanup()
-    sim.auxiliaryConsoleClose(consoleHandle)
+    if console:isValid() then
+        console:remove()
+    end
 end</code>
 
 </div>  
@@ -220,43 +196,18 @@ end</code>
   
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def onCloseButtonPressed(a, b, c):
-    text = sim.textEditorClose(self.textEditorHandle)
-    print(text)
-
-
-def sysCall_init():
-    sim = require('sim')
-
-    prop = """&lt;editor
-    title="Window title" editable="true" searchable="true"
-    tab-width="4" toolbar="false" statusbar="false" resizable="true" modal="false"
-    on-close="onCloseButtonPressed" closeable="true" position="100 100" size="800 600"
-    placement="absolute" font="Courier" font-size="14" activate="false" editable="true"
-    line-numbers="true" max-lines="0" lang="lua" wrap-word="false"
-    text-col="50 50 50" background-col="190 190 190" selectionColor="128 128 255"/&gt;"""
-    self.textEditorHandle = sim.textEditorOpen("Hello", prop)</code>
-
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim = require('sim')
-
-function onCloseButtonPressed()
-    local text = sim.textEditorClose(textEditorHandle)
-    print(text)
+function sysCall_init()
+    sim = require('sim-2')
+    editor = sim.app:createObject({type = 'textEditor'})
 end
 
-function sysCall_init()
-    local prop = [[&lt;editor
-    title="Window title" editable="true" searchable="true"
-    tab-width="4" toolbar="false" statusbar="false" resizable="true" modal="false"
-    on-close="onCloseButtonPressed" closeable="true" position="100 100" size="800 600"
-    placement="absolute" font="Courier" font-size="14" activate="false" editable="true"
-    line-numbers="true" max-lines="0" lang="lua" wrap-word="false"
-    text-col="50 50 50" background-col="190 190 190" selectionColor="128 128 255"/&gt;]]
-    textEditorHandle = sim.textEditorOpen("Hello", prop)
+function sysCall_cleanup()
+    if editor:isValid() then
+        print(editor.text)
+        editor:remove()
+    end
 end</code>
 
 </div>  

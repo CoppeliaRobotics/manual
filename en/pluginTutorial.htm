@@ -188,38 +188,23 @@
 
 <div class=multi-language-switcher data-default="lua">
 
-<code class="hljs language-python coppelia-coppeliasim-script">#python
-
-def sysCall_thread():
-    sim = require('sim')
-    simBubble = require('simBubble')
-    jointHandles = [sim.getObject('../leftMotor'), sim.getObject('../rightMotor')]
-    sensorHandle = sim.getObject('../sensingNose')
-    robHandle = simBubble.create(jointHandles, sensorHandle, [0.5, 0.25])
-    if robHandle &gt;= 0:
-        simBubble.start(robHandle) # start the robot
-        local st = sim.getSimulationTime()
-        sim.wait(20) # run for 20 seconds
-        simBubble.stop(robHandle)
-        simBubble.destroy(robHandle)</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
 function sysCall_thread()
-    sim = require('sim')
+    sim = require('sim-2')
     simBubble = require('simBubble')
-    local jointHandles = {sim.getObject('../leftMotor'), sim.getObject('../rightMotor')}
-    local sensorHandle = sim.getObject('../sensingNose')
-    local robHandle = simBubble.create(jointHandles, sensorHandle, {0.5, 0.25})
+    local joints = {sim.self:getObject('../leftMotor'), sim.self:getObject('../rightMotor')}
+    local sensor = sim.self:getObject('../sensingNose')
+    local robHandle = simBubble.create({joints[1].handle, joints[2].handle}, sensor.handle, {0.5, 0.25})
     if robHandle &gt;= 0 then
         simBubble.start(robHandle) -- start the robot
-        local st = sim.getSimulationTime()
-        sim.wait(20) -- run for 20 seconds
+        sim.self:wait(20) -- run for 20 seconds
         simBubble.stop(robHandle)
         simBubble.destroy(robHandle)
     end
 end</code>
 </div>
-<p>After loading the required module, joint and sensor handles are retrieved and given to the custom script function that creates a controller instance of our BubbleRob in the plugin. If the call was successfull, then we can call <em>simBubble.start</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles. Run the simulation: BubbleRob moves for 20 seconds then stops, as expected.<br>
+<p>After loading the required module, joints and the sensor objects are retrieved and given to the custom script function that creates a controller instance of our BubbleRob in the plugin. If the call was successfull, we can call <em>simBubble.start</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles. Run the simulation: BubbleRob moves for 20 seconds then stops, as expected.<br>
 </p>
 
 <p>Let's have a look at how the plugin registers and handles the above 4 custom Lua functions. Open the <a href="https://github.com/CoppeliaRobotics/simBubble" target="_blank">simBubble plugin project</a>, and have a look at file <em>simBubble.cpp</em>:</p>
@@ -227,7 +212,7 @@ end</code>
 <p>Notice the 3 plugin entry points: <em>simInit</em>, <em>simCleanup</em>, and <em>simMsg</em>: <em>simInit</em> is called once when the plugin is loaded (initialization), <em>simCleanup</em> is called once when the plugin is unloaded (clean-up), and <em>simMsg</em> is called on a regular basis with several type of messages.</p>
 
 <p>During the initialization phase, the plugin loads the CoppeliaSim library (in order to have access to all CoppeliaSim's API functions), then registers the 4 custom script functions. A custom script function is registered by specifying a function name (without prefix/namespace), and a callback address.</p>
-<p>When a script calls the specified function name, then CoppeliaSim calls the callback address. The most difficult task inside of a callback function is to correctly read the input arguments, and correctly write the output values. This happens via a stack. The user have two options to interact with the stack:</p>
+<p>When a script calls the specified function name, then CoppeliaSim calls the callback address. The most difficult task inside of a callback function is to correctly read the input arguments, and correctly write the output values. This happens via a stack. The user has two options to interact with the stack:</p>
 <li>the easiest is to use two helper classes (<em>CScriptFunctionData</em> and <em>CScriptFunctionDataItem</em>, located in <em>programming/</em><em>include/simLib</em>). This however only allows to exchange simple data types (i.e. Booleans, integers, floating point numbers, strings and arrays of any of those)</li>
 <li>the more flexible way, allowing to exchange any type of data, is to use stack functions (located in <em>programming/include/simStack</em>): the plugin <a href="https://github.com/CoppeliaRobotics/simSkeleton">simSkeleton</a> illustrates this.</li>
 <p>In general, callback routines should execute as fast as possible, and control should then be given back to CoppeliaSim, otherwise the whole simulator will halt.</p>
