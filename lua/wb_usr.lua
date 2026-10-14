@@ -120,10 +120,6 @@ wb_usr.tree =
                     name={en="Environment dialog"},
                     link="environmentPropertiesDialog.htm"
                 },
-                {
-                    name={en="Texture dialog"},
-                    link="textureDialog.htm"
-                },
             }
         },
         {
@@ -213,6 +209,10 @@ wb_usr.tree =
                                 {
                                     name={en="Shape geometry dialog"},
                                     link="geometryDialog.htm"
+                                },
+                                {
+                                    name={en="Shape texture dialog"},
+                                    link="textureDialog.htm"
                                 },
                             }
                         },
