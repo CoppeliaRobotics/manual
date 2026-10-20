@@ -37,20 +37,20 @@ categories = [
     {'cat': 'mesh',                     'obj': True,    'txt': 'mesh',                                              'page': 'geometryDialog.htm',                               'oldRefs': []},
     {'cat': 'textureData',              'obj': False,   'txt': 'textureData',                                       'page': 'textureDialog.htm',                                'oldRefs': ['textures']},
     {'cat': 'sceneObject',              'obj': True,    'txt': 'sceneObject',                                       'page': 'objects.htm',                                      'oldRefs': ['sceneObjectFunctionality']},
-    {'cat': 'shape',                    'obj': True,    'txt': 'sceneObject.shape',                                 'page': 'shapes.htm',                                       'oldRefs': ['shapeObject']},
-    {'cat': 'joint',                    'obj': True,    'txt': 'sceneObject.joint',                                             'page': 'joints.htm',                                       'oldRefs': ['jointObject']},
-    {'cat': 'dummy',                    'obj': True,    'txt': 'sceneObject.dummy',                                             'page': 'dummies.htm',                                      'oldRefs': ['dummyObject']},
-    {'cat': 'marker',                   'obj': True,    'txt': 'sceneObject.marker',                                            'page': 'markers.htm',                                      'oldRefs': []},
-    {'cat': 'scriptObject',             'obj': True,    'txt': 'sceneObject.scriptObject',                                      'page': 'scriptObjects.htm',                                'oldRefs': ['scriptObject']},
-    {'cat': 'camera',                   'obj': True,    'txt': 'sceneObject.camera',                                            'page': 'cameras.htm',                                      'oldRefs': ['cameraObject']},
-    {'cat': 'light',                    'obj': True,    'txt': 'sceneObject.light',                                             'page': 'lights.htm',                                       'oldRefs': ['lightObject']},
-    {'cat': 'graph',                    'obj': True,    'txt': 'sceneObject.graph',                                             'page': 'graphs.htm',                                       'oldRefs': ['graphs']},
-    {'cat': 'proximitySensor',          'obj': True,    'txt': 'sceneObject.proximitySensor',                                   'page': 'proximitySensors.htm',                             'oldRefs': []},
-    {'cat': 'visionSensor',             'obj': True,    'txt': 'sceneObject.visionSensor',                                      'page': 'visionSensors.htm',                                'oldRefs': []},
-    {'cat': 'forceSensor',              'obj': True,    'txt': 'sceneObject.forceSensor',                                       'page': 'forceSensors.htm',                                 'oldRefs': []},
-    {'cat': 'pointCloud',               'obj': True,    'txt': 'sceneObject.pointCloud',                                        'page': 'pointClouds.htm',                                  'oldRefs': []},
-    {'cat': 'ocTree',                   'obj': True,    'txt': 'sceneObject.ocTree',                                            'page': 'octrees.htm',                                      'oldRefs': ['octree']},
-    {'cat': 'customSceneObject',        'obj': True,    'txt': 'sceneObject.customSceneObject',                                 'page': 'customSceneObjects.htm',                           'oldRefs': []},
+    {'cat': 'shape',                    'obj': True,    'txt': 'shape',                                             'page': 'shapes.htm',                                       'oldRefs': ['shapeObject']},
+    {'cat': 'joint',                    'obj': True,    'txt': 'joint',                                             'page': 'joints.htm',                                       'oldRefs': ['jointObject']},
+    {'cat': 'dummy',                    'obj': True,    'txt': 'dummy',                                             'page': 'dummies.htm',                                      'oldRefs': ['dummyObject']},
+    {'cat': 'marker',                   'obj': True,    'txt': 'marker',                                            'page': 'markers.htm',                                      'oldRefs': []},
+    {'cat': 'scriptObject',             'obj': True,    'txt': 'scriptObject',                                      'page': 'scriptObjects.htm',                                'oldRefs': ['scriptObject']},
+    {'cat': 'camera',                   'obj': True,    'txt': 'camera',                                            'page': 'cameras.htm',                                      'oldRefs': ['cameraObject']},
+    {'cat': 'light',                    'obj': True,    'txt': 'light',                                             'page': 'lights.htm',                                       'oldRefs': ['lightObject']},
+    {'cat': 'graph',                    'obj': True,    'txt': 'graph',                                             'page': 'graphs.htm',                                       'oldRefs': ['graphs']},
+    {'cat': 'proximitySensor',          'obj': True,    'txt': 'proximitySensor',                                   'page': 'proximitySensors.htm',                             'oldRefs': []},
+    {'cat': 'visionSensor',             'obj': True,    'txt': 'visionSensor',                                      'page': 'visionSensors.htm',                                'oldRefs': []},
+    {'cat': 'forceSensor',              'obj': True,    'txt': 'forceSensor',                                       'page': 'forceSensors.htm',                                 'oldRefs': []},
+    {'cat': 'pointCloud',               'obj': True,    'txt': 'pointCloud',                                        'page': 'pointClouds.htm',                                  'oldRefs': []},
+    {'cat': 'ocTree',                   'obj': True,    'txt': 'ocTree',                                            'page': 'octrees.htm',                                      'oldRefs': ['octree']},
+    {'cat': 'customSceneObject',        'obj': True,    'txt': 'customSceneObject',                                 'page': 'customSceneObjects.htm',                           'oldRefs': []},
     {'cat': 'Path',                     'obj': False,   'txt': 'Path',                                              'page': 'paths.htm',                                        'oldRefs': ['paths']},
     {'cat': 'file',                     'obj': False,   'txt': 'File operations',                                   'page': '',                                                 'oldRefs': ['fileOperations']},
     {'cat': 'main',                     'obj': False,   'txt': 'General functionality handling',                    'page': '',                                                 'oldRefs': ['mainFunctionalityHandling']},
@@ -74,16 +74,16 @@ categories = [
     {'cat': 'textEditor',               'obj': False,   'txt': 'textEditor',                                        'page': 'dataVisualizationAndOutput.htm#textEditors',       'oldRefs': ['textEditors']},
     {'cat': 'importExport',             'obj': False,   'txt': 'Import/export',                                     'page': 'importExport.htm',                                 'oldRefs': ['importExportFunctions']},
     {'cat': 'Motion',                   'obj': False,   'txt': 'Motion functionality',                              'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'MoveToConfig',             'obj': False,   'txt': 'Motion.MoveToConfig',                               'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'MoveToPose',               'obj': False,   'txt': 'Motion.MoveToPose',                                 'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'TimeOptimalTrajectory',    'obj': False,   'txt': 'Motion.TimeOptimalTrajectory',                      'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'RuckigPosition',           'obj': False,   'txt': 'Motion.RuckigPosition',                             'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
-    {'cat': 'RuckigVelocity',           'obj': False,   'txt': 'Motion.RuckigVelocity',                             'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'MoveToConfig',             'obj': False,   'txt': 'MoveToConfig',                                      'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'MoveToPose',               'obj': False,   'txt': 'MoveToPose',                                        'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'TimeOptimalTrajectory',    'obj': False,   'txt': 'TimeOptimalTrajectory',                             'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'RuckigPosition',           'obj': False,   'txt': 'RuckigPosition',                                    'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
+    {'cat': 'RuckigVelocity',           'obj': False,   'txt': 'RuckigVelocity',                                    'page': '',                                                 'oldRefs': ['rml', 'ruckig']},
     {'cat': 'packing',                  'obj': False,   'txt': 'Packing/unpacking',                                 'page': '',                                                 'oldRefs': []},
     {'cat': 'stack',                    'obj': False,   'txt': 'Stacks',                                            'page': '',                                                 'oldRefs': ['stacks']},
-    {'cat': 'IK',                       'obj': False,   'txt': 'Kinematics',                                        'page': 'kinematics.htm',                                   'oldRefs': []},
+    {'cat': 'IK',                       'obj': False,   'txt': 'IK',                                                'page': 'kinematics.htm',                                   'oldRefs': []},
     {'cat': 'IKObject',                 'obj': False,   'txt': 'IKObject',                                          'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
-    {'cat': 'IKJoint',                  'obj': False,   'txt': 'IKObject.IKjoint',                                  'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
+    {'cat': 'IKJoint',                  'obj': False,   'txt': 'IKjoint',                                           'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
     {'cat': 'IKGroup',                  'obj': False,   'txt': 'IKGroup',                                           'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
     {'cat': 'IKElement',                'obj': False,   'txt': 'IKElement',                                         'page': 'solvingIkAndFk.htm',                               'oldRefs': []},
     {'cat': 'other',                    'obj': False,   'txt': 'Other',                                             'page': '',                                                 'oldRefs': []},
@@ -478,7 +478,7 @@ def prepare_synopsis(func_name, input_params, output_params, lang, module = None
     # Combine everything
     synopsis = f"{output_part}{func_name}({input_part})"
     if module != None:
-        synopsis = module + " = require('" + module + "')\n" + synopsis
+        synopsis = module.partition('-')[0] + " = require('" + module + "')\n" + synopsis
 
     return synopsis
 
@@ -1036,11 +1036,12 @@ def main():
                 cnt += 1
             else:
                 obj_name = item.get('name').strip()
-                namespace = item.get('singleton')
-                if namespace != None and len(namespace) > 0:
-                    namespace = namespace.strip().split('.')[0] + '.'
-                else:
-                    namespace = ''
+                #namespace = item.get('singleton')
+                #if namespace != None and len(namespace) > 0:
+                #    namespace = namespace.strip().split('.')[0] + '.'
+                #else:
+                #    namespace = ''
+                namespace = ''
                 superclass = item.get('superclass').strip()
                 for subItem in item.findall(docItemType):
                     handleFunctionsMethodsOrProperties(docItem, subItem, obj_name, superclass, namespace, templateFile)
