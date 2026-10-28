@@ -84,6 +84,7 @@
 <a href=sim/app_serialize.htm>app:serialize</a>     Serializes data using CBOR format
 <a href=sim/app_setPluginInfo.htm>app:setPluginInfo</a>     Modifies information of a loaded plugin
 <a href=sim/app_systemLock.htm>app:systemLock</a>     Acquires/releases a system-wide semaphore
+<a href=sim/app_test.htm>app:test</a>     Test method
 <a href=sim/app_transformBuffer.htm>app:transformBuffer</a>     Modifies a buffer (format, scale, offset)
 <a href=sim/app_transformImage.htm>app:transformImage</a>     Transforms an image (scaling, flipping)
 <a href=sim/app_unpack.htm>app:unpack</a>     Unpacks data using CoppeliaSim format
@@ -146,13 +147,12 @@
 <a href=sim/property_app_productVersion.htm>app.productVersion</a>     Product string
 <a href=sim/property_app_productVersionNb.htm>app.productVersionNb</a>     Product
 <a href=sim/property_app_protocolVersion.htm>app.protocolVersion</a>     Protocol
-<a href=sim/property_app_pySandbox.htm>app.pySandbox</a>     Python sandbox
 <a href=sim/property_app_qtVersion.htm>app.qtVersion</a>     Qt
 <a href=sim/property_app_randomFloat.htm>app.randomFloat</a>     Random number
 <a href=sim/property_app_randomQuaternion.htm>app.randomQuaternion</a>     Random quaternion
 <a href=sim/property_app_randomString.htm>app.randomString</a>     Random string
-<a href=sim/property_app_sandbox.htm>app.sandbox</a>     Lua sandbox
-<a href=sim/property_app_sandboxLang.htm>app.sandboxLang</a>     Sandbox language
+<a href=sim/property_app_sandboxLua.htm>app.sandboxLua</a>     Lua sandbox
+<a href=sim/property_app_sandboxPython.htm>app.sandboxPython</a>     Python sandbox
 <a href=sim/property_app_sessionId.htm>app.sessionId</a>     Session ID
 <a href=sim/property_app_startupCode.htm>app.startupCode</a>     Start-up code
 <a href=sim/property_app_statusbarVerbosity.htm>app.statusbarVerbosity</a>     Statusbar verbosity
@@ -320,7 +320,8 @@
 <a href=sim/property_collection_objects.htm>collection.objects</a>     Children
 <a href=sim/property_sceneObject_collectionSelfCollisionIndicator.htm>sceneObject.collectionSelfCollisionIndicator</a>     Collection self-collision indicator</code><br><h2><a name=methodsAndProperties_customObject></a><div style="display: flex; justify-content: space-between;"><span><a href=customObjects.htm>customObject</a></span><span>(methods & properties)</span></div></h2><code class="language-python-lua coppelia-coppeliasim-script api-list"><a href=sim/customObject_makeObject.htm>customObject:makeObject</a>     Instantiates a custom object from a class
 <a href=sim/customObject_remove.htm>customObject:remove</a>     Removes the custom scene object</code><br><h2><a name=methodsAndProperties_script></a><div style="display: flex; justify-content: space-between;"><span><a href=scripts.htm>script</a></span><span>(methods & properties)</span></div></h2><code class="language-python-lua coppelia-coppeliasim-script api-list"><a href=sim/script_broadcast.htm>script:broadcast</a>     Broadcasts a message to all other scripts
-<a href=sim/script_callFunction.htm>script:callFunction</a>     Calls a script function
+<a href=sim/script_callFunction.htm>script:callFunction</a>     Calls a function
+<a href=sim/script_callMethod.htm>script:callMethod</a>     Calls a method
 <a href=sim/script_cancelScheduledExecution.htm>script:cancelScheduledExecution</a>     Cancels a scheduled function execution
 <a href=sim/script_executeString.htm>script:executeString</a>     Executes code from a string
 <a href=sim/script_getFunctions.htm>script:getFunctions</a>     Retrieves callable functions of the script
@@ -349,8 +350,8 @@
 <a href=sim/app_removeObjects.htm>app:removeObjects</a>     Removes one or several objects
 <a href=sim/scene_createObject.htm>scene:createObject</a>     Creates various objects (collections, scripts, sensors, etc.)
 <a href=sim/scene_removeObjects.htm>scene:removeObjects</a>     Removes one or several objects
-<a href=sim/property_app_pySandbox.htm>app.pySandbox</a>     Python sandbox
-<a href=sim/property_app_sandbox.htm>app.sandbox</a>     Lua sandbox
+<a href=sim/property_app_sandboxLua.htm>app.sandboxLua</a>     Lua sandbox
+<a href=sim/property_app_sandboxPython.htm>app.sandboxPython</a>     Python sandbox
 <a href=sim/property_scene_mainScript.htm>scene.mainScript</a>     Main script
 <a href=sim/property_script_addOnMenuPath.htm>script.addOnMenuPath</a>     Add-on menu path
 <a href=sim/property_script_addOnPath.htm>script.addOnPath</a>     Add-on path
@@ -813,7 +814,8 @@
 <a href=sim/property_marker_sizes.htm>marker.sizes</a>     Sizes
 <a href=sim/property_marker_vertices.htm>marker.vertices</a>     Vertices</code><br><h2><a name=methodsAndProperties_scriptObject></a><a name=methodsAndProperties_scriptObject></a><div style="display: flex; justify-content: space-between;"><span><a href=scriptObjects.htm>scriptObject</a></span><span>(methods & properties)</span></div></h2><code class="language-python-lua coppelia-coppeliasim-script api-list"><a href=sim/app_createObject.htm>app:createObject</a>     Creates various objects (collections, scripts, sensors, etc.)
 <a href=sim/scene_createObject.htm>scene:createObject</a>     Creates various objects (collections, scripts, sensors, etc.)
-<a href=sim/script_callFunction.htm>script:callFunction</a>     Calls a script function
+<a href=sim/script_callFunction.htm>script:callFunction</a>     Calls a function
+<a href=sim/script_callMethod.htm>script:callMethod</a>     Calls a method
 <a href=sim/script_executeString.htm>script:executeString</a>     Executes code from a string
 <a href=sim/script_getFunctions.htm>script:getFunctions</a>     Retrieves callable functions of the script
 <a href=sim/script_getStackTraceback.htm>script:getStackTraceback</a>     Retrieves and clears the last stack traceback
@@ -1690,7 +1692,8 @@
 <a href=sim/scene_handleCustomizationScripts.htm>scene:handleCustomizationScripts</a>     Calls a system callback in customization scripts
 <a href=sim/scene_handleSimulationScripts.htm>scene:handleSimulationScripts</a>     Calls a system callback in simulation scripts
 <a href=sim/script_broadcast.htm>script:broadcast</a>     Broadcasts a message to all other scripts
-<a href=sim/script_callFunction.htm>script:callFunction</a>     Calls a script function
+<a href=sim/script_callFunction.htm>script:callFunction</a>     Calls a function
+<a href=sim/script_callMethod.htm>script:callMethod</a>     Calls a method
 <a href=sim/script_cancelScheduledExecution.htm>script:cancelScheduledExecution</a>     Cancels a scheduled function execution
 <a href=sim/script_executeString.htm>script:executeString</a>     Executes code from a string
 <a href=sim/script_getFunctions.htm>script:getFunctions</a>     Retrieves callable functions of the script
@@ -1714,9 +1717,8 @@
 <a href=sim/property_app_execUnsafeExt.htm>app.execUnsafeExt</a>     Execute unsafe extended
 <a href=sim/property_app_paths_lua.htm>app.paths.lua</a>     Lua path
 <a href=sim/property_app_paths_python.htm>app.paths.python</a>     Python path
-<a href=sim/property_app_pySandbox.htm>app.pySandbox</a>     Python sandbox
-<a href=sim/property_app_sandbox.htm>app.sandbox</a>     Lua sandbox
-<a href=sim/property_app_sandboxLang.htm>app.sandboxLang</a>     Sandbox language
+<a href=sim/property_app_sandboxLua.htm>app.sandboxLua</a>     Lua sandbox
+<a href=sim/property_app_sandboxPython.htm>app.sandboxPython</a>     Python sandbox
 <a href=sim/property_app_startupCode.htm>app.startupCode</a>     Start-up code
 <a href=sim/property_proximitySensor_explicitHandling.htm>proximitySensor.explicitHandling</a>     Explicit handling
 <a href=sim/property_scene_mainScript.htm>scene.mainScript</a>     Main script
@@ -1848,7 +1850,8 @@
 <a href=sim/app_pushEvent.htm>app:pushEvent</a>     Pushes a user event for asynchronous reception
 <a href=sim/app_systemLock.htm>app:systemLock</a>     Acquires/releases a system-wide semaphore
 <a href=sim/script_broadcast.htm>script:broadcast</a>     Broadcasts a message to all other scripts
-<a href=sim/script_callFunction.htm>script:callFunction</a>     Calls a script function
+<a href=sim/script_callFunction.htm>script:callFunction</a>     Calls a function
+<a href=sim/script_callMethod.htm>script:callMethod</a>     Calls a method
 <a href=sim/script_executeString.htm>script:executeString</a>     Executes code from a string
 <a href=sim/script_getFunctions.htm>script:getFunctions</a>     Retrieves callable functions of the script
 <a href=sim/script_setEventFilters.htm>script:setEventFilters</a>     Specifies filters for the sysCall_event callback

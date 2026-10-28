@@ -163,6 +163,11 @@ def getTxt(node, n):
         #txt = ' '.join(txt.split()) # remove multiple successive spaces
         return txt
 
+def getEnum(node):
+    node = node.find('enum')
+    if node is not None:
+        return node.get('name', '')
+
 def parse_commandline_args():
     parser = argparse.ArgumentParser(description="Process XML input files.")
 
@@ -317,7 +322,7 @@ def transform_type_for_language(param_type, language):
             'any': 'any',
             'handle': 'sim.Object',
             'buffer': 'bytes',
-            'enum': 'int',
+            'enum': 'enum',
             'luaObject': 'luaObject',
         }
         for generic_type, lang_type in type_map.items():
@@ -350,7 +355,7 @@ def transform_type_for_language(param_type, language):
             'any': 'any',
             'handle': 'sim.Object',
             'buffer': 'buffer',
-            'enum': 'int',
+            'enum': 'enum',
             'luaObject': 'luaObject',
         }
         for generic_type, lang_type in type_map.items():
@@ -623,17 +628,13 @@ def main():
         if debug:
             print('class:', obj_name, ', func/method/property:', fmpNameRaw)
         docItemType = docItem['type']
-        propTypeRaw = ''
-        if docItemType == 'property':
-            propTypeRaw = fmpItem.get('type').strip()
-            if propTypeRaw == 'group':
-                return
-            propType = transformTypeValueForHyperlink(transform_type_for_language(propTypeRaw, 'lua'), propTypeRaw)
-        else:
-            lang = fmpItem.get('lang').strip()
         propFlagsStr = ''
+        enumType = None
         if docItemType == 'property':
             propFlags = getPropertyFlags(fmpItem)
+            enumType = getEnum(fmpItem)
+            if enumType:
+                enumType = 'sim.' + enumType
             if propFlags == []:
                 return # means deprecated
             html = '<ul>\n'
@@ -645,6 +646,16 @@ def main():
             html = html + '</ul>'
             propFlags = html
 
+        propTypeRaw = ''
+        if docItemType == 'property':
+            propTypeRaw = fmpItem.get('type').strip()
+            if propTypeRaw == 'group':
+                return
+            propType = transformTypeValueForHyperlink(transform_type_for_language(propTypeRaw, 'lua'), propTypeRaw)
+            if enumType != None:
+                propType = propType + ' (see <a href="../apiConstants.htm#' + enumType.split('.')[1] + '">' + enumType + '</a>)'
+        else:
+            lang = fmpItem.get('lang').strip()
 
         if docItemType == 'property':
             fmpDescription = getTxt(fmpItem, 'description')

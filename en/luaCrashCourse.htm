@@ -191,19 +191,19 @@ tableSize=#{1,2,3,4,5}</code>
 
 <li>Coroutines are easily created and resumed with:</li>
 <code class="hljs language-lua coppelia-coppeliasim-script">-- Create a coroutine:
-corout=coroutine.create(coroutineMain)
+corout = coroutine.create(coroutineMain)
 
 -- Start/resume a coroutine:
-if coroutine.status(corout)~='dead' then
-    local ok,errorMsg=coroutine.resume(corout)
+if coroutine.status(corout) ~= 'dead' then
+    local ok, errorMsg = coroutine.resume(corout)
     if errorMsg then
-        error(debug.traceback(corout,errorMsg),2)
+        error(debug.traceback(corout, errorMsg), 2)
     end
 end
 
 -- The coroutine itself:
 function coroutineMain()
-    while not sim.getSimulationStopping() do
+    while true do
         -- some code
     end
 end</code>

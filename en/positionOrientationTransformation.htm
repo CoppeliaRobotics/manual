@@ -21,10 +21,9 @@
 
 
 <p>In CoppeliaSim there are many different ways to <a href="apiFunctions.htm#transformations">get, set, or work with positions &amp; orientations</a>. Following nomenclature is used throughout this user manual:</p>
-<li>Position: three coordinates (x,y,z), representing a position in 3D space. The position can be absolute (i.e. relative to the world frame), or relative to a specific frame.</li>
+<li>Position: three coordinates (x,y,z), representing a position in 3D space. The position can be absolute (i.e. relative to the world frame), or relative to a specific frame. In CoppeliaSim, positions and position-related values are expressed as a <a href="simEigen/simEigen.htm#Vector">sim.Vector</a>.</li>
 <li>Orientation: an orientation in 3D space, that can be specified as <em><a href="#euler">Euler angles</a></em>, a <em><a href="#quaternion">quaternion</a></em>, or a <em><a href="#rotation">rotation matrix</a></em>. The orientation can be absolute (i.e. relative to the world frame), or relative to a specific frame.</li>
 <li>Reference frame: also referred to as simply <em>transformation</em> or <em>frame</em>, it represents a position and orientation in 3D space. It can be specified as a <a href="#pose">pose, a transformation matrix</a>, or as a position and orientation. A reference frame can be absolute (i.e. relative to the world frame), or relative to another reference frame.</li>
-
 <br>
 <h2><a name="euler"></a>Euler angles</h2>
 <p> The <a href="http://en.wikipedia.org/wiki/Euler_angles" target="_blank">Euler angles</a> are three angles that describe a rotation, the orientation of a rigid body, or the orientation of a frame. There are twelve different conventions when talking about Euler angles. They can be grouped into <strong>Proper Euler angles</strong>, and <strong>Tait-Bryan angles</strong> where the latter represents rotations about three distinct axes. In CoppeliaSim, <strong>Tait-Bryan angles</strong> <em>alpha</em>, <em>beta</em> and <em>gamma</em> (or (a,b,g)) are used, describing a rotation composed by three elemental rotations:</p>
@@ -44,18 +43,16 @@
 
 <p>Use following to convert between <em>alpha-beta-gamma</em> angles and <em>yaw-pitch-roll</em> angles:</p>
 <code class="hljs language-lua coppelia-coppeliasim-script">-- Lua
-import('simEigen', '*')
-local yprAngles = Quaternion:fromeuler(eulerAngles):toypr()
-local eulerAngles = Quaternion:fromypr(yprAngles):toeuler()</code>
+local yprAngles = sim.Quaternion:fromeuler(eulerAngles):toypr()
+local eulerAngles = sim.Quaternion:fromypr(yprAngles):toeuler()</code>
 
 
 <br>
 <h2><a name="quaternion"></a>Quaternions</h2>
-<p> <a href="https://en.wikipedia.org/wiki/Quaternion" target="_blank">Quaternions</a> are four values that uniquely describe a rotation, the orientation of a rigid body, or the orientation of a frame. They are superior to Euler angles in several ways (e.g. no gimbal lock), but are more difficult to understand and construct. For that reason they are never used in user interfaces, but preferred when working with orientations in code. In CoppeliaSim, quaternions are expressed as a 4-element table: (Qx,Qy,Qz,Qw), where (Qx,Qy,Qz) is the rotation axis unit vector multiplied by sin(angle/2),  and Qw is cos(angle/2), where angle is the rotation angle. See also following operations:</p>
+<p> <a href="https://en.wikipedia.org/wiki/Quaternion" target="_blank">Quaternions</a> are four values that uniquely describe a rotation, the orientation of a rigid body, or the orientation of a frame. They are superior to Euler angles in several ways (e.g. no gimbal lock), but are more difficult to understand and construct. For that reason they are never used in user interfaces, but preferred when working with orientations in code. In CoppeliaSim, quaternions are expressed as <a href="simEigen/simEigen.htm#Quaternion">sim.Quaternion</a>: they hold (Qx,Qy,Qz,Qw), where (Qx,Qy,Qz) is the rotation axis unit vector multiplied by sin(angle/2),  and Qw is cos(angle/2), where angle is the rotation angle. See also following operations:</p>
 <code class="hljs language-lua coppelia-coppeliasim-script">-- Lua
-import('simEigen', '*')
-local m = Quaternion:torotation(q)
-local q = Quaternion:fromrotation(m)
+local m = sim.Quaternion:torotation(q)
+local q = sim.Quaternion:fromrotation(m)
 local axis, angle = q:axisangle(q2)</code>
 
 <br>
@@ -65,12 +62,11 @@ local axis, angle = q:axisangle(q2)</code>
 <p class=imageLabel>[Rotation matrix in 3D space]</p>
 <br>
 
-<p>In above matrix, unit vectors (Xx,Xy,Xz), (Yx,Yy,Yz) and (Zx,Zy,Zz) represent the reference frame's axis X, Y and Z respectively. In CoppeliaSim, rotation matrices are expressed as a 3x3 Matrix. See also following operations:</p>
+<p>In above matrix, unit vectors (Xx,Xy,Xz), (Yx,Yy,Yz) and (Zx,Zy,Zz) represent the reference frame's axis X, Y and Z respectively. In CoppeliaSim, matrices are expressed as <a href="simEigen/simEigen.htm#Matrix">sim.Matrix</a>. See also following operations:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">-- Lua
-import('simEigen', '*')
-local m = Quaternion:torotation(q)
-local q = Quaternion:fromrotation(m)
+local m = sim.Quaternion:torotation(q)
+local q = sim.Quaternion:fromrotation(m)
 local axis, angle = q:axisangle(q2)</code>
 
 
@@ -80,22 +76,20 @@ local axis, angle = q:axisangle(q2)</code>
 <p class=imageLabel>[Transformation matrix in 3D space]</p>
 <br>
 
-<p>See also following operations:</p>
+<p>In CoppeliaSim, transformation matrices are expressed as <a href="simEigen/simEigen.htm#Matrix">sim.Matrix</a>. See also following operations:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">-- Lua
-import('simEigen', '*')
-local tr = Pose:totransform(p)
+local tr = sim.Pose:totransform(p)
 local trTransfosed = tr:transposed()
-local p = Pose:fromtransform(tr)</code>
+local p = sim.Pose:fromtransform(tr)</code>
 
 <br>
 <h2><a name="pose"></a>Poses</h2>
-<p> <a href="https://en.wikipedia.org/wiki/Pose_(computer_vision)" target="_blank">Poses</a> are values that describe a frame transformation in 3D space. In CoppeliaSim, poses are expressed as (X,Y,Z,Qx,Qy,Qz,Qw), i.e. a position followed by a quaternion. See also following operations:</p>
+<p> <a href="https://en.wikipedia.org/wiki/Pose_(computer_vision)" target="_blank">Poses</a> are values that describe a frame transformation in 3D space. In CoppeliaSim, poses are expressed as <a href="simEigen/simEigen.htm#Pose">sim.Pose</a>: they hold (X,Y,Z,Qx,Qy,Qz,Qw), i.e. a position and quaternion information. See also following operations:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">-- Lua
-import('simEigen', '*')
-local p = Pose:fromtransform(tr)
-local tr = Pose:totransform(p)
+local p = sim.Pose:fromtransform(tr)
+local tr = sim.Pose:totransform(p)
 local pos = p.translation
 local quaternion = p.rotation
 local pInversed = p:inv()</code>

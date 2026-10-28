@@ -742,7 +742,7 @@ wb_usr.tree =
                             link="addOns.htm"
                         },
                         {
-                            name={en="The sandbox"},
+                            name={en="Sandboxes"},
                             link="sandboxScript.htm"
                         },
                         {
