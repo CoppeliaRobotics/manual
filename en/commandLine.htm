@@ -19,13 +19,13 @@
 
 <h1>Commands/settings</h1>
 
-<p>You can adjust the way CoppeliaSim operates via a <a href="plugins.htm">plugin</a> or an <a href="addOns.htm">add-on</a>, but you can also modify its behaviour via:</p>
-<li><a href="#commandLine">command line</a> arguments</li>
-<li>the <a href="#settingsFile">overall settings file</a></li>
-<li><a href="#environment">environment variables</a></li>
-<li>the <a href="#commander">status bar commander</a></li>
+<p>You can adjust the way CoppeliaSim operates via a <a href="plugins.htm">plugin</a> or an <a href="addOns.htm">add-on</a>, but you can also modify its behavior via:</p>
+<li><a href="#commandLine">Command line</a> arguments</li>
+<li>The <a href="#settingsFile">overall settings file</a></li>
+<li><a href="#environment">Environment variables</a></li>
+<li>The <a href="#commander">status bar commander</a></li>
 
-<p>Additionally, you can also interact with CoppeliaSim via script functions and the <a href="#commander">commander</a>.</p>
+<p>Additionally, you can interact with CoppeliaSim via script functions and the <a href="#commander">commander</a>.</p>
 
 <br>
 
@@ -33,22 +33,22 @@
 <a name="commandLine"></a>Command line
 </h2>
 
-<p>When you start CoppeliaSim via the command line, you have following command line options that are supported: </p>
+<p>When you start CoppeliaSim via the command line, you have the following command line options that are supported: </p>
 
-<li><strong>-v&lt;verbosity&gt;</strong>: sets the verbosity level, in the console. Default is <strong>loadinfos</strong>. Other accepted values are <strong>none</strong>, <strong>errors</strong>, <strong>warnings</strong>, loadinfos,<strong> scripterrors</strong>,<strong> scriptwarnings</strong>,<strong> scriptinfos</strong>,<strong> infos</strong>,  <strong>debug</strong> , <strong>trace</strong>, <strong>tracelua</strong> and <strong>traceall</strong>. Plugins should output messages via <a href="sim/simAddLog.htm">simAddLog</a> , scripts via <a href="sim/simAddLog.htm">sim.addLog</a>. Verbosity can change during runtime: from within CoppeliaSim, global verbosity can be adjusted with <a href="sim/property_app_consoleVerbosity.htm">app.consoleVerbosity</a> and <a href="sim/property_app_statusbarVerbosity.htm">app.statusbarVerbosity</a>, and plugin verbosity with <a href="sim/app_setPluginInfo.htm">app:setPluginInfo</a>. By default, plugin verbosity follows global verbosity. Command line verbosity setting can be overridden via the <em>verbosity</em> value in <em>system/usrset.txt</em>. Additionally, console log messages can be filtered via the <em>consoleLogFilter</em> value in <em>system/usrset.txt</em>.</li>
+<li><strong>-v&lt;verbosity&gt;</strong>: sets the verbosity level in the console. Default is <strong>loadinfos</strong>. Other accepted values are <strong>none</strong>, <strong>errors</strong>, <strong>warnings</strong>, loadinfos,<strong> scripterrors</strong>,<strong> scriptwarnings</strong>,<strong> scriptinfos</strong>,<strong> infos</strong>,  <strong>debug</strong>, <strong>trace</strong>, <strong>tracelua</strong> and <strong>traceall</strong>. Plugins should output messages via <a href="sim/simAddLog.htm">simAddLog</a>, scripts via <a href="sim/simAddLog.htm">sim.addLog</a>. Verbosity can change during runtime: from within CoppeliaSim, global verbosity can be adjusted with <a href="sim/property_app_consoleVerbosity.htm">app.consoleVerbosity</a> and <a href="sim/property_app_statusbarVerbosity.htm">app.statusbarVerbosity</a>, and plugin verbosity with <a href="sim/app_setPluginInfo.htm">app:setPluginInfo</a>. By default, plugin verbosity follows global verbosity. Command line verbosity setting can be overridden via the <em>verbosity</em> value in <em>system/usrset.txt</em>. Additionally, console log messages can be filtered via the <em>consoleLogFilter</em> value in <em>system/usrset.txt</em>.</li>
 <li><strong>-w&lt;verbosity&gt;</strong>: similar to the <strong>-v</strong> setting above, but for the verbosity level in the <a href="userInterface.htm#statusBar">status bar</a>. Default is <strong>scriptinfos</strong>. Status bar verbosity setting can be overridden via the <em>statusbarVerbosity</em> value in <em>system/usrset.txt</em>.</li>
-<li><strong>-x&lt;verbosity&gt;</strong>: similar to the -<strong>v</strong> or <strong>-w</strong> setting above, but for the verbosity level for simple dialogs. Default is <strong>infos</strong>. Other accepted valuesare <strong>none</strong>, <strong>errors</strong>, <strong>warnings</strong> and <strong>questions</strong>. Dialog verbosity setting can be overridden via the <em>dialogVerbosity</em> value in <em>system/usrset.txt</em>.</li>
+<li><strong>-x&lt;verbosity&gt;</strong>: similar to the -<strong>v</strong> or <strong>-w</strong> setting above, but for the verbosity level for simple dialogs. Default is <strong>infos</strong>. Other accepted values are <strong>none</strong>, <strong>errors</strong>, <strong>warnings</strong> and <strong>questions</strong>. Dialog verbosity setting can be overridden via the <em>dialogVerbosity</em> value in <em>system/usrset.txt</em>.</li>
 <li><strong>-c&lt;scriptString&gt;</strong>: executes the script string as soon as the sandbox is initialized.</li>
 
 <li><strong>-H</strong>: runs CoppeliaSim in <em>true</em> headless mode (i.e. without any GUI or GUI dependencies). A display server is however still required. Instead of using library <em>coppeliaSim</em>, library <em>coppeliaSimHeadless</em> will be used. Keep in mind that in that case,  <a href="visionSensors.htm">vision sensors</a> won't operate, unless they use the Pov-Ray rendering mode (and the <a href="https://github.com/CoppeliaRobotics/simPovRay" target="_blank">Pov-Ray plugin</a> is installed, binaries available <a href="https://github.com/CoppeliaRobotics/simPovRay/tree/master/binaries" target="_blank">here</a>), and that rendering will be drastically slower.</li>
 
-<li><strong>-h</strong>: runs CoppeliaSim in an <em>emulated</em> headless mode: this simply suppresses all GUI elements (e.g. doesn't open the main window, etc.), but otherwise runs normally.</li>
+<li><strong>-h</strong>: runs CoppeliaSim in an <em>emulated</em> headless mode: this simply suppresses all GUI elements (e.g. doesn't open the main window), but otherwise runs normally.</li>
 
-<li><strong>-s&lt;simulationTimeInMM&gt;</strong>: automatically start the simulation and runs it for a certain amount of milliseconds. Use a value of 0 to disable automatic stopping.</li>
-<li><strong>-q</strong>: automatically quits CoppeliaSim after the first simulation run ended.</li>
+<li><strong>-s&lt;simulationTimeInMM&gt;</strong>: automatically starts the simulation and runs it for a certain amount of milliseconds. Use a value of 0 to disable automatic stopping.</li>
+<li><strong>-q</strong>: automatically quits CoppeliaSim after the first simulation run has ended.</li>
 <li><strong>-a&lt;addOn.lua&gt; </strong>and/or<strong> -b&lt;addOn.lua&gt;</strong>: loads and runs an additional <a href="addOns.htm">add-on</a> specified via its filename.</li>
 <li><strong>-G&lt;key&gt;=&lt;value&gt;</strong>: named parameter, can be queried within CoppeliaSim with <a href="properties.htm#namedParams">named parameter properties</a>. With <strong>-Glicense=licenseKey</strong> you can enable a specific license key string.</li>
-<li><strong>-g&lt;string&gt;</strong>:represents an optional string argument that can be queried with <a href="sim/property_app_args.htm">sim.app.args</a>.</li>
+<li><strong>-g&lt;string&gt;</strong>: represents an optional string argument that can be queried with <a href="sim/property_app_args.htm">sim.app.args</a>.</li>
 
 <li><strong>-O&lt;bitCoded&gt;</strong>: disables <a href="apiConstants.htm#startupOptions">specific GUI items</a>.</li>
 
@@ -80,7 +80,7 @@ $ ./coppeliaSim.app/Contents/MacOS/coppeliaSim -h -s5000 -q ../Resources/myScene
 <li>serialization</li>
 <li>messaging</li>
 <li>compatibility</li>
-<li>floating licence</li>
+<li>Floating license</li>
 <li>etc.</li>
 
 <p>The location of file <em>usrset.txt</em> can be queried via <a href="sim/property_app_paths_settings.htm">sim.app.paths.settings</a>.</p>
@@ -92,13 +92,13 @@ $ ./coppeliaSim.app/Contents/MacOS/coppeliaSim -h -s5000 -q ../Resources/myScene
 <a name="environment"></a>Environment variables
 </h2>
 
-<p>Following environment variables allow to modify the behaviour of CoppeliaSim:</p>
+<p>The following environment variables allow you to modify the behavior of CoppeliaSim:</p>
 <li>COPPELIASIMPLUGIN_IGNORE_MISSING_SYMBOLS. If defined, then plugins will ignore missing symbols</li>
 <li>COPPELIASIM_USER_SETTINGS_FOLDER_SUFFIX. Will append a suffix to the user settings folder. This can be used to start several CoppeliaSim instances, with different user settings.</li>
-<li>COPPELIASIM_CONSOLE_LOG_FORMAT. The format of the console log, e.g. &quot;[{origin}:{verbosity}]   {message}&quot;</li>
-<li>COPPELIASIM_STATUSBAR_LOG_FORMAT. The format of the status bar log, e.g. &quot;&lt;font color='grey'&gt;[{origin}:{verbosity}]&lt;/font&gt;    &lt;font color='{color}'&gt;{message}&lt;/font&gt;&quot;</li>
+<li>COPPELIASIM_CONSOLE_LOG_FORMAT. The format of the console log, e.g. &quot;[{origin}:{verbosity}] {message}&quot;</li>
+<li>COPPELIASIM_STATUSBAR_LOG_FORMAT. The format of the status bar log, e.g. &quot;&lt;font color='grey'&gt;[{origin}:{verbosity}]&lt;/font&gt; &lt;font color='{color}'&gt;{message}&lt;/font&gt;&quot;</li>
 <li>COPPELIASIM_STATUSBAR_LOG_FORMAT_UNDECORATED. The format of the status bar log when <em>undecorated</em> is specified, e.g. &quot;&lt;font color='{color}'&gt;{message}&lt;/font&gt;&quot;</li>
-<li>COPPELIASIM_STATUSBAR_LOG_TO_CONSOLE. if set, send statusbar messages to console too</li>
+<li>COPPELIASIM_STATUSBAR_LOG_TO_CONSOLE. If set, send statusbar messages to the console too</li>
  
  
 <br>
@@ -107,7 +107,7 @@ $ ./coppeliaSim.app/Contents/MacOS/coppeliaSim -h -s5000 -q ../Resources/myScene
 <a name="commander"></a>Status bar commander
 </h2>
 
-<p>The commander, implemented via the <a href="https://github.com/CoppeliaRobotics/simCmd" target="_blank">simCmd plugin</a>, is a read-eval-print loop, that adds a text input to the CoppeliaSim status bar, which allows entering and executing Python or Lua code on the fly, like in a terminal. The code can be run in the<a href="sandboxScript.htm"> sandboxes</a>, or any other active script in CoppeliaSim. The behavior of the plugin can be controlled via [Modules &gt; Developer tools &gt; commander]. It also offers its own <a href="simCmd/simCmd.htm?view=alphabetical">API functions</a>. Additionally, <em>help()</em> will display usage tips.</p>
+<p>The commander, implemented via the <a href="https://github.com/CoppeliaRobotics/simCmd" target="_blank">simCmd plugin</a>, is a read-eval-print loop that adds a text input to the CoppeliaSim status bar, which allows entering and executing Python or Lua code on the fly, like in a terminal. The code can be run in the<a href="sandboxScript.htm"> sandboxes</a>, or any other active script in CoppeliaSim. The behavior of the plugin can be controlled via [Modules &gt; Developer tools &gt; commander]. It also offers its own <a href="simCmd/simCmd.htm?view=alphabetical">API functions</a>. Additionally, <em>help()</em> will display usage tips.</p>
 
 <p align=center><img src="images/luaCommander.jpg"></p>
 <p class=imageLabel>[Commander]</p>

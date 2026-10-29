@@ -3,7 +3,7 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-us">
-<title>messaging/interfaces/connectivity</title>
+<title>Messaging, interfaces and connectivity</title>
 <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 
@@ -17,22 +17,22 @@
 
 
 
-<h1>Messaging/interfaces/connectivity</h1>
+<h1>Messaging, interfaces and connectivity</h1>
 
-<p>There are several ways messages or data can be exchanged/transmitted/received in and around CoppeliaSim, but also between CoppeliaSim and an external application, other computer, machine, etc.:</p>
-<p> One can send/receive data via:</p>
-<li><a name="signals"></a><a href="properties.htm#signals">signals</a></li>
-<li><a name="customData"></a><a name="customDataBlocks"></a><a href="properties.htm#customData">custom data</a></li>
-<li><a href="#pluginFunctions">calling plugin functions</a></li>
-<li><a href="#simCallScriptFunction">calling script functions</a></li>
+<p>There are several ways to exchange messages or data within CoppeliaSim, and also between CoppeliaSim and an external application, another computer or machine:</p>
+<p> You can send or receive data via:</p>
+<li><a name="signals"></a><a href="properties.htm#signals">Signals</a></li>
+<li><a name="customData"></a><a name="customDataBlocks"></a><a href="properties.htm#customData">Custom data</a></li>
+<li><a href="#pluginFunctions">Calling plugin functions</a></li>
+<li><a href="#simCallScriptFunction">Calling script functions</a></li>
 <li><a href="remoteApiOverview.htm">Remote API</a></li>
-<li><a href="#simBroadcastMsg">broadcasting a message</a></li>
-<li><a href="#events">events</a></li>
+<li><a href="#simBroadcastMsg">Broadcasting a message</a></li>
+<li><a href="#events">Events</a></li>
 <li><a href="rosInterfaces.htm">ROS</a></li>
 <li><a href="#zmq">ZeroMQ</a></li>
 <li><a href="#ws">WebSocket</a></li>
-<li><a href="#sockets">sockets</a></li>
-<li><a href="#other">other</a></li>
+<li><a href="#sockets">Sockets</a></li>
+<li><a href="#other">Other</a></li>
 
 <br>
 <br>
@@ -42,7 +42,7 @@
 </h2>
 
 
-<p><a href="scripts.htm">Scripts</a> can call specific <a href="plugins.htm">plugin</a> functions, so-called callback functions: in order to be able to do this, the plugin must  first register its callback functions via <a href="sim/simRegisterScriptCallbackFunction_cpp.htm">simRegisterScriptCallbackFunction</a>. This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. Following illustrates a very simple plugin function and its registration:</p>
+<p><a href="scripts.htm">Scripts</a> can call specific <a href="plugins.htm">plugin</a> functions, referred to as callback functions. To do so, a plugin must first register its callback functions via <a href="sim/simRegisterScriptCallbackFunction_cpp.htm">simRegisterScriptCallbackFunction</a>. This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. The following illustrates a very simple plugin function and its registration:</p>
 
 <code class="hljs language-c++ coppelia-coppeliasim-plugin">void myCallbackFunc(SScriptCallBack* p)
 {
@@ -76,12 +76,12 @@ simRegisterScriptCallbackFunction(&quot;func&quot;, nullptr, myCallbackFunc);</c
 </h2>
 
 
-<p>A <a href="scripts.htm">script</a> function can obviously be called from within the same script, but also:</p>
-<li>across scripts, refer to e.g. <a href="sim/script_callFunction.htm">script:callFunction</a>, <a href="sim/script_getFunctions.htm">script:getFunctions</a> and <a href="sim/script_executeString.htm">script:executeString</a>.</li>
-<li>from a plugin, refer to <a href="sim/simCallScriptFunctionEx_cpp.htm">simCallScriptFunctionEx</a>.</li>
-<li>from a <a href="rosInterfaces.htm">ROS</a> client (via a callback mechanism)
-<li>or from a <a href="remoteApiOverview.htm">remote API</a> client</li>
-<p>The called script function can perform various tasks, then return some data to the caller. It is however important not to perform lengthly tasks within the called function, as everything comes to a halt during that time. Lengthly tasks should rather only be triggered via <a href="sim/script_callFunction.htm">script:callFunction</a>, then processed within a sysCall_thread <a href="callbackFunctions.htm">system callback</a> section.</p>
+<p>A <a href="scripts.htm">script</a> function can be called from within the same script, and also:</p>
+<li>From other scripts: refer to <a href="sim/script_callFunction.htm">script:callFunction</a>, <a href="sim/script_getFunctions.htm">script:getFunctions</a> or <a href="sim/script_executeString.htm">script:executeString</a>.</li>
+<li>From a plugin: refer to <a href="sim/simCallScriptFunctionEx_cpp.htm">simCallScriptFunctionEx</a>.</li>
+<li>From a <a href="rosInterfaces.htm">ROS</a> client, via a callback mechanism.
+<li>From a <a href="remoteApiOverview.htm">remote API</a> client.</li>
+<p>The called script function can perform various tasks, then return some data to the caller. However, it is important not to perform lengthy tasks within the called function, as everything comes to a halt during that time. Lengthy tasks should instead be triggered only via <a href="sim/script_callFunction.htm">script:callFunction</a>, then processed within a sysCall_thread <a href="callbackFunctions.htm">system callback</a> section.</p>
 
 
 
@@ -93,7 +93,7 @@ simRegisterScriptCallbackFunction(&quot;func&quot;, nullptr, myCallbackFunc);</c
 </h2>
 
 
-<p>A <a href="scripts.htm">script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all scripts at once, via <a href="sim/script_broadcast.htm">script:broadcast</a>. For instance, following constantly broadcasts a message to all scripts, while printing other broadcasted messages:</p>
+<p>A <a href="scripts.htm">script</a> or a <a href="remoteApiOverview.htm">remote API</a> client can broadcast a message to all scripts at once via <a href="sim/script_broadcast.htm">script:broadcast</a>. For instance, the following constantly broadcasts a message to all scripts, while printing other broadcast messages:</p>
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
@@ -121,7 +121,7 @@ end</code>
 <h2><a name="events"></a>Events</h2>
 
 
-<p>A <a href="scripts.htm">script</a> or a <a href="plugins.htm">plugin</a> can receive notifications for everything that happens in CoppeliaSim itself, e.g. when an object is created, modified, removed, or when an internal state changed. A script can use the sysCall_event <a href="callbackFunctions.htm">callback function</a> to that end, coupled with some filtering for efficiency's sake. For instance, following script tracks a pose change with any scene object, and a change in scene object selection:</p>
+<p>A <a href="scripts.htm">script</a> or a <a href="plugins.htm">plugin</a> can receive notifications for everything that happens in CoppeliaSim itself, e.g. when an object is created, modified or removed, or when an internal state changes. A script can use the sysCall_event <a href="callbackFunctions.htm">callback function</a> to that end, coupled with some filtering for the sake of efficiency. For instance, the following script tracks pose changes of any scene object, and changes in scene object selection:</p>
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
@@ -147,11 +147,11 @@ end</code>
 
 
 
-<h2><a name="zmq"></a>ZMQ
+<h2><a name="zmq"></a>ZeroMQ
 </h2>
 
 
-<p>The <a href="http://api.zeromq.org/" target="_blank">ZeroMQ library</a>, wrapped inside the <a href="https://github.com/CoppeliaRobotics/simZMQ" target="_blank">ZMQ plugin</a>, offers several <a href="simZMQ/simZMQ.htm">API functions related to ZeroMQ messaging</a>. When using Python, one is of course also free to using the pyzmq package for the ZeroMQ functionality. Following illustrates a simple requester:</p>
+<p>The <a href="http://api.zeromq.org/" target="_blank">ZeroMQ library</a>, wrapped inside the <a href="https://github.com/CoppeliaRobotics/simZMQ" target="_blank">ZMQ plugin</a>, offers several <a href="simZMQ/simZMQ.htm">API functions related to ZeroMQ messaging</a>. When using Python, you are of course also free to use the pyzmq package for ZeroMQ functionality. The following illustrates a simple requester:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
@@ -181,7 +181,7 @@ function sysCall_cleanup()
 end</code>
 </div>
 
-<p>And following would be the corresponding responder:</p>
+<p>The following would be the corresponding responder:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
@@ -216,7 +216,7 @@ end</code>
 
 <h2><a name="ws"></a>WebSocket
 </h2>
-<p>The <a href="https://github.com/CoppeliaRobotics/simWS" target="_blank">WebSocket plugin</a>, offers several <a href="simWS/simWS.htm">API functions allowing to interact with a web browser</a>. When using Python, one is of course also free to using a Python specific WS package. Following is a simple echo server:</p>
+<p>The <a href="https://github.com/CoppeliaRobotics/simWS" target="_blank">WebSocket plugin</a> offers several <a href="simWS/simWS.htm">API functions that allow you to interact with a web browser</a>. When using Python, you are of course also free to use a Python-specific WebSocket package. The following is a simple echo server:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
@@ -232,7 +232,7 @@ function sysCall_init()
     simWS.setMessageHandler(server, 'onMessage')
 end</code>
 </div>
-<p>And following is a simple broadcaster:</p>
+<p>The following is a simple broadcaster:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
@@ -269,7 +269,7 @@ end</code>
 </h2>
 
 
-<p>CoppeliaSim ships with the <a href="http://w3.impa.br/~diego/software/luasocket/home.html" target="_blank">LuaSocket</a> extension library for Lua, while several packages are available for Python. Following illustrates how to fetch a webpage:</p>
+<p>CoppeliaSim ships with the <a href="http://w3.impa.br/~diego/software/luasocket/home.html" target="_blank">LuaSocket</a> extension library for Lua, while several packages are available for Python. The following illustrates how to fetch a web page:</p>
 
 <div class=multi-language-switcher data-default="lua">
 
@@ -293,7 +293,7 @@ page = http.request('http://www.google.com')</code>
 </h2>
 
 
-<p>Many other means of communication can be directly supported from within a script, via a Lua extension library or via a Python package. Indirectly, by passing via a <a href="plugins.htm">plugin</a>, there are even more possibilities, since a plugin can virtually link to any type of c/c++ communication library.</p>
+<p>Many other means of communication can be directly supported from within a script, via a Lua extension library or via a Python package. Indirectly, by going through a <a href="plugins.htm">plugin</a>, there are even more possibilities, since a plugin can virtually link to any type of C/C++ communication library.</p>
 
 
 <br>

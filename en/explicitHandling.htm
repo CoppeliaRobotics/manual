@@ -34,7 +34,7 @@ end
 </code>
 
 
-<p>Above code performs proximity sensor computations, and any other script can then read the up-to-date calculation results with e.g.:</p>
+<p>The above code performs proximity sensor computations, and any other script can then read the up-to-date calculation results with e.g.:</p>
 <code class="hljs language-python-lua coppelia-coppeliasim-script">-- lua
 
 function sysCall_init()
@@ -51,8 +51,8 @@ function sysCall_sensing()
     end
 end</code>
 
-<p>Above code, unlike the previous, does not compute anything, but just reads the calculation result. This is very convenient when calculation need to happen exactly once per simulation step and/or the calculation result is required by several scripts.</p>
-<p>If however, an object requires less or more frequent calculations (e.g. several calculations within a same simulation step), then above mechanism does not work. In that case, the object should be flagged as <strong>explicit handling</strong>: from that moment on, the main script does not handle that object anymore, and it is the responsibility of another script to do this. For instance if the proximity sensor should only be handled once every other simulation step, a <a href="simulationScripts.htm">simulation script</a> could include following code:</p>
+<p>The above code, unlike the previous, does not compute anything, but just reads the calculation result. This is very convenient when calculations need to happen exactly once per simulation step and/or the calculation result is required by several scripts.</p>
+<p>If, however, an object requires less or more frequent calculations (e.g. several calculations within a same simulation step), then the above mechanism does not work. In that case, the object should be flagged as <strong>explicit handling</strong>: from that moment on, the main script does not handle that object anymore, and it is the responsibility of another script to do this. For instance if the proximity sensor should only be handled once every other simulation step, a <a href="simulationScripts.htm">simulation script</a> could include the following code:</p>
 
 
 <div class=multi-language-switcher data-default="lua">
@@ -73,7 +73,7 @@ end</code>
 
 </div>
 
-<p>If new calculations need to be performed several times within a same simulation step (e.g. because an object or the sensor itself is moved more frequently), one could write:</p>
+<p>If new calculations need to be performed several times within a same simulation step (e.g. because an object or the sensor itself is moved more frequently), you could write:</p>
 
 <div class=multi-language-switcher data-default="lua">
 

@@ -19,13 +19,13 @@
 
 <h1>Customization scripts <img src="images/customizationScriptIcon.jpg"></h1>
 
-<p>A customization script is an instance of the <a href="mainObjectTypes.htm#scriptObject">scriptObject type</a>, which in turn derives from the <a href="mainObjectTypes.htm#sceneObject">sceneObject type</a>. It wraps an instance of the <a href="mainObjectTypes.htm#script">script type</a>, itself of type <em>customization</em>. It is used to customize a <a href="scenes.htm">scene</a> or <a href="models.htm">model</a> to a great extent:  imagine a model that was dropped into a scene and that is able to configure or adapt itself, even when simulation is not running. This could be a robot where the user can adjust the various link lengths with a single slider repositioning. </p>
+<p>A customization script is an instance of the <a href="mainObjectTypes.htm#scriptObject">scriptObject type</a>, which in turn derives from the <a href="mainObjectTypes.htm#sceneObject">sceneObject type</a>. It wraps an instance of the <a href="mainObjectTypes.htm#script">script type</a>, itself of type <em>customization</em>. It is used to customize a <a href="scenes.htm">scene</a> or <a href="models.htm">model</a> to a great extent: imagine a model that was dropped into a scene and that is able to configure or adapt itself, even when simulation is not running. This could be a robot where the user can adjust the various link lengths with a single slider repositioning. </p>
 
-<p>Customization scripts are executed all the time (within a same scene): when simulation is running, as well as when simulation is not running. They follow a <a href="scriptExecution.htm">precise calling or execution order</a> and  can <a href="threadedAndNonThreadedCode.htm">run threaded or non-threaded</a>. Double-clicking their icon in the scene hierarchy opens the <a href="scriptEditor.htm">script editor</a>.</p>
-<p>A customization script is typically segmented into <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>, the most important ones are: </p>
+<p>Customization scripts are executed all the time (within a same scene): when simulation is running, as well as when simulation is not running. They follow a <a href="scriptExecution.htm">precise calling or execution order</a> and can <a href="threadedAndNonThreadedCode.htm">run threaded or non-threaded</a>. Double-clicking their icon in the scene hierarchy opens the <a href="scriptEditor.htm">script editor</a>.</p>
+<p>A customization script is typically segmented into <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a>, the most important of which are: </p>
 <li><strong>sysCall_init</strong> is called just one time, the first time the script is called. Usually you would put some initialization code in this part. </li>
 
-<li><strong>sysCall_thread</strong> is the entrance to the script's threaded execution code. Threaded code is interrupted (and later resumed) on a regular basis by CoppeliaSim, by default. This behaviour can however be adjusted via <a href="sim/script_setStepping.htm">script:setStepping</a>. See also <a href="apiFunctions.htm#threads">the other thread-related API functions</a> for more details. </li>
+<li><strong>sysCall_thread</strong> is the entrance to the script's threaded execution code. Threaded code is interrupted (and later resumed) on a regular basis by CoppeliaSim, by default. This behavior can however be adjusted via <a href="sim/script_setStepping.htm">script:setStepping</a>. See also <a href="apiFunctions.htm#threads">the other thread-related API functions</a> for more details. </li>
 
 <li><strong>sysCall_nonSimulation</strong> is called on a regular basis, when simulation is not running.<br>
 </li>
@@ -36,7 +36,7 @@
 
 <li><strong>sysCall_afterSimulation</strong> is called once just after simulation ended. </li>
 
-<li><strong>sysCall_cleanup</strong> is called one time just before  the script state is destroyed (e.g. when the script object is removed)</li>
+<li><strong>sysCall_cleanup</strong> is called one time just before the script state is destroyed (e.g. when the script object is removed)</li>
 
 
 <br>

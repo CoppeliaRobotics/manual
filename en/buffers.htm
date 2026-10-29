@@ -22,8 +22,8 @@
 Buffers
 </h1>
 
-<p>A Lua string does not differentiate between text and binary data, which is fine as long as we stay in Lua world. This however poses various problems when Lua generated data is read/received via a programming language that makes the distinction between those two types of data (e.g. Python). Assigning specific types by relying on  some heuristics (and/or function calltip inspection) works up to a certain degree, but does not cover all cases (e.g. is an empty string intended as empty text or empty binary data?).</p>
-<p>For above reasons, buffers have been introduced in CoppeliaSim V4.7 in order to be able (if desired) to clearly identify buffers, i.e. binary data (versus Lua strings). This is done with the newly introduced <em>tobuffer</em> function:</p>
+<p>A Lua string does not differentiate between text and binary data, which is fine as long as we stay in Lua world. This however poses various problems when Lua-generated data is read/received via a programming language that makes the distinction between those two types of data (e.g. Python). Assigning specific types by relying on some heuristics (and/or function calltip inspection) works up to a certain degree, but does not cover all cases (e.g. is an empty string intended as empty text or empty binary data?).</p>
+<p>For the above reasons, buffers have been introduced in CoppeliaSim V4.7 to be able (if desired) to clearly identify buffers, i.e. binary data (versus Lua strings). This is done with the newly introduced <em>tobuffer</em> function:</p>
 
 <code class="hljs language-lua coppelia-coppeliasim-script">local buffer = tobuffer('Hello') -- represents binary data</code>
 
@@ -46,7 +46,7 @@ string.gsub(buffer, 'World', 'Planet') --> returns string 'Hello Planet!'</code>
 <code class="hljs language-lua coppelia-coppeliasim-script">tobuffer('Hello') .. ' World!' --> returns buffer 'Hello World!'
 'Hello' .. tobuffer(' World!') --> returns buffer 'Hello World!'</code>
 
-<p>Beware that comparison between a string and a buffer always resolves to <strong>false</strong>. Also remember that buffers identify as table when evaluated with the type function. This can lead to <a href="compatibility.htm#buffers">potential compatibility issues</a>.</p>
+<p>Beware that comparison between a string and a buffer always resolves to <strong>false</strong>. Remember that buffers identify as table when evaluated with the type function. This can lead to <a href="compatibility.htm#buffers">potential compatibility issues</a>.</p>
 
 
  <br> 

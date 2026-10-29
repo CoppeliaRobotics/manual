@@ -21,15 +21,15 @@
 
 <p>CoppeliaSim offers a wide range of functionality via its graphical user interface. For more customized scenarios where fine-grained control of the simulation loop is required (e.g. reinforcement learning), it also offers the flexibility to be used as a library within custom programs.</p>
 
-<p>Using CoppeliaSim as a library consists in loading the CoppeliaSim's library (regular or headless library):</p>
+<p>Using CoppeliaSim as a library consists in loading the CoppeliaSim library (regular or headless library):</p>
         <li>Windows: <code>LoadLibrary("coppeliaSim.dll")</code> / <code>LoadLibrary("coppeliaSimHeadless.dll")</code></li>
         <li>Linux: <code>dlopen("libcoppeliaSim.so")</code> / <code>dlopen("libcoppeliaSimHeadless.so")</code></li>
         <li>macOS: <code>dlopen("libcoppeliaSim.dylib")</code> / <code>dlopen("libcoppeliaSimHeadless.dylib")</code></li>
 
 <p>then creating a secondary thread (the simulation thread), and:</p>
-        <li>calling <code>simInitialize</code> to initialize.</li>
-        <li>calling any other API functions, and/or calling <code>simLoop</code> until <code>simGetExitRequest</code> returns false</li>
-        <li>calling <code>simDeinitialize</code> before termination.</li>
+        <li>Calling <code>simInitialize</code> to initialize.</li>
+        <li>Calling any other API functions, and/or calling <code>simLoop</code> until <code>simGetExitRequest</code> returns false</li>
+        <li>Calling <code>simDeinitialize</code> before termination.</li>
 
 <p>Finally, in the main thread (the UI thread), calling <code>simRunGui</code>. Argument to <code>simRunGui</code> can be used to toggle on/off individual part of the interface (use <code>sim_gui_all</code> to enable all), or to run in <em>GUI suppression mode</em> (<code>sim_gui_headless</code>).</p>
 
@@ -150,7 +150,7 @@ program_version = sim.getIntProperty(sim.handle_app, 'productVersionNb')</code>
 
 <h3>Callbacks</h3>
 
-<p>Some regular API functions use callbacks, i.e. they take a function parameter, and call it one or more time during the execution of the function or at a later time. Examples are <a href="#">sim.moveToConfig</a>, <a href="#">simIK.findConfigs</a>, <a href="#">simOMPL.setStateValidationCallback</a>, etc...</p>
+<p>Some regular API functions use callbacks, i.e. they take a function parameter, and call it one or more times during the execution of the function or at a later time. Examples are <a href="#">sim.moveToConfig</a>, <a href="#">simIK.findConfigs</a>, <a href="#">simOMPL.setStateValidationCallback</a>, etc...</p>
 
 <p>To use Python functions as callbacks, those need to be exposed as C functions, and called via CoppeliaSim's C function wrapper.</p>
 

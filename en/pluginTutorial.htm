@@ -23,7 +23,7 @@
 <p>This tutorial describes how to write a <a href="plugins.htm">plugin</a> for CoppeliaSim. The CoppeliaSim scene file related to this tutorial is located in <em>scenes/tutorials/BubbleRobExt</em>. The plugin project files of this tutorial can be found <a href="https://github.com/CoppeliaRobotics/simBubble" target="_blank">here</a>.<br>
 </p>
 
-<p>CoppeliaSim plugins are loaded on demand via the <a href="sim/loadPlugin.htm">loadPlugin</a> function. Most of the time the load procedure is wrapped inside of a simple Lua module tha can additionally provide pure Lua functions, under the same namespace.<br>
+<p>CoppeliaSim plugins are loaded on demand via the <a href="sim/loadPlugin.htm">loadPlugin</a> function. Most of the time the load procedure is wrapped inside of a simple Lua module that can additionally provide pure Lua functions, under the same namespace.<br>
 </p>
 
 <p>The plugin was written for BubbleRob from the <a href="bubbleRobTutorial.htm">BubbleRob tutorial</a>. The BubbleRob plugin adds 4 new script functions:<br>
@@ -49,7 +49,7 @@
         <td class=apiTableLeftLParam>Lua<br>parameters</td> 
         <td class=apiTableRightLParam>
             <div><strong>motorJointHandles</strong>: a table containing the handles of the left and right motor joints of the BubbleRob you wish to control.</div>
-            <div><strong>sensorHandle</strong>: the handle of the proximity sensor or the BubbleRob you wish to control</div>
+            <div><strong>sensorHandle</strong>: the handle of the proximity sensor of the BubbleRob you wish to control</div>
             <div><strong>backRelativeVelocities</strong>: when BubbleRob detects an obstacle, it will move backwards for some time. relativeBackVelocities[1] is the relative velocity of the left wheel when moving back. relativeBackVelocities[2] is the relative velocity of the right wheel when moving back</div>
         </td> 
     </tr> 
@@ -204,17 +204,17 @@ function sysCall_thread()
     end
 end</code>
 </div>
-<p>After loading the required module, joints and the sensor objects are retrieved and given to the custom script function that creates a controller instance of our BubbleRob in the plugin. If the call was successfull, we can call <em>simBubble.start</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles. Run the simulation: BubbleRob moves for 20 seconds then stops, as expected.<br>
+<p>After loading the required module, joints and the sensor objects are retrieved and given to the custom script function that creates a controller instance of our BubbleRob in the plugin. If the call was successful, we can call <em>simBubble.start</em>. The function instructs the plugin to move the BubbleRob model while avoiding obstacles. Run the simulation: BubbleRob moves for 20 seconds then stops, as expected.<br>
 </p>
 
 <p>Let's have a look at how the plugin registers and handles the above 4 custom Lua functions. Open the <a href="https://github.com/CoppeliaRobotics/simBubble" target="_blank">simBubble plugin project</a>, and have a look at file <em>simBubble.cpp</em>:</p>
 
-<p>Notice the 3 plugin entry points: <em>simInit</em>, <em>simCleanup</em>, and <em>simMsg</em>: <em>simInit</em> is called once when the plugin is loaded (initialization), <em>simCleanup</em> is called once when the plugin is unloaded (clean-up), and <em>simMsg</em> is called on a regular basis with several type of messages.</p>
+<p>Notice the 3 plugin entry points: <em>simInit</em>, <em>simCleanup</em>, and <em>simMsg</em>: <em>simInit</em> is called once when the plugin is loaded (initialization), <em>simCleanup</em> is called once when the plugin is unloaded (clean-up), and <em>simMsg</em> is called on a regular basis with several types of messages.</p>
 
-<p>During the initialization phase, the plugin loads the CoppeliaSim library (in order to have access to all CoppeliaSim's API functions), then registers the 4 custom script functions. A custom script function is registered by specifying a function name (without prefix/namespace), and a callback address.</p>
+<p>During the initialization phase, the plugin loads the CoppeliaSim library (to have access to all CoppeliaSim's API functions), then registers the 4 custom script functions. A custom script function is registered by specifying a function name (without prefix/namespace), and a callback address.</p>
 <p>When a script calls the specified function name, then CoppeliaSim calls the callback address. The most difficult task inside of a callback function is to correctly read the input arguments, and correctly write the output values. This happens via a stack. The user has two options to interact with the stack:</p>
-<li>the easiest is to use two helper classes (<em>CScriptFunctionData</em> and <em>CScriptFunctionDataItem</em>, located in <em>programming/</em><em>include/simLib</em>). This however only allows to exchange simple data types (i.e. Booleans, integers, floating point numbers, strings and arrays of any of those)</li>
-<li>the more flexible way, allowing to exchange any type of data, is to use stack functions (located in <em>programming/include/simStack</em>): the plugin <a href="https://github.com/CoppeliaRobotics/simSkeleton">simSkeleton</a> illustrates this.</li>
+<li>The easiest is to use two helper classes (<em>CScriptFunctionData</em> and <em>CScriptFunctionDataItem</em>, located in <em>programming/</em><em>include/simLib</em>). This however only allows you to exchange simple data types (i.e. Booleans, integers, floating point numbers, strings and arrays of any of those).</li>
+<li>The more flexible way, allowing you to exchange any type of data, is to use stack functions (located in <em>programming/include/simStack</em>): the plugin <a href="https://github.com/CoppeliaRobotics/simSkeleton">simSkeleton</a> illustrates this.</li>
 <p>In general, callback routines should execute as fast as possible, and control should then be given back to CoppeliaSim, otherwise the whole simulator will halt.</p>
 <br>
 <br>

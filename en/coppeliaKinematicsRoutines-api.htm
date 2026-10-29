@@ -239,7 +239,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Computes the Jacobian and error vector for an IK group</td>
+<td class="apiTableRightDescr">Computes the Jacobian and error vector for an IK group.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -249,7 +249,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group</div>
-<div><strong>jacobian</strong>: the jacobian in return (row major order). Each row corresponds to one constraint in following order: x, y, z, alpha, beta, gamma. Each column corresponds to one joint, from base to tip. Can be nullptr</div>
+<div><strong>jacobian</strong>: the jacobian in return (row major order). Each row corresponds to one constraint in the following order: x, y, z, alpha, beta, gamma. Each column corresponds to one joint, from base to tip. Can be nullptr</div>
 <div><strong>errorVect</strong>: the error vector between the target and the tip. Can be nullptr</div>
 </td>
 </tr>
@@ -271,7 +271,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Computes the Jacobian and error vector for a kinematic chain</td>
+<td class="apiTableRightDescr">Computes the Jacobian and error vector for a kinematic chain.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -282,11 +282,11 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>baseHandle</strong>: the handle of the base of the kinematic chain, or -1 for the world</div>
 <div><strong>jointHandle</strong>: the handle of the last joint in the kinematic chain, when going from base to tip</div>
-<div><strong>constraints</strong>: a combination of following is possible: ik_constraint_x, ik_constraint_y, ik_constraint_z, ik_constraint_alpha_beta, ik_constraint_gamma. For convenience we also have ik_constraint_position=ik_constraint_x|ik_constraint_y|ik_constraint_z, ik_constraint_orientation=ik_constraint_alpha_beta|ik_constraint_gamma, and ik_constraint_pose=ik_constraint_position|ik_constraint_orientation.</div>
+<div><strong>constraints</strong>: a combination of the following is possible: ik_constraint_x, ik_constraint_y, ik_constraint_z, ik_constraint_alpha_beta, ik_constraint_gamma. For convenience we also have ik_constraint_position=ik_constraint_x|ik_constraint_y|ik_constraint_z, ik_constraint_orientation=ik_constraint_alpha_beta|ik_constraint_gamma, and ik_constraint_pose=ik_constraint_position|ik_constraint_orientation.</div>
 <div><strong>tipPose</strong>: the pose of the tip object, relative to the world</div>
 <div><strong>targetPose</strong>: the pose of the target object, relative to the world. Can be nullptr, in which case the targetPose is the same as the tipPose</div>
 <div><strong>constrBasePose</strong>: the pose that should serve as the reference frame for positional constraints, or nullptr to use the base object instead</div>
-<div><strong>jacobian</strong>: the jacobian in return (row major order). Each row corresponds to one constraint in following order: x, y, z, alpha, beta, gamma. Each column corresponds to one joint, from base to tip. Can be nullptr</div>
+<div><strong>jacobian</strong>: the jacobian in return (row major order). Each row corresponds to one constraint in the following order: x, y, z, alpha, beta, gamma. Each column corresponds to one joint, from base to tip. Can be nullptr</div>
 <div><strong>errorVect</strong>: the error vector between the target and the tip. Can be nullptr</div>
 </td>
 </tr>
@@ -309,7 +309,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Creates an new IK environment, and switches to it.</td>
+<td class="apiTableRightDescr">Creates a new IK environment, and switches to it.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -406,7 +406,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>jointName</strong>: the name of the joint.</div>
-<div><strong>jointType</strong>: the type of the joint. supported types are ik_jointtype_revolute, ik_jointtype_prismatic and ik_jointtype_spherical.</div>
+<div><strong>jointType</strong>: the type of the joint. Supported types are ik_jointtype_revolute, ik_jointtype_prismatic and ik_jointtype_spherical.</div>
 <div><strong>jointHandle</strong>: the handle of the joint, in return.</div>
 </td>
 </tr>
@@ -482,7 +482,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Duplicate current IK environment. Can be used to operate on an environment without modifying the original environment</td>
+<td class="apiTableRightDescr">Duplicates the current IK environment. Can be used to operate on an environment without modifying the original environment.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -577,11 +577,11 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
 <div><strong>jointCnt</strong>: the number of joint handles provided in the jointHandles array.</div>
-<div><strong>jointHandles</strong>: an array with jointCnt entries, that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
-<div><strong>thresholdDist</strong>: a distance indicating when IK should be computed in order to try to bring the tip onto the target: since the search algorithm proceeds by generating random configurations, many of them produce a tip pose that is too far from the target pose to run IK successfully. Choosing a large value will result in slow calculations, choosing a small value might produce a smaller subset of solutions. Distance between two poses is calculated using a metric (see metric argument below).</div>
+<div><strong>jointHandles</strong>: an array with jointCnt entries that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
+<div><strong>thresholdDist</strong>: a distance indicating when IK should be computed to try to bring the tip onto the target: since the search algorithm proceeds by generating random configurations, many of them produce a tip pose that is too far from the target pose to run IK successfully. Choosing a large value will result in slow calculations, choosing a small value might produce a smaller subset of solutions. Distance between two poses is calculated using a metric (see metric argument below).</div>
 <div><strong>maxSearchTimeInMs</strong>: the maximum time in milliseconds before this function returns.</div>
-<div><strong>retConfig</strong>: an array with jointCnt entries, that will receive the IK calculated joint values, as specified by the jointHandles array.</div>
-<div><strong>metric</strong>: an array to 4 values indicating a metric used to compute pose-pose distances: distance=sqrt((dx*metric[0])^2+(dy*metric[1])^2+(dz*metric[2])^2+(angle*metric[3])^2).</div>
+<div><strong>retConfig</strong>: an array with jointCnt entries that will receive the IK calculated joint values, as specified by the jointHandles array.</div>
+<div><strong>metric</strong>: an array of 4 values indicating a metric used to compute pose-pose distances: distance=sqrt((dx*metric[0])^2+(dy*metric[1])^2+(dz*metric[2])^2+(angle*metric[3])^2).</div>
 <div><strong>validationCallback</strong>: a callback function taking as input argument the proposed joint values (i.e. a configuration), and as return value whether the configuration is valid (e.g. is not colliding).</div>
 </td>
 </tr>
@@ -612,11 +612,11 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
 <div><strong>jointCnt</strong>: the number of joint handles provided in the jointHandles array.</div>
-<div><strong>jointHandles</strong>: an array with jointCnt entries, that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
-<div><strong>thresholdDist</strong>: a distance indicating when IK should be computed in order to try to bring the tip onto the target: since the search algorithm proceeds by generating random configurations, many of them produce a tip pose that is too far from the target pose to run IK successfully. Choosing a large value will result in slow calculations, choosing a small value might produce a smaller subset of solutions. Distance between two poses is calculated using a metric (see metric argument below).</div>
-<div><strong>maxIterations</strong>: the maximum number of iterations before this function returns. Alternatively, one can specify an upper time limit, in milliseconds, after which the function returns with maxIterations=-timeLimitInMs.</div>
-<div><strong>retConfig</strong>: an array with jointCnt entries, that will receive the IK calculated joint values, as specified by the jointHandles array.</div>
-<div><strong>metric</strong>: an array to 4 values indicating a metric used to compute pose-pose distances: distance=sqrt((dx*metric[0])^2+(dy*metric[1])^2+(dz*metric[2])^2+(angle*metric[3])^2).</div>
+<div><strong>jointHandles</strong>: an array with jointCnt entries that specifies the joint handles for the joints we wish to retrieve the values calculated by the IK.</div>
+<div><strong>thresholdDist</strong>: a distance indicating when IK should be computed to try to bring the tip onto the target: since the search algorithm proceeds by generating random configurations, many of them produce a tip pose that is too far from the target pose to run IK successfully. Choosing a large value will result in slow calculations, choosing a small value might produce a smaller subset of solutions. Distance between two poses is calculated using a metric (see metric argument below).</div>
+<div><strong>maxIterations</strong>: the maximum number of iterations before this function returns. Alternatively, you can specify an upper time limit, in milliseconds, after which the function returns with maxIterations=-timeLimitInMs.</div>
+<div><strong>retConfig</strong>: an array with jointCnt entries that will receive the IK calculated joint values, as specified by the jointHandles array.</div>
+<div><strong>metric</strong>: an array of 4 values indicating a metric used to compute pose-pose distances: distance=sqrt((dx*metric[0])^2+(dy*metric[1])^2+(dz*metric[2])^2+(angle*metric[3])^2).</div>
 <div><strong>validationCallback</strong>: a callback function taking as input argument the proposed joint values (i.e. a configuration), and as return value whether the configuration is valid (e.g. is not colliding).</div>
 <div><strong>jointOptions</strong>: a bit-coded value corresponding to each specified joint handle. Bit 0 (i.e. 1) indicates the corresponding joint is dependent of another joint.</div>
 <div><strong>lowLimits</strong>: an optional array pointing to different low limit values for each specified joint. This can be useful when you wish to explore a sub-set of the joint's intervals.</div>
@@ -681,7 +681,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
 <div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
-<div><strong>constraints</strong>: the constraints, in return. A combination of following is possible: ik_constraint_x, ik_constraint_y, ik_constraint_z, ik_constraint_alpha_beta, ik_constraint_gamma. For convenience we also have ik_constraint_position=ik_constraint_x|ik_constraint_y|ik_constraint_z, ik_constraint_orientation=ik_constraint_alpha_beta|ik_constraint_gamma, and ik_constraint_pose=ik_constraint_position|ik_constraint_orientation.</div>
+<div><strong>constraints</strong>: the constraints, in return. A combination of the following is possible: ik_constraint_x, ik_constraint_y, ik_constraint_z, ik_constraint_alpha_beta, ik_constraint_gamma. For convenience we also have ik_constraint_position=ik_constraint_x|ik_constraint_y|ik_constraint_z, ik_constraint_orientation=ik_constraint_alpha_beta|ik_constraint_gamma, and ik_constraint_pose=ik_constraint_position|ik_constraint_orientation.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -711,7 +711,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
 <div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
-<div><strong>flags</strong>: bit-coded flags, in return: bit0 set (1): the enabled state of the ik element.</div>
+<div><strong>flags</strong>: bit-coded flags, in return: bit0 set (1): the enabled state of the IK element.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -888,7 +888,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Checks which joints of an IK group hit a limit last time that IK group was handled</td>
+<td class="apiTableRightDescr">Checks which joints of an IK group hit a limit the last time the IK group was handled.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -898,8 +898,8 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>jointHandles</strong>: the joint handles that that had joint limits under- or overshot. Can be null</div>
-<div><strong>underOrOvershots</strong>: the corresponding under- or overshots, for each of the jointHandles. Can be null</div>
+<div><strong>jointHandles</strong>: the joint handles that had joint limits under- or overshot. Can be null</div>
+<div><strong>underOrOvershots</strong>: the corresponding under- or overshots for each of the jointHandles. Can be null</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -918,7 +918,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Returns the joint handles involved in the IK group calculation, i.e. one handle per Jacobian column (except with revolute joints that have 3 corresponding Jacobian columns)</td>
+<td class="apiTableRightDescr">Returns the joint handles involved in the IK group calculation, i.e. one handle per Jacobian column (except for revolute joints, which have 3 corresponding Jacobian columns).</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -928,7 +928,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
-<div><strong>jointHandles</strong>: the joint handles</div>
+<div><strong>jointHandles</strong>: the joint handles.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1018,7 +1018,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>jointHandle</strong>: the handle of the joint.</div>
 <div><strong>cyclic</strong>: whether the joint is cyclic (has no limits).</div>
-<div><strong>intervalMinAndRange</strong>: a pointer to two values: the joint lower limit, and the joint range (i.e. joint upper limit = joint lower limit + joint range)</div>
+<div><strong>intervalMinAndRange</strong>: a pointer to two values: the joint lower limit and the joint range (i.e. joint upper limit = joint lower limit + joint range)</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1037,7 +1037,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Retrieves the limit margin of a joint, i.e. the threshold that will be used to counteract on joint limit violation during IK resolution, if the appropriate IK group flag was set.</td>
+<td class="apiTableRightDescr">Retrieves the limit margin of a joint, i.e. the threshold that will be used to counteract joint limit violation during IK resolution, if the appropriate IK group flag was set.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -1193,7 +1193,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>jointHandle</strong>: the handle of the joint.</div>
-<div><strong>lead</strong>: the screw lead of the joint, in return. A lead value of zero represents a revolute joint, a value different from zero represents a screw.</div>
+<div><strong>lead</strong>: the screw lead of the joint, in return. A lead value of zero represents a revolute joint, while a value different from zero represents a screw.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1298,7 +1298,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Deprecated. Use <a href="#ikGetTargetDummy">ikGetTargetDummy</a> instead</td>
+<td class="apiTableRightDescr">Deprecated. Use <a href="#ikGetTargetDummy">ikGetTargetDummy</a> instead.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -1367,7 +1367,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>objectHandle</strong>: the handle of the object.</div>
 <div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which we want the matrix expressed. Otherwise, specify ik_handle_world if you want the absolute matrix, or ik_handle_parent if you want the matrix relative to the parent object.</div>
-<div><strong>matrix</strong>: a pointer to 12 values representing the transformation matrix (the last row of the 4x4 matrix (0,0,0,1) is omitted)</div>
+<div><strong>matrix</strong>: a pointer to 12 values representing the transformation matrix (the last row of the 4x4 matrix (0,0,0,1) is omitted).</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1415,7 +1415,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Allows to loop through all objects in the environment.</td>
+<td class="apiTableRightDescr">Allows you to loop through all objects in the environment.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -1424,7 +1424,7 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
-<div><strong>index</strong>: the zero-based index. Start at 0, and increment until the return value is false, in order to loop through all objects in the environment.</div>
+<div><strong>index</strong>: the zero-based index. Start at 0, and increment until the return value is false, to loop through all objects in the environment.</div>
 <div><strong>objectHandle</strong>: the handle of the object, in return.</div>
 <div><strong>objectName</strong>: the name of the object, in return.</div>
 <div><strong>isJoint</strong>: whether the object is a joint, in return.</div>
@@ -1506,7 +1506,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Retrieves the handle of the target dummy associated with a tip dummy</td>
+<td class="apiTableRightDescr">Retrieves the handle of the target dummy associated with a tip dummy.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -1515,8 +1515,8 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
-<div><strong>tipDummyHandle</strong>: the handle of the tip dummy</div>
-<div><strong>targetDummyHandle</strong>: the handle of the target dummy, in return. Is -1 if no target is associated with the tip dummy</div>
+<div><strong>tipDummyHandle</strong>: the handle of the tip dummy.</div>
+<div><strong>targetDummyHandle</strong>: the handle of the target dummy, in return. Is -1 if no target is associated with the tip dummy.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1535,7 +1535,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Handles (i.e. computes/resolves) one or several IK groups</td>
+<td class="apiTableRightDescr">Handles (i.e. computes/resolves) one or several IK groups.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -1544,10 +1544,10 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
-<div><strong>ikGroupHandles</strong>: the handles of the IK groups. If one handle is specified, then a simple IK calculation is performed. If more than one handle is specified, then a projected IK computation is performed, where each group calculation result is projected into the previous group's null space, i.e. dq=dq0+NP0*(dq1+NP1*(dq2+NP2*(...))), where dqi is the result of i-th task's IK (i.e. typically J#*e), and NPi is the i-th task's I-J#*J</div>
+<div><strong>ikGroupHandles</strong>: the handles of the IK groups. If one handle is specified, then a simple IK calculation is performed. If more than one handle is specified, then a projected IK computation is performed, where each group calculation result is projected into the previous group's null space, i.e. dq=dq0+NP0*(dq1+NP1*(dq2+NP2*(...))), where dqi is the result of the i-th task's IK (i.e. typically J#*e), and NPi is the i-th task's I-J#*J.</div>
 <div><strong>result</strong>: the bit-coded execution result, in return. Possible values are ik_calc_notperformed, ik_calc_cannotinvert, ik_calc_notwithintolerance, ik_calc_stepstoobig, ik_calc_limithit. Can be nullptr</div>
 <div><strong>precision</strong>: a pointer to 2 values, receiving the largest linear and angular distance between all tip-target pairs. Can be nullptr</div>
-<div><strong>cb</strong>: an optional callback address that allows to inspect and manipulate the generated jacobians and error vector:</div>
+<div><strong>cb</strong>: an optional callback address that allows you to inspect and manipulate the generated jacobians and error vector:</div>
 <div>int jacobianCallback(const int jacobianSize[2],double* jacobian,const int* rowConstraints,const int* rowIkElements,const int* colHandles,const int* colStages,double* errorVector,double* qVector,double* jacobianPseudoinverse)</div>
 <div></div>
 <div>The return value is bit-coded: bit0=qVector is provided, bit1=jacobianPseudoinverse is provided. jacobian and errorVector can be modified, and qVector can be set (set also return bit0 in that case). If jacobianPseudoinverse is provided (set also return bit1 in that case), then if qVector is not provided, qVector will be computed simply like: qVector=jacobianPseudoinverse*errorVector. If qVector and jacobianPseudoinverse are not provided, then internal calculations are used.</div>
@@ -1726,7 +1726,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>ikGroupHandle</strong>: the handle of the IK group.</div>
 <div><strong>ikElementHandle</strong>: the IK element handle, or X, where X=handleOfTipDummy|ik_handleflag_tipdummy (if several IK elements with the same tip dummy exist, then the first encountered will be selected).</div>
-<div><strong>flags</strong>: bit-coded flags: bit0 set (1): the enabled state of the ik element.</div>
+<div><strong>flags</strong>: bit-coded flags: bit0 set (1): the enabled state of the IK element.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -1884,10 +1884,10 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>jointHandle</strong>: the handle of the joint.</div>
-<div><strong>dependencyJointHandle</strong>: the handle of the joint, this joint is dependent of. -1 to disable.</div>
+<div><strong>dependencyJointHandle</strong>: the handle of the joint that this joint is dependent of. -1 to disable.</div>
 <div><strong>offset</strong>: the offset. We have joint linear/angular position = dependency joint linear/angular position * mult + offset</div>
 <div><strong>mult</strong>: the multiplication factor. We have joint linear/angular position = dependency joint linear/angular position * mult + offset</div>
-<div><strong>cb</strong>: an optional callback address that allows to provide a custom dependency function:</div>
+<div><strong>cb</strong>: an optional callback address that allows you to provide a custom dependency function:</div>
 <div>double dependencyCallback(int ikEnv,int slaveJointHandle,double masterJointPosition)</div>
 </td>
 </tr>
@@ -1966,7 +1966,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Sets the limit margin of a joint, i.e. the the threshold that will be used to counteract on joint limit violation during IK resolution, if the appropriate IK group flag was set.</td>
+<td class="apiTableRightDescr">Sets the limit margin of a joint, i.e. the threshold that will be used to counteract joint limit violation during IK resolution, if the appropriate IK group flag was set.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -2092,7 +2092,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>jointHandle</strong>: the handle of the joint.</div>
-<div><strong>lead</strong>: the screw lead of the joint. A lead value of zero represents a revolute joint, a value different from zero represents a screw.</div>
+<div><strong>lead</strong>: the screw lead of the joint. A lead value of zero represents a revolute joint, while a value different from zero represents a screw.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2151,7 +2151,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableRightCParam">
 <div><strong>objectHandle</strong>: the handle of the object.</div>
 <div><strong>relativeToObjectHandle</strong>: the handle of an object relative to which the matrix is expressed. Otherwise, specify ik_handle_world if you specify the absolute matrix, or ik_handle_parent if you specify the matrix relative to the parent object.</div>
-<div><strong>matrix</strong>: the transformation matrix</div>
+<div><strong>matrix</strong>: the transformation matrix.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2180,7 +2180,7 @@ td.section { margin: 0; padding: 0; }
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
 <div><strong>objectHandle</strong>: the handle of the object.</div>
-<div><strong>parentObjectHandle</strong>: the desired parent object, Set -1 for no parent.</div>
+<div><strong>parentObjectHandle</strong>: the desired parent object. Set -1 for no parent.</div>
 <div><strong>keepInPlace</strong>: if true, the object will stay in place, otherwise, it will keep its local transformation.</div>
 </td>
 </tr>
@@ -2288,7 +2288,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Associates a tip dummy with a target dummy, or removes that association. If the tip dummy is already associated with another target dummy, then first remove that association before setting another one</td>
+<td class="apiTableRightDescr">Associates a tip dummy with a target dummy, or removes that association. If the tip dummy is already associated with another target dummy, then first remove that association before setting another one.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -2297,8 +2297,8 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
-<div><strong>tipDummyHandle</strong>: the handle of the tip dummy</div>
-<div><strong>targetDummyHandle</strong>: the handle of the dummy to become the target of the tip, or -1 to remove an existing target association from the tip dummy</div>
+<div><strong>tipDummyHandle</strong>: the handle of the tip dummy.</div>
+<div><strong>targetDummyHandle</strong>: the handle of the dummy to become the target of the tip, or -1 to remove an existing target association from the tip dummy.</div>
 </td>
 </tr>
 <tr class="apiTableTr">
@@ -2317,7 +2317,7 @@ td.section { margin: 0; padding: 0; }
 <table class="apiTable">
 <tr class="apiTableTr">
 <td class="apiTableLeftDescr">Description</td>
-<td class="apiTableRightDescr">Switches to another environment and all function calls will be directed to that environment.</td>
+<td class="apiTableRightDescr">Switches to another environment, and all function calls will be directed to that environment.</td>
 </tr>
 <tr class="apiTableTr">
 <td class="apiTableLeftCSyn">Synopsis</td>
@@ -2326,7 +2326,7 @@ td.section { margin: 0; padding: 0; }
 <tr class="apiTableTr">
 <td class="apiTableLeftCParam">Arguments</td>
 <td class="apiTableRightCParam">
-<div><strong>handle</strong>: handle of the environment to switch to.</div>
+<div><strong>handle</strong>: the handle of the environment to switch to.</div>
 <div><strong>allowAlsoProtectedEnvironment</strong>: set to false.</div>
 </td>
 </tr>

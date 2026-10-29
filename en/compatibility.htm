@@ -32,7 +32,7 @@ CoppeliaSim is developed by a small team, and as such, we embrace an agile devel
 <a name="scriptObjects" id="scriptObjects"></a>Introduction of <a href="newScriptObjects.htm">script objects</a> in CoppeliaSim V4.7 </h2>
 
 <h3>Forward compatibility</h3>
-<p>Associated scripts remain operational, it is however recommended to <a href="newScriptObjects.htm#conversion">convert them to script objects</a>. Automatic conversion is not perfect, and several manual adjustments might have to be done, additionally.</p>
+<p>Associated scripts remain operational. It is however recommended to <a href="newScriptObjects.htm#conversion">convert them to script objects</a>. Automatic conversion is not perfect, and several manual adjustments might have to be done, additionally.</p>
 
 
 <h3>Backward compatibility</h3>
@@ -48,17 +48,17 @@ CoppeliaSim is developed by a small team, and as such, we embrace an agile devel
 <p>There are potentially two problematic situations with existing code:</p>
 
 <ul>
-<li>Code that relies on the usage of the <em>type</em>-function will break with buffers,  e.g.:</li>
+<li>Code that relies on the usage of the <em>type</em>-function will break with buffers, e.g.:</li>
 <code class="hljs language-lua coppelia-coppeliasim-script">function sendData(data)
     if type(data) == 'string' then
         -- this does not execute when data is a buffer
     end
 end</code>
 
-<li>Most API methods/properties that clearly return binary data (e.g. <a href="sim/property_visionSensor_image.htm">visionSensor.image</a>) now return the data as a buffer. Comparing that buffer with a string always resolve to <em>false</em>,   e.g.:</li>
+<li>Most API methods/properties that clearly return binary data (e.g. <a href="sim/property_visionSensor_image.htm">visionSensor.image</a>) now return the data as a buffer. Comparing that buffer with a string always resolves to <em>false</em>, e.g.:</li>
 <code class="hljs language-lua coppelia-coppeliasim-script">print(visionSensor.image == anyStringData) -- always prints false</code>
 
-<li>In sim-1, sim.packTable now returns a buffer of different length from previous CoppeliaSim versions (text/strings and buffers are now differentiated and this is reflected in the packed data),   e.g.:</li>
+<li>In sim-1, sim.packTable now returns a buffer of different length from previous CoppeliaSim versions (text/strings and buffers are now differentiated and this is reflected in the packed data), e.g.:</li>
 <code class="hljs language-lua coppelia-coppeliasim-script">-- Lua
 sim = require('sim-1')
 local packedTable1 = sim.packTable({'Txt'})
@@ -79,7 +79,7 @@ print(sim.unpackTable(packedTable3)) -- prints: {[buffer (3 bytes)]}</code>
 <p>Workarounds:</p>
 <ul>
 <li>Converting a buffer to string via <em>tostring</em>, before handing it to a code base that is not aware of buffers, is the best way to avoid potential problems </li>
-<li>Where a buffer is compared to a string (and vice-versa), convert one or the other via <em>tostring</em> or <em>tobuffer</em>, otherwise comparison always resolves to <em>false</em></li>
+<li>Where a buffer is compared to a string (and vice-versa), convert one or the other via <em>tostring</em> or <em>tobuffer</em>, otherwise the comparison always resolves to <em>false</em></li>
 </ul>
 
 <h3>Backward compatibility</h3>

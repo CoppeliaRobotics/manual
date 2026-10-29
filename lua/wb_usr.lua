@@ -524,7 +524,7 @@ wb_usr.tree =
 					link="dataTransformation.htm"
 				},
 				{
-					name={en="Messaging/interfaces/connectivity"},
+					name={en="Messaging, interfaces and connectivity"},
 					link="meansOfCommunication.htm",
                     folder=
                     {

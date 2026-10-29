@@ -19,25 +19,25 @@
 
 <h1>The main script <img src="images/mainScript1.jpg"></h1>
 
-<p>By default, each <a href="scenes.htm">scene</a> in CoppeliaSim has one main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without main script, a running simulation won't do anything significant. See also <a href="sim/property_scene_mainScript.htm">sim.scene.mainScript</a>.</p>
+<p>By default, each <a href="scenes.htm">scene</a> in CoppeliaSim has a single main script. It contains the basic code that allows a <a href="simulation.htm">simulation</a> to run. Without a main script, a running simulation won't do anything significant. See also <a href="sim/property_scene_mainScript.htm">sim.scene.mainScript</a>.</p>
 
-<p>The main script contains a collection of <a href="callbackFunctions.htm">callbacks functions</a> that are appropriately called by CoppeliaSim. The default main script is typically segmented in four  callback functions: </p>
+<p>The main script contains a collection of <a href="callbackFunctions.htm">callback functions</a> that are appropriately called by CoppeliaSim. The default main script is typically divided into four callback functions: </p>
 
 
-<li>the initialization function: <strong>sysCall_init</strong>. It is called one time, just at the beginning of a simulation<br>
+<li>The initialization function: <strong>sysCall_init</strong>. It is called once, at the beginning of a simulation.<br>
 </li>
 
-<li>the actuation function: <strong>sysCall_actuation</strong>. It is called in each simulation pass. The code is in charge of handling all the actuation functionality of the simulation. One command is of particular interest: <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a>, which calls <a href="simulationScripts.htm">simulation scripts'</a> <em>sysCall_actuation</em> callback functions. Without that commands, <a href="simulationScripts.htm">simulation scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
+<li>The actuation function: <strong>sysCall_actuation</strong>. It is called in each simulation step. The code handles all the actuation functionality of the simulation. One function is of particular interest: <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a>, which calls <a href="simulationScripts.htm">simulation scripts'</a> <em>sysCall_actuation</em> callback functions. Without that command, <a href="simulationScripts.htm">simulation scripts</a> won't execute, or won't execute their actuation function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.  <br>
 </li>
 
-<li>the sensing function: <strong>sysCall_sensing</strong>. It is called in each simulation pass. The code is in charge of handling all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One command is of particular interest: <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a><a href="sim/simHandleSimulationScripts.htm"></a>, which  calls <a href="simulationScripts.htm">simulation scripts'</a> <em>sysCall_sensing</em> callback functions. Without that commands, <a href="simulationScripts.htm">simulation scripts</a> won't  execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
+<li>The sensing function: <strong>sysCall_sensing</strong>. It is called in each simulation step. The code handles all the sensing functionality of the simulation (<a href="proximitySensors.htm">proximity sensors</a>, etc.) in a generic way. One function is of particular interest: <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a><a href="sim/simHandleSimulationScripts.htm"></a>, which calls <a href="simulationScripts.htm">simulation scripts'</a> <em>sysCall_sensing</em> callback functions. Without that command, <a href="simulationScripts.htm">simulation scripts</a> won't execute their sensing function, and specific <a href="models.htm">model</a> functionality or behavior won't operate as intended.<br>
 </li>
 
-<li>the restoration function: <strong>sysCall_cleanup</strong>. It is executed one time just before a simulation ends. The code is in charge of restoring <a href="objects.htm">scene object</a>'s initial poses, clearing sensor states, etc.<br>
+<li>The restoration function: <strong>sysCall_cleanup</strong>. It is executed once, just before a simulation ends. The code restores the initial poses of <a href="objects.htm">scene objects</a>, clears sensor states, etc.<br>
 </li>
 
 <p>
-Following is the typical main script, slightly simplified:
+The following is the typical main script, slightly simplified:
 </p>
 
 <div class=multi-language-switcher data-default="lua">
@@ -119,12 +119,12 @@ function sysCall_resume()
 end</code>
 </div>
 
-<p>There are however many more <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> the main script can use to react to various events.</p>
+<p>However, there are many more <a href="callbackFunctions.htm#systemCallbacks">system callback functions</a> the main script can use to react to various events.</p>
 
-<p>The main script is not supposed to be modified. The reason for this is following: one of CoppeliaSim's strength is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks the command e.g. <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a> then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adjust for new functionality.<br>
+<p>The main script is not supposed to be modified. The reason for this is as follows: one of CoppeliaSim's strengths is that any <a href="models.htm">model</a> (robot, actuator, sensor, etc.) can be copied into a <a href="scenes.htm">scene</a> and is immediately operational. When modifying the main script, you run the risk that models won't perform as expected anymore (e.g. if your main script lacks a command such as <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a>, then all models copied into the scene won't operate at all). Another reason is that keeping a default main script allows old scenes to easily adapt to new functionality.<br>
 </p>
 
-<p>If however, for a reason or another you really need to modify the main script of a scene, you can do this by double-clicking the light-red script icon next to the world icon at the top of the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:<br>
+<p>If, however, for one reason or another, you really need to modify the main script of a scene, you can do so by double-clicking the light-red script icon next to the world icon at the top of the <a href="userInterface.htm#SceneHierarchy">scene hierarchy</a>:<br>
 </p>
 
 
@@ -134,8 +134,8 @@ end</code>
 <p class=imageLabel>[Main script icon]</p>
 <br>
 
-<p>Most of simulation script's system callback functions are called from the main script, via <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a>, which <a href="scriptExecution.htm">operates in a cascading fashion</a> upon the scene hierarchy and the simulation/customization scripts. </p>
-<p>If you look at the default main script, you can notice that the actuation function allows actuating or modifying the scene content (e.g. <a href="sim/scene_dynamics_step.htm">sim.scene.dynamics:step</a>, etc.), while the sensing function allows sensing and probing the scene content (e.g. <a href="sim/proximitySensor_handleSensor.htm">proximitySensor:handleSensor</a>, etc.). Following illustrates what happens in the default main script when a mobile robot equipped with a <a href="proximitySensors.htm">proximity sensor</a> is simulated:<br>
+<p>Most of the simulation scripts' system callback functions are called from the main script via <a href="sim/scene_handleSimulationScripts.htm">sim.scene:handleSimulationScripts</a>, which <a href="scriptExecution.htm">operates in a cascading fashion</a> upon the scene hierarchy and the simulation/customization scripts. </p>
+<p>If you look at the default main script, you will notice that the actuation function allows actuating or modifying the scene content (e.g. <a href="sim/scene_dynamics_step.htm">sim.scene.dynamics:step</a>), while the sensing function allows sensing and probing the scene content (e.g. <a href="sim/proximitySensor_handleSensor.htm">proximitySensor:handleSensor</a>). The following illustrates what happens in the default main script when a mobile robot equipped with a <a href="proximitySensors.htm">proximity sensor</a> is simulated:<br>
 </p>
 
 
@@ -144,8 +144,8 @@ end</code>
 <br>
 
 
-<p>With above's sequence in mind, <a href="simulationScripts.htm">simulation scripts</a> will always read (e.g. with <a href="sim/property_proximitySensor_detectedObject.htm">proximitySensor.detactedObject</a>) the proximity sensor's state from previous sensing, then react to obstacles.</p>
-<p>If you need to explicitly handle a sensor, then make sure to always do it while in the sensing section, otherwise you might end-up with situations where the display appears wrong as illustrated in following figure:<br>
+<p>With the above sequence in mind, <a href="simulationScripts.htm">simulation scripts</a> will always read (e.g. with <a href="sim/property_proximitySensor_detectedObject.htm">proximitySensor.detectedObject</a>) the proximity sensor's state from the previous sensing pass, then react to obstacles.</p>
+<p>If you need to explicitly handle a sensor, then make sure to always do so while in the sensing section. Otherwise, you might end up with situations where the display appears wrong, as illustrated in the following figure:<br>
 </p>
 <p align=center><img src="images/mainScript4.jpg"></p>
 <p class=imageLabel>[Sensing - actuation - display sequence]</p>
