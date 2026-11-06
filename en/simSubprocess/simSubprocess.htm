@@ -28,15 +28,48 @@ table { margin-left: 3em; margin-right: 3em; }
 <p class="infoBox">API functions for subprocess</p>
 <!--###PLUGIN_DOC###-->
 </td></tr>
-<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#exec">simSubprocess.exec</a>
+<tr><td id="alphabetical" class="section"><pre class="lightGreyBox"><a href="?#closeStdIn">simSubprocess.closeStdIn</a>
+<a href="?#exec">simSubprocess.exec</a>
 <a href="?#execAsync">simSubprocess.execAsync</a>
 <a href="?#getpid">simSubprocess.getpid</a>
 <a href="?#isRunning">simSubprocess.isRunning</a>
 <a href="?#kill">simSubprocess.kill</a>
+<a href="?#killEx">simSubprocess.killEx</a>
+<a href="?#poll">simSubprocess.poll</a>
 <a href="?#wait">simSubprocess.wait</a>
+<a href="?#writeStdIn">simSubprocess.writeStdIn</a>
 </pre></td></tr>
 <tr><td id="commands" class="section">
 <h3 class="subsectionBar">
+<a name="closeStdIn" id="closeStdIn"></a>simSubprocess.closeStdIn</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Close the write channel so the child sees EOF.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simSubprocess.closeStdIn(string handle)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam"><div>
+<strong>handle</strong> (string)</div></td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simSubprocess.closeStdIn(string handle)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="exec" id="exec"></a>simSubprocess.exec</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -209,6 +242,75 @@ table { margin-left: 3em; margin-right: 3em; }
 </tr>
 </table>
 <br><h3 class="subsectionBar">
+<a name="killEx" id="killEx"></a>simSubprocess.killEx</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simSubprocess.killEx(string handle, float delay=0, float killDelay=5)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>delay</strong> (float, default: 0)</div>
+<div>
+<strong>killDelay</strong> (float, default: 5)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simSubprocess.killEx(string handle, float delay=0, float killDelay=5)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
+<a name="poll" id="poll"></a>simSubprocess.poll</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">string[] stdOut, string[] stdErr, bool running, bool stdOutClosed, bool stdErrClosed, int exitCode = simSubprocess.poll(string handle, int maxLines=1000)<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>maxLines</strong> (int, default: 1000)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">
+<div>
+<strong>stdOut</strong> (table of string)</div>
+<div>
+<strong>stdErr</strong> (table of string)</div>
+<div>
+<strong>running</strong> (bool)</div>
+<div>
+<strong>stdOutClosed</strong> (bool)</div>
+<div>
+<strong>stdErrClosed</strong> (bool)</div>
+<div>
+<strong>exitCode</strong> (int)</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">list stdOut, list stdErr, bool running, bool stdOutClosed, bool stdErrClosed, int exitCode = simSubprocess.poll(string handle, int maxLines=1000)<br>
+</td>
+</tr>
+</table>
+<br><h3 class="subsectionBar">
 <a name="wait" id="wait"></a>simSubprocess.wait</h3>
 <table class="apiTable">
 <tr class="apiTableTr">
@@ -242,6 +344,39 @@ table { margin-left: 3em; margin-right: 3em; }
 </td>
 </tr>
 </table>
+<br><h3 class="subsectionBar">
+<a name="writeStdIn" id="writeStdIn"></a>simSubprocess.writeStdIn</h3>
+<table class="apiTable">
+<tr class="apiTableTr">
+<td class="apiTableLeftDescr">
+                                                    Description
+                                                </td>
+<td class="apiTableRightDescr">Write bytes to the child's stdin.</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLSyn">Lua synopsis</td>
+<td class="apiTableRightLSyn">simSubprocess.writeStdIn(string handle, buffer data="")<br>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLParam">Lua parameters</td>
+<td class="apiTableRightLParam">
+<div>
+<strong>handle</strong> (string)</div>
+<div>
+<strong>data</strong> (buffer, default: ""): Data passed to stdin.</div>
+</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftLRet">Lua return values</td>
+<td class="apiTableRightLRet">-</td>
+</tr>
+<tr class="apiTableTr">
+<td class="apiTableLeftPSyn">Python synopsis</td>
+<td class="apiTableRightPSyn">simSubprocess.writeStdIn(string handle, buffer data="")<br>
+</td>
+</tr>
+</table>
 <br>
 </td></tr>
 <tr><td id="enums" class="section"></td></tr>
@@ -260,6 +395,12 @@ table { margin-left: 3em; margin-right: 3em; }
 <tr class="apiTableTr">
 <td class="apiTableLeftLParam">Fields</td>
 <td class="apiTableRightLParam">
+<div>
+<strong>captureOutput</strong> (bool, default: false): 
+                Wether to capture output (QProcess::SeparateChannels) or not (QProcess::ForwardedChannels).
+                Only applies to execAsync(); exec() always captures output.
+                Use poll() to read output then.
+            </div>
 <div>
 <strong>useSearchPath</strong> (bool, default: true): Resolve program name searching in PATH entries.</div>
 <div>
