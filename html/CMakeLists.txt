@@ -14,8 +14,26 @@ option(MANUAL_VERIFY
 option(MANUAL_PORTABLE
     "Build a self-contained site with relative URLs (openable from file://)" ON)
 
-set(MANUAL_OUTPUT_DIR "${CMAKE_BINARY_DIR}/html"
+# Deliberately *not* ${CMAKE_BINARY_DIR}/html: when this project is added with
+# add_subdirectory(html) that path is CMake's own binary directory for this
+# subproject, and installing it would copy CMakeFiles/, Makefile, node_modules
+# and the rest of the build tree into the install prefix.
+set(MANUAL_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/manual_html"
     CACHE PATH "Directory receiving the generated static site")
+
+# Older configurations cached ${CMAKE_BINARY_DIR}/html (or .../site), which is
+# CMake's own binary directory when this project is built as a subdirectory —
+# installing it would copy CMakeFiles/, node_modules and the rest of the build
+# tree into the install prefix. Fall back to the dedicated default if a cached
+# value points at a binary directory.
+if(MANUAL_OUTPUT_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR
+   OR MANUAL_OUTPUT_DIR STREQUAL CMAKE_BINARY_DIR)
+    message(STATUS
+        "Ignoring stale MANUAL_OUTPUT_DIR=${MANUAL_OUTPUT_DIR}, using the default")
+    set(MANUAL_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/manual_html"
+        CACHE PATH "Directory receiving the generated static site" FORCE)
+endif()
+
 set(MANUAL_NPM_CACHE "${CMAKE_BINARY_DIR}/npm-cache"
     CACHE PATH "npm cache directory (kept out of \$HOME for hermetic builds)")
 set(MANUAL_PORT "5173"
@@ -86,9 +104,17 @@ if(NOT EXISTS "${MANUAL_DOCS}/index.md")
 endif()
 
 # ---------------------------------------------------------------------------
-# npm dependencies
+# npm dependencies (installed in the build tree; the source tree stays clean)
 # ---------------------------------------------------------------------------
-set(MANUAL_NPM_STAMP "${CMAKE_BINARY_DIR}/npm-install.stamp")
+set(MANUAL_NODE_MODULES "${CMAKE_BINARY_DIR}/node_modules")
+set(MANUAL_CACHE_DIR "${CMAKE_BINARY_DIR}/vitepress-cache")
+# The stamp lives inside node_modules, so deleting the packages forces a
+# reinstall instead of leaving a stale stamp behind.
+set(MANUAL_NPM_STAMP "${MANUAL_NODE_MODULES}/.cmake-installed")
+# VitePress loads its config and theme from <root>/.vitepress (html/), which
+# must be able to resolve "vitepress" and "vue". A link keeps that working
+# while the packages themselves stay in the build tree.
+set(MANUAL_LINKED_MODULES "${MANUAL_ROOT}/node_modules")
 
 set(MANUAL_NPM_DEPS "${MANUAL_ROOT}/package.json")
 if(EXISTS "${MANUAL_ROOT}/package-lock.json")
@@ -98,17 +124,46 @@ else()
     set(MANUAL_NPM_INSTALL "${NPM_EXECUTABLE}" install --no-audit --no-fund)
 endif()
 
+# npm runs against copies of the manifests in the build directory, so its
+# node_modules lands there instead of next to the sources.
+set(MANUAL_NPM_COPIES
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+            "${MANUAL_ROOT}/package.json" "${CMAKE_BINARY_DIR}/package.json")
+if(EXISTS "${MANUAL_ROOT}/package-lock.json")
+    list(APPEND MANUAL_NPM_COPIES
+        COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+                "${MANUAL_ROOT}/package-lock.json" "${CMAKE_BINARY_DIR}/package-lock.json")
+endif()
+
+if(WIN32)
+    set(MANUAL_LINK_COMMAND cmd /c mklink /J
+        "${MANUAL_LINKED_MODULES}" "${MANUAL_NODE_MODULES}")
+else()
+    set(MANUAL_LINK_COMMAND "${CMAKE_COMMAND}" -E create_symlink
+        "${MANUAL_NODE_MODULES}" "${MANUAL_LINKED_MODULES}")
+endif()
+
 add_custom_command(
     OUTPUT "${MANUAL_NPM_STAMP}"
-    COMMAND ${MANUAL_NPM_INSTALL} --cache "${MANUAL_NPM_CACHE}"
+    ${MANUAL_NPM_COPIES}
+    COMMAND "${CMAKE_COMMAND}" -E chdir "${CMAKE_BINARY_DIR}"
+            ${MANUAL_NPM_INSTALL} --cache "${MANUAL_NPM_CACHE}"
     COMMAND "${CMAKE_COMMAND}" -E touch "${MANUAL_NPM_STAMP}"
-    WORKING_DIRECTORY "${MANUAL_ROOT}"
     DEPENDS ${MANUAL_NPM_DEPS}
-    COMMENT "Installing VitePress dependencies (npm)"
+    COMMENT "Installing VitePress dependencies (out of source)"
     VERBATIM
 )
 
-add_custom_target(manual-deps DEPENDS "${MANUAL_NPM_STAMP}")
+add_custom_command(
+    OUTPUT "${MANUAL_LINKED_MODULES}"
+    COMMAND "${CMAKE_COMMAND}" -E rm -rf "${MANUAL_LINKED_MODULES}"
+    COMMAND ${MANUAL_LINK_COMMAND}
+    DEPENDS "${MANUAL_NPM_STAMP}"
+    COMMENT "Linking node_modules into the source tree"
+    VERBATIM
+)
+
+add_custom_target(manual-deps DEPENDS "${MANUAL_NPM_STAMP}" "${MANUAL_LINKED_MODULES}")
 
 # ---------------------------------------------------------------------------
 # Build steps
@@ -126,6 +181,7 @@ endif()
 list(APPEND MANUAL_BUILD_STEPS
     COMMAND "${CMAKE_COMMAND}" -E env
             "MANUAL_BASE=${MANUAL_EFFECTIVE_BASE}" "${MANUAL_PORTABLE_ENV}"
+            "MANUAL_CACHE_DIR=${MANUAL_CACHE_DIR}"
             "${NPM_EXECUTABLE}" run build -- --outDir "${MANUAL_OUTPUT_DIR}")
 if(MANUAL_PORTABLE)
     list(APPEND MANUAL_BUILD_STEPS
@@ -141,8 +197,8 @@ list(APPEND MANUAL_BUILD_STEPS
 file(GLOB_RECURSE MANUAL_MARKDOWN CONFIGURE_DEPENDS "${MANUAL_DOCS}/*.md")
 file(GLOB_RECURSE MANUAL_IMAGES CONFIGURE_DEPENDS "${MANUAL_DOCS}/images/*")
 file(GLOB_RECURSE MANUAL_SITE_CONFIG CONFIGURE_DEPENDS
-    "${MANUAL_DOCS}/.vitepress/*.mts"
-    "${MANUAL_DOCS}/.vitepress/theme/*"
+    "${MANUAL_ROOT}/.vitepress/*.mts"
+    "${MANUAL_ROOT}/.vitepress/theme/*"
 )
 
 add_custom_command(
@@ -178,7 +234,8 @@ endif()
 # Development server (run explicitly: cmake --build build --target serve)
 # ---------------------------------------------------------------------------
 add_custom_target(serve
-    COMMAND "${NPM_EXECUTABLE}" run dev -- --port ${MANUAL_PORT}
+    COMMAND "${CMAKE_COMMAND}" -E env "MANUAL_CACHE_DIR=${MANUAL_CACHE_DIR}"
+            "${NPM_EXECUTABLE}" run dev -- --port ${MANUAL_PORT}
     WORKING_DIRECTORY "${MANUAL_ROOT}"
     COMMENT "Starting the VitePress dev server on http://localhost:${MANUAL_PORT}"
     USES_TERMINAL

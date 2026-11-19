@@ -1,0 +1,91 @@
+/* Presentation tweaks for the manual.
+ *
+ * The pages were written for a table-based layout: images are frequently
+ * large screenshots, and captions are an italic paragraph right after the
+ * image ("[Model of robotic manipulator]"). These rules keep the content
+ * readable in the VitePress default theme without changing the Markdown.
+ */
+
+.vp-doc img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Standalone screenshots are centred, like in the original manual. */
+.vp-doc p > img:only-child {
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Captions rendered from <p class=imageLabel>. */
+.vp-doc p > em:only-child {
+  display: block;
+  text-align: center;
+  font-size: 0.9em;
+  color: var(--vp-c-text-2);
+}
+
+/* Long API tables (converted to definition lists) keep their spacing. */
+.vp-doc dl {
+  margin: 0.75rem 0;
+}
+
+/* Inline code should never break identifiers like "sim-1" mid-word. */
+.vp-doc :not(pre) > code {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* Keep very wide code samples scrollable instead of stretching the page. */
+.vp-doc div[class*='language-'] {
+  overflow-x: auto;
+}
+
+/* Portable builds ship no VitePress SPA: hide the controls that would need it
+ * (search, theme switch, mobile menu). */
+.no-spa .VPNavBarSearch,
+.no-spa .VPNavBarHamburger,
+.no-spa .VPNavBar .VPSwitchAppearance,
+.no-spa .VPLocalNav .menu,
+.no-spa .VPLocalNavOutlineDropdown {
+  display: none !important;
+}
+
+/* ---- Tabbed code groups -------------------------------------------------
+ * VitePress turns consecutive per-language snippets into a code group with
+ * tabs (see codeTabsPlugin in config.mts). Inside a group the per-block
+ * language badge is redundant.
+ */
+.vp-code-group .lang {
+  display: none;
+}
+
+/* In the hosted build VitePress' client script switches the .active block.
+ * The portable build has no client bundle, so the same behaviour is driven by
+ * the radio inputs that back the tabs. */
+@supports selector(:has(*)) {
+  .no-spa .vp-code-group .blocks > div {
+    display: none;
+  }
+  .no-spa .vp-code-group:has(.tabs input:nth-of-type(1):checked) .blocks > div:nth-child(1),
+  .no-spa .vp-code-group:has(.tabs input:nth-of-type(2):checked) .blocks > div:nth-child(2),
+  .no-spa .vp-code-group:has(.tabs input:nth-of-type(3):checked) .blocks > div:nth-child(3),
+  .no-spa .vp-code-group:has(.tabs input:nth-of-type(4):checked) .blocks > div:nth-child(4),
+  .no-spa .vp-code-group:has(.tabs input:nth-of-type(5):checked) .blocks > div:nth-child(5),
+  .no-spa .vp-code-group:has(.tabs input:nth-of-type(6):checked) .blocks > div:nth-child(6) {
+    display: block;
+  }
+}
+
+/* The copy button needs the client bundle; hide it where there is none. */
+.no-spa .copy {
+  display: none !important;
+}
+
+@media (min-width: 960px) {
+  /* The manual's text-heavy pages read better with a slightly wider column. */
+  .VPDoc .content-container {
+    max-width: 760px;
+  }
+}

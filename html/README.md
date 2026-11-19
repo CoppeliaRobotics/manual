@@ -11,22 +11,24 @@ links to those pages point to the
 ## Layout
 
 ```
-docs/
-├── README.md              # table of contents — also the source of the sidebar
-├── screenshot.jpg         # illustration for this README
-├── screenshot-tabs.jpg
-├── .vitepress/            # VitePress config + theme
-└── en/
-    ├── index.md           # home page (same TOC, site-relative links)
-    ├── *.md               # one file per page
-    └── images/            # screenshots referenced by the pages
+docs/                       # the manual (Markdown only)
+├── index.md                # table of contents — also the source of the sidebar
+├── *.md                    # one file per page
+└── images/                 # screenshots referenced by the pages
 
-tools/portable.mjs         # turns a build into a file://-friendly folder
-verify.py                  # Markdown checks: links, images, fences, stray HTML
-CMakeLists.txt             # build orchestration
-CMakePresets.json          # portable / hosted / subpath presets
-package.json               # VitePress dependency pinning
+html/                       # the static-site build system
+├── .vitepress/             # VitePress config + theme
+├── tools/portable.mjs      # turns a build into a file://-friendly folder
+├── verify.py               # Markdown checks: links, images, fences, stray HTML
+├── CMakeLists.txt          # build orchestration
+├── CMakePresets.json       # portable / hosted / subpath presets
+└── package.json            # VitePress dependency pinning
 ```
+
+VitePress needs its `.vitepress` directory next to the site root, so the root
+is `html/` and the Markdown directory is configured with `srcDir: '../docs'`
+in [.vitepress/config.mts](.vitepress/config.mts). npm packages are installed
+in the CMake build tree (`build/node_modules`), not in the source tree.
 
 ## Static HTML site
 
@@ -40,11 +42,13 @@ Two build modes:
 ### Portable build (default)
 
 ```bash
-cmake --preset default
-cmake --build --preset default     # -> build/html
+cmake -S html -B build
+cmake --build build                # -> build/manual_html
 ```
 
-`build/html/index.html` opens directly in a browser (`file://`), with the
+or, from `html/`: `cmake --preset default && cmake --build --preset default`.
+
+`build/manual_html/index.html` opens directly in a browser (`file://`), with the
 sidebar, styling, images and tabbed code blocks intact. It can be copied
 anywhere, served from any sub-directory, or zipped and shipped with the
 application — no web server and no configuration needed.
@@ -76,18 +80,22 @@ mode — pages still link to each other normally.
 ### Hosted build
 
 ```bash
-cmake --preset hosted
-cmake --build --preset hosted      # -> build-hosted/html
+cmake -S html -B build-hosted -DMANUAL_PORTABLE=OFF
+cmake --build build-hosted         # -> build-hosted/manual_html
 ```
+
+(or `cd html && cmake --preset hosted && cmake --build --preset hosted`)
 
 This is the regular VitePress output (absolute URLs, client bundle) with local
 search and client-side navigation. For a sub-path deployment — e.g. a GitHub
 Pages *project* site served from `/manual/` — use:
 
 ```bash
-cmake --preset subpath             # MANUAL_PORTABLE=OFF, MANUAL_BASE=/manual/
-cmake --build --preset subpath
+cmake -S html -B build-subpath -DMANUAL_PORTABLE=OFF -DMANUAL_BASE=/manual/
+cmake --build build-subpath
 ```
+
+(or `cd html && cmake --preset subpath && cmake --build --preset subpath`)
 
 `-DMANUAL_BASE=/some/path/` works with any base URL, and
 `-DMANUAL_OUTPUT_DIR=...` changes the output directory.
@@ -103,9 +111,9 @@ cmake --build --preset subpath
 ### What the site config adds
 
 The Markdown carries no site metadata, so
-[docs/.vitepress/config.mts](docs/.vitepress/config.mts) does four things:
+[.vitepress/config.mts](.vitepress/config.mts) does four things:
 
-* **Sidebar** — parsed at build time from `docs/README.md` (see *Editing the
+* **Sidebar** — parsed at build time from `docs/index.md` (see *Editing the
   manual* below), so the navigation follows that table of contents.
 * **Legacy link rewriting** — links to the plugin/API pages (`*.htm`) are
   rewritten at render time to the corresponding file in the
@@ -122,7 +130,7 @@ The Markdown carries no site metadata, so
   without the client bundle.
 * **Presentation** — images are centred, `[caption]` lines are styled as
   captions, and inline code never breaks identifiers (see
-  `docs/.vitepress/theme/custom.css`).
+  `.vitepress/theme/custom.css`).
 
 Screenshots are bundled by Vite (hashed file names in `assets/`);
 `assetsInlineLimit` is set to 0 so they are not inlined into the HTML.
@@ -131,19 +139,15 @@ The tab merging happens only for the rendered site: the Markdown keeps plain,
 consecutive fenced blocks, which renders fine on GitHub or in any other
 Markdown viewer.
 
-![Multi-language code tabs](docs/screenshot-tabs.jpg)
-
 ## Editing the manual
 
-* **Pages** live in `docs/en/`. Links between pages are relative and keep the
+* **Pages** live in `docs/`. Links between pages are relative and keep the
   `.md` extension (`[Cameras](cameras.md)`, `[states](simulation.md#states)`).
-* **Navigation** comes from [docs/README.md](docs/README.md), a nested bullet
-  list: `- [Label](en/page.md)`, with **2 spaces per level**. Entries without a
-  link are ignored unless they have linked children. The site reads this file
-  at build time; `docs/en/index.md` is the same table of contents with
-  site-relative links and is the home page — keep the two in sync when adding
-  or moving pages.
-* **Images** live in `docs/en/images/` and are referenced from the pages as
+* **Navigation** comes from [docs/index.md](../docs/index.md), a nested bullet
+  list: `- [Label](page.md)`, with **2 spaces per level**. Entries without a
+  link are ignored unless they have linked children. The same file is the home
+  page of the site.
+* **Images** live in `docs/images/` and are referenced from the pages as
   `images/<file>`.
 * **Code** is written as plain fenced blocks; consecutive blocks in different
   languages are turned into tabs when the site is built (no special syntax
