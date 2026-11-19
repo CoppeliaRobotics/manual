@@ -1,0 +1,216 @@
+# CoppeliaSim User Manual
+
+The CoppeliaSim user manual, maintained as Markdown and published with
+[VitePress](https://vitepress.dev).
+
+This edition covers the core manual (170 pages). Plugin pages and the versioned
+API reference pages (`sim-2`, `sim-1`, `sim`, plugin APIs) are not part of it;
+links to those pages point to the
+[original HTML manual](https://github.com/CoppeliaRobotics/manual).
+
+> Entries without a link in the table of contents below refer to those
+> plugin/API pages.
+
+## Contents
+
+- [CoppeliaSim User Manual](welcome.md)
+- [Main features](coppeliaSimFeatures.md)
+  - [Overview in other languages](overviewTranslations.md)
+- [Version history](versionInfo.md)
+- [Licensing](licensing.md)
+- [Acknowledgments](acknowledgments.md)
+- [User interface](userInterface.md)
+  - [Pages and views](pagesAndViews.md)
+  - [Position/orientation manipulation](coordinateDialog.md)
+    - [Position dialog](positionDialog.md)
+    - [Orientation dialog](orientationDialog.md)
+    - [Object movement via the mouse](objectMovement.md)
+  - [On positions and orientations](positionOrientationTransformation.md)
+  - [User settings](settings.md)
+  - [Shortcuts](shortcuts.md)
+- [Scenes and models](scenesAndModels.md)
+  - [Scenes](scenes.md)
+  - [Models](models.md)
+    - [Model dialog](modelDialog.md)
+- [Environment](environment.md)
+  - [Environment dialog](environmentPropertiesDialog.md)
+- [Scene objects](objects.md)
+  - [Entities](entities.md)
+    - [Collections](collections.md)
+  - [Scene object dialog](sceneObjectPropertiesDialog.md)
+  - [Collidable objects](collidableObjects.md)
+  - [Measurable objects](measurableObjects.md)
+  - [Detectable objects](detectableObjects.md)
+  - [Viewable objects](viewableObjects.md)
+  - [Layer selection dialog](layerSelectionDialog.md)
+  - [Cameras](cameras.md)
+    - [Camera dialog](cameraPropertiesDialog.md)
+  - [Lights](lights.md)
+    - [Light dialog](lightPropertiesDialog.md)
+  - [Shapes](shapes.md)
+    - [Shape coordinate frame](shapeReferenceFrames.md)
+    - [Primitive shapes](primitiveShapes.md)
+    - [Shape dialog](shapeProperties.md)
+      - [Shape dynamics dialog](shapeDynamicsProperties.md)
+      - [Shape geometry dialog](geometryDialog.md)
+      - [Shape texture dialog](textureDialog.md)
+    - [Shape edit modes](shapeEditModes.md)
+      - [Triangle edit mode](triangleEditMode.md)
+      - [Vertex edit mode](vertexEditMode.md)
+      - [Edge edit mode](edgeEditMode.md)
+      - [Edit mode for compound shapes](groupedShapeEditMode.md)
+  - [Joints](joints.md)
+    - [Joint modes](jointModes.md)
+    - [Joint dialog](jointProperties.md)
+      - [Joint dynamics dialog](jointDynamicsProperties.md)
+  - [Dummies](dummies.md)
+    - [Dummy dialog](dummyPropertiesDialog.md)
+  - [Graphs](graphs.md)
+    - [Graph dialog](graphPropertiesDialog.md)
+  - [Proximity sensors](proximitySensors.md)
+    - [Proximity sensor types and mode of operation](proximitySensorDescription.md)
+    - [Proximity sensor dialog](proximitySensorPropertiesDialog.md)
+      - [Proximity sensor volume dialog](proximitySensorVolumeDialog.md)
+      - [Proximity sensor detection parameter dialog](proximitySensorDetectionParameterDialog.md)
+  - [Vision sensors](visionSensors.md)
+    - [Vision sensor types and mode of operation](visionSensorDescription.md)
+    - [Vision sensor dialog](visionSensorPropertiesDialog.md)
+  - [Force sensors](forceSensors.md)
+    - [Force sensor dialog](forceSensorPropertiesDialog.md)
+  - [OC trees](octrees.md)
+    - [OC tree dialog](octreePropertiesDialog.md)
+  - [Point clouds](pointClouds.md)
+    - [Point cloud dialog](pointCloudPropertiesDialog.md)
+  - [Paths](paths.md)
+  - [Script objects](scriptObjects.md)
+    - [Simulation scripts](simulationScripts.md)
+    - [Customization scripts](customizationScripts.md)
+    - [Script editor](scriptEditor.md)
+    - [Script dialog](scriptPropertiesDialog.md)
+- [Functionality](functionality.md)
+  - [Geometry / mesh](geometricCalculations.md)
+    - [Collision detection](collisionDetection.md)
+    - [Distance calculation](distanceCalculation.md)
+    - [Geometric plugin](geometricPlugin.md)
+      - simGeom API reference
+    - [Coppelia geometric routines](coppeliaGeometricRoutines.md)
+      - [API reference](coppeliaGeometricRoutines-api.md)
+    - simConvex API reference
+      - [Convex hull](convexHull.md)
+      - [Convex decomposition](convexDecomposition.md)
+    - simOpenMesh API reference
+    - simIGL API reference
+  - [Kinematics](kinematics.md)
+    - [Solving IK and FK tasks](solvingIkAndFk.md)
+    - [Kinematics plugin](kinematicsPlugin.md)
+      - simIK API reference
+    - [Coppelia kinematics routines](coppeliaKinematicsRoutines.md)
+      - [API reference](coppeliaKinematicsRoutines-api.md)
+  - [Dynamics](dynamicsModule.md)
+    - [Designing dynamic simulations](designingDynamicSimulations.md)
+    - [Physics engine differences](physicsEngineDifferences.md)
+      - simMujoco API reference
+  - [Data visualization/output](dataVisualizationAndOutput.md)
+    - [Web-browser based front-end](externalFrontEnd.md)
+  - [Data manipulation/transformation](dataTransformation.md)
+  - [Messaging, interfaces and connectivity](meansOfCommunication.md)
+    - [Remote API](remoteApiOverview.md)
+      - [ZeroMQ remote API](zmqRemoteApiOverview.md)
+      - [WebSocket remote API](wsRemoteApiOverview.md)
+    - [ROS Interfaces](rosInterfaces.md)
+      - [ROS Interface](rosInterf.md)
+        - simROS API reference
+      - [ROS 2 Interface](ros2Interface.md)
+        - simROS2 API reference
+    - simZMQ API reference
+    - simWS API reference
+  - [Paths/trajectories](pathsAndTrajectories.md)
+  - [Path planning](pathAndMotionPlanningModules.md)
+    - simOMPL API reference
+  - [Synthetic vision](syntheticVision.md)
+    - simIM API reference
+    - simVision API reference
+  - [Custom user interfaces](customUIPlugin.md)
+    - simUI API reference
+    - simUI XML syntax
+    - simQML API reference
+  - [Import/export](importExport.md)
+    - [XML format](xmlFormat.md)
+    - URDF format
+      - simURDF API reference
+    - SDF format
+      - simSDF API reference
+    - [Video exporter](aviRecorder.md)
+    - simAssimp API reference
+    - simGLTF API reference
+    - simLDraw API reference
+  - [Commands/setting](commandLine.md)
+    - simCmd API reference
+  - [Miscellaneous](miscellaneousFunctionality.md)
+    - simSurfRec API reference
+    - simICP API reference
+    - simSubprocess API reference
+    - simEigen API reference
+- [Writing code](writingCode.md)
+  - [Scripting](scripts.md)
+    - [Embedded scripts](embeddedScripts.md)
+      - [The main script](mainScript.md)
+    - [Add-ons](addOns.md)
+    - [Sandboxes](sandboxScript.md)
+    - [Threaded and non-threaded script code](threadedAndNonThreadedCode.md)
+    - [Callback functions](callbackFunctions.md)
+      - [Dynamics callback functions](dynCallbackFunctions.md)
+      - [Joint callback functions](jointCallbackFunctions.md)
+      - [Contact callback function](contactCallbackFunction.md)
+      - [Vision callback functions](visionCallbackFunctions.md)
+      - [Trigger callback functions](triggerCallbackFunctions.md)
+      - [User config callback functions](userConfigCallbackFunctions.md)
+    - [Script execution order](scriptExecution.md)
+    - [Buffers](buffers.md)
+    - [Lua vs Python scripts](luaPythonDifferences.md)
+    - [Lua crash course](luaCrashCourse.md)
+  - [Plugins](plugins.md)
+  - [CoppeliaSim's library](coppeliaSimLibrary.md)
+  - [Accessing scene objects programmatically](accessingSceneObjects.md)
+  - [Explicit and non-explicit calls](explicitHandling.md)
+  - [CoppeliaSim API framework](apisOverview.md)
+    - [Regular API reference](apiFunctions.md)
+    - [Regular API constants](apiConstants.md)
+- [Simulation](simulation.md)
+  - [Simulation dialog](simulationPropertiesDialog.md)
+- [Tutorials](tutorials.md)
+  - [BubbleRob tutorial](bubbleRobTutorial.md)
+  - [Building a clean model tutorial](buildingAModelTutorial.md)
+  - [Line following BubbleRob tutorial](lineFollowingBubbleRobTutorial.md)
+  - [Inverse kinematics tutorial](inverseKinematicsTutorial.md)
+  - [External controller tutorial](externalControllerTutorial.md)
+  - [Plugin tutorial](pluginTutorial.md)
+  - [ROS tutorials](rosTutorial.md)
+    - [ROS tutorial](ros1Tutorial.md)
+    - [ROS 2 tutorial](ros2Tutorial.md)
+- [Compiling CoppeliaSim](compilingCoppeliaSim.md)
+
+## Additional pages
+
+- [PyRep](PyRep.md)
+- [regular API constants](apiConstants-1.md)
+- [regular API reference](apiFunctions-1.md)
+- [Assembly operation](assembly.md)
+- [BlueZero Interface](blueZeroPlugin.md)
+- [Calculation modules](calculationModules.md)
+- [Callback scripts](callbackScripts.md)
+- [Common types](commonTypes.md)
+- [Forward/backward compatibility](compatibility.md)
+- [The contact callback script](contactCallbackScript.md)
+- [custom User Interfaces](customUserInterfaces.md)
+- [General callback script](generalCallbackScript.md)
+- [Joint control callback scripts](jointCtrlCallbackScripts.md)
+- [Main and simulation scripts](mainAndChildScripts.md)
+- [Main object types](mainObjectTypes.md)
+- [Markers](markers.md)
+- [Script objects](newScriptObjects.md)
+- [Object Parameter IDs](objectParameterIDs.md)
+- [Properties](properties.md)
+- [CoppeliaSim's library and Python client](pythonClient.md)
+- [User parameters](userParameters.md)
+- [ZeroMQ remote API](zmqRemoteApi2Overview.md)
