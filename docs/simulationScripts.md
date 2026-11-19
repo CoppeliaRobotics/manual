@@ -1,0 +1,13 @@
+# Simulation scripts
+
+A simulation script is an instance of the [scriptObject type](mainObjectTypes.md#scriptObject), which in turn derives from the [sceneObject type](mainObjectTypes.md#sceneObject). It wraps an instance of the [script type](mainObjectTypes.md#script), itself of type *simulation*. It executes code handling a particular function in a [simulation](simulation.md). Double-clicking the script object icon opens the [script editor](scriptEditor.md).
+
+Simulation scripts should exclusively be used to handle simulation-time tasks, since they only run when simulation is running. Their entrance functions are [callback functions](callbackFunctions.md). Functions that are not [running threaded](threadedAndNonThreadedCode.md#threaded) should not be blocking. This means that every time they are called, they should perform some task and then return control. If control is not returned, then the whole [simulation](simulation.md) halts. Simulation script functions are called at least twice per simulation step from [the main script](mainScript.md)'s actuation and sensing functions. The system will also call other [system callback functions](callbackFunctions.md#systemCallbacks) where appropriate (e.g. during script initialization, clean-up).
+
+Simulation scripts follow a [precise calling or execution order](scriptExecution.md) and are typically segmented into [system callback functions](callbackFunctions.md#systemCallbacks); the most important ones are:
+
+- **sysCall_init** is called just one time, the first time the script is called. Usually you would put some initialization code in this part.
+- **sysCall_thread** is the entrance to the script's threaded execution code. Threaded code is interrupted (and later resumed) on a regular basis by CoppeliaSim, by default. This behavior can however be adjusted via [script:setStepping](sim/script_setStepping.htm) and with [script:step](sim/script_step.htm). See also [the other thread-related methods and properties](apiFunctions.md#threads) for more details.
+- **sysCall_actuation** is called in each simulation step, during the actuation phase of a simulation step. Refer to the [main script](mainScript.md) default code for more details about the actuation phase, but typically, you would do some actuation in this part (no sensing).
+- **sysCall_sensing** is called in each simulation step, during the sensing phase of a simulation step. Refer to the [main script](mainScript.md) default code for more details about the sensing phase, but typically, you would only do sensing in this part (no actuation).
+- **sysCall_cleanup** is called one time just before the script state is destroyed (e.g. when simulation ends, or when the script object is removed).

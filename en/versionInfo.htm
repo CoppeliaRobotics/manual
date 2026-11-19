@@ -49,14 +49,20 @@ Version history:
 <p align=center><img src="images/sim2.png"></p>
 <p class=imageLabel>[sim-2]</p>
 
-<li>Fixed several bugs. Thanks to Hannes Weixler and Jeffrey Song for noticing them or helping to resolve them</li>
-<li>Introduced <a href="sim2Overview.htm">sim-2</a>, an object-oriented version of the API, entirely based on properties and methods</li>
+<li>Fixed several bugs. Thanks to Hannes Weixler, Jeffrey Song and Matt Pearson for noticing them or helping to resolve them</li>
+<li>Introduced <a href="sim2Overview.htm">sim-2</a>, an object-oriented version of the API, entirely based on properties and methods. sim-1 and sim-2 can be mixed in the same code</li>
 <li>A new Python wrapper (pythonWrapper-3), supporting the object-oriented approach in sim-2, is now used by default. Older sim-1 scripts must explicitly request their wrapper with the '#luaExec wrapper = "pythonWrapper-2"' directive (automatically added for script objects. Python add-ons need to be manually adjusted).</li>
 <li>Switched to Lua 5.4</li>
 <li>Added <a href="markers.htm">markers</a>, intended to replace <a href="dataVisualizationAndOutput.htm#augmentingScene">drawing objects</a></li>
+<li>Improved the OpenGL3 plugin, which now renders also in true headless mode. Markers, point clouds and oc-trees are also rendered</li>
+<li>Added a new rendering mode: OpenGL3 color-coded, that renders objects (shapes and markers) as with a flat, color-coded color (can be used to detect visible objects). Refer to <a href="apiConstants.htm#renderMode">sim.renderMode</a></li>
+<li>Improved the Pov-Ray plugin, which now also renders markers, point clouds and oc-trees.</li>
+<li>Improved the GLTF plugin, which now also renders markers, point clouds and oc-trees.</li>
+<li>Improved the simGeom and coppeliaGeometricRoutines: operates faster and now uses RGBA instead of RGB: make sure to adjust your c/c++ code if using the coppeliaGeometricRoutines source code.</li>
 <li>Support for old, global namespace Lua API (e.g. simGetObjectPosition instead of sim.getObjectPosition), deprecated since V-REP 3.5, has been dropped</li>
 <li>Support for old threaded simulation scripts (non-coroutine based threads, indicated via a blue script icon), deprecated since CoppeliaSim V4.2, has been dropped</li>
 <li>Support for the legacy remote API, deprecated since CoppeliaSim V4.3, has been dropped</li>
+<li>Mesh properties mesh.vertices, mesh.normals and mesh.textureCoordinates are now per-vertex and column-major data (instead of previously per-triangle-corner and row-major data). Old code relying on these will break and should be adjusted accordingly</li>
 <li>Simplified the <a href="simulation.htm#states">simulation state machine</a> by dropping support for the following simulation states: sim.simulation_advancing_firstafterstop, sim.simulation_advancing_lastbeforepause, sim.simulation_advancing_firstafterpause and sim.simulation_advancing_abouttostop</li>
 <li>Added <a href="sim/simPushMatrixOntoStack_cpp.htm">simPushMatrixOntoStack</a> and <a href="sim/simGetStackMatrix_cpp.htm">simGetStackMatrix</a> API functions</li>
 <li>checkargs.lua: backwards incompatible change: if you used option <code>default=NIL</code>, it should be changed to <code>default_nil=true</code></li>
