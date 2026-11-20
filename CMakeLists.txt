@@ -29,13 +29,12 @@ add_custom_target(genRegularApi ALL
     BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/generated/en
 )
 
-add_subdirectory(html)
-
 file(GLOB HELP_FILES CONFIGURE_DEPENDS *.html *.lua *.class *.css *.txt)
 list(FILTER HELP_FILES EXCLUDE REGEX "/CMakeLists\\.txt$")
 foreach(HELP_FILE IN LISTS HELP_FILES)
     coppeliasim_add_manual(${HELP_FILE} SUBDIR .)
 endforeach()
+coppeliasim_add_manual_directory(docs)
 coppeliasim_add_manual_directory(en)
 coppeliasim_add_manual_directory(index)
 coppeliasim_add_manual_directory(wb_img)
