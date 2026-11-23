@@ -29,6 +29,18 @@ add_custom_target(genRegularApi ALL
     BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/generated/en
 )
 
+# Markdown counterparts of the sim-2 HTML pages (installed in docs/sim-2):
+add_custom_target(genRegularApiMd ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/generated/docs/sim-2
+    COMMAND ${Python3_EXECUTABLE}
+        ${CMAKE_CURRENT_SOURCE_DIR}/apiDoc/generate_md.py
+        --objects-xml=${COPPELIASIM_INCLUDE_DIR}/sim/objects.xml
+        --functions-xml=${COPPELIASIM_INCLUDE_DIR}/sim/functions.xml
+        --docs-dir=${CMAKE_CURRENT_SOURCE_DIR}/docs
+        --output-dir=${CMAKE_CURRENT_BINARY_DIR}/generated/docs/sim-2
+    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/generated/docs/sim-2
+)
+
 file(GLOB HELP_FILES CONFIGURE_DEPENDS *.html *.lua *.class *.css *.txt)
 list(FILTER HELP_FILES EXCLUDE REGEX "/CMakeLists\\.txt$")
 foreach(HELP_FILE IN LISTS HELP_FILES)
@@ -41,3 +53,4 @@ coppeliasim_add_manual_directory(wb_img)
 coppeliasim_add_manual_directory(js)
 
 coppeliasim_add_manual_directory(${CMAKE_CURRENT_BINARY_DIR}/generated/en)
+coppeliasim_add_manual_directory(${CMAKE_CURRENT_BINARY_DIR}/generated/docs/sim-2 SUBDIR docs)
