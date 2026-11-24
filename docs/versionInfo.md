@@ -23,7 +23,7 @@ Version history:
 *[sim-2]*
 
 - Fixed several bugs. Thanks to Hannes Weixler, Jeffrey Song and Matt Pearson for noticing them or helping to resolve them
-- Introduced [sim-2](sim2Overview.htm), an object-oriented version of the API, entirely based on properties and methods. sim-1 and sim-2 can be mixed in the same code
+- Introduced [sim-2](sim2Overview.md), an object-oriented version of the API, entirely based on properties and methods. sim-1 and sim-2 can be mixed in the same code
 - A new Python wrapper (pythonWrapper-3), supporting the object-oriented approach in sim-2, is now used by default. Older sim-1 scripts must explicitly request their wrapper with the '#luaExec wrapper = "pythonWrapper-2"' directive (automatically added for script objects. Python add-ons need to be manually adjusted).
 - Switched to Lua 5.4
 - Added [markers](markers.md), intended to replace [drawing objects](dataVisualizationAndOutput.md#augmentingScene)

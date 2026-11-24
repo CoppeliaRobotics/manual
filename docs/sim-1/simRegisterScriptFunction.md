@@ -1,0 +1,3 @@
+# sim.registerScriptFunction
+
+Deprecated.

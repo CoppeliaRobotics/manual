@@ -1,0 +1,3 @@
+# sim.addBanner
+
+Deprecated.

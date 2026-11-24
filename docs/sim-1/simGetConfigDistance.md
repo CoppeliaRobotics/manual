@@ -1,0 +1,31 @@
+# sim.getConfigDistance
+
+Returns the distance between two configurations points
+
+## Synopsis
+
+```lua
+float distance = sim.getConfigDistance(float[] configA, float[] configB,
+                                       float[] metric = {1, 1, 1 ...},
+                                       int[] types = {0, 0, 0, ...})
+```
+
+```python
+float distance = sim.getConfigDistance(list configA, list configB, list metric = [1, 1, 1, ...],
+                                       list types = [0, 0, 0, ...])
+```
+
+## Parameters
+
+- **configA**: the first configuration, e.g. in case of a 3D pose (position+quaternion), would be [x1 y1 z1 qx1 qy1 qz1 qw1]
+- **configB**: the second configuration
+- **metric**: an optional array specifying the metric to use to compute distances. e.g. if the specified configurations were 3D positions, the distance between two configurations would be calculated as SQRT( mx * (x2 - x1)^2 + my * (y2 - y1)^2 + mz * (z2 - z1)^2 ), where [mx my mz] would be the metric.
+- **types**: an optional array specifying the type of each configuration value/dimension: 0=cartesian value, 1=2pi-cyclic value, 2=quaternion value. e.g. a configuration representing 3D poses should use a types argument [0 0 0 2 2 2 2], a configuration representing revolute and cyclic joints should use a types argument [1 1 1 ...]
+
+## Return values
+
+- **distance**: the distance between the two configurations
+
+## See also
+
+- [path related functions](../apiFunctions-1.md#paths)

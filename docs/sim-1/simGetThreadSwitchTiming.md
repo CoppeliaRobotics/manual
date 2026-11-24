@@ -1,0 +1,3 @@
+# sim.getThreadSwitchTiming
+
+Deprecated.

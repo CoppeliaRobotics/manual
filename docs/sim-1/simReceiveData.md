@@ -1,0 +1,3 @@
+# sim.receiveData
+
+Deprecated.

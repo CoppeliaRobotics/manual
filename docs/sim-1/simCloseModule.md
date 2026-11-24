@@ -1,0 +1,3 @@
+# sim.closeModule
+
+Deprecated.

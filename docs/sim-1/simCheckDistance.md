@@ -1,0 +1,29 @@
+# sim.checkDistance
+
+Checks the minimum distance between two entities. The measurable flags of the entities are overridden if the entities are objects. If the entities are both the same collection (i.e. with the same collection handle), then same objects will not be checked against themselve
+
+## Synopsis
+
+```lua
+int result, float[7] distanceData, int[2] objectHandlePair = sim.checkDistance(int entity1Handle,
+                                                                               int entity2Handle,
+                                                                               float threshold = 0)
+```
+
+```python
+int result, list distanceData, list objectHandlePair = sim.checkDistance(int entity1Handle,
+                                                                         int entity2Handle,
+                                                                         float threshold = 0)
+```
+
+## Parameters
+
+- **entity1Handle**: handle of entity 1 (can be an object handle or a collection handle)
+- **entity2Handle**: handle of entity 2 (can be an object handle or a collection handle), or sim.handle_all to check entity1 against all other measurable objects
+- **threshold**: if distance is bigger than the threshold, the distance is not calculated and result is 0. If threshold is 0 or negative, then no threshold is used.
+
+## Return values
+
+- **result**: 1 if distance is smaller than the threshold
+- **distanceData**: array of 7 values: [obj1X obj1Y obj1Z obj2X obj2Y obj2Z dist]
+- **objectHandlePair**: array of 2 object handles representing the two objects that hold the minimum distance segment

@@ -1,0 +1,3 @@
+# sim.getObjectConfiguration
+
+Deprecated.
