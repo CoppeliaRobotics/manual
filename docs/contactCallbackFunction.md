@@ -5,7 +5,7 @@ Scripts can include a contact callback function, which is one of many [system ca
 The following represents a typical contact callback function:
 
 ```lua
---lua
+sim = require'sim-2'
 
 function sysCall_contact(inData)
     -- Will objects with inData.handle1 and inData.handle2 respond to dynamic collision?
@@ -13,13 +13,13 @@ function sysCall_contact(inData)
     retData.ignoreContact = false -- handle contact here
     retData.collisionResponse = true -- shapes will collide
 
-    if inData.engine == sim.physics_bullet then
+    if inData.engine == sim.physicsEngine.bullet then
         retData.bullet = {}
         retData.bullet.friction = 0
         retData.bullet.restitution = 0
     end
 
-    if inData.engine == sim.physics_ode then
+    if inData.engine == sim.physicsEngine.ode then
         retData.ode = {}
         retData.ode.maxContacts = 16
         retData.ode.mu = 0
@@ -50,13 +50,13 @@ function sysCall_contact(inData)
         retData.ode.contactMode = mode
     end
 
-    if inData.engine == sim.physics_mujoco then
-    end
-    
-    if inData.engine == sim.physics_vortex then
+    if inData.engine == sim.physicsEngine.mujoco then
     end
 
-    if inData.engine == sim.physics_newton then
+    if inData.engine == sim.physicsEngine.vortex then
+    end
+
+    if inData.engine == sim.physicsEngine.newton then
         retData.newton = {}
         retData.newton.staticFriction = 0
         retData.newton.kineticFriction = 0

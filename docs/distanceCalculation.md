@@ -18,7 +18,7 @@ def sysCall_init():
     self.robotCollection:addItem(robotBase, {'mode': 'tree'})
 
 def sysCall_sensing():
-    result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle_all)
+    result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle.all)
     if result:
         txt = 'Robot clearance is ' + str(distance) + 'm, minimum distance object pair is ' + str(objectPair)
         print(txt)
@@ -35,7 +35,7 @@ function sysCall_init()
 end
 
 function sysCall_sensing()
-    local result, distance, dist1, dist2, objectPair = robotCollection:checkDistance(sim.handle_all)
+    local result, distance, dist1, dist2, objectPair = robotCollection:checkDistance(sim.handle.all)
     if result then
         local txt = 'Robot clearance is '.. distance
         txt = txt..'m, minimum distance object pair is '..getAsString(objectPair)
@@ -57,7 +57,7 @@ def sysCall_init():
     self.distanceSegment = sim.scene:createObject({'type': 'marker', ['marker.type']: 'lines', 'itemColor': [0.0, 1.0, 0.0, 1.0]})
 
 def sysCall_sensing():
-    result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle_all)
+    result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle.all)
     if result:
     	self.distanceSegment:clearItems()
         self.distanceSegment:addItems(dist1:horzcat(dist2)) TODO
@@ -75,7 +75,7 @@ function sysCall_init()
 end
 
 function sysCall_sensing()
-    local result, distance, dist1, dist2, objectPair = robotCollection:checkDistance(sim.handle_all)
+    local result, distance, dist1, dist2, objectPair = robotCollection:checkDistance(sim.handle.all)
     if result then
     	distanceSegment:clearItems()
         distanceSegment:addItems(dist1:horzcat(dist2))

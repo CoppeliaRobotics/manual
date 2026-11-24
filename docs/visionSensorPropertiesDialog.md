@@ -12,19 +12,20 @@ In the scene object dialog, click the **Vision sensor** button to display the vi
 
 *[Vision sensor dialog]*
 
-- **Explicit handling**: indicates whether the sensor should be explicitly handled. If checked, the sensor will not be handled when sim.handleVisionSensor(sim.handle_all_except_explicit) is called, but only if sim.handleVisionSensor(sim.handle_all) or sim.handleVisionSensor(visionSensorHandle) is called. This is useful if the user wishes to handle the sensor in a [simulation script](simulationScripts.md) rather than in the [main script](mainScript.md) (if not checked the sensor will be handled twice, once when sim.handleVisionSensor(sim.handle_all_except_explicit) is called in the main script, and once when sim.handleVisionSensor(visionSensorHandle) is called in the simulation script). Refer also to the section on [explicit and non-explicit calls](explicitHandling.md).
-- **External input**: when selected, then the vision sensor's normal operation will be altered so as to be able to handle external images instead (e.g. video images).
-- **Ignore RGB info (faster)**: if selected, the RGB information of the sensor (i.e. the color) will be ignored so that it can operate faster. Use this option if you only rely on the depth information of the sensor.
-- **Ignore depth info (faster)**: if selected, the depth information of the sensor will be ignored so that it can operate faster. Use this option if you do not intend to use the depth information of the sensor.
-- **Packet1 is blank (faster)**: if selected, then CoppeliaSim won't automatically extract specific information from acquired images, so that it can operate faster. Use this option if you do not intend to use the first packet of auxiliary values returned by API functions [sim.readVisionSensor](sim/simReadVisionSensor.htm) or [sim.handleVisionSensor](sim/simHandleVisionSensor.htm).
-- **Render mode**: three modes are currently available:
-- **Legacy OpenGL** (default): renders the visible color channels of objects.
-- **Legacy OpenGL, color coded handles**: renders the objects by coding their handles into the colors. The first data packet returned by the [sim.readVisionSensor](sim/simReadVisionSensor.htm) or [sim.handleVisionSensor](sim/simHandleVisionSensor.htm) API functions represents the detected object handles (round the values down).
-- **POV-Ray**: uses the POV-Ray plugin to render images, allowing for shadows (also soft shadows) and material effects (much slower). The plugin source code is located [here](https://github.com/CoppeliaRobotics/simPovRay).
-- **OpenGL3**: uses the [simOpenGL3 plugin](https://github.com/coppeliaRobotics/simOpenGL3), courtesy of Stephen James. The plugin offers shadow casting, which is currently not possible natively in CoppeliaSim. Light projection and shadows can be adjusted for each light, via the object's [extension string](sceneObjectPropertiesDialog.md#common), e.g. *openGL3 {lightProjection {nearPlane {0.1} farPlane {10} orthoSize {8} bias {0.001} normalBias {0.005} shadowTextureSize {2048}}}*
-- **Near / far clipping plane**: the minimum / maximum distance from which the sensor will be able to detect.
-- **Perspective angle**: the maximum opening angle of the detection volume when the sensor is in perspective mode.
-- **Orthographic size**: the maximum size (along x or y) of the detection volume when the sensor is not in perspective mode.
+- **Explicit handling**: indicates whether the sensor should be explicitly handled. If checked, the sensor will not be handled automatically, but only if [visionSensor:handleSensor](sim/visionSensor_handleSensor.md) is called. Refer also to [visionSensor.explicitHandling](sim/property_visionSensor_explicitHandling.md)
+- **External input**: when selected, then the vision sensor's normal operation will be altered so as to be able to handle external images instead (e.g. video images). Refer also to [visionSensor.useExtImage](sim/property_visionSensor_useExtImage.md)
+- **Ignore RGB info (faster)**: if selected, the RGB information of the sensor (i.e. the color) will be ignored so that it can operate faster. Use this option if you only rely on the depth information of the sensor. Refer also to [visionSensor.ignoreImageInfo](sim/property_visionSensor_ignoreImageInfo.md)
+- **Ignore depth info (faster)**: if selected, the depth information of the sensor will be ignored so that it can operate faster. Use this option if you do not intend to use the depth information of the sensor. Refer also to [visionSensor.ignoreDepthInfo](sim/property_visionSensor_ignoreDepthInfo.md)
+- **Packet1 is blank (faster)**: if selected, then CoppeliaSim won't automatically extract specific information from acquired images, so that it can operate faster. Use this option if you do not intend to use [visionSensor.packet1](sim/property_visionSensor_packet1.md) data.
+- **Render mode**: five modes are available (refer also to [visionSensor.renderMode](sim/property_visionSensor_renderMode.md)):
+  - **Legacy OpenGL** (default): renders the visible objects. This mode does not work when operating CoppeliaSim in true headless mode.
+  - **Legacy OpenGL, color coded handles**: renders the visible objects by coding their handles into the colors. This mode does not work when operating CoppeliaSim in true headless mode. [visionSensor.packet1](sim/property_visionSensor_packet1.md) then represents the detected object handles (round the values down).
+  - **POV-Ray**: uses the POV-Ray plugin to render visible objects, allowing for shadow casting. This mode works also in true headless mode. The plugin source code is located [here](https://github.com/CoppeliaRobotics/simPovRay).
+  - **OpenGL3**: uses the [simOpenGL3 plugin](https://github.com/coppeliaRobotics/simOpenGL3), initially developed by Stephen James, to render visible objects, allowing for shadow casting. This mode works also in true headless mode.
+  - **OpenGL3, color coded handles**: uses the simOpenGL3 plugin. Renders the visible objects by coding their handles into the colors. This mode works also in true headless mode. [visionSensor.packet1](sim/property_visionSensor_packet1.md) then represents the detected object handles (round the values down).
+- **Near / far clipping plane**: the minimum / maximum distance from which the sensor will be able to detect. Refer also to [visionSensor.clippingPlanes](sim/property_visionSensor_clippingPlanes.md)
+- **Perspective angle**: the maximum opening angle of the detection volume when the sensor is in perspective mode. Refer also to [visionSensor.perspective](sim/property_visionSensor_perspective.md) and [visionSensor.viewAngle](sim/property_visionSensor_viewAngle.md)
+- **Orthographic size**: the maximum size (along x or y) of the detection volume when the sensor is not in perspective mode. Refer also to [visionSensor.perspective](sim/property_visionSensor_perspective.md) and [visionSensor.viewSize](sim/property_visionSensor_viewSize.md)
 
 ![](images/visionSensorDialog2.jpg)
 
@@ -34,8 +35,8 @@ In the scene object dialog, click the **Vision sensor** button to display the vi
 
 *[Detection value parameters of the perspective-type vision sensor]*
 
-- **Resolution X / Y**: desired x- / y-resolution of the image captured by the vision sensor. Carefully choose the resolution depending on your application (high resolution will result in slower operation). With older graphic card models, the actual resolution might be different from what is indicated here (old graphic card models only support resolutions at 2^n, where n is 0, 1, 2, etc.).
+- **Resolution X / Y**: desired x- / y-resolution of the image captured by the vision sensor. Refer also to [visionSensor.resolution](sim/property_visionSensor_resolution.md)
 - **Default image color**: allows specifying the color that should be used in areas where nothing was rendered. By default, the [environment](environment.md) fog color is used.
-- **Sensor size**: size of the body-part of the vision sensor. This has no functional effect.
-- **Show view frustum**: if selected, the view frustum (volume) is shown.
+- **Sensor size**: size of the body-part of the vision sensor. This has no functional effect. Refer also to [visionSensor.size](sim/property_visionSensor_size.md))
+- **Show view frustum**: if selected, the view frustum (volume) is shown. Refer also to [visionSensor.showFrustum](sim/property_visionSensor_showFrustum.md)
 - **Color**: allows adjusting the color of the sensor.

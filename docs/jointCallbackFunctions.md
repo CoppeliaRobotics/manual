@@ -14,7 +14,7 @@ The following represents a simple position control joint callback function, for 
 # using sim-2
 
 def sysCall_joint(inData):
-    # inData['mode'] : sim.jointmode_kinematic or sim.jointmode_dynamic
+    # inData['mode'] : sim.jointMode.kinematic or sim.jointMode.dynamic
     # inData['joint'] : the joint to control
     # inData['revolute'] : whether the joint is revolute or prismatic
     # inData['cyclic'] : whether the joint is cyclic or not
@@ -38,7 +38,7 @@ def sysCall_joint(inData):
     #                 torques from joint limits are not taken into account
     # inData['force'] : the joint force/torque, as set via joint.targetForce
 
-    if inData['mode'] == sim.jointmode_dynamic:
+    if inData['mode'] == sim.jointMode.dynamic:
         # Simplest position controller example:
         ctrl = inData['error'] * 20.0
         max_velocity = ctrl
@@ -47,15 +47,15 @@ def sysCall_joint(inData):
         if max_velocity < -inData['maxVel']:
             max_velocity = -inData['maxVel']
         force_or_torque_to_apply = inData['maxForce']
-        
+
         # Following data must be returned to CoppeliaSim:
         outData = {'vel': max_velocity, 'force': force_or_torque_to_apply}
         return outData
-    
+
     # Expected return data:
     # For kinematic joints:
     # outData = {'pos': pos, 'vel': vel, 'immobile': False}
-    # 
+    #
     # For dynamic joints:
     # outData = {'force': f, 'vel': vel}
 ```
@@ -65,7 +65,7 @@ def sysCall_joint(inData):
 -- using sim-2
 
 function sysCall_joint(inData)
-    -- inData.mode : sim.jointmode_kinematic or sim.jointmode_dynamic
+    -- inData.mode : sim.jointMode.kinematic or sim.jointMode.dynamic
     --
     -- inData.joint : the joint to control
     -- inData.revolute : whether the joint is revolute or prismatic
@@ -74,7 +74,7 @@ function sysCall_joint(inData)
     -- inData.dt : the step size used for the calculations
     -- inData.pos : the current position
     -- inData.vel : the current velocity (only with Mujoco)
-    -- inData.accel : the current acceleration (only with Mujoco) 
+    -- inData.accel : the current acceleration (only with Mujoco)
     -- inData.targetPos : the desired position
     -- inData.targetVel : the desired velocity
     -- inData.initVel : the desired initial velocity
@@ -90,7 +90,7 @@ function sysCall_joint(inData)
     --                 torques from joint limits are not taken into account
     -- inData.force : the joint force/torque, as set via joint.targetForce
 
-    if inData.mode == sim.jointmode_dynamic then
+    if inData.mode == sim.jointMode.dynamic then
         -- Simplest position controller example:
         local ctrl = inData.error * 20.0
         local maxVelocity = ctrl
@@ -101,16 +101,16 @@ function sysCall_joint(inData)
             maxVelocity = -inData.maxVel
         end
         local forceOrTorqueToApply = inData.maxForce
-    
+
         -- Following data must be returned to CoppeliaSim:
         local outData = {vel = maxVelocity, force = forceOrTorqueToApply}
         return outData
     end
-    
+
     -- Expected return data:
     -- For kinematic joints:
     -- outData = {pos = pos, vel = vel, immobile = false}
-    -- 
+    --
     -- For dynamic joints:
     -- outData = {force = f, vel = vel}
 end

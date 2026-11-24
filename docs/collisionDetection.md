@@ -18,7 +18,7 @@ def sysCall_init():
     self.robotCollection:addItem(robotBase, {'mode': 'tree'})
 
 def sysCall_sensing():
-    result, pairHandles = self.robotCollection:checkCollision(sim.handle_all)
+    result, pairHandles = self.robotCollection:checkCollision(sim.handle.all)
     if result > 0:
         print(f'Robot is colliding. Colliding pair is {getAsString(pairHandles)}')
 ```
@@ -34,7 +34,7 @@ function sysCall_init()
 end
 
 function sysCall_sensing()
-    local result, pairHandles = robotCollection:checkCollision(sim.handle_all)
+    local result, pairHandles = robotCollection:checkCollision(sim.handle.all)
     if result > 0 then
         print('Robot is colliding. Colliding pair is ' .. getAsString(pairHandles))
     end
@@ -65,7 +65,7 @@ def sysCall_init():
     self.collision_colors = [[1, 0, 0, 255], [1, 0, 1, 255]]  # collider and collidee
 
 def sysCall_sensing():
-    result, pair_handles = self.robot_collection:checkCollision(sim.handle_all)
+    result, pair_handles = self.robot_collection:checkCollision(sim.handle.all)
     restore_pair_color()
     if result:
         # Change color of the collider and collidee objects:
@@ -103,7 +103,7 @@ function sysCall_init()
 end
 
 function sysCall_sensing()
-    local result, pairHandles = robotCollection:checkCollision(sim.handle_all)
+    local result, pairHandles = robotCollection:checkCollision(sim.handle.all)
     restorePairColor()
     if result then
         -- Change color of the collider and collidee objects:
