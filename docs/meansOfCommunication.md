@@ -62,10 +62,9 @@ The called script function can perform various tasks, then return some data to t
 A [script](scripts.md) or a [remote API](remoteApiOverview.md) client can broadcast a message to all scripts at once via [`script:broadcast`](sim-2/script_broadcast.md). For instance, the following constantly broadcasts a message to all scripts, while printing other broadcast messages:
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
 end
 
 function sysCall_sensing()
@@ -84,11 +83,10 @@ end
 A [script](scripts.md) or a [plugin](plugins.md) can receive notifications for everything that happens in CoppeliaSim itself, e.g. when an object is created, modified or removed, or when an internal state changes. A script can use the sysCall_event [callback function](callbackFunctions.md) to that end, coupled with some filtering for the sake of efficiency. For instance, the following script tracks pose changes of any scene object, and changes in scene object selection:
 
 ```lua
---lua
+import 'sim-2'
+cbor = require 'sim.cbor'
 
 function sysCall_init()
-    sim = require 'sim-2'
-    cbor = require 'sim.cbor'
     local filters = {}
     filters['sceneObject'] = {'pose'}
     filters[sim.scene] = {'selection'}
@@ -108,11 +106,10 @@ See also the event viewer add-on located at [Modules > Developer tools > Event v
 The [ZeroMQ library](http://api.zeromq.org/), wrapped inside the [ZMQ plugin](https://github.com/CoppeliaRobotics/simZMQ), offers several [API functions related to ZeroMQ messaging](simZMQ/simZMQ.md). When using Python, you are of course also free to use the pyzmq package for ZeroMQ functionality. The following illustrates a simple requester:
 
 ```lua
---lua
+import 'sim-2'
+import 'simZMQ'
 
 function sysCall_thread()
-    sim = require('sim-2')
-    simZMQ = require('simZMQ')
     print('Connecting to responder server...')
     context = simZMQ.ctx_new()
     requester = simZMQ.socket(context, simZMQ.REQ)
@@ -137,11 +134,10 @@ end
 The following would be the corresponding responder:
 
 ```lua
---lua
+import 'sim-2'
+import 'simZMQ'
 
 function sysCall_thread()
-    sim = require('sim-2')
-    simZMQ = require('simZMQ')
     context = simZMQ.ctx_new()
     responder = simZMQ.socket(context, simZMQ.REP)
     local rc = simZMQ.bind(responder, 'tcp://*:5555')
@@ -169,14 +165,14 @@ end
 The [WebSocket plugin](https://github.com/CoppeliaRobotics/simWS) offers several [API functions that allow you to interact with a web browser](simWS/simWS.md). When using Python, you are of course also free to use a Python-specific WebSocket package. The following is a simple echo server:
 
 ```lua
---lua
+import 'sim-2'
+import 'simWS'
 
 function onMessage(server, connection, data)
     simWS.send(server, connection, data)
 end
 
 function sysCall_init()
-    simWS = require('simWS')
     server = simWS.start(9000)
     simWS.setMessageHandler(server, 'onMessage')
 end
@@ -185,7 +181,8 @@ end
 The following is a simple broadcaster:
 
 ```lua
---lua
+import 'sim-2'
+import 'simWS'
 
 function onOpen(server, connection)
     clients[server] = clients[server] or {}
@@ -203,7 +200,6 @@ function broadcast(server, data)
 end
 
 function sysCall_init()
-    simWS = require('simWS')
     clients = {}
     server = simWS.start(9000)
     simWS.setOpenHandler(server, 'onOpen')
@@ -216,7 +212,7 @@ end
 CoppeliaSim ships with the [LuaSocket](http://w3.impa.br/~diego/software/luasocket/home.html) extension library for Lua, while several packages are available for Python. The following illustrates how to fetch a web page:
 
 ```python
-#python
+import sim
 
 import requests
 response = requests.get('http://www.google.com')
@@ -224,7 +220,7 @@ page = response.text
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 http = require('socket.http')
 page = http.request('http://www.google.com')

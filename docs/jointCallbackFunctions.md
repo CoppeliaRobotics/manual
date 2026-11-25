@@ -10,8 +10,7 @@ Joint callback functions enable the user to customize the control loop for speci
 The following represents a simple position control joint callback function, for a joint in dynamic mode:
 
 ```python
-#python
-# using sim-2
+import sim
 
 def sysCall_joint(inData):
     # inData['mode'] : sim.jointMode.kinematic or sim.jointMode.dynamic
@@ -61,8 +60,7 @@ def sysCall_joint(inData):
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 function sysCall_joint(inData)
     -- inData.mode : sim.jointMode.kinematic or sim.jointMode.dynamic

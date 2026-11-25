@@ -7,15 +7,13 @@ First of all you should make sure that you have gone through the [official ROS2 
 The general ROS2 functionality in CoppeliaSim is supported via the [ROS2 Interface](rosInterf.md) (*libsimROS2.so*). The Linux distribution should include that file already compiled in *CoppeliaSim/compiledROSPlugins*, but it first needs to be copied to *CoppeliaSim/*, otherwise it won't be loaded. You might however experience plugin load problems, depending on your system specificities: make sure to always inspect the terminal window of CoppeliaSim for details about plugin load operations. The ROS2 plugin is loaded with:
 
 ```python
-#python
-
-simROS2 = require('simROS2')
+import sim
+import simROS2
 ```
 
 ```lua
---lua
-
-simROS2 = require('simROS2')
+import 'sim-2'
+import 'simROS2'
 ```
 
 Make sure to source the ROS2 environment prior to running CoppeliaSim.
@@ -47,7 +45,8 @@ $ ros2 node list
 In an empty CoppeliaSim scene, select an object, then attach a non-threaded [simulation script](simulationScripts.md) to it with [Add > Script object > simulation script > Non threaded > Lua/Python]. Open the [script editor](scriptEditor.md) for that script and replace the content with the following:
 
 ```lua
---lua
+import 'sim-2'
+import 'simROS2'
 
 function subscriber_callback(msg)
     -- This is the subscriber callback function
@@ -73,9 +72,6 @@ function getTransformStamped(object, name, relToName)
 end
 
 function sysCall_init()
-    sim = require('sim-2')
-    simROS2 = require('simROS2')
-
     -- The simulation script initialization
     object = sim.self:getObject('..')
     objectName = object:getName({mode = 'nameHandle'})

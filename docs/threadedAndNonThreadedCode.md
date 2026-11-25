@@ -9,8 +9,7 @@ The entrance to a script is always originating from [callback functions](callbac
 Non-threaded code is inherently synchronized with the simulation loop:
 
 ```python
-#python
-# using sim-2
+import sim
 
 def sysCall_init():
     pass
@@ -20,10 +19,9 @@ def sysCall_sensing():
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
 end
 
 function sysCall_sensing()
@@ -38,8 +36,7 @@ Threaded code on the other hand allows running blocking code, without halting Co
 Threaded code runs non-blocking (or in non-stepping mode) by default:
 
 ```python
-#python
-# using sim-2
+import sim
 
 def sysCall_init():
     pass
@@ -50,10 +47,9 @@ def sysCall_thread():
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
 end
 
 function sysCall_thread()
@@ -66,8 +62,7 @@ end
 This behavior can be changed via [`script:setStepping`](sim-2/script_setStepping.md), which then requires explicit yielding via [`script:step`](sim-2/script_step.md):
 
 ```python
-#python
-# using sim-2
+import sim
 
 def sysCall_init():
     sim.self:setStepping(True)  # enable the stepping mode (no more preemptive yielding from CoppeliaSim)
@@ -79,10 +74,9 @@ def sysCall_thread():
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     sim.self:setStepping(true) -- enable the stepping mode (no more preemtive yielding from CoppeliaSim)
 end
 

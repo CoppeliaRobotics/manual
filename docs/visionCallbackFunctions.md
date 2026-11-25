@@ -5,8 +5,7 @@
 The following represents an empty vision callback function:
 
 ```python
-#python
-# using sim-2
+import sim
 
 def sysCall_vision(inData):
     # We have:
@@ -25,8 +24,7 @@ def sysCall_vision(inData):
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 function sysCall_vision(inData)
     -- We have:
@@ -39,7 +37,7 @@ function sysCall_vision(inData)
 
     local outData = {}
     outData.trigger = false -- true if the sensor should trigger
-    outData.packedPackets = {} -- a table of packed packets (packed as single precision floats). 
+    outData.packedPackets = {} -- a table of packed packets (packed as single precision floats).
                                -- Can be accessed via e.g. visionSensor.packet1, visionSensor.packet2
     return outData
 end
@@ -50,9 +48,7 @@ Image processing can be performed by using various API functions. The [vision pl
 The following represents a simple edge detection vision callback function, that triggers and returns a packet of data (based on the vision plugin functions):
 
 ```python
-#python
-# using sim-2
-
+import sim
 import struct
 
 def sysCall_vision(inData):
@@ -68,8 +64,7 @@ def sysCall_vision(inData):
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 function sysCall_vision(inData)
     simVision.sensorImgToWorkImg(inData.sensor.handle)
@@ -87,8 +82,8 @@ end
 The following represents a vision callback function, that draws a circle onto the acquired image (based on the image plugin functions):
 
 ```python
-#python
-# using sim-2
+import sim
+import simIM
 
 def sysCall_vision(inData):
     imgHandle = simIM.readFromVisionSensor(inData['sensor.handle'])
@@ -100,8 +95,8 @@ def sysCall_vision(inData):
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
+import 'simIM'
 
 function sysCall_vision(inData)
     local imgHandle = simIM.readFromVisionSensor(inData.sensor.handle)

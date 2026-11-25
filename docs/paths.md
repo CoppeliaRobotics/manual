@@ -21,17 +21,17 @@ Path properties are set in its customization script. See also the [Path class](m
 Path data is stored inside of the path, as a custom data property of type buffer. It can be accessed with:
 
 ```python
-#python
+import sim
 
 # control point data (poses, one column per pose):
-ctrlPts = sim.app:unpack(path.customData.pathInfo).ctrlPoints.points
+ctrlPts = sim.app.unpack(path.customData.pathInfo).ctrlPoints.points
 
 # path data (poses, one column per pose):
-pts = sim.app:unpack(path.customData.pathInfo).pathPoints.points
+pts = sim.app.unpack(path.customData.pathInfo).pathPoints.points
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 # control point data (poses, one column per pose):
 local ctrlPts = sim.app:unpack(path.customData.pathInfo).ctrlPoints.points
@@ -43,11 +43,10 @@ local pts = sim.app:unpack(path.customData.pathInfo).pathPoints.points
 To have an object follow a path in position and orientation, you could use the following script:
 
 ```lua
---lua
+import 'sim-2'
+import 'simEigen'
 
 function sysCall_init()
-    sim = require('sim-2')
-    simEigen = require('simEigen')
     Path = require('Path')
 
     objectToFollowPath = sim.self:getObject('..')
@@ -69,7 +68,7 @@ function sysCall_init()
     path = Path(pathPts, opt)
     totalLength = path:data().ctrlPoints.pathLength
     -- visualize the actual path being used:
-    -- path:createMarkers() 
+    -- path:createMarkers()
 end
 
 function sysCall_thread()

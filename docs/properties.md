@@ -5,8 +5,7 @@ In CoppeliaSim, all internal variables or states can be handled as properties: t
 Properties relate to an [object](mainObjectTypes.md#object), e.g. sim.app, sim.scene, sim.self, a script instance, a sceneObject instance:
 
 ```python
-#python
-# using sim-2
+import sim
 
 sim.app.paths.settings # get location of user settings file usrset.txt
 sim.scene.dynamics.gravity # set zero-gravity
@@ -16,8 +15,7 @@ meshObject.vertices # get vertices of a mesh
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 sim.app.paths.settings -- get location of user settings file usrset.txt
 sim.scene.dynamics.gravity -- set zero-gravity
@@ -29,8 +27,7 @@ meshObject.vertices -- get vertices of a mesh
 [This page lists all available properties and methods](apiFunctions.md#methodsAndProperties). A property is usually readable and writable, but depending on the property, it can also be read-only or write-only. Other properties can be removable, are constant, etc.:
 
 ```python
-#python
-# using sim-2
+import sim
 
 shapeObject.meshes # read-only property
 shapeObject.applyColor.diffuse = [1, 0, 0, 1] # write-only property
@@ -38,8 +35,7 @@ sceneObject:removeProperty('customData.myFloatArray') # removable property
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 shapeObject.meshes -- read-only property
 shapeObject.applyColor.diffuse = Color('red') -- write-only property
@@ -61,19 +57,17 @@ The following are particular types of properties:
 Custom data properties can be seen as persistent data (stored in an object, sometimes also to disk) with different scopes: globally (i.e., sim.app (stored to disk), within the current scene (sim.scene), or locally, specific to a scene object. Custom data properties are identified with a *customData.*-prefix, and they can be created/set, modified and removed. For example:
 
 ```python
-#python
-# using sim-2
+import sim
 
 # script 1 writes the data to a scene object:
 
 myData = [1, 2, ["Hello", "world", True, {"value1": 63, "value2": "aString"}]]
-sceneObject.customData.myTag = sim.app:pack(myData)
-sceneObject:setBufferProperty('customData.myTag', myData) # same effect as above, but by using the related method
+sceneObject.customData.myTag = sim.app.pack(myData)
+sceneObject.setBufferProperty('customData.myTag', myData) # same effect as above, but by using the related method
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 -- script 1 writes the data to a scene object:
 
@@ -83,20 +77,18 @@ sceneObject:setBufferProperty('customData.myTag', myData) -- same effect as abov
 ```
 
 ```python
-#python
-# using sim-2
+import sim
 
 # script 2 reads the data from the scene object:
 
 myData = sceneObject.customData.myTag
 if myData:
-    myData = sim.app:unpack(myData)
+    myData = sim.app.unpack(myData)
     # do something with the data
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 -- script 2 reads the data from the scene object:
 
@@ -114,18 +106,16 @@ Unlike signals, custom data is not volatile nor removed if the script state that
 Signal properties can be seen as variables with different scopes: globally (i.e., sim.app), within the current scene (sim.scene), or locally, specific to a scene object. Signal properties are identified with a *signal.*-prefix, and they can be created/set, modified and removed. For example:
 
 ```python
-#python
-# using sim-2
+import sim
 
 # script 1 writes the data to int signal 'myIntSignal':
 
 sim.scene.signal.myIntSignal = 37
-sim.scene:setIntProperty('signal.myIntSignal', 37) # same effect as above, but by using the related method
+sim.scene.setIntProperty('signal.myIntSignal', 37) # same effect as above, but by using the related method
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 -- script 1 writes the data to int signal 'myIntSignal':
 
@@ -134,8 +124,7 @@ sim.scene:setIntProperty('signal.myIntSignal', 37) -- same effect as above, but 
 ```
 
 ```python
-#python
-# using sim-2
+import sim
 
 # script 2 reads the data from int signal 'myIntSignal':
 
@@ -145,8 +134,7 @@ if myData != None:
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 -- script 2 reads the data from int signal 'myIntSignal':
 
@@ -163,15 +151,13 @@ If the script state that created/modified a signal is destroyed, then that signa
 Named parameters are volatile string properties related to CoppeliaSim in general (i.e. the target object is always sim.app). Named parameters are usually [user settings](commandLine.md#settingsFile), or user arguments set via the -G [command line](commandLine.md#commandLine) switch. For instance:
 
 ```python
-#python
-# using sim-2
+import sim
 
 arg = sim.app.namedParam.myCustomArgument
 ```
 
 ```lua
---lua
--- using sim-2
+import 'sim-2'
 
 local arg = sim.app.namedParam.myCustomArgument
 ```
