@@ -9,13 +9,12 @@ CoppeliaSim can measure the minimum distance between two [measurable](measurable
 Using [`sceneObject:checkDistance`](sim-2/sceneObject_checkDistance.md) and [`collection:checkDistance`](sim-2/collection_checkDistance.md), you can easily calculate the minimum distance between entities, for instance between a robot and its environment, from within a [simulation script](simulationScripts.md), in each simulation step:
 
 ```python
-#python
+import sim
 
 def sysCall_init():
-    sim = require('sim-2')
-    robotBase = sim.self:getObject('/robotModelName')
-    self.robotCollection = sim.scene:createObject({'type': 'collection'})
-    self.robotCollection:addItem(robotBase, {'mode': 'tree'})
+    robotBase = sim.self.getObject('/robotModelName')
+    self.robotCollection = sim.scene.createObject({'type': 'collection'})
+    self.robotCollection.addItem(robotBase, {'mode': 'tree'})
 
 def sysCall_sensing():
     result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle.all)
@@ -25,10 +24,9 @@ def sysCall_sensing():
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     local robotBase = sim.self:getObject('/robotModelName')
     robotCollection = sim.scene:createObject({type = 'collection'})
     robotCollection:addItem(robotBase, {mode = 'tree'})
@@ -47,14 +45,13 @@ end
 One can also display the measured minimum distance, as a colored segment in the scene:
 
 ```python
-#python
+import sim
 
 def sysCall_init():
-    sim = require('sim-2')
-    robotBase = sim.scene:getObject('/robotModelName')
-    self.robotCollection = sim.scene:createObject({'type': 'collection'})
+    robotBase = sim.scene.getObject('/robotModelName')
+    self.robotCollection = sim.scene.createObject({'type': 'collection'})
     self.robotCollection:addItem(robotBase, {'mode': 'tree'})
-    self.distanceSegment = sim.scene:createObject({'type': 'marker', ['marker.type']: 'lines', 'itemColor': [0.0, 1.0, 0.0, 1.0]})
+    self.distanceSegment = sim.scene.createObject({'type': 'marker', ['marker.type']: 'lines', 'itemColor': [0.0, 1.0, 0.0, 1.0]})
 
 def sysCall_sensing():
     result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle.all)
@@ -64,10 +61,9 @@ def sysCall_sensing():
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     local robotBase = sim.self:getObject('/robotModelName')
     robotCollection = sim.scene:createObject({type = 'collection'})
     robotCollection:addItem(robotBase, {mode = 'tree'})

@@ -12,8 +12,7 @@ Data in CoppeliaSim can be transformed in various ways:
 <a id="packing"></a>The following example illustrates how to pack/unpack data. Other functions can be found here:
 
 ```python
-#python
-# using sim-2
+import sim
 
 # Refer to the various Python packages, e.g.:
 import struct
@@ -21,18 +20,17 @@ import base64
 import cbor2 as cbor
 
 # One can also use some built-in functions:
-base64Buffer = sim.app:transformBuffer(binaryPackedData, 'uint8', 'base64')
-originalBuffer = sim.app:transformBuffer(base64Buffer, 'base64', 'uint8')
+base64Buffer = sim.app.transformBuffer(binaryPackedData, 'uint8', 'base64')
+originalBuffer = sim.app.transformBuffer(base64Buffer, 'base64', 'uint8')
 
 # Packing/unpacking random data, in CoppeliaSim format:
 data = [1, 'hello', {'value': 'world'}, [1, [2, 3]]]
-binaryPackedData = sim.app:pack(data)
-data = sim.app:unpack(binaryPackedData)
+binaryPackedData = sim.app.pack(data)
+data = sim.app.unpack(binaryPackedData)
 ```
 
 ```lua
---lua
-sim = require('sim-2')
+import 'sim-2'
 
 -- Packing/unpacking specific type of data:
 local data = {1, 2, 3}
@@ -63,15 +61,14 @@ data = cbor.decode(cborPackedData) -- cbor decoding
 <a id="algebra"></a>The following example illustrates usage of linear algebra functionality:
 
 ```python
-#python
+import sim
 
 # Refer to the numpy package for instance:
 import numpy
 ```
 
 ```lua
---lua
-sim = require('sim-2')
+import 'sim-2'
 import('simEigen', '*')
 
 -- Get the absolute poses of an object and its parent:

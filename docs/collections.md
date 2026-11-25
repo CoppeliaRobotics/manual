@@ -32,8 +32,7 @@ A collection is not static, and is constantly evaluated/updated to determine its
 The above collection could be defined as a combination of 4 items, resulting in the following code:
 
 ```python
-#python
-# using sim-2
+import sim
 
 # Collection defined as: <object2> + <object4> + <object6> + <object7>
 
@@ -49,8 +48,7 @@ collection:addItem(object7)
 ```
 
 ```lua
---lua
-sim = require('sim-2')
+import 'sim-2'
 
 -- Collection defined as: <object2> + <object4> + <object6> + <object7>
 
@@ -68,8 +66,7 @@ collection:addItem(object7)
 But a similar collection could also be defined as a combination of the following 3 items too:
 
 ```python
-#python
-# using sim-2
+import sim
 
 # Collection defined as: <all objects> - <tree starting at object1> + <object6>
 
@@ -82,8 +79,7 @@ collection:addItem(object6, {'mode': 'single'}
 ```
 
 ```lua
---lua
-sim = require('sim-2')
+import 'sim-2'
 
 -- Collection defined as: <all objects> - <tree starting at object1> + <object6>
 

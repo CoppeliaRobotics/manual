@@ -17,8 +17,7 @@ While most system callback functions operate in a relatively straight-forward ma
 <a id="systemCallbacks"></a>The following is a list of all supported system callback functions. Most support returning {cmd='cleanup'} or {cmd='restart'} to end or restart the script. Refer to the comments in the code below for details about individual functions:
 
 ```python
-#python
-# using sim-2
+import sim
 
 def sysCall_init():
     # Do some initialization here.
@@ -188,8 +187,7 @@ def sysCall_event(cborBuffer):
 ```
 
 ```lua
---lua
-sim = require('sim-2')
+import 'sim-2'
 
 function sysCall_info()
     -- Lua only. Can be used to specify initial configuration data. E.g. in case of an add-on:

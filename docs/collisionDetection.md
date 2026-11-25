@@ -9,8 +9,7 @@ CoppeliaSim can detect collisions between two [collidable](collidableObjects.md)
 Using [`sceneObject:checkCollision`](sim-2/sceneObject_checkCollision.md) and [`collection:checkCollision`](sim-2/collection_checkCollision.md), you can easily check for collision between entities, for instance between a robot and its environment, from within a [simulation script](simulationScripts.md), in each simulation step:
 
 ```python
-#python
-# using sim-2
+import sim
 
 def sysCall_init():
     robotBase = sim.self:getObject('/robotModelName')
@@ -24,10 +23,9 @@ def sysCall_sensing():
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     local robotBase = sim.self:getObject('/robotModelName')
     robotCollection = sim.scene:createObject({type = 'collection'})
     robotCollection:addItem(robotBase, {mode = 'tree'})
@@ -44,7 +42,8 @@ end
 One can also temporarily modify the color of [objects](objects.md) or whole [collections](collections.md), to visually indicate a collision:
 
 ```python
-#python
+import sim
+
 def change_pair_color(entity_pair, color_pair):
     self.original_color_data = []
     self.original_color_data.append(entity_pair[0])
@@ -76,7 +75,7 @@ def sysCall_cleanup():
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 function changePairColor(entityPair, colorPair)
     originalColorData = {}
@@ -95,7 +94,6 @@ function restorePairColor()
 end
 
 function sysCall_init()
-    sim = require('sim-2')
     local robotBase = sim.self:getObject('/irb360')
     robotCollection = sim.scene:createObject({type = 'collection'})
     robotCollection:addItem(robotBase, {mode = 'tree'})

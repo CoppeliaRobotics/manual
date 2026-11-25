@@ -54,9 +54,7 @@ Images can be imported/exported with [`sim.app:loadImage`](sim-2/app_loadImage.m
 The following example illustrates how to log a joint angle to a file, as text data:
 
 ```python
-#python
-# using sim-2
-
+import sim
 import math
 
 def sysCall_init():
@@ -72,10 +70,9 @@ def sysCall_sensing():
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     joint = sim.self:getObject('/Joint')
     file = io.open('jointAngles.txt', 'w+')
     file:write('Joint angles for each simulation step:\n\n')
@@ -95,7 +92,7 @@ end
 The following example illustrates how to read a file, line by line:
 
 ```python
-#python
+import sim
 
 with open('textFile.txt', 'r') as file:
     for line in file:
@@ -103,7 +100,7 @@ with open('textFile.txt', 'r') as file:
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 for line in io.lines('textFile.txt') do
     print(line)

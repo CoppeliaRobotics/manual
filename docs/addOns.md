@@ -7,8 +7,7 @@ Add-ons should be written in a text file located in the *&lt;CoppeliaSim folder>
 By default, add-ons automatically start when CoppeliaSim starts, e.g.:
 
 ```python
-#python
-#using sim-2
+import sim
 
 def sysCall_init():
     print("Executing the initialization section. Starting together with CoppeliaSim")
@@ -22,8 +21,7 @@ def sysCall_cleanup():
 ```
 
 ```lua
---lua
-sim = require('sim-2')
+import 'sim-2'
 
 function sysCall_init()
     print("Executing the initialization section. Starting together with CoppeliaSim")
@@ -42,8 +40,7 @@ end
 An add-on can also be manually started and stopped from the add-on menu, e.g.:
 
 ```python
-#python
-# using sim-2
+import sim
 
 '''luaExec
 -- Here we have a special Lua section:
@@ -58,9 +55,10 @@ def sysCall_init():
 def sysCall_addOnScriptSuspend():
     print("Ending... (triggered by the user)")
     sim.self.reset() # end this add-on. The cleanup section will be called
+```
 
---lua
-sim = require('sim-2')
+```lua
+import 'sim-2'
 
 function sysCall_info()
     return {autoStart = false}
@@ -76,26 +74,19 @@ function sysCall_addOnScriptSuspend()
 end
 ```
 
-```python
 An add-on can also be suspended/resumed from the add-on menu, e.g.:
-
-#python
-# using sim-2
-
-...
+```python
+import sim
 
 def sysCall_addOnScriptSuspend():
     print("Suspending the add-on... (triggered by the user)")
 
 def sysCall_addOnScriptResume():
     print("Resuming the add-on... (triggered by the user)")
+```
 
-...
-
---lua
-sim = require('sim-2')
-
-...
+```lua
+import 'sim-2'
 
 function sysCall_addOnScriptSuspend()
     print("Suspending the add-on... (triggered by the user)")
@@ -104,13 +95,12 @@ end
 function sysCall_addOnScriptResume()
     print("Resuming the add-on... (triggered by the user)")
 end
-
-...
+```
 
 An add-on can also act as a simple function triggered by the user, e.g.:
 
-#python
-# using sim-2
+```python
+import sim
 
 '''luaExec
 -- Here we have a special Lua section:
@@ -123,9 +113,10 @@ def sysCall_init():
     print("Executing the initialization section. Start triggered by the user")
     # execute some functions here, e.g. import something
     sim.self.reset() # end this add-on.
+```
 
---lua
-sim = require('sim-2')
+```lua
+import 'sim-2'
 
 function sysCall_info()
     return {autoStart = false}
@@ -136,11 +127,12 @@ function sysCall_init()
     -- execute some functions here, e.g. import something
     sim.self:reset() -- end this add-on.
 end
+```
 
 An add-on can also display a customized name in the Modules' menu, e.g.:
 
-#python
-# using sim-2
+```python
+import sim
 
 '''luaExec
 -- Here we have a special Lua section:
@@ -150,16 +142,16 @@ end
 '''
 
 def sysCall_init():
-    ...
+    pass
+```
 
---lua
-sim = require('sim-2')
+```lua
+import 'sim-2'
 
 function sysCall_info()
     return {menu = 'Exporters\nMy exporter'}
 end
 
 function sysCall_init()
-    ...
 end
 ```

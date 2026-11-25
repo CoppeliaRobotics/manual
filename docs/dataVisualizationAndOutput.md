@@ -15,13 +15,11 @@ Data can be visualized or output/logged in various ways:
 The following example illustrates how to display a joint angle in a simple custom user interface:
 
 ```python
-#python
-# using sim-2
-
+import sim
+import simUI
 import math
 
 def sysCall_init():
-    simUI = require('simUI')
     self.joint = sim.self:getObject('/Joint')
     xml = """
         <ui title="Example" closeable="false" layout="form">
@@ -40,11 +38,10 @@ def sysCall_cleanup():
 ```
 
 ```lua
---lua
+import 'sim-2'
+import 'simUI'
 
 function sysCall_init()
-    sim = require('sim-2')
-    simUI = require('simUI')
     joint = sim.self:getObject('/Joint')
     local xml =[[<ui title="Example" closeable="false" layout="form">
         <label text="joint angle:" />
@@ -66,14 +63,13 @@ end
 More complex items, such as random meshes can be created on the fly via [`sim.scene:loadModel`](sim-2/scene_loadModel.md), [`sim.scene:createObject`](sim-2/scene_createObject.md) and/or [`sim.scene:duplicateObjects`](sim-2/scene_duplicateObjects.md). To avoid overloading the scene with too many additional objects, make sure to group shapes with [`sim.scene:groupShapes`](sim-2/scene_groupShapes.md) or [`sim.scene:mergeShapes`](sim-2/scene_mergeShapes.md). For example:
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     local individualShapes = {}
     for i = 0, 359, 1 do
         local shape = sim.scene:createObject({type = 'shape',
-                      ['color.diffuse'] = Color('red'), 
+                      ['color.diffuse'] = Color('red'),
                       cylinder = {radius = 0.0025, length = 0.02}})
         local coord = {math.cos(i * math.pi / 180),
                        math.sin(i * math.pi / 180), 0.01}
@@ -94,8 +90,7 @@ end
 The following example illustrates how to log a joint angle to a file:
 
 ```python
-#python
-# using sim-2
+import sim
 
 import math
 
@@ -114,10 +109,9 @@ def sysCall_cleanup():
 ```
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     joint = sim.self:getObject('/Joint')
     file = io.open('jointAngles.txt', 'w+')
     file:write('Joint angles for each simulation step:\n\n')
@@ -139,10 +133,9 @@ end
 The following example illustrates how to create an auxiliary console, and print text into it:
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     console = sim.app:createObject({type = 'console'})
 end
 
@@ -164,10 +157,9 @@ end
 The following example illustrates how to edit text in an editor:
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     editor = sim.app:createObject({type = 'textEditor'})
 end
 
