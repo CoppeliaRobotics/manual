@@ -1,6 +1,6 @@
 # Video exporter
 
-The video recorder from previous CoppeliaSim versions is not supported anymore. You can however get a similar functionality via a third-party tool, or by actively acquiring frames ([camera:getImage](sim/camera_getImage.htm)) and saving them to disk ([app:saveImage](sim/app_saveImage.htm)), and later assembling them into a video sequence via e.g. [ffmpeg](https://ffmpeg.org/).
+The video recorder from previous CoppeliaSim versions is not supported anymore. You can however get a similar functionality via a third-party tool, or by actively acquiring frames ([`camera:getImage`](sim-2/camera_getImage.htm)) and saving them to disk ([`app:saveImage`](sim-2/app_saveImage.htm)), and later assembling them into a video sequence via e.g. [ffmpeg](https://ffmpeg.org/).
 
 Frame acquisition:
 

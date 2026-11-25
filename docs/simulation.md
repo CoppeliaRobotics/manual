@@ -12,7 +12,7 @@ A simulation in CoppeliaSim can be started, paused and stopped with [Simulation 
 
 *[Simulation state diagram]*
 
-Refer also to [scene.simulation:start](sim/scene_simulation_start.htm), [scene.simulation:pause](sim/scene_simulation_pause.htm) and [scene.simulation:stop](sim/scene_simulation_stop.htm).
+Refer also to [`scene.simulation:start`](sim-2/scene_simulation_start.htm), [`scene.simulation:pause`](sim-2/scene_simulation_pause.htm) and [`scene.simulation:stop`](sim-2/scene_simulation_stop.htm).
 
 ## <a id="simulationLoop"></a>Simulation loop
 
@@ -46,7 +46,7 @@ The simulation speed is adjusted in such a way that the initial simulation time 
 
 *[Simulation speed adjustment mechanism for **real-time simulations**]*
 
-Refer also to [scene.simulation.speedModifier](sim/property_scene_simulation_speedModifier.htm).
+Refer also to [`scene.simulation.speedModifier`](sim-2/property_scene_simulation_speedModifier.htm).
 
 By default, each simulation cycle is composed by the following **sequential** operations:
 

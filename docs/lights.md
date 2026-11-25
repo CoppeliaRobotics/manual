@@ -16,4 +16,4 @@ There can be up to eight active lights in a scene. There are three different typ
 
 *[(1) omnidirectional light, (2) spotlight, (3) directional light]*
 
-A light can be added to the scene with [Add > Light]. Refer also to [sim.scene:createObject](sim/scene_createObject.htm) and [light-related methods and properties](apiFunctions.md#methodsAndProperties_light).
+A light can be added to the scene with [Add > Light]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.htm) and [light-related methods and properties](apiFunctions.md#methodsAndProperties_light).

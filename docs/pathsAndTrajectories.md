@@ -8,4 +8,4 @@ There is however one particular type of path data that is often used and that ca
 
 *[Simple path object, composed of 100 pose data points]*
 
-Refer also to [scene:createObject](sim/scene_createObject.htm).
+Refer also to [`scene:createObject`](sim-2/scene_createObject.htm).

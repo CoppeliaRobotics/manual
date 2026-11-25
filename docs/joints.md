@@ -1,6 +1,6 @@
 # Joints
 
-A joint is an instance of the [joint type](mainObjectTypes.md#joint), which in turn derives from the [sceneObject type](mainObjectTypes.md#sceneObject). It allows for a relative movement between its parent and its children. When a parent-child relationship is built between a joint and an object, the object is attached to the joint's second reference frame, thus, a change of the joint's intrinsic linear/angular position is directly reflected onto its children. A joint can operate in different [modes](jointModes.md). A joint is added to a [scene](scenes.md) with [Add > Joint]. Refer also to [sim.scene:createObject](sim/scene_createObject.htm) and [joint-related methods and properties](apiFunctions.md#methodsAndProperties_joint).
+A joint is an instance of the [joint type](mainObjectTypes.md#joint), which in turn derives from the [sceneObject type](mainObjectTypes.md#sceneObject). It allows for a relative movement between its parent and its children. When a parent-child relationship is built between a joint and an object, the object is attached to the joint's second reference frame, thus, a change of the joint's intrinsic linear/angular position is directly reflected onto its children. A joint can operate in different [modes](jointModes.md). A joint is added to a [scene](scenes.md) with [Add > Joint]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.htm) and [joint-related methods and properties](apiFunctions.md#methodsAndProperties_joint).
 
 ![](images/joints2.jpg)
 
@@ -25,4 +25,4 @@ A joint is an instance of the [joint type](mainObjectTypes.md#joint), which in t
 
 *[Two non-equivalent mechanisms: the right configuration is close to a singularity]*
 
-Refer also to [joint.joint.type](sim/property_joint_joint_type.htm), [joint.bounds](sim/property_joint_bounds.htm), [joint.cyclic](sim/property_joint_cyclic.htm), [joint.joint.position](sim/property_joint_joint_position.htm), [joint.joint.quaternion](sim/property_joint_joint_quaternion.htm) and [joint.configuration](sim/property_joint_configuration.htm).
+Refer also to [`joint.joint.type`](sim-2/property_joint_joint_type.htm), [`joint.bounds`](sim-2/property_joint_bounds.htm), [`joint.cyclic`](sim-2/property_joint_cyclic.htm), [`joint.joint.position`](sim-2/property_joint_joint_position.htm), [`joint.joint.quaternion`](sim-2/property_joint_joint_quaternion.htm) and [`joint.configuration`](sim-2/property_joint_configuration.htm).

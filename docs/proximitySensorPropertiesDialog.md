@@ -12,10 +12,10 @@ In the scene object dialog, click the **Proximity sensor** button to display the
 
 *[Proximity sensor dialog]*
 
-- **Explicit handling**: indicates whether the sensor should be explicitly handled. If checked, the sensor does not calculate a proximity distance, unless explicitly requested via e.g. [proximitySensor:handleSensor](sim/proximitySensor_handleSensor.htm) or [proximitySensor:checkSensor](sim/proximitySensor_checkSensor.htm). Refer also to the section on [explicit and non-explicit calls](explicitHandling.md).
+- **Explicit handling**: indicates whether the sensor should be explicitly handled. If checked, the sensor does not calculate a proximity distance, unless explicitly requested via e.g. [`proximitySensor:handleSensor`](sim-2/proximitySensor_handleSensor.htm) or [`proximitySensor:checkSensor`](sim-2/proximitySensor_checkSensor.htm). Refer also to the section on [explicit and non-explicit calls](explicitHandling.md).
 - **Volume parameters**: Toggles the [proximity sensor volume dialog](proximitySensorVolumeDialog.md). That dialog allows you to customize a proximity sensor's detection volume.
 - **Detection parameters**: opens the [proximity sensor detection parameter dialog](proximitySensorDetectionParameterDialog.md). That dialog allows you to customize various detection parameters.
-- **Show volume**: displays or hides the detection volume. Refer also to [proximitySensor.showVolume](sim/property_proximitySensor_showVolume.htm).
-- **Sensing point size**: the size of the sensing point. This has no effect on calculations (the sensing point, even if displayed big, is always considered as a point). Refer also to [proximitySensor.pointSize](sim/property_proximitySensor_pointSize.htm).
+- **Show volume**: displays or hides the detection volume. Refer also to [`proximitySensor.showVolume`](sim-2/property_proximitySensor_showVolume.htm).
+- **Sensing point size**: the size of the sensing point. This has no effect on calculations (the sensing point, even if displayed big, is always considered as a point). Refer also to [`proximitySensor.pointSize`](sim-2/property_proximitySensor_pointSize.htm).
 - **Volume color**: allows adjusting the color of the sensor's volume.
 - **Detection ray color**: allows adjusting the color of the sensor's detection ray.

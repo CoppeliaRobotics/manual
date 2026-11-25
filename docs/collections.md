@@ -4,9 +4,9 @@ A collection is a user-defined collection of [scene objects](objects.md). Both c
 
 Collections are [collidable](collidableObjects.md), [measurable](measurableObjects.md) and [detectable](detectableObjects.md) entities. This means that collections:
 
-- Can be used in [collision detections](collisionDetection.md) against other collidable entities. Refer also to [collection:checkCollision](sim/collection_checkCollision.htm)
-- Can be used in [minimum distance calculations](distanceCalculation.md) with other measurable entities. Refer also to [collection:checkDistance](sim/collection_checkDistance.htm)
-- Can be detected by [proximity sensors](proximitySensors.md). Refer also to [proximitySensor:checkSensor](sim/proximitySensor_checkSensor.htm)
+- Can be used in [collision detections](collisionDetection.md) against other collidable entities. Refer also to [`collection:checkCollision`](sim-2/collection_checkCollision.htm)
+- Can be used in [minimum distance calculations](distanceCalculation.md) with other measurable entities. Refer also to [`collection:checkDistance`](sim-2/collection_checkDistance.htm)
+- Can be detected by [proximity sensors](proximitySensors.md). Refer also to [`proximitySensor:checkSensor`](sim-2/proximitySensor_checkSensor.htm)
 
 Even if a collection itself is collidable, measurable and detectable, this doesn't mean that all objects contained in the collection are collidable, measurable and detectable:
 
@@ -14,7 +14,7 @@ Even if a collection itself is collidable, measurable and detectable, this doesn
 - During distance measurement, only the measurable objects of a collection (subset of the collection) are measured against another measurable entity.
 - Only the detectable objects of a collection (subset of the collection) can be detected by proximity sensors.
 
-A collection can however override the collidable, measurable and detectable properties of its objects, when creating the collection with [sim.scene:createObject](sim/scene_createObject.htm).
+A collection can however override the collidable, measurable and detectable properties of its objects, when creating the collection with [`sim.scene:createObject`](sim-2/scene_createObject.htm).
 
 A collection is defined by one or several items that can be combined in an additive or subtractive manner. The following items are supported:
 
@@ -23,7 +23,7 @@ A collection is defined by one or several items that can be combined in an addit
 - A chain of objects: this represents all objects encountered when following all ancestors of a single object. If the chain grows or shrinks, the item will dynamically grow/shrink too.
 - All scene objects
 
-A collection is not static, and is constantly evaluated/updated to determine its containing objects (refer also to [collection.objects](sim/property_collection_objects.htm)). A given collection can also be defined in many different ways, depending on specific needs:
+A collection is not static, and is constantly evaluated/updated to determine its containing objects (refer also to [`collection.objects`](sim-2/property_collection_objects.htm)). A given collection can also be defined in many different ways, depending on specific needs:
 
 ![](images/collections.jpg)
 

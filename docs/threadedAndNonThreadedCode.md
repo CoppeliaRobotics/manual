@@ -63,7 +63,7 @@ function sysCall_thread()
 end
 ```
 
-This behavior can be changed via [script:setStepping](sim/script_setStepping.htm), which then requires explicit yielding via [script:step](sim/script_step.htm):
+This behavior can be changed via [`script:setStepping`](sim-2/script_setStepping.htm), which then requires explicit yielding via [`script:step`](sim-2/script_step.htm):
 
 ```python
 #python
@@ -96,6 +96,6 @@ end
 
 The above while loop now executes exactly once for each main simulation step and does not waste time reading and printing the simulation time over and over for the same simulation step: once the current thread has yielded control back to CoppeliaSim, it resumes in the next simulation step.
 
-Several [blocking functions](apiFunctions.md#blockingFunctions) are specifically meant to be running from within threaded code, e.g. [Motion.MoveToConfig:run](sim/MoveToConfig_run.htm) [or Motion.MoveToPose.run](sim/MoveToPose_run.htm): those functions handle thread yielding for you, at the appropriate time.
+Several [blocking functions](apiFunctions.md#blockingFunctions) are specifically meant to be running from within threaded code, e.g. [`Motion.MoveToConfig:run`](sim-2/MoveToConfig_run.htm) [`or Motion.MoveToPose.run`](sim-2/MoveToPose_run.htm): those functions handle thread yielding for you, at the appropriate time.
 
 Refer also to the [stepping mode](simulation.md#stepping), to the [thread-related](apiFunctions.md#methodsAndProperties_thread) and [script-related](apiFunctions.md#methodsAndProperties_script) methods and properties.

@@ -13,4 +13,4 @@ Script objects come in two flavors and wrap two types of [scripts](scripts.md):
 
 A double-click on a script object in the scene hierarchy opens the [script dialog](scriptPropertiesDialog.md) and the [script editor](scriptEditor.md).
 
-Script objects can be added to the [scene](scenes.md) with [Add > Script object]. Refer also to [sim.scene:createObject](sim/scene_createObject.htm), [scriptObject.script](sim/property_scriptObject_script.htm), [scriptObject-related methods and properties](apiFunctions.md#methodsAndProperties_scriptObject), and [script-related methods and properties](apiFunctions.md#methodsAndProperties_script).
+Script objects can be added to the [scene](scenes.md) with [Add > Script object]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.htm), [`scriptObject.script`](sim-2/property_scriptObject_script.htm), [scriptObject-related methods and properties](apiFunctions.md#methodsAndProperties_scriptObject), and [script-related methods and properties](apiFunctions.md#methodsAndProperties_script).

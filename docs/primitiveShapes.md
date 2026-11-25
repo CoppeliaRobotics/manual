@@ -32,4 +32,4 @@ Shapes with a higher subdivision count can reflect light in a more differentiate
 
 Colors and other visual attributes should be adjusted in the [shape dialog](shapeProperties.md). The shape mesh can also be adjusted and edited in the [shape edit modes](shapeEditModes.md), or in the [geometry dialog](geometryDialog.md).
 
-Refer also to [scene:createObject](sim/scene_createObject.htm).
+Refer also to [`scene:createObject`](sim-2/scene_createObject.htm).

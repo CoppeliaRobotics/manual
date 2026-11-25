@@ -6,7 +6,7 @@ CoppeliaSim can measure the minimum distance between two [measurable](measurable
 
 *[Minimum distance calculation between two manipulators]*
 
-Using [sceneObject:checkDistance](sim/sceneObject_checkDistance.htm) and [collection:checkDistance](sim/collection_checkDistance.htm), you can easily calculate the minimum distance between entities, for instance between a robot and its environment, from within a [simulation script](simulationScripts.md), in each simulation step:
+Using [`sceneObject:checkDistance`](sim-2/sceneObject_checkDistance.htm) and [`collection:checkDistance`](sim-2/collection_checkDistance.htm), you can easily calculate the minimum distance between entities, for instance between a robot and its environment, from within a [simulation script](simulationScripts.md), in each simulation step:
 
 ```python
 #python

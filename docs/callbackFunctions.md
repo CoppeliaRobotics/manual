@@ -2,7 +2,7 @@
 
 Callbacks or callback functions are script functions that are triggered by a specific event. They represent the only entrance into script code. They can be categorized into user callbacks, and system callbacks:
 
-- User callback functions are directly triggered by user code, or a plugin. This happens for instance when the user calls a script function in a different script via [script:callFunction](sim/script_callFunction.htm), or when the user clicks a [custom UI](customUserInterfaces.md) button, which triggers a custom event. User callback functions can usually run in [any type of script](scripts.md).
+- User callback functions are directly triggered by user code, or a plugin. This happens for instance when the user calls a script function in a different script via [`script:callFunction`](sim-2/script_callFunction.htm), or when the user clicks a [custom UI](customUserInterfaces.md) button, which triggers a custom event. User callback functions can usually run in [any type of script](scripts.md).
 - System callback functions on the other hand are triggered by CoppeliaSim when a certain event happens, for instance when a script is initialized, or before switching to another scene. System callback functions have fixed function names, such as *sysCall_init* or *sysCall_beforeInstanceSwitch*. Not all system callback functions are supported by all types of scripts, e.g. some can only run in an [add-on](addOns.md) (e.g. *sysCall_addOnScriptSuspend*).
 
 While most system callback functions operate in a relatively straight-forward manner and are easy to understand (see further down for a complete list of system callback functions), some require a little bit more explanations:

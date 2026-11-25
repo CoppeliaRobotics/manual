@@ -4,7 +4,7 @@ CoppeliaSim offers path/motion planning functionality via a plugin wrapping the 
 
 The following points should be considered when preparing a path/motion planning task:
 
-- Decide on a start and goal state. When the path planning object is a serial manipulator, a goal pose (or end-effector position/orientation) is often provided instead of a goal state. In that case [IKGroup:findConfig](sim/IKGroup_findConfig.htm) can be used to find one or several goal states that satisfy the provided goal pose.
+- Decide on a start and goal state. When the path planning object is a serial manipulator, a goal pose (or end-effector position/orientation) is often provided instead of a goal state. In that case [`IKGroup:findConfig`](sim-2/IKGroup_findConfig.htm) can be used to find one or several goal states that satisfy the provided goal pose.
 - Create a path planning task with [simOMPL.createTask](simOMPL/simOMPL.htm#createTask).
 - Select an algorithm with [simOMPL.setAlgorithm](simOMPL/simOMPL.htm#setAlgorithm).
 - Create the required state space, which can be composed as a compound object: [simOMPL.createStateSpace](simOMPL/simOMPL.htm#createStateSpace) and [simOMPL.setStateSpace](simOMPL/simOMPL.htm#setStateSpace).

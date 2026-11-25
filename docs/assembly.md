@@ -12,7 +12,7 @@ The assembly operation contains 3 steps:
 - Select the parent dummy (i.e. the desired attachment point)
 - Click the assemble toolbar button
 
-After a successful assembly operation, both dummies (i.e. the parent- and child-dummy) overlap. An assembly compatibility tag can be specified for assembly-type dummies with [dummy.assemblyTag](sim/property_dummy_assemblyTag.htm). Items can also be assembled via [sceneObject:setParent](sim/sceneObject_setParent.htm).
+After a successful assembly operation, both dummies (i.e. the parent- and child-dummy) overlap. An assembly compatibility tag can be specified for assembly-type dummies with [`dummy.assemblyTag`](sim-2/property_dummy_assemblyTag.htm). Items can also be assembled via [`sceneObject:setParent`](sim-2/sceneObject_setParent.htm).
 
 ![](images/assembly.png)
 

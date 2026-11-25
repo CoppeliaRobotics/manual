@@ -2,7 +2,7 @@
 
 [Scripts](scripts.md) can include a joint callback function, which is one of many [system callback functions](callbackFunctions.md#systemCallbacks). When present and the script's parent is a [joint](joints.md) or a descendant of a joint, then it is called by CoppeliaSim in various situations:
 
-- When the joint is in kinematic mode: modifying [joint.targetPosition](sim/property_joint_targetPosition.htm) or [joint.targetVelocity](sim/property_joint_targetVelocity.htm) triggers the joint callback function. The [main script](mainScript.md) contains such a joint callback function, which offers a default behavior, i.e. a specific motion profile will be applied.
+- When the joint is in kinematic mode: modifying [`joint.targetPosition`](sim-2/property_joint_targetPosition.htm) or [`joint.targetVelocity`](sim-2/property_joint_targetVelocity.htm) triggers the joint callback function. The [main script](mainScript.md) contains such a joint callback function, which offers a default behavior, i.e. a specific motion profile will be applied.
 - When the joint is in dynamic mode, is [dynamically enabled](designingDynamicSimulations.md#dynamicallyEnabled), and is set to custom control: the physics engine triggers the joint callback function for each dynamics simulation step, which is quite often, normally 10 times per simulation step for a given joint.
 
 Joint callback functions enable the user to customize the control loop for specific joints to write low-level control algorithms.

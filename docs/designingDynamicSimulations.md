@@ -20,7 +20,7 @@ Double-clicking the icon in the scene hierarchy (during simulation only) display
 
 *[Dynamic simulation main shape types]*
 
-During dynamic simulation, static shapes are not influenced (i.e. their position relative to their parent object is fixed), whereas non-static shapes are directly influenced by gravity or other constraints (e.g. dynamically enabled joints, see hereafter). See also [shape.dynamic](sim/property_shape_dynamic.htm).
+During dynamic simulation, static shapes are not influenced (i.e. their position relative to their parent object is fixed), whereas non-static shapes are directly influenced by gravity or other constraints (e.g. dynamically enabled joints, see hereafter). See also [`shape.dynamic`](sim-2/property_shape_dynamic.htm).
 
 Respondable shapes influence each other during dynamic collision (i.e. they produce a mutual *collision reaction*, they bounce off each other). The following figure illustrates the static/non-static, respondable/non-respondable behaviors:
 
@@ -28,9 +28,9 @@ Respondable shapes influence each other during dynamic collision (i.e. they prod
 
 *[Static/non-static, respondable/non-respondable shape behaviors and interactions]*
 
-Two respondable shapes always produce a collision reaction, unless their respective collision masks don't overlap. Static/non-static, respondable/non-respondable shape properties, as well as collision masks can be set in the [shape dynamics dialog](shapeDynamicsProperties.md). See also [shape.respondable](sim/property_shape_respondable.htm) and [shape.respondableMask](sim/property_shape_respondableMask.htm).
+Two respondable shapes always produce a collision reaction, unless their respective collision masks don't overlap. Static/non-static, respondable/non-respondable shape properties, as well as collision masks can be set in the [shape dynamics dialog](shapeDynamicsProperties.md). See also [`shape.respondable`](sim-2/property_shape_respondable.htm) and [`shape.respondableMask`](sim-2/property_shape_respondableMask.htm).
 
-Note: in MuJoCo, static shapes (*mocap* bodies) do not transmit friction forces. For that reason, static shapes in MuJoCo will always be represented as a *mocap* body linked to a non-static free body via a *weld* constraint (unless [shape.kinematic](sim/property_shape_kinematic.htm) is set to false).
+Note: in MuJoCo, static shapes (*mocap* bodies) do not transmit friction forces. For that reason, static shapes in MuJoCo will always be represented as a *mocap* body linked to a non-static free body via a *weld* constraint (unless [`shape.kinematic`](sim-2/property_shape_kinematic.htm) is set to false).
 
 ## <a id="dynamicallyEnabled"></a><a id="constraints"></a>Simple constraints between shapes
 
@@ -60,13 +60,13 @@ The following represents a rigid constraint between two shapes that do not have 
 
 *[Dynamic overlap constraint, that rigidly binds two shapes]*
 
-See also [dummy.dummy.type](sim/property_dummy_dummy_type.htm) and [dummy.linkedDummy](sim/property_dummy_linkedDummy.htm).
+See also [`dummy.dummy.type`](sim-2/property_dummy_dummy_type.htm) and [`dummy.linkedDummy`](sim-2/property_dummy_linkedDummy.htm).
 
-Note: in MuJoCo, loop closures are handled via *weld* constraints that can appear soft or wobbly, depending on the setup. Stiffness/rigidity of the related *weld* constraint can be adjusted via the [dummy.dynamics.mujoco.overlapConstrSolref](sim/property_dummy_dynamics_mujoco_overlapConstrSolref.htm), [dummy.dynamics.mujoco.overlapConstrSolimp](sim/property_dummy_dynamics_mujoco_overlapConstrSolimp.htm) and [dummy.dynamics.mujoco.overlapConstrTorquescale](sim/property_dummy_dynamics_mujoco_overlapConstrTorquescale.htm) (the average values are taken between both dummy properties).
+Note: in MuJoCo, loop closures are handled via *weld* constraints that can appear soft or wobbly, depending on the setup. Stiffness/rigidity of the related *weld* constraint can be adjusted via the [`dummy.dynamics.mujoco.overlapConstrSolref`](sim-2/property_dummy_dynamics_mujoco_overlapConstrSolref.htm), [`dummy.dynamics.mujoco.overlapConstrSolimp`](sim-2/property_dummy_dynamics_mujoco_overlapConstrSolimp.htm) and [`dummy.dynamics.mujoco.overlapConstrTorquescale`](sim-2/property_dummy_dynamics_mujoco_overlapConstrTorquescale.htm) (the average values are taken between both dummy properties).
 
 ## <a id="rigidCompounds"></a>Rigid compounds
 
-Two non-static [shapes](shapes.md) that are not linked through dynamically enabled joints or force sensors move independently from each other during dynamic simulation. If you want two or more shapes to behave as one single shape, you have to group them ([Edit > Shape grouping/merging > group]). Make sure you adjust the inertia matrix of the final shape appropriately. See also [sim.scene:groupShapes](sim/scene_groupShapes.htm), [shape.dynamics.inertiaMatrix](sim/property_shape_dynamics_inertiaMatrix.htm), [shape.dynamics.centerOfMass](sim/property_shape_dynamics_centerOfMass.htm), [shape.dynamics.mass](sim/property_shape_dynamics_mass.htm), and make sure you also read the [section about primitive shapes](#pureShapes) further down:
+Two non-static [shapes](shapes.md) that are not linked through dynamically enabled joints or force sensors move independently from each other during dynamic simulation. If you want two or more shapes to behave as one single shape, you have to group them ([Edit > Shape grouping/merging > group]). Make sure you adjust the inertia matrix of the final shape appropriately. See also [`sim.scene:groupShapes`](sim-2/scene_groupShapes.htm), [`shape.dynamics.inertiaMatrix`](sim-2/property_shape_dynamics_inertiaMatrix.htm), [`shape.dynamics.centerOfMass`](sim-2/property_shape_dynamics_centerOfMass.htm), [`shape.dynamics.mass`](sim-2/property_shape_dynamics_mass.htm), and make sure you also read the [section about primitive shapes](#pureShapes) further down:
 
 ![](images/dynamicsDesign7.jpg)
 
@@ -82,7 +82,7 @@ Compound shapes behave as rigid entities and also share identical dynamic proper
 
 *[Dynamic robot model (left) and underlying primitive non-static shapes used for dynamic simulation (right)]*
 
-See also [sim.scene:createObject](sim/scene_createObject.htm). When a body can collide, but not constantly, or does not play an important role in the stability of a mechanism/robot, then it is not necessary to use primitive shapes, and convex shapes could be a viable alternative too:
+See also [`sim.scene:createObject`](sim-2/scene_createObject.htm). When a body can collide, but not constantly, or does not play an important role in the stability of a mechanism/robot, then it is not necessary to use primitive shapes, and convex shapes could be a viable alternative too:
 
 ## <a id="2"></a><a id="convexShapes"></a>Design consideration 2
 
@@ -162,19 +162,19 @@ This requirement can be loosened [depending on the physics engine](physicsEngine
 
 ## <a id="7"></a><a id="masses"></a>Design consideration 7
 
-**Keep masses similar and not too light**. When linking two shapes with a dynamically enabled joint or a dynamically enabled force sensor, make sure the two shapes' masses are not too different (m1&lt;10\*m2 and m2&lt;10\*m1), otherwise the joint or force sensor might be very *soft* and *wobbly* and present large positional/orientational errors (this effect can however also be used as a *natural damping* sometimes). Additionally, very low mass shapes should be avoided since they won't be able to exert large forces onto other shapes (even if propelled by high force actuators). See also [shape.dynamics.mass](sim/property_shape_dynamics_mass.htm).
+**Keep masses similar and not too light**. When linking two shapes with a dynamically enabled joint or a dynamically enabled force sensor, make sure the two shapes' masses are not too different (m1&lt;10\*m2 and m2&lt;10\*m1), otherwise the joint or force sensor might be very *soft* and *wobbly* and present large positional/orientational errors (this effect can however also be used as a *natural damping* sometimes). Additionally, very low mass shapes should be avoided since they won't be able to exert large forces onto other shapes (even if propelled by high force actuators). See also [`shape.dynamics.mass`](sim-2/property_shape_dynamics_mass.htm).
 
 This requirement can be loosened [depending on the physics engine](physicsEngineDifferences.md).
 
 ## <a id="8"></a><a id="inertias"></a>Design consideration 8
 
-**Keep inertia matrices relatively large**. Try keeping the *inertia matrix* relatively large, otherwise mechanical chains might be difficult to control and/or might behave in a strange way. Refer to the [shape dynamics dialog](shapeDynamicsProperties.md). See also[shape.dynamics.inertiaMatrix](sim/property_shape_dynamics_inertiaMatrix.htm) and [shape.dynamics.centerOfMass](sim/property_shape_dynamics_centerOfMass.htm).[sim/property_shape_dynamics_mass.htm](sim/property_shape_dynamics_mass.htm)
+**Keep inertia matrices relatively large**. Try keeping the *inertia matrix* relatively large, otherwise mechanical chains might be difficult to control and/or might behave in a strange way. Refer to the [shape dynamics dialog](shapeDynamicsProperties.md). See also[`shape.dynamics.inertiaMatrix`](sim-2/property_shape_dynamics_inertiaMatrix.htm) and [`shape.dynamics.centerOfMass`](sim-2/property_shape_dynamics_centerOfMass.htm).[`shape.dynamics.mass`](sim-2/property_shape_dynamics_mass.htm)
 
 This requirement can be loosened [depending on the physics engine](physicsEngineDifferences.md).
 
 ## <a id="9"></a><a id="layers"></a>Design consideration 9
 
-**Assign dynamic shapes to layer 9**. Assign all dynamic shapes which are supposed to be hidden to layer 9 (refer to the [scene object common properties](sceneObjectPropertiesDialog.md#common)): in CoppeliaSim, by default, all layers are visible, except for layers 9-16. When editing or testing a [scene](scenes.md), you can then quickly visualize all hidden shapes in the scene by temporarily enabling layer 9 (refer also to the [layer selection dialog](layerSelectionDialog.md)). See also [sceneObject.layer](sim/property_sceneObject_layer.htm).
+**Assign dynamic shapes to layer 9**. Assign all dynamic shapes which are supposed to be hidden to layer 9 (refer to the [scene object common properties](sceneObjectPropertiesDialog.md#common)): in CoppeliaSim, by default, all layers are visible, except for layers 9-16. When editing or testing a [scene](scenes.md), you can then quickly visualize all hidden shapes in the scene by temporarily enabling layer 9 (refer also to the [layer selection dialog](layerSelectionDialog.md)). See also [`sceneObject.layer`](sim-2/property_sceneObject_layer.htm).
 
 ## <a id="10"></a><a id="dynamicStaticDynamic"></a>Design consideration 10
 

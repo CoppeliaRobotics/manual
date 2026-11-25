@@ -12,9 +12,9 @@ In the scene object dialog, click the **Light** button to display the light dial
 
 *[Light dialog]*
 
-- **Light is enabled**: enables or disables a light. A maximum of 8 enabled lights can exist at the same time in a [scene](scenes.md). Refer also to [light.enabled](sim/property_light_enabled.htm).
-- **Spot cutoff**: in the case the light is a spotlight, this value specifies the cutoff angle of the light. Small angles result in narrow spotlights. Refer also to [light.spotCutoffAngle](sim/property_light_spotCutoffAngle.htm).
-- **Spot exponent**: in the case the light is a spotlight, this value specifies the intensity distribution of the light. 0 results in a wide spotlight, 128 results in a narrow spotlight. Refer also to [light.spotExponent](sim/property_light_spotExponent.htm).
-- **Constant/linear/quadratic attenuation factor**: attenuation factors. Refer also to [light.attenuationFactors](sim/property_light_attenuationFactors.htm).
-- **Object size**: size of the light. This parameter has only a visual effect and no functional meaning. Refer also to [light.size](sim/property_light_size.htm).
+- **Light is enabled**: enables or disables a light. A maximum of 8 enabled lights can exist at the same time in a [scene](scenes.md). Refer also to [`light.enabled`](sim-2/property_light_enabled.htm).
+- **Spot cutoff**: in the case the light is a spotlight, this value specifies the cutoff angle of the light. Small angles result in narrow spotlights. Refer also to [`light.spotCutoffAngle`](sim-2/property_light_spotCutoffAngle.htm).
+- **Spot exponent**: in the case the light is a spotlight, this value specifies the intensity distribution of the light. 0 results in a wide spotlight, 128 results in a narrow spotlight. Refer also to [`light.spotExponent`](sim-2/property_light_spotExponent.htm).
+- **Constant/linear/quadratic attenuation factor**: attenuation factors. Refer also to [`light.attenuationFactors`](sim-2/property_light_attenuationFactors.htm).
+- **Object size**: size of the light. This parameter has only a visual effect and no functional meaning. Refer also to [`light.size`](sim-2/property_light_size.htm).
 - **Light / casing color**: allows adjusting a light color, or casing color.

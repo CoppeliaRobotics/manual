@@ -1,6 +1,6 @@
 # Vision callback functions
 
-[Script objects](scriptObjects.md) can include a vision callback function (which is one of many [system callback functions](callbackFunctions.md#systemCallbacks)), when the script object parent is a [vision sensor](visionSensors.md). When present, then the system calls the callback function every time a new image was acquired or applied, allowing the user to perform image processing. This is the case with the following: [visionSensor:handleSensor](sim/visionSensor_handleSensor.htm), [visionSensor:checkSensor](sim/visionSensor_checkSensor.htm), [visionSensor:setImage](sim/visionSensor_setImage.htm) and [visionSensor.image](sim/property_visionSensor_image.htm).
+[Script objects](scriptObjects.md) can include a vision callback function (which is one of many [system callback functions](callbackFunctions.md#systemCallbacks)), when the script object parent is a [vision sensor](visionSensors.md). When present, then the system calls the callback function every time a new image was acquired or applied, allowing the user to perform image processing. This is the case with the following: [`visionSensor:handleSensor`](sim-2/visionSensor_handleSensor.htm), [`visionSensor:checkSensor`](sim-2/visionSensor_checkSensor.htm), [`visionSensor:setImage`](sim-2/visionSensor_setImage.htm) and [`visionSensor.image`](sim-2/property_visionSensor_image.htm).
 
 The following represents an empty vision callback function:
 

@@ -7,7 +7,7 @@ Customization scripts are executed all the time (within a same scene): when simu
 A customization script is typically segmented into [system callback functions](callbackFunctions.md#systemCallbacks), the most important of which are:
 
 - **sysCall_init** is called just one time, the first time the script is called. Usually you would put some initialization code in this part.
-- **sysCall_thread** is the entrance to the script's threaded execution code. Threaded code is interrupted (and later resumed) on a regular basis by CoppeliaSim, by default. This behavior can however be adjusted via [script:setStepping](sim/script_setStepping.htm). See also [the other thread-related API functions](apiFunctions.md#threads) for more details.
+- **sysCall_thread** is the entrance to the script's threaded execution code. Threaded code is interrupted (and later resumed) on a regular basis by CoppeliaSim, by default. This behavior can however be adjusted via [`script:setStepping`](sim-2/script_setStepping.htm). See also [the other thread-related API functions](apiFunctions.md#threads) for more details.
 - **sysCall_nonSimulation** is called on a regular basis, when simulation is not running.
 - **sysCall_beforeSimulation** is called once just before simulation starts.
 - **sysCall_afterSimulation** is called once just after simulation ended.

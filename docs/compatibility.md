@@ -19,7 +19,7 @@ Scenes and models containing script objects can be converted back to scenes and 
 There are potentially two problematic situations with existing code:
 
 - Code that relies on the usage of the *type*-function will break with buffers, e.g.:
-- Most API methods/properties that clearly return binary data (e.g. [visionSensor.image](sim/property_visionSensor_image.htm)) now return the data as a buffer. Comparing that buffer with a string always resolves to *false*, e.g.:
+- Most API methods/properties that clearly return binary data (e.g. [`visionSensor.image`](sim-2/property_visionSensor_image.htm)) now return the data as a buffer. Comparing that buffer with a string always resolves to *false*, e.g.:
 - In sim-1, sim.packTable now returns a buffer of different length from previous CoppeliaSim versions (text/strings and buffers are now differentiated and this is reflected in the packed data), e.g.:
 
 Workarounds:

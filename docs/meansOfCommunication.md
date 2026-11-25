@@ -19,7 +19,7 @@ You can send or receive data via:
 
 ## <a id="callingPluginFunctions"></a><a id="pluginFunctions"></a>Calling plugin functions
 
-[Scripts](scripts.md) can call specific [plugin](plugins.md) functions, referred to as callback functions. To do so, a plugin must first register its callback functions via [simRegisterScriptCallbackFunction](sim/simRegisterScriptCallbackFunction_cpp.htm). This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. The following illustrates a very simple plugin function and its registration:
+[Scripts](scripts.md) can call specific [plugin](plugins.md) functions, referred to as callback functions. To do so, a plugin must first register its callback functions via [`simRegisterScriptCallbackFunction`](sim/simRegisterScriptCallbackFunction_cpp.htm). This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. The following illustrates a very simple plugin function and its registration:
 
 ```cpp
 void myCallbackFunc(SScriptCallBack* p)
@@ -50,16 +50,16 @@ simRegisterScriptCallbackFunction("func", nullptr, myCallbackFunc);
 
 A [script](scripts.md) function can be called from within the same script, and also:
 
-- From other scripts: refer to [script:callFunction](sim/script_callFunction.htm), [script:getFunctions](sim/script_getFunctions.htm) or [script:executeString](sim/script_executeString.htm).
-- From a plugin: refer to [simCallScriptFunctionEx](sim/simCallScriptFunctionEx_cpp.htm).
+- From other scripts: refer to [`script:callFunction`](sim-2/script_callFunction.htm), [`script:getFunctions`](sim-2/script_getFunctions.htm) or [`script:executeString`](sim-2/script_executeString.htm).
+- From a plugin: refer to [`simCallScriptFunctionEx`](sim/simCallScriptFunctionEx_cpp.htm).
 - From a [ROS](rosInterfaces.md) client, via a callback mechanism.
 - From a [remote API](remoteApiOverview.md) client.
 
-The called script function can perform various tasks, then return some data to the caller. However, it is important not to perform lengthy tasks within the called function, as everything comes to a halt during that time. Lengthy tasks should instead be triggered only via [script:callFunction](sim/script_callFunction.htm), then processed within a sysCall_thread [system callback](callbackFunctions.md) section.
+The called script function can perform various tasks, then return some data to the caller. However, it is important not to perform lengthy tasks within the called function, as everything comes to a halt during that time. Lengthy tasks should instead be triggered only via [`script:callFunction`](sim-2/script_callFunction.htm), then processed within a sysCall_thread [system callback](callbackFunctions.md) section.
 
 ## <a id="simBroadcastMsg"></a>Broadcasting messages
 
-A [script](scripts.md) or a [remote API](remoteApiOverview.md) client can broadcast a message to all scripts at once via [script:broadcast](sim/script_broadcast.htm). For instance, the following constantly broadcasts a message to all scripts, while printing other broadcast messages:
+A [script](scripts.md) or a [remote API](remoteApiOverview.md) client can broadcast a message to all scripts at once via [`script:broadcast`](sim-2/script_broadcast.htm). For instance, the following constantly broadcasts a message to all scripts, while printing other broadcast messages:
 
 ```lua
 --lua

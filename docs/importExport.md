@@ -19,7 +19,7 @@ New importers/exporters can easily be created via an [add-on](addOns.md), or via
 
 The mesh import/export functionality is handled via the [Assimp plugin for CoppeliaSim](https://github.com/CoppeliaRobotics/simAssimp). More formats can be supported if the Assimp library (and Assimp plugin) are recompiled with the required flags. The plugin's functionality is exposed to CoppeliaSim's GUI and can be reached at [File > Import > Meshes...] or [File > Export > Selected shapes...].
 
-If after the import operation you can't see any shapes in the [scene](scenes.md), but the [scene hierarchy](userInterface.md#SceneHierarchy) indicates the presence of newly added shapes, then most probably your shapes are either too big or too small to be seen. You can then proceed to a scaling operation. Additionally, you can subdivide imported meshes via [Edit > Shape grouping/merging > divide]. See also [shape:divide](sim/shape_divide.htm).
+If after the import operation you can't see any shapes in the [scene](scenes.md), but the [scene hierarchy](userInterface.md#SceneHierarchy) indicates the presence of newly added shapes, then most probably your shapes are either too big or too small to be seen. You can then proceed to a scaling operation. Additionally, you can subdivide imported meshes via [Edit > Shape grouping/merging > divide]. See also [`shape:divide`](sim-2/shape_divide.htm).
 
 Make sure that imported meshes do not contain too many triangles (for a robot, typically between 10'000-20'000 triangles in total), otherwise CoppeliaSim could slow down. You can decimate an imported mesh via [Modules > Geometry / Mesh > Mesh decimation...].
 
@@ -47,7 +47,7 @@ See also the [API functions related to GLTF export](simGLTF/simGLTF.htm).
 
 ## <a id="image"></a>Importing/exporting images
 
-Images can be imported/exported with [sim.app:loadImage](sim/app_loadImage.htm) and [sim.app:saveImage](sim/app_saveImage.htm). See also [sim.app:transformImage](sim/app_transformImage.htm), [sim.app:transformBuffer](sim/app_transformBuffer.htm) and the [OpenCV plugin API reference](simIM/simIM.htm).
+Images can be imported/exported with [`sim.app:loadImage`](sim-2/app_loadImage.htm) and [`sim.app:saveImage`](sim-2/app_saveImage.htm). See also [`sim.app:transformImage`](sim-2/app_transformImage.htm), [`sim.app:transformBuffer`](sim-2/app_transformBuffer.htm) and the [OpenCV plugin API reference](simIM/simIM.htm).
 
 ## <a id="text"></a>Importing/exporting text/binary data
 

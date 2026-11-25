@@ -40,6 +40,6 @@ In the following section, a brief description is given of the application window
 
 *[Scene hierarchy]*
 
-- <a id="statusBar"></a> **The status bar** displays information related to performed operations, commands, but also error messages from scripts. See also [sim.app:logInfo](sim/app_logInfo.htm), [sim.app:logWarn](sim/app_logWarn.htm) and [sim.app:logError](sim/app_logError.htm).
+- <a id="statusBar"></a> **The status bar** displays information related to performed operations, commands, but also error messages from scripts. See also [`sim.app:logInfo`](sim-2/app_logInfo.htm), [`sim.app:logWarn`](sim-2/app_logWarn.htm) and [`sim.app:logError`](sim-2/app_logError.htm).
 - <a id="luaCommander"></a> **The commander** is a read-eval-print loop that adds a text input to the CoppeliaSim status bar, allowing you to enter and execute Python or Lua code on the fly, like in a terminal. The code can be run in [the sandboxes](sandboxScript.md), or any other active script in CoppeliaSim.
 - **Popup menus** appear after a right mouse button click. Each surface within the application window (e.g. scene hierarchy view, page, view) may trigger a different popup menu (context-sensitive). The content of popup menus may also change depending on the current simulation state.

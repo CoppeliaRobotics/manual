@@ -27,7 +27,7 @@ function sysCall_sensing()
 end
 ```
 
-- CoppeliaSim selects the default Python interpreter present on your system. If this does not work, or if another interpreter is desired, then you can edit the *usrset.txt* file entry named *defaultPython*. The location of the *usrset.txt* file can be queried via [sim.app.paths.settings](sim/property_app_paths_settings.htm). In addition to that, each script can specify a custom Python executable if required, via the *luaExec* directive (see further down)
+- CoppeliaSim selects the default Python interpreter present on your system. If this does not work, or if another interpreter is desired, then you can edit the *usrset.txt* file entry named *defaultPython*. The location of the *usrset.txt* file can be queried via [`sim.app.paths.settings`](sim-2/property_app_paths_settings.htm). In addition to that, each script can specify a custom Python executable if required, via the *luaExec* directive (see further down)
 - Lua code always executes in the same thread as CoppeliaSim and is thus quite fast. Python code on the other hand is launched in a new process, which connects to CoppeliaSim via socket communication. This implies that Python code will usually start and run slower than Lua code. However, when Python is operating in non-stepping mode, and doesn't access the CoppeliaSim API, it truly runs parallel to CoppeliaSim.
 - <a id="luaExec"></a>Python scripts are handled via Lua wrapper code, which handles the launch and communication of each Python script. Auxiliary settings, Lua code or Lua functions can be passed via the *luaExec* directive, within a Python comment section. That code must come immediately at the beginning of the script:
 
@@ -78,7 +78,7 @@ require('myExternalFile')
 ```
 
 - Python threaded scripts will always execute their initialization section (if present). The clean-up section (and other system callbacks) however are only executed in specific situations or in an asynchronous manner
-- Python threaded scripts will need to call a message pump (via [sim.handleExtCalls](sim/simHandleExtCalls.htm)) to have user callback functions serviced, depending on the situation:
+- Python threaded scripts will need to call a message pump (via [`sim.handleExtCalls`](sim-1/simHandleExtCalls.htm)) to have user callback functions serviced, depending on the situation:
 
 ```python
 #python

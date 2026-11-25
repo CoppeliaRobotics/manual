@@ -13,4 +13,4 @@ Make sure not to mix-up vision sensors with [cameras](cameras.md). The following
 - A vision sensor generally requires more CPU time and operates slower than cameras.
 - A vision sensor can mainly display [shapes](shapes.md). A camera can display all [object types](objects.md).
 
-Vision sensors are added to the [scene](scenes.md) with [Add > Vision sensor]. Refer also to [sim.scene:createObject](sim/scene_createObject.htm) and [visionSensor-related methods and properties](apiFunctions.md#methodsAndProperties_visionSensor).
+Vision sensors are added to the [scene](scenes.md) with [Add > Vision sensor]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.htm) and [visionSensor-related methods and properties](apiFunctions.md#methodsAndProperties_visionSensor).
