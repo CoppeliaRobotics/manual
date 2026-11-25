@@ -4,4 +4,4 @@ The sandboxes are instances of the [script type](mainObjectTypes.md#script), its
 
 Sandboxes are persistent across all opened scenes, and are effectively running in the background. For that reason, they should only execute minimalistic code every time called, since the whole application would otherwise slow down. Sandboxes are called via [system callback functions](callbackFunctions.md#systemCallbacks), and follow a precise [execution order](scriptExecution.md) in relation to other script types.
 
-There is a Lua and a Python sandbox. Refer also to [`app.sandboxLua`](sim-2/property_app_sandboxLua.htm) and [`app.sandboxPython`](sim-2/property_app_sandboxPython.htm).
+There is a Lua and a Python sandbox. Refer also to [`app.luaSandbox`](sim-2/property_app_luaSandbox.md) and [`app.sandbox2`](sim-2/property_app_sandbox2.md).

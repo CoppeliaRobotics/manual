@@ -242,8 +242,8 @@ Keep in mind that **all** methods can also be called from C/C++ via the [`simCal
 - [`app.randomFloat`](sim-2/property_app_randomFloat.md) — Random number
 - [`app.randomQuaternion`](sim-2/property_app_randomQuaternion.md) — Random quaternion
 - [`app.randomString`](sim-2/property_app_randomString.md) — Random string
-- [`app.sandboxLua`](sim-2/property_app_sandboxLua.htm) — Lua sandbox
-- [`app.sandboxPython`](sim-2/property_app_sandboxPython.htm) — Python sandbox
+- [`app.luaSandbox`](sim-2/property_app_luaSandbox.md) — Lua sandbox
+- [`app.sandbox2`](sim-2/property_app_sandbox2.md) — Python sandbox
 - [`app.sessionId`](sim-2/property_app_sessionId.md) — Session ID
 - [`app.startupCode`](sim-2/property_app_startupCode.md) — Start-up code
 - [`app.statusbarVerbosity`](sim-2/property_app_statusbarVerbosity.md) — Statusbar verbosity
@@ -419,7 +419,7 @@ Keep in mind that **all** methods can also be called from C/C++ via the [`simCal
 - [`collection.objects`](sim-2/property_collection_objects.md) — Children
 - [`sceneObject.collectionSelfCollisionIndicator`](sim-2/property_sceneObject_collectionSelfCollisionIndicator.md) — Collection self-collision indicator
 
-## <a id="methodsAndProperties_customObject"></a>[customObject](customObjects.htm) (methods & properties)
+## <a id="methodsAndProperties_customObject"></a>customObject (methods & properties)
 
 - [`customObject:makeObject`](sim-2/customObject_makeObject.md) — Instantiates a custom object from a class
 - [`customObject:remove`](sim-2/customObject_remove.md) — Removes the custom scene object
@@ -457,8 +457,8 @@ Keep in mind that **all** methods can also be called from C/C++ via the [`simCal
 - [`app:removeObjects`](sim-2/app_removeObjects.md) — Removes one or several objects
 - [`scene:createObject`](sim-2/scene_createObject.md) — Creates various objects (collections, scripts, sensors, etc.)
 - [`scene:removeObjects`](sim-2/scene_removeObjects.md) — Removes one or several objects
-- [`app.sandboxLua`](sim-2/property_app_sandboxLua.htm) — Lua sandbox
-- [`app.sandboxPython`](sim-2/property_app_sandboxPython.htm) — Python sandbox
+- [`app.luaSandbox`](sim-2/property_app_luaSandbox.md) — Lua sandbox
+- [`app.sandbox2`](sim-2/property_app_sandbox2.md) — Python sandbox
 - [`scene.mainScript`](sim-2/property_scene_mainScript.md) — Main script
 - [`script.addOnMenuPath`](sim-2/property_script_addOnMenuPath.md) — Add-on menu path
 - [`script.addOnPath`](sim-2/property_script_addOnPath.md) — Add-on path
@@ -928,14 +928,12 @@ Keep in mind that **all** methods can also be called from C/C++ via the [`simCal
 ## <a id="methodsAndProperties_marker"></a>[marker](markers.md) (methods & properties)
 
 - [`marker:addItems`](sim-2/marker_addItems.md) — Adds items to a marker
-- [`marker:addPackedItems`](sim-2/marker_addPackedItems.htm) — Adds packed items to a marker
 - [`marker:clearItems`](sim-2/marker_clearItems.md) — Clears a marker
 - [`marker:removeItems`](sim-2/marker_removeItems.md) — Removes specific items from a marker
 - [`app:createObject`](sim-2/app_createObject.md) — Creates various objects (collections, scripts, sensors, etc.)
 - [`scene:createObject`](sim-2/scene_createObject.md) — Creates various objects (collections, scripts, sensors, etc.)
 - [`marker.colors`](sim-2/property_marker_colors.md) — Colors
 - [`marker.cyclic`](sim-2/property_marker_cyclic.md) — Cyclic
-- [`marker.defaultItemSize`](sim-2/property_marker_defaultItemSize.htm) — Default size
 - [`marker.indices`](sim-2/property_marker_indices.md) — Indices
 - [`marker.local`](sim-2/property_marker_local.md) — Local
 - [`marker.marker.type`](sim-2/property_marker_marker_type.md) — Type
@@ -1189,7 +1187,7 @@ Keep in mind that **all** methods can also be called from C/C++ via the [`simCal
 - [`ocTree.showPoints`](sim-2/property_ocTree_showPoints.md) — Show points instead of voxels
 - [`ocTree.voxelSize`](sim-2/property_ocTree_voxelSize.md) — Voxel size
 
-## <a id="methodsAndProperties_customSceneObject"></a>[customSceneObject](customSceneObjects.htm) (methods & properties)
+## <a id="methodsAndProperties_customSceneObject"></a>customSceneObject (methods & properties)
 
 - [`app:createObject`](sim-2/app_createObject.md) — Creates various objects (collections, scripts, sensors, etc.)
 - [`scene:createObject`](sim-2/scene_createObject.md) — Creates various objects (collections, scripts, sensors, etc.)
@@ -1648,7 +1646,6 @@ Keep in mind that **all** methods can also be called from C/C++ via the [`simCal
 - [`collection:changeColor`](sim-2/collection_changeColor.md) — Changes the color of all shapes in the collection
 - [`collection:restoreColor`](sim-2/collection_restoreColor.md) — Restores the color of shapes in the collection
 - [`marker:addItems`](sim-2/marker_addItems.md) — Adds items to a marker
-- [`marker:addPackedItems`](sim-2/marker_addPackedItems.htm) — Adds packed items to a marker
 - [`marker:clearItems`](sim-2/marker_clearItems.md) — Clears a marker
 - [`marker:removeItems`](sim-2/marker_removeItems.md) — Removes specific items from a marker
 - [`sceneObject:changeColor`](sim-2/sceneObject_changeColor.md) — Changes the color of the object (if shape)
@@ -1703,7 +1700,6 @@ Keep in mind that **all** methods can also be called from C/C++ via the [`simCal
 - [`light.spotCutoffAngle`](sim-2/property_light_spotCutoffAngle.md) — Cutoff angle
 - [`light.spotExponent`](sim-2/property_light_spotExponent.md) — Spot exponent
 - [`marker.colors`](sim-2/property_marker_colors.md) — Colors
-- [`marker.defaultItemSize`](sim-2/property_marker_defaultItemSize.htm) — Default size
 - [`marker.indices`](sim-2/property_marker_indices.md) — Indices
 - [`marker.local`](sim-2/property_marker_local.md) — Local
 - [`marker.marker.type`](sim-2/property_marker_marker_type.md) — Type
@@ -1945,8 +1941,8 @@ Keep in mind that **all** methods can also be called from C/C++ via the [`simCal
 - [`app.execUnsafeExt`](sim-2/property_app_execUnsafeExt.md) — Execute unsafe extended
 - [`app.paths.lua`](sim-2/property_app_paths_lua.md) — Lua path
 - [`app.paths.python`](sim-2/property_app_paths_python.md) — Python path
-- [`app.sandboxLua`](sim-2/property_app_sandboxLua.htm) — Lua sandbox
-- [`app.sandboxPython`](sim-2/property_app_sandboxPython.htm) — Python sandbox
+- [`app.luaSandbox`](sim-2/property_app_luaSandbox.md) — Lua sandbox
+- [`app.sandbox2`](sim-2/property_app_sandbox2.md) — Python sandbox
 - [`app.startupCode`](sim-2/property_app_startupCode.md) — Start-up code
 - [`proximitySensor.explicitHandling`](sim-2/property_proximitySensor_explicitHandling.md) — Explicit handling
 - [`scene.mainScript`](sim-2/property_scene_mainScript.md) — Main script

@@ -12,7 +12,7 @@ A force sensor measures a pair of 3 values representing the force on the sensor 
 
 *[Forces and torques measured by a force sensor]*
 
-Refer also to [`forceSensor.force`](sim-2/property_forceSensor_force.htm), [`forceSensor.torque`](sim-2/property_forceSensor_torque.htm), [`forceSensor.filteredForce`](sim-2/property_forceSensor_filteredForce.htm) and [`forceSensor.filteredTorque`](sim-2/property_forceSensor_filteredTorque.htm). Initially, a force sensor acts as a rigid link. During [simulation](simulation.md), a force sensor can however be *broken* when a specified force/torque threshold is overshot or when some other user-defined conditions are met, by detaching it from its parent.
+Refer also to [`forceSensor.dynamics.force`](sim-2/property_forceSensor_dynamics_force.md), [`forceSensor.dynamics.torque`](sim-2/property_forceSensor_dynamics_torque.md), [`forceSensor.dynamics.filteredForce`](sim-2/property_forceSensor_dynamics_filteredForce.md) and [`forceSensor.dynamics.filteredTorque`](sim-2/property_forceSensor_dynamics_filteredTorque.md). Initially, a force sensor acts as a rigid link. During [simulation](simulation.md), a force sensor can however be *broken* when a specified force/torque threshold is overshot or when some other user-defined conditions are met, by detaching it from its parent.
 
 A force sensor is only operational during simulation if it is dynamically enabled. For more information on dynamically enabled force sensors, refer also to the section on [designing dynamic simulations](designingDynamicSimulations.md). [Joints](joints.md) are also able to measure a force or a torque, however only along/about their z-axis.
 

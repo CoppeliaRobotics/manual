@@ -20,7 +20,7 @@ Double-clicking the icon in the scene hierarchy (during simulation only) display
 
 *[Dynamic simulation main shape types]*
 
-During dynamic simulation, static shapes are not influenced (i.e. their position relative to their parent object is fixed), whereas non-static shapes are directly influenced by gravity or other constraints (e.g. dynamically enabled joints, see hereafter). See also [`shape.dynamic`](sim-2/property_shape_dynamic.htm).
+During dynamic simulation, static shapes are not influenced (i.e. their position relative to their parent object is fixed), whereas non-static shapes are directly influenced by gravity or other constraints (e.g. dynamically enabled joints, see hereafter). See also [`shape.dynamics.dynamic`](sim-2/property_shape_dynamics_dynamic.md).
 
 Respondable shapes influence each other during dynamic collision (i.e. they produce a mutual *collision reaction*, they bounce off each other). The following figure illustrates the static/non-static, respondable/non-respondable behaviors:
 
@@ -28,9 +28,9 @@ Respondable shapes influence each other during dynamic collision (i.e. they prod
 
 *[Static/non-static, respondable/non-respondable shape behaviors and interactions]*
 
-Two respondable shapes always produce a collision reaction, unless their respective collision masks don't overlap. Static/non-static, respondable/non-respondable shape properties, as well as collision masks can be set in the [shape dynamics dialog](shapeDynamicsProperties.md). See also [`shape.respondable`](sim-2/property_shape_respondable.htm) and [`shape.respondableMask`](sim-2/property_shape_respondableMask.htm).
+Two respondable shapes always produce a collision reaction, unless their respective collision masks don't overlap. Static/non-static, respondable/non-respondable shape properties, as well as collision masks can be set in the [shape dynamics dialog](shapeDynamicsProperties.md). See also [`shape.dynamics.respondable`](sim-2/property_shape_dynamics_respondable.md) and [`shape.dynamics.respondableMask`](sim-2/property_shape_dynamics_respondableMask.md).
 
-Note: in MuJoCo, static shapes (*mocap* bodies) do not transmit friction forces. For that reason, static shapes in MuJoCo will always be represented as a *mocap* body linked to a non-static free body via a *weld* constraint (unless [`shape.kinematic`](sim-2/property_shape_kinematic.htm) is set to false).
+Note: in MuJoCo, static shapes (*mocap* bodies) do not transmit friction forces. For that reason, static shapes in MuJoCo will always be represented as a *mocap* body linked to a non-static free body via a *weld* constraint (unless [`shape.dynamics.kinematic`](sim-2/property_shape_dynamics_kinematic.md) is set to false).
 
 ## <a id="dynamicallyEnabled"></a><a id="constraints"></a>Simple constraints between shapes
 

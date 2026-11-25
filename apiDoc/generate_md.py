@@ -595,7 +595,9 @@ class Converter:
                 return ''
             if not href:
                 return label
-            return f'[{label}]({self.resolveLink(href)})'
+            target = self.resolveLink(href)
+            # Links to pages outside the manual stay as plain text.
+            return label if target is None else f'[{label}]({target})'
         if name in ('ul', 'ol'):
             return '\n' + self._list(node, indent) + '\n'
         if name == 'li':
@@ -619,8 +621,19 @@ class Converter:
 class LinkResolver:
     """Rewrite links to manual pages to their local Markdown pages.
 
-    A link is rewritten as soon as its Markdown page exists; only links whose
-    page has no Markdown counterpart are left as ``.htm`` links.
+    A link is rewritten as soon as its Markdown page exists; links whose page
+    has no Markdown counterpart return ``None`` and are emitted as plain text,
+    so the generated pages never link to a page that is not part of the manual.
+
+    Resolution is deliberately forgiving, because the XML cross-references are
+    not maintained as carefully as the pages themselves:
+
+    * page names are matched case-insensitively (``scene_getobject`` ->
+      ``scene_getObject``);
+    * a page whose name is not found as written is looked up by its item name
+      (``shape.dynamicallyEnabled`` -> ``property_sceneObject_dynamicallyEnabled``);
+    * same-directory links may point at a page of the ``sim-1`` set
+      (``simGetScript`` -> ``../sim-1/simGetScript.md``).
 
     A ``#fragment`` is kept even when the local page does not define it: the
     Markdown pages are abridged in places (e.g. apiConstants.md has fewer
@@ -629,12 +642,47 @@ class LinkResolver:
     that goes nowhere.
     """
 
-    def __init__(self, docsDir, generatedNames):
+    def __init__(self, docsDir, generatedNames, itemIndex=None):
         self.generatedNames = generatedNames
+        self.generatedByLower = {name.lower(): name for name in generatedNames}
+        # (kind, item name, class name) -> page name
+        self.itemIndex = itemIndex or {}
         self.docsByLowerName = {}
+        self.sim1ByLowerName = {}
         if docsDir is not None and docsDir.is_dir():
             for page in docsDir.glob('*.md'):
                 self.docsByLowerName[page.name.lower()] = page.name
+            sim1 = docsDir / 'sim-1'
+            if sim1.is_dir():
+                for page in sim1.glob('*.md'):
+                    self.sim1ByLowerName[page.name.lower()] = page.name
+
+    def _byItemName(self, stem):
+        """Page whose item name is the trailing part of ``stem``, if unique."""
+        best, hits = '', set()
+        for (kind, name, className), page in self.itemIndex.items():
+            if not stem.lower().endswith('_' + name.lower()):
+                continue
+            if len(name) > len(best):
+                best, hits = name, {page}
+            elif len(name) == len(best):
+                hits.add(page)
+        return next(iter(hits)) if len(hits) == 1 else None
+
+    def resolveRef(self, itemKind, refName, refObjName, auxType):
+        """Resolve a see-also reference, tolerating a stale class prefix."""
+        resolved = self(fmpToFilename(refName, itemKind, refObjName, auxType))
+        if resolved is not None:
+            return resolved
+        kind = 'property' if auxType == 'property' else 'method'
+        matches = [(className, page) for (k, name, className), page in self.itemIndex.items()
+                   if k == kind and name.lower() == refName.lower()]
+        if len(matches) > 1 and refObjName:
+            wanted = refObjName.lower()
+            matches = [m for m in matches
+                       if m[0].lower() == wanted or m[0].lower().startswith(wanted)
+                       or wanted.startswith(m[0].lower())]
+        return matches[0][1] if len(matches) == 1 else None
 
     def __call__(self, href):
         if not href:
@@ -650,7 +698,7 @@ class LinkResolver:
         if path.startswith('../'):
             name = path[3:]
             if '/' in name:
-                return href
+                return None
             markdown = name[:-4] + '.md'
             # Use the directory listing rather than a file-system probe: the
             # manual pages are matched case-insensitively (e.g. ocTrees.htm is
@@ -659,16 +707,26 @@ class LinkResolver:
             alternative = self.docsByLowerName.get(markdown.lower())
             if alternative is not None:
                 return '../' + alternative + suffix
-            return href
+            return None
 
         # Link to a page in the same directory (another sim-2 page).
         markdown = path[:-4] + '.md'
-        if markdown in self.generatedNames:
-            return markdown + suffix
-        alternative = path[:-4] + '_cpp.md'  # C-function page
-        if alternative in self.generatedNames:
-            return alternative + suffix
-        return href
+        stem = path[:-4]
+        for candidate in (markdown, stem + '_cpp.md'):  # C-function page
+            if candidate in self.generatedNames:
+                return candidate + suffix
+        for candidate in (markdown, stem + '_cpp.md'):
+            hit = self.generatedByLower.get(candidate.lower())
+            if hit is not None:
+                return hit + suffix
+        # Some referenced items live in the sim-1 set rather than in sim-2.
+        hit = self.sim1ByLowerName.get(markdown.lower())
+        if hit is not None:
+            return '../sim-1/' + hit + suffix
+        hit = self._byItemName(stem)
+        if hit is not None:
+            return hit + suffix
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -676,8 +734,11 @@ class LinkResolver:
 # ---------------------------------------------------------------------------
 
 class PageBuilder:
-    def __init__(self, docsDir, generatedNames):
-        self.resolveLink = LinkResolver(docsDir, generatedNames)
+    def __init__(self, docsDir, generatedNames, itemIndex=None):
+        self.resolveLink = LinkResolver(docsDir, generatedNames, itemIndex)
+
+    def resolveRef(self, itemKind, refName, refObjName, auxType):
+        return self.resolveLink.resolveRef(itemKind, refName, refObjName, auxType)
 
     # -- small helpers ------------------------------------------------------
     def convert(self, fragment, headingOffset=0):
@@ -798,14 +859,20 @@ class PageBuilder:
                     if dot != -1:
                         refObjName = fullName[:dot]
                         refName = fullName[dot + 1:]
-                    filename = fmpToFilename(refName, itemKind, refObjName, auxType)
-                    target = self.resolveLink(filename)
-                    links.append(f'- [{fullName} ({auxType})]({target})')
+                    target = self.resolveRef(itemKind, refName, refObjName, auxType)
+                    if target is None:
+                        links.append(f'- {fullName} ({auxType})')
+                    else:
+                        links.append(f'- [{fullName} ({auxType})]({target})')
             for link in seeAlso.findall('link'):
                 label = (link.get('label') or '').strip()
                 href = (link.get('href') or '').strip()
                 if label:
-                    links.append(f'- [{label}]({self.resolveLink(href)})')
+                    target = self.resolveLink(href)
+                    if target is None:
+                        links.append(f'- {label}')
+                    else:
+                        links.append(f'- [{label}]({target})')
 
         # See-also entries derived from the categories, as in generate.py:
         itemCategories = parseCategories(item.find('categories'))
@@ -971,8 +1038,13 @@ def main():
         name = (function.get('name') or '').strip()
         items.append((fmpToFilename(name, 'function', ''), 'function', function, ''))
 
-    # Pages that will exist: links to anything else stay .htm links.
+    # Pages that will exist: links to anything else become plain text.
     generatedNames = {filename[:-4] + '.md' for filename, _, _, _ in items}
+    # (kind, item name, class name) -> page, for resolving stale references.
+    itemIndex = {}
+    for filename, kind, item, objName in items:
+        name = (item.get('name') or '').strip().replace('.', '_').replace(':', '_')
+        itemIndex[(kind, name, objName)] = filename[:-4] + '.md'
 
     # Start from a clean directory so that pages of removed XML items do not
     # survive. Only a directory that holds Markdown pages is cleaned.
@@ -985,7 +1057,7 @@ def main():
             stalePage.unlink()
     outputDir.mkdir(parents=True, exist_ok=True)
 
-    builder = PageBuilder(docsDir, generatedNames)
+    builder = PageBuilder(docsDir, generatedNames, itemIndex)
 
     counts = {'method': 0, 'property': 0, 'function': 0}
     for filename, kind, item, objName in items:
