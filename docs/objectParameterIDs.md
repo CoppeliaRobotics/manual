@@ -176,7 +176,7 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.shapefloatparam_init_velocity_y`
   float parameter: y-component of the initial dynamic linear velocity of a dynamically enabled shape (static or non-static). The shape might have to be reset
 - `sim.shapefloatparam_init_velocity_z`
-  float parameter: z-component of the initial dynamic linear velocity of a dynamically enabled shape (static or non-static). The shape might have to be reset[`sim.resetDynamicObject`](sim-1/simResetDynamicObject.htm)
+  float parameter: z-component of the initial dynamic linear velocity of a dynamically enabled shape (static or non-static). The shape might have to be reset[`sim.resetDynamicObject`](sim-1/simResetDynamicObject.md)
 - `sim.shapeintparam_static`
   int32 parameter: static state (0 or!=0). Use with care when setting this parameter during simulation (the shape might have to be reset)
 - `sim.shapeintparam_kinematic`

@@ -1,3 +1,3 @@
 # sim.persistentDataRead
 
-Deprecated. See [sim.readCustomBufferData](../sim/simReadCustomBufferData.htm) instead.
+Deprecated. See [sim.readCustomBufferData](simReadCustomBufferData.md) instead.

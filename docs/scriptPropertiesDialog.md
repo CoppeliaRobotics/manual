@@ -12,9 +12,9 @@ In the scene object dialog, click the **Script** button to display the script di
 
 *[Script dialog]*
 
-- **Enabled**: the enable state of the script. Refer also to [`script.enabled`](sim-2/property_script_enabled.htm).
-- **Language**: the script language. Refer also to [`script.language`](sim-2/property_script_language.htm).
-- **Execution priority**: the execution priority relates only to same-type scripts, and only to scripts that are siblings in the scene hierarchy. More details can be found [here](scriptExecution.md). Refer also to [`script.execPriority`](sim-2/property_script_execPriority.htm).
-- **Reset after simulation error**: when enabled, a customization script that is in an error state will be reset at the end of a simulation. Refer also to [`script.restartOnError`](sim-2/property_script_restartOnError.htm).
-- **Object size**: size of the 3D representation of the script object. This parameter has only a visual effect, and no functional meaning. Refer also to [`scriptObject.size`](sim-2/property_scriptObject_size.htm).
+- **Enabled**: the enable state of the script. Refer also to [`script.enabled`](sim-2/property_script_enabled.md).
+- **Language**: the script language. Refer also to [`script.language`](sim-2/property_script_language.md).
+- **Execution priority**: the execution priority relates only to same-type scripts, and only to scripts that are siblings in the scene hierarchy. More details can be found [here](scriptExecution.md). Refer also to [`script.execPriority`](sim-2/property_script_execPriority.md).
+- **Reset after simulation error**: when enabled, a customization script that is in an error state will be reset at the end of a simulation. Refer also to [`script.restartOnError`](sim-2/property_script_restartOnError.md).
+- **Object size**: size of the 3D representation of the script object. This parameter has only a visual effect, and no functional meaning. Refer also to [`scriptObject.size`](sim-2/property_scriptObject_size.md).
 - **Color**: allows adjusting a script object's color

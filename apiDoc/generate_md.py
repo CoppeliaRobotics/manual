@@ -16,9 +16,9 @@ adjacent, so the site merges them into language tabs, as it does elsewhere.
 
 The HTML fragments found in the XML files (``<a>``, ``<b>``, ``<em>``, ``<br>``,
 ``<ul>``/``<li>``, ``<code>``, ...) are converted to Markdown. Links to manual
-pages (``../foo.htm``) are rewritten to the local Markdown pages when they exist
-(see ``--docs-dir``); links to API pages that have no Markdown counterpart stay
-``.htm`` links, exactly like the rest of the Markdown manual.
+pages (``../foo.htm``) are rewritten to the local Markdown pages as soon as they
+exist (see ``--docs-dir``); only links to API pages with no Markdown counterpart
+stay ``.htm`` links.
 
 The CMakeLists.txt of this repository runs the script (``genRegularApiMd``
 target) and installs the result into ``${COPPELIASIM_MANUAL_DIR}/docs/sim-2``.
@@ -619,25 +619,22 @@ class Converter:
 class LinkResolver:
     """Rewrite links to manual pages to their local Markdown pages.
 
-    Links whose Markdown target does not exist are left untouched: ``.htm``
-    links are expected by the Markdown manual (see manual_html/.vitepress), and
-    pointing at the original HTML manual is better than a dead link. The same
-    applies to a ``#fragment`` that the local page does not define: the original
-    HTML page usually has the complete list (e.g. apiConstants.htm has many more
-    constants than the abridged Markdown page).
-    """
+    A link is rewritten as soon as its Markdown page exists; only links whose
+    page has no Markdown counterpart are left as ``.htm`` links.
 
-    anchorIdRe = re.compile(r'id="([^"]+)"')
+    A ``#fragment`` is kept even when the local page does not define it: the
+    Markdown pages are abridged in places (e.g. apiConstants.md has fewer
+    constants than apiConstants.htm), and the site no longer falls back to the
+    HTML manual, so an anchor that lands at the top of the page beats a link
+    that goes nowhere.
+    """
 
     def __init__(self, docsDir, generatedNames):
         self.generatedNames = generatedNames
         self.docsByLowerName = {}
-        self.docsAnchors = {}
         if docsDir is not None and docsDir.is_dir():
             for page in docsDir.glob('*.md'):
                 self.docsByLowerName[page.name.lower()] = page.name
-                text = page.read_text(encoding='utf-8', errors='ignore')
-                self.docsAnchors[page.name] = set(self.anchorIdRe.findall(text))
 
     def __call__(self, href):
         if not href:
@@ -661,8 +658,6 @@ class LinkResolver:
             # accept a name that the site renderer cannot resolve.
             alternative = self.docsByLowerName.get(markdown.lower())
             if alternative is not None:
-                if fragment and fragment not in self.docsAnchors.get(alternative, set()):
-                    return href
                 return '../' + alternative + suffix
             return href
 

@@ -1,3 +1,3 @@
 # simPersistentDataWrite
 
-Deprecated. See [simWriteCustomDataBlock](../sim/simWriteCustomDataBlock_cpp.htm) instead.
+Deprecated. See [simWriteCustomDataBlock](simWriteCustomDataBlock_cpp.md) instead.

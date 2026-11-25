@@ -19,7 +19,7 @@ New importers/exporters can easily be created via an [add-on](addOns.md), or via
 
 The mesh import/export functionality is handled via the [Assimp plugin for CoppeliaSim](https://github.com/CoppeliaRobotics/simAssimp). More formats can be supported if the Assimp library (and Assimp plugin) are recompiled with the required flags. The plugin's functionality is exposed to CoppeliaSim's GUI and can be reached at [File > Import > Meshes...] or [File > Export > Selected shapes...].
 
-If after the import operation you can't see any shapes in the [scene](scenes.md), but the [scene hierarchy](userInterface.md#SceneHierarchy) indicates the presence of newly added shapes, then most probably your shapes are either too big or too small to be seen. You can then proceed to a scaling operation. Additionally, you can subdivide imported meshes via [Edit > Shape grouping/merging > divide]. See also [`shape:divide`](sim-2/shape_divide.htm).
+If after the import operation you can't see any shapes in the [scene](scenes.md), but the [scene hierarchy](userInterface.md#SceneHierarchy) indicates the presence of newly added shapes, then most probably your shapes are either too big or too small to be seen. You can then proceed to a scaling operation. Additionally, you can subdivide imported meshes via [Edit > Shape grouping/merging > divide]. See also [`shape:divide`](sim-2/shape_divide.md).
 
 Make sure that imported meshes do not contain too many triangles (for a robot, typically between 10'000-20'000 triangles in total), otherwise CoppeliaSim could slow down. You can decimate an imported mesh via [Modules > Geometry / Mesh > Mesh decimation...].
 
@@ -37,17 +37,17 @@ See also the [API functions related to URDF import/export](simURDF/simURDF.htm).
 
 One can access the SDF importer functionality via the following add-on: [Modules > Importers > SDF importer...].
 
-See also the [API functions related to SDF import](simSDF/simSDF.htm).
+See also the [API functions related to SDF import](simSDF/simSDF.md).
 
 ## <a id="gltf"></a>Exporting a simulation as GLTF
 
 A scene or simulation can be exported via the GLTF format. The result is a still or animated scene. The functionality is available via two distinct add-ons: [Modules > Exporters > GLTF exporter...] and [Modules > Exporters > GLTF animation exporter...].
 
-See also the [API functions related to GLTF export](simGLTF/simGLTF.htm).
+See also the [API functions related to GLTF export](simGLTF/simGLTF.md).
 
 ## <a id="image"></a>Importing/exporting images
 
-Images can be imported/exported with [`sim.app:loadImage`](sim-2/app_loadImage.htm) and [`sim.app:saveImage`](sim-2/app_saveImage.htm). See also [`sim.app:transformImage`](sim-2/app_transformImage.htm), [`sim.app:transformBuffer`](sim-2/app_transformBuffer.htm) and the [OpenCV plugin API reference](simIM/simIM.htm).
+Images can be imported/exported with [`sim.app:loadImage`](sim-2/app_loadImage.md) and [`sim.app:saveImage`](sim-2/app_saveImage.md). See also [`sim.app:transformImage`](sim-2/app_transformImage.md), [`sim.app:transformBuffer`](sim-2/app_transformBuffer.md) and the [OpenCV plugin API reference](simIM/simIM.md).
 
 ## <a id="text"></a>Importing/exporting text/binary data
 
@@ -124,7 +124,7 @@ Note that the above image is zoomed in, and actual lines are 1px thick.
 
 Different gray levels are used to indicate different classes. In this example, 0 is used for walls, 82 for window holes, and 187 for door holes. These values can be configured (see below) and anything outside the given ranges will be ignored, so it is possible to use a floor plan that contains more annotations, but only extract wall/door/window lines if given in a specific gray value.
 
-Various other formats derived from or related to images can also be imported. For a complete list of supported formats, use [simUI.supportedImageFormats](simUI/simUI.htm#supportedImageFormats). The following example illustrates the PGM format:
+Various other formats derived from or related to images can also be imported. For a complete list of supported formats, use [simUI.supportedImageFormats](simUI/simUI.md#supportedImageFormats). The following example illustrates the PGM format:
 
 ```
 P2
@@ -153,4 +153,4 @@ After selecting the menu entry, an image file must be selected; then a few impor
 
 The [LDraw](http://www.ldraw.org/) importer add-on is available via [Modules > Importers > LDraw importer...]. Make sure the LDraw parts library is installed. The simLDraw plugin uses the [ldrawloader](https://github.com/pixeljetstream/ldrawloader) from Christoph Kubisch.
 
-See also the [API functions related to LDR / MPD import](simLDraw/simLDraw.htm).
+See also the [API functions related to LDR / MPD import](simLDraw/simLDraw.md).

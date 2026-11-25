@@ -45,18 +45,18 @@
 
 ## <a id="simulatorMessages"></a>Simulator messages
 
-- The following messages can be queried from a script, by calling the [`sim.getSimulatorMessage`](sim-1/simGetSimulatorMessage.htm) function:
+- The following messages can be queried from a script, by calling the [`sim.getSimulatorMessage`](sim-1/simGetSimulatorMessage.md) function:
 - `sim.message_model_loaded`
 - `sim.message_scene_loaded`
 - `sim.message_keypress`
   auxData[0]=key, auxData[1]=ctrl and shift key state
-- The following messages can be queried from the CoppeliaSim client application (and only from the client application!), by calling the [`simGetSimulatorMessage`](sim/simGetSimulatorMessage.htm) function:
+- The following messages can be queried from the CoppeliaSim client application (and only from the client application!), by calling the [`simGetSimulatorMessage`](sim-1/simGetSimulatorMessage.md) function:
 - `sim_message_simulation_start_resume_request`
-  The user wishes to start/resume a simulation. See also the [`simStartSimulation`](sim/simStartSimulation.htm) function
+  The user wishes to start/resume a simulation. See also the [`simStartSimulation`](sim-1/simStartSimulation.md) function
 - `sim_message_simulation_pause_request`
-  The user wishes to pause a simulation. See also the [`simPauseSimulation`](sim/simPauseSimulation.htm) function
+  The user wishes to pause a simulation. See also the [`simPauseSimulation`](sim-1/simPauseSimulation.md) function
 - `sim_message_simulation_stop_request`
-  The user wishes to stop a simulation. See also the [`simStopSimulation`](sim/simStopSimulation.htm) function
+  The user wishes to stop a simulation. See also the [`simStopSimulation`](sim-1/simStopSimulation.md) function
 - The following messages are dispatched to the [plugins](plugins.md) (refer to the plugin [simMsg entry point](plugins.md)):
 - `sim_message_eventcallback_instancepass`
   Called once every main client application loop pass. auxData[0] contains event flags of events that happened since last time. If you react to some of the event flags below, make sure you do not react to their equivalent event callback message (e.g. sim_message_eventcallback_sceneloaded is similar to the bit3 set below)

@@ -8,7 +8,7 @@ Signals can directly be visualized as time plots. By combining 2 signals, you ca
 
 *[Examples of a time plot]*
 
-A graph is added to the scene with [Add > Graph]. Its basic properties are accessed and adjusted in the [graph dialog](graphPropertiesDialog.md). Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.htm) and [graph-related methods and properties](apiFunctions.md#methodsAndProperties_graph).
+A graph is added to the scene with [Add > Graph]. Its basic properties are accessed and adjusted in the [graph dialog](graphPropertiesDialog.md). Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.md) and [graph-related methods and properties](apiFunctions.md#methodsAndProperties_graph).
 
 The user is in charge of defining signals, curves, and feeding them with appropriate data on a regular basis (usually once per simulation step). The following illustrates how to record and visualize 2 signals (the velocity of two joints over time):
 

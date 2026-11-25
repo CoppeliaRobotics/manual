@@ -12,12 +12,12 @@ In the scene object dialog, click the **Dummy** button to display the dummy dial
 
 *[Dummy dialog]*
 
-- **Dummy type**: the way the dummy operates. Refer also to [`dummy.dummy.type`](sim-2/property_dummy_dummy_type.htm):
+- **Dummy type**: the way the dummy operates. Refer also to [`dummy.dummy.type`](sim-2/property_dummy_dummy_type.md):
   - *Default*: the dummy does not have any specialized behavior or function
   - *Assembly*: the dummy can act as an [assembly point](assembly.md)
   - *Dynamic, overlap constraint*: the dummy and its linked counterpart will try to overlap their position/orientation, allowing you to create a [dynamic loop closure](designingDynamicSimulations.md#loop)
   - *Dynamic, tendon constraint*: the dummy and its linked counterpart will behave as if there was a string or elastic-like constraint between them. Currently only supported with the MuJoCo engine.
-- **Linked dummy**: an optional dummy linked to this one. Linked dummies can have special properties or behavior. Refer also to [`dummy.linkedDummy`](sim-2/property_dummy_linkedDummy.htm).
+- **Linked dummy**: an optional dummy linked to this one. Linked dummies can have special properties or behavior. Refer also to [`dummy.linkedDummy`](sim-2/property_dummy_linkedDummy.md).
 - **Engine properties**: each physics engine has specific parameters related to dummies. Make sure to read the respective engine documentations to achieve best parameter settings
-- **Object size**: size of the dummy. This parameter has only a visual effect, and no functional meaning. Refer also to [`dummy.size`](sim-2/property_dummy_size.htm).
+- **Object size**: size of the dummy. This parameter has only a visual effect, and no functional meaning. Refer also to [`dummy.size`](sim-2/property_dummy_size.md).
 - **Color**: allows adjusting a dummy's color

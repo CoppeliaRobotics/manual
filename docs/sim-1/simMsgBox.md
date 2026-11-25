@@ -1,3 +1,3 @@
 # sim.msgBox
 
-Deprecated. See [simUI.msgBox](../simUI/simUI.htm#msgBox) instead.
+Deprecated. See [simUI.msgBox](../simUI/simUI.md#msgBox) instead.

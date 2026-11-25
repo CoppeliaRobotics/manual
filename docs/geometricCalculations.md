@@ -10,4 +10,4 @@ Other geometry / mesh functionality is supported via dedicated plugins:
 
 - [simConvex](simConvex/simConvex.htm), offers e.g. [convex hull](convexHull.md) and [convex decomposition](convexDecomposition.md) operations
 - [simOpenMesh](simOpenMesh/simOpenMesh.htm), offers e.g. mesh decimation operations
-- [simIGL](simIGL/simIGL.htm), offers boolean and other operations
+- [simIGL](simIGL/simIGL.md), offers boolean and other operations

@@ -12,4 +12,4 @@ Both scenes and models may contain one or several [scene objects](objects.md). A
 - [The main script](mainScript.md)
 - [Pages and views](pagesAndViews.md)
 
-Scenes are saved as *\*.ttt* files, and models are saved as *\*.ttm* files. Both file types can be opened by dragging them from the explorer window and dropping them into the CoppeliaSim application. They can also be opened with a double-click. Refer also to [`sim.app:loadScene`](sim-2/app_loadScene.htm), [`sim.scene:remove`](sim-2/scene_remove.htm), [`sim.scene:loadModel`](sim-2/scene_loadModel.htm) and [`sceneObject:removeModel`](sim-2/sceneObject_removeModel.htm).
+Scenes are saved as *\*.ttt* files, and models are saved as *\*.ttm* files. Both file types can be opened by dragging them from the explorer window and dropping them into the CoppeliaSim application. They can also be opened with a double-click. Refer also to [`sim.app:loadScene`](sim-2/app_loadScene.md), [`sim.scene:remove`](sim-2/scene_remove.md), [`sim.scene:loadModel`](sim-2/scene_loadModel.md) and [`sceneObject:removeModel`](sim-2/sceneObject_removeModel.md).

@@ -2,7 +2,7 @@
 
 This tutorial describes how to write a [plugin](plugins.md) for CoppeliaSim. The CoppeliaSim scene file related to this tutorial is located in *scenes/tutorials/BubbleRobExt*. The plugin project files of this tutorial can be found [here](https://github.com/CoppeliaRobotics/simBubble).
 
-CoppeliaSim plugins are loaded on demand via the [`loadPlugin`](sim/loadPlugin.htm) function. Most of the time the load procedure is wrapped inside of a simple Lua module that can additionally provide pure Lua functions, under the same namespace.
+CoppeliaSim plugins are loaded on demand via the [`loadPlugin`](sim-1/loadPlugin.md) function. Most of the time the load procedure is wrapped inside of a simple Lua module that can additionally provide pure Lua functions, under the same namespace.
 
 The plugin was written for BubbleRob from the [BubbleRob tutorial](bubbleRobTutorial.md). The BubbleRob plugin adds 4 new script functions:
 

@@ -1,3 +1,3 @@
 # simPersistentDataRead
 
-Deprecated. See [simReadCustomDataBlock](../sim/simReadCustomDataBlock_cpp.htm) instead.
+Deprecated. See [simReadCustomDataBlock](simReadCustomDataBlock_cpp.md) instead.

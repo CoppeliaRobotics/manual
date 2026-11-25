@@ -1,3 +1,3 @@
 # sim.persistentDataWrite
 
-Deprecated. See [sim.writeCustomBufferData](../sim/simWriteCustomBufferData.htm) instead.
+Deprecated. See [sim.writeCustomBufferData](simWriteCustomBufferData.md) instead.

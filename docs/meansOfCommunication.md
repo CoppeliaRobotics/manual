@@ -19,7 +19,7 @@ You can send or receive data via:
 
 ## <a id="callingPluginFunctions"></a><a id="pluginFunctions"></a>Calling plugin functions
 
-[Scripts](scripts.md) can call specific [plugin](plugins.md) functions, referred to as callback functions. To do so, a plugin must first register its callback functions via [`simRegisterScriptCallbackFunction`](sim/simRegisterScriptCallbackFunction_cpp.htm). This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. The following illustrates a very simple plugin function and its registration:
+[Scripts](scripts.md) can call specific [plugin](plugins.md) functions, referred to as callback functions. To do so, a plugin must first register its callback functions via [`simRegisterScriptCallbackFunction`](sim-2/simRegisterScriptCallbackFunction_cpp.md). This is a convenient mechanism to extend CoppeliaSim's functionality, but can also be used for complex data exchange between scripts and plugins. The following illustrates a very simple plugin function and its registration:
 
 ```cpp
 void myCallbackFunc(SScriptCallBack* p)
@@ -50,16 +50,16 @@ simRegisterScriptCallbackFunction("func", nullptr, myCallbackFunc);
 
 A [script](scripts.md) function can be called from within the same script, and also:
 
-- From other scripts: refer to [`script:callFunction`](sim-2/script_callFunction.htm), [`script:getFunctions`](sim-2/script_getFunctions.htm) or [`script:executeString`](sim-2/script_executeString.htm).
-- From a plugin: refer to [`simCallScriptFunctionEx`](sim/simCallScriptFunctionEx_cpp.htm).
+- From other scripts: refer to [`script:callFunction`](sim-2/script_callFunction.md), [`script:getFunctions`](sim-2/script_getFunctions.md) or [`script:executeString`](sim-2/script_executeString.md).
+- From a plugin: refer to [`simCallScriptFunctionEx`](sim-2/simCallScriptFunctionEx_cpp.md).
 - From a [ROS](rosInterfaces.md) client, via a callback mechanism.
 - From a [remote API](remoteApiOverview.md) client.
 
-The called script function can perform various tasks, then return some data to the caller. However, it is important not to perform lengthy tasks within the called function, as everything comes to a halt during that time. Lengthy tasks should instead be triggered only via [`script:callFunction`](sim-2/script_callFunction.htm), then processed within a sysCall_thread [system callback](callbackFunctions.md) section.
+The called script function can perform various tasks, then return some data to the caller. However, it is important not to perform lengthy tasks within the called function, as everything comes to a halt during that time. Lengthy tasks should instead be triggered only via [`script:callFunction`](sim-2/script_callFunction.md), then processed within a sysCall_thread [system callback](callbackFunctions.md) section.
 
 ## <a id="simBroadcastMsg"></a>Broadcasting messages
 
-A [script](scripts.md) or a [remote API](remoteApiOverview.md) client can broadcast a message to all scripts at once via [`script:broadcast`](sim-2/script_broadcast.htm). For instance, the following constantly broadcasts a message to all scripts, while printing other broadcast messages:
+A [script](scripts.md) or a [remote API](remoteApiOverview.md) client can broadcast a message to all scripts at once via [`script:broadcast`](sim-2/script_broadcast.md). For instance, the following constantly broadcasts a message to all scripts, while printing other broadcast messages:
 
 ```lua
 --lua
@@ -105,7 +105,7 @@ See also the event viewer add-on located at [Modules > Developer tools > Event v
 
 ## <a id="zmq"></a>ZeroMQ
 
-The [ZeroMQ library](http://api.zeromq.org/), wrapped inside the [ZMQ plugin](https://github.com/CoppeliaRobotics/simZMQ), offers several [API functions related to ZeroMQ messaging](simZMQ/simZMQ.htm). When using Python, you are of course also free to use the pyzmq package for ZeroMQ functionality. The following illustrates a simple requester:
+The [ZeroMQ library](http://api.zeromq.org/), wrapped inside the [ZMQ plugin](https://github.com/CoppeliaRobotics/simZMQ), offers several [API functions related to ZeroMQ messaging](simZMQ/simZMQ.md). When using Python, you are of course also free to use the pyzmq package for ZeroMQ functionality. The following illustrates a simple requester:
 
 ```lua
 --lua
@@ -166,7 +166,7 @@ end
 
 ## <a id="ws"></a>WebSocket
 
-The [WebSocket plugin](https://github.com/CoppeliaRobotics/simWS) offers several [API functions that allow you to interact with a web browser](simWS/simWS.htm). When using Python, you are of course also free to use a Python-specific WebSocket package. The following is a simple echo server:
+The [WebSocket plugin](https://github.com/CoppeliaRobotics/simWS) offers several [API functions that allow you to interact with a web browser](simWS/simWS.md). When using Python, you are of course also free to use a Python-specific WebSocket package. The following is a simple echo server:
 
 ```lua
 --lua

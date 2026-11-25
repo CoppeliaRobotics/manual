@@ -9,7 +9,7 @@
 
 *[Orthogonal projection-type and perspective projection-type vision sensors]*
 
-Refer also to [`visionSensor.perspective`](sim-2/property_visionSensor_perspective.htm).
+Refer also to [`visionSensor.perspective`](sim-2/property_visionSensor_perspective.md).
 
 Vision sensors, which are [viewable objects](viewableObjects.md), can be *looked-through* like [camera objects](cameras.md) [Popup menu > View > Associate view with selected vision sensor]. See also the section on [pages and views](pagesAndViews.md) for more details.
 

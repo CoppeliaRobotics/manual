@@ -6,7 +6,7 @@ Data in CoppeliaSim can be transformed in various ways:
 - [Linear algebra functionality](#algebra)
 - [Image processing](syntheticVision.md)
 - [Path data transformation](apiFunctions.md#paths)
-- [`sim.transformBuffer`](sim-1/simTransformBuffer.htm)
+- [`sim.transformBuffer`](sim-1/simTransformBuffer.md)
 - Other [matrix/transformation related functions](apiFunctions.md#coordinatesAndTransformations)
 
 <a id="packing"></a>The following example illustrates how to pack/unpack data. Other functions can be found here:
@@ -88,4 +88,4 @@ local relObj2 = object:getPose({relativeToObject = object.parent})
 print( (relObj:totransform() - relObj2:totransform()):abs():maxcoeff() )
 ```
 
-For the full linear algebra functionality, refer to the [simEigen plugin](simEigen/simEigen.htm).
+For the full linear algebra functionality, refer to the [simEigen plugin](simEigen/simEigen.md).

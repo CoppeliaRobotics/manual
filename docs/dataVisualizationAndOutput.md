@@ -7,7 +7,7 @@ Data can be visualized or output/logged in various ways:
 - Displaying data in [custom user interfaces](customUIPlugin.md)
 - <a id="augmentingScene"></a>[Augmenting the scene with visual items](markers.md)
 - Logging data to the status bar via the simple *print* command
-- Logging data to the status bar and/or terminal via [`sim.app:logInfo`](sim-2/app_logInfo.htm), [`sim.app:logWarn`](sim-2/app_logWarn.htm) and [`sim.app:logError`](sim-2/app_logError.htm)
+- Logging data to the status bar and/or terminal via [`sim.app:logInfo`](sim-2/app_logInfo.md), [`sim.app:logWarn`](sim-2/app_logWarn.md) and [`sim.app:logError`](sim-2/app_logError.md)
 - [Logging data to a file](#loggingToFile)
 - [Printing text in a console](#auxConsoles)
 - [Text editing](#textEditors)
@@ -63,7 +63,7 @@ function sysCall_cleanup()
 end
 ```
 
-More complex items, such as random meshes can be created on the fly via [`sim.scene:loadModel`](sim-2/scene_loadModel.htm), [`sim.scene:createObject`](sim-2/scene_createObject.htm) and/or [`sim.scene:duplicateObjects`](sim-2/scene_duplicateObjects.htm). To avoid overloading the scene with too many additional objects, make sure to group shapes with [`sim.scene:groupShapes`](sim-2/scene_groupShapes.htm) or [`sim.scene:mergeShapes`](sim-2/scene_mergeShapes.htm). For example:
+More complex items, such as random meshes can be created on the fly via [`sim.scene:loadModel`](sim-2/scene_loadModel.md), [`sim.scene:createObject`](sim-2/scene_createObject.md) and/or [`sim.scene:duplicateObjects`](sim-2/scene_duplicateObjects.md). To avoid overloading the scene with too many additional objects, make sure to group shapes with [`sim.scene:groupShapes`](sim-2/scene_groupShapes.md) or [`sim.scene:mergeShapes`](sim-2/scene_mergeShapes.md). For example:
 
 ```lua
 --lua

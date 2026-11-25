@@ -1,6 +1,6 @@
 # Plugins
 
-A CoppeliaSim plugin is a shared library that can be loaded via the [`loadPlugin`](sim/loadPlugin.htm) API function, on demand. It allows CoppeliaSim's functionality to be extended by user-written functions (in a similar way as with [add-ons](addOns.md)). The language can be any language able to generate a shared library and able to call exported C-functions.
+A CoppeliaSim plugin is a shared library that can be loaded via the [`loadPlugin`](sim-1/loadPlugin.md) API function, on demand. It allows CoppeliaSim's functionality to be extended by user-written functions (in a similar way as with [add-ons](addOns.md)). The language can be any language able to generate a shared library and able to call exported C-functions.
 
 Plugins are usually used to customize the simulator and/or a particular simulation. Often, plugins are only used to provide a simulation with [custom script commands](apiFunctions.md#customizingLuaFunctions), and so are used in conjunction with [scripts](scripts.md). Other times, plugins are used to provide CoppeliaSim with a special functionality requiring either fast calculation capability or an interface to a hardware device (e.g. a real robot).
 

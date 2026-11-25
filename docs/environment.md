@@ -6,6 +6,6 @@ An environment defines the following properties and parameters:
 
 - Background colors.
 - Fog parameters. Fog parameters do not directly interact with scene objects, except with [cameras](cameras.md) or [vision sensors](visionSensors.md) if the corresponding option was selected.
-- Ambient light. Refer also to [`scene.ambientLight`](sim-2/property_scene_ambientLight.htm).
-- Scene creation information. Refer also to [`scene.acknowledgment`](sim-2/property_scene_acknowledgment.htm).
+- Ambient light. Refer also to [`scene.ambientLight`](sim-2/property_scene_ambientLight.md).
+- Scene creation information. Refer also to [`scene.acknowledgment`](sim-2/property_scene_acknowledgment.md).
 - Additional settings

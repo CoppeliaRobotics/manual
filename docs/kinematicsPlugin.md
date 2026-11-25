@@ -25,4 +25,4 @@ function sysCall_actuation()
 end
 ```
 
-[`IKGroup:addElementFromScene`](sim-2/IKGroup_addElementFromScene.htm) parses the scene given a base, tip and target object, and generates an appropriate IK element, with the given constraints. [`IK:solve`](sim-2/IK_solve.htm) on the other hand synchronizes the IK world with the sim world, computes IK, then synchronizes the sim world back from the IK world.
+[`IKGroup:addElementFromScene`](sim-2/IKGroup_addElementFromScene.md) parses the scene given a base, tip and target object, and generates an appropriate IK element, with the given constraints. [`IK:solve`](sim-2/IK_solve.md) on the other hand synchronizes the IK world with the sim world, computes IK, then synchronizes the sim world back from the IK world.

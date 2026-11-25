@@ -1,3 +1,3 @@
 # simGetPersistentDataTags
 
-Deprecated. See [simReadCustomDataTags](../sim/simReadCustomDataTags_cpp.htm) instead.
+Deprecated. See [simReadCustomDataTags](simReadCustomDataTags_cpp.md) instead.

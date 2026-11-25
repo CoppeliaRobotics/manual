@@ -6,7 +6,7 @@ CoppeliaSim can detect collisions between two [collidable](collidableObjects.md)
 
 *[Collision detection between two manipulators]*
 
-Using [`sceneObject:checkCollision`](sim-2/sceneObject_checkCollision.htm) and [`collection:checkCollision`](sim-2/collection_checkCollision.htm), you can easily check for collision between entities, for instance between a robot and its environment, from within a [simulation script](simulationScripts.md), in each simulation step:
+Using [`sceneObject:checkCollision`](sim-2/sceneObject_checkCollision.md) and [`collection:checkCollision`](sim-2/collection_checkCollision.md), you can easily check for collision between entities, for instance between a robot and its environment, from within a [simulation script](simulationScripts.md), in each simulation step:
 
 ```python
 #python

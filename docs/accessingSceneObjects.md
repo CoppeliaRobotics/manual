@@ -1,8 +1,8 @@
 # Accessing scene objects programmatically
 
-When programming in and around CoppeliaSim, you will always need to reference [scene objects](objects.md). You do this via [`script:getObject`](sim-2/script_getObject.htm) or [`sceneObject:getObject`](sim-2/sceneObject_getObject.htm), which expect an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner when called from a [script object](#fromScriptObject).
+When programming in and around CoppeliaSim, you will always need to reference [scene objects](objects.md). You do this via [`script:getObject`](sim-2/script_getObject.md) or [`sceneObject:getObject`](sim-2/sceneObject_getObject.md), which expect an object path as input argument. The object path can be expressed in an absolute manner, but also in a relative manner when called from a [script object](#fromScriptObject).
 
-In both cases, the path to the object can often be simplified. You may also use wildcards, and optionally specify the object sequence or order, in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path/name. See also [`sceneObject.name`](sim-2/property_sceneObject_name.htm) and [`sceneObject:getName`](sim-2/sceneObject_getName.htm).
+In both cases, the path to the object can often be simplified. You may also use wildcards, and optionally specify the object sequence or order, in a given scene hierarchy. Or simply fetch the n-th object that matches a specific path/name. See also [`sceneObject.name`](sim-2/property_sceneObject_name.md) and [`sceneObject:getName`](sim-2/sceneObject_getName.md).
 
 ## <a id="fromUnassociatedCode"></a>Access from *unassociated* code
 

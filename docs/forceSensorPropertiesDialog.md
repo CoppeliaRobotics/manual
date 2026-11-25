@@ -12,13 +12,13 @@ In the scene object dialog, click the **Force sensor** button to display the for
 
 *[Force sensor dialog]*
 
-- **Filter**: when force or torque data is acquired by the force sensor, then it is accumulated and can be filtered to obtain less jittery values. Refer also to [`forceSensor.dynamics.filter`](sim-2/property_forceSensor_dynamics_filter.htm).
-- **Sample size**: the number of values that should be used for the filter. *1* Will not filter values (raw output). Refer also to [`forceSensor.dynamics.filterSampleSize`](sim-2/property_forceSensor_dynamics_filterSampleSize.htm).
+- **Filter**: when force or torque data is acquired by the force sensor, then it is accumulated and can be filtered to obtain less jittery values. Refer also to [`forceSensor.dynamics.filter`](sim-2/property_forceSensor_dynamics_filter.md).
+- **Sample size**: the number of values that should be used for the filter. *1* Will not filter values (raw output). Refer also to [`forceSensor.dynamics.filterSampleSize`](sim-2/property_forceSensor_dynamics_filterSampleSize.md).
 - **Average value**: if selected, then the force sensor will deliver average values (average of **sample size** values).
 - **Median value**: if selected, then the force sensor will deliver median values (median of **sample size** values).
-- **Trigger settings**: this section allows you to set up some automatic triggering conditions. A trigger will call the [trigger callback function](triggerCallbackFunctions.md) (inside which you could for instance [break the force sensor](sim-1/simBreakForceSensor.htm)).
-- **Force threshold**: the amplitude of the force vector that activates a threshold violation. Refer also to [`forceSensor.dynamics.forceThresholdEnabled`](sim-2/property_forceSensor_dynamics_forceThresholdEnabled.htm) and [`forceSensor.dynamics.forceThreshold`](sim-2/property_forceSensor_dynamics_forceThreshold.htm).
-- **Torque threshold**: the amplitude of the torque vector that activates a threshold violation. Refer also to [`forceSensor.dynamics.torqueThresholdEnabled`](sim-2/property_forceSensor_dynamics_torqueThresholdEnabled.htm) and [`forceSensor.dynamics.torqueThreshold`](sim-2/property_forceSensor_dynamics_torqueThreshold.htm).
-- **Consecutive threshold violations for breaking**: the number of consecutive times the sensor is allowed to violate a threshold before triggering. See also [`forceSensor.dynamics.consecutiveViolationsToTrigger`](sim-2/property_forceSensor_dynamics_consecutiveViolationsToTrigger.htm).
-- **Object size**: size of the sensor's 3D representation. This has no functional effect. See also [`forceSensor.size`](sim-2/property_forceSensor_size.htm).
+- **Trigger settings**: this section allows you to set up some automatic triggering conditions. A trigger will call the [trigger callback function](triggerCallbackFunctions.md) (inside which you could for instance [break the force sensor](sim-1/simBreakForceSensor.md)).
+- **Force threshold**: the amplitude of the force vector that activates a threshold violation. Refer also to [`forceSensor.dynamics.forceThresholdEnabled`](sim-2/property_forceSensor_dynamics_forceThresholdEnabled.md) and [`forceSensor.dynamics.forceThreshold`](sim-2/property_forceSensor_dynamics_forceThreshold.md).
+- **Torque threshold**: the amplitude of the torque vector that activates a threshold violation. Refer also to [`forceSensor.dynamics.torqueThresholdEnabled`](sim-2/property_forceSensor_dynamics_torqueThresholdEnabled.md) and [`forceSensor.dynamics.torqueThreshold`](sim-2/property_forceSensor_dynamics_torqueThreshold.md).
+- **Consecutive threshold violations for breaking**: the number of consecutive times the sensor is allowed to violate a threshold before triggering. See also [`forceSensor.dynamics.consecutiveViolationsToTrigger`](sim-2/property_forceSensor_dynamics_consecutiveViolationsToTrigger.md).
+- **Object size**: size of the sensor's 3D representation. This has no functional effect. See also [`forceSensor.size`](sim-2/property_forceSensor_size.md).
 - **Color**: allows adjusting the color of the sensor.

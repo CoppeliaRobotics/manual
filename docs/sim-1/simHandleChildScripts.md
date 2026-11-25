@@ -1,3 +1,3 @@
 # sim.handleChildScripts
 
-Deprecated. See [sim.handleSimulationScripts](../sim/simHandleSimulationScripts.htm) instead.
+Deprecated. See [sim.handleSimulationScripts](simHandleSimulationScripts.md) instead.

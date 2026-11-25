@@ -6,6 +6,6 @@ CoppeliaSim offers a very powerful and efficient way to simulate proximity senso
 
 *[Mobile robot using proximity sensors]*
 
-Proximity sensors are added to the [scene](scenes.md) with [Add > Proximity sensor]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.htm) and [proximitySensor-related methods and properties](apiFunctions.md#methodsAndProperties_proximitySensor).
+Proximity sensors are added to the [scene](scenes.md) with [Add > Proximity sensor]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.md) and [proximitySensor-related methods and properties](apiFunctions.md#methodsAndProperties_proximitySensor).
 
-The proximity sensor detection routines used by the proximity sensors are also available as stand-alone routines via the [Coppelia geometric routines](coppeliaGeometricRoutines.md). Refer also to [`proximitySensor:checkSensor`](sim-2/proximitySensor_checkSensor.htm).
+The proximity sensor detection routines used by the proximity sensors are also available as stand-alone routines via the [Coppelia geometric routines](coppeliaGeometricRoutines.md). Refer also to [`proximitySensor:checkSensor`](sim-2/proximitySensor_checkSensor.md).

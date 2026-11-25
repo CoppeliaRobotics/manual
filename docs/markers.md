@@ -6,4 +6,4 @@ A marker is an instance of the [marker type](mainObjectTypes.md#marker), which i
 
 *[Markers]*
 
-A marker can be added to the scene with [Add > Marker]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.htm) and [marker-related methods and properties](apiFunctions.md#methodsAndProperties_marker).
+A marker can be added to the scene with [Add > Marker]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.md) and [marker-related methods and properties](apiFunctions.md#methodsAndProperties_marker).

@@ -952,7 +952,7 @@ simCheckDistance
 - [`sim.saveImage`](sim-1/simSaveImage.md)
 - [`sim.generateTextShape`](sim-1/simGenerateTextShape.md)
 - See also:
-- [Assimp plugin API reference](simAssimp/simAssimp.htm)
+- [Assimp plugin API reference](simAssimp/simAssimp.md)
 
 - [simImportShape](sim-1/simImportShape_cpp.md)
 - [simImportMesh](sim-1/simImportMesh_cpp.md)

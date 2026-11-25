@@ -20,4 +20,4 @@ The bounding box of selected shapes can be modified in two different ways, via [
 
 Note that the orientation of the bounding box does not need to be the same as the orientation of the reference frame.
 
-Refer also to [`shape:relocateFrame`](sim-2/shape_relocateFrame.htm), [`shape:alignBoundingBox`](sim-2/shape_alignBoundingBox.htm) and [`sceneObject:scale`](sim-2/sceneObject_scale.htm).
+Refer also to [`shape:relocateFrame`](sim-2/shape_relocateFrame.md), [`shape:alignBoundingBox`](sim-2/shape_alignBoundingBox.md) and [`sceneObject:scale`](sim-2/sceneObject_scale.md).

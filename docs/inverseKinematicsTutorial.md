@@ -61,7 +61,7 @@ Next, we add a *manipulation sphere* that we use to manipulate the robot's gripp
 
 ## <a id="setup"></a>Setting up the inverse kinematics task
 
-Inverse kinematics is entirely set up by having a script calling appropriate methods: the idea is to build an equivalent kinematic model via the methods provided by the [`IK class`](sim-2/IK_new.htm). The approach uses the concept and terminology of [IK groups and IK elements](solvingIkAndFk.md).
+Inverse kinematics is entirely set up by having a script calling appropriate methods: the idea is to build an equivalent kinematic model via the methods provided by the [`IK class`](sim-2/IK_new.md). The approach uses the concept and terminology of [IK groups and IK elements](solvingIkAndFk.md).
 
 Select object *redundantRobot*, then [Add > Script object > simulation script > Non-threaded > Lua] to attach a [simulation script](simulationScripts.md) to that object. Double-click the new script icon in the scene hierarchy, and replace the script content with the following code:
 

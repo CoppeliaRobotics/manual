@@ -1,6 +1,6 @@
 # Vision callback functions
 
-[Script objects](scriptObjects.md) can include a vision callback function (which is one of many [system callback functions](callbackFunctions.md#systemCallbacks)), when the script object parent is a [vision sensor](visionSensors.md). When present, then the system calls the callback function every time a new image was acquired or applied, allowing the user to perform image processing. This is the case with the following: [`visionSensor:handleSensor`](sim-2/visionSensor_handleSensor.htm), [`visionSensor:checkSensor`](sim-2/visionSensor_checkSensor.htm), [`visionSensor:setImage`](sim-2/visionSensor_setImage.htm) and [`visionSensor.image`](sim-2/property_visionSensor_image.htm).
+[Script objects](scriptObjects.md) can include a vision callback function (which is one of many [system callback functions](callbackFunctions.md#systemCallbacks)), when the script object parent is a [vision sensor](visionSensors.md). When present, then the system calls the callback function every time a new image was acquired or applied, allowing the user to perform image processing. This is the case with the following: [`visionSensor:handleSensor`](sim-2/visionSensor_handleSensor.md), [`visionSensor:checkSensor`](sim-2/visionSensor_checkSensor.md), [`visionSensor:setImage`](sim-2/visionSensor_setImage.md) and [`visionSensor.image`](sim-2/property_visionSensor_image.md).
 
 The following represents an empty vision callback function:
 
@@ -45,7 +45,7 @@ function sysCall_vision(inData)
 end
 ```
 
-Image processing can be performed by using various API functions. The [vision plugin](syntheticVision.md) exports a few very simple image processing functions. Many more image processing functions are supported via the [image plugin](simIM/simIM.htm) (OpenCV wrapper).
+Image processing can be performed by using various API functions. The [vision plugin](syntheticVision.md) exports a few very simple image processing functions. Many more image processing functions are supported via the [image plugin](simIM/simIM.md) (OpenCV wrapper).
 
 The following represents a simple edge detection vision callback function, that triggers and returns a packet of data (based on the vision plugin functions):
 

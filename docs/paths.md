@@ -6,9 +6,9 @@ A path is a *pseudo* [scene object](objects.md), representing a succession of po
 
 *[Simple path containing 4 control points]*
 
-Paths can be added to the [scene](scenes.md) with [Add > Path]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.htm). A path is composed of control points that define its curve in space. Control points can be shifted, copy/pasted or deleted.
+Paths can be added to the [scene](scenes.md) with [Add > Path]. Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.md). A path is composed of control points that define its curve in space. Control points can be shifted, copy/pasted or deleted.
 
-Path properties are set in its customization script. See also the [Path class](mainObjectTypes.md#path), [`Path:new`](sim-2/Path_new.htm) and [`Path:createShape`](sim-2/Path_createShape.htm):
+Path properties are set in its customization script. See also the [Path class](mainObjectTypes.md#path), [`Path:new`](sim-2/Path_new.md) and [`Path:createShape`](sim-2/Path_createShape.md):
 
 ![](images/squarePath.jpg)
 

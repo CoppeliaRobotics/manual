@@ -2,10 +2,10 @@
 
 Synthetic vision is achieved in CoppeliaSim via [vision sensors](visionSensors.md): they can perform offscreen rendering of the scene in different modes. The generated image can then be modified/processed in various ways, for instance from within a [vision callback function](visionCallbackFunctions.md):
 
-- [Image processing with OpenCV](simIM/simIM.htm) (via the [image plugin](https://github.com/CoppeliaRobotics/simIM))
+- [Image processing with OpenCV](simIM/simIM.md) (via the [image plugin](https://github.com/CoppeliaRobotics/simIM))
 - [Simple image processing](simVision/simVision.htm) via the [vision plugin](https://github.com/CoppeliaRobotics/simVision)
-- [`sim.app:transformImage`](sim-2/app_transformImage.htm)
-- [`sim.app:transformBuffer`](sim-2/app_transformBuffer.htm)
+- [`sim.app:transformImage`](sim-2/app_transformImage.md)
+- [`sim.app:transformBuffer`](sim-2/app_transformBuffer.md)
 
 The following shows a vision callback function that illustrates 3 different ways to modify an acquired image:
 
@@ -56,4 +56,4 @@ function sysCall_vision(inData)
 end
 ```
 
-Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.htm) and [vision sensor-related methods and properties](apiFunctions.md#methodsAndProperties_visionSensor).
+Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.md) and [vision sensor-related methods and properties](apiFunctions.md#methodsAndProperties_visionSensor).
