@@ -1,3 +1,3 @@
 # simRunSimulator
 
-Deprecated. See the [client application](../mainClientApplication.htm) for details.
+Deprecated. See the [client application](../mainClientApplication.md) for details.

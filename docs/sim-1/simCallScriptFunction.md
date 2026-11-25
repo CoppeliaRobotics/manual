@@ -1,6 +1,6 @@
 # sim.callScriptFunction
 
-Calls a script function (from a [plugin](../plugins.md), [the main client application](../mainClientApplication.htm), or from another script). This represents a [user callback](../callbackFunctions.md) inside of a script. The target script must be initialized for this call to succeed, e.g. when calling [simulation scripts](../simulationScripts.md), then simulation must be running
+Calls a script function (from a [plugin](../plugins.md), [the main client application](../mainClientApplication.md), or from another script). This represents a [user callback](../callbackFunctions.md) inside of a script. The target script must be initialized for this call to succeed, e.g. when calling [simulation scripts](../simulationScripts.md), then simulation must be running
 
 ## Synopsis
 
