@@ -5,7 +5,7 @@ Scripts can include a dynamics callback function, which is one of many [system c
 The following represents a simple dynamics callback function:
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_dyn(inData)
     -- This function gets called often, so it might slow down the simulation

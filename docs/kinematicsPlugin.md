@@ -5,12 +5,11 @@ The kinematics plugin for CoppeliaSim (*simIK.dll* or similar) wraps the [Coppel
 Kinematics tasks can easily be set up from the scene's content like in the following example:
 
 ```lua
---lua
+import 'sim-2'
+simIK = require 'simIK-2'
 
 -- set-up:
 function sysCall_init()
-    sim = require('sim-2')
-    local simIK = require('simIK-2')
     local simBase = sim.self:getObject('/base')
     local simTip = sim.self:getObject('/tip')
     local simTarget = sim.self:getObject('/target')

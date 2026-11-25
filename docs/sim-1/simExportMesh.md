@@ -37,7 +37,6 @@ No return values.
 ## Example
 
 ```lua
---lua
 
 -- Exports all shapes in the scene
 local allVertices = {}

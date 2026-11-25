@@ -29,7 +29,8 @@ where Rx, Ry and Rz represent elemental rotations about axes X, Y and Z respecti
 Use following to convert between *alpha-beta-gamma* angles and *yaw-pitch-roll* angles:
 
 ```lua
--- Lua
+import 'sim-2'
+
 local yprAngles = sim.Quaternion:fromeuler(eulerAngles):toypr()
 local eulerAngles = sim.Quaternion:fromypr(yprAngles):toeuler()
 ```
@@ -39,7 +40,8 @@ local eulerAngles = sim.Quaternion:fromypr(yprAngles):toeuler()
 [Quaternions](https://en.wikipedia.org/wiki/Quaternion) are four values that uniquely describe a rotation, the orientation of a rigid body, or the orientation of a frame. They are superior to Euler angles in several ways (e.g. no gimbal lock), but are more difficult to understand and construct. For that reason they are never used in user interfaces, but preferred when working with orientations in code. In CoppeliaSim, quaternions are expressed as [sim.Quaternion](simEigen/simEigen.md#Quaternion): they hold (Qx,Qy,Qz,Qw), where (Qx,Qy,Qz) is the rotation axis unit vector multiplied by sin(angle/2), and Qw is cos(angle/2), where angle is the rotation angle. See also following operations:
 
 ```lua
--- Lua
+import 'sim-2'
+
 local m = sim.Quaternion:torotation(q)
 local q = sim.Quaternion:fromrotation(m)
 local axis, angle = q:axisangle(q2)
@@ -56,7 +58,8 @@ A [rotation matrix](https://en.wikipedia.org/wiki/Rotation_matrix) is a 3x3 matr
 In the above matrix, unit vectors (Xx,Xy,Xz), (Yx,Yy,Yz) and (Zx,Zy,Zz) represent the reference frame's axes X, Y and Z respectively. In CoppeliaSim, matrices are expressed as [sim.Matrix](simEigen/simEigen.md#Matrix). See also following operations:
 
 ```lua
--- Lua
+import 'sim-2'
+
 local m = sim.Quaternion:torotation(q)
 local q = sim.Quaternion:fromrotation(m)
 local axis, angle = q:axisangle(q2)
@@ -73,7 +76,8 @@ A [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix) i
 In CoppeliaSim, transformation matrices are expressed as [sim.Matrix](simEigen/simEigen.md#Matrix). See also following operations:
 
 ```lua
--- Lua
+import 'sim-2'
+
 local tr = sim.Pose:totransform(p)
 local trTransfosed = tr:transposed()
 local p = sim.Pose:fromtransform(tr)
@@ -84,7 +88,8 @@ local p = sim.Pose:fromtransform(tr)
 [Poses](https://en.wikipedia.org/wiki/Pose_(computer_vision)) are values that describe a frame transformation in 3D space. In CoppeliaSim, poses are expressed as [sim.Pose](simEigen/simEigen.md#Pose): they hold (X,Y,Z,Qx,Qy,Qz,Qw), i.e. a position and quaternion information. See also following operations:
 
 ```lua
--- Lua
+import 'sim-2'
+
 local p = sim.Pose:fromtransform(tr)
 local tr = sim.Pose:totransform(p)
 local pos = p.translation

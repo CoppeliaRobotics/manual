@@ -5,8 +5,8 @@
 A vision sensor can generate the trigger signal inside of the [vision callback function](visionCallbackFunctions.md). The trigger callback (if present) is then called as in the following example:
 
 ```lua
---lua
-    
+import 'sim-2'
+
     function sysCall_trigger(inData)
     -- We have:
     -- inData.visionSensor : the vision sensor.
@@ -15,7 +15,7 @@ A vision sensor can generate the trigger signal inside of the [vision callback f
     --    - minimum of {intensity, red, green blue and depth value}
     --    - maximum of {intensity, red, green blue and depth value}
     --    - average of {intensity, red, green blue and depth value}
-    
+
     local outData = {}
     outData.trigger = true
     return outData
@@ -25,7 +25,7 @@ A vision sensor can generate the trigger signal inside of the [vision callback f
 A proximity sensor generates the trigger signal when an object is detected. The trigger callback (if present) is then called as in the following example:
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_trigger(inData)
     -- We have:
@@ -44,7 +44,7 @@ end
 A force sensor generates the trigger signal when the sensor trigger conditions are met. The trigger callback (if present) is then called as in the following example:
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_trigger(inData)
     -- We have:

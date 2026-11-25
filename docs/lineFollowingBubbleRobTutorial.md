@@ -27,7 +27,7 @@ Now let's modify the environment. We can remove a few cylinders in front of Bubb
 Once you are satisfied with the geometry of the path (you can always modify it at a later stage), open the [customization script](customizationScripts.md) attached to it and replace its content with:
 
 ```lua
---lua
+import 'sim-2'
 
 pathModel = require'models/path-2'
 
@@ -71,11 +71,10 @@ Restart the customization script for the changes to take effect, then comment ou
 The last step is to adjust the controller of BubbleRob, so that it will also follow the black path. Open the [simulation script](simulationScripts.md) attached to *bubbleRob*, and replace it with the following code:
 
 ```lua
---lua
+import 'sim-2'
+import 'simUI'
 
 function sysCall_init()
-    sim = require('sim-2')
-    simUI = require('simUI')
     bubbleRobBase = sim.self:getObject('..')
     leftMotor = sim.self:getObject("../leftMotor")
     rightMotor = sim.self:getObject("../rightMotor")
@@ -102,18 +101,18 @@ end
 function sysCall_sensing()
     robotTrace:addItems(prevPos:horzcat(bubbleRobBase.worldPosition))
     prevPos = bubbleRobBase.worldPosition
-end 
+end
 
 function speedChange_callback(ui, id, newVal)
     speed = minMaxSpeed[1] + (minMaxSpeed[2] - minMaxSpeed[1]) * newVal / 100
 end
 
-function sysCall_actuation() 
+function sysCall_actuation()
     local result = noseSensor.detectedObject
     if result then
         backUntilTime = sim.scene.simulation.time + 4
     end
-    
+
     -- read the line detection sensors:
     sensorReading = {false, false, false}
     for i = 1, 3, 1 do
@@ -122,7 +121,7 @@ function sysCall_actuation()
             sensorReading[i] = (data[11] < 0.5) -- data[11] is the average of intensity of the image
         end
     end
-    
+
     -- compute left and right velocities to follow the detected line:
     rightV = speed
     leftV = speed
@@ -135,7 +134,7 @@ function sysCall_actuation()
     if sensorReading[1] and sensorReading[3] then
         backUntilTime = sim.scene.simulation.time + 2
     end
-    
+
     if backUntilTime < sim.scene.simulation.time then
         -- When in forward mode, we simply move forward at the desired speed
         leftMotor.targetVelocity = leftV
@@ -145,9 +144,9 @@ function sysCall_actuation()
         leftMotor.targetVelocity = -speed / 2
         rightMotor.targetVelocity = -speed / 8
     end
-end 
+end
 
-function sysCall_cleanup() 
+function sysCall_cleanup()
     simUI.destroy(ui)
 end
 ```

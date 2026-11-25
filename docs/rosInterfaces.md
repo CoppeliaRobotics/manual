@@ -5,11 +5,10 @@ There is a [ROS interface](rosInterf.md) and a [ROS2 interface](ros2Interface.md
 As an example, a [vision sensor](visionSensors.md) ROS2 publisher could look like:
 
 ```lua
---lua
+import 'sim-2'
+import 'simROS'
 
 function sysCall_init()
-    sim = require('sim-2')
-    simROS = require('simROS')
     visionSensor = sim.self:getObject('/Vision_sensor')
 
     -- Enable an image publisher:
@@ -40,12 +39,10 @@ end
 The subscriber on the other hand could look like:
 
 ```lua
---lua
+import 'sim-2'
+import 'simROS'
 
 function sysCall_init()
-    sim = require('sim-2')
-    simROS = require('simROS')
-    
     -- Enable an image subscriber:
     sub = simROS2.createSubscription('/image', 'sensor_msgs/msg/Image', 'image_callback')
     simROS2.subscriptionTreatUInt8ArrayAsString(sub)

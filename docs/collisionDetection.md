@@ -10,14 +10,16 @@ Using [`sceneObject:checkCollision`](sim-2/sceneObject_checkCollision.md) and [`
 
 ```python
 import sim
+from types import SimpleNamespace
+state = SimpleNamespace()
 
 def sysCall_init():
-    robotBase = sim.self:getObject('/robotModelName')
-    self.robotCollection = sim.scene:createObject({'type': 'collection'})
-    self.robotCollection:addItem(robotBase, {'mode': 'tree'})
+    robotBase = sim.self.getObject('/robotModelName')
+    state.robotCollection = sim.scene.createObject({'type': 'collection'})
+    state.robotCollection.addItem(robotBase, {'mode': 'tree'})
 
 def sysCall_sensing():
-    result, pairHandles = self.robotCollection:checkCollision(sim.handle.all)
+    result, pairHandles = state.robotCollection.checkCollision(sim.handle.all)
     if result > 0:
         print(f'Robot is colliding. Colliding pair is {getAsString(pairHandles)}')
 ```
@@ -43,32 +45,34 @@ One can also temporarily modify the color of [objects](objects.md) or whole [col
 
 ```python
 import sim
+from types import SimpleNamespace
+state = SimpleNamespace()
 
 def change_pair_color(entity_pair, color_pair):
-    self.original_color_data = []
-    self.original_color_data.append(entity_pair[0])
-    self.original_color_data.append(entity_pair[0]:changeColor(color_pair[0]))
-    self.original_color_data.append(entity_pair[1])
-    self.original_color_data.append(entity_pair[1]:changeColor(color_pair[1]))
+    state.original_color_data = []
+    state.original_color_data.append(entity_pair[0])
+    state.original_color_data.append(entity_pair[0]:changeColor(color_pair[0]))
+    state.original_color_data.append(entity_pair[1])
+    state.original_color_data.append(entity_pair[1]:changeColor(color_pair[1]))
 
 def restore_pair_color():
-    if hasattr(self,'original_color_data'):
-        self.original_color_data[0]:restoreColor(self.original_color_data[1])
-        self.original_color_data[2]:restoreColor(self.original_color_data[3])
+    if hasattr(state,'original_color_data'):
+        state.original_color_data[0].restoreColor(state.original_color_data[1])
+        state.original_color_data[2].restoreColor(state.original_color_data[3])
 
 def sysCall_init():
     sim = require('sim-2')
-    robot_base = sim.self:getObject('/irb360')
-    self.robot_collection = sim.scene:createObject({'type': 'collection'})
-    self.robot_collection:addItem(robot_base, {'mode': 'tree'})
-    self.collision_colors = [[1, 0, 0, 255], [1, 0, 1, 255]]  # collider and collidee
+    robot_base = sim.self.getObject('/irb360')
+    state.robot_collection = sim.scene.createObject({'type': 'collection'})
+    state.robot_collection.addItem(robot_base, {'mode': 'tree'})
+    state.collision_colors = [[1, 0, 0, 255], [1, 0, 1, 255]]  # collider and collidee
 
 def sysCall_sensing():
-    result, pair_handles = self.robot_collection:checkCollision(sim.handle.all)
+    result, pair_handles = state.robot_collection.checkCollision(sim.handle.all)
     restore_pair_color()
     if result:
         # Change color of the collider and collidee objects:
-        change_pair_color([pair_handles[0], pair_handles[1]], self.collision_colors)
+        change_pair_color([pair_handles[0], pair_handles[1]], state.collision_colors)
 
 def sysCall_cleanup():
     restore_pair_color()

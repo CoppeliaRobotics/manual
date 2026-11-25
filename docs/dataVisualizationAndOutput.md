@@ -18,23 +18,25 @@ The following example illustrates how to display a joint angle in a simple custo
 import sim
 import simUI
 import math
+from types import SimpleNamespace
+state = SimpleNamespace()
 
 def sysCall_init():
-    self.joint = sim.self:getObject('/Joint')
+    state.joint = sim.self:getObject('/Joint')
     xml = """
         <ui title="Example" closeable="false" layout="form">
             <label text="joint angle:" />
             <label id="1" text="-" />
         </ui>
     """
-    self.ui = simUI.create(xml)
+    state.ui = simUI.create(xml)
 
 def sysCall_sensing():
-    v = 180 * self.joint.joint.position / math.pi
-    simUI.setLabelText(self.ui, "1", '{:.3f}'.format(v))
+    v = 180 * state.joint.joint.position / math.pi
+    simUI.setLabelText(state.ui, "1", '{:.3f}'.format(v))
 
 def sysCall_cleanup():
-    simUI.destroy(self.ui)
+    simUI.destroy(state.ui)
 ```
 
 ```lua
@@ -91,21 +93,22 @@ The following example illustrates how to log a joint angle to a file:
 
 ```python
 import sim
-
 import math
+from types import SimpleNamespace
+state = SimpleNamespace()
 
 def sysCall_init():
-    self.joint = sim.self.getObject('/Joint')
-    self.file = open('jointAngles.txt', 'w+')
-    self.file.write('Joint angles for each simulation step:\n\n')
+    state.joint = sim.self.getObject('/Joint')
+    state.file = open('jointAngles.txt', 'w+')
+    state.file.write('Joint angles for each simulation step:\n\n')
 
 def sysCall_sensing():
-    v = 180 * self.joint.joint.position / math.pi
-    self.file.write('time: {:.3f} [s]'.format(sim.scene.simulation.time + sim.scene.simulation.timeStep))
-    self.file.write(', joint angle: {:.1f} [deg]\n'.format(v))
+    v = 180 * state.joint.joint.position / math.pi
+    state.file.write('time: {:.3f} [s]'.format(sim.scene.simulation.time + sim.scene.simulation.timeStep))
+    state.file.write(', joint angle: {:.1f} [deg]\n'.format(v))
 
 def sysCall_cleanup():
-    self.file.close()
+    state.file.close()
 ```
 
 ```lua

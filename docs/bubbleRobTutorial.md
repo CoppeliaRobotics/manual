@@ -55,10 +55,8 @@ Next we will add a [vision sensor](visionSensors.md), at the same pose as *Bubbl
 We attach a simulation script to the vision sensor by clicking [Add > Script object > simulation script > Non threaded > Lua]. We double-click the new script icon in the scene hierarchy: this opens the simulation script that we just added. We copy and paste the following code into the [script editor](scriptEditor.md), then close it:
 
 ```lua
---lua
-
-sim = require'sim-2'
-simVision = require'simVision'
+import 'sim-2'
+import 'simVision'
 
 function sysCall_vision(inData)
     simVision.sensorImgToWorkImg(inData.sensor.handle)
@@ -72,10 +70,8 @@ To be able to see the vision sensor's image, we start the simulation, then stop 
 The last thing that we need for our scene is a [simulation script](simulationScripts.md) that controls *BubbleRob's* behavior. We select *bubbleRob* and click [Add > Script object > simulation script > Non threaded > Lua]. We double-click the new script icon in the scene hierarchy and copy and paste the following code into the [script editor](scriptEditor.md), then close it:
 
 ```lua
---lua
-
-sim = require'sim-2'
-simUI = require'simUI'
+import 'sim-2'
+import 'simUI'
 
 function sysCall_init()
     -- This is executed exactly once, the first time this script is executed
@@ -106,15 +102,15 @@ function sysCall_init()
 end
 
 function sysCall_sensing()
-    distanceMarker:clearItems()    
+    distanceMarker:clearItems()
     local result, distance, pt1, pt2 = robotCollection:checkDistance()
     if result then
-        distanceMarker:addItems(pt1:horzcat(pt2))    
+        distanceMarker:addItems(pt1:horzcat(pt2))
         graph:setSignalPoint(distStream, distance)
     end
     robotTraceMarker:addItems(robotPrevPos:horzcat(bubbleRobBase.worldPosition))
     robotPrevPos = bubbleRobBase.worldPosition
-end 
+end
 
 function speedChange_callback(ui, id, newVal)
     speed = minMaxSpeed[1] + (minMaxSpeed[2] - minMaxSpeed[1]) * newVal / 100
@@ -125,7 +121,7 @@ function sysCall_actuation()
     -- If we detected something, we set the backward mode:
     if result then
         backUntilTime = sim.scene.simulation.time + 4
-    end 
+    end
 
     if backUntilTime < sim.scene.simulation.time then
         -- When in forward mode, we simply move forward at the desired speed
@@ -138,7 +134,7 @@ function sysCall_actuation()
     end
 end
 
-function sysCall_cleanup() 
+function sysCall_cleanup()
     simUI.destroy(ui)
 end
 ```

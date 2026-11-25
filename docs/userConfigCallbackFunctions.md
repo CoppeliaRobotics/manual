@@ -9,11 +9,10 @@ A [customization script](customizationScripts.md) that includes a user config ca
 For convenience, the icon is also displayed for the customization script's parent. When double-clicked, the user config callback function is triggered. This can be used as a convenient way of displaying a [custom user interface](customUserInterfaces.md), that is specific to the [object](objects.md)/[model](models.md) the customization script refers to. User data can be read and written as customData, e.g. sceneObject.customData.myData = sim.app:pack(...).
 
 ```lua
---lua
+import 'sim-2'
+import 'simUI'
 
 function sysCall_init()
-    sim = require('sim-2')
-    simUI = require('simUI')
     model = sim.self:getObject('..')
 end
 
@@ -42,7 +41,7 @@ function velocityChanged(ui, id, val)
             val = 0.1
         end
         if val > 0.5 then
-            val = 0.5 
+            val = 0.5
         end
         data.maxVel = val
     end
@@ -58,7 +57,7 @@ function accelerationChanged(ui, id, val)
             val = 0.01
         end
         if val > 0.2 then
-            val = 0.2 
+            val = 0.2
         end
         data.maxAccel = val
     end
@@ -88,10 +87,8 @@ You may also use the *configUI* module for quicker set-up of a custom configurat
 *[Custom configuration dialog based on *configUI* module]*
 
 ```lua
---lua
-
-sim = require('sim-2')
-require('configUi')
+import 'sim-2'
+import 'configUi'
 
 function sysCall_init()
     object = sim.self:getObject('..')

@@ -13,10 +13,9 @@ A graph is added to the scene with [Add > Graph]. Its basic properties are acces
 The user is in charge of defining signals, curves, and feeding them with appropriate data on a regular basis (usually once per simulation step). The following illustrates how to record and visualize 2 signals (the velocity of two joints over time):
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     joint1 = sim.self:getObject('/joint1')
     joint2 = sim.self:getObject('/joint2')
     graph = sim.self:getObject('/Graph')
@@ -33,10 +32,9 @@ end
 The next example shows how to record and visualize an x/y position curve of an object:
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     object = sim.self:getObject('/object')
     graph = sim.self:getObject('/Graph')
     objectPosX = graph:addSignal()

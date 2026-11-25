@@ -9,9 +9,8 @@ CoppeliaSim can act as a ROS node that other nodes can communicate with via ROS 
 The ROS Interface functionality in CoppeliaSim is enabled via a plugin: *[libsimROS](https://github.com/CoppeliaRobotics/simROS).\**. The plugin can easily be adapted to your own needs. The plugin is loaded with:
 
 ```lua
---lua
-
-simROS = require('simROS')
+import 'sim-2'
+import 'simROS'
 ```
 
 The load operation will only be successful if roscore was running at that time. Make sure to inspect CoppeliaSim's console window or terminal for details on plugin load operations.

@@ -56,14 +56,16 @@ The following example illustrates how to log a joint angle to a file, as text da
 ```python
 import sim
 import math
+from types import SimpleNamespace
+state = SimpleNamespace()
 
 def sysCall_init():
-    self.joint = sim.self:getObject('/Joint')
+    state.joint = sim.self:getObject('/Joint')
     with open('jointAngles.txt', 'w+') as file:
         file.write('Joint angles for each simulation step:\n\n')
 
 def sysCall_sensing():
-    v = 180 * self.joint.joint.position / math.pi
+    v = 180 * state.joint.joint.position / math.pi
     with open('jointAngles.txt', 'a') as file:
         file.write(f'time: {sim.scene.simulation.time + sim.scene.simulation.step:.3f} [s]')
         file.write(f', joint angle: {v:.1f} [deg]\n')

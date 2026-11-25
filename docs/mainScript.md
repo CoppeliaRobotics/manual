@@ -12,9 +12,7 @@ The main script contains a collection of [callback functions](callbackFunctions.
 The following is the typical main script, slightly simplified:
 
 ```lua
---lua
-
-sim = require('sim-2')
+import 'sim-2'
 
 function sysCall_init()
 end

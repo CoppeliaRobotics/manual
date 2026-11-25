@@ -10,12 +10,11 @@ Synthetic vision is achieved in CoppeliaSim via [vision sensors](visionSensors.m
 The following shows a vision callback function that illustrates 3 different ways to modify an acquired image:
 
 ```lua
---lua
+import 'sim-2'
+import 'simVision'
+import 'simIM'
 
 function sysCall_init()
-    sim = require('sim-2')
-    simVision = require('simVision')
-    simIM = require('simIM')
 end
 
 function sysCall_vision(inData)

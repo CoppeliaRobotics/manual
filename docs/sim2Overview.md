@@ -3,7 +3,6 @@
 `sim-2` was introduced in CoppeliaSim V4.11 and is an object-oriented version of the CoppeliaSim API, entirely based on properties and methods. The following compares a simple example in sim-1:
 
 ```lua
--- lua
 sim = require('sim-1')
 
 local robotHandle = sim.getObject('/robot')
@@ -23,8 +22,7 @@ end
 and sim-2:
 
 ```lua
--- lua
-sim = require('sim-2')
+import 'sim-2'
 
 local robot = sim.self:getObject('/robot')
 local obstacle = sim.self:getObject('/obstacle')
@@ -43,9 +41,8 @@ end
 `sim-2` is meant to replace `sim-1`; `sim-1` is declared deprecated and you should favor `sim-2` over `sim-1`. One may however use `sim-1` and `sim-2` in the same script, as shown in the following example:
 
 ```lua
--- lua
-sim1 = require('sim-1')
-sim = require('sim-2')
+sim1 = require 'sim-1'
+sim = require 'sim-2'
 
 local robot = sim.self:getObject('/robot')
 local worldPos = sim1.getObjectPosition(robot.handle)</code>

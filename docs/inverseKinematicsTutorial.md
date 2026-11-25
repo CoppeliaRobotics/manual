@@ -66,42 +66,40 @@ Inverse kinematics is entirely set up by having a script calling appropriate met
 Select object *redundantRobot*, then [Add > Script object > simulation script > Non-threaded > Lua] to attach a [simulation script](simulationScripts.md) to that object. Double-click the new script icon in the scene hierarchy, and replace the script content with the following code:
 
 ```lua
---lua
+import 'sim-2'
+simIK = require 'simIK-2'
 
 function sysCall_init()
     -- Build a kinematic chain and 2 IK groups (undamped and damped)
     -- based on the kinematics of the robot in the scene:
-
-    sim = require('sim-2')
-    simIK = require('simIK-2')
 
     local simBase = sim.self:getObject('..')
     local simTip = sim.self:getObject('../redundantRob_tip')
     local simTarget = sim.self:getObject('../redundantRob_target')
     -- create an IK environment:
     ik = simIK()
-    -- create an undamped IK group, with an IK element: 
+    -- create an undamped IK group, with an IK element:
     ikGroup_undamped = ik:createGroup({method = 'pseudoInverse', maxIterations = 6})
     ikGroup_undamped:addElementFromScene(simBase, simTip, simTarget, ik.constraint_pose)
 
-    -- create another IK group (with IK element), this time damped: 
+    -- create another IK group (with IK element), this time damped:
     ikGroup_damped = ik:createGroup({method = 'dampedLeastSquares', damping = 1.0, maxIterations = 100})
-    ikGroup_damped:addElementFromScene(simBase, simTip, simTarget, ik.constraint_pose, {weights = {1.0, 0.001}}) 
-    
+    ikGroup_damped:addElementFromScene(simBase, simTip, simTarget, ik.constraint_pose, {weights = {1.0, 0.001}})
+
 end
 
 function sysCall_actuation()
     -- try to solve with the undamped method:
-    if not ikGroup_undamped:solve() then 
+    if not ikGroup_undamped:solve() then
         -- the position/orientation could not be reached.
         -- try to solve with the damped method:
         ikGroup_damped:solve({ignoreTolerance = true})
     end
-end 
+end
 
 function sysCall_cleanup()
-    -- erase the IK environment: 
-    ik:remove() 
+    -- erase the IK environment:
+    ik:remove()
 end
 ```
 

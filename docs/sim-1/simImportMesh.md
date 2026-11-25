@@ -31,7 +31,6 @@ list vertices, list indices = sim.importMesh(int fileformat, string pathAndFilen
 ## Example
 
 ```lua
---lua
 
 local vertices, indices, reserved, names = sim.importMesh(1, "d:\\example.dxf", 0, 0.0001, 1)
 for i = 1, #vertices, 1 do

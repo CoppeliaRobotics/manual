@@ -10,14 +10,16 @@ Using [`sceneObject:checkDistance`](sim-2/sceneObject_checkDistance.md) and [`co
 
 ```python
 import sim
+from types import SimpleNamespace
+state = SimpleNamespace()
 
 def sysCall_init():
     robotBase = sim.self.getObject('/robotModelName')
-    self.robotCollection = sim.scene.createObject({'type': 'collection'})
-    self.robotCollection.addItem(robotBase, {'mode': 'tree'})
+    state.robotCollection = sim.scene.createObject({'type': 'collection'})
+    state.robotCollection.addItem(robotBase, {'mode': 'tree'})
 
 def sysCall_sensing():
-    result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle.all)
+    result, distance, dist1, dist2, objectPair = state.robotCollection:checkDistance(sim.handle.all)
     if result:
         txt = 'Robot clearance is ' + str(distance) + 'm, minimum distance object pair is ' + str(objectPair)
         print(txt)
@@ -46,18 +48,20 @@ One can also display the measured minimum distance, as a colored segment in the 
 
 ```python
 import sim
+from types import SimpleNamespace
+state = SimpleNamespace()
 
 def sysCall_init():
     robotBase = sim.scene.getObject('/robotModelName')
-    self.robotCollection = sim.scene.createObject({'type': 'collection'})
-    self.robotCollection:addItem(robotBase, {'mode': 'tree'})
-    self.distanceSegment = sim.scene.createObject({'type': 'marker', ['marker.type']: 'lines', 'itemColor': [0.0, 1.0, 0.0, 1.0]})
+    state.robotCollection = sim.scene.createObject({'type': 'collection'})
+    state.robotCollection.addItem(robotBase, {'mode': 'tree'})
+    state.distanceSegment = sim.scene.createObject({'type': 'marker', ['marker.type']: 'lines', 'itemColor': [0.0, 1.0, 0.0, 1.0]})
 
 def sysCall_sensing():
-    result, distance, dist1, dist2, objectPair = self.robotCollection:checkDistance(sim.handle.all)
+    result, distance, dist1, dist2, objectPair = state.robotCollection.checkDistance(sim.handle.all)
     if result:
-    	self.distanceSegment:clearItems()
-        self.distanceSegment:addItems(dist1:horzcat(dist2)) TODO
+    	state.distanceSegment.clearItems()
+        state.distanceSegment.addItems(dist1:horzcat(dist2)) TODO
 ```
 
 ```lua

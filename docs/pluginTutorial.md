@@ -69,11 +69,10 @@ The plugin was written for BubbleRob from the [BubbleRob tutorial](bubbleRobTuto
 Now open the threaded [simulation script](simulationScripts.md) attached to the BubbleRob model in the scene and inspect the code:
 
 ```lua
---lua
+import 'sim-2'
+import 'simBubble'
 
 function sysCall_thread()
-    sim = require('sim-2')
-    simBubble = require('simBubble')
     local joints = {sim.self:getObject('../leftMotor'), sim.self:getObject('../rightMotor')}
     local sensor = sim.self:getObject('../sensingNose')
     local robHandle = simBubble.create({joints[1].handle, joints[2].handle}, sensor.handle, {0.5, 0.25})

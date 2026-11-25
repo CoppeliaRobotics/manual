@@ -24,16 +24,13 @@ SIM_DLLEXPORT void simCleanup_ui(); // called immediately before simCleanup
 A plugin should be named "sim&lt;name>-&lt;version>" (with the version information being optional), e.g. "simIK-2" for the name and "libsimIK-2.so" for the file on Linux. The plugin should be placed in *&lt;coppeliaSim executable>*. It can then be loaded via Lua with e.g.:
 
 ```lua
---lua
-
 simIK = loadPlugin('simIK-2')
 ```
 
 It is however good practice and more flexible to wrap the load procedure inside of a module of its own, e.g.:
 
 ```lua
---lua
-
+local sim = require 'sim-2'
 local simIK = loadPlugin('simIK-2')
 
 function simIK.anotherFunction()
@@ -46,10 +43,10 @@ return simIK
 The above module should have the same name as the plugin it is loading (e.g. "simIK-2.lua") and be placed in *&lt;coppeliaSim executable>/lua*. From a script, the desired functionality, including version, can then be loaded with e.g.:
 
 ```lua
---lua
+import 'sim-2'
+simIK = require 'simIK-2'
 
 function sysCall_init()
-    simIK = require('simIK-2')
 end
 ```
 

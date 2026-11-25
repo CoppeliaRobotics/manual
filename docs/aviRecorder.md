@@ -1,14 +1,13 @@
 # Video exporter
 
-The video recorder from previous CoppeliaSim versions is not supported anymore. You can however get a similar functionality via a third-party tool, or by actively acquiring frames ([`camera:getImage`](sim-2/camera_getImage.md)) and saving them to disk ([`app:saveImage`](sim-2/app_saveImage.md)), and later assembling them into a video sequence via e.g. [ffmpeg](https://ffmpeg.org/).
+The video recorder from previous CoppeliaSim versions is not supported anymore. You can however get a similar functionality via a third-party tool, or by actively acquiring frames ([`camera:getImage`](sim-2/camera_getImage.md)) and saving them to disk ([`app:saveImage`](sim-2/app_saveImage.md)), and later assembling them into a video sequence via e.g. [ffmpeg](https://ffmpeg.org/). A similar approach can of course also be used with vision sensors and makes it robust to headless mode operation (depending on the rendering mode of the vision sensor).
 
 Frame acquisition:
 
 ```lua
---lua
+import 'sim-2'
 
 function sysCall_init()
-    sim = require('sim-2')
     camera = sim.self:getObject('..')
     resolution = {640, 480}
     path = 'c:/images'
