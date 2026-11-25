@@ -11,24 +11,25 @@ See programming/zmqRemoteApi-2 folder or [its related repository](https://github
 Install client package:
 
 ```
-$ python3 -m pip install coppeliasim-zmqremoteapi-2-client
+$ python3 -m pip install coppeliasim-python
 ```
-
-(the ZeroMQ and CBOR dependencies will be automatically installed with the above command).
 
 The following is a very simple example ZeroMQ remote API-2 client code, which starts then runs a [stepping](simulation.md#stepped) simulation for 3 seconds:
 
 ```python
-from coppeliasim_zmqremoteapi_2_client import RemoteAPIClient
+import sim
+from sim.zmqremoteapi import ZMQRemoteAPI
 
-client = RemoteAPIClient()
-sim = client.require('sim')
 
-sim.setStepping(True)
+port = ZMQRemoteAPI().call(None, 'spawnWorker')
+rapi = ZMQRemoteAPI(port = port)
+sim.Object._callMethod = rapi.call
 
-sim.startSimulation()
-while (t := sim.getSimulationTime()) < 3:
+sim.self.setStepping(True)
+
+sim.scene.simulation.start()
+while (t := sim.scene.simulation.time) < 3:
     print(f'Simulation time: {t:.2f} [s]')
-    sim.step()
-sim.stopSimulation()
+    sim.self.step()
+sim.scene.simulation.stop()
 ```
