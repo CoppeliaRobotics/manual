@@ -14,7 +14,7 @@ CoppeliaSim currently supports five different physics engines: the [Bullet physi
 
 *[Open Dynamics Engine]*
 
-- <a id="mujoco"></a>[MuJoCo](https://mujoco.org/): an open source state-of-the-art physics engine, producing high fidelity physics simulations. It supports a large variety of features such as soft body physics, ropes, strings/elastics, tendons, various specific constraints (e.g. dependency constraints between individual joints). Via [XML injection](simMujoco/simMujoco.htm), you are able to additionally cover many MuJoCo specificities.
+- <a id="mujoco"></a>[MuJoCo](https://mujoco.org/): an open source state-of-the-art physics engine, producing high fidelity physics simulations. It supports a large variety of features such as soft body physics, ropes, strings/elastics, tendons, various specific constraints (e.g. dependency constraints between individual joints). Via [XML injection](simMujoco/simMujoco.md), you are able to additionally cover many MuJoCo specificities.
 
 ![](images/mujocoLogo.gif)
 

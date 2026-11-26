@@ -8,4 +8,4 @@ You can generate the convex decomposition equivalent of a shape with [Modules > 
 
 *[Non-convex model (left) and corresponding convex-decomposed model (right)]*
 
-See also the [simOpenMesh API](simOpenMesh/simOpenMesh.htm) and [calculation of a shape's convex hull](convexHull.md).
+See also the [simOpenMesh API](simOpenMesh/simOpenMesh.md) and [calculation of a shape's convex hull](convexHull.md).

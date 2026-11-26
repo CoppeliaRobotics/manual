@@ -10,4 +10,4 @@ Depending on situations, convex hulls can drastically reduce calculation times i
 
 *[Objects forming a robot model (left) and corresponding simplified representation as convex hull (right)]*
 
-See also the [simConvex API](simConvex/simConvex.htm) and [calculation of a shape's convex decomposition](convexDecomposition.md).
+See also the [simConvex API](simConvex/simConvex.md) and [calculation of a shape's convex decomposition](convexDecomposition.md).

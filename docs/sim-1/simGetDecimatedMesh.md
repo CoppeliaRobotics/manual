@@ -1,3 +1,3 @@
 # sim.getDecimatedMesh
 
-Deprecated. See the [simOpenMesh API](../simOpenMesh/simOpenMesh.htm) instead.
+Deprecated. See the [simOpenMesh API](../simOpenMesh/simOpenMesh.md) instead.

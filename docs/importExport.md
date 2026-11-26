@@ -31,7 +31,7 @@ See also the [import/export-related methods and properties](apiFunctions.md#meth
 
 One can access the URDF importer/exporter functionality via the following two add-ons: [Modules > Importers > URDF importer...] and [Modules > Exporters > URDF exporter...].
 
-See also the [API functions related to URDF import/export](simURDF/simURDF.htm).
+See also the [API functions related to URDF import/export](simURDF/simURDF.md).
 
 ## <a id="sdf"></a>Importing SDF files
 
