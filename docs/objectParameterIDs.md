@@ -53,7 +53,7 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.objintparam_visible`
   int32 parameter: 0 if the shape is not visible. Can only be read.
 
-## <a id="visionSensors"></a>Vision sensors (preferably, use [vision sensor related properties](apiFunctions.md#visionSensor))
+## <a id="visionSensors"></a>Vision sensors (preferably, use [vision sensor related properties](apiFunctions.md#methodsAndProperties_visionSensor))
 
 - `sim.visionfloatparam_near_clipping`
   float parameter: near clipping plane
@@ -100,7 +100,7 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.visionintparam_depthignored`
   int parameter: whether depth info is ignored
 
-## <a id="joints"></a>Joints (preferably, use [joint related properties](apiFunctions.md#joint))
+## <a id="joints"></a>Joints (preferably, use [joint related properties](apiFunctions.md#methodsAndProperties_joint))
 
 - `sim.jointfloatparam_intrinsic_x`
   float parameter (can only be read): joint transformation, position X
@@ -169,7 +169,7 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.jointintparam_dynposctrltype`
   int32 parameter: the dynamic position control type of the joint: 0=built-in, 1=motion profile
 
-## <a id="shapes"></a>Shapes (preferably, use [shape related properties](apiFunctions.md#shape))
+## <a id="shapes"></a>Shapes (preferably, use [shape related properties](apiFunctions.md#methodsAndProperties_shape))
 
 - `sim.shapefloatparam_init_velocity_x`
   float parameter: x-component of the initial dynamic linear velocity of a dynamically enabled shape (static or non-static). The shape might have to be reset
@@ -236,7 +236,7 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.shapeintparam_sleepmodestart`
   int32 parameter: 1 if the dynamic shape starts in sleep mode.
 
-## <a id="proximitySensors"></a>Proximity sensors (preferably, use [proximity sensor related properties](apiFunctions.md#proximitySensor))
+## <a id="proximitySensors"></a>Proximity sensors (preferably, use [proximity sensor related properties](apiFunctions.md#methodsAndProperties_proximitySensor))
 
 - `sim.proxintparam_ray_invisibility`
   int32 parameter: detection ray invisibility state (0 or!=0)
@@ -245,7 +245,7 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.proxintparam_entity_to_detect`
   int32 parameter: entity handle of the entity to detect, or -1 to detect all detectable objects.
 
-## <a id="forceSensors"></a>Force sensors (preferably, use [force sensor related properties](apiFunctions.md#forceSensor))
+## <a id="forceSensors"></a>Force sensors (preferably, use [force sensor related properties](apiFunctions.md#methodsAndProperties_forceSensor))
 
 - `sim.forcefloatparam_error_x`
   float parameter: force sensor internal position error X. Can only be read.
@@ -264,12 +264,12 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.forcefloatparam_error_angle`
   float parameter: force sensor internal angular error. Can only be read.
 
-## <a id="graphs"></a>Graphs (preferably, use [graph related properties](apiFunctions.md#graph))
+## <a id="graphs"></a>Graphs (preferably, use [graph related properties](apiFunctions.md#methodsAndProperties_graph))
 
 - `sim.graphintparam_needs_refresh`
   int32 parameter: reads and clears the refresh flag.
 
-## <a id="lights"></a>Lights (preferably, use [light related properties](apiFunctions.md#light))
+## <a id="lights"></a>Lights (preferably, use [light related properties](apiFunctions.md#methodsAndProperties_light))
 
 - `sim.lightintparam_pov_casts_shadows`
   int32 parameter: POV-Ray light casts shadows flag.
@@ -284,7 +284,7 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.lightfloatparam_quad_attenuation`
   float parameter: light quadratic attenuation factor.
 
-## <a id="cameras"></a>Cameras (preferably, use [camera related properties](apiFunctions.md#camera))
+## <a id="cameras"></a>Cameras (preferably, use [camera related properties](apiFunctions.md#methodsAndProperties_camera))
 
 - `sim.cameraintparam_disabled_light_components`
   int32 parameter: mask of disabled light components (ambient, diffuse, specular)
@@ -313,7 +313,7 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.camerafarrayparam_viewfrustum`
   float array parameter: 2 3D vectors, for the near and far view frustum corners.
 
-## <a id="dummies"></a>Dummies (preferably, use [dummy related properties](apiFunctions.md#dummy))
+## <a id="dummies"></a>Dummies (preferably, use [dummy related properties](apiFunctions.md#methodsAndProperties_dummy))
 
 - `sim.dummyintparam_dummytype`
   int32 parameter: dummy type.
@@ -322,7 +322,7 @@ Note: object parameters are deprecated and have been replaced by [properties](pr
 - `sim.dummystringparam_assemblytag`
   string parameter: the assembly tag.
 
-## <a id="scripts"></a>Scripts (preferably, use [scriptObject](apiFunctions.md#scriptObject) and [script](apiFunctions.md#script) related properties)
+## <a id="scripts"></a>Scripts (preferably, use [scriptObject](apiFunctions.md#methodsAndProperties_scriptObject) and [script](apiFunctions.md#methodsAndProperties_script) related properties)
 
 - `sim.scriptintparam_execorder`
   Integer attribute, see the script execution priorities
