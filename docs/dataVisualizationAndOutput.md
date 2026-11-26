@@ -22,7 +22,7 @@ from types import SimpleNamespace
 state = SimpleNamespace()
 
 def sysCall_init():
-    state.joint = sim.self:getObject('/Joint')
+    state.joint = sim.self.getObject('/Joint')
     xml = """
         <ui title="Example" closeable="false" layout="form">
             <label text="joint angle:" />

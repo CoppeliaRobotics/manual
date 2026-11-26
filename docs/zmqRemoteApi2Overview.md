@@ -14,6 +14,8 @@ Install client package:
 $ python3 -m pip install coppeliasim-python
 ```
 
+Requirements: Python 3.10 or newer, plus `numpy`, `pyzmq` and `cbor2` (installed automatically).
+
 The following is a very simple example ZeroMQ remote API-2 client code, which starts then runs a [stepping](simulation.md#stepped) simulation for 3 seconds:
 
 ```python

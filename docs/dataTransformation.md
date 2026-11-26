@@ -76,7 +76,7 @@ local absObj = object.worldPose
 local absParentObj = object.parent.worldPose
 
 -- Compute the relative pose of the object:
-local relObj = absParentObj:inv() * absObj
+local relObj = absParentObjinv() * absObj
 
 -- Get the relative pose of the object directly:
 local relObj2 = object:getPose({relativeToObject = object.parent})

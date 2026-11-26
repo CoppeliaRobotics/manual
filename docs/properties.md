@@ -31,7 +31,7 @@ import sim
 
 shapeObject.meshes # read-only property
 shapeObject.applyColor.diffuse = [1, 0, 0, 1] # write-only property
-sceneObject:removeProperty('customData.myFloatArray') # removable property
+sceneObject.removeProperty('customData.myFloatArray') # removable property
 ```
 
 ```lua

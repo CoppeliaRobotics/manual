@@ -19,7 +19,7 @@ def sysCall_init():
     state.robotCollection.addItem(robotBase, {'mode': 'tree'})
 
 def sysCall_sensing():
-    result, distance, dist1, dist2, objectPair = state.robotCollection:checkDistance(sim.handle.all)
+    result, distance, dist1, dist2, objectPair = state.robotCollection.checkDistance(sim.handle.all)
     if result:
         txt = 'Robot clearance is ' + str(distance) + 'm, minimum distance object pair is ' + str(objectPair)
         print(txt)
@@ -61,7 +61,7 @@ def sysCall_sensing():
     result, distance, dist1, dist2, objectPair = state.robotCollection.checkDistance(sim.handle.all)
     if result:
     	state.distanceSegment.clearItems()
-        state.distanceSegment.addItems(dist1:horzcat(dist2)) TODO
+        state.distanceSegment.addItems(dist1.horzcat(dist2)) TODO
 ```
 
 ```lua

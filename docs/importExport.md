@@ -60,7 +60,7 @@ from types import SimpleNamespace
 state = SimpleNamespace()
 
 def sysCall_init():
-    state.joint = sim.self:getObject('/Joint')
+    state.joint = sim.self.getObject('/Joint')
     with open('jointAngles.txt', 'w+') as file:
         file.write('Joint angles for each simulation step:\n\n')
 

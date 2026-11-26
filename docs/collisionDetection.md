@@ -51,9 +51,9 @@ state = SimpleNamespace()
 def change_pair_color(entity_pair, color_pair):
     state.original_color_data = []
     state.original_color_data.append(entity_pair[0])
-    state.original_color_data.append(entity_pair[0]:changeColor(color_pair[0]))
+    state.original_color_data.append(entity_pair[0].changeColor(color_pair[0]))
     state.original_color_data.append(entity_pair[1])
-    state.original_color_data.append(entity_pair[1]:changeColor(color_pair[1]))
+    state.original_color_data.append(entity_pair[1].changeColor(color_pair[1]))
 
 def restore_pair_color():
     if hasattr(state,'original_color_data'):

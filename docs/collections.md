@@ -36,15 +36,15 @@ import sim
 
 # Collection defined as: <object2> + <object4> + <object6> + <object7>
 
-object2 = sim.self:getObject('/object2')
-object4 = sim.self:getObject('/object4')
-object6 = sim.self:getObject('/object6')
-object7 = sim.self:getObject('/object7')
-collection = sim.scene:createObject({'type': 'collection'})
-collection:addItem(object2)
-collection:addItem(object4)
-collection:addItem(object6)
-collection:addItem(object7)
+object2 = sim.self.getObject('/object2')
+object4 = sim.self.getObject('/object4')
+object6 = sim.self.getObject('/object6')
+object7 = sim.self.getObject('/object7')
+collection = sim.scene.createObject({'type': 'collection'})
+collection.addItem(object2)
+collection.addItem(object4)
+collection.addItem(object6)
+collection.addItem(object7)
 ```
 
 ```lua
@@ -70,12 +70,12 @@ import sim
 
 # Collection defined as: <all objects> - <tree starting at object1> + <object6>
 
-object1 = sim.self:getObject('/object1')
-object6 = sim.self:getObject('/object6')
-collection = sim.scene:createObject({'type': 'collection'})
-collection:addItem(-1, {'mode': 'all'}
-collection:removeItem(object1, {'mode': 'tree'}
-collection:addItem(object6, {'mode': 'single'}
+object1 = sim.self.getObject('/object1')
+object6 = sim.self.getObject('/object6')
+collection = sim.scene.createObject({'type': 'collection'})
+collection.addItem(-1, {'mode': 'all'}
+collection.removeItem(object1, {'mode': 'tree'}
+collection.addItem(object6, {'mode': 'single'}
 ```
 
 ```lua

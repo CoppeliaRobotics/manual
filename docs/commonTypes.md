@@ -99,7 +99,7 @@ an int, e.g. 0
 ```
 
 ```lua
-e.g. 0 or app:getEnumInfo('physicsEngine')['bullet']
+e.g. 0 or sim.app.getEnumInfo('physicsEngine')['bullet']
 ```
 
 ## <a id="any"></a><a id="anyArray"></a>any

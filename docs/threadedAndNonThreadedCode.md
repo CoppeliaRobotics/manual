@@ -65,12 +65,12 @@ This behavior can be changed via [`script:setStepping`](sim-2/script_setStepping
 import sim
 
 def sysCall_init():
-    sim.self:setStepping(True)  # enable the stepping mode (no more preemptive yielding from CoppeliaSim)
+    sim.self.setStepping(True)  # enable the stepping mode (no more preemptive yielding from CoppeliaSim)
 
 def sysCall_thread():
     while true:
         print('simulation time:', sim.scene.simulation.time)
-        sim.self:step()  # resume in the next simulation step
+        sim.self.step()  # resume in the next simulation step
 ```
 
 ```lua
