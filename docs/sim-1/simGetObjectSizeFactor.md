@@ -19,7 +19,3 @@ float sizeFactor = sim.getObjectSizeFactor(int objectHandle)
 ## Return values
 
 - **objects**: size factor
-
-## See also
-
-- [size and scaling functions](../apiFunctions-1.md#size)

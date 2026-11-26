@@ -21,7 +21,3 @@ sim.scaleObject(int objectHandle, float xScale, float yScale, float zScale, int 
 ## Return values
 
 No return values.
-
-## See also
-
-- [size and scaling functions](../apiFunctions-1.md#size)

@@ -14,7 +14,7 @@ Specialized user interfaces are also available, via specific API functions:
 - [Input dialogs](simUI/simUI.md#inputDialog)
 - [File dialogs](simUI/simUI.md#fileDialog)
 - [Color dialogs](simUI/simUI.md#colorDialog)
-- [Auxiliary consoles](apiFunctions.md#auxiliaryConsoles)
-- [Text/code editors](apiFunctions.md#textEditors)
+- [Auxiliary consoles](apiFunctions.md#methodsAndProperties_auxiliaryConsoles)
+- [Text/code editors](apiFunctions.md#methodsAndProperties_textEditors)
 
 <a id="qml"></a>CoppeliaSim also offers [Qt QML](https://doc.qt.io/qt-5/qmlapplications.html) functionality. See the [API functions related to QML](simQML/simQML.md) and the [QML plugin source code](https://github.com/CoppeliaRobotics/simQML).

@@ -15,7 +15,3 @@ double simGetObjectSizeFactor(int objectHandle)
 ## Return values
 
 - size factor or negative value in case of an error
-
-## See also
-
-- [size and scaling functions](../apiFunctions-1.md#size)

@@ -20,7 +20,7 @@ The following list gives a brief functional description of each scene object typ
 - [OC trees](octrees.md) are spacial partitioning data structures made up by voxels
 - [Point clouds](pointClouds.md) are OC tree structures that contain points
 - [Markers](markers.md) augment the scene with visual items
-- [Paths](paths.md) are a succession of points with orientation in space. A path is a *pseudo scene object*, since it is actually a model composed of several scene objects. A path should not be mixed up with the [Path class](mainObjectTypes.md#path)
+- [Paths](paths.md) are a succession of points with orientation in space. A path is a *pseudo scene object*, since it is actually a model composed of several scene objects. A path should not be mixed up with the [Path class](mainObjectTypes.md#Path)
 - [Script objects](scriptObjects.md) wrap (naked) [scripts](mainObjectTypes.md#script) of type *simulation* or *customization*
 
 Some of the above scene objects can have special properties allowing other scene objects or [various functionality](functionality.md) to interact with them. They can be:
@@ -36,6 +36,6 @@ Alternatively, you can drag and drop an object onto another in the [scene hierar
 
 Every scene object has an absolute pose (or world pose) that is relative to the world's reference frame, and a local pose (or relative pose) that is relative to the parent object's reference frame. In the above example, when object A became a child of object B, object A's world pose didn't change, but its local pose was modified. Refer also to [`sceneObject.pose`](sim-2/property_sceneObject_pose.md) and [`sceneObject.worldPose`](sim-2/property_sceneObject_worldPose.md).
 
-The absolute pose of the last selected scene object is displayed in the [information text](userInterface.md#InformationText). To modify or adjust the world or local pose of an object, refer to the [coordinates and transformations dialog](coordinateDialog.md) and the section on [object position/orientation manipulation](objectMovement.md).
+To modify or adjust the world or local pose of an object, refer to the [coordinates and transformations dialog](coordinateDialog.md) and the section on [object position/orientation manipulation](objectMovement.md).
 
 Refer also to [`sim.scene:createObject`](sim-2/scene_createObject.md) and [sceneObject-related methods and properties](apiFunctions.md#methodsAndProperties_sceneObject).

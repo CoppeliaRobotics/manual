@@ -1,6 +1,6 @@
 # Properties
 
-In CoppeliaSim, all internal variables or states can be handled as properties: those can be queried or modified via [dedicated API functions](apiFunctions.md#properties).
+In CoppeliaSim, all internal variables or states can be handled as properties: those can be queried or modified via [dedicated API functions](apiFunctions.md#methodsAndProperties_object).
 
 Properties relate to an [object](mainObjectTypes.md#object), e.g. sim.app, sim.scene, sim.self, a script instance, a sceneObject instance:
 

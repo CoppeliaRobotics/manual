@@ -17,7 +17,3 @@ int simScaleObject(int objectHandle, double xScale, double yScale, double zScale
 ## Return values
 
 - -1 if operation was not successful
-
-## See also
-
-- [size and scaling functions](../apiFunctions-1.md#size)

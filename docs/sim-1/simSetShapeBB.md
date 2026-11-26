@@ -20,7 +20,3 @@ sim.setShapeBB(int shapeHandle, list size)
 ## Return values
 
 No return values.
-
-## See also
-
-- [size and scaling functions](../apiFunctions-1.md#size)

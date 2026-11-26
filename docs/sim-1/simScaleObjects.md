@@ -21,7 +21,3 @@ sim.scaleObjects(list objectHandles, float scalingFactor, bool scalePositionsToo
 ## Return values
 
 No return values.
-
-## See also
-
-- [size and scaling functions](../apiFunctions-1.md#size)
