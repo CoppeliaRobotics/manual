@@ -240,7 +240,6 @@ This page lists all constants/enums related to the regular API, version 2 (versi
 - `sim.materialComponent.specular`
 - `sim.materialComponent.emission`
 
-
 ### <a id="bulletSolverType"></a>Bullet solver types
 
 - `sim.bulletConstrSolverType.sequentialImpulse`
@@ -309,81 +308,84 @@ This page lists all constants/enums related to the regular API, version 2 (versi
 
 - `sim_message_eventcallback_instancepass`
   Called once every main client application loop pass. auxData[0] contains event flags of events that happened since last time. If you react to some of the event flags below, make sure you do not react to their equivalent event callback message (e.g. sim_message_eventcallback_sceneloaded is similar to the bit3 set below).
-- bit0 set: object(s) erased
-  bit1 set: object(s) created
-- bit2 set: model loaded
-  bit3 set: scene loaded
-- bit4 set: undo called
-  bit5 set: redo called
-- bit6 set: scene switched (react to this message in a similar way as you would react to a full scene content change)
-  bit7 set: edit mode active. This is not an event flag, but a state flag
-- bit8 set: object(s) scaled
-  bit9 set: selection state changed. (different objects are selected now)
-- bit10 set: key pressed
-  bit11 set: simulation started
-- bit12 set: simulation ended
+  - bit0 set: object(s) erased
+  - bit1 set: object(s) created
+  - bit2 set: model loaded
+  - bit3 set: scene loaded
+  - bit4 set: undo called
+  - bit5 set: redo called
+  - bit6 set: scene switched (react to this message in a similar way as you would react to a full scene content change)
+  - bit7 set: edit mode active. This is not an event flag, but a state flag
+  - bit8 set: object(s) scaled
+  - bit9 set: selection state changed. (different objects are selected now)
+  - bit10 set: key pressed
+  - bit11 set: simulation started
+  - bit12 set: simulation ended
 - `sim_message_eventcallback_instanceswitch`
-  scene was switched (react to this message in a similar way as you would react to a full scene content change)
-- auxData[0]: do not use
-  auxData[1]=current scene unique ID
-- auxData[2]=previous scene unique ID
+  Scene was switched (react to this message in a similar way as you would react to a full scene content change)
+  - auxData[0]: do not use
+  - auxData[1]=current scene unique ID
+  - auxData[2]=previous scene unique ID
 - `sim_message_eventcallback_instanceabouttoswitch`
-  we are about to switch to a different scene
-- auxData[0]: do not use
-  auxData[1]=next scene unique ID
-- auxData[2]=current scene unique ID
+  We are about to switch to a different scene
+  - auxData[0]: do not use
+  - auxData[1]=next scene unique ID
+  - auxData[2]=current scene unique ID
 - `sim_message_eventcallback_scriptstateabouttobedestroyed`
   The specified script state is about to be destroyed
-- auxData[0]: script handle
-  auxData[1]: script UID
+  - auxData[0]: script handle
+  - auxData[1]: script UID
 - `sim_message_eventcallback_scriptabouttobedestroyed`
   The specified script is about to be destroyed
-- auxData[0]: script handle
-  auxData[1]: script UID
-- sim_message_eventcallback_menuitemselected (called from the UI thread)
-  auxData[0]=handle of the item
-- auxData[1]=state of the item
+  - auxData[0]: script handle
+  - auxData[1]: script UID
+- `sim_message_eventcallback_menuitemselected`
+  Called from the UI thread
+  - auxData[0]=handle of the item
+  - auxData[1]=state of the item
 - `sim_message_eventcallback_scenesave`
-  about to save a scene
+  About to save a scene
 - `sim_message_eventcallback_modelsave`
-  about to save a model (current selection will be saved)
+  About to save a model (current selection will be saved)
 - `sim_message_eventcallback_abouttoundo`
-  the undo button was hit and a previous state is about to be restored
+  The undo button was hit and a previous state is about to be restored
 - `sim_message_eventcallback_undoperformed`
-  the undo button was hit and a previous state was restored
+  The undo button was hit and a previous state was restored
 - `sim_message_eventcallback_abouttoredo`
-  the redo button was hit and a future state is about to be restored
+  The redo button was hit and a future state is about to be restored
 - `sim_message_eventcallback_redoperformed`
-  the redo button was hit and a future state was restored
+  The redo button was hit and a future state was restored
 - `sim_message_eventcallback_simulationabouttostart`
-  simulation will start
+  Simulation will start
 - `sim_message_eventcallback_simulationabouttoend`
-  simulation will end
+  Simulation will end
 - `sim_message_eventcallback_simulationended`
-  simulation has ended
+  Simulation has ended
 - `sim_message_eventcallback_simulationinit`
   Called just before/after the main script's corresponding init section.
-- auxData[0]: 0 if called before, 1 if called after
+  - auxData[0]: 0 if called before, 1 if called after
 - `sim_message_eventcallback_simulationactuation`
   Called just before/after the main script's corresponding actuation section.
-- auxData[0]: 0 if called before, 1 if called after
-  auxData[1]: simulation time in ms
+  - auxData[0]: 0 if called before, 1 if called after
+  - auxData[1]: simulation time in ms
 - `sim_message_eventcallback_simulationsensing`
   Called just before/after the main script's corresponding sensing section.
-- auxData[0]: 0 if called before, 1 if called after
-  auxData[1]: simulation time in ms
+  - auxData[0]: 0 if called before, 1 if called after
+  - auxData[1]: simulation time in ms
 - `sim_message_eventcallback_simulationcleanup`
   Called just before/after the main script's corresponding cleanup section.
-- auxData[0]: 0 if called before, 1 if called after
-- sim_message_eventcallback_keypress (called from the UI thread)
-  auxData[0]=key, auxData[1]=ctrl and shift key state
-- sim_message_eventcallback_refreshdialogs (called from the UI thread)
-  called just before dialogs are refreshed in CoppeliaSim
-- auxData[0]=refresh degree (0=light, 1=medium, 2=full)
+  - auxData[0]: 0 if called before, 1 if called after
+- `sim_message_eventcallback_keypress`
+  Called from the UI thread
+  - auxData[0]=key
+  - auxData[1]=ctrl and shift key state
+- `sim_message_eventcallback_refreshdialogs`
+  Called from the UI thread, just before dialogs are refreshed in CoppeliaSim
+  - auxData[0]=refresh degree (0=light, 1=medium, 2=full)
 - `sim_message_eventcallback_sceneloaded`
-  called after a scene was loaded
+  Called after a scene was loaded
 - `sim_message_eventcallback_modelloaded`
-  called after a model was loaded
+  Called after a model was loaded
 - `sim_message_eventcallback_mainscriptabouttobecalled`
   Called just before the main script is called. A plugin can write a value different from -1 into auxData[0] to temporarily halt simulation progress (e.g. stepping mode)
 - `sim_message_eventcallback_moduleentry`
@@ -417,51 +419,36 @@ This page lists all constants/enums related to the regular API, version 2 (versi
 ### <a id="verbosity-2"></a>Verbosity
 
 - `sim_verbosity_useglobal`
-  Use global verbosity (can be used to reset a plugin's verbosity to the global verbosity again)
 - `sim_verbosity_none`
-  No verbosity
 - `sim_verbosity_errors`
-  System and plugin error messages
 - `sim_verbosity_warnings`
-  System and plugin warning messages
 - `sim_verbosity_loadinfos`
-  Messages related to CoppeliaSim start-up and shut-down. Default console verbosity.
 - `sim_verbosity_questions`
-  Messages related to question dialogs.
 - `sim_verbosity_scripterrors`
-  Script error messages
 - `sim_verbosity_scriptwarnings`
-  Script warning messages
 - `sim_verbosity_scriptinfos`
-  Information messages mainly related to scripts. Default status bar verbosity.
 - `sim_verbosity_infos`
-  General information messages
 - `sim_verbosity_debug`
-  Debug messages
 - `sim_verbosity_trace`
-  Plugin trace messages
 - `sim_verbosity_tracelua`
-  Script calls to API functions
 - `sim_verbosity_traceall`
-  Full verbosity
 - `sim_verbosity_default`
-  Default verbosity (normally sim_verbosity_loadinfos)
 
 ### <a id="startupOptions"></a>Bit-coded start-up options
 
-- sim_gui_menubar (1)
-- sim_gui_popups (2)
-- sim_gui_toolbar1 (4)
-- sim_gui_toolbar2 (8)
-- sim_gui_hierarchy (16)
-- sim_gui_infobar (32)
-- sim_gui_statusbar (64)
-- sim_gui_scripteditor (128)
-- sim_gui_scriptsimulationparameters (256)
-- sim_gui_dialogs (512)
-- sim_gui_browser (1024)
-- sim_gui_all (0x0ffff)
-- sim_gui_headless (will override all other GUI flags) (65536)
+- `sim_gui_menubar`
+- `sim_gui_popups`
+- `sim_gui_toolbar1`
+- `sim_gui_toolbar2`
+- `sim_gui_hierarchy`
+- `sim_gui_infobar`
+- `sim_gui_statusbar`
+- `sim_gui_scripteditor`
+- `sim_gui_scriptsimulationparameters`
+- `sim_gui_dialogs`
+- `sim_gui_browser`
+- `sim_gui_all`
+- `sim_gui_headless` (overrides all other GUI flags)
 
 ### <a id="scriptType"></a>Script types
 
@@ -474,12 +461,12 @@ This page lists all constants/enums related to the regular API, version 2 (versi
 
 ### <a id="colorComponents"></a>Color components
 
-- sim_colorcomponent_ambient_diffuse (only for objects)
-- sim_colorcomponent_diffuse (only for lights)
+- `sim_colorcomponent_ambient_diffuse` (only for objects)
+- `sim_colorcomponent_diffuse` (only for lights)
 - `sim_colorcomponent_specular`
-- sim_colorcomponent_emission (only for objects)
-- sim_colorcomponent_transparency (only for objects)
-- sim_colorcomponent_auxiliary (only for objects)
+- `sim_colorcomponent_emission` (only for objects)
+- `sim_colorcomponent_transparency` (only for objects)
+- `sim_colorcomponent_auxiliary` (only for objects)
 
 ### <a id="volumeTypes"></a>Proximity sensor volume types
 
@@ -629,3 +616,43 @@ This page lists all constants/enums related to the regular API, version 2 (versi
 - `sim_physics_newton`
 - `sim_physics_vortex`
 - `sim_physics_mujoco`
+
+## <a id="navigationModes"></a>Mouse navigation and selection modes
+
+- `sim_navigation_passive`
+- `simnavigation_camerashift`
+- `sim_navigation_camerarotate`
+- `sim_navigation_camerazoom`
+- `sim_navigation_cameratilt`
+- `sim_navigation_cameraangle`
+- `sim_navigation_objectshift`
+- `sim_navigation_objectrotate`
+
+  Bit-combine the following values and add them to one of the above values for a valid navigation mode:
+  - `sim_navigation_clickselection`
+  - `sim_navigation_ctrlselection`
+  - `sim_navigation_shiftselection`
+  - `sim_navigation_camerazoomwheel`
+  - `sim_navigation_camerarotatemiddlebutton`
+
+## <a id="moduleInfos"></a><a id="pluginInfos"></a>Plugin infos
+
+- `sim_plugininfo_extversionstr`
+- `sim_plugininfo_builddatestr`
+- `sim_plugininfo_extversionint`
+- `sim_plugininfo_verbosity` See the various [verbosity levels](#verbosity-2)
+- `sim_plugininfo_statusbarverbosity` See the various [verbosity levels](#verbosity-2)
+
+## <a id="streamTransformations"></a>Graph stream transformations
+
+- `sim_stream_transf_raw`
+- `sim_stream_transf_derivative`
+- `sim_stream_transf_integral`
+- `sim_stream_transf_cumulative`
+
+## <a id="textureMappingModes"></a>Texture mapping modes
+
+- `sim_texturemap_plane`
+- `sim_texturemap_cylinder`
+- `sim_texturemap_sphere`
+- `sim_texturemap_cube`
