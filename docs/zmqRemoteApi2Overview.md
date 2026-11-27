@@ -22,9 +22,7 @@ The following is a very simple example ZeroMQ remote API-2 client code, which st
 import sim
 from sim.zmqremoteapi import ZMQRemoteAPI
 
-
-port = ZMQRemoteAPI().call(None, 'spawnWorker')
-rapi = ZMQRemoteAPI(port = port)
+rapi = ZMQRemoteAPI()
 sim.Object._callMethod = rapi.call
 
 sim.self.setStepping(True)
