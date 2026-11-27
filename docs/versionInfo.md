@@ -166,8 +166,8 @@ Version history:
 *[IK and Jacobian visual debugging in CoppeliaSim V4.5.1]*
 
 - Fixed several bugs. Thanks to Andrey Voronkov, Vitalii Kudinov, Mathias Thor and Yong Jiang for noticing them or helping to resolve them
-- Reworked the [kinematics functionality](kinematics.md), which now allows you to handle kinematic tasks in a much more flexible manner. This includes a callback function to inspect/modify/compute the Jacobian, when calling [simIK.handleGroups](simIK/simIK.md#simIK.handleGroups), null-space projection support, or the new function [simIK.computeJacobian](simIK/simIK.md#simIK.computeJacobian) which allows you to compute the Jacobian for any configuration of any kinematic chain
-- Inverse kinematics worlds can now easily be debugged by adding a visual overlay [Tools > Visualize IK world]. Individual IK group debugging can also be enabled via an optional *debug* flag in [simIK.handleGroups](simIK/simIK.md#simIK.handleGroups). A demo scene illustrating this was added: *scenes/kinematics/simpleExamples/10-visuallyDebuggingIkGroups.ttt*
+- Reworked the [kinematics functionality](kinematics.md), which now allows you to handle kinematic tasks in a much more flexible manner. This includes a callback function to inspect/modify/compute the Jacobian, when calling simIK.handleGroups, null-space projection support, or the new function simIK.computeJacobian which allows you to compute the Jacobian for any configuration of any kinematic chain
+- Inverse kinematics worlds can now easily be debugged by adding a visual overlay [Tools > Visualize IK world]. Individual IK group debugging can also be enabled via an optional *debug* flag in simIK.handleGroups. A demo scene illustrating this was added: *scenes/kinematics/simpleExamples/10-visuallyDebuggingIkGroups.ttt*
 - Added a scene illustrating the null-space projection method with the kinematics functionality: *scenes/kinematics/simpleExamples/9-prioritizedGroupsAndNullSpaceProjection.ttt*
 - CoppeliaSim now systematically uses double precision floating point values for the core library, and most plugins. The C API interface is now also in double precision, but you can revert to single precision via the *SIM_INTERFACE_SINGLE* define
 - A [shape's reference frame](shapeReferenceFrames.md) can now be relocated while keeping the mesh in place. The reference frame of an imported shape will always be located at the world origin by default. Added [`sim.relocateShapeFrame`](sim-1/simRelocateShapeFrame.md) and [`sim.aligneShapeBB`](sim-1/simAlignShapeBB.md)
@@ -260,10 +260,10 @@ Version history:
 - Switched from Lua 5.1 to Lua 5.3. Backward compatibility should normally be maintained, except maybe for old Lua modules you might be using. If this is the case, update those modules to their Lua 5.3 counterparts. Read also about the [language incompatibilities introduced in Lua 5.2](http://www.lua.org/manual/5.2/manual.html#8), and the [language incompatibilities introduced in Lua 5.3](http://www.lua.org/manual/5.3/manual.html#8). Additional backward compatibility code can be communicated to us and added to *lua/sim.lua.*
 - The [ROS2 interface](ros2Interface.md) is now also supported on Windows.
 - Since this release, static IK groups (i.e. created via the GUI) are deprecated in favor of [dynamically created IK groups](kinematicsPlugin.md), which offer much more flexibility. Read more about the [kinematics functionality here](kinematics.md).
-- Added the convenience function [simIK.addElementFromScene](simIK/simIK.md#simIK.addElementFromScene) allowing you to quickly generate an IK element from a kinematic chain in the scene
-- Added [simIK.duplicateEnvironment](simIK/simIK.md#simIK.duplicateEnvironment): useful when operating on an IK environment while leaving the original environment unchanged. Added [simIK.save](simIK/simIK.md#simIK.save).
+- Added the convenience function simIK.addElementFromScene allowing you to quickly generate an IK element from a kinematic chain in the scene
+- Added simIK.duplicateEnvironment: useful when operating on an IK environment while leaving the original environment unchanged. Added simIK.save.
 - Kinematic example scenes in folder *kinematics* have been reworked and simplified.
-- Added [simIK.generatePath](simIK/simIK.md#simIK.generatePath) and a related demo scene: *scenes/kinematics/ikPathGeneration.ttt*
+- Added simIK.generatePath and a related demo scene: *scenes/kinematics/ikPathGeneration.ttt*
 - Rewrote the [inverse kinematics tutorial](inverseKinematicsTutorial.md).
 - Rewrote and reorganized large parts of the user manual.
 - Since this release, static collections (i.e. created via the GUI) are deprecated in favor of dynamically created collections, with [new API functions](apiFunctions.md#collections). This results in much more flexibility. Read more about [collections here](collections.md).
