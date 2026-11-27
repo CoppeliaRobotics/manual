@@ -61,7 +61,6 @@ def restore_pair_color():
         state.original_color_data[2].restoreColor(state.original_color_data[3])
 
 def sysCall_init():
-    sim = require('sim-2')
     robot_base = sim.self.getObject('/irb360')
     state.robot_collection = sim.scene.createObject({'type': 'collection'})
     state.robot_collection.addItem(robot_base, {'mode': 'tree'})

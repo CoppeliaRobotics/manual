@@ -5,7 +5,7 @@ Scripts can include a contact callback function, which is one of many [system ca
 The following represents a typical contact callback function:
 
 ```lua
-sim = require'sim-2'
+import 'sim-2'
 
 function sysCall_contact(inData)
     -- Will objects with inData.handle1 and inData.handle2 respond to dynamic collision?

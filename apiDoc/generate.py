@@ -483,7 +483,7 @@ def prepare_synopsis(func_name, input_params, output_params, lang, module = None
     # Combine everything
     synopsis = f"{output_part}{func_name}({input_part})"
     if module != None:
-        synopsis = module.partition('-')[0] + " = require('" + module + "')\n" + synopsis
+        synopsis = "import '" + module + "'\n" + synopsis
 
     return synopsis
 

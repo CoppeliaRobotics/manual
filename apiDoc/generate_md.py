@@ -371,7 +371,7 @@ def prepareSynopsis(funcName, inputParams, outputParams, language, module=None):
 
     synopsis = f"{outputPart}{funcName}({', '.join(inputArgs)})"
     if module:
-        synopsis = module.partition('-')[0] + " = require('" + module + "')\n" + synopsis
+        synopsis = "import '" + module + "'\n" + synopsis
     return synopsis
 
 

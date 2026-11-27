@@ -45,10 +45,9 @@ To have an object follow a path in position and orientation, you could use the f
 ```lua
 import 'sim-2'
 import 'simEigen'
+import 'Path'
 
 function sysCall_init()
-    Path = require('Path')
-
     objectToFollowPath = sim.self:getObject('..')
     pathObj = sim.self:getObject('/Path')
     velocity = 0.04 -- m/s

@@ -41,8 +41,8 @@ end
 `sim-2` is meant to replace `sim-1`; `sim-1` is declared deprecated and you should favor `sim-2` over `sim-1`. One may however use `sim-1` and `sim-2` in the same script, as shown in the following example:
 
 ```lua
+import 'sim-2'
 sim1 = require 'sim-1'
-sim = require 'sim-2'
 
 local robot = sim.self:getObject('/robot')
 local worldPos = sim1.getObjectPosition(robot.handle)</code>

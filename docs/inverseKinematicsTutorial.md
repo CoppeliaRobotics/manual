@@ -67,7 +67,7 @@ Select object *redundantRobot*, then [Add > Script object > simulation script > 
 
 ```lua
 import 'sim-2'
-simIK = require 'simIK-2'
+import 'simIK-2'
 
 function sysCall_init()
     -- Build a kinematic chain and 2 IK groups (undamped and damped)

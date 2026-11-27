@@ -53,7 +53,7 @@ Version history:
 - Added a [plugin for MIDI I/O](simMIDI/simMIDI.md)
 - Added a [plugin for events filtering](simEvents/simEvents.md) that can be used to setup advanced filtering, e.g.:
   ```lua
-  sim = require 'sim'
+  sim = require 'sim-1'
   simEvents = require 'simEvents'
 
   function callback(data)

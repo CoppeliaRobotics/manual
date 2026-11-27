@@ -6,7 +6,7 @@ Kinematics tasks can easily be set up from the scene's content like in the follo
 
 ```lua
 import 'sim-2'
-simIK = require 'simIK-2'
+import 'simIK-2'
 
 -- set-up:
 function sysCall_init()

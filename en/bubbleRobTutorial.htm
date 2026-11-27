@@ -85,7 +85,7 @@
 <p>We now need to finish <strong>BubbleRob</strong> as a <a href="models.htm">model</a> definition. We select the model base (i.e. object <em>bubbleRob</em>) then check <strong>Object is model base</strong> in the <a href="sceneObjectPropertiesDialog.htm#common">scene object common properties</a>: there is now a stippled bounding box that encompasses all objects in the model hierarchy. We select the two joints, the proximity sensor and the graph, then enable item <strong>Ignored by model bounding box</strong> and click <strong>Apply to selection</strong>, in the same dialog: the model bounding box now ignores the two joints and the proximity sensor. Still in the same dialog, we disable <strong>camera visibility layer</strong> 2, and enable <strong>camera visibility layer</strong> 10 for the two joints and the force sensor: this effectively hides the two joints and the force sensor, since layers 9-16 are disabled by default. At any time we can <a href="layerSelectionDialog.htm">modify the visibility layers for the whole scene</a>. To finish the model definition, we select the vision sensor, the two wheels, the slider, and the graph, then enable item <strong>Select base of model instead</strong>: if we now try to select an object in our model in the scene, the whole model will be selected instead, which is a convenient way to handle and manipulate the whole model as a single object. Additionally, this protects the model against inadvertent modification. Individual objects in the model can still be selected in the scene by click-selecting them with control-shift, or normally selecting them in the scene hierarchy. We finally collapse the model tree in the scene hierarchy.</p>
 
 
-<p>Next we will add a <a href="visionSensors.htm">vision sensor</a>, at the same pose as <em>BubbleRob's</em> proximity sensor. We open the model hierarchy again, then click [Add &gt; Vision sensor &gt; Perspective type], then attach the vision sensor to the proximity sensor, and set the local pose of the vision sensor to (0,0,0). We also make sure the vision sensor is not visible, not part of the model bounding box, and that if clicked, the model will be selected instead. To customize the vision sensor, we open <a href="visionSensorPropertiesDialog.htm">its properties dialog</a>. We set the <strong>Far clipping plane</strong> item to 1, and the <strong>Resolution x</strong> and <strong>Resolution y</strong> items to 256 and 256.  We add a floating view to the scene, and over the newly added floating view, right-click [Popup menu &gt; View &gt; Associate view with selected vision sensor] (we make sure the vision sensor is selected during that process). 
+<p>Next we will add a <a href="visionSensors.htm">vision sensor</a>, at the same pose as <em>BubbleRob's</em> proximity sensor. We open the model hierarchy again, then click [Add &gt; Vision sensor &gt; Perspective type], then attach the vision sensor to the proximity sensor, and set the local pose of the vision sensor to (0,0,0). We also make sure the vision sensor is not visible, not part of the model bounding box, and that if clicked, the model will be selected instead. To customize the vision sensor, we open <a href="visionSensorPropertiesDialog.htm">its properties dialog</a>. We set the <strong>Far clipping plane</strong> item to 1, and the <strong>Resolution x</strong> and <strong>Resolution y</strong> items to 256 and 256.  We add a floating view to the scene, and over the newly added floating view, right-click [Popup menu &gt; View &gt; Associate view with selected vision sensor] (we make sure the vision sensor is selected during that process).
 
 
 <p>We attach a simulation script to the vision sensor by clicking [Add &gt; Script object &gt; simulation script &gt; Non threaded &gt; Lua]. We double-click the new script icon in the scene hierarchy: this opens the simulation script that we just added. We copy and paste the following code into the <a href="scriptEditor.htm">script editor</a>, then close it:<br>
@@ -95,8 +95,8 @@
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
 
-sim = require'sim-2'
-simVision = require'simVision'
+import 'sim-2'
+import 'simVision'
 
 function sysCall_vision(inData)
     simVision.sensorImgToWorkImg(inData.sensor.handle)
@@ -116,9 +116,8 @@ To be able to see the vision sensor's image, we start the simulation, then stop 
 <div class=multi-language-switcher data-default="lua">
 
 <code class="hljs language-lua coppelia-coppeliasim-script">--lua
-
-sim = require'sim-2'
-simUI = require'simUI'
+import 'sim-2'
+import 'simUI'
 
 function sysCall_init()
     -- This is executed exactly once, the first time this script is executed
@@ -149,15 +148,15 @@ function sysCall_init()
 end
 
 function sysCall_sensing()
-    distanceMarker:clearItems()    
+    distanceMarker:clearItems()
     local result, distance, pt1, pt2 = robotCollection:checkDistance()
     if result then
-        distanceMarker:addItems(pt1:horzcat(pt2))    
+        distanceMarker:addItems(pt1:horzcat(pt2))
         graph:setSignalPoint(distStream, distance)
     end
     robotTraceMarker:addItems(robotPrevPos:horzcat(bubbleRobBase.worldPosition))
     robotPrevPos = bubbleRobBase.worldPosition
-end 
+end
 
 function speedChange_callback(ui, id, newVal)
     speed = minMaxSpeed[1] + (minMaxSpeed[2] - minMaxSpeed[1]) * newVal / 100
@@ -168,7 +167,7 @@ function sysCall_actuation()
     -- If we detected something, we set the backward mode:
     if result then
         backUntilTime = sim.scene.simulation.time + 4
-    end 
+    end
 
     if backUntilTime &lt; sim.scene.simulation.time then
         -- When in forward mode, we simply move forward at the desired speed
@@ -181,7 +180,7 @@ function sysCall_actuation()
     end
 end
 
-function sysCall_cleanup() 
+function sysCall_cleanup()
     simUI.destroy(ui)
 end</code>
 
@@ -194,10 +193,10 @@ end</code>
 <br>
 
  </tr>
-</table> 
-</div>  
-  
-  
+</table>
+</div>
+
+
 <link rel="stylesheet" href="../js/hljs/11.8.0/styles/default.min.css" />
 <script src="../js/hljs/11.8.0/highlight.min.js"></script>
 <script src="../js/hljs/11.8.0/languages/cmake.min.js"></script>
