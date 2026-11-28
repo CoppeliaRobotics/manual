@@ -2,7 +2,7 @@
 
 The [Coppelia Kinematics Routines](https://github.com/CoppeliaRobotics/coppeliaKinematicsRoutines) is a collection of C++ functions that allow you to solve forward/inverse kinematics tasks via Jacobian for any type of mechanism (redundant/non-redundant, containing nested loops, etc.). Those functions give CoppeliaSim its kinematics calculation capability.
 
-You can embed and use the Coppelia Kinematics Routines in your stand-alone application, which then can programmatically set up complex kinematics tasks. Refer also to the [Coppelia Kinematics Routines C++ API documentation](coppeliaKinematicsRoutines-api.md).
+You can embed and use the Coppelia Kinematics Routines in your stand-alone application, which then can programmatically set up complex kinematics tasks. Refer also to the [Coppelia Kinematics Routines C++ API documentation](coppeliaKinematicsRoutines/coppeliaKinematicsRoutines-api.md).
 
 The Coppelia Kinematics Routines source code is not directly part of CoppeliaSim, and carries separate licensing conditions. Refer to the source code for details, and [contact us](http://coppeliarobotics.com/contact).
 

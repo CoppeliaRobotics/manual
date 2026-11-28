@@ -94,7 +94,7 @@ links to those pages point to the
     - [Geometric plugin](geometricPlugin.md)
       - simGeom API reference
     - [Coppelia geometric routines](coppeliaGeometricRoutines.md)
-      - [API reference](coppeliaGeometricRoutines-api.md)
+      - [API reference](coppeliaGeometricRoutines/coppeliaGeometricRoutines-api.md)
     - simConvex API reference
       - [Convex hull](convexHull.md)
       - [Convex decomposition](convexDecomposition.md)
@@ -105,7 +105,7 @@ links to those pages point to the
     - [Kinematics plugin](kinematicsPlugin.md)
       - simIK API reference
     - [Coppelia kinematics routines](coppeliaKinematicsRoutines.md)
-      - [API reference](coppeliaKinematicsRoutines-api.md)
+      - [API reference](coppeliaKinematicsRoutines/coppeliaKinematicsRoutines-api.md)
   - [Dynamics](dynamicsModule.md)
     - [Designing dynamic simulations](designingDynamicSimulations.md)
     - [Physics engine differences](physicsEngineDifferences.md)

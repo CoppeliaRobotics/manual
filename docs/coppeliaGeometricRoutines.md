@@ -2,7 +2,7 @@
 
 The [Coppelia Geometric Routines](https://github.com/CoppeliaRobotics/coppeliaGeometricRoutines) is a collection of C++ functions that allow you to perform the same geometric calculations as you are able to do from within CoppeliaSim (i.e. [collision detection](collisionDetection.md), [minimum distance calculation](distanceCalculation.md), and [proximity sensor](proximitySensors.md) simulation on [meshes](shapes.md), [oc-trees](octrees.md) and [point clouds](pointClouds.md)). Those functions give CoppeliaSim its geometric calculation capability.
 
-You can embed and use the Coppelia Geometric Routines in your stand-alone application, which then can programmatically set up complex calculation tasks. Refer also to the [Coppelia Geometric Routines C++ API documentation](coppeliaGeometricRoutines-api.md).
+You can embed and use the Coppelia Geometric Routines in your stand-alone application, which then can programmatically set up complex calculation tasks. Refer also to the [Coppelia Geometric Routines C++ API documentation](coppeliaGeometricRoutines/coppeliaGeometricRoutines-api.md).
 
 The Coppelia Geometric Routines source code is not directly part of CoppeliaSim, and carries separate licensing conditions. Refer to the source code for details, and [contact us](http://coppeliarobotics.com/contact).
 
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
         // compute the distance:
         simReal dist=REAL_MAX;
         geom_getMeshMeshDistanceIfSmaller(mesh1,mesh1Transformation,mesh2,mesh2Transformation,dist);
- 
+
         printf("mesh-mesh minimum distance: %f\n",dist);
     }
     return(0);
